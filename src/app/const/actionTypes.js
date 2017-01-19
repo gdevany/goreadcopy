@@ -1,0 +1,4 @@
+export default {
+  SOME_ACTION: 'SOME ACTION',
+  SOME_OTHER_ACTION: 'SOME_OTHER_ACTION'
+}
