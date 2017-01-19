@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, PropTypes } from 'react'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import Theme from '../../client/theme/Theme'
+import '../../client/styles/styles.css'
 
 export class App extends PureComponent {
   static propTypes = {
@@ -35,21 +35,22 @@ export class App extends PureComponent {
     })
   }
 
-	render() {
-		return(
-			<div className='app'>
-        {
-          React.cloneElement(this.props.children, {
-            onChangeMuiTheme: this.handleChangeMuiTheme
-          })
-        }
-			</div>
-		)
-	}
+  render() {
+    return (
+      <div className="app">
+      <h1> WORKS!!!</h1>
+      {/**
+        React.cloneElement(this.props.children, {
+          onChangeMuiTheme: this.handleChangeMuiTheme
+        })
+      **/}
+      </div>
+    )
+  }
 }
 
 App.childContextTypes = {
   muiTheme: React.PropTypes.object.isRequired,
 }
 
-export default App;
+export default App
