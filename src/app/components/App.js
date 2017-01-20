@@ -36,21 +36,22 @@ export class App extends PureComponent {
   }
 
   render() {
+
     return (
       <div className="app">
-      <h1> WORKS!!!</h1>
-      {/**
+      <h1> APP WORKS!!!</h1>
+      {
         React.cloneElement(this.props.children, {
           onChangeMuiTheme: this.handleChangeMuiTheme
         })
-      **/}
+      }
       </div>
     )
   }
 }
 
 App.childContextTypes = {
-  muiTheme: React.PropTypes.object.isRequired,
+  muiTheme: React.PropTypes.object.isRequired
 }
 
 export default App

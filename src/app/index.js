@@ -1,23 +1,24 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import { Router, Route, IndexRoute, browserHistory } from 'react-router'
+import { Router, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
+import injectTapEventPlugin from 'react-tap-event-plugin'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import store from './store'
-import { App } from './components/App'
+import { Routes } from './routes'
 
 const display = document.querySelector('.container')
 const history = syncHistoryWithStore(browserHistory, store)
 
+injectTapEventPlugin()
+
 render(
 	<Provider store={store}>
-		<Router history={history}>
-			<Route path="/" component={App}>
-				{/** <IndexRoute component={*?} />
-			<Route path="/some-path" component={*?} />
-				<Route path="/some-other-path" component={*?} />
-				**/}
-			</Route>
-		</Router>
+		<MuiThemeProvider>
+			<Router history={history}>
+				{ Routes }
+			</Router>
+		</MuiThemeProvider>
 	</Provider>,
 	display)

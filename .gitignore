@@ -14,10 +14,6 @@ logs/
 *.vi
 *~
 **/webpack-stats.json
-.babelrc
-.eslintrc
-.eslintrc-errors
-nginx.conf
 service.json
 dist/
 build/
