@@ -9,13 +9,14 @@ The codebase for the existing GoRead server / API is at http://gitlab.readersleg
 Dependencies
 * [node js](http://example.co://nodejs.org/en/) (>= 6.0.0)
   * We recommend [nvm](https://github.com/creationix/nvm) for installing and managing node versions
+* [yarn](https://github.com/yarnpkg/yarn)
 
 ### Setup
 
-After installing node, install this project's npm dependencies:
+After installing the dependencies above, install this project's npm dependencies:
 
 ```sh
-$ npm install
+$ yarn install
 ```
 
 ### Thirdparty services
@@ -24,9 +25,8 @@ TODO: add thirdparty services as-needed
 
 ### Running the app
 
-
 ```sh
-$ echo "server running!"
+$ yarn run start
 ```
 
 ## Configuration
