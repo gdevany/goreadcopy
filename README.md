@@ -26,7 +26,12 @@ TODO: add thirdparty services as-needed
 ### Running the app
 
 ```sh
-$ yarn run start
+$ yarn start
+```
+
+Then visit:
+```sh
+$ http://localhost:3001
 ```
 
 ## Configuration

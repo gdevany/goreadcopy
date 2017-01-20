@@ -1,6 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import '../../client/styles/styles.css'
+import '../../client/styles/styles.scss'
 
 export class App extends PureComponent {
   static propTypes = {
