@@ -14,11 +14,12 @@ const history = syncHistoryWithStore(browserHistory, store)
 injectTapEventPlugin()
 
 render(
-	<Provider store={store}>
-		<MuiThemeProvider>
-			<Router history={history}>
-				{ Routes }
-			</Router>
-		</MuiThemeProvider>
-	</Provider>,
-	display)
+  <Provider store={store}>
+    <MuiThemeProvider>
+      <Router history={history}>
+        { Routes }
+      </Router>
+    </MuiThemeProvider>
+  </Provider>,
+  display
+)

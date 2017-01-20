@@ -9,50 +9,50 @@ const nodeModulesPath = path.resolve(__dirname, 'node_modules');
 const TransferWebpackPlugin = require('transfer-webpack-plugin');
 
 module.exports = {
-	node: {
-		fs: "empty"
-	},
-	entry: path.join(__dirname, '/src/app/index.js'),
+  node: {
+    fs: "empty"
+  },
+  entry: path.join(__dirname, '/src/app/index.js'),
   devtool: 'source-map',
   output: {
     path: buildPath,
     filename: 'index.js',
   },
-	plugins: [
-  	new webpack.DefinePlugin({
-  		'process.env' : JSON.stringify({ // EXAMPLES:
-  		BACKEND_SERVICE_BASE_URL: process.env.BACKEND_SERVICE_BASE_URL,
-  		PROJECT_ID: process.env.PROJECT_ID,
-  		API_KEY: process.env.API_KEY,
-  		})
-  	}),
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env' : JSON.stringify({ // EXAMPLES:
+      BACKEND_SERVICE_BASE_URL: process.env.BACKEND_SERVICE_BASE_URL,
+      PROJECT_ID: process.env.PROJECT_ID,
+      API_KEY: process.env.API_KEY,
+      })
+    }),
     new webpack.optimize.UglifyJsPlugin({ // Minifies the bundle
       compress: {
         warnings: false, // suppresses warnings, usually from module minification
       },
     }),
-  	new webpack.NoErrorsPlugin(),
-  	new TransferWebpackPlugin([
+    new webpack.NoErrorsPlugin(),
+    new TransferWebpackPlugin([
       {from: 'client'},
-  	], path.resolve(__dirname, 'src')),
-	],
-	module: {
-		preLoaders: [
-			{
-				test: /\.js$/,
-				loaders: ['eslint'],
-				exclude: [ nodeModulesPath, testPath ],
-			}
-		],
-		loaders: [
-			{
-				test: /\.(png|jpg)$/,
-				loaders: ['url-loader']
-			},
-			{
-				test: /\.css$/,
-				loader: 'style-loader!css-loader'
-			},
-		],
-	}
+    ], path.resolve(__dirname, 'src')),
+  ],
+  module: {
+    preLoaders: [
+      {
+        test: /\.js$/,
+        loaders: ['eslint'],
+        exclude: [ nodeModulesPath, testPath ],
+      }
+    ],
+    loaders: [
+      {
+        test: /\.(png|jpg)$/,
+        loaders: ['url-loader']
+      },
+      {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader'
+      },
+    ],
+  }
 };
