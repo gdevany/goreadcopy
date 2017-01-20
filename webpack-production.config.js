@@ -15,8 +15,9 @@ module.exports = {
   entry: path.join(__dirname, '/src/app/index.js'),
   devtool: 'source-map',
   output: {
-    path: buildPath,
-    filename: 'index.js',
+    path: '/', // Path of output file
+    filename: 'bundle.js', //name of output file
+    publicPath: '/'
   },
   plugins: [
     new webpack.DefinePlugin({

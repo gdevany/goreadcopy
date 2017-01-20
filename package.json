@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "The front-end for GoRead.",
   "scripts": {
-    "start": "webpack-dev-server --config webpack-dev-server.config.js --progress --inline --colors",
+    "start": "nodemon src/server/server.js --ignore components --progress --inline --colors",
     "build-prod": "BACKEND_SERVICE_BASE_URL=https://backend-prod??.com/ webpack --config webpack-production.config.js --progress --colors",
     "build-stage": "BACKEND_SERVICE_BASE_URL=https://backend-stage??.com/ webpack --config webpack-production.config.js --progress --colors",
     "build": "BACKEND_SERVICE_BASE_URL=https://backend-test??.com/ webpack --config webpack-production.config.js --progress --colors"
@@ -51,6 +51,7 @@
     "babel-preset-stage-0": "^6.16.0",
     "babel-register": "^6.18.0",
     "dotenv": "^4.0.0",
+    "express": "^4.14.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "lodash": "^4.17.4",
     "markdown-react-js": "^0.3.0",
@@ -70,6 +71,8 @@
     "react-title-component": "^1.0.1",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
-    "stats-webpack-plugin": "^0.4.3"
+    "stats-webpack-plugin": "^0.4.3",
+    "webpack-dev-middleware": "^1.9.0",
+    "webpack-hot-middleware": "^2.15.0"
   }
 }

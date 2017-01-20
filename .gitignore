@@ -17,6 +17,7 @@ logs/
 service.json
 dist/
 build/
+bundle.js
 .env
 source-context.json
 source-contexts.json

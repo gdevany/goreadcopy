@@ -3,7 +3,6 @@ require('dotenv').config({path: './.env'});
 
 const webpack = require('webpack');
 const path = require('path');
-const buildPath = path.resolve(__dirname, 'build');
 const nodeModulesPath = path.resolve(__dirname, 'node_modules');
 const testPath = path.resolve(__dirname, 'test');
 const TransferWebpackPlugin = require('transfer-webpack-plugin');
@@ -16,24 +15,14 @@ module.exports = {
   // project entry points
   entry: [
     'webpack/hot/dev-server',
-    'webpack/hot/only-dev-server',
+    'webpack-hot-middleware/client',
     path.join(__dirname, '/src/app/index.js'),
   ],
-  devServer: {
-    contentBase: 'src/client',
-    devtool: 'eval',
-    hot: true, // allows live reload
-    inline: true,
-    port: process.env.PORT || 3001,
-    host: 'localhost', // Change to '0.0.0.0' for external facing server,
-    // true if want to access dev server from arbitrary url.
-    // handy if you are using a html5 router.
-    historyApiFallback: true
-  },
-    devtool: 'eval',
-    output: {
-    path: buildPath, // Path of output file
-    filename: 'index.js', //name of output file
+  devTool: 'eval',
+  output: {
+    path: '/', // Path of output file
+    filename: 'bundle.js', //name of output file
+    publicPath: '/'
   },
   plugins: [
     // CICD support for dynamically setting process variables to represent the env config
@@ -44,6 +33,7 @@ module.exports = {
       API_KEY: process.env.API_KEY,
       })
     }),
+    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(), // error warnings without stopping compiling
     new TransferWebpackPlugin([ // moves files
