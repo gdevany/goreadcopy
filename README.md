@@ -18,7 +18,7 @@ The codebase for the existing GoRead server / API is at http://gitlab.readersleg
 
 [Learn ES6](#learn-es6)   
 [Learn React, Redux and Webpack](#learn-react-redux-and-webpack)   
-[React Redux patterns for improved app optimization](#react-redux-patterns-for-improved-app-optimization)
+[React Redux patterns for improved app optimization](#react-redux-patterns-for-improved-app-optimization)   
 [Commonly Used Libraries](#commonly-used-libraries)   
 [Useful Tools](#useful-tools)
 
