@@ -38,7 +38,7 @@ export class App extends Component {
   render() {
     return (
       <div className="app">
-      <h1> APP WORK!</h1>
+      <h1> APP WORKS!</h1>
       {
         React.cloneElement(this.props.children, {
           onChangeMuiTheme: this.handleChangeMuiTheme
