@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import { Link } from 'react-router'
 import currentEnvRoutes from '../services/currentEnvRoutes'
 import routes  from '../services/currentEnvRoutes'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -23,7 +22,6 @@ export class NavMenu extends PureComponent {
   }
 
   handleNavHover = (event) => {
-    // This prevents ghost click.
     event.preventDefault()
 
     this.setState({
