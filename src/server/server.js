@@ -26,7 +26,7 @@ app.use(webpackDevMiddleware(compiler, serverOptions))
 app.use(webpackHotMiddleware(compiler));
 app.use(express.static('client'));
 
-app.listen(port, function(err) {
+app.listen(port, err => {
   if(err) throw err;
-  console.log("Listening on port", port)
+  console.log(`GoRead-front end listening on port ${port} ✨`)
 })

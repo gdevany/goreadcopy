@@ -4,7 +4,7 @@ import { App } from './components/App'
 import { Home } from './components/Home'
 
 export const Routes = (
-  <Route path="/" component={App}>
+  <Route path='/' component={App}>
     <IndexRoute component={Home} />
     {/**<Route path="/some-path" component={*?} />
     <Route path="/some-other-path" component={*?} />

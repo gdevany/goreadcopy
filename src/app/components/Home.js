@@ -1,9 +1,10 @@
 import React from 'react'
+import NavMenu from './NavMenu'
 
 export const Home = () => {
   return (
-    <div className="home">
-      <h2> HOME WORKS!</h2>
+    <div className='home'>
+      <NavMenu />
     </div>
   )
 }

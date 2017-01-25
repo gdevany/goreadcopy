@@ -1,0 +1,37 @@
+.nav-background {
+  background: #F5F5F5 !important;
+}
+
+.nav-title {
+  padding-left: 30px;
+}
+
+.nav-item {
+  padding: 20px;
+}
+
+.nav-menu-left {
+  padding-right: 30px;
+}
+
+// for material-ui components we have two choices:
+// 1. style them here but have to add !important to everything which isn't good
+// 2. We can style everything none-material ui here, but override the styles
+// inside each component using the 'style' tag.
+// 3. Look into css-modules: https://github.com/gajus/react-css-modules
+
+.menuWrapper {
+  .nav-popover-menu-title {
+    font-weight: bold !important;
+    font-size: 0.70em !important;
+    color: #A1A1A1 !important;
+  }
+
+  .nav-popover-firstMenu {
+    float:left;
+  }
+
+  .nav-popover-secondMenu {
+    float:left;
+  }
+}

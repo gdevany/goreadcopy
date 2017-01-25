@@ -159,7 +159,7 @@
     "quote-props": 0,
     "quotes": [1, "single", "avoid-escape"],
     "radix": 1,
-    "jsx-quotes": [1, "prefer-double"],
+    "jsx-quotes": [1, "prefer-single"],
     "react/display-name": 0,
     "react/jsx-boolean-value": 1,
     "react/jsx-no-undef": 1,

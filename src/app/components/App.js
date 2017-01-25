@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import '../../client/styles/styles.scss'
+import '!style!css!sass!../../client/styles/styles.scss'
 
 export class App extends Component {
   static propTypes = {
@@ -37,8 +37,7 @@ export class App extends Component {
 
   render() {
     return (
-      <div className="app">
-      <h1> APP WORKS!</h1>
+      <div className='app'>
       {
         React.cloneElement(this.props.children, {
           onChangeMuiTheme: this.handleChangeMuiTheme
