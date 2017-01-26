@@ -1,33 +1,71 @@
-const config = require('../../webpack-dev-server.config.js');
 const webpack = require('webpack');
-const webpackDevMiddleware = require('webpack-dev-middleware');
-const webpackHotMiddleware = require('webpack-hot-middleware');
 const express = require('express');
-const app = express();
+const R = require('ramda');
 const path = require('path');
-const compiler = webpack(config);
-const port = process.env.PORT || 3001;
-const backendUrl = process.env.BACKEND_SERVICE_BASE_URL
+const dotenv = require('dotenv');
 
-const serverOptions = {
-  contentBase: 'http://localhost:' + port,
-  port: process.env.PORT || 3001,
-  quiet: true,
-  noInfo: true,
-  hot: true,
-  inline: true,
-  lazy: false,
-  publicPath: config.output.publicPath,
-  headers: {'Access-Control-Allow-Origin': '*'},
-  historyApiFallback: true,
-  stats: {colors: true}
+const Env = (envVars) => {
+  const ENV_NAMES = {
+    development: 'development',
+    staging: 'staging',
+    production: 'production',
+  };
+
+  const current = envVars.NODE_ENV || ENV_NAMES.development;
+
+  const envIs = (name) => {
+    return (checkName = current) => {
+      return name === checkName;
+    };
+  };
+
+  const isProduction = envIs(ENV_NAMES.production);
+  const isStaging = envIs(ENV_NAMES.staging);
+  const isDevelopment = envIs(ENV_NAMES.development);
+
+  return R.merge(envVars, {
+    current,
+    isProduction,
+    isStaging,
+    isDevelopment
+  });
 };
 
-app.use(webpackDevMiddleware(compiler, serverOptions))
-app.use(webpackHotMiddleware(compiler));
-app.use(express.static('client'));
+dotenv.config() // pull .env into process.env if it exists
+const ENV = Env(process.env);
+const app = express();
+const port = process.env.PORT || 3001;
+
+if (ENV.isDevelopment()) {
+  console.log('Loading development server configs');
+  const webpackConfig = require('../../webpack-dev-server.config.js');
+  const webpackDevMiddleware = require('webpack-dev-middleware');
+  const webpackHotMiddleware = require('webpack-hot-middleware');
+  const compiler = webpack(webpackConfig);
+
+  const serverConfig = {
+    contentBase: 'http://localhost:' + port,
+    port: port,
+    quiet: true,
+    noInfo: true,
+    hot: true,
+    inline: true,
+    lazy: false,
+    publicPath: webpackConfig.output.publicPath,
+    headers: {'Access-Control-Allow-Origin': '*'},
+    historyApiFallback: true,
+    stats: {colors: true}
+  };
+
+  app.use(webpackDevMiddleware(compiler, serverConfig))
+  app.use(webpackHotMiddleware(compiler));
+  app.use(express.static('client'));
+} else {
+  app.use(express.static('public'));
+}
+
 
 app.listen(port, err => {
   if(err) throw err;
-  console.log(`GoRead-front end listening on port ${port} ✨`)
+  console.log(`GoRead ${ENV.current} frontend listening on port ${port} ✨`)
 })

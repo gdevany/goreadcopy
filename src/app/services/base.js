@@ -5,7 +5,7 @@
   * apiUrl('genres', { landing: true })) = /api/landing/genres?landing=true
   * apiUrl(null/undefined, { landing: true })) = /api/landing?landing=true
 */
-import queryPH from './queryparamsHelper'
+import queryPH from './queryParamsHelper'
 import env from '../redux/const/envConsts'
 
 export default {

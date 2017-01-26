@@ -23,4 +23,4 @@ source-context.json
 source-contexts.json
 firebasecreds.json
 *.DS_Store
-build/
+/public/*

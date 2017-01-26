@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import '!style!css!sass!../../client/styles/style-guide.scss'
+import '../../client/styles/style-guide.scss'
 
 class App extends Component {
   static propTypes = {

@@ -1,7 +1,5 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
-import SignUpModal from './SignUpModal'
-import routes from '../services/currentEnvRoutes'
 import R from 'ramda'
 import {
   Toolbar,
@@ -12,6 +10,9 @@ import {
   Menu,
   MenuItem
 } from 'material-ui'
+
+import routes from '../services/currentEnvRoutes'
+import SignUpModal from './SignUpModal'
 
 class NavMenu extends PureComponent {
   constructor(props) {

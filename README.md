@@ -6,20 +6,20 @@ The codebase for the existing GoRead server / API is at http://gitlab.readersleg
 
 ## Contents
 
-[Project Setup](#project-setup)   
-[Configuration](#configuration)   
-[Deployment](#deployment)   
-[Testing](#testing)   
-[Styleguide Enforcement](#styleguide-enforcement)   
-[Browser Support](#browser-support)   
+[Project Setup](#project-setup)
+[Configuration](#configuration)
+[Deployment](#deployment)
+[Testing](#testing)
+[Styleguide Enforcement](#styleguide-enforcement)
+[Browser Support](#browser-support)
 [Developer Contacts](#developer-contacts)
 
 **------------------**
 
-[Learn ES6](#learn-es6)   
-[Learn React, Redux and Webpack](#learn-react-redux-and-webpack)   
-[React Redux patterns for improved app optimization](#react-redux-patterns-for-improved-app-optimization)   
-[Commonly Used Libraries](#commonly-used-libraries)   
+[Learn ES6](#learn-es6)
+[Learn React, Redux and Webpack](#learn-react-redux-and-webpack)
+[React Redux patterns for improved app optimization](#react-redux-patterns-for-improved-app-optimization)
+[Commonly Used Libraries](#commonly-used-libraries)
 [Useful Tools](#useful-tools)
 
 ## Project Setup
@@ -57,6 +57,38 @@ $ http://localhost:3001
 TODO: add config here as-needed
 
 ## Deployment
+
+The frontend currently lives at [Heroku](www.heroku.com). Ask an existing developer to add you to the contributors.
+
+### Setup
+To deploy, first you'll have to set remotes for each of the deployed environments. You should only need to do this once.
+
+Staging:
+
+```sh
+$ git remote add staging https://git.heroku.com/goread-frontend-staging.git
+```
+
+Production:
+# TODO
+
+### Deploy
+
+You should ONLY be deploying the correctly named branch to the same-named environment, i.e. `staging` -> `staging`, `production` -> `production`.
+
+You should only push other branches to these environments if you know exactly what you're doing.
+
+Staging:
+
+```sh
+$ git push staging staging:master
+```
+
+Production:
+
+```sh
+$ git push production production:master
+```
 
 ### Branches and Deployed Environments
 
@@ -99,7 +131,7 @@ TODO: add browser support matrix
 ### Commonly Used Libraries
    * [redux-thunk](https://github.com/gaearon/redux-thunk)
    * [react-router](https://github.com/ReactTraining/react-router)
-   * [material-ui](http://www.material-ui.com/#/)    
+   * [material-ui](http://www.material-ui.com/#/)
 
 ### Useful Tools
    * [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)

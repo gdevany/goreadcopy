@@ -1,35 +1,28 @@
-// Webpack builds/instantiates the app locally, so we must add CICD config support to both webpack config files
-require('dotenv').config({path: './.env'});
-const DotenvPlugin = require('webpack-dotenv-plugin');
-
-const webpack = require('webpack');
-const path = require('path');
-const buildPath = path.resolve(__dirname, 'build');
-const nodeModulesPath = path.resolve(__dirname, 'node_modules');
-const TransferWebpackPlugin = require('transfer-webpack-plugin');
+const webpack = require('webpack')
+const path = require('path')
+const nodeModulesPath = path.resolve(__dirname, 'node_modules')
+const TransferWebpackPlugin = require('transfer-webpack-plugin')
 
 module.exports = {
   node: {
-    fs: "empty"
+    fs: 'empty'
   },
   entry: path.join(__dirname, '/src/app/index.js'),
   devtool: 'source-map',
   output: {
-    path: '/', // Path of output file
-    filename: 'bundle.js', //name of output file
-    publicPath: '/'
+    filename: '[name].js',
+    path: path.join(process.cwd(), 'public'),
+    publicPath: '/public',
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env' : JSON.stringify({ // EXAMPLES:
-      BACKEND_SERVICE_BASE_URL: process.env.BACKEND_SERVICE_BASE_URL,
-      PROJECT_ID: process.env.PROJECT_ID,
-      API_KEY: process.env.API_KEY,
+      'process.env': JSON.stringify({
+        BACKEND_SERVICE_BASE_URL: process.env.BACKEND_SERVICE_BASE_URL,
       })
     }),
-    new webpack.optimize.UglifyJsPlugin({ // Minifies the bundle
+    new webpack.optimize.UglifyJsPlugin({
       compress: {
-        warnings: false, // suppresses warnings, usually from module minification
+        warnings: false,
       },
     }),
     new webpack.NoErrorsPlugin(),
@@ -38,22 +31,23 @@ module.exports = {
     ], path.resolve(__dirname, 'src')),
   ],
   module: {
-    preLoaders: [
-      {
-        test: /\.js$/,
-        loaders: ['eslint'],
-        exclude: [ nodeModulesPath, testPath ],
-      }
-    ],
     loaders: [
+      {
+        test: /\.(js|jsx)$/,
+        loader: 'babel',
+        exclude: /(node_modules|server)/,
+        query: {
+          presets: ['es2015', 'react', 'stage-0']
+        }
+      },
       {
         test: /\.(png|jpg)$/,
         loaders: ['url-loader']
       },
       {
         test: /\.(css|scss)$/,
-        loader: 'style-loader!css-loader'
+        loaders: ['style', 'css', 'sass'],
       },
     ],
   }
-};
+}
