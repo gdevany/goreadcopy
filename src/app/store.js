@@ -6,7 +6,11 @@ import reducers from './redux/reducers/rootReducer'
 import thunk from 'redux-thunk'
 
 const routeMiddleware = routerMiddleware(browserHistory)
-const enhancer = compose(applyMiddleware(thunk, routeMiddleware))
-const store = createStore(reducers, initialState, enhancer, window.devToolsExtension && window.devToolsExtension())
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+const store = createStore(reducers, initialState,
+  composeEnhancers(
+    applyMiddleware(routeMiddleware, thunk)
+  )
+)
 
 export default store

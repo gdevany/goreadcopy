@@ -1,13 +1,7 @@
-const currentEnvRoutes = () => {
-  const base = {
-    backend: process.env.BACKEND_SERVICE_BASE_URL,
-    api: '/api/onboarding',
-    app: '/'
-  }
+import base from './base'
 
-  const backendUrl = (path) => `${base.backend}${path}`
-  const apiBaseUrl = (path) => `${base.api}${path}`
-  const appBaseUrl = (path) => `${base.app}${path}`
+const currentEnvRoutes = () => {
+  const { backendUrl, apiUrl, appUrl } = base
 
   const routes = {
     bookStore: () => backendUrl('browse'),

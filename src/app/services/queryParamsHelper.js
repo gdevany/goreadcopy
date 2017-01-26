@@ -1,17 +1,12 @@
-// useful when we start using query params within currentEnvRoutes.js
-import QS from 'query-string';
-import R from 'ramda';
+import QS from 'query-string'
+import R from 'ramda'
 
 const QueryParamsHelper = () => {
   const asParams = (paramsObj) => {
-    return R.isEmpty(paramsObj)
-      ? ''
-      : `?${QS.stringify(paramsObj)}`;
-  };
+    return R.isEmpty(paramsObj) ? '' : `?${QS.stringify(paramsObj)}`
+  }
 
-  return {
-    asParams,
-  };
-};
+  return asParams
+}
 
-export default QueryParamsHelper();
+export default QueryParamsHelper()

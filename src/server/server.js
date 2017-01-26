@@ -7,6 +7,7 @@ const app = express();
 const path = require('path');
 const compiler = webpack(config);
 const port = process.env.PORT || 3001;
+const backendUrl = process.env.BACKEND_SERVICE_BASE_URL
 
 const serverOptions = {
   contentBase: 'http://localhost:' + port,

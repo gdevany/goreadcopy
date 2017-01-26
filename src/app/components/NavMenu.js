@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
 import currentEnvRoutes from '../services/currentEnvRoutes'
+import R from 'ramda'
 import routes from '../services/currentEnvRoutes'
 import RaisedButton from 'material-ui/RaisedButton'
 import Popover from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
-import R from 'ramda'
 import {
   Toolbar,
   ToolbarGroup,
@@ -126,7 +126,7 @@ export class NavMenu extends PureComponent {
     const genres = ['Sci-Fi', 'Romance', 'Young Adult', 'Sports', 'Business', 'Cooking']
 
     return (
-      <Toolbar className='nav-background'>
+      <Toolbar className='general-background'>
         <ToolbarGroup>
           <Link to='/'>
             <ToolbarTitle className='general-title nav-title' text='GoRead' />
