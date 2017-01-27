@@ -1,11 +1,13 @@
 import React from 'react'
 import { Route, IndexRoute } from 'react-router'
-import { App } from './components/App'
-import { Home } from './components/Home'
+import App from './components/App'
+import Home from './components/Home'
+import SignUpFlow from './components/SignUpFlow'
 
-export const Routes = (
+const Routes = (
   <Route path='/' component={App}>
     <IndexRoute component={Home} />
+    <Route path='/signup' component={SignUpFlow} />
     {/**<Route path="/some-path" component={*?} />
     <Route path="/some-other-path" component={*?} />
     **/}

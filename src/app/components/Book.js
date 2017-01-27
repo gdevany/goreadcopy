@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Book = ({book}) => {
+const Book = ({book}) => {
   return (
     <div className='single-book'>
       <a href={book.slug}>

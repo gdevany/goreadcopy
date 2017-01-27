@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const LandingReasons = ({statement, description}) => {
+const LandingReasons = ({statement, description}) => {
   return (
     <div className='landing-reasons-wrapper'>
       <p className='general-font general-statement'> {statement} </p>

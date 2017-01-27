@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
-import currentEnvRoutes from '../services/currentEnvRoutes'
-import R from 'ramda'
+import SignUpModal from './SignUpModal'
 import routes from '../services/currentEnvRoutes'
+import R from 'ramda'
 import {
   Toolbar,
   ToolbarGroup,
@@ -13,13 +13,24 @@ import {
   MenuItem
 } from 'material-ui'
 
-export class NavMenu extends PureComponent {
+class NavMenu extends PureComponent {
   constructor(props) {
     super(props)
 
     this.state = {
-      open: false
+      open: false,
+      modalOpen: false
     }
+
+    this.handleModalClose = this.handleModalClose.bind(this)
+  }
+
+  handleModalOpen = () => {
+    this.setState({ modalOpen: true })
+  }
+
+  handleModalClose = () => {
+    this.setState({ modalOpen: false})
   }
 
   handleNavHover = (event) => {
@@ -32,9 +43,7 @@ export class NavMenu extends PureComponent {
   }
 
   handleRequestClose = () => {
-    this.setState({
-      open: false
-    })
+    this.setState({ open: false })
   }
 
   handleMapNavItems = (categories, genres) => {
@@ -144,7 +153,11 @@ export class NavMenu extends PureComponent {
           <RaisedButton
             backgroundColor='transparent'
             label='Sign Up'
-            href='#'
+            onTouchTap={this.handleModalOpen}
+          />
+          <SignUpModal
+            modalOpen={this.state.modalOpen}
+            handleClose = {this.handleModalClose.bind(this)}
           />
         </ToolbarGroup>
       </Toolbar>

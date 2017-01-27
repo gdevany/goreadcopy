@@ -52,5 +52,6 @@ export default {
       title: 'Harry Potter',
       imageUrl: 'example2.png'
     },
-  ]
+  ],
+  userData: {}
 }

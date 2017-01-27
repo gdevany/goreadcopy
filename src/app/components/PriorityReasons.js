@@ -2,7 +2,7 @@ import React from 'react'
 import LandingImage from './LandingImage'
 import LandingReasons from './LandingReasons'
 
-export const PriorityReasons = () => {
+const PriorityReasons = () => {
   return (
     <div>
       <div className='side-by-side-wrapper landing-priority-wrapper'>

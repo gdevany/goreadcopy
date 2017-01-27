@@ -6,7 +6,7 @@ import { getBooks } from '../redux/actions/books'
 import { Toolbar, ToolbarGroup } from 'material-ui'
 import Book from './Book'
 
-export class BookLanding extends PureComponent {
+class BookLanding extends PureComponent {
   componentWillMount = () => {
     this.props.getGenres('landing')
   }

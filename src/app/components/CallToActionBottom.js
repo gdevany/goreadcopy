@@ -1,21 +1,47 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import RaisedButton from 'material-ui/RaisedButton'
+import SignUpModal from './SignUpModal'
 
-export const CallToActionBottom = () => {
-  return (
-    <div className='center-text call-to-action-wrapper general-background'>
-      <h1 className='general-font'>
-        Ready to join the fastest growing book community?
-      </h1><br />
-      <RaisedButton
-        backgroundColor='#4A4A4A'
-        labelColor='white'
-        label='Sign Up'
-        href='#'
-      />
-      <br />
-    </div>
-  )
+class CallToActionBottom extends PureComponent {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      modalOpen: false
+    }
+
+    this.handleClose = this.handleClose.bind(this)
+  }
+
+  handleOpen = (event) => {
+    this.setState({ modalOpen: true })
+  }
+
+  handleClose = () => {
+    this.setState({ modalOpen: false})
+  }
+
+  render() {
+    return (
+      <div className='center-text call-to-action-wrapper general-background'>
+        <h1 className='general-font'>
+          Ready to join the fastest growing book community?
+        </h1>
+        <br />
+        <RaisedButton
+          backgroundColor='#4A4A4A'
+          labelColor='white'
+          label='Sign Up'
+          onTouchTap={this.handleOpen}
+        />
+        <SignUpModal
+          modalOpen={this.state.modalOpen}
+          handleClose = {this.handleClose.bind(this)}
+        />
+        <br />
+      </div>
+    )
+  }
 }
 
 export default CallToActionBottom

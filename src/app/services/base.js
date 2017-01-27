@@ -6,11 +6,11 @@
   * apiUrl(null/undefined, { landing: true })) = /api/landing?landing=true
 */
 import queryPH from './queryparamsHelper'
-import { DEV_ENV } from '../redux/const/envConsts'
+import env from '../redux/const/envConsts'
 
 export default {
   backendUrl: (path, query) => {
-    const backendUrl = DEV_ENV
+    const backendUrl = env.DEV_ENV
     return checkUrl(backendUrl, path, query) || backendUrl
   },
   apiUrl: (path, query) => {

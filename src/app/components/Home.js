@@ -6,7 +6,7 @@ import PriorityReasons from './PriorityReasons'
 import BookLanding from './BookLanding'
 import Footer from './Footer'
 
-export const Home = () => {
+const Home = () => {
   return (
     <div className='home'>
       <NavMenu />
