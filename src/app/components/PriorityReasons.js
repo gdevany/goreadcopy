@@ -17,9 +17,10 @@ export const PriorityReasons = () => {
           />
         </div>
         <div className='side-right'>
-          // TODO: Check if this works in staging/production.
-          // If not either we change the path based on the environment
-          // or maybe we change webpack config?
+          {/**TODO: Check if this works in staging/production.
+            If not either we change the path based on the environment
+            or maybe we change webpack config?
+          **/}
           <LandingImage imageUrl='./image/reasonsImageExample.png' />
         </div>
       </div>

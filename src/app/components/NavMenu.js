@@ -3,15 +3,15 @@ import { Link } from 'react-router'
 import currentEnvRoutes from '../services/currentEnvRoutes'
 import R from 'ramda'
 import routes from '../services/currentEnvRoutes'
-import RaisedButton from 'material-ui/RaisedButton'
-import Popover from 'material-ui/Popover'
-import Menu from 'material-ui/Menu'
-import MenuItem from 'material-ui/MenuItem'
 import {
   Toolbar,
   ToolbarGroup,
-  ToolbarTitle
-} from 'material-ui/Toolbar'
+  ToolbarTitle,
+  RaisedButton,
+  Popover,
+  Menu,
+  MenuItem
+} from 'material-ui'
 
 export class NavMenu extends PureComponent {
   constructor(props) {

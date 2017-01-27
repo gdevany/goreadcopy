@@ -3,14 +3,14 @@ import NavMenu from './NavMenu'
 import CallToActionTop from './CallToActionTop'
 import CallToActionBottom from './CallToActionBottom'
 import PriorityReasons from './PriorityReasons'
-import BookCarousel from './BookLanding'
+import BookLanding from './BookLanding'
 
 export const Home = () => {
   return (
     <div className='home'>
       <NavMenu />
       <CallToActionTop />
-      <BookCarousel />
+      <BookLanding />
       <PriorityReasons />
       <CallToActionBottom />
     </div>
