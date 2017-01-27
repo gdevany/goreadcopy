@@ -16,8 +16,40 @@
   letter-spacing: 0.85px;
 }
 
+.general-statement {
+  font-size: 2em;
+}
+
 .general-button {
   padding: 7px 20px 7px 20px;
   border-radius: 3px;
   border: 1px solid #979797;
+}
+
+.landing-priority-wrapper {
+  width: 1300px;
+  margin: 0 auto;
+  margin-top: 100px !important;
+}
+
+.landing-reasons-wrapper {
+  width: 500px;
+}
+
+.side-by-side-wrapper {
+  margin: 0 auto;
+  display: inline-block;
+
+  .side-left {
+    float: left;
+  }
+
+  .side-left-landing {
+    padding-left: 100px;
+  }
+
+  .side-right {
+    margin: 0 auto;
+    float: right;
+  }
 }

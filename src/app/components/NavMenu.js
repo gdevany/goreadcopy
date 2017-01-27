@@ -54,8 +54,8 @@ export class NavMenu extends PureComponent {
           targetOrigin={{horizontal: 'left', vertical: 'top'}}
           onRequestClose={this.handleRequestClose}
         >
-          <div className='menuWrapper'>
-            <div className='nav-popover-firstMenu'>
+          <div className='side-by-side-wrapper'>
+            <div className='side-left'>
               <Menu>
                 <MenuItem
                   className='nav-popover-menu-title'
@@ -75,7 +75,7 @@ export class NavMenu extends PureComponent {
                 }
               </Menu>
             </div>
-            <div className='nav-popover-secondMenu'>
+            <div className='side-right'>
               <Menu>
                 <MenuItem
                   className='nav-popover-menu-title'
