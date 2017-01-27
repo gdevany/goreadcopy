@@ -1,6 +1,14 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 $general-font-family: 'Roboto', san-serif;
 
 html, body {
   padding: 0;
   margin: 0;
 }
+
+@import 'variables.scss';
+@import 'general.scss';
+@import 'links.scss';
+@import 'nav-menu.scss';
+@import 'call-to-action.scss'
