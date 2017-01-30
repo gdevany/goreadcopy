@@ -4,6 +4,7 @@ import CallToActionTop from './CallToActionTop'
 import CallToActionBottom from './CallToActionBottom'
 import PriorityReasons from './PriorityReasons'
 import BookLanding from './BookLanding'
+import Footer from './Footer'
 
 export const Home = () => {
   return (
@@ -13,6 +14,7 @@ export const Home = () => {
       <BookLanding />
       <PriorityReasons />
       <CallToActionBottom />
+      <Footer />
     </div>
   )
 }
