@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 class SignUpFlow extends PureComponent {
   render() {
-    const { userData, books } = this.props
+    const { userData } = this.props
     console.log(userData, books)
 
     return (
@@ -15,7 +15,7 @@ class SignUpFlow extends PureComponent {
   }
 }
 
-const mapStateToProps = ({ userData, books }) => {
-  return { userData, books }
+const mapStateToProps = ({ userData }) => {
+  return { userData }
 }
 export default connect(mapStateToProps)(SignUpFlow)
