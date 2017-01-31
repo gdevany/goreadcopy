@@ -7,7 +7,7 @@
     "deploy": "gcloud app deploy --project rl-staging",
     "prestart": "npm run build",
     "start": "node src/server/server.js",
-    "start:dev": "webpack --config webpack-dev-server.config.js --progress --colors && nodemon src/server/server.js --ignore components --progress --inline --colors",
+    "start:dev": "nodemon src/server/server.js --ignore components --progress --inline --colors",
     "test": "echo 'none yet!'"
   },
   "private": true,
