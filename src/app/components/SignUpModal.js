@@ -5,7 +5,6 @@ import {
   Dialog,
   RaisedButton
 } from 'material-ui'
-import R from 'ramda'
 
 class SignUpModal extends PureComponent {
   handleSubmit = (event) => {

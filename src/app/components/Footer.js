@@ -49,7 +49,7 @@ class Footer extends PureComponent {
           <a href={publishers()}> Publishers </a> <br />
           <a href={advertisers()}> Advertisers </a> <br />
           <a href={media()}> Media </a> <br />
-          <a href={childrensLiteracy()}> {`Children's Literacy`} </a> <br />
+          <a href={childrensLiteracy()}> {'Children\'s Literacy'} </a> <br />
           <a href={litcoins()}> Litcoins </a>
         </div>
 

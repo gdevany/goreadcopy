@@ -1,15 +1,14 @@
-import React, { PureComponent, PropTypes } from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import SignUpStepper from './SignUpStepper'
 
 class SignUpFlow extends PureComponent {
   render() {
     const { userData } = this.props
-    console.log(userData, books)
 
     return (
       <div>
-      HI THERE
-    fds
+        <SignUpStepper />
       </div>
     )
   }
