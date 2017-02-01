@@ -46,7 +46,7 @@ if (ENV.isDevelopment()) {
   const serverConfig = {
     contentBase: 'http://localhost:' + port,
     port: port,
-    quiet: true,
+    quiet: false,
     noInfo: true,
     hot: true,
     inline: true,
