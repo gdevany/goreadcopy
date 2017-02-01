@@ -51,7 +51,6 @@ if (ENV.isDevelopment()) {
     hot: true,
     inline: true,
     lazy: false,
-    publicPath: webpackConfig.output.publicPath,
     headers: {'Access-Control-Allow-Origin': '*'},
     historyApiFallback: true,
     stats: {colors: true}
@@ -59,7 +58,7 @@ if (ENV.isDevelopment()) {
 
   app.use(webpackDevMiddleware(compiler, serverConfig))
   app.use(webpackHotMiddleware(compiler));
-  app.use(express.static('client'));
+  app.use(express.static('build'));
 } else {
   app.use(express.static('public'));
 }

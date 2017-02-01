@@ -4,6 +4,7 @@
   "description": "The front-end for GoRead.",
   "scripts": {
     "build": "webpack --config webpack-production.config.js --progress --colors",
+    "build:dev": "webpack --config webpack-dev-server.config.js --progress --colors",
     "deploy": "gcloud app deploy --project rl-staging",
     "prestart": "npm run build",
     "start": "node src/server/server.js",

@@ -12,7 +12,7 @@ export default (currentState, action) => {
         return Object.assign({}, currentState, {userData: action.userData})
         Any clues?
     **/
-            return {...currentState, ...action.userData}
+      return {...currentState, ...action.userData}
     default:
       return currentState || initialState.userData
   }

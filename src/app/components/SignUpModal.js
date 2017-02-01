@@ -17,9 +17,8 @@ class SignUpModal extends PureComponent {
     this.props.updateUserData(formData)
   }
 
-
   render() {
-    const { modalOpen, handleClose, userData } = this.props
+    const { modalOpen, handleClose } = this.props
 
     return (
       <div>

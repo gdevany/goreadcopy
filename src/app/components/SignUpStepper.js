@@ -1,14 +1,14 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
+import { updateUserData } from '../redux/actions/userData'
+import SignUpStepOne from './SignUpStepOne'
 import StepperIndex from '../redux/const/stepperIndex'
 import ExpandTransition from 'material-ui/internal/ExpandTransition'
 import ArrowIcon from 'material-ui/svg-icons/navigation/chevron-right'
 import {
   Step,
   Stepper,
-  StepLabel,
-  RaisedButton,
-  FlatButton,
-  TextField
+  StepLabel
 } from 'material-ui'
 
 class SignUpStepper extends PureComponent {
@@ -20,6 +20,10 @@ class SignUpStepper extends PureComponent {
       finished: false,
       stepIndex: StepperIndex.ZERO
     }
+
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleNext = this.handleNext.bind(this)
+    this.handlePrev = this.handleSubmit.bind(this)
   }
 
   dummyAsync = (cb) => {
@@ -49,13 +53,36 @@ class SignUpStepper extends PureComponent {
     }
   }
 
+  handleSubmit = (refs) => {
+    const formData = {}
+    for (const field in refs) {
+      formData[field] = refs[field].value
+    }
+
+    this.props.updateUserData(formData)
+  }
+
+  handleReset = (event) => {
+    event.preventDefault()
+    this.setState({ stepIndex: StepperIndex.ZERO, finished: false })
+  }
+
+  isActiveStepper = (index) => {
+    return this.state.stepIndex === index ? { fontWeight: 'bold' } : null
+  }
+
   getStepContent = (stepIndex) => {
     switch (stepIndex) {
       case 0:
         return (
-          <p>
-              Some #1 Component will be rendered here
-          </p>
+          <div>
+            <SignUpStepOne
+              handleSubmit={ this.handleSubmit }
+              handleNext={ this.handleNext }
+              handlePrev={ this.handlePrev }
+              stepIndex={ this.state.stepIndex }
+            />
+          </div>
         )
       case 1:
         return (
@@ -74,26 +101,17 @@ class SignUpStepper extends PureComponent {
     }
   }
 
-  isActiveStepper = (index) => {
-    return this.state.stepIndex === index ? { fontWeight: 'bold' } : null
-  }
-
-  handleReset = (event) => {
-    event.preventDefault()
-    this.setState({ stepIndex: StepperIndex.ZERO, finished: false })
-  }
-
   renderContent() {
     const { finished, stepIndex } = this.state
-    const contentStyle = {margin: '0 16px', overflow: 'hidden'} // temporary
+    const contentStyle = { margin: '0 16px', overflow: 'hidden' } // temporary
 
     // TODO: Will we have a component when user is finished signing up
     // or will they be redirected?
     if (finished) {
       return (
-        <div style={contentStyle}>
+        <div style={ contentStyle }>
           <p>
-            <a onClick={this.handleReset} >
+            <a onClick={ this.handleReset } >
               Click here
             </a> to reset the example.
           </p>
@@ -102,21 +120,8 @@ class SignUpStepper extends PureComponent {
     }
 
     return (
-      <div style={contentStyle}>
-        <div>{this.getStepContent(stepIndex)}</div>
-        <div style={{marginTop: 24, marginBottom: 12}}>
-          <FlatButton
-            label="Back"
-            disabled={stepIndex === StepperIndex.ZERO}
-            onTouchTap={this.handlePrev}
-            style={{marginRight: 12}}
-          />
-          <RaisedButton
-            label={stepIndex === StepperIndex.TWO ? 'Finish' : 'Next'}
-            primary={true}
-            onTouchTap={this.handleNext}
-          />
-        </div>
+      <div style={ contentStyle }>
+        <div>{ this.getStepContent(stepIndex) }</div>
       </div>
     )
   }
@@ -125,30 +130,30 @@ class SignUpStepper extends PureComponent {
     const { loading, stepIndex } = this.state
 
     return (
-      <div style={{width: '100%', maxWidth: 700, margin: 'auto'}}>
-        <Stepper activeStep={stepIndex} connector={<ArrowIcon />}>
-          <Step active={false} style={this.isActiveStepper(StepperIndex.ZERO)}>
+      <div style={{ width: '100%', maxWidth: 700, margin: 'auto' }}>
+        <Stepper activeStep={ stepIndex } connector={ <ArrowIcon /> }>
+          <Step active={ false } style={ this.isActiveStepper(StepperIndex.ZERO) }>
             <StepLabel>
               Create your account
             </StepLabel>
           </Step>
-          <Step active={false} style={this.isActiveStepper(StepperIndex.ONE)}>
+          <Step active={ false } style={ this.isActiveStepper(StepperIndex.ONE) }>
             <StepLabel>
               Add genres
             </StepLabel>
           </Step>
-          <Step active={false} style={this.isActiveStepper(StepperIndex.TWO)}>
+          <Step active={ false } style={ this.isActiveStepper(StepperIndex.TWO) }>
             <StepLabel>
               Create read feed
             </StepLabel>
           </Step>
         </Stepper>
-        <ExpandTransition loading={loading} open={true}>
-          {this.renderContent()}
+        <ExpandTransition loading={ loading } open={ true }>
+          { this.renderContent() }
         </ExpandTransition>
       </div>
     )
   }
 }
 
-export default SignUpStepper
+export default connect(null, { updateUserData })(SignUpStepper)

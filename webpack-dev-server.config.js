@@ -20,9 +20,9 @@ module.exports = {
   ],
   devTool: 'eval',
   output: {
-    path: '/', // Path of output file
-    filename: '[name].js', //name of output file
-    publicPath: '/'
+    filename: '[name].js',
+    path: '/', // Not on the filesystem since webpackDevMiddleware builds in-memory
+    // No publicPath needed because of webpackDevMiddleware defaults
   },
   plugins: [
     // CICD support for dynamically setting process variables to represent the env config
