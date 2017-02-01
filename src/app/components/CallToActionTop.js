@@ -23,12 +23,13 @@ class CallToActionTop extends PureComponent {
 
   render() {
     return (
-      <div className='center-text call-to-action-wrapper'>
-        <h1 className='general-font'>
-          Where authors and readers come together
+      <div className='center-text header'>
+        <h1>
+          Where readers and authors come together
         </h1><br />
         <RaisedButton
           backgroundColor='#4A4A4A'
+          className='primary-button'
           labelColor='white'
           label='Sign Up'
           onTouchTap={this.handleOpen}
@@ -38,9 +39,6 @@ class CallToActionTop extends PureComponent {
           handleClose = {this.handleClose.bind(this)}
         />
         <br /> <br />
-        <a href='#'>
-          Are you an author?
-        </a>
       </div>
     )
   }

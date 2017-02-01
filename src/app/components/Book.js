@@ -7,12 +7,16 @@ const Book = ({book}) => {
        {/** TODO: quick image fix till we know what the exact url will be **/}
         <img src={`./image/${book.imageUrl}`} />
       </a><br />
-      <a className='link' href={book.slug}>
-        {book.title}
-      </a><br />
-    <a className='link' href='#'> {/** TODO: need authors link?**/}
-        {book.author}
-      </a>
+
+      <div className='book-info'>
+        <a className='link' href={book.slug}>
+          {book.title}
+        </a><br />
+        <a className='link' href='#'> {/** TODO: need authors link?**/}
+          {book.author}
+        </a>
+      </div>
+
     </div>
   )
 }

@@ -1,3 +1,5 @@
+@import 'variables.scss';
+
 a {
   text-decoration: none;
   color: #5B5B5B;
@@ -7,11 +9,12 @@ a {
   }
 
   &:hover {
+    color: $blue;
     text-decoration: none;
   }
 
   &:active {
-    text-decoration: none;
+    color: $blue;
   }
 }
 

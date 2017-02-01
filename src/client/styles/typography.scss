@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+@import 'variables.scss';
+
+h1, h2, h3, h4 {
+  font-family: 'Open Sans', san-serif;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+h2 {
+  font-size: 26px;
+}
+
+p {
+  font-family: $body-copy;
+  font-size: 20px;
+}
+
+a {
+  color: $black;
+}
+.nav-item {
+  font-size: 16px;
+}

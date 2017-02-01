@@ -14,6 +14,12 @@ import {
 import routes from '../services/currentEnvRoutes'
 import SignUpModal from './SignUpModal'
 
+const styles = {
+  navContainer: {
+    backgroundColor: '#fff',
+  },
+};
+
 class NavMenu extends PureComponent {
   constructor(props) {
     super(props)
@@ -136,10 +142,10 @@ class NavMenu extends PureComponent {
     const genres = ['Sci-Fi', 'Romance', 'Young Adult', 'Sports', 'Business', 'Cooking']
 
     return (
-      <Toolbar className='general-background'>
+      <Toolbar style={styles.navContainer} className='general-background'>
         <ToolbarGroup>
           <Link to='/'>
-            <ToolbarTitle className='general-title nav-title' text='GoRead' />
+            <img src='./image/logo.png' />
           </Link>
         </ToolbarGroup>
         <ToolbarGroup>

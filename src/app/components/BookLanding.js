@@ -6,6 +6,18 @@ import { getBooks } from '../redux/actions/books'
 import { Toolbar, ToolbarGroup } from 'material-ui'
 import Book from './Book'
 
+const styles = {
+  shopSection: {
+    backgroundColor: 'red',
+    margin: '-100px auto 0',
+    width: '98%',
+  },
+
+  shopToolBar: {
+    backgroundColor: '#FCFBF9',
+  },
+};
+
 class BookLanding extends PureComponent {
   componentWillMount = () => {
     this.props.getGenres('landing')
@@ -32,8 +44,8 @@ class BookLanding extends PureComponent {
     const { bookStore } = routes
 
     return (
-      <div>
-      <Toolbar className='general-background'>
+      <div style={styles.shopSection}>
+      <Toolbar style={styles.shopToolBar}>
         <ToolbarGroup />
         <ToolbarGroup>
           <p className='link nav-item'>
@@ -47,7 +59,7 @@ class BookLanding extends PureComponent {
           </a>
         </ToolbarGroup>
       </Toolbar>
-      <Toolbar className='general-background books-toolbar'>
+      <Toolbar style={styles.shopToolBar} className='books-toolbar'>
         <ToolbarGroup />
         <ToolbarGroup>
           {

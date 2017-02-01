@@ -1,6 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
 
-$general-font-family: 'Roboto', san-serif;
+$general-font-family: 'Open Sans', san-serif;
+$body-copy: "freight-text-pro", san-serif;
 
 html, body {
   padding: 0;
@@ -16,3 +17,4 @@ html, body {
 @import 'signupmodal.scss';
 @import 'books.scss';
 @import 'stepper.scss';
+@import 'typography.scss';
