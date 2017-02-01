@@ -6,6 +6,25 @@ import {
   RaisedButton
 } from 'material-ui'
 
+const styles = {
+  modalBody: {
+    marginTop: -80,
+    maxHeight: '100%',
+  },
+
+  modalContent: {
+    maxWidth: '100%',
+    width: '100%',
+    opacity: 0.93,
+  },
+
+  formContainer: {
+    height: '100vh',
+    margin: '0 auto',
+    maxWidth: 400,
+  },
+}
+
 class SignUpModal extends PureComponent {
   handleSubmit = (event) => {
     event.preventDefault()
@@ -24,46 +43,49 @@ class SignUpModal extends PureComponent {
       <div>
         <Dialog
           bodyClassName='signup-modal-content'
+          bodyStyle={styles.modalBody}
+          contentStyle={styles.modalContent}
           modal={false}
           open={modalOpen}
           onRequestClose={handleClose}
+          autoDetectWindowHeight={false}
         >
-        <div
-          className='general-font center-text signup-modal-x'
-          onClick={handleClose}
-        >
-          X
-        </div>
-        <div className='general-font general-statement signup-modal-title center-text'>
-          Join GoRead
-        </div>
-        <div className='general-font inner-title center-text'>
-          or sign up with email:
-        </div>
-        <div>
-          <form onSubmit={this.handleSubmit} className='form-wrapper general-font'>
-            <div className='form-input-wrapper'>
-              <span className='form-label'> First name </span>
-              <input type='text' ref='firstName' className='form-input' />
-            </div>
-            <div className='form-input-wrapper'>
-              <span className='form-label'> Last name </span>
-              <input type='text' ref='lastName' className='form-input' />
-            </div>
-            <div className='form-input-wrapper'>
-              <span className='form-label'> Email </span>
-              <input type='email' ref='email' className='form-input'/>
-            </div>
-            <div className='center-text'>
-              <RaisedButton
-                backgroundColor='transparent'
-                label='Sign up with email'
-                onTouchTap={handleClose}
-                type='submit'
-              />
-            </div>
-          </form>
-        </div>
+          <div
+            className='general-font center-text signup-modal-x'
+            onClick={handleClose}
+          >
+            X
+          </div>
+          <h1 className='center-text'>
+            Join GoRead
+          </h1>
+          <h4 className='inner-title center-text'>
+            or sign up with email:
+          </h4>
+          <div style={styles.formContainer}>
+            <form onSubmit={this.handleSubmit} className='form-wrapper general-font'>
+              <div className='form-input-wrapper'>
+                <span className='form-label'> First name </span>
+                <input type='text' ref='firstName' className='form-input' />
+              </div>
+              <div className='form-input-wrapper'>
+                <span className='form-label'> Last name </span>
+                <input type='text' ref='lastName' className='form-input' />
+              </div>
+              <div className='form-input-wrapper'>
+                <span className='form-label'> Email </span>
+                <input type='email' ref='email' className='form-input'/>
+              </div>
+              <div className='center-text'>
+                <RaisedButton
+                  backgroundColor='transparent'
+                  label='Sign up with email'
+                  onTouchTap={handleClose}
+                  type='submit'
+                />
+              </div>
+            </form>
+          </div>
         </Dialog>
       </div>
     )
