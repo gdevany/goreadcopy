@@ -1,23 +1,17 @@
+@import 'variables.scss';
+
 .center-text {
   text-align: center !important;
 }
 
 .general-background {
-  background: #F5F5F5;
-}
-
-.general-font {
-  font-family: $general-font-family;
+  background: $white;
 }
 
 .general-title {
   font-weight: 600;
   color: #4A4A4A !important;
   letter-spacing: 0.85px;
-}
-
-.general-statement {
-  font-size: 1.8em !important;
 }
 
 .general-button {

@@ -23,9 +23,9 @@ class CallToActionBottom extends PureComponent {
 
   render() {
     return (
-      <div className='center-text call-to-action-wrapper general-background'>
+      <div className='center-text call-to-action-wrapper'>
         <h1 className='general-font'>
-          Ready to join the fastest growing book community?
+          Ready to join?
         </h1>
         <br />
         <RaisedButton

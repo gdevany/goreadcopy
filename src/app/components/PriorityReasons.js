@@ -5,15 +5,12 @@ import LandingReasons from './LandingReasons'
 const PriorityReasons = () => {
   return (
     <div>
+
       <div className='side-by-side-wrapper landing-priority-wrapper'>
         <div className='side-left side-left-landing'>
           <LandingReasons
-            statement= {'Discover new books and book clubs you\'ll love'}
-            description={`At vero eos et accusamus et iusto odio dignissimos
-            ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti
-            quos dolores et quas molestias excepturi sint occaecati cupiditate non
-            provident, similique sunt in culpa qui officia deserunt mollitia animi,
-            id est laborum et dolorum fuga`}
+            statement= {'Discover your next book'}
+            description={`Find books you\'ll love while exploring our community`}
           />
         </div>
         <div className='side-right'>
@@ -24,36 +21,43 @@ const PriorityReasons = () => {
           <LandingImage imageUrl='./image/reasonsImageExample.png' />
         </div>
       </div>
+
       <div className='side-by-side-wrapper landing-priority-wrapper'>
         <div className='side-left side-left-landing'>
           <LandingImage imageUrl='./image/reasonsImageExample.png' />
         </div>
         <div className='side-right'>
           <LandingReasons
-            statement= {'Follow your favorite authors and access their exclusive reads'}
-            description={`At vero eos et accusamus et iusto odio dignissimos
-            ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti
-            quos dolores et quas molestias excepturi sint occaecati cupiditate non
-            provident, similique sunt in culpa qui officia deserunt mollitia animi,
-            id est laborum et dolorum fuga`}
+            statement= {'Join your favorite book clubs and make friends'}
+            description={`Meet and engage with over 60,000+ users`}
           />
         </div>
       </div>
+
       <div className='side-by-side-wrapper landing-priority-wrapper'>
         <div className='side-left side-left-landing'>
           <LandingReasons
-            statement= {'Earn your favorite books with GoRead Litcoins'}
-            description={`At vero eos et accusamus et iusto odio dignissimos
-            ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti
-            quos dolores et quas molestias excepturi sint occaecati cupiditate non
-            provident, similique sunt in culpa qui officia deserunt mollitia animi,
-            id est laborum et dolorum fuga`}
+            statement= {'Earn your favorite books'}
+            description={`Get any book shipped to you by just hanging out with other on GoRead`}
           />
         </div>
         <div className='side-right'>
           <LandingImage imageUrl='./image/reasonsImageExample.png' />
         </div>
       </div>
+
+      <div className='side-by-side-wrapper landing-priority-wrapper'>
+        <div className='side-left side-left-landing'>
+          <LandingImage imageUrl='./image/reasonsImageExample.png' />
+        </div>
+        <div className='side-right'>
+          <LandingReasons
+            statement= {'Build a following'}
+            description={`Engage with other readers and establish your online presence`}
+          />
+        </div>
+      </div>
+
     </div>
   )
 }
