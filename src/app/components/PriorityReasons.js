@@ -9,8 +9,8 @@ const PriorityReasons = () => {
       <div className='side-by-side-wrapper landing-priority-wrapper'>
         <div className='side-left side-left-landing'>
           <LandingReasons
-            statement={'Discover your next book'}
-            description={'Find books you\'ll love while exploring our community'}
+            statement= {'Discover your next book'}
+            description={"Find books you'll love while exploring our community"}
           />
         </div>
         <div className='side-right'>
@@ -37,7 +37,7 @@ const PriorityReasons = () => {
       <div className='side-by-side-wrapper landing-priority-wrapper'>
         <div className='side-left side-left-landing'>
           <LandingReasons
-            statement={'Earn your favorite books'}
+            statement= {'Earn your favorite books'}
             description={'Get any book shipped to you by just hanging out with other on GoRead'}
           />
         </div>

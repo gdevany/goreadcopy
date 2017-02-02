@@ -3,6 +3,7 @@
 import A from '../const/actionTypes'
 
 //const { backendUrl, apiUrl, appUrl } = base
+
 export function getGenres(query) {
   return dispatch => {
     /* example url until endpoint is finalized

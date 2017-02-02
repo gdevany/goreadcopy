@@ -1,14 +1,18 @@
 import A from '../const/actionTypes'
 import { browserHistory } from 'react-router'
 
-export function updateUserData(userData) {
-  return (dispatch, getState) => {
+export function getInitialUserData(userData) {
+  return (dispatch) => {
     new Promise(resolve => {
       resolve(
-        dispatch({
-          type: A.UPDATE_USER_DATA,
-          userData
-        }))
+        dispatch(updateUserData(userData)))
     }).then(() => browserHistory.push('/signup'))
+  }
+}
+
+export function updateUserData(userData) {
+  return {
+    type: A.UPDATE_USER_DATA,
+    userData
   }
 }

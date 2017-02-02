@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { updateUserData } from '../redux/actions/userData'
 import SignUpStepOne from './SignUpStepOne'
+import SignUpStepTwo from './SignUpStepTwo'
 import StepperIndex from '../redux/const/stepperIndex'
 import ExpandTransition from 'material-ui/internal/ExpandTransition'
 import ArrowIcon from 'material-ui/svg-icons/navigation/chevron-right'
@@ -30,7 +31,7 @@ class SignUpStepper extends PureComponent {
 
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleNext = this.handleNext.bind(this)
-    this.handlePrev = this.handleSubmit.bind(this)
+    this.handlePrev = this.handlePrev.bind(this)
   }
 
   dummyAsync = (cb) => {
@@ -60,13 +61,17 @@ class SignUpStepper extends PureComponent {
     }
   }
 
-  handleSubmit = (refs) => {
-    const formData = {}
-    for (const field in refs) {
-      formData[field] = refs[field].value
+  handleSubmit = (data, step) => {
+    if (step === 'one') {
+      const formData = {}
+      for (const field in data) {
+        formData[field] = data[field].value
+      }
+
+      data = formData
     }
 
-    this.props.updateUserData(formData)
+    this.props.updateUserData(data)
   }
 
   handleReset = (event) => {
@@ -94,7 +99,12 @@ class SignUpStepper extends PureComponent {
       case 1:
         return (
           <div>
-              Some #2 Component will be rendered here
+            <SignUpStepTwo
+              handleSubmit={ this.handleSubmit }
+              handleNext={ this.handleNext }
+              handlePrev={ this.handlePrev }
+              stepIndex={ this.state.stepIndex }
+            />
           </div>
         )
       case 2:
