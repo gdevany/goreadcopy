@@ -137,8 +137,23 @@ class NavMenu extends PureComponent {
   }
 
   render() {
-    const categories = ['Popular', 'Newest', 'Award Winners', 'GoRead Picks', 'AudioBooks', 'Textbooks', 'Sale']
-    const genres = ['Sci-Fi', 'Romance', 'Young Adult', 'Sports', 'Business', 'Cooking']
+    const categories = [
+      'Popular',
+      'Newest',
+      'Award Winners',
+      'GoRead Picks',
+      'AudioBooks',
+      'Textbooks',
+      'Sale'
+    ]
+    const genres = [
+      'Sci-Fi',
+      'Romance',
+      'Young Adult',
+      'Sports',
+      'Business',
+      'Cooking'
+    ]
 
     return (
       <Toolbar style={styles.navContainer} className='general-background'>
