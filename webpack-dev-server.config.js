@@ -12,6 +12,12 @@ module.exports = {
   node: {
     fs: "empty"
   },
+  resolve: {
+    modules:  ['node_modules'],
+    alias: {
+      'foundation': path.join(nodeModulesPath, 'foundation-sites/dist/css')
+    }
+  },
   // project entry points
   entry: [
     'webpack/hot/dev-server',

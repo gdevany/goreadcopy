@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import 'foundation/foundation.min.css'
 import '../../client/styles/style-guide.scss'
 
 class App extends Component {
