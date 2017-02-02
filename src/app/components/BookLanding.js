@@ -16,7 +16,7 @@ const styles = {
   shopToolBar: {
     backgroundColor: '#FCFBF9',
   },
-};
+}
 
 class BookLanding extends PureComponent {
   componentWillMount = () => {

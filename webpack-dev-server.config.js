@@ -12,6 +12,9 @@ module.exports = {
   node: {
     fs: "empty"
   },
+  eslint: {
+    configFile: './.eslintrc'
+  },
   resolve: {
     modules:  ['node_modules'],
     alias: {

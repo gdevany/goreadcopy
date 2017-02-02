@@ -4,7 +4,6 @@ import R from 'ramda'
 import {
   Toolbar,
   ToolbarGroup,
-  ToolbarTitle,
   RaisedButton,
   Popover,
   Menu,
@@ -18,7 +17,7 @@ const styles = {
   navContainer: {
     backgroundColor: '#fff',
   },
-};
+}
 
 class NavMenu extends PureComponent {
   constructor(props) {

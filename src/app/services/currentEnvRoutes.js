@@ -1,7 +1,7 @@
 import base from './base'
 
 const currentEnvRoutes = () => {
-  const { backendUrl, apiUrl, appUrl } = base
+  const { backendUrl } = base
 
   const routes = {
     bookStore: () => backendUrl('browse'),
