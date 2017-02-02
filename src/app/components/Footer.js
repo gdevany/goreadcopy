@@ -55,7 +55,7 @@ class Footer extends PureComponent {
 
         <SignUpModal
           modalOpen={this.state.modalOpen}
-          handleClose = {this.handleClose}
+          handleClose={this.handleClose}
         />
       </div>
     )

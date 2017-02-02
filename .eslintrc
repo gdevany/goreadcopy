@@ -166,6 +166,7 @@
     "react/display-name": 0,
     "react/jsx-boolean-value": 0,
     "react/jsx-closing-bracket-location": 2,
+    "react/jsx-equals-spacing": [2, "never"],
     "react/jsx-indent-props": [2, 2],
     "react/jsx-no-bind": [2, { "allowArrowFunctions": true }],
     "react/jsx-no-undef": 2,
