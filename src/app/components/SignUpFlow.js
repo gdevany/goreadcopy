@@ -1,6 +1,6 @@
 import React from 'react'
 import SignUpStepper from './SignUpStepper'
-import { Colors } from './style';
+import { Colors } from '../redux/const/style'
 
 const styles = {
   signUpContainer: {
