@@ -7,6 +7,12 @@ module.exports = {
   node: {
     fs: 'empty'
   },
+  resolve: {
+    modules:  ['node_modules'],
+    alias: {
+      'foundation': path.join(nodeModulesPath, 'foundation-sites/dist/css')
+    }
+  },
   entry: path.join(__dirname, '/src/app/index.js'),
   devtool: 'source-map',
   output: {
