@@ -45,13 +45,6 @@ export default {
       title: 'The Nest',
       imageUrl: 'example3.png'
     },
-    {
-      id: 6,
-      slug: '#',
-      author: 'J K Rowling',
-      title: 'Harry Potter',
-      imageUrl: 'example2.png'
-    },
   ],
   userData: {},
 }

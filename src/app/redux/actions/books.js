@@ -61,13 +61,6 @@ export function getBooks(
         title: 'The Nest',
         imageUrl: 'example3.png'
       },
-      {
-        id: 6,
-        slug: '#',
-        author: 'J K Rowling',
-        title: 'Harry Potter',
-        imageUrl: 'example2.png'
-      },
     ]
 
     dispatch(updateBooks(books))

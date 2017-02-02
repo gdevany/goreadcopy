@@ -1,15 +1,48 @@
+@import 'variables.scss';
+
 .books-toolbar {
   padding: 150px !important;
   padding-top: 120px !important;
 }
 
-.single-book {
-  padding: 10px;
-  margin-top: 10px;
-}
-
 .landing-genres {
   &:active:focus {
     font-weight: bold !important;
+  }
+}
+
+.book-info {
+  animation-name: bookHoverAnnimation;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-out;
+  animation-duration: 0.5s;
+  background: $blue;
+  color: $white;
+  height: 100%;
+  padding: 15px;
+  position: absolute;
+  opacity: 0;
+  text-align: left;
+  width: 95%;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  a {
+    color: $white;
+  }
+}
+
+.book {
+  box-shadow: -5px 5px 20px 0px rgba(0,0,0,0.4);
+}
+
+.book-container {
+  &:hover {
+    opacity: 1;
+    transform: translateY(-10px);
+    transition-timing-function: ease-out;
+    transition: 0.25s;
   }
 }

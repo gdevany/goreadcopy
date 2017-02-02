@@ -17,7 +17,11 @@ const styles = {
   navContainer: {
     backgroundColor: '#fff',
   },
-}
+
+  navLinks: {
+    padding: 20,
+  },
+};
 
 class NavMenu extends PureComponent {
   constructor(props) {
@@ -57,7 +61,7 @@ class NavMenu extends PureComponent {
 
     const bookStoreItem = (
       <div key={0}>
-        <p className='link nav-item'>
+        <p style={styles.navLinks} className='link nav-item'>
           <a onMouseEnter={this.handleNavHover} href={bookStore()}>
             Book Store
           </a>
@@ -124,7 +128,7 @@ class NavMenu extends PureComponent {
     ]
 
     const NonMenuItem = ([title, routeFn]) => (
-      <p className='link nav-item' key={title + 'foobar'}>
+      <p style={styles.navLinks} className='link nav-item' key={title + 'foobar'}>
         <a href={routeFn()} >
           {title}
         </a>

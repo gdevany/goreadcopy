@@ -1,8 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
 @import 'variables.scss';
 
-h1, h2, h3, h4, .stepText {
-  font-family: 'Open Sans', san-serif;
+h1, h2, h3, h4, a, .nav-item {
+  font-family: 'Open Sans', san-serif !important;
+}
+
+h1, h2 {
+  font-weight: 700;
 }
 
 h1 {
@@ -27,7 +31,12 @@ a {
   color: $black;
 }
 
+.footer-links ul li a {
+  color: $grey;
+}
+
 .nav-item {
+  color: $black;
   font-size: 16px;
 }
 
