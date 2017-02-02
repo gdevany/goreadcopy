@@ -18,7 +18,7 @@ class CallToActionTop extends PureComponent {
   }
 
   handleClose = () => {
-    this.setState({ modalOpen: false})
+    this.setState({ modalOpen: false })
   }
 
   render() {

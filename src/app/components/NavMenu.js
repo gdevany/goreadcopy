@@ -36,7 +36,7 @@ class NavMenu extends PureComponent {
   }
 
   handleModalClose = () => {
-    this.setState({ modalOpen: false})
+    this.setState({ modalOpen: false })
   }
 
   handleNavHover = (event) => {
@@ -65,8 +65,8 @@ class NavMenu extends PureComponent {
         <Popover
           open={this.state.open}
           anchorEl={this.state.anchorEl}
-          anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-          targetOrigin={{horizontal: 'left', vertical: 'top'}}
+          anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+          targetOrigin={{ horizontal: 'left', vertical: 'top' }}
           onRequestClose={this.handleRequestClose}
         >
           <div className='side-by-side-wrapper'>

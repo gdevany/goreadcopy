@@ -70,4 +70,4 @@ class SignUpModal extends PureComponent {
   }
 }
 
-export default connect(null, { updateUserData})(SignUpModal)
+export default connect(null, { updateUserData })(SignUpModal)
