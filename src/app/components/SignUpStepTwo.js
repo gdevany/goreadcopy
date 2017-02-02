@@ -14,11 +14,6 @@ const styles = {
   chip: {
     margin: 4,
   },
-  chipChosen: {
-    margin: 4,
-    background: 'blue',
-    color: 'white'
-  },
   wrapper: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -58,7 +53,8 @@ class SignUpStepTwo extends PureComponent {
         <Chip
           key={index}
           value={genre.id}
-          style={isChosen ? styles.chipChosen : styles.chip}
+          className={isChosen ? 'chosenGenre' : null}
+          style={styles.chip}
           onTouchTap={this.handleSelectGenre}
         >
           {isChosen ? <CheckIcon color={'white'}/> : '+'} {genre.name}
