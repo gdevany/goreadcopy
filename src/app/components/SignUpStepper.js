@@ -11,6 +11,13 @@ import {
   StepLabel
 } from 'material-ui'
 
+const styles = {
+  stepperContainer: {
+    margin: '0 auto',
+    maxWidth: 600,
+  },
+};
+
 class SignUpStepper extends PureComponent {
   constructor(props) {
     super(props)
@@ -130,20 +137,20 @@ class SignUpStepper extends PureComponent {
     const { loading, stepIndex } = this.state
 
     return (
-      <div style={{ width: '100%', maxWidth: 700, margin: 'auto' }}>
-        <Stepper activeStep={stepIndex} connector={<ArrowIcon />}>
+      <div style={{ width: '100%', margin: 'auto' }}>
+        <Stepper activeStep={stepIndex} style={styles.stepperContainer} connector={<ArrowIcon />}>
           <Step active={false} style={this.isActiveStepper(StepperIndex.ZERO)}>
-            <StepLabel>
+            <StepLabel className='stepText'>
               Create your account
             </StepLabel>
           </Step>
           <Step active={false} style={this.isActiveStepper(StepperIndex.ONE)}>
-            <StepLabel>
+            <StepLabel className='stepText'>
               Add genres
             </StepLabel>
           </Step>
           <Step active={false} style={this.isActiveStepper(StepperIndex.TWO)}>
-            <StepLabel>
+            <StepLabel className='stepText'>
               Create read feed
             </StepLabel>
           </Step>
