@@ -178,7 +178,7 @@ class NavMenu extends PureComponent {
           />
           <SignUpModal
             modalOpen={this.state.modalOpen}
-            handleClose = {this.handleModalClose.bind(this)}
+            handleClose = {this.handleModalClose}
           />
         </ToolbarGroup>
       </Toolbar>

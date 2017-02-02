@@ -36,7 +36,7 @@ class CallToActionBottom extends PureComponent {
         />
         <SignUpModal
           modalOpen={this.state.modalOpen}
-          handleClose = {this.handleClose.bind(this)}
+          handleClose = {this.handleClose}
         />
         <br />
       </div>
