@@ -7,7 +7,7 @@ const styles = {
     backgroundColor: Colors.lightGrey,
     height: '100vh',
   },
-};
+}
 
 const SignUpFlow = () => {
   return (

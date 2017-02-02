@@ -7,8 +7,7 @@ const styles = {
     marginTop: 10,
     maxWidth: 900,
   },
-};
-
+}
 
 class SignUpStepOne extends PureComponent {
   handleFormSubmit = (event) => {
@@ -30,7 +29,7 @@ class SignUpStepOne extends PureComponent {
             onSubmit={this.handleFormSubmit}
             className='form-wrapper'
           >
-            <h1 className="center-text step-header">Create your account</h1>
+            <h1 className='center-text step-header'>Create your account</h1>
             <div className='form-input-wrapper'>
               <span className='form-label'> User ID </span>
               <input type='text' ref='userId' className='form-input' />
@@ -50,8 +49,7 @@ class SignUpStepOne extends PureComponent {
         </div>
 
         <div className='behind-card-container'>
-          <div style={styles.formContainer} className='card behind-card'>
-          </div>
+          <div style={styles.formContainer} className='card behind-card' />
         </div>
 
       </div>

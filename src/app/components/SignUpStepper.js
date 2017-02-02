@@ -16,7 +16,7 @@ const styles = {
     margin: '0 auto',
     maxWidth: 600,
   },
-};
+}
 
 class SignUpStepper extends PureComponent {
   constructor(props) {
