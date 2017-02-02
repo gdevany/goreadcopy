@@ -100,10 +100,10 @@ class SignUpStepper extends PureComponent {
         return (
           <div>
             <SignUpStepTwo
-              handleSubmit={ this.handleSubmit }
-              handleNext={ this.handleNext }
-              handlePrev={ this.handlePrev }
-              stepIndex={ this.state.stepIndex }
+              handleSubmit={this.handleSubmit}
+              handleNext={this.handleNext}
+              handlePrev={this.handlePrev}
+              stepIndex={this.state.stepIndex}
             />
           </div>
         )
