@@ -41,6 +41,10 @@ $ yarn install
 
 TODO: add thirdparty services as-needed
 
+### Required environment variables
+
+See `.env.example`
+
 ### Running the app
 
 ```sh
@@ -50,6 +54,12 @@ $ yarn start
 Then visit:
 ```sh
 $ http://localhost:3001
+```
+
+(Optionally) run the mock API server:
+
+```sh
+$ node ./src/server/mockServer.js
 ```
 
 ## Configuration

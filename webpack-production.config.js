@@ -24,6 +24,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': JSON.stringify({
         BACKEND_SERVICE_BASE_URL: process.env.BACKEND_SERVICE_BASE_URL,
+        API_URL: process.env.API_URL,
       })
     }),
     new webpack.optimize.UglifyJsPlugin({

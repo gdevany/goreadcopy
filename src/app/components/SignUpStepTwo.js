@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { getGenres } from '../redux/actions/genres'
-import { updateUserData } from '../redux/actions/userData'
+import { createChosenReaderGenres } from '../redux/actions/genres'
 import {
   Chip,
   FlatButton,
@@ -37,7 +37,7 @@ class SignUpStepTwo extends PureComponent {
   handleButtonClick = (event) => {
     event.preventDefault()
     if (this.state.chosenGenres.length > 0) {
-      this.props.handleSubmit({ chosenGenres: this.state.chosenGenres }, 'two')
+      this.props.createChosenReaderGenres({ chosenGenres: this.state.chosenGenres })
       this.props.handleNext()
     } else {
       this.setState({ showError: true })
@@ -130,4 +130,4 @@ const mapStateToProps = ({ genres }) => {
   return { genres }
 }
 
-export default connect(mapStateToProps, { getGenres, updateUserData })(SignUpStepTwo)
+export default connect(mapStateToProps, { getGenres, createChosenReaderGenres })(SignUpStepTwo)

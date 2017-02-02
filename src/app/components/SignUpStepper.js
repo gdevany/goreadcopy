@@ -1,6 +1,4 @@
 import React, { PureComponent } from 'react'
-import { connect } from 'react-redux'
-import { updateUserData } from '../redux/actions/userData'
 import SignUpStepOne from './SignUpStepOne'
 import SignUpStepTwo from './SignUpStepTwo'
 import StepperIndex from '../redux/const/stepperIndex'
@@ -29,7 +27,6 @@ class SignUpStepper extends PureComponent {
       stepIndex: StepperIndex.ZERO
     }
 
-    this.handleSubmit = this.handleSubmit.bind(this)
     this.handleNext = this.handleNext.bind(this)
     this.handlePrev = this.handlePrev.bind(this)
   }
@@ -61,19 +58,6 @@ class SignUpStepper extends PureComponent {
     }
   }
 
-  handleSubmit = (data, step) => {
-    if (step === 'one') {
-      const formData = {}
-      for (const field in data) {
-        formData[field] = data[field].value
-      }
-
-      data = formData
-    }
-
-    this.props.updateUserData(data)
-  }
-
   handleReset = (event) => {
     event.preventDefault()
     this.setState({ stepIndex: StepperIndex.ZERO, finished: false })
@@ -89,7 +73,6 @@ class SignUpStepper extends PureComponent {
         return (
           <div>
             <SignUpStepOne
-              handleSubmit={this.handleSubmit}
               handleNext={this.handleNext}
               handlePrev={this.handlePrev}
               stepIndex={this.state.stepIndex}
@@ -100,7 +83,6 @@ class SignUpStepper extends PureComponent {
         return (
           <div>
             <SignUpStepTwo
-              handleSubmit={this.handleSubmit}
               handleNext={this.handleNext}
               handlePrev={this.handlePrev}
               stepIndex={this.state.stepIndex}
@@ -173,4 +155,4 @@ class SignUpStepper extends PureComponent {
   }
 }
 
-export default connect(null, { updateUserData })(SignUpStepper)
+export default SignUpStepper

@@ -1,6 +1,7 @@
 // import axios from 'axios'
 //import base from '../../services/base'
-import A from '../const/actionTypes'
+import { default as A, CURRENT_READER } from '../const/actionTypes'
+import CurrentReaderGenres from '../../services/currentReader/genres'
 
 //const { backendUrl, apiUrl, appUrl } = base
 
@@ -45,6 +46,13 @@ export function getGenres(query) {
     ]
 
     dispatch(updateGenres(genres))
+  }
+}
+
+export function createChosenReaderGenres(genres) {
+  CurrentReaderGenres.createChosenGenres(genres)
+  return {
+    type: CURRENT_READER.CREATE_CHOSEN_GENRES
   }
 }
 

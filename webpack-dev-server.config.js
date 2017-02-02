@@ -37,9 +37,8 @@ module.exports = {
     // CICD support for dynamically setting process variables to represent the env config
     new webpack.DefinePlugin({
       'process.env' : JSON.stringify({ // EXAMPLES:
+      API_URL: process.env.API_URL,
       BACKEND_SERVICE_BASE_URL: process.env.BACKEND_SERVICE_BASE_URL,
-      PROJECT_ID: process.env.PROJECT_ID,
-      API_KEY: process.env.API_KEY,
       })
     }),
     new webpack.optimize.OccurenceOrderPlugin(),
