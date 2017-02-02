@@ -25,7 +25,7 @@ class SignUpModal extends PureComponent {
         <Dialog
           bodyClassName='signup-modal-content'
           modal={false}
-          open={ modalOpen}
+          open={modalOpen}
           onRequestClose={handleClose}
         >
         <div

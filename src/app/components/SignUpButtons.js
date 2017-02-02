@@ -12,13 +12,13 @@ const SignUpButtons = ({ stepIndex }) => {
       <FlatButton
         label='Back'
         value='Back'
-        disabled={ isDisabled }
+        disabled={isDisabled}
         style={{ marginRight: 12 }}
       />
       {/** If using regular button KEEP VALUE below **/}
       <RaisedButton
-        label={ isFinished }
-        value={ isFinished }
+        label={isFinished}
+        value={isFinished}
         primary={true}
         type='submit'
       />

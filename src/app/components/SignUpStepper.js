@@ -77,10 +77,10 @@ class SignUpStepper extends PureComponent {
         return (
           <div>
             <SignUpStepOne
-              handleSubmit={ this.handleSubmit }
-              handleNext={ this.handleNext }
-              handlePrev={ this.handlePrev }
-              stepIndex={ this.state.stepIndex }
+              handleSubmit={this.handleSubmit}
+              handleNext={this.handleNext}
+              handlePrev={this.handlePrev}
+              stepIndex={this.state.stepIndex}
             />
           </div>
         )
@@ -109,9 +109,9 @@ class SignUpStepper extends PureComponent {
     // or will they be redirected?
     if (finished) {
       return (
-        <div style={ contentStyle }>
+        <div style={contentStyle}>
           <p>
-            <a onClick={ this.handleReset } >
+            <a onClick={this.handleReset} >
               Click here
             </a> to reset the example.
           </p>
@@ -120,8 +120,8 @@ class SignUpStepper extends PureComponent {
     }
 
     return (
-      <div style={ contentStyle }>
-        <div>{ this.getStepContent(stepIndex) }</div>
+      <div style={contentStyle}>
+        <div>{this.getStepContent(stepIndex)}</div>
       </div>
     )
   }
@@ -131,25 +131,25 @@ class SignUpStepper extends PureComponent {
 
     return (
       <div style={{ width: '100%', maxWidth: 700, margin: 'auto' }}>
-        <Stepper activeStep={ stepIndex } connector={ <ArrowIcon /> }>
-          <Step active={ false } style={ this.isActiveStepper(StepperIndex.ZERO) }>
+        <Stepper activeStep={stepIndex} connector={<ArrowIcon />}>
+          <Step active={false} style={this.isActiveStepper(StepperIndex.ZERO)}>
             <StepLabel>
               Create your account
             </StepLabel>
           </Step>
-          <Step active={ false } style={ this.isActiveStepper(StepperIndex.ONE) }>
+          <Step active={false} style={this.isActiveStepper(StepperIndex.ONE)}>
             <StepLabel>
               Add genres
             </StepLabel>
           </Step>
-          <Step active={ false } style={ this.isActiveStepper(StepperIndex.TWO) }>
+          <Step active={false} style={this.isActiveStepper(StepperIndex.TWO)}>
             <StepLabel>
               Create read feed
             </StepLabel>
           </Step>
         </Stepper>
-        <ExpandTransition loading={ loading } open={ true }>
-          { this.renderContent() }
+        <ExpandTransition loading={loading} open={true}>
+          {this.renderContent()}
         </ExpandTransition>
       </div>
     )
