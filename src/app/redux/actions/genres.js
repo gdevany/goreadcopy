@@ -2,6 +2,7 @@
 //import base from '../../services/base'
 import { default as A } from '../const/actionTypes'
 import CurrentReaderGenres from '../../services/currentReader/genres'
+import { updateUserData } from './userData'
 
 //const { apiUrl } = base
 
@@ -51,7 +52,9 @@ export function getGenres(query) {
 
 export function createChosenReaderGenres(genres) {
   CurrentReaderGenres.createChosenGenres(genres)
-  dispatch(updateGenres(genres))
+  return (dispatch) => {
+    dispatch(updateUserData(genres))
+  }
 }
 
 export function updateGenres(genres) {

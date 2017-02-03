@@ -14,6 +14,7 @@ const SignUpButtons = ({ stepIndex }) => {
         value='Back'
         disabled={isDisabled}
         style={{ marginRight: 12 }}
+        type='submit'
       />
       {/** If using regular button KEEP VALUE below **/}
       <RaisedButton

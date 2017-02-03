@@ -20,10 +20,10 @@ export function createUser() {
   }
 }
 
-export function getInitialUserData(userData) {
+export function getInitialUserData(data) {
   return (dispatch) => {
     new Promise(resolve => {
-      resolve(dispatch(updateUserData(userData)))
+      resolve(dispatch(updateUserData(data)))
     }).then(() => browserHistory.push('/signup'))
   }
 }
@@ -35,7 +35,7 @@ export function updateReaderErrors({ errors }) {
   }
 }
 
-export function checkEmail(field) {
+export function checkEmail(field, data) {
   return (dispatch) => {
     Readers.checkValidation(field)
       .then(() => dispatch(getInitialUserData(data)))

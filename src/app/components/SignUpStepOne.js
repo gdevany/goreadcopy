@@ -16,15 +16,12 @@ class SignUpStepOne extends PureComponent {
   handleFormSubmit = (event) => {
     event.preventDefault()
     const buttonText = document.activeElement.getAttribute('value')
-    // TODO: should probably refactor out separate step handling to
-    // individual steps instead of having conditional logic here...
-
     const data = R.map(R.prop('value'), this.refs)
 
     if (buttonText === 'Next') {
+      // TODO: consider error handling + validations?
       this.props.updateUserData(data)
       this.props.createUser()
-      // TODO: consider error handling + validations?
       this.props.handleNext()
     } else if (buttonText === 'Back') {
       this.props.handlePrev()
@@ -53,7 +50,7 @@ class SignUpStepOne extends PureComponent {
               <input type='password' ref='passwordConfirmation' className='form-input'/>
             </div>
             <div className='center-text'>
-              <SignUpButtons />
+              <SignUpButtons stepIndex={this.props.stepIndex}/>
             </div>
           </form>
         </div>

@@ -36,12 +36,20 @@ class SignUpStepTwo extends PureComponent {
 
   handleButtonClick = (event) => {
     event.preventDefault()
-    if (this.state.chosenGenres.length > 0) {
-      this.props.createChosenReaderGenres({ chosenGenres: this.state.chosenGenres })
+    const buttonText = document.activeElement.getAttribute('value')
+
+    if (buttonText === 'Next') {
+      if (this.state.chosenGenres.length > 0) {
+        this.props.createChosenReaderGenres({ chosenGenres: this.state.chosenGenres })
+        this.props.handleNext()
+      } else {
+        this.setState({ showError: true })
+      }
       this.props.handleNext()
-    } else {
-      this.setState({ showError: true })
+    } else if (buttonText === 'Back') {
+      this.props.handlePrev()
     }
+
   }
 
   handleGenreMap = (genres) => {
@@ -111,6 +119,7 @@ class SignUpStepTwo extends PureComponent {
               value='Back'
               disabled={isDisabled}
               style={{ marginRight: 12 }}
+              onTouchTap={this.handleButtonClick}
             />
             {/** If using regular button KEEP VALUE below **/}
             <RaisedButton
