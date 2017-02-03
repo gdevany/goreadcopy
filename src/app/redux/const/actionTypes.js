@@ -6,6 +6,8 @@ export const USERS = { // for /readers
 }
 
 export const CURRENT_READER = { // for /current_reader
+  GET_RECOMMENDATION: 'GET_RECOMMENDATION',
+  CHOSE_RECOMMENDATION: 'CHOSE_RECOMMENDATION'
 }
 
 export default {

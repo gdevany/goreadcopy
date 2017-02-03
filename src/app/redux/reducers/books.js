@@ -1,10 +1,10 @@
 import A from '../const/actionTypes'
 import initialState from '../../initialState'
 
-export default (currentState, action) => {
-  switch (action.type) {
+export default (currentState, { type, payload, errors }) => {
+  switch (type) {
     case A.GET_BOOKS:
-      return [...action.books]
+      return [...payload]
     default:
       return currentState || initialState.books
   }

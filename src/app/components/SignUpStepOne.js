@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
-import R from 'ramda'
 import { connect } from 'react-redux'
 import SignUpButtons from './SignUpButtons'
 import { updateUserData, createUser } from '../redux/actions/userData'
+import R from 'ramda'
 
 const styles = {
   formContainer: {
@@ -50,7 +50,10 @@ class SignUpStepOne extends PureComponent {
               <input type='password' ref='passwordConfirmation' className='form-input'/>
             </div>
             <div className='center-text'>
-              <SignUpButtons stepIndex={this.props.stepIndex}/>
+              <SignUpButtons
+                stepIndex={this.props.stepIndex}
+                buttonType='form'
+              />
             </div>
           </form>
         </div>

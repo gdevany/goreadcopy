@@ -1,22 +1,18 @@
-// import axios from 'axios'
-//import base from '../../services/base'
-import A from '../const/actionTypes'
+import { default as A } from '../const/actionTypes'
+// import Readers from '../../services/readers'
 
-//const { backendUrl, apiUrl, appUrl } = base
 export function getBooks(
   genreId = null,
   page = undefined,
   perPage = undefined,
   sort = 'popular',
-  imageSize = 'average'
+  imageSize = 'average',
+  landing,
 ) {
   return dispatch => {
-    /* example url until endpoint is finalized
-    axios.get(apiUrl('books', { landing: true }))
-      .then(response => {
-        dispatch(updateBooks(response.results)))
-      }.catch(error => console.log(error))
-    */
+    // Readers.getLandingBooks({ landing: landing.landingIs })
+    // .then(response => dispatch(updateBook(response.result)))
+    // .catch((error) => console.log(`Error in getBooks api call: ${error}`))
 
     const books = [
       {
@@ -70,6 +66,6 @@ export function getBooks(
 export function updateBooks(books) {
   return {
     type: A.GET_BOOKS,
-    books
+    payload: books,
   }
 }

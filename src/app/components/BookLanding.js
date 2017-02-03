@@ -46,7 +46,7 @@ const styles = {
 
 class BookLanding extends PureComponent {
   componentWillMount = () => {
-    this.props.getGenres('landing')
+    this.props.getGenres({ landingIs: true })
   }
 
   handleMapGenres = (genres) => {

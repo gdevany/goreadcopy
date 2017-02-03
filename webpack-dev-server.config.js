@@ -27,7 +27,7 @@ module.exports = {
     'webpack-hot-middleware/client',
     path.join(__dirname, '/src/app/index.js'),
   ],
-  devTool: 'eval',
+  devtool: 'inline-source-map',
   output: {
     filename: '[name].js',
     path: '/', // Not on the filesystem since webpackDevMiddleware builds in-memory
