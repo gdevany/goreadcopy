@@ -8,7 +8,7 @@ const rootReducer = combineReducers({
   routing: routerReducer,
   genres: genreReducer,
   books: booksReducer,
-  userData: userDataReducer
+  userData: userDataReducer,
 })
 
 export default rootReducer

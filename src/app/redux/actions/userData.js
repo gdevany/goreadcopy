@@ -4,7 +4,7 @@ import { USERS as A } from '../const/actionTypes'
 import Readers from '../../services/readers'
 
 // TODO: rename to createReader
-export function createUser(data) {
+export function createUser() {
   return (dispatch, getState) => {
     const { userData } = getState()
     const payload = userData
@@ -15,19 +15,31 @@ export function createUser(data) {
       isLoading: true,
       payload,
     })
+
     Readers.createReader(payload)
-      .then((res) => {
-        debugger
-      })
   }
 }
 
 export function getInitialUserData(userData) {
   return (dispatch) => {
     new Promise(resolve => {
-      resolve(
-        dispatch(updateUserData(userData)))
+      resolve(dispatch(updateUserData(userData)))
     }).then(() => browserHistory.push('/signup'))
+  }
+}
+
+export function updateReaderErrors({ errors }) {
+  return {
+    type: A.UPDATE_READER_ERRORS,
+    errors,
+  }
+}
+
+export function checkEmail(field) {
+  return (dispatch) => {
+    Readers.checkValidation(field)
+      .then(() => dispatch(getInitialUserData(data)))
+      .catch(err => dispatch(updateReaderErrors(err)))
   }
 }
 

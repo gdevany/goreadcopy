@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { getInitialUserData } from '../redux/actions/userData'
+import { getInitialUserData, checkEmail } from '../redux/actions/userData'
 import {
   Dialog,
   RaisedButton
@@ -14,7 +14,7 @@ class SignUpModal extends PureComponent {
       formData[field] = this.refs[field].value
     }
 
-    this.props.getInitialUserData(formData)
+    this.props.checkEmail({ email: formData.email }, formData)
   }
 
   render() {
@@ -70,4 +70,4 @@ class SignUpModal extends PureComponent {
   }
 }
 
-export default connect(null, { getInitialUserData })(SignUpModal)
+export default connect(null, { getInitialUserData, checkEmail })(SignUpModal)

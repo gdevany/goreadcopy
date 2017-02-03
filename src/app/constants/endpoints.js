@@ -6,6 +6,7 @@ const endpoints = () => {
 
   const routes = {
     readers: () => apiUrl('readers'),
+    readerValidation: (params) => apiUrl('readers/check', params),
     currentReader: {
       likedGenres: () => apiUrl('current_reader/liked_genres'),
     }

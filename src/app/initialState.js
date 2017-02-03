@@ -53,5 +53,5 @@ export default {
       imageUrl: 'example2.png'
     },
   ],
-  userData: {}
+  userData: {},
 }
