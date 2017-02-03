@@ -1,10 +1,12 @@
-import { default as http } from 'axios'
+import http from '../http'
 import endpoints from '../../constants/endpoints'
-
 const { currentReader: { likedGenres } } = endpoints
+const { authenticated } = http
 
-const Genres = {
-  createChosenGenres: (body) => http.post(likedGenres(), body),
+const Genres = () => {
+  return {
+    createChosenGenres: (body) => authenticated().post(likedGenres(), body),
+  }
 }
 
-export default Genres
+export default Genres()

@@ -1,4 +1,4 @@
-import { default as http } from 'axios'
+import http from './http'
 import endpoints from '../constants/endpoints'
 
 const { readers, readerValidation, getGenres } = endpoints

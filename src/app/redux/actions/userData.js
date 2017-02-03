@@ -1,7 +1,27 @@
 // TODO: rename file from userData -> readers
 import { browserHistory } from 'react-router'
-import { USERS as A } from '../const/actionTypes'
+import { USERS as A, CURRENT_READER } from '../const/actionTypes'
 import Readers from '../../services/readers'
+import Promise from '../../services/promises'
+import Auth from '../../services/auth'
+
+export const createReaderSuccess = ({ data }) => {
+  return (dispatch) => {
+    const payload = data
+
+    Auth.setToken(payload.token)
+
+    dispatch({
+      type: CURRENT_READER.SET_CURRENT_READER,
+      payload,
+    })
+
+    dispatch({
+      type: A.CREATE_READER_SUCCESS,
+      payload,
+    })
+  }
+}
 
 // TODO: rename to createReader
 export function createUser() {
@@ -11,20 +31,22 @@ export function createUser() {
 
     // TODO: dispatch success/failure actions
     dispatch({
-      type: A.CREATE_USER,
-      isLoading: true,
+      type: A.CREATE_READER,
       payload,
     })
 
-    Readers.createReader(payload)
+    return Readers.createReader(payload)
+      .then((res) => dispatch(createReaderSuccess(res)))
   }
 }
 
 export function getInitialUserData(data) {
   return (dispatch) => {
-    new Promise(resolve => {
-      resolve(dispatch(updateUserData(data)))
-    }).then(() => browserHistory.push('/signup'))
+    const result =
+      Promise.of(dispatch(updateUserData(data)))
+        .then(() => browserHistory.push('/signup'))
+
+    return result
   }
 }
 
@@ -37,7 +59,7 @@ export function updateReaderErrors({ errors }) {
 
 export function checkEmail(field, data) {
   return (dispatch) => {
-    Readers.checkValidation(field)
+    return Readers.checkValidation(field)
       .then(() => dispatch(getInitialUserData(data)))
       .catch(err => dispatch(updateReaderErrors(err)))
   }

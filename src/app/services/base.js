@@ -25,7 +25,7 @@ const backendUrl = (path, query) => {
 
 const apiUrl = (path, query) => {
   const apiUrl = `${env.API_URL}/api/onboarding/`
-  return checkUrl(apiUrl, path, query) || apiUrl
+  return `${(checkUrl(apiUrl, path, query) || apiUrl)}/`
 }
 
 const appUrl = (path, query) => {

@@ -13,6 +13,10 @@ const styles = {
 }
 
 class SignUpStepOne extends PureComponent {
+  componentWillReceiveProps({ submitSuccessful }) {
+    if (submitSuccessful) { this.props.handleNext() }
+  }
+
   handleFormSubmit = (event) => {
     event.preventDefault()
     const buttonText = document.activeElement.getAttribute('value')
@@ -22,7 +26,6 @@ class SignUpStepOne extends PureComponent {
       // TODO: consider error handling + validations?
       this.props.updateUserData(data)
       this.props.createUser()
-      this.props.handleNext()
     } else if (buttonText === 'Back') {
       this.props.handlePrev()
     }
@@ -67,7 +70,7 @@ class SignUpStepOne extends PureComponent {
   }
 }
 
-const mapStateToProps = R.identity
+const mapStateToProps = R.prop('userData')
 
 const mapDispatchToProps = {
   createUser,

@@ -39,6 +39,8 @@
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-0": "^6.16.0",
     "babel-register": "^6.18.0",
+    "basil.js": "^0.4.4",
+    "bluebird": "^3.4.7",
     "body-parser": "^1.16.0",
     "core-js": "^2.4.1",
     "css-loader": "^0.26.1",
