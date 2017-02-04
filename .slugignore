@@ -1,0 +1,6 @@
+# There are some problems w/ node-sass when deploying to heroku w/ yarn.
+# By excluding yarn.lock we force heroku to do an npm build.
+#
+# Putting into .slugignore allows us to keep the same dependencies locally
+# but allow the build to proceed on heroku.
+yarn.lock
