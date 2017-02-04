@@ -167,6 +167,9 @@ TODO: add browser support matrix
    * Great explanation [here](http://stackoverflow.com/questions/31852933/why-es6-react-component-works-only-with-export-default).
    * Currently need only `export default` but we also use`export` on the same component to avoid errors when we test the components.
 
+### Mock API Server
+
+There is a mock API server available at http://gitlab.readerslegacy.com/jdwolkgoread/goread-mock-api
 
 ### TODO
 
