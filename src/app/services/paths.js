@@ -27,7 +27,7 @@ const Paths = () => {
   }
 
   const apiUrl = (path, query) => {
-    const apiUrl = `${Env.API_URL}/api/onboarding/`
+    const apiUrl = `${Env.API_URL}/api/`
     return `${(checkUrl(apiUrl, path, query) || apiUrl)}/`
   }
 

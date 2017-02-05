@@ -1,3 +1,5 @@
 export Books from './books'
+export CurrentReader from './currentReader'
 export Genres from './genres'
 export ReaderData from './readerData'
+export Redirects from './redirects'

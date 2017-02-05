@@ -23,12 +23,14 @@ export function createReaderSuccess({ data }) {
   return (dispatch) => {
     const payload = data
 
+    // TODO: refactor to use currentReader.setCurrentReader
     Auth.setToken(payload.token)
 
     dispatch({
       type: CURRENT_READER.SET_CURRENT_READER,
       payload,
     })
+    // TODO: end
 
     dispatch({
       type: A.CREATE_READER_SUCCESS,
