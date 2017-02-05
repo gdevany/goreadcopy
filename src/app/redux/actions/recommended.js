@@ -7,7 +7,7 @@ export function getRecommendation(perUserType = 1) {
     /**
     uncomment this code when api endpoint is set up and delete the
     recomendation const
-    const chosenGenres = getState().userData.chosenGenres
+    const chosenGenres = getState().readerData.chosenGenres
 
     CR_Recommendation.findRecommendation({
       genreIds: chosenGenres,

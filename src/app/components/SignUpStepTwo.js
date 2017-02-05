@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react'
 import R from 'ramda'
 import { connect } from 'react-redux'
-import { getGenres } from '../redux/actions/genres'
-import { createChosenReaderGenres } from '../redux/actions/genres'
-import SignUpButtons from './SignUpButtons'
 import { Chip } from 'material-ui'
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
+import SignUpButtons from './SignUpButtons'
+import { Genres } from '../redux/actions'
+
+const { getGenres, createChosenReaderGenres } = Genres
 
 const styles = {
   chip: {
@@ -117,4 +118,9 @@ const mapStateToProps = ({ genres }) => {
   return { genres }
 }
 
-export default connect(mapStateToProps, { getGenres, createChosenReaderGenres })(SignUpStepTwo)
+const mapDispatchToProps = {
+  createChosenReaderGenres,
+  getGenres,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpStepTwo)

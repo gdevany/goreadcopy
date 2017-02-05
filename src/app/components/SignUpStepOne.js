@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react'
-import { connect } from 'react-redux'
-import SignUpButtons from './SignUpButtons'
-import { updateUserData, createUser } from '../redux/actions/userData'
 import R from 'ramda'
+import { connect } from 'react-redux'
+import { ReaderData } from '../redux/actions'
+import SignUpButtons from './SignUpButtons'
+
+const { updateReaderData, createReader } = ReaderData
 
 const styles = {
   formContainer: {
@@ -24,8 +26,8 @@ class SignUpStepOne extends PureComponent {
 
     if (buttonText === 'Next') {
       // TODO: consider error handling + validations?
-      this.props.updateUserData(data)
-      this.props.createUser()
+      this.props.updateReaderData(data)
+      this.props.createReader()
     } else if (buttonText === 'Back') {
       this.props.handlePrev()
     }
@@ -70,11 +72,11 @@ class SignUpStepOne extends PureComponent {
   }
 }
 
-const mapStateToProps = R.prop('userData')
+const mapStateToProps = R.prop('readerData')
 
 const mapDispatchToProps = {
-  createUser,
-  updateUserData,
+  createReader,
+  updateReaderData,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpStepOne)

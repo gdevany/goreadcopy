@@ -1,7 +1,8 @@
-import http from '../http'
-import endpoints from '../../constants/endpoints'
-const { currentReader: { likedGenres } } = endpoints
+import http from '../../http'
+import { Endpoints } from '../../../constants'
+
 const { authenticated } = http
+const { currentReader: { likedGenres } } = Endpoints
 
 const Genres = () => {
   return {

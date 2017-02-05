@@ -38,7 +38,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env' : JSON.stringify({ // EXAMPLES:
       API_URL: process.env.API_URL,
-      BACKEND_SERVICE_BASE_URL: process.env.BACKEND_SERVICE_BASE_URL,
+      REDIRECT_BASE_URL: process.env.REDIRECT_BASE_URL,
       })
     }),
     new webpack.optimize.OccurenceOrderPlugin(),

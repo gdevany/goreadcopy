@@ -1,6 +1,6 @@
 import A from '../const/actionTypes'
-import { Genres as CurrentReaderGenres } from '../../services/currentReader'
-import { updateUserData } from './userData'
+import { CurrentReaderGenres } from '../../services/api'
+import { updateReaderData } from './readerData'
 
 export function getGenres(query) {
   return dispatch => {
@@ -47,7 +47,7 @@ export function getGenres(query) {
 export function createChosenReaderGenres(genres) {
   CurrentReaderGenres.createChosenGenres(genres)
   return (dispatch) => {
-    dispatch(updateUserData(genres))
+    dispatch(updateReaderData(genres))
   }
 }
 
@@ -56,4 +56,10 @@ export function updateGenres(genres) {
     type: A.GET_GENRES,
     payload: genres,
   }
+}
+
+export default {
+  createChosenReaderGenres,
+  getGenres,
+  updateGenres,
 }

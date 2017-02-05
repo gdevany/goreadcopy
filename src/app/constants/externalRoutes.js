@@ -1,7 +1,7 @@
-import base from './base'
+import { Paths } from '../services'
 
-const currentEnvRoutes = () => {
-  const { backendUrl } = base
+const ExternalRoutes = () => {
+  const { backendUrl } = Paths
 
   const routes = {
     bookStore: () => backendUrl('browse'),
@@ -21,4 +21,4 @@ const currentEnvRoutes = () => {
   return routes
 }
 
-export default currentEnvRoutes()
+export default ExternalRoutes()

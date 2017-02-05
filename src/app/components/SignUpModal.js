@@ -3,7 +3,9 @@ import PrimaryButton from './PrimaryButton'
 import { connect } from 'react-redux'
 import R from 'ramda'
 import { Dialog, } from 'material-ui'
-import { getInitialUserData, checkEmail } from '../redux/actions/userData'
+import { ReaderData } from '../redux/actions'
+
+const { getInitialReaderData, checkEmail } = ReaderData
 
 const styles = {
   modalBody: {
@@ -86,4 +88,4 @@ class SignUpModal extends PureComponent {
   }
 }
 
-export default connect(null, { getInitialUserData, checkEmail })(SignUpModal)
+export default connect(null, { getInitialReaderData, checkEmail })(SignUpModal)

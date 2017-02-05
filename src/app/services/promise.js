@@ -1,10 +1,13 @@
-import P from 'bluebird'
+import Bluebird from 'bluebird'
 
-const Promise = () => {
+const Promises = () => {
+  const of = Bluebird.resolve
+
   return {
-    ...P,
-    Promise: P,
+    ...Bluebird,
+    Promise: Bluebird, // for if you _really_ need the actual constructor
+    of,
   }
 }
 
-export default Promise()
+export default Promises()

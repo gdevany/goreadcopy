@@ -1,10 +1,10 @@
-// TODO: move base path to app/constants!
-import base from '../services/base'
+import { Paths } from '../services'
 
-const endpoints = () => {
-  const { apiUrl } = base
+const Endpoints = () => {
+  const { apiUrl } = Paths
 
   const routes = {
+    books: () => apiUrl('books'),
     readers: (params) => apiUrl('readers', params),
     readerValidation: (params) => apiUrl('readers/check', params),
     getGenres: (params) => apiUrl('genres', params),
@@ -20,4 +20,4 @@ const endpoints = () => {
   return routes
 }
 
-export default endpoints()
+export default Endpoints()

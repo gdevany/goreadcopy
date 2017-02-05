@@ -1,9 +1,12 @@
 import React, { PureComponent } from 'react'
+import R from 'ramda'
 import { connect } from 'react-redux'
-import routes from '../services/currentEnvRoutes'
-import { getGenres } from '../redux/actions/genres'
-import { getBooks } from '../redux/actions/books'
+import { ExternalRoutes as routes } from '../constants'
+import { Genres, Books } from '../redux/actions'
 import Book from './Book'
+
+const { getGenres } = Genres
+const { getBooks } = Books
 
 const styles = {
   shopSection: {
@@ -46,6 +49,7 @@ const styles = {
 
 class BookLanding extends PureComponent {
   componentWillMount = () => {
+    if (R.isEmpty(this.props.books)) { this.props.getBooks({ sort: 'popular' }) }
     this.props.getGenres({ landingIs: true })
   }
 
@@ -61,8 +65,8 @@ class BookLanding extends PureComponent {
     })
   }
 
-  handleGenreClick = (event, id) => {
-    (event.target.text === 'Popular') ? this.props.getBooks() : this.props.getBooks(id)
+  handleGenreClick = (event, genreId) => {
+    (event.target.text === 'Popular') ? this.props.getBooks() : this.props.getBooks({ genreId })
   }
 
   render() {
@@ -110,7 +114,7 @@ class BookLanding extends PureComponent {
 const mapStateToProps = ({ genres, books }) => {
   return {
     genres,
-    books
+    books: books.payload
   }
 }
 
