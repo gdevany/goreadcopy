@@ -21,7 +21,7 @@ const styles = {
   navLinks: {
     padding: 20,
   },
-};
+}
 
 class NavMenu extends PureComponent {
   constructor(props) {

@@ -6,7 +6,7 @@ const styles = {
   propContainer: {
     paddingTop: 150,
   },
-};
+}
 
 const PriorityReasons = () => {
   return (

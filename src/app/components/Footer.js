@@ -11,8 +11,7 @@ const styles = {
   footerContainer: {
     padding: '50px 0',
   },
-};
-
+}
 
 class Footer extends PureComponent {
   constructor(props) {

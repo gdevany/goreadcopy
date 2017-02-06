@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import routes from '../services/currentEnvRoutes'
 import { getGenres } from '../redux/actions/genres'
 import { getBooks } from '../redux/actions/books'
-import { Toolbar, ToolbarGroup } from 'material-ui'
 import Book from './Book'
 
 const styles = {

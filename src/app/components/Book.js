@@ -25,7 +25,6 @@ const Book = ({ book }) => {
         </a>
       </div>
 
-
     </div>
   )
 }
