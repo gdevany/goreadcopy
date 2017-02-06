@@ -2,8 +2,6 @@ import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
 import R from 'ramda'
 import {
-  Toolbar,
-  ToolbarGroup,
   RaisedButton,
   Popover,
   Menu,
@@ -60,12 +58,10 @@ class NavMenu extends PureComponent {
     const { bookStore, about, news, articles, authors } = routes
 
     const bookStoreItem = (
-      <div key={0}>
-        <p style={styles.navLinks} className='link nav-item'>
-          <a onMouseEnter={this.handleNavHover} href={bookStore()}>
-            Book Store
-          </a>
-        </p>
+      <li key={'popover-nav-item'} style={styles.navLinks} className='link nav-item'>
+        <a onMouseEnter={this.handleNavHover} href={bookStore()}>
+          Book Store
+        </a>
         <Popover
           open={this.state.open}
           anchorEl={this.state.anchorEl}
@@ -81,7 +77,8 @@ class NavMenu extends PureComponent {
                   primaryText='BROWSE CATEGORIES:'
                   key='Menu Item title1'
                 />
-              { /** will probably turn categories and genre into objects to accomodate for links **/
+              { /** will probably turn categories and genre into objects to
+                accomodate for links **/
                   categories.map((category, i) => {
                     return (
                       <MenuItem
@@ -117,7 +114,7 @@ class NavMenu extends PureComponent {
             </div>
           </div>
         </Popover>
-      </div>
+      </li>
     )
 
     const nonMenuRoutes = [
@@ -127,12 +124,12 @@ class NavMenu extends PureComponent {
       ['Authors', authors],
     ]
 
-    const NonMenuItem = ([title, routeFn]) => (
-      <p style={styles.navLinks} className='link nav-item' key={title + 'foobar'}>
+    const NonMenuItem = ([title, routeFn], index) => (
+      <li style={styles.navLinks} className='link nav-item' key={title + index}>
         <a href={routeFn()} >
           {title}
         </a>
-      </p>
+      </li>
     )
 
     const nonMenuItems = R.map(NonMenuItem, nonMenuRoutes)
@@ -160,32 +157,38 @@ class NavMenu extends PureComponent {
     ]
 
     return (
-      <Toolbar style={styles.navContainer} className='general-background'>
-        <ToolbarGroup>
-          <Link to='/'>
-            <img src='./image/logo.png' />
-          </Link>
-        </ToolbarGroup>
-        <ToolbarGroup>
-          {this.handleMapNavItems(categories, genres)}
-        </ToolbarGroup>
-        <ToolbarGroup className='nav-menu-left'>
-          <p className='link nav-item'>
-            <a href='#'>
-              Log In
-            </a>
-          </p>
-          <RaisedButton
-            backgroundColor='transparent'
-            label='Sign Up'
-            onTouchTap={this.handleModalOpen}
-          />
-          <SignUpModal
-            modalOpen={this.state.modalOpen}
-            handleClose={this.handleModalClose}
-          />
-        </ToolbarGroup>
-      </Toolbar>
+      <div className='top-bar'>
+        <div className='top-bar-left'>
+          <ul className='dropdown menu' data-dropdown-menu>
+            <li className='menu-text'>
+              <Link to='/'>
+                <img src='./image/logo.png' />
+              </Link>
+            </li>
+            {this.handleMapNavItems(categories, genres)}
+          </ul>
+        </div>
+        <div className='top-bar-right'>
+          <ul className='menu'>
+            <li className='link nav-item'>
+              <a href='#'>
+                Log In
+              </a>
+            </li>
+            <li>
+              <RaisedButton
+                backgroundColor='transparent'
+                label='Sign Up'
+                onTouchTap={this.handleModalOpen}
+              />
+            </li>
+            <SignUpModal
+              modalOpen={this.state.modalOpen}
+              handleClose={this.handleModalClose}
+            />
+          </ul>
+        </div>
+      </div>
     )
   }
 }
