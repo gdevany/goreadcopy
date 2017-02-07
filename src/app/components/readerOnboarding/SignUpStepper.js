@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { withRouter } from 'react-router'
 import ExpandTransition from 'material-ui/internal/ExpandTransition'
 import ArrowIcon from 'material-ui/svg-icons/navigation/chevron-right'
+import { Colors } from '../../constants/style'
 import {
   Step,
   Stepper,
@@ -16,6 +17,10 @@ const styles = {
   stepperContainer: {
     margin: '0 auto',
     maxWidth: 600,
+  },
+
+  activeText: {
+    color: Colors.blue,
   },
 }
 
@@ -72,6 +77,10 @@ class SignUpStepper extends PureComponent {
 
   isActiveStepper = (index) => {
     return this.state.stepIndex === index ? { fontWeight: 'bold' } : null
+  }
+
+  isActiveLabel = (index) => {
+    return this.state.stepIndex === index ? { color: Colors.blue } : null
   }
 
   getStepContent = (stepIndex) => {
@@ -141,6 +150,7 @@ class SignUpStepper extends PureComponent {
 
     return (
       <div style={{ width: '100%', margin: 'auto' }}>
+
         <Stepper activeStep={stepIndex} style={styles.stepperContainer} connector={<ArrowIcon />}>
           <Step active={false} style={this.isActiveStepper(Steps.STEPS.USER_INFO)}>
             <StepLabel className='stepText'>
@@ -157,10 +167,13 @@ class SignUpStepper extends PureComponent {
               Create read feed
             </StepLabel>
           </Step>
+
         </Stepper>
+
         <ExpandTransition loading={loading} open={true}>
           {this.renderContent()}
         </ExpandTransition>
+
       </div>
     )
   }

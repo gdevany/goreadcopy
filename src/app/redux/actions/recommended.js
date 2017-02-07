@@ -1,6 +1,6 @@
 import { CURRENT_READER as A } from '../const/actionTypes'
 import { Promise } from '../../services'
-import CurrentReaderRecommendation from '../../services/currentReader/recommendation'
+import CurrentReaderRecommendation from '../../services/api/currentReader/recommendation'
 
 export function getRecommendation(perUserType = 1) {
   return (dispatch, getState) => {

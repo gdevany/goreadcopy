@@ -5,16 +5,44 @@ import { Chip } from 'material-ui'
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
 import { Genres } from '../../redux/actions'
 import SignUpButtons from './SignUpButtons'
+import { Colors } from '../../constants/style'
 
 const { getGenres, createChosenReaderGenres } = Genres
 
 const styles = {
   chip: {
-    margin: 4,
+    backgroundColor: Colors.white,
+    border: `1px solid ${Colors.blue}`,
+    borderRadius: 25,
+    color: Colors.blue,
+    display: 'inline-block',
+    margin: '30px 15px 0px 0px',
+    padding: 7,
   },
+
   wrapper: {
     display: 'flex',
     flexWrap: 'wrap',
+  },
+
+  container: {
+    backgroundColor: Colors.white,
+    padding: '50px 100px',
+    marginTop: 10,
+    maxWidth: 900,
+  },
+
+  chipText: {
+    color: Colors.blue,
+    fontSize: 16,
+  },
+
+  chosenChip: {
+    color: Colors.white,
+  },
+
+  genreSection: {
+    marginBottom: 100,
   },
 }
 
@@ -79,10 +107,11 @@ class SignUpStepTwo extends PureComponent {
           key={index}
           value={genre.id}
           className={isChosen ? 'chosenGenre' : null}
+          labelStyle={styles.chipText}
           style={styles.chip}
           onTouchTap={this.handleSelectGenre}
         >
-          {isChosen ? <CheckIcon color={'white'}/> : '+'} {genre.name}
+          {isChosen ? < CheckIcon className='checkmark' color={'white'}/> : '+'} {genre.name}
         </Chip>
       )
     })
@@ -92,22 +121,47 @@ class SignUpStepTwo extends PureComponent {
     const { genres, stepIndex } = this.props
 
     return (
-      <div className='center-text'>
-        <h1>
-          Add your favorite genres
-        </h1>
-        <p>
-          {"We'll use this information to suggest new books and authors for you"}
-        </p>
-        <div>
-          { this.handleGenreMap(genres) }
+      <div>
+        <div style={styles.container} className='card center-text front-card'>
+
+          <h1>
+            Add your favorite genres
+          </h1>
+
+          <p>
+            {"We'll use this information to suggest new books and authors for you"}
+          </p>
+
+          {
+            this.state.showError ? (
+              <div>
+                <p>Please select one genre</p>
+              </div>
+            ) : null
+          }
+
+          <div style={styles.genreSection}>
+            { this.handleGenreMap(genres) }
+          </div>
+
+          <div>
+            <div style={{ marginTop: 24, marginBottom: 12 }} className='center-text'>
+              <SignUpButtons
+                handleButtonClick={this.handleButtonClick}
+                stepIndex={stepIndex}
+                disabled={this.state.showDisabled}
+              />
+            </div>
+          </div>
+
+          <div className='page-number'>
+            <p className={styles.pageText}>2</p>
+          </div>
+
         </div>
-        <div>
-          <SignUpButtons
-            handleButtonClick={this.handleButtonClick}
-            stepIndex={stepIndex}
-            disabled={this.state.showDisabled}
-          />
+
+        <div className='behind-card-container'>
+          <div style={styles.container} className='card behind-card' />
         </div>
       </div>
     )

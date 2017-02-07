@@ -28,6 +28,7 @@ module.exports = {
     path.join(__dirname, '/src/app/index.js'),
   ],
   devtool: 'eval-source-map',
+  devtool: 'inline-source-map',
   output: {
     filename: '[name].js',
     path: '/', // Not on the filesystem since webpackDevMiddleware builds in-memory

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
 import R from 'ramda'
-import PrimaryButton from './PrimaryButton'
+import SecondaryButton from './SecondaryButton'
 import {
   Popover,
   Menu,
@@ -175,7 +175,7 @@ class NavMenu extends PureComponent {
               </a>
             </li>
             <li>
-              <PrimaryButton
+              <SecondaryButton
                 label='Sign Up'
                 onClick={this.handleModalOpen}
               />

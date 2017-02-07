@@ -1,5 +1,5 @@
 import { default as http } from 'axios'
-import endpoints from '../../constants/endpoints'
+import endpoints from '../../../constants/endpoints'
 
 const { currentReader: { likedReaders, likedAuthors, recommendation } } = endpoints
 

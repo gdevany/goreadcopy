@@ -1,6 +1,6 @@
-import A from '../const/actionTypes'
-import { CurrentReaderGenres } from '../../services/api'
 import { updateReaderData } from './readerData'
+import { default as A } from '../const/actionTypes'
+import CurrentReaderGenres from '../../services/api/currentReader/genres'
 
 export function getGenres(query) {
   return dispatch => {

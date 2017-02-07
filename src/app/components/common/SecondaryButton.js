@@ -4,17 +4,16 @@ import { Colors } from '../../constants/style'
 
 const styles = {
   notDisabled: {
-    backgroundColor: Colors.blue,
+    backgroundColor: Colors.white,
     border: `1px solid ${Colors.blue}`,
-    color: Colors.white,
     boxShadow: 0,
     borderRadius: 25,
+    fontFamily: 'Open Sans',
     fontSize: 16,
     padding: '15px 30px',
 
     ':hover': {
       backgroundColor: Colors.blue,
-      opacity: 0.85,
     },
 
     ':focus': {
@@ -27,6 +26,7 @@ const styles = {
     boxShadow: 0,
     border: '1px solid grey',
     borderRadius: 25,
+    fontFamily: 'Open Sans',
     fontSize: 16,
     padding: '15px 30px',
   },
@@ -38,32 +38,32 @@ const styles = {
   },
 
   labelText: {
-    color: 'white',
+    color: Colors.blue,
   },
 
   disabledText: {
-    color: 'grey',
+    color: Colors.grey,
   },
 }
 
-const PrimaryButton = ({ label, onClick, type, disabled, value }) => (
+const SecondaryButton = ({ label, onClick, type, disabled, value }) => (
   <button
     onClick={onClick}
     style={disabled ? styles.disabled : styles.notDisabled}
     type={type}
     disabled={disabled}
     value={value}
-    className='button'
+    className='secondary-button'
   >
     <span style={disabled ? styles.disabledText : styles.labelText}> {label} </span>
   </button>
 )
 
-PrimaryButton.propTypes = {
+SecondaryButton.propTypes = {
   label: PropTypes.string,
   onClick: PropTypes.func,
   type: PropTypes.string,
   disabled: PropTypes.bool,
 }
 
-export default Radium(PrimaryButton)
+export default Radium(SecondaryButton)

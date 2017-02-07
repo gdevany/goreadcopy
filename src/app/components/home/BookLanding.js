@@ -50,7 +50,6 @@ const styles = {
 class BookLanding extends PureComponent {
   componentWillMount = () => {
     if (R.isEmpty(this.props.books)) { this.props.getBooks({ sort: 'popular' }) }
-    this.props.getGenres({ landingIs: true })
   }
 
   handleMapGenres = (genres) => {
