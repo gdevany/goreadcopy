@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import { StyleRoot } from 'radium'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import 'foundation/foundation.min.css'
 import '../../client/styles/style-guide.scss'
@@ -39,9 +40,11 @@ class App extends Component {
   render() {
     return (
       <div className='app'>
-      {
-        React.cloneElement(this.props.children)
-      }
+        <StyleRoot>
+        {
+          React.cloneElement(this.props.children)
+        }
+        </StyleRoot>
       </div>
     )
   }
