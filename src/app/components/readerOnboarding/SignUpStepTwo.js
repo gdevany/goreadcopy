@@ -3,8 +3,8 @@ import R from 'ramda'
 import { connect } from 'react-redux'
 import { Chip } from 'material-ui'
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
+import { Genres } from '../../redux/actions'
 import SignUpButtons from './SignUpButtons'
-import { Genres } from '../redux/actions'
 
 const { getGenres, createChosenReaderGenres } = Genres
 

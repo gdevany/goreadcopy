@@ -1,6 +1,6 @@
 import React from 'react'
 import SignUpStepper from './SignUpStepper'
-import { Colors } from '../constants/style'
+import { Colors } from '../../constants/style'
 
 const styles = {
   signUpContainer: {

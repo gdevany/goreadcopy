@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react'
-import PrimaryButton from './PrimaryButton'
-import { connect } from 'react-redux'
 import R from 'ramda'
 import { Dialog, } from 'material-ui'
-import { ReaderData } from '../redux/actions'
+import { connect } from 'react-redux'
+import { ReaderData } from '../../redux/actions'
+import PrimaryButton from './PrimaryButton'
 
 const { getInitialReaderData, checkEmail } = ReaderData
 

@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react'
 import R from 'ramda'
 import { connect } from 'react-redux'
-import { getRecommendation, choseRecommendation } from '../redux/actions/recommended'
-import { Collections, Genres } from '../services'
 import SignUpButtons from './SignUpButtons'
 import Checkbox from './Checkbox'
+import { Recommended } from '../../redux/actions'
+import { Collections, Genres } from '../../services'
 
 const { pairs } = Collections
+const { getRecommendation, choseRecommendation } = Recommended
 
 const MAX_USERS_PER_SECTION = 5
 const allAuthors = R.compose(R.flatten, R.map(Genres.authors))
@@ -57,7 +58,7 @@ class SignUpStepThree extends PureComponent {
     event.preventDefault()
     const { chosenReaders, chosenAuthors } = this.state
     const buttonText = document.activeElement.getAttribute('value')
-    if (buttonText === 'Next') {
+    if (buttonText === 'Finish') {
       if (chosenReaders.length) { this.props.choseRecommendation(chosenReaders, 'readers') }
       if (chosenAuthors.length) { this.props.choseRecommendation(chosenAuthors, 'authors') }
       this.props.handleNext()
@@ -153,8 +154,6 @@ class SignUpStepThree extends PureComponent {
   render() {
     const { stepIndex, recommended } = this.props
     const { searchInput, selectAll } = this.state
-    const theReaders = displayable(allReaders(recommended))
-    console.log(theReaders)
     const readers = this.checkBoxesFor('readers', displayable(allReaders(recommended)))
     const authors = this.checkBoxesFor('authors', displayable(allAuthors(recommended)))
     /*

@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
-import PrimaryButton from './PrimaryButton'
-import SignUpModal from './SignUpModal'
+import { PrimaryButton, SignUpModal } from '../common'
 
 class CallToActionTop extends PureComponent {
   constructor(props) {

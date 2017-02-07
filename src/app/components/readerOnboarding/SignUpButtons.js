@@ -1,10 +1,10 @@
 import React from 'react'
-import PrimaryButton from './PrimaryButton'
-import StepperIndex from '../redux/const/stepperIndex'
+import { PrimaryButton } from '../common'
+import Steps from './services/steps'
 
 const SignUpButtons = ({ stepIndex, handleButtonClick, disabled, buttonType }) => {
-  const isFinished = (stepIndex === StepperIndex.TWO) ? 'Finish' : 'Next'
-  const isDisabled = stepIndex === StepperIndex.ZERO
+  const isFinished = (stepIndex === Steps.last()) ? 'Finish' : 'Next'
+  const isDisabled = stepIndex === Steps.first()
 
   return (
     <div style={{ marginTop: 24, marginBottom: 12 }} className='center-text'>

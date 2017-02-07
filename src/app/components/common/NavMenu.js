@@ -7,8 +7,7 @@ import {
   Menu,
   MenuItem
 } from 'material-ui'
-
-import { ExternalRoutes as routes } from '../constants'
+import { ExternalRoutes as routes } from '../../constants'
 import SignUpModal from './SignUpModal'
 
 const styles = {
