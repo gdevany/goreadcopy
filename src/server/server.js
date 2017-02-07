@@ -59,10 +59,12 @@ if (ENV.isDevelopment()) {
   app.use(webpackDevMiddleware(compiler, serverConfig))
   app.use(webpackHotMiddleware(compiler));
   app.use(express.static('build'));
+  app.get('*', (req, res) => res.sendFile(path.join(__dirname + '/../client/index.html')))
 } else {
   app.use(express.static('public'));
-}
 
+  app.get('*', (req, res) => res.sendFile(path.join(__dirname + '/../../public/index.html')))
+}
 
 app.listen(port, err => {
   if(err) throw err;
