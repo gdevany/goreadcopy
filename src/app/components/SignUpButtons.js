@@ -1,6 +1,6 @@
 import React from 'react'
+import PrimaryButton from './PrimaryButton'
 import StepperIndex from '../redux/const/stepperIndex'
-import { RaisedButton, FlatButton } from 'material-ui'
 
 const SignUpButtons = ({ stepIndex }) => {
   const isFinished = (stepIndex === StepperIndex.TWO) ? 'Finish' : 'Next'
@@ -8,20 +8,16 @@ const SignUpButtons = ({ stepIndex }) => {
 
   return (
     <div style={{ marginTop: 24, marginBottom: 12 }} className='center-text'>
-      {/** If using regular button KEEP VALUE below **/}
-      <FlatButton
-        label='Back'
-        value='Back'
+      <PrimaryButton
+        label={'Back'}
+        type={'submit'}
         disabled={isDisabled}
-        style={{ marginRight: 12 }}
-        type='submit'
+        value={'Back'}
       />
-      {/** If using regular button KEEP VALUE below **/}
-      <RaisedButton
+      <PrimaryButton
         label={isFinished}
+        type={'submit'}
         value={isFinished}
-        primary={true}
-        type='submit'
       />
     </div>
   )

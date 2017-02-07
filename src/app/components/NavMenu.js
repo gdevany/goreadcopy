@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
 import R from 'ramda'
+import PrimaryButton from './PrimaryButton'
 import {
-  RaisedButton,
   Popover,
   Menu,
   MenuItem
@@ -176,10 +176,9 @@ class NavMenu extends PureComponent {
               </a>
             </li>
             <li>
-              <RaisedButton
-                backgroundColor='transparent'
+              <PrimaryButton
                 label='Sign Up'
-                onTouchTap={this.handleModalOpen}
+                onClick={this.handleModalOpen}
               />
             </li>
             <SignUpModal

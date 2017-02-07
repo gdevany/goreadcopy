@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react'
+import PrimaryButton from './PrimaryButton'
 import { connect } from 'react-redux'
 import { getInitialUserData, checkEmail } from '../redux/actions/userData'
-import {
-  Dialog,
-  RaisedButton
-} from 'material-ui'
+import { Dialog, } from 'material-ui'
 
 const styles = {
   modalBody: {
@@ -37,7 +35,7 @@ class SignUpModal extends PureComponent {
   }
 
   render() {
-    const { modalOpen, handleClose } = this.props
+    const { modalOpen, handleClose, handleSubmit } = this.props
 
     return (
       <div>
@@ -77,11 +75,10 @@ class SignUpModal extends PureComponent {
                 <input type='email' ref='email' className='form-input'/>
               </div>
               <div className='center-text'>
-                <RaisedButton
-                  backgroundColor='transparent'
-                  label='Sign up with email'
-                  onTouchTap={handleClose}
-                  type='submit'
+                <PrimaryButton
+                  label={'Sign up with email'}
+                  onClick={handleSubmit}
+                  type={'submit'}
                 />
               </div>
             </form>

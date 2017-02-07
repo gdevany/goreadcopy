@@ -11,7 +11,6 @@ const styles = {
 const PriorityReasons = () => {
   return (
     <div>
-
       <div className='row' style={styles.propContainer}>
         <div className='small-12 medium-5 medium-offset-1 columns'>
           <LandingReasons

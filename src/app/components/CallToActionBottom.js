@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import RaisedButton from 'material-ui/RaisedButton'
+import PrimaryButton from './PrimaryButton'
 import SignUpModal from './SignUpModal'
 
 class CallToActionBottom extends PureComponent {
@@ -28,11 +28,9 @@ class CallToActionBottom extends PureComponent {
           Ready to join?
         </h1>
         <br />
-        <RaisedButton
-          backgroundColor='#4A4A4A'
-          labelColor='white'
+        <PrimaryButton
           label='Sign Up'
-          onTouchTap={this.handleOpen}
+          onClick={this.handleOpen}
         />
         <SignUpModal
           modalOpen={this.state.modalOpen}
