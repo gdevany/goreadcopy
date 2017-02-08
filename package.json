@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "The front-end for GoRead.",
   "scripts": {
-    "build": "webpack --config webpack-production.config.js --progress --colors",
+    "build": "webpack --config webpack-production.config.js --quiet --colors",
     "build:dev": "webpack --config webpack-dev-server.config.js --progress --colors",
     "deploy": "gcloud app deploy --project rl-staging",
     "prestart": "npm run build",
