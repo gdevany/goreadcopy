@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import R from 'ramda'
 import { connect } from 'react-redux'
-import { ReaderData } from '../redux/actions'
+import { ReaderData } from '../../redux/actions'
 import SignUpButtons from './SignUpButtons'
 
 const { updateReaderData, createReader } = ReaderData

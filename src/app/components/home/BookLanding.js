@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
 import R from 'ramda'
 import { connect } from 'react-redux'
-import { ExternalRoutes as routes } from '../constants'
-import { Genres, Books } from '../redux/actions'
+import { ExternalRoutes as routes } from '../../constants'
+import { Genres, Books } from '../../redux/actions'
 import Book from './Book'
 
 const { getGenres } = Genres

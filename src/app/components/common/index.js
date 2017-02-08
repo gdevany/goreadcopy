@@ -1,1 +1,5 @@
 export AuthedRedirectLink from './AuthedRedirectLink'
+export Footer from './Footer'
+export NavMenu from './NavMenu'
+export PrimaryButton from './PrimaryButton'
+export SignUpModal from './SignUpModal'

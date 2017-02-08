@@ -149,3 +149,9 @@ export function updateRecommended(recommendation) {
     payload: recommendation,
   }
 }
+
+export default {
+  choseRecommendation,
+  getRecommendation,
+  updateRecommended,
+}

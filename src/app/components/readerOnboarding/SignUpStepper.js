@@ -1,8 +1,5 @@
 import React, { PureComponent } from 'react'
-import SignUpStepOne from './SignUpStepOne'
-import SignUpStepTwo from './SignUpStepTwo'
-import SignUpStepThree from './SignUpStepThree'
-import StepperIndex from '../redux/const/stepperIndex'
+import { withRouter } from 'react-router'
 import ExpandTransition from 'material-ui/internal/ExpandTransition'
 import ArrowIcon from 'material-ui/svg-icons/navigation/chevron-right'
 import {
@@ -10,6 +7,10 @@ import {
   Stepper,
   StepLabel
 } from 'material-ui'
+import SignUpStepOne from './SignUpStepOne'
+import SignUpStepTwo from './SignUpStepTwo'
+import SignUpStepThree from './SignUpStepThree'
+import Steps from './services/steps'
 
 const styles = {
   stepperContainer: {
@@ -25,11 +26,16 @@ class SignUpStepper extends PureComponent {
     this.state = {
       loading: false,
       finished: false,
-      stepIndex: StepperIndex.ZERO
+      stepIndex: this.startingStep()
     }
 
     this.handleNext = this.handleNext.bind(this)
     this.handlePrev = this.handlePrev.bind(this)
+  }
+
+  startingStep() {
+    const { step } = this.props.router.location.query
+    return Steps.fromName(step) || Steps.first()
   }
 
   dummyAsync = (cb) => {
@@ -43,8 +49,8 @@ class SignUpStepper extends PureComponent {
     if (!this.state.loading) {
       this.dummyAsync(() => this.setState({
         loading: false,
-        stepIndex: stepIndex + StepperIndex.ONE,
-        finished: stepIndex >= StepperIndex.TWO
+        stepIndex: Steps.next(stepIndex),
+        finished: Steps.finished(stepIndex),
       }))
     }
   }
@@ -54,14 +60,14 @@ class SignUpStepper extends PureComponent {
     if (!this.state.loading) {
       this.dummyAsync(() => this.setState({
         loading: false,
-        stepIndex: stepIndex - StepperIndex.ONE
+        stepIndex: Steps.previous(stepIndex),
       }))
     }
   }
 
   handleReset = (event) => {
     event.preventDefault()
-    this.setState({ stepIndex: StepperIndex.ZERO, finished: false })
+    this.setState({ stepIndex: Steps.first(), finished: false })
   }
 
   isActiveStepper = (index) => {
@@ -136,17 +142,17 @@ class SignUpStepper extends PureComponent {
     return (
       <div style={{ width: '100%', margin: 'auto' }}>
         <Stepper activeStep={stepIndex} style={styles.stepperContainer} connector={<ArrowIcon />}>
-          <Step active={false} style={this.isActiveStepper(StepperIndex.ZERO)}>
+          <Step active={false} style={this.isActiveStepper(Steps.STEPS.USER_INFO)}>
             <StepLabel className='stepText'>
               Create your account
             </StepLabel>
           </Step>
-          <Step active={false} style={this.isActiveStepper(StepperIndex.ONE)}>
+          <Step active={false} style={this.isActiveStepper(Steps.STEPS.SELECT_GENRES)}>
             <StepLabel className='stepText'>
               Add genres
             </StepLabel>
           </Step>
-          <Step active={false} style={this.isActiveStepper(StepperIndex.TWO)}>
+          <Step active={false} style={this.isActiveStepper(Steps.STEPS.SELECT_USERS)}>
             <StepLabel className='stepText'>
               Create read feed
             </StepLabel>
@@ -160,4 +166,4 @@ class SignUpStepper extends PureComponent {
   }
 }
 
-export default SignUpStepper
+export default withRouter(SignUpStepper)
