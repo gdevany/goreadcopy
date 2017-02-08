@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { ExternalRoutes as routes } from '../constants'
+import { ExternalRoutes as routes } from '../../constants'
 import SignUpModal from './SignUpModal'
 
 const styles = {

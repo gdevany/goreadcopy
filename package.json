@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "The front-end for GoRead.",
   "scripts": {
-    "build": "webpack --config webpack-production.config.js --progress --colors",
+    "build": "webpack --config webpack-production.config.js --colors",
     "build:dev": "webpack --config webpack-dev-server.config.js --progress --colors",
     "deploy": "gcloud app deploy --project rl-staging",
     "prestart": "npm run build",
@@ -39,6 +39,7 @@
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-0": "^6.16.0",
     "babel-register": "^6.18.0",
+    "basil": "^0.0.5",
     "basil.js": "^0.4.4",
     "bluebird": "^3.4.7",
     "body-parser": "^1.16.0",

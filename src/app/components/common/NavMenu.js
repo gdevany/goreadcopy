@@ -2,15 +2,15 @@ import React, { PureComponent } from 'react'
 import { stack as MobileMenu } from 'react-burger-menu'
 import { Link } from 'react-router'
 import R from 'ramda'
-import PrimaryButton from './PrimaryButton'
+import SecondaryButton from './SecondaryButton'
 import {
   Popover,
   Menu,
   MenuItem
 } from 'material-ui'
-
-import { ExternalRoutes as routes } from '../constants'
+import { ExternalRoutes as routes } from '../../constants'
 import SignUpModal from './SignUpModal'
+import './styles/mobile-menu.scss'
 
 const styles = {
   navContainer: {
@@ -212,7 +212,7 @@ class NavMenu extends PureComponent {
                 </a>
               </li>
               <li>
-                <PrimaryButton
+                <SecondaryButton
                   label='Sign Up'
                   onClick={this.handleModalOpen}
                 />

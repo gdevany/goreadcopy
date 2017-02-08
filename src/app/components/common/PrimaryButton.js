@@ -1,22 +1,20 @@
 import React, { PropTypes } from 'react'
 import Radium from 'radium'
+import { Colors } from '../../constants/style'
 
 const styles = {
   notDisabled: {
-    backgroundColor: 'black',
+    backgroundColor: Colors.blue,
+    border: `1px solid ${Colors.blue}`,
+    color: Colors.white,
     boxShadow: 0,
-    borderRadius: 0,
-    fontFamily: 'RobotoCondensed-Regular',
+    borderRadius: 25,
     fontSize: 16,
-    height: 50,
-    textTransform: 'uppercase',
-    width: '100%',
-    '@media only screen and (min-width: 767px)': {
-      width: 250,
-    },
+    padding: '15px 30px',
 
     ':hover': {
-      backgroundColor: 'red',
+      backgroundColor: Colors.blue,
+      opacity: 0.85,
     },
 
     ':focus': {
@@ -28,15 +26,9 @@ const styles = {
     backgroundColor: 'white',
     boxShadow: 0,
     border: '1px solid grey',
-    borderRadius: 0,
-    fontFamily: 'RobotoCondensed-Regular',
+    borderRadius: 25,
     fontSize: 16,
-    height: 50,
-    textTransform: 'uppercase',
-    width: '100%',
-    '@media only screen and (min-width: 767px)': {
-      width: 230,
-    },
+    padding: '15px 30px',
   },
 
   buttonContainer: {

@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+@import 'variables.scss';
 
 $general-font-family: 'Open Sans', san-serif;
 $body-copy: "freight-text-pro", san-serif;
@@ -8,33 +9,12 @@ html, body {
   margin: 0;
 }
 
-.card {
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px;
-  height: 600px;
-}
-
-.center {
-  margin: 0 auto;
-}
-
-.front-card {
-  margin: 0 auto;
-  position: relative;
-  z-index: 10;
-}
-
-.behind-card-container {
-  margin: -610px auto 0;
-  position: relative;
-  width: 900px;
-  z-index: 0;
-}
-
-.behind-card {
-  margin: 0 0 10px 15px;
-  position: relative;
-  width: 900px;
-  z-index: -10;
+.secondary-button {
+  &:hover {
+    span {
+      color: $white !important;
+    }
+  }
 }
 
 @import 'variables.scss';
@@ -48,4 +28,3 @@ html, body {
 @import 'books.scss';
 @import 'stepper.scss';
 @import 'typography.scss';
-@import 'mobile-menu.scss'

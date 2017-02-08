@@ -1,16 +1,23 @@
 import React, { PureComponent } from 'react'
-import R from 'ramda'
 import { connect } from 'react-redux'
-import { ReaderData } from '../redux/actions'
+import { ReaderData } from '../../redux/actions'
 import SignUpButtons from './SignUpButtons'
+import R from 'ramda'
+import { Colors } from '../../constants/style'
 
 const { updateReaderData, createReader } = ReaderData
 
 const styles = {
-  formContainer: {
-    backgroundColor: '#fff',
+  container: {
+    backgroundColor: Colors.white,
     marginTop: 10,
     maxWidth: 900,
+  },
+
+  formContainer: {
+    padding: '50px 0',
+    margin: '0 auto',
+    maxWidth: 400,
   },
 }
 
@@ -36,20 +43,24 @@ class SignUpStepOne extends PureComponent {
   render() {
     return (
       <div>
-        <div style={styles.formContainer} className='card front-card'>
+        <div style={styles.container} className='card front-card'>
+
           <form
             onSubmit={this.handleFormSubmit}
-            className='form-wrapper'
+            style={styles.formContainer}
           >
             <h1 className='center-text step-header'>Create your account</h1>
+
             <div className='form-input-wrapper'>
               <span className='form-label'> User ID </span>
               <input type='text' ref='username' className='form-input' />
             </div>
+
             <div className='form-input-wrapper'>
               <span className='form-label'> Create Password </span>
               <input type='password' ref='password' className='form-input' />
             </div>
+
             <div className='form-input-wrapper'>
               <span className='form-label'> Confirm Password </span>
               <input type='password' ref='passwordConfirmation' className='form-input'/>
@@ -60,13 +71,20 @@ class SignUpStepOne extends PureComponent {
                 buttonType='form'
               />
             </div>
+
+            <div className='page-number'>
+              <p className={styles.pageText}>1</p>
+            </div>
           </form>
         </div>
 
         <div className='behind-card-container'>
-          <div style={styles.formContainer} className='card behind-card' />
+          <div style={styles.container} className='card behind-card' />
         </div>
 
+        <div className='third-behind-card-container'>
+          <div style={styles.container} className='card third-behind-card' />
+        </div>
       </div>
     )
   }

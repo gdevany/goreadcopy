@@ -1,12 +1,46 @@
 import React, { PureComponent } from 'react'
 import R from 'ramda'
 import { connect } from 'react-redux'
-import { getRecommendation, choseRecommendation } from '../redux/actions/recommended'
-import { Collections, Genres } from '../services'
 import SignUpButtons from './SignUpButtons'
 import Checkbox from './Checkbox'
+import { Recommended } from '../../redux/actions'
+import { Collections, Genres } from '../../services'
+import { Colors } from '../../constants/style'
+
+const styles = {
+  container: {
+    backgroundColor: Colors.white,
+    padding: '50px 150px',
+    marginTop: 10,
+    maxWidth: 900,
+    height: '100%',
+  },
+
+  labelText: {
+    fontSize: 14,
+    margin: '50px 0 20px',
+  },
+
+  authorLabelText: {
+    fontSize: 14,
+    margin: '30px 0 20px',
+  },
+
+  selectSection: {
+    padding: 0,
+  },
+
+  headerText: {
+    marginBottom: 15,
+  },
+
+  selectText: {
+    fontSize: 18,
+  },
+}
 
 const { pairs } = Collections
+const { getRecommendation, choseRecommendation } = Recommended
 
 const MAX_USERS_PER_SECTION = 5
 const allAuthors = R.compose(R.flatten, R.map(Genres.authors))
@@ -57,7 +91,7 @@ class SignUpStepThree extends PureComponent {
     event.preventDefault()
     const { chosenReaders, chosenAuthors } = this.state
     const buttonText = document.activeElement.getAttribute('value')
-    if (buttonText === 'Next') {
+    if (buttonText === 'Finish') {
       if (chosenReaders.length) { this.props.choseRecommendation(chosenReaders, 'readers') }
       if (chosenAuthors.length) { this.props.choseRecommendation(chosenAuthors, 'authors') }
       this.props.handleNext()
@@ -153,8 +187,6 @@ class SignUpStepThree extends PureComponent {
   render() {
     const { stepIndex, recommended } = this.props
     const { searchInput, selectAll } = this.state
-    const theReaders = displayable(allReaders(recommended))
-    console.log(theReaders)
     const readers = this.checkBoxesFor('readers', displayable(allReaders(recommended)))
     const authors = this.checkBoxesFor('authors', displayable(allAuthors(recommended)))
     /*
@@ -170,57 +202,83 @@ class SignUpStepThree extends PureComponent {
         author AND OR reader would be rendered.
     */
     return (
-      <div>
-        <h1 className='center-text'>
+      <div style={styles.container} className='card front-card'>
+
+        <h1 className='center-text' style={styles.headerText}>
           Create your Read Feed
         </h1>
+
         <p className='center-text'>
           {`We recommend following these authors and readers to bring you books
              and articles you'll love`}
         </p>
-        <h5> Add Your Own </h5>
-        <div className='small-6'>
-          <form onSubmit={this.handleSearch}>
+
+        <h5 style={styles.labelText}> Add Your Own </h5>
+
+        <div className='small-12'>
+          <form className='form-input-wrapper' onSubmit={this.handleSearch}>
             <input
               value={searchInput}
+              className='form-input'
               type='text'
               ref='search'
               onChange={this.handleSearchTyping}
             />
           </form>
         </div>
+
         <div>
-          <label>
+          <label style={styles.selectText}>
             <input
               type='checkbox'
               checked={selectAll}
               onClick={this.handleSelectAll}
             />
-            {selectAll ? 'Remove all' : 'Select all'}
+            Select all
         </label>
         </div>
+
         <div>
           <form>
+
             <div className='row'>
-              <div className='small-12 columns'>
-                <h5> Authors </h5>
-                <fieldset className='small-6 columns'>
-                  { this.rowsOf(authors) }
-                </fieldset>
-              </div>
-              <div className='small-12 columns'>
-                <h5> Readers </h5>
-                <fieldset className='small-6 columns'>
-                  { this.rowsOf(readers) }
-                </fieldset>
+              <div style={styles.selectSection} className='small-12 columns'>
+                <h5 style={styles.authorLabelText}> Authors </h5>
+
+                <div className='row'>
+                  <fieldset className='small-12 columns'>
+                    { this.rowsOf(authors) }
+                  </fieldset>
+                </div>
+
               </div>
             </div>
+
+            <div className='row'>
+              <div style={styles.selectSection} className='small-12 columns'>
+                <h5 style={styles.labelText}> Readers </h5>
+
+                <div className='row'>
+                  <fieldset className='small-12 columns'>
+                    { this.rowsOf(readers) }
+                  </fieldset>
+                </div>
+
+              </div>
+            </div>
+
           </form>
         </div>
+
         <SignUpButtons
           handleButtonClick={this.handleButtonClick}
           stepIndex={stepIndex}
         />
+
+        <div className='page-number'>
+          <p className={styles.pageText}>3</p>
+        </div>
+
       </div>
     )
   }

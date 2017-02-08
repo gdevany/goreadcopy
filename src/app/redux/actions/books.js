@@ -27,7 +27,7 @@ export function getBooks(params) {
 export function getBooksSuccess(books) {
   return {
     type: A.GET_BOOKS_SUCCESS,
-    payload: books
+    payload: books,
   }
 }
 
