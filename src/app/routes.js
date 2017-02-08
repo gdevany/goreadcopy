@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, IndexRoute } from 'react-router'
 import App from './components/App'
-import { Home } from './components/Home'
+import { Home } from './components/home'
 import { SignUpFlow } from './components/readerOnboarding'
 import IncomingRedirect from './components/incomingRedirect/IncomingRedirect'
 
