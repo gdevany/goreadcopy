@@ -13,8 +13,8 @@ const Steps = () => {
     'selectUsers': 'SELECT_USERS',
   }
 
-  const first = R.always(STEPS.USER_INFO)
-  const last = R.always(STEPS.LIKED_USERS)
+  const first = R.always(R.nth(0, R.values(STEPS)))
+  const last = R.always(R.last(R.values(STEPS)))
 
   const finished = (currentStep) => {
     return currentStep >= last()
