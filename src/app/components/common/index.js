@@ -1,0 +1,1 @@
+export AuthedRedirectLink from './AuthedRedirectLink'

@@ -9,7 +9,7 @@ import {
   MenuItem
 } from 'material-ui'
 
-import routes from '../services/currentEnvRoutes'
+import { ExternalRoutes as routes } from '../constants'
 import SignUpModal from './SignUpModal'
 
 const styles = {

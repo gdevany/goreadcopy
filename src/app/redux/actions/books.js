@@ -1,75 +1,37 @@
-// import axios from 'axios'
-//import base from '../../services/base'
-import A from '../const/actionTypes'
+import R from 'ramda'
+import { BOOKS as A } from '../const/actionTypes'
+import { Books } from '../../services/api'
+import { Deserialization } from '../../services'
 
-//const { backendUrl, apiUrl, appUrl } = base
-export function getBooks(
-  genreId = null,
-  page = undefined,
-  perPage = undefined,
-  sort = 'popular',
-  imageSize = 'average'
-) {
-  return dispatch => {
-    /* example url until endpoint is finalized
-    axios.get(apiUrl('books', { landing: true }))
-      .then(response => {
-        dispatch(updateBooks(response.results)))
-      }.catch(error => console.log(error))
-    */
+const { fromPaginated } = Deserialization
 
-    const books = [
-      {
-        id: 0,
-        slug: '#',
-        author: 'J K Rowling',
-        title: 'Harry Potter',
-        imageUrl: 'example2.png'
-      },
-      {
-        id: 1,
-        slug: '#',
-        author: 'David Baldacci',
-        title: 'Guilty',
-        imageUrl: 'example1.png'
-      },
-      {
-        id: 2,
-        slug: '#',
-        author: 'Cynthia D\'Aprix',
-        title: 'The Nest',
-        imageUrl: 'example3.png'
-      },
-      {
-        id: 3,
-        slug: '#',
-        author: 'J K Rowling',
-        title: 'Harry Potter',
-        imageUrl: 'example2.png'
-      },
-      {
-        id: 4,
-        slug: '#',
-        author: 'David Baldacci',
-        title: 'Guilty',
-        imageUrl: 'example1.png'
-      },
-      {
-        id: 5,
-        slug: '#',
-        author: 'Cynthia D\'Aprix',
-        title: 'The Nest',
-        imageUrl: 'example3.png'
-      },
-    ]
+export function getBooks(params) {
+  return (dispatch, getState) => {
+    const defaultParams = {
+      genreId: null,
+      page: undefined,
+      perPage: undefined,
+      sort: 'popular',
+      imageSize: 'average'
+    }
 
-    dispatch(updateBooks(books))
+    const allParams = R.merge(defaultParams, params)
+
+    dispatch({ type: A.GET_BOOKS })
+
+    Books.getBooks(allParams)
+      .then(res => dispatch(getBooksSuccess(fromPaginated(res))))
   }
 }
 
-export function updateBooks(books) {
+export function getBooksSuccess(books) {
   return {
-    type: A.GET_BOOKS,
-    books
+    type: A.GET_BOOKS_SUCCESS,
+    payload: books
   }
+}
+
+export default {
+  getBooks,
+  getBooksSuccess,
 }

@@ -1,8 +1,11 @@
 import React, { PureComponent } from 'react'
 import PrimaryButton from './PrimaryButton'
 import { connect } from 'react-redux'
-import { getInitialUserData, checkEmail } from '../redux/actions/userData'
+import R from 'ramda'
 import { Dialog, } from 'material-ui'
+import { ReaderData } from '../redux/actions'
+
+const { getInitialReaderData, checkEmail } = ReaderData
 
 const styles = {
   modalBody: {
@@ -26,12 +29,8 @@ const styles = {
 class SignUpModal extends PureComponent {
   handleSubmit = (event) => {
     event.preventDefault()
-    const formData = {}
-    for (const field in this.refs) {
-      formData[field] = this.refs[field].value
-    }
-
-    this.props.checkEmail({ email: formData.email }, formData)
+    const data = R.map(R.prop('value'), this.refs)
+    this.props.checkEmail({ email: data.email }, data)
   }
 
   render() {
@@ -89,4 +88,4 @@ class SignUpModal extends PureComponent {
   }
 }
 
-export default connect(null, { getInitialUserData, checkEmail })(SignUpModal)
+export default connect(null, { getInitialReaderData, checkEmail })(SignUpModal)

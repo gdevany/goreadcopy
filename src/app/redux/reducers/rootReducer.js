@@ -1,14 +1,18 @@
 import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
-import genreReducer from './genres'
 import booksReducer from './books'
-import userDataReducer from './userData'
+import currentReaderReducer from './currentReader'
+import genreReducer from './genres'
+import readerDataReducer from './readerData'
+import recommendedReducer from './recommended'
 
 const rootReducer = combineReducers({
-  routing: routerReducer,
-  genres: genreReducer,
   books: booksReducer,
-  userData: userDataReducer,
+  currentReader: currentReaderReducer,
+  genres: genreReducer,
+  readerData: readerDataReducer,
+  recommended: recommendedReducer,
+  routing: routerReducer,
 })
 
 export default rootReducer

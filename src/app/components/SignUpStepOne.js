@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react'
 import R from 'ramda'
 import { connect } from 'react-redux'
+import { ReaderData } from '../redux/actions'
 import SignUpButtons from './SignUpButtons'
-import { updateUserData, createUser } from '../redux/actions/userData'
+
+const { updateReaderData, createReader } = ReaderData
 
 const styles = {
   formContainer: {
@@ -13,6 +15,10 @@ const styles = {
 }
 
 class SignUpStepOne extends PureComponent {
+  componentWillReceiveProps({ submitSuccessful }) {
+    if (submitSuccessful) { this.props.handleNext() }
+  }
+
   handleFormSubmit = (event) => {
     event.preventDefault()
     const buttonText = document.activeElement.getAttribute('value')
@@ -20,9 +26,8 @@ class SignUpStepOne extends PureComponent {
 
     if (buttonText === 'Next') {
       // TODO: consider error handling + validations?
-      this.props.updateUserData(data)
-      this.props.createUser()
-      this.props.handleNext()
+      this.props.updateReaderData(data)
+      this.props.createReader()
     } else if (buttonText === 'Back') {
       this.props.handlePrev()
     }
@@ -50,7 +55,10 @@ class SignUpStepOne extends PureComponent {
               <input type='password' ref='passwordConfirmation' className='form-input'/>
             </div>
             <div className='center-text'>
-              <SignUpButtons stepIndex={this.props.stepIndex}/>
+              <SignUpButtons
+                stepIndex={this.props.stepIndex}
+                buttonType='form'
+              />
             </div>
           </form>
         </div>
@@ -64,11 +72,11 @@ class SignUpStepOne extends PureComponent {
   }
 }
 
-const mapStateToProps = R.identity
+const mapStateToProps = R.prop('readerData')
 
 const mapDispatchToProps = {
-  createUser,
-  updateUserData,
+  createReader,
+  updateReaderData,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpStepOne)

@@ -1,19 +1,13 @@
-// import axios from 'axios'
-//import base from '../../services/base'
-import { default as A } from '../const/actionTypes'
-import CurrentReaderGenres from '../../services/currentReader/genres'
-import { updateUserData } from './userData'
-
-//const { apiUrl } = base
+import A from '../const/actionTypes'
+import { CurrentReaderGenres } from '../../services/api'
+import { updateReaderData } from './readerData'
 
 export function getGenres(query) {
   return dispatch => {
-    /* example url until endpoint is finalized
-    axios.get(apiUrl('genres', { landing: true }))
-      .then(response => {
-        dispatch(updateGenres(response.results)))
-      }.catch(error => console.log(error))
-    */
+    /* Use this code when API ready and delete genres array below:
+    Readers.getLandingGenres(query)
+      .then((response) => dispatch(updateGenres(response.result)))
+      .catch((error) => console.log(`Error in getGenres api call: ${err}`)) */
 
     const genres = [
       {
@@ -53,13 +47,19 @@ export function getGenres(query) {
 export function createChosenReaderGenres(genres) {
   CurrentReaderGenres.createChosenGenres(genres)
   return (dispatch) => {
-    dispatch(updateUserData(genres))
+    dispatch(updateReaderData(genres))
   }
 }
 
 export function updateGenres(genres) {
   return {
     type: A.GET_GENRES,
-    genres,
+    payload: genres,
   }
+}
+
+export default {
+  createChosenReaderGenres,
+  getGenres,
+  updateGenres,
 }

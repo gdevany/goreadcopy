@@ -1,12 +1,14 @@
 import QS from 'query-string'
 import R from 'ramda'
 
-const QueryParamsHelper = () => {
+const QueryParams = () => {
   const asParams = (paramsObj) => {
     return R.isEmpty(paramsObj) ? '' : `?${QS.stringify(paramsObj)}`
   }
 
-  return asParams
+  return {
+    asParams,
+  }
 }
 
-export default QueryParamsHelper()
+export default QueryParams()

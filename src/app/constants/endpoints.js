@@ -1,18 +1,25 @@
-// TODO: move base path to app/constants!
-import base from '../services/base'
+import { Paths } from '../services'
 
-const endpoints = () => {
-  const { apiUrl } = base
+const Endpoints = () => {
+  const { apiUrl } = Paths
 
   const routes = {
-    readers: () => apiUrl('readers'),
-    readerValidation: (params) => apiUrl('readers/check', params),
+    books: () => apiUrl('onboarding/books'),
+    readers: (params) => apiUrl('onboarding/readers', params),
+    readerValidation: (params) => apiUrl('onboarding/readers/check', params),
+    getGenres: (params) => apiUrl('onboarding/genres', params),
+    getBooks: (params) => apiUrl('onboarding/books', params),
     currentReader: {
-      likedGenres: () => apiUrl('current_reader/liked_genres'),
-    }
+      recommendation: (params) => apiUrl('onboarding/genres/top_users', params),
+      likedGenres: (params) => apiUrl('onboarding/current_reader/liked_genres', params),
+      likedReaders: (params) => apiUrl('onboarding/current_reader/liked_readers', params),
+      likedAuthors: (params) => apiUrl('onboarding/current_reader/liked_authors', params)
+    },
+    jwtRefresh: () => apiUrl('token/refresh'),
+    redirect: () => apiUrl('onboarding/redirect'),
   }
 
   return routes
 }
 
-export default endpoints()
+export default Endpoints()

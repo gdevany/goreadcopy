@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import SignUpStepOne from './SignUpStepOne'
 import SignUpStepTwo from './SignUpStepTwo'
+import SignUpStepThree from './SignUpStepThree'
 import StepperIndex from '../redux/const/stepperIndex'
 import ExpandTransition from 'material-ui/internal/ExpandTransition'
 import ArrowIcon from 'material-ui/svg-icons/navigation/chevron-right'
@@ -92,7 +93,11 @@ class SignUpStepper extends PureComponent {
       case 2:
         return (
           <div>
-              Some #3 Component will be rendered here
+            <SignUpStepThree
+              handleNext={this.handleNext}
+              handlePrev={this.handlePrev}
+              stepIndex={this.state.stepIndex}
+            />
           </div>
         )
       default:

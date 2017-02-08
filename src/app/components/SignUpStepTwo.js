@@ -1,14 +1,12 @@
 import React, { PureComponent } from 'react'
+import R from 'ramda'
 import { connect } from 'react-redux'
-import { getGenres } from '../redux/actions/genres'
-import { createChosenReaderGenres } from '../redux/actions/genres'
-import {
-  Chip,
-  FlatButton,
-  RaisedButton
-} from 'material-ui'
-import StepperIndex from '../redux/const/stepperIndex'
+import { Chip } from 'material-ui'
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
+import SignUpButtons from './SignUpButtons'
+import { Genres } from '../redux/actions'
+
+const { getGenres, createChosenReaderGenres } = Genres
 
 const styles = {
   chip: {
@@ -26,8 +24,10 @@ class SignUpStepTwo extends PureComponent {
 
     this.state = {
       chosenGenres: [],
-      showError: false
+      showDisabled: true
     }
+
+    this.handleButtonClick = this.handleButtonClick.bind(this)
   }
 
   componentWillMount = () => {
@@ -43,13 +43,30 @@ class SignUpStepTwo extends PureComponent {
         this.props.createChosenReaderGenres({ chosenGenres: this.state.chosenGenres })
         this.props.handleNext()
       } else {
-        this.setState({ showError: true })
+        this.setState({ showDisabled: true })
       }
       this.props.handleNext()
     } else if (buttonText === 'Back') {
       this.props.handlePrev()
     }
 
+  }
+
+  handleSelectGenre = () => {
+    const { chosenGenres } = this.state
+    const genreID = Number(document.activeElement.getAttribute('value'))
+    const indexOfGenre = chosenGenres.indexOf(genreID)
+
+    if (chosenGenres.length === 0) this.setState({ showDisabled: true })
+
+    if (indexOfGenre >= 0) {
+      const updatedGenres = R.reject(R.equals(genreID), chosenGenres)
+      this.setState({ chosenGenres: [...updatedGenres] })
+      if (chosenGenres.length === 1) this.setState({ showDisabled: true })
+    } else {
+      this.setState({ showDisabled: false })
+      this.setState({ chosenGenres: [...chosenGenres, genreID] })
+    }
   }
 
   handleGenreMap = (genres) => {
@@ -71,27 +88,8 @@ class SignUpStepTwo extends PureComponent {
     })
   }
 
-  handleSelectGenre = () => {
-    const genreID = Number(document.activeElement.getAttribute('value'))
-    const indexOfGenre = this.state.chosenGenres.indexOf(genreID)
-
-    if (this.state.chosenGenres.length === 0) this.setState({ showError: true })
-
-    if (indexOfGenre >= 0) {
-      const updatedGenres = this.state.chosenGenres.filter((genre) => (genre !== genreID))
-      this.setState({ chosenGenres: [...updatedGenres] })
-    } else {
-      this.setState({ showError: false })
-      this.setState({
-        chosenGenres: [...this.state.chosenGenres, genreID]
-      })
-    }
-  }
-
   render() {
     const { genres, stepIndex } = this.props
-    const isFinished = (stepIndex === StepperIndex.TWO) ? 'Finish' : 'Next'
-    const isDisabled = stepIndex === StepperIndex.ZERO
 
     return (
       <div className='center-text'>
@@ -101,34 +99,15 @@ class SignUpStepTwo extends PureComponent {
         <p>
           {"We'll use this information to suggest new books and authors for you"}
         </p>
-        {
-          this.state.showError ? (
-            <div>
-              <p>Please, select at least one genre of your preference!</p>
-            </div>
-          ) : null
-        }
         <div>
           { this.handleGenreMap(genres) }
         </div>
         <div>
-          <div style={{ marginTop: 24, marginBottom: 12 }} className='center-text'>
-            {/** If using regular button KEEP VALUE below **/}
-            <FlatButton
-              label='Back'
-              value='Back'
-              disabled={isDisabled}
-              style={{ marginRight: 12 }}
-              onTouchTap={this.handleButtonClick}
-            />
-            {/** If using regular button KEEP VALUE below **/}
-            <RaisedButton
-              label={isFinished}
-              value={isFinished}
-              primary={true}
-              onTouchTap={this.handleButtonClick}
-            />
-          </div>
+          <SignUpButtons
+            handleButtonClick={this.handleButtonClick}
+            stepIndex={stepIndex}
+            disabled={this.state.showDisabled}
+          />
         </div>
       </div>
     )
@@ -139,4 +118,9 @@ const mapStateToProps = ({ genres }) => {
   return { genres }
 }
 
-export default connect(mapStateToProps, { getGenres, createChosenReaderGenres })(SignUpStepTwo)
+const mapDispatchToProps = {
+  createChosenReaderGenres,
+  getGenres,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpStepTwo)
