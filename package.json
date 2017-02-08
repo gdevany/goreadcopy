@@ -6,8 +6,7 @@
     "build": "webpack --config webpack-production.config.js --colors",
     "build:dev": "webpack --config webpack-dev-server.config.js --progress --colors",
     "deploy": "gcloud app deploy --project rl-staging",
-    "prestart": "npm run build",
-    "start": "node src/server/server.js",
+    "start": "concurrently \"npm run build\" \"node src/server/server.js\"",
     "start:dev": "nodemon src/server/server.js --ignore components --progress --inline --colors",
     "test": "echo 'none yet!'"
   },
@@ -43,6 +42,7 @@
     "basil.js": "^0.4.4",
     "bluebird": "^3.4.7",
     "body-parser": "^1.16.0",
+    "concurrently": "^3.1.0",
     "core-js": "^2.4.1",
     "css-loader": "^0.26.1",
     "dotenv": "^4.0.0",
