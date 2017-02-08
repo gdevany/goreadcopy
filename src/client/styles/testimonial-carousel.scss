@@ -1,6 +1,6 @@
 .carouselWrapper{
 	margin-top: 135px;
-	margin-bottom: -85px;
+	margin-bottom: -130px;
 	.carouselImage{
 		margin: 0 auto;
 		border-radius: 150px;
@@ -20,6 +20,7 @@
 
 .slick-slider{
 	box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+	padding-top: 75px;
 	.slick-list{
 		background-color: #fff;
 		z-index: 10;
