@@ -2,8 +2,8 @@ import React from 'react'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import Quotes from '../../client/image/quotes.png'
-import '../../client/styles/testimonial-carousel.scss'
+import Quotes from '../../../client/image/quotes.png'
+import '../../../client/styles/testimonial-carousel.scss'
 
 const TestimonialCarousel = () => {
   const settings = {
