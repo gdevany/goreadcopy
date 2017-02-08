@@ -158,9 +158,7 @@ class NavMenu extends PureComponent {
       </li>
     )
 
-    const nonMenuItems = R.map(NonMenuItem, nonMenuRoutes)
-
-    return nonMenuItems
+    return R.map(NonMenuItem, nonMenuRoutes)
 
   }
 
