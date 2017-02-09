@@ -48,12 +48,28 @@ module.exports = {
         }
       },
       {
-        test: /\.(png|jpg)$/,
+        test: /\.(png|jpg|gif)$/,
         loaders: ['url-loader']
       },
       {
         test: /\.(css|scss)$/,
         loaders: ['style', 'css', 'sass'],
+      },
+      {
+        test: /\.(woff|woff2)$/,
+        loader: "url?limit=10000&mimetype=application/font-woff"
+      },
+      {
+        test: /\.ttf$/,
+        loader: "url?limit=10000&mimetype=application/octet-stream"
+      },
+      {
+        test: /\.eot$/,
+        loader: "file"
+      },
+      {
+        test: /\.svg$/,
+        loader: "url?limit=10000&mimetype=image/svg+xml"
       },
     ],
   }
