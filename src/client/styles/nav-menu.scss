@@ -16,3 +16,27 @@
   font-size: 0.70em !important;
   color: #A1A1A1 !important;
 }
+
+.top-bar{
+  padding:0;
+  @media all and (min-width: 1200px){
+    padding: .5rem;
+  }
+}
+
+.top-bar-left, .top-bar-right{
+  display: none;
+  @media all and (min-width: 1200px){
+    display: block;
+  }
+}
+
+.mobile-gr-logo{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1em 0;
+  @media all and (min-width: 1200px){
+    display: none;
+  }
+}
