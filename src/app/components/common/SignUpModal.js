@@ -3,7 +3,9 @@ import R from 'ramda'
 import { Dialog, } from 'material-ui'
 import { connect } from 'react-redux'
 import { ReaderData } from '../../redux/actions'
+import { ExternalRoutes as routes } from '../../constants'
 import PrimaryButton from './PrimaryButton'
+import SocialButton from './SocialButton'
 
 const { getInitialReaderData, checkEmail } = ReaderData
 
@@ -56,6 +58,20 @@ class SignUpModal extends PureComponent {
           <h1 className='center-text'>
             Join GoRead
           </h1>
+          <div className='center-text'>
+            <SocialButton
+              href={routes.providerLogin({ provider: 'facebook' })}
+              text={'Sign up with Facebook'}
+            />
+            <SocialButton
+              href={routes.providerLogin({ provider: 'google' })}
+              text={'Sign up with Google'}
+            />
+            <SocialButton
+              href={routes.providerLogin({ provider: 'linkedin' })}
+              text={'Sign up with Linkedin'}
+            />
+          </div>
           <h4 className='inner-title center-text'>
             or sign up with email:
           </h4>
