@@ -15,8 +15,6 @@ const SignUpButtons = ({ stepIndex, handleButtonClick, disabled, buttonType }) =
   const isFinished = (stepIndex === Steps.last()) ? 'Finish' : 'Next'
   const isDisabled = stepIndex === Steps.first()
 
-  console.log(`The step index is ${stepIndex}`)
-
   if (stepIndex === 0) {
     return (
       <div style={{ marginTop: 50, marginBottom: 12 }}>
