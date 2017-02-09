@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { stack as MobileMenu } from 'react-burger-menu'
 import { Link } from 'react-router'
 import R from 'ramda'
 import SecondaryButton from './SecondaryButton'
@@ -9,6 +10,7 @@ import {
 } from 'material-ui'
 import { ExternalRoutes as routes } from '../../constants'
 import SignUpModal from './SignUpModal'
+import './styles/mobile-menu.scss'
 
 const styles = {
   navContainer: {
@@ -68,7 +70,7 @@ class NavMenu extends PureComponent {
           targetOrigin={{ horizontal: 'left', vertical: 'top' }}
           onRequestClose={this.handleRequestClose}
         >
-          <div className='side-by-side-wrapper'>
+          <div className='side-by-side-wrapper' onMouseLeave={this.handleRequestClose}>
             <div className='side-left'>
               <Menu>
                 <MenuItem
@@ -134,6 +136,30 @@ class NavMenu extends PureComponent {
     const nonMenuItems = R.map(NonMenuItem, nonMenuRoutes)
 
     return [bookStoreItem].concat(nonMenuItems)
+
+  }
+
+  handleMapNavItemsMobile = () => {
+    const { bookStore, about, news, articles, authors } = routes
+
+    const nonMenuRoutes = [
+      ['Book Store', bookStore],
+      ['About', about],
+      ['News', news],
+      ['Articles', articles],
+      ['Authors', authors],
+    ]
+
+    const NonMenuItem = ([title, routeFn], index) => (
+      <li style={styles.navLinks} className='link nav-item' key={title + index}>
+        <a href={routeFn()} >
+          {title}
+        </a>
+      </li>
+    )
+
+    return R.map(NonMenuItem, nonMenuRoutes)
+
   }
 
   render() {
@@ -156,35 +182,47 @@ class NavMenu extends PureComponent {
     ]
 
     return (
-      <div className='top-bar'>
-        <div className='top-bar-left'>
-          <ul className='dropdown menu' data-dropdown-menu>
-            <li className='menu-text'>
-              <Link to='/'>
-                <img src='./image/logo.png' />
-              </Link>
-            </li>
-            {this.handleMapNavItems(categories, genres)}
-          </ul>
-        </div>
-        <div className='top-bar-right'>
-          <ul className='menu'>
-            <li className='link nav-item'>
-              <a href='#'>
-                Log In
-              </a>
-            </li>
-            <li>
-              <SecondaryButton
-                label='Sign Up'
-                onClick={this.handleModalOpen}
+      <div>
+        <div className='top-bar'>
+          <div className='top-bar-mobile'>
+            <Link to='/' className='mobile-gr-logo'>
+              <img src='./image/logo.png' />
+            </Link>
+            <MobileMenu id={'mobile-menu-container'}>
+              <ul className='mobile-menu'>
+                {this.handleMapNavItemsMobile()}
+              </ul>
+            </MobileMenu>
+          </div>
+          <div className='top-bar-left'>
+            <ul className='dropdown menu' data-dropdown-menu>
+              <li className='menu-text'>
+                <Link to='/'>
+                  <img src='./image/logo.png' />
+                </Link>
+              </li>
+              {this.handleMapNavItems(categories, genres)}
+            </ul>
+          </div>
+          <div className='top-bar-right'>
+            <ul className='menu'>
+              <li className='link nav-item'>
+                <a href='#'>
+                  Log In
+                </a>
+              </li>
+              <li>
+                <SecondaryButton
+                  label='Sign Up'
+                  onClick={this.handleModalOpen}
+                />
+              </li>
+              <SignUpModal
+                modalOpen={this.state.modalOpen}
+                handleClose={this.handleModalClose}
               />
-            </li>
-            <SignUpModal
-              modalOpen={this.state.modalOpen}
-              handleClose={this.handleModalClose}
-            />
-          </ul>
+            </ul>
+          </div>
         </div>
       </div>
     )
