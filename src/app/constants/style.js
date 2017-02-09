@@ -13,3 +13,7 @@ export const Colors = {
   black,
   grey,
 }
+
+export const Breakpoints = {
+  mobile: '@media only screen and (max-width: 640px)',
+}

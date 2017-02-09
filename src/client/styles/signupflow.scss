@@ -49,6 +49,7 @@
   border: none;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px;
   height: 600px;
+  overflow: auto;
 }
 
 .center {
@@ -65,28 +66,26 @@
   margin: -610px auto 0;
   position: relative;
   width: 900px;
-  z-index: 0;
+  z-index: 5;
 }
 
 .behind-card {
   margin: 0 0 10px 15px;
   position: relative;
   width: 900px;
-  z-index: -10;
 }
 
 .third-behind-card-container {
   margin: -610px auto 0;
   position: relative;
   width: 900px;
-  z-index: -20;
+  z-index: 0;
 }
 
 .third-behind-card {
   margin: 0 0 10px 30px;
   position: relative;
   width: 900px;
-  z-index: -20;
 }
 
 .page-number {
@@ -107,7 +106,7 @@
 
 .chosenGenre {
   background: $blue !important;
-  padding: 5px !important;
+  padding: 7px !important;
 
   span {
       color: white !important;

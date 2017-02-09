@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react'
+import Radium from 'radium'
 import R from 'ramda'
 import { connect } from 'react-redux'
 import SignUpButtons from './SignUpButtons'
 import Checkbox from './Checkbox'
 import { Recommended } from '../../redux/actions'
 import { Collections, Genres } from '../../services'
-import { Colors } from '../../constants/style'
+import { Colors, Breakpoints } from '../../constants/style'
 
 const styles = {
   container: {
@@ -14,11 +15,26 @@ const styles = {
     marginTop: 10,
     maxWidth: 900,
     height: '100%',
+
+    [Breakpoints.mobile]: {
+      padding: '50px 15px',
+      marginTop: 0,
+    },
   },
 
   labelText: {
     fontSize: 14,
     margin: '50px 0 20px',
+  },
+
+  readersText: {
+    fontSize: 14,
+    margin: '50px 0 20px',
+
+    [Breakpoints.mobile]: {
+      padding: '10px 0 15px',
+      marginTop: 0,
+    },
   },
 
   authorLabelText: {
@@ -56,10 +72,10 @@ const displayable = R.take(MAX_USERS_PER_SECTION)
 const UsersRow = ([firstUser, secondUser], i) => {
   return (
     <div className='row' key={i + '_users_row'}>
-      <div className='small-6 columns'>
+      <div className='small-12 medium-6 columns'>
         {firstUser}
       </div>
-      <div className='small-6 columns'>
+      <div className='small-12 medium-6 columns'>
         {secondUser}
       </div>
     </div>
@@ -270,7 +286,7 @@ class SignUpStepThree extends PureComponent {
 
             <div className='row'>
               <div style={styles.selectSection} className='small-12 columns'>
-                <h5 style={styles.labelText}> Readers </h5>
+                <h5 style={styles.readersText}> Readers </h5>
 
                 <div className='row'>
                   <fieldset className='small-12 columns'>
@@ -289,10 +305,6 @@ class SignUpStepThree extends PureComponent {
           stepIndex={stepIndex}
         />
 
-        <div className='page-number'>
-          <p className={styles.pageText}>3</p>
-        </div>
-
       </div>
     )
   }
@@ -308,4 +320,4 @@ const mapDispatchToProps = {
   updateRecommendedLitcoins,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpStepThree)
+export default connect(mapStateToProps, mapDispatchToProps)(Radium(SignUpStepThree))

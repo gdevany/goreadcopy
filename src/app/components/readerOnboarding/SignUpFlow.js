@@ -1,6 +1,7 @@
 import React from 'react'
 import SignUpStepper from './SignUpStepper'
 import { Colors } from '../../constants/style'
+import TopBanner from './TopBanner'
 
 const styles = {
   signUpContainer: {
@@ -12,6 +13,7 @@ const styles = {
 const SignUpFlow = () => {
   return (
     <div style={styles.signUpContainer}>
+      <TopBanner />
       <SignUpStepper />
     </div>
   )

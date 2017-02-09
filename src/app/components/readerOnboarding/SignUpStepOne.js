@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react'
+import Radium from 'radium'
 import { connect } from 'react-redux'
 import { ReaderData, Litcoins } from '../../redux/actions'
 import { LITCOIN_TYPES as L } from '../../constants/litcoins'
 import SignUpButtons from './SignUpButtons'
 import R from 'ramda'
-import { Colors } from '../../constants/style'
+import { Colors, Breakpoints } from '../../constants/style'
 
 const { updateReaderData, createReader } = ReaderData
 const { updateLitcoinBalance } = Litcoins
@@ -14,12 +15,20 @@ const styles = {
     backgroundColor: Colors.white,
     marginTop: 10,
     maxWidth: 900,
+
+    [Breakpoints.mobile]: {
+      marginTop: 0,
+    },
   },
 
   formContainer: {
     padding: '50px 0',
     margin: '0 auto',
     maxWidth: 400,
+
+    [Breakpoints.mobile]: {
+      padding: '50px 15px',
+    },
   },
 }
 
@@ -126,4 +135,4 @@ const mapDispatchToProps = {
   updateLitcoinBalance,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpStepOne)
+export default connect(mapStateToProps, mapDispatchToProps)(Radium(SignUpStepOne))

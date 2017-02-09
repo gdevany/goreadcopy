@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react'
+import Radium from 'radium'
 import R from 'ramda'
 import { connect } from 'react-redux'
 import { Chip } from 'material-ui'
-import CheckIcon from 'material-ui/svg-icons/navigation/check'
 import { Genres } from '../../redux/actions'
 import SignUpButtons from './SignUpButtons'
-import { Colors } from '../../constants/style'
+import { Colors, Breakpoints } from '../../constants/style'
 
 const { getGenres, createChosenReaderGenres, updateGenreLitcoins } = Genres
 
@@ -30,6 +30,11 @@ const styles = {
     padding: '50px 100px',
     marginTop: 10,
     maxWidth: 900,
+
+    [Breakpoints.mobile]: {
+      padding: '50px 15px',
+      marginTop: 0,
+    },
   },
 
   chipText: {
@@ -43,6 +48,10 @@ const styles = {
 
   genreSection: {
     marginBottom: 100,
+  },
+
+  checkmark: {
+    marginRight: 7,
   },
 }
 
@@ -118,7 +127,11 @@ class SignUpStepTwo extends PureComponent {
           style={styles.chip}
           onTouchTap={this.handleSelectGenre}
         >
-          {isChosen ? < CheckIcon className='checkmark' color={'white'}/> : '+'} {genre.name}
+          {isChosen ?
+            <img style={styles.checkmark} src='./image/checkmark.png' /> :
+            <img style={styles.checkmark} src='./image/plus.png' />
+          }
+            {genre.name}
         </Chip>
       )
     })
@@ -161,10 +174,6 @@ class SignUpStepTwo extends PureComponent {
             </div>
           </div>
 
-          <div className='page-number'>
-            <p className={styles.pageText}>2</p>
-          </div>
-
         </div>
 
         <div className='behind-card-container'>
@@ -185,4 +194,4 @@ const mapDispatchToProps = {
   updateGenreLitcoins,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpStepTwo)
+export default connect(mapStateToProps, mapDispatchToProps)(Radium(SignUpStepTwo))

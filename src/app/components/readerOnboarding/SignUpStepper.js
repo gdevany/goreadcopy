@@ -1,14 +1,14 @@
 import React, { PureComponent } from 'react'
+import Radium from 'radium'
 import { withRouter } from 'react-router'
 import ExpandTransition from 'material-ui/internal/ExpandTransition'
 import ArrowIcon from 'material-ui/svg-icons/navigation/chevron-right'
-import { Colors } from '../../constants/style'
+import { Colors, Breakpoints } from '../../constants/style'
 import {
   Step,
   Stepper,
   StepLabel
 } from 'material-ui'
-import TopBanner from './TopBanner'
 import SignUpStepOne from './SignUpStepOne'
 import SignUpStepTwo from './SignUpStepTwo'
 import SignUpStepThree from './SignUpStepThree'
@@ -18,10 +18,18 @@ const styles = {
   stepperContainer: {
     margin: '0 auto',
     maxWidth: 600,
+
+    [Breakpoints.mobile]: {
+      display: 'none',
+    },
   },
 
   activeText: {
     color: Colors.blue,
+  },
+
+  contentStyle: {
+    overflow: 'hidden',
   },
 }
 
@@ -123,13 +131,12 @@ class SignUpStepper extends PureComponent {
 
   renderContent() {
     const { finished, stepIndex } = this.state
-    const contentStyle = { margin: '0 16px', overflow: 'hidden' } // temporary
 
     // TODO: Will we have a component when user is finished signing up
     // or will they be redirected?
     if (finished) {
       return (
-        <div style={contentStyle}>
+        <div style={styles.contentStyle}>
           <p>
             <a onClick={this.handleReset} >
               Click here
@@ -140,7 +147,7 @@ class SignUpStepper extends PureComponent {
     }
 
     return (
-      <div style={contentStyle}>
+      <div style={styles.contentStyle}>
         <div>{this.getStepContent(stepIndex)}</div>
       </div>
     )
@@ -151,33 +158,35 @@ class SignUpStepper extends PureComponent {
 
     return (
       <div style={{ width: '100%', margin: 'auto' }}>
-        <TopBanner />
-        <Stepper activeStep={stepIndex} style={styles.stepperContainer} connector={<ArrowIcon />}>
-          <Step active={false} style={this.isActiveStepper(Steps.STEPS.USER_INFO)}>
-            <StepLabel className='stepText'>
-              Create your account
-            </StepLabel>
-          </Step>
-          <Step active={false} style={this.isActiveStepper(Steps.STEPS.SELECT_GENRES)}>
-            <StepLabel className='stepText'>
-              Add genres
-            </StepLabel>
-          </Step>
-          <Step active={false} style={this.isActiveStepper(Steps.STEPS.SELECT_USERS)}>
-            <StepLabel className='stepText'>
-              Create read feed
-            </StepLabel>
-          </Step>
+        <div style={styles.stepperContainer}>
+          <Stepper activeStep={stepIndex} connector={<ArrowIcon />}>
 
-        </Stepper>
+            <Step active={false} style={this.isActiveStepper(Steps.STEPS.USER_INFO)}>
+              <StepLabel className='stepText'>
+                Create your account
+              </StepLabel>
+            </Step>
 
+            <Step active={false} style={this.isActiveStepper(Steps.STEPS.SELECT_GENRES)}>
+              <StepLabel className='stepText'>
+                Add genres
+              </StepLabel>
+            </Step>
+
+            <Step active={false} style={this.isActiveStepper(Steps.STEPS.SELECT_USERS)}>
+              <StepLabel className='stepText'>
+                Create read feed
+              </StepLabel>
+            </Step>
+
+          </Stepper>
+        </div>
         <ExpandTransition loading={loading} open={true}>
           {this.renderContent()}
         </ExpandTransition>
-
       </div>
     )
   }
 }
 
-export default withRouter(SignUpStepper)
+export default withRouter(Radium(SignUpStepper))

@@ -13,7 +13,8 @@ const styles = {
   },
 
   item: {
-    marginBottom: 20,
+    marginBottom: 30,
+    minHeight: 69,
   },
 
   nameText: {
