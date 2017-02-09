@@ -68,7 +68,7 @@ class NavMenu extends PureComponent {
           targetOrigin={{ horizontal: 'left', vertical: 'top' }}
           onRequestClose={this.handleRequestClose}
         >
-          <div className='side-by-side-wrapper'>
+          <div className='side-by-side-wrapper' onMouseLeave={this.handleRequestClose}>
             <div className='side-left'>
               <Menu>
                 <MenuItem
