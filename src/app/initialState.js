@@ -10,4 +10,5 @@ export default {
   books: emptyCollectionState(),
   readerData: {},
   currentReader: {},
+  litcoins: {}
 }

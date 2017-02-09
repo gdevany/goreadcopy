@@ -8,6 +8,7 @@ import {
   Stepper,
   StepLabel
 } from 'material-ui'
+import TopBanner from './TopBanner'
 import SignUpStepOne from './SignUpStepOne'
 import SignUpStepTwo from './SignUpStepTwo'
 import SignUpStepThree from './SignUpStepThree'
@@ -150,7 +151,7 @@ class SignUpStepper extends PureComponent {
 
     return (
       <div style={{ width: '100%', margin: 'auto' }}>
-
+        <TopBanner />
         <Stepper activeStep={stepIndex} style={styles.stepperContainer} connector={<ArrowIcon />}>
           <Step active={false} style={this.isActiveStepper(Steps.STEPS.USER_INFO)}>
             <StepLabel className='stepText'>

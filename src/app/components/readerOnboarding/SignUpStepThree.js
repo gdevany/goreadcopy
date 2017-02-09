@@ -40,7 +40,11 @@ const styles = {
 }
 
 const { pairs } = Collections
-const { getRecommendation, choseRecommendation } = Recommended
+const {
+  getRecommendation,
+  choseRecommendation,
+  updateRecommendedLitcoins
+} = Recommended
 
 const MAX_USERS_PER_SECTION = 5
 const allAuthors = R.compose(R.flatten, R.map(Genres.authors))
@@ -87,6 +91,13 @@ class SignUpStepThree extends PureComponent {
     this.props.getRecommendation({ count: 3 })
   }
 
+  componentDidUpdate = () => {
+    const { chosenReaders, chosenAuthors } = this.state
+
+    if (chosenReaders.length) { this.props.updateRecommendedLitcoins(chosenReaders, 'readers') }
+    if (chosenAuthors.length) { this.props.updateRecommendedLitcoins(chosenAuthors, 'authors') }
+  }
+
   handleButtonClick = (event) => {
     event.preventDefault()
     const { chosenReaders, chosenAuthors } = this.state
@@ -131,6 +142,9 @@ class SignUpStepThree extends PureComponent {
       ...selectedUsersState,
       selectAll,
     })
+
+    if (chosenReaders.length) { this.props.choseRecommendation(chosenReaders, 'readers') }
+    if (chosenAuthors.length) { this.props.choseRecommendation(chosenAuthors, 'authors') }
   }
 
   isChosen(id) {
@@ -291,6 +305,7 @@ const mapStateToProps = ({ recommended }) => {
 const mapDispatchToProps = {
   getRecommendation,
   choseRecommendation,
+  updateRecommendedLitcoins,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpStepThree)

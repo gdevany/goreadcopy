@@ -1,6 +1,8 @@
-import { updateReaderData } from './readerData'
 import { default as A } from '../const/actionTypes'
 import CurrentReaderGenres from '../../services/api/currentReader/genres'
+import { updateReaderData } from './readerData'
+import { updateLitcoinBalance } from './litcoins'
+import { LITCOIN_TYPES as L } from '../../constants/litcoins'
 
 export function getGenres(query) {
   return dispatch => {
@@ -45,9 +47,15 @@ export function getGenres(query) {
 }
 
 export function createChosenReaderGenres(genres) {
-  CurrentReaderGenres.createChosenGenres(genres)
   return (dispatch) => {
+    CurrentReaderGenres.createChosenGenres(genres)
+  }
+}
+
+export function updateGenreLitcoins(genres) {
+  return dispatch => {
     dispatch(updateReaderData(genres))
+    dispatch(updateLitcoinBalance(L.CHOSE_GENRE))
   }
 }
 
@@ -62,4 +70,5 @@ export default {
   createChosenReaderGenres,
   getGenres,
   updateGenres,
+  updateGenreLitcoins,
 }

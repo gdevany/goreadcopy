@@ -1,7 +1,9 @@
 import { browserHistory } from 'react-router'
 import { READERS as A, CURRENT_READER } from '../const/actionTypes'
+import { LITCOIN_TYPES as L } from '../../constants/litcoins'
 import { Readers } from '../../services/api'
 import { Auth, Promise } from '../../services'
+import { updateLitcoinBalance } from './litcoins'
 
 export function createReader() {
   return (dispatch, getState) => {
@@ -16,6 +18,7 @@ export function createReader() {
     // TODO: dispatch failure action
     return Readers.createReader(payload)
       .then((res) => dispatch(createReaderSuccess(res)))
+      .then(() => dispatch(updateLitcoinBalance(L.CREATED_ACCOUNT)))
   }
 }
 
@@ -43,6 +46,7 @@ export function getInitialReaderData(data) {
   return (dispatch) => {
     const result =
       Promise.of(dispatch(updateReaderData(data)))
+        .then(() => dispatch(updateLitcoinBalance(L.COMPLETE_SIGNUP_MODAL)))
         .then(() => browserHistory.push('/signup'))
 
     return result

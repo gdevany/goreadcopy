@@ -1,16 +1,19 @@
-import { CURRENT_READER as A } from '../const/actionTypes'
-import { Promise } from '../../services'
 import CurrentReaderRecommendation from '../../services/api/currentReader/recommendation'
+import { CURRENT_READER as A } from '../const/actionTypes'
+import { LITCOIN_TYPES as L } from '../../constants/litcoins'
+import { Promise } from '../../services'
+import { updateReaderData } from './readerData'
+import { updateLitcoinBalance } from './litcoins'
 
 export function getRecommendation(perUserType = 1) {
   return (dispatch, getState) => {
     /**
     uncomment this code when api endpoint is set up and delete the
     recomendation const
-    const chosenGenres = getState().readerData.chosenGenres
+    const genreIds = getState().readerData.genreIds
 
     CR_Recommendation.findRecommendation({
-      genreIds: chosenGenres,
+      genreIds: genreIds,
       perUserType: perUserType.count
     })
       .then(response => dispatch(updateRecommended(response.result)))
@@ -131,14 +134,29 @@ export function choseRecommendation(data, type) {
     switch (type) {
       case 'readers':
         return CurrentReaderRecommendation.likedReaders({ readerIds: data })
-          .then(response => dispatch({ type: A.CHOSE_RECOMMENDATION }))
-          .catch((error) => console.log(`Error in choseRecommendation api call: ${error}`))
+          .then(res => dispatch({ type: A.CHOSE_RECOMMENDATION }))
+          .catch((err) => console.log(`Error in choseRecommendation api call: ${err}`))
       case 'authors':
         return CurrentReaderRecommendation.likedAuthors({ authorIds: data })
-          .then(response => dispatch({ type: A.CHOSE_RECOMMENDATION }))
-          .catch((error) => console.log(`Error in choseRecommendation api call: ${error}`))
+          .then(res => dispatch({ type: A.CHOSE_RECOMMENDATION }))
+          .catch((err) => console.log(`Error in choseRecommendation api call: ${err}`))
       default:
         return Promise.reject('Error in choseRecommendation')
+    }
+  }
+}
+
+export function updateRecommendedLitcoins(data, type) {
+  return dispatch => {
+    switch (type) {
+      case 'readers':
+        return Promise.resolve(dispatch(updateReaderData({ readerIds: data })))
+          .then(() => dispatch(updateLitcoinBalance(L.CHOOSE_READER)))
+      case 'authors':
+        return Promise.resolve(dispatch(updateReaderData({ authorIds: data })))
+          .then(() => dispatch(updateLitcoinBalance(L.CHOOSE_AUTHOR)))
+      default:
+        return Promise.reject('Error in updateRecommendedLitcoin')
     }
   }
 }
@@ -154,4 +172,5 @@ export default {
   choseRecommendation,
   getRecommendation,
   updateRecommended,
+  updateRecommendedLitcoins,
 }

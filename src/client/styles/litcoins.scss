@@ -1,0 +1,21 @@
+.fade-in {
+  opacity: 1;
+  -webkit-transition: all 1s linear;
+   -moz-transition: all 1s linear;
+   -ms-transition: all 1s linear;
+   -o-transition: all 1s linear;
+   transition: all 1s linear;
+}
+
+.fade-out {
+  opacity: 0;
+  -webkit-transition: all 1s linear;
+   -moz-transition: all 1s linear;
+   -ms-transition: all 1s linear;
+   -o-transition: all 1s linear;
+   transition: all 1s linear;
+}
+
+.invisible {
+  opacity: 0;
+}

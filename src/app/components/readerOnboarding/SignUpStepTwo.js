@@ -7,7 +7,7 @@ import { Genres } from '../../redux/actions'
 import SignUpButtons from './SignUpButtons'
 import { Colors } from '../../constants/style'
 
-const { getGenres, createChosenReaderGenres } = Genres
+const { getGenres, createChosenReaderGenres, updateGenreLitcoins } = Genres
 
 const styles = {
   chip: {
@@ -62,13 +62,19 @@ class SignUpStepTwo extends PureComponent {
     this.props.getGenres('signup')
   }
 
+  componentDidUpdate = () => {
+    if (this.state.chosenGenres.length) {
+      this.props.updateGenreLitcoins({ genreIds: this.state.chosenGenres })
+    }
+  }
+
   handleButtonClick = (event) => {
     event.preventDefault()
     const buttonText = document.activeElement.getAttribute('value')
 
     if (buttonText === 'Next') {
       if (this.state.chosenGenres.length > 0) {
-        this.props.createChosenReaderGenres({ chosenGenres: this.state.chosenGenres })
+        this.props.createChosenReaderGenres({ genreIds: this.state.chosenGenres })
         this.props.handleNext()
       } else {
         this.setState({ showDisabled: true })
@@ -95,6 +101,7 @@ class SignUpStepTwo extends PureComponent {
       this.setState({ showDisabled: false })
       this.setState({ chosenGenres: [...chosenGenres, genreID] })
     }
+
   }
 
   handleGenreMap = (genres) => {
@@ -175,6 +182,7 @@ const mapStateToProps = ({ genres }) => {
 const mapDispatchToProps = {
   createChosenReaderGenres,
   getGenres,
+  updateGenreLitcoins,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpStepTwo)

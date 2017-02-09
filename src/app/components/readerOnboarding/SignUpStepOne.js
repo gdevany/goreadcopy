@@ -1,11 +1,13 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { ReaderData } from '../../redux/actions'
+import { ReaderData, Litcoins } from '../../redux/actions'
+import { LITCOIN_TYPES as L } from '../../constants/litcoins'
 import SignUpButtons from './SignUpButtons'
 import R from 'ramda'
 import { Colors } from '../../constants/style'
 
 const { updateReaderData, createReader } = ReaderData
+const { updateLitcoinBalance } = Litcoins
 
 const styles = {
   container: {
@@ -30,13 +32,31 @@ class SignUpStepOne extends PureComponent {
     event.preventDefault()
     const buttonText = document.activeElement.getAttribute('value')
     const data = R.map(R.prop('value'), this.refs)
+    const {
+      updateReaderData,
+      createReader,
+      handlePrev
+    } = this.props
 
     if (buttonText === 'Next') {
       // TODO: consider error handling + validations?
-      this.props.updateReaderData(data)
-      this.props.createReader()
+      updateReaderData(data)
+      createReader()
     } else if (buttonText === 'Back') {
-      this.props.handlePrev()
+      handlePrev()
+    }
+  }
+
+  handleOnBlur = (event) => {
+    const { username, password } = this.refs
+    const { updateReaderData, updateLitcoinBalance } = this.props
+
+    if (event.target.type === 'text' && username.value !== '') {
+      updateReaderData({ username: this.refs.username.value })
+      updateLitcoinBalance(L.ENTERS_USERNAME)
+    } else if (event.target.type === 'password' && password.value !== '') {
+      updateReaderData({ password: this.refs.password.value })
+      updateLitcoinBalance(L.ENTERS_PASSWORD)
     }
   }
 
@@ -44,21 +64,29 @@ class SignUpStepOne extends PureComponent {
     return (
       <div>
         <div style={styles.container} className='card front-card'>
-
           <form
             onSubmit={this.handleFormSubmit}
             style={styles.formContainer}
           >
             <h1 className='center-text step-header'>Create your account</h1>
-
             <div className='form-input-wrapper'>
               <span className='form-label'> User ID </span>
-              <input type='text' ref='username' className='form-input' />
+              <input
+                type='text'
+                ref='username'
+                className='form-input'
+                onBlur={this.handleOnBlur}
+              />
             </div>
 
             <div className='form-input-wrapper'>
               <span className='form-label'> Create Password </span>
-              <input type='password' ref='password' className='form-input' />
+              <input
+                type='password'
+                ref='password'
+                className='form-input'
+                onBlur={this.handleOnBlur}
+              />
             </div>
 
             <div className='form-input-wrapper'>
@@ -95,6 +123,7 @@ const mapStateToProps = R.prop('readerData')
 const mapDispatchToProps = {
   createReader,
   updateReaderData,
+  updateLitcoinBalance,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpStepOne)
