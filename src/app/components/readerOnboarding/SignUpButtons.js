@@ -15,6 +15,22 @@ const SignUpButtons = ({ stepIndex, handleButtonClick, disabled, buttonType }) =
   const isFinished = (stepIndex === Steps.last()) ? 'Finish' : 'Next'
   const isDisabled = stepIndex === Steps.first()
 
+  if (stepIndex === Steps.first()) {
+    return (
+      <div style={{ marginTop: 50, marginBottom: 12 }}>
+        <div style={styles.nextButton}>
+          <PrimaryButton
+            label={isFinished}
+            value={isFinished}
+            disabled={disabled ? disabled : false}
+            primary={true}
+            type={buttonType === 'form' ? 'submit' : null}
+            onClick={buttonType === 'form' ? null : handleButtonClick}
+          />
+        </div>
+      </div>
+    )
+  }
   return (
     <div style={{ marginTop: 50, marginBottom: 12 }}>
       <div style={styles.backButton}>
