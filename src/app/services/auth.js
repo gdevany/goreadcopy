@@ -16,9 +16,9 @@ const Auth = () => {
   const currentUserExists = () => !!token()
 
   return {
+    currentUserExists,
     token,
     setToken,
-    currentUserExists,
   }
 }
 

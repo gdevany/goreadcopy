@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import R from 'ramda'
-import { Collections } from '../../services'
+import { MenuItem as MUIMenuItem } from 'material-ui'
+import { Auth, Collections } from '../../services'
+import { Endpoints } from '../../constants'
 
 const { assocList } = Collections
 
@@ -22,10 +24,20 @@ const styles = {
 }
 
 class TriggeredSubmit extends Component {
-  componentDidMount = () => {
-  // Performs sync post via form submission; will redirect to this.props.url
-    if (this.props.shouldSubmit) { this.form.submit() }
+  constructor(props) {
+    super(props)
+
+    this.autoSubmit = this.autoSubmit.bind(this)
   }
+
+  autoSubmit = (props) => {
+    if (props.shouldSubmit) { this.form.submit() }
+  }
+
+  // Performs sync post via form submission; will redirect to this.props.url
+  componentDidMount = () => this.autoSubmit(this.props)
+
+  componentWillReceiveProps = (newProps) => this.autoSubmit(newProps)
 
   render() {
     const {
@@ -81,7 +93,12 @@ class SubmitLink extends Component {
       href,
       submitTo,
       params,
+      className,
     } = this.props
+
+    if (!Auth.currentUserExists()) {
+      return (<a className={className}href={href}>{this.props.children}</a>)
+    }
 
     return (
       <TriggeredSubmit
@@ -92,6 +109,7 @@ class SubmitLink extends Component {
         <a
           href={href}
           onClick={this.handleClick}
+          className={className}
         >
         {this.props.children}
         </a>
@@ -100,11 +118,10 @@ class SubmitLink extends Component {
   }
 }
 
-import { Auth } from '../../services'
-import { Endpoints } from '../../constants'
-const Link = ({ href, children }) => {
+const Link = ({ href, children, className }) => {
   return (
     <SubmitLink
+      className={className}
       submitTo={Endpoints.redirect()}
       href={href}
       params={{
@@ -117,7 +134,7 @@ const Link = ({ href, children }) => {
   )
 }
 
-const Button = ({ href, children, shouldSubmit }) => {
+const Button = ({ href, children }) => {
   return (
     <TriggeredSubmit
       shouldSubmit={shouldSubmit}
@@ -132,7 +149,62 @@ const Button = ({ href, children, shouldSubmit }) => {
   )
 }
 
+class MenuItem extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      shouldSubmit: false,
+    }
+    this.handleClick = this.handleClick.bind(this)
+  }
+
+  handleClick = (e) => {
+    e.preventDefault()
+    this.setState({
+      shouldSubmit: true,
+    })
+  }
+
+  render() {
+    const {
+      href,
+      children,
+      ...others,
+    } = this.props
+
+    if (!Auth.currentUserExists()) {
+      return (
+        <MUIMenuItem
+          href={href}
+        >
+          {children}
+        </MUIMenuItem>
+      )
+    }
+
+    return (
+      <MUIMenuItem
+        onClick={this.handleClick}
+        {...others}
+      >
+        <TriggeredSubmit
+          shouldSubmit={this.state.shouldSubmit}
+          url={Endpoints.redirect()}
+          params={{
+            token: Auth.token(),
+            redirectPath: href,
+          }}
+        >
+          {children}
+        </TriggeredSubmit>
+      </MUIMenuItem>
+    )
+  }
+}
+
 export default {
   Link,
   Button,
+  MenuItem,
 }

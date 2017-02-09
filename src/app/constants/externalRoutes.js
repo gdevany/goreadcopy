@@ -4,13 +4,14 @@ const ExternalRoutes = () => {
   const { backendUrl } = Paths
 
   const routes = {
-    about: () => backendUrl('aboutus-maybe'),
+    about: () => backendUrl('about'),
     advertisers: () => backendUrl('advertising'),
     articles: () => backendUrl('articles'),
-    authors: () => backendUrl('authors-maybe'),
+    authors: () => backendUrl('authors'),
     bookStore: () => backendUrl('browse'),
     childrensLiteracy: () => backendUrl('childrens-literacy'),
     litcoins: () => backendUrl('litcoins'),
+    login: () => backendUrl('login'),
     media: () => backendUrl('media-page'),
     news: () => backendUrl('news'),
     privacy: () => backendUrl('privacy'),

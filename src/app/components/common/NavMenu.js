@@ -9,10 +9,13 @@ import {
   Menu,
   MenuItem
 } from 'material-ui'
-import { ExternalRoutes as routes } from '../../constants'
-import SignUpModal from './SignUpModal'
-import './styles/mobile-menu.scss'
+import { ExternalRoutes as routes, PopularTopics } from '../../constants'
 import { Colors } from '../../constants/style'
+import SignUpModal from './SignUpModal'
+import AuthedRedirect from './AuthedRedirect'
+import './styles/mobile-menu.scss'
+
+const { CATEGORIES, GENRES } = PopularTopics
 
 const styles = {
   navContainer: {
@@ -57,6 +60,15 @@ const styles = {
   },
 }
 
+const {
+  about,
+  articles,
+  authors,
+  bookStore,
+  login,
+  news,
+} = routes
+
 class NavMenu extends PureComponent {
   constructor(props) {
     super(props)
@@ -91,8 +103,6 @@ class NavMenu extends PureComponent {
   }
 
   handleMapNavItems = (categories, genres) => {
-    const { bookStore, about, news, articles, authors } = routes
-
     const bookStoreItem = (
       <li key={'popover-nav-item'} style={styles.navLinks} className='link nav-item'>
 
@@ -123,11 +133,12 @@ class NavMenu extends PureComponent {
                 accomodate for links **/
                   categories.map((category, i) => {
                     return (
-                      <MenuItem
-                        primaryText={category}
+                      <AuthedRedirect.MenuItem
                         key={category + i}
-                        href='#'
-                      />
+                        href={PopularTopics.routes[category]}
+                      >
+                       {PopularTopics.names[category]}
+                      </AuthedRedirect.MenuItem>
                     )
                   })
                 }
@@ -145,11 +156,12 @@ class NavMenu extends PureComponent {
                 {
                   genres.map((genre, i) => {
                     return (
-                      <MenuItem
-                        primaryText={genre}
+                      <AuthedRedirect.MenuItem
                         key={genre + i}
-                        href='#'
-                      />
+                        href={PopularTopics.routes[genre]}
+                      >
+                        {PopularTopics.names[genre]}
+                      </AuthedRedirect.MenuItem>
                     )
                   })
                 }
@@ -171,9 +183,11 @@ class NavMenu extends PureComponent {
 
     const NonMenuItem = ([title, routeFn], index) => (
       <li style={styles.navLinks} className='link nav-item' key={title + index}>
-        <a href={routeFn()} >
+        <AuthedRedirect.Link
+          href={routeFn()}
+        >
           {title}
-        </a>
+        </AuthedRedirect.Link>
       </li>
     )
 
@@ -196,9 +210,11 @@ class NavMenu extends PureComponent {
 
     const NonMenuItem = ([title, routeFn], index) => (
       <li style={styles.navLinks} className='link nav-item' key={title + index}>
-        <a href={routeFn()} >
+        <AuthedRedirect.Link
+          href={routeFn()}
+        >
           {title}
-        </a>
+        </ AuthedRedirect.Link>
       </li>
     )
 
@@ -207,24 +223,6 @@ class NavMenu extends PureComponent {
   }
 
   render() {
-    const categories = [
-      'Popular',
-      'Newest',
-      'Award Winners',
-      'GoRead Picks',
-      'AudioBooks',
-      'Textbooks',
-      'Sale'
-    ]
-    const genres = [
-      'Sci-Fi',
-      'Romance',
-      'Young Adult',
-      'Sports',
-      'Business',
-      'Cooking'
-    ]
-
     return (
       <div className='slide-down'>
         <div style={styles.navContainer} className='top-bar'>
@@ -248,7 +246,7 @@ class NavMenu extends PureComponent {
                   <img src='./image/logo.png' />
                 </Link>
               </li>
-              {this.handleMapNavItems(categories, genres)}
+              {this.handleMapNavItems(R.values(CATEGORIES), R.values(GENRES))}
             </ul>
           </div>
 
@@ -256,7 +254,7 @@ class NavMenu extends PureComponent {
             <ul className='menu'>
 
               <li style={styles.rightNavItems} className='link nav-item'>
-                <a href='#'>
+                <a href={login()}>
                   Log In
                 </a>
               </li>

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { ExternalRoutes as routes } from '../../constants'
+import AuthedRedirect from './AuthedRedirect'
 import SignUpModal from './SignUpModal'
 
 const styles = {
@@ -65,40 +66,73 @@ class Footer extends PureComponent {
           <ul style={styles.columnUl}>
 
             <li>
-              <a href={authors()}> Authors </a>
+              <AuthedRedirect.Link
+                href={authors()}
+              >
+                Authors
+              </AuthedRedirect.Link>
             </li>
             <li>
-              <a href={publishers()}> Publishers </a>
+              <AuthedRedirect.Link
+                href={publishers()}
+              >
+                Publishers
+              </AuthedRedirect.Link>
             </li>
             <li>
-              <a href={advertisers()}> Advertisers </a>
+              <AuthedRedirect.Link
+                href={advertisers()}
+              >
+                Advertisers
+              </AuthedRedirect.Link>
             </li>
             <li>
-              <a href={media()}> Media </a>
+              <AuthedRedirect.Link
+                href={media()}
+              >
+                Media
+              </AuthedRedirect.Link>
             </li>
             <li>
-              <a href={childrensLiteracy()}> {'Children\'s Literacy'} </a>
+              <AuthedRedirect.Link
+                href={childrensLiteracy()}
+              >
+                Children's Literacy
+              </AuthedRedirect.Link>
             </li>
             <li>
-              <a href={litcoins()}> Litcoins </a>
+              <AuthedRedirect.Link
+                href={litcoins()}
+              >
+                Litcoins
+              </AuthedRedirect.Link>
             </li>
-
           </ul>
         </div>
 
         <div className='small-12 medium-3 medium-offset-1 columns'>
           <ul style={styles.columnUl}>
-
             <li>
-              <a href={support()}> Support </a>
+              <AuthedRedirect.Link
+                href={support()}
+              >
+                Support
+              </AuthedRedirect.Link>
             </li>
             <li>
-              <a href={privacy()}> Privacy </a>
+              <AuthedRedirect.Link
+                href={privacy()}
+              >
+                Privacy
+              </AuthedRedirect.Link>
             </li>
             <li>
-              <a href={terms()}> Terms </a>
+              <AuthedRedirect.Link
+                href={terms()}
+              >
+                Terms
+              </AuthedRedirect.Link>
             </li>
-
           </ul>
         </div>
 
