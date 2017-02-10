@@ -18,6 +18,7 @@ const ExternalRoutes = () => {
     publishers: () => backendUrl('publishers_enrollment'),
     support: () => 'https://support.readerslegacy.com/', // TODO: until further notice
     terms: () => backendUrl('terms'),
+    readFeed: () => backendUrl(),
   }
   return routes
 }

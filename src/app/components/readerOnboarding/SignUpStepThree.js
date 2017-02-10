@@ -94,7 +94,8 @@ class SignUpStepThree extends PureComponent {
       chosenReaders: [],
       chosenAuthors: [],
       selectAll: false,
-      searchInput: ''
+      searchInput: '',
+      shouldSubmit: false,
     }
 
     this.handleButtonClick = this.handleButtonClick.bind(this)
@@ -118,10 +119,10 @@ class SignUpStepThree extends PureComponent {
     event.preventDefault()
     const { chosenReaders, chosenAuthors } = this.state
     const buttonText = document.activeElement.getAttribute('value')
-    if (buttonText === 'Finish') {
+    if (buttonText === 'Finish & go explore books') {
+      this.setState({ shouldSubmit: true })
       if (chosenReaders.length) { this.props.choseRecommendation(chosenReaders, 'readers') }
       if (chosenAuthors.length) { this.props.choseRecommendation(chosenAuthors, 'authors') }
-      this.props.handleNext()
     } else if (buttonText === 'Back') {
       this.props.handlePrev()
     }
@@ -142,6 +143,7 @@ class SignUpStepThree extends PureComponent {
   handleSelectAll() {
     const selectAll = !this.state.selectAll
     const { recommended } = this.props
+    const { chosenReaders, chosenAuthors } = this.state
     const idAsNumber = R.compose(Number, R.prop('id'))
     const selectedUsersState =
       selectAll ?
@@ -216,7 +218,7 @@ class SignUpStepThree extends PureComponent {
 
   render() {
     const { stepIndex, recommended } = this.props
-    const { searchInput, selectAll } = this.state
+    const { searchInput, selectAll, shouldSubmit } = this.state
     const readers = this.checkBoxesFor('readers', displayable(allReaders(recommended)))
     const authors = this.checkBoxesFor('authors', displayable(allAuthors(recommended)))
     /*
@@ -299,12 +301,11 @@ class SignUpStepThree extends PureComponent {
 
           </form>
         </div>
-
         <SignUpButtons
           handleButtonClick={this.handleButtonClick}
           stepIndex={stepIndex}
+          shouldSubmit={shouldSubmit}
         />
-
       </div>
     )
   }

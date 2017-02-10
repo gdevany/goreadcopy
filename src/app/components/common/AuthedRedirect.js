@@ -22,9 +22,9 @@ const styles = {
 }
 
 class TriggeredSubmit extends Component {
-  componentWillReceiveProps({ shouldSubmit }) {
-    // Performs sync post via form submission; will redirect to this.props.url
-    if (shouldSubmit) { this.form.submit() }
+  componentDidMount = () => {
+  // Performs sync post via form submission; will redirect to this.props.url
+    if (this.props.shouldSubmit) { this.form.submit() }
   }
 
   render() {
@@ -69,7 +69,7 @@ class SubmitLink extends Component {
     this.handleClick = this.handleClick.bind(this)
   }
 
-  handleClick(e) {
+  handleClick = (e) => {
     e.preventDefault()
     this.setState({
       shouldSubmit: true,
@@ -102,17 +102,37 @@ class SubmitLink extends Component {
 
 import { Auth } from '../../services'
 import { Endpoints } from '../../constants'
-const AuthedRedirectLink = ({ href, children }) => (
-  <SubmitLink
-    submitTo={Endpoints.redirect()}
-    href={href}
-    params={{
-      token: Auth.token(),
-      redirectPath: href,
-    }}
-  >
-  {children}
-  </SubmitLink>
-)
+const Link = ({ href, children }) => {
+  return (
+    <SubmitLink
+      submitTo={Endpoints.redirect()}
+      href={href}
+      params={{
+        token: Auth.token(),
+        redirectPath: href,
+      }}
+    >
+    {children}
+    </SubmitLink>
+  )
+}
 
-export default AuthedRedirectLink
+const Button = ({ href, children, shouldSubmit }) => {
+  return (
+    <TriggeredSubmit
+      shouldSubmit={shouldSubmit}
+      url={Endpoints.redirect()}
+      params={{
+        token: Auth.token(),
+        redirectPath: href,
+      }}
+    >
+    {children}
+    </TriggeredSubmit>
+  )
+}
+
+export default {
+  AuthedRedirectLink,
+  AuthedRedirectButton,
+}

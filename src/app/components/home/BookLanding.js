@@ -49,7 +49,12 @@ const styles = {
 
 class BookLanding extends PureComponent {
   componentWillMount = () => {
-    if (R.isEmpty(this.props.books)) { this.props.getBooks({ sort: 'popular' }) }
+    const { books, genres, getBooks } = this.props
+    if (R.isEmpty(books)) { getBooks({ sort: 'popular' }) }
+    // TODO: Will we be sorting genres shown here by what's popular?
+    if (R.isEmpty(genres)) {
+      getGenres({ sort: 'popular' })
+    }
   }
 
   handleMapGenres = (genres) => {

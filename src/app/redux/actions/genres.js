@@ -10,7 +10,6 @@ export function getGenres(query) {
     Readers.getLandingGenres(query)
       .then((response) => dispatch(updateGenres(response.result)))
       .catch((error) => console.log(`Error in getGenres api call: ${err}`)) */
-
     const genres = [
       {
         id: 0,

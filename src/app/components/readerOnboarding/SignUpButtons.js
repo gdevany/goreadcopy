@@ -1,6 +1,8 @@
 import React from 'react'
 import { PrimaryButton, SecondaryButton } from '../common'
 import Steps from './services/steps'
+import { AuthedRedirect } from '../common'
+import { ExternalRoutes } from '../../constants'
 
 const styles = {
   nextButton: {
@@ -11,8 +13,14 @@ const styles = {
   },
 }
 
-const SignUpButtons = ({ stepIndex, handleButtonClick, disabled, buttonType }) => {
-  const isFinished = (stepIndex === Steps.last()) ? 'Finish' : 'Next'
+const SignUpButtons = ({
+  stepIndex,
+  handleButtonClick,
+  disabled,
+  buttonType,
+  shouldSubmit,
+ }) => {
+  const isFinished = (stepIndex === Steps.last()) ? 'Finish & go explore books' : 'Next'
   const isDisabled = stepIndex === Steps.first()
 
   if (stepIndex === Steps.first()) {
@@ -31,6 +39,7 @@ const SignUpButtons = ({ stepIndex, handleButtonClick, disabled, buttonType }) =
       </div>
     )
   }
+
   return (
     <div style={{ marginTop: 50, marginBottom: 12 }}>
       <div style={styles.backButton}>
@@ -44,14 +53,23 @@ const SignUpButtons = ({ stepIndex, handleButtonClick, disabled, buttonType }) =
         />
       </div>
       <div style={styles.nextButton}>
-        <PrimaryButton
-          label={isFinished}
-          value={isFinished}
-          disabled={disabled ? disabled : false}
-          primary={true}
-          type={buttonType === 'form' ? 'submit' : null}
-          onClick={buttonType === 'form' ? null : handleButtonClick}
-        />
+      {
+        shouldSubmit ?
+          AuthedRedirect.Button({
+            href: ExternalRoutes.readFeed(),
+            children: isFinished,
+            shouldSubmit
+          }) : (
+            <PrimaryButton
+              label={isFinished}
+              value={isFinished}
+              disabled={disabled ? disabled : false}
+              primary={true}
+              type={buttonType === 'form' ? 'submit' : null}
+              onClick={buttonType === 'form' ? null : handleButtonClick}
+            />
+          )
+      }
       </div>
     </div>
   )
