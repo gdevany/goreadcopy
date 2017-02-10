@@ -133,6 +133,6 @@ const Button = ({ href, children, shouldSubmit }) => {
 }
 
 export default {
-  AuthedRedirectLink,
-  AuthedRedirectButton,
+  Link,
+  Button,
 }
