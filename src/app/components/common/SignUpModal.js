@@ -6,8 +6,9 @@ import { ReaderData } from '../../redux/actions'
 import { ExternalRoutes as routes } from '../../constants'
 import PrimaryButton from './PrimaryButton'
 import SocialButton from './SocialButton'
+import WrappedField from './WrappedField'
 
-const { getInitialReaderData, checkEmail } = ReaderData
+const { getInitialReaderData, checkFields } = ReaderData
 
 const styles = {
   modalBody: {
@@ -31,12 +32,17 @@ const styles = {
 class SignUpModal extends PureComponent {
   handleSubmit = (event) => {
     event.preventDefault()
-    const data = R.map(R.prop('value'), this.refs)
-    this.props.checkEmail({ email: data.email }, data)
+    const fields = R.map(R.prop('value'), this.refs)
+    this.props.checkFields(fields)
   }
 
   render() {
-    const { modalOpen, handleClose, handleSubmit } = this.props
+    const {
+      errors,
+      modalOpen,
+      handleClose,
+      handleSubmit
+    } = this.props
 
     return (
       <div>
@@ -77,18 +83,27 @@ class SignUpModal extends PureComponent {
           </h4>
           <div style={styles.formContainer}>
             <form onSubmit={this.handleSubmit} className='form-wrapper general-font'>
-              <div className='form-input-wrapper'>
+              <WrappedField
+                field='firstName'
+                errors={errors}
+              >
                 <span className='form-label'> First name </span>
                 <input type='text' ref='firstName' className='form-input' />
-              </div>
-              <div className='form-input-wrapper'>
+              </WrappedField>
+              <WrappedField
+                field='lastName'
+                errors={errors}
+              >
                 <span className='form-label'> Last name </span>
                 <input type='text' ref='lastName' className='form-input' />
-              </div>
-              <div className='form-input-wrapper'>
+              </WrappedField>
+              <WrappedField
+                field='email'
+                errors={errors}
+              >
                 <span className='form-label'> Email </span>
                 <input type='email' ref='email' className='form-input'/>
-              </div>
+              </ WrappedField>
               <div className='center-text'>
                 <PrimaryButton
                   label={'Sign up with email'}
@@ -104,4 +119,6 @@ class SignUpModal extends PureComponent {
   }
 }
 
-export default connect(null, { getInitialReaderData, checkEmail })(SignUpModal)
+const mapStateToProps = R.prop('readerData')
+
+export default connect(mapStateToProps, { getInitialReaderData, checkFields })(SignUpModal)

@@ -1,14 +1,15 @@
-const emptyCollectionState = () => {
+const emptyState = (state = {}) => {
   return {
-    payload: [],
+    ...state,
+    errors: {}
   }
 }
 
 export default {
   genres: [],
   recommended: [],
-  books: emptyCollectionState(),
-  readerData: {},
+  books: emptyState({ payload: [] }),
+  readerData: emptyState(),
   currentReader: {},
   litcoins: {}
 }

@@ -118,7 +118,7 @@ class BookLanding extends PureComponent {
 const mapStateToProps = ({ genres, books }) => {
   return {
     genres,
-    books: books.payload
+    books: books.payload,
   }
 }
 

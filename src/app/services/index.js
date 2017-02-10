@@ -1,6 +1,7 @@
 export Auth from './auth'
 export Collections from './collections'
 export Deserialization from './deserialization'
+export Errors from './errors'
 export Genres from './genres'
 export Http from './http'
 export Paths from './paths'

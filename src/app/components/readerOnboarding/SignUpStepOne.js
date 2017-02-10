@@ -6,6 +6,7 @@ import { LITCOIN_TYPES as L } from '../../constants/litcoins'
 import SignUpButtons from './SignUpButtons'
 import R from 'ramda'
 import { Colors, Breakpoints } from '../../constants/style'
+import { WrappedField } from '../common'
 
 const { updateReaderData, createReader } = ReaderData
 const { updateLitcoinBalance } = Litcoins
@@ -70,6 +71,8 @@ class SignUpStepOne extends PureComponent {
   }
 
   render() {
+    const { errors } = this.props
+
     return (
       <div>
         <div style={styles.container} className='card front-card'>
@@ -78,7 +81,10 @@ class SignUpStepOne extends PureComponent {
             style={styles.formContainer}
           >
             <h1 className='center-text step-header'>Create your account</h1>
-            <div className='form-input-wrapper'>
+            <WrappedField
+              field='username'
+              errors={errors}
+            >
               <span className='form-label'> User ID </span>
               <input
                 type='text'
@@ -86,9 +92,12 @@ class SignUpStepOne extends PureComponent {
                 className='form-input'
                 onBlur={this.handleOnBlur}
               />
-            </div>
+            </WrappedField>
 
-            <div className='form-input-wrapper'>
+            <WrappedField
+              field='password'
+              errors={errors}
+            >
               <span className='form-label'> Create Password </span>
               <input
                 type='password'
@@ -96,12 +105,16 @@ class SignUpStepOne extends PureComponent {
                 className='form-input'
                 onBlur={this.handleOnBlur}
               />
-            </div>
+            </WrappedField>
 
-            <div className='form-input-wrapper'>
+            <WrappedField
+              field='passwordConfirmation'
+              errors={errors}
+            >
               <span className='form-label'> Confirm Password </span>
               <input type='password' ref='passwordConfirmation' className='form-input'/>
-            </div>
+            </WrappedField>
+
             <div className='center-text'>
               <SignUpButtons
                 stepIndex={this.props.stepIndex}

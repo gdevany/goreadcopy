@@ -1,0 +1,13 @@
+@import './variables.scss';
+
+.error {
+  color: $error-text;
+
+  input {
+    border-color: $error-text !important;
+  }
+
+  .message {
+    font-weight: bold;
+  }
+}

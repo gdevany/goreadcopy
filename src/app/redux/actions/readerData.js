@@ -1,8 +1,9 @@
+import R from 'ramda'
 import { browserHistory } from 'react-router'
 import { READERS as A, CURRENT_READER } from '../const/actionTypes'
 import { LITCOIN_TYPES as L } from '../../constants/litcoins'
 import { Readers } from '../../services/api'
-import { Auth, Promise } from '../../services'
+import { Auth, Errors, Promise } from '../../services'
 import { updateLitcoinBalance } from './litcoins'
 
 export function createReader() {
@@ -15,10 +16,10 @@ export function createReader() {
       payload,
     })
 
-    // TODO: dispatch failure action
     return Readers.createReader(payload)
       .then((res) => dispatch(createReaderSuccess(res)))
       .then(() => dispatch(updateLitcoinBalance(L.CREATED_ACCOUNT)))
+      .catch((err) => dispatch(updateReaderErrors(err)))
   }
 }
 
@@ -54,17 +55,40 @@ export function getInitialReaderData(data) {
 }
 
 export function updateReaderErrors(error) {
-  const { errors } = error
+  const errors = Errors.errorsFrom(error)
   return {
     type: A.UPDATE_READER_ERRORS,
     errors,
   }
 }
 
-export function checkEmail(field, data) {
+export function checkFields(fields) {
   return (dispatch) => {
-    return Readers.checkValidation(field)
-      .then(() => dispatch(getInitialReaderData(data)))
+    const errorFields = {}
+
+    // TODO: handle frontend validations more generically
+    if (R.isEmpty(fields.firstName) || R.isEmpty(fields.lastName)) {
+      if (R.isEmpty(fields.firstName)) {
+        errorFields['firstName'] = Errors.message('First name is required')
+      }
+
+      if (R.isEmpty(fields.lastName)) {
+        errorFields['lastName'] = Errors.message('Last name is required')
+      }
+
+      const errors = Errors.errors(errorFields)
+
+      return dispatch(updateReaderErrors(errors))
+    }
+
+    return dispatch(checkEmail(fields))
+  }
+}
+
+export function checkEmail(fields) {
+  return (dispatch) => {
+    return Readers.checkValidation({ email: fields.email })
+      .then(() => dispatch(getInitialReaderData(fields)))
       .catch(err => dispatch(updateReaderErrors(err)))
   }
 }
@@ -78,6 +102,7 @@ export function updateReaderData(payload) {
 
 export default {
   checkEmail,
+  checkFields,
   createReader,
   createReaderSuccess,
   getInitialReaderData,
