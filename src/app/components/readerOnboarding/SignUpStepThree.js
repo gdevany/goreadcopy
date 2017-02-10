@@ -142,7 +142,7 @@ class SignUpStepThree extends PureComponent {
 
   handleSelectAll() {
     const selectAll = !this.state.selectAll
-    const { recommended } = this.props
+    const { recommended, clickedSelectAll } = this.props
     const { chosenReaders, chosenAuthors } = this.state
     const idAsNumber = R.compose(Number, R.prop('id'))
     const selectedUsersState =
@@ -163,6 +163,8 @@ class SignUpStepThree extends PureComponent {
 
     if (chosenReaders.length) { this.props.choseRecommendation(chosenReaders, 'readers') }
     if (chosenAuthors.length) { this.props.choseRecommendation(chosenAuthors, 'authors') }
+
+    clickedSelectAll()
   }
 
   isChosen(id) {

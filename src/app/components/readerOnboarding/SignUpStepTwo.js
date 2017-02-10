@@ -105,7 +105,10 @@ class SignUpStepTwo extends PureComponent {
     if (indexOfGenre >= 0) {
       const updatedGenres = R.reject(R.equals(genreID), chosenGenres)
       this.setState({ chosenGenres: [...updatedGenres] })
-      if (chosenGenres.length === 1) this.setState({ showDisabled: true })
+      if (chosenGenres.length === 1) {
+        this.setState({ showDisabled: true })
+        this.props.updateGenreLitcoins({ genreIds: [] })
+      }
     } else {
       this.setState({ showDisabled: false })
       this.setState({ chosenGenres: [...chosenGenres, genreID] })

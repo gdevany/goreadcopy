@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
-import Litcoins from '../common/Litcoins'
+import LitcoinBalance from '../common/LitcoinBalance'
 import { Colors } from '../../constants/style'
 
 const styles = {
@@ -10,7 +10,7 @@ const styles = {
   },
 }
 
-const TopBanner = () => {
+const TopBanner = ({ selectAll }) => {
   return (
     <div className='row text-right nav-container' style={styles.header}>
       <div className='small-12 columns center-text'>
@@ -19,7 +19,7 @@ const TopBanner = () => {
         </Link>
       </div>
       <div className='small-12 columns'>
-        <Litcoins />
+        <LitcoinBalance selectAll={selectAll}/>
       </div>
     </div>
 

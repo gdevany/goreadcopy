@@ -1,6 +1,6 @@
 export AuthedRedirect from './AuthedRedirect'
 export Footer from './Footer'
-export Litcoins from './Litcoins'
+export LitcoinBalance from './LitcoinBalance'
 export NavMenu from './NavMenu'
 export PrimaryButton from './PrimaryButton'
 export SecondaryButton from './SecondaryButton'

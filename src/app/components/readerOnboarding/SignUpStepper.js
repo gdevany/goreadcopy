@@ -121,6 +121,7 @@ class SignUpStepper extends PureComponent {
               handleNext={this.handleNext}
               handlePrev={this.handlePrev}
               stepIndex={this.state.stepIndex}
+              clickedSelectAll={this.props.clickedSelectAll}
             />
           </div>
         )

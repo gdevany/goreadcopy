@@ -13,9 +13,12 @@ const Auth = () => {
     return Storage.get(TOKEN_FIELD)
   }
 
+  const currentUserExists = () => !!token()
+
   return {
     token,
     setToken,
+    currentUserExists,
   }
 }
 
