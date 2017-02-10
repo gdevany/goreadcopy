@@ -4,6 +4,29 @@ import { Litcoins } from '../../redux/actions'
 import { LITCOIN_TYPES as L, ONBOARDING } from '../../constants/litcoins'
 import { Popover } from 'material-ui'
 import Auth from '../../services/auth'
+import { Variables } from '../../constants/style'
+
+const styles = {
+  container: {
+    position: 'absolute',
+    right: '5%',
+    top: 16,
+  },
+
+  litcoinText: {
+    color: Variables.litcoins,
+  },
+
+  litcoinMessage: {
+    margin: 0,
+    padding: 30,
+  },
+
+  popover: {
+    borderRadius: 9,
+    boxShadow: 'rgba(0, 0, 0, 0.1) 0px 2px 20px',
+  },
+}
 
 const { updateLitcoinBalance } = Litcoins
 
@@ -63,9 +86,13 @@ class LitcoinBalance extends PureComponent {
       this.state.signUpEmailCheck
 
     return (
-      <div>
+      <div style={styles.container}>
+
         <div ref='total'>
-          <h3> {total} </h3>
+          <h2 style={styles.litcoinText}>
+            {total}
+            <img className='litcoin-img' src='./image/litcoin.png' />
+          </h2>
         </div>
         {
           shouldRenderPopover ?
@@ -77,19 +104,39 @@ class LitcoinBalance extends PureComponent {
                 targetOrigin={{ horizontal: 'right', vertical: 'top' }}
                 onRequestClose={this.handleRequestClose}
                 zDepth={5}
+                style={styles.popover}
               >
-                <p>
-                  Congrats! You just earned your first Litcoins.<br />
-                  Think of Litcoins as money. <br /> <br />
-                  You can earn up to 30,000 during sign up. <br />
-                  Books start at just 15,000.
+                <p style={styles.litcoinMessage}>
+
+                  Congrats!
+                  <br /> <br />
+                  You just earned your first
+                  <img className='litcoin-img-small' src='./image/litcoin.png' />Litcoins.<br />
+                  Think of Litcoins as money.
+                  <br /> <br />
+                  You can earn up to 30,000
+                  <img
+                    className='litcoin-img-small'
+                    style={{ marginRight: 10 }}
+                    src='./image/litcoin.png'
+                  />
+                  during sign up.
+                  <br />
+                  Books start at just
+                  15,000
+                  <img className='litcoin-img-small' src='./image/litcoin.png' />.
                 </p>
-              </Popover >
+              </Popover>
             </div> : null
         }
+
         <div className={this.state.litcoinClass}>
-          <h3> + {selected} </h3>
+          <h2 style={styles.litcoinText}>
+            + {selected}
+            <img className='litcoin-img' src='./image/litcoin.png' />
+          </h2>
         </div>
+
       </div>
     )
   }

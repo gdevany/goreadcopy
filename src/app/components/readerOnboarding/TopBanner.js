@@ -4,15 +4,19 @@ import LitcoinBalance from '../common/LitcoinBalance'
 import { Colors } from '../../constants/style'
 
 const styles = {
-  header: {
+  topNavContainer: {
     background: Colors.white,
     padding: 20,
+    position: 'relative',
+    minWidth: '100%',
+    zIndex: 30,
   },
 }
 
 const TopBanner = ({ selectAll }) => {
   return (
-    <div className='row text-right nav-container' style={styles.header}>
+    <div className='row text-right nav-container' style={styles.topNavContainer}>
+
       <div className='small-12 columns center-text'>
         <Link to='/'>
           <img src='./image/logo.png' />

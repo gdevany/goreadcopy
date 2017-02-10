@@ -1,21 +1,34 @@
 .fade-in {
   opacity: 1;
-  -webkit-transition: all 0.5s linear;
-   -moz-transition: all 0.5s linear;
-   -ms-transition: all 0.5s linear;
-   -o-transition: all 0.5s linear;
-   transition: all 0.5s linear;
+  transform: translateY(-10px);
+  -webkit-transition: all 0.3s linear;
+   -moz-transition: all 0.3s linear;
+   -ms-transition: all 0.3s linear;
+   -o-transition: all 0.3s linear;
+   transition: all .3s linear;
 }
 
 .fade-out {
   opacity: 0;
-  -webkit-transition: all 0.5s linear;
-   -moz-transition: all 0.5s linear;
-   -ms-transition: all 0.5s linear;
-   -o-transition: all 0.5s linear;
-   transition: all 0.5s linear;
+  transform: translateY(-20px);
+  -webkit-transition: all 0.4s linear;
+   -moz-transition: all 0.4s linear;
+   -ms-transition: all 0.4s linear;
+   -o-transition: all 0.4s linear;
+   transition: all .4s linear;
 }
 
 .invisible {
+  margin-top: 10px;
   opacity: 0;
+}
+
+.litcoin-img {
+  width: 25px;
+  margin: 0 0 5px 10px;
+}
+
+.litcoin-img-small {
+  width: 17px;
+  margin: 0 2px 2px 3px;
 }

@@ -5,6 +5,8 @@ const blue = '#0042D6'
 const white = '#fff'
 const black = '#000'
 const grey = '#979797'
+const yellow = '#EFC524'
+const litcoins = yellow
 
 export const Colors = {
   lightGrey,
@@ -12,6 +14,11 @@ export const Colors = {
   white,
   black,
   grey,
+  yellow,
+}
+
+export const Variables = {
+  litcoins,
 }
 
 export const Breakpoints = {
