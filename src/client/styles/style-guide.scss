@@ -17,6 +17,42 @@ html, body {
   }
 }
 
+.slide-down {
+  animation-name: slideDownAnnimation;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-out;
+  animation-duration: 0.4s;
+}
+
+@keyframes slideDownAnnimation {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-up {
+  animation-name: slideUpAnnimation;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-out;
+  animation-duration: 0.6s;
+}
+
+@keyframes slideUpAnnimation {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 @import 'variables.scss';
 @import 'general.scss';
 @import 'image.scss';

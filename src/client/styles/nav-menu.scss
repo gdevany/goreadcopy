@@ -23,6 +23,8 @@
 
 .top-bar{
   padding:0;
+  background-color: none;
+
   @media all and (min-width: 1200px){
     padding: .5rem;
   }
@@ -43,4 +45,30 @@
   @media all and (min-width: 1200px){
     display: none;
   }
+}
+
+.bm-burger-button {
+  width: 25px !important;
+  height: 20px !important;
+  top: 21px !important;
+
+  span {
+    height: 12% !important;
+  }
+}
+
+.top-bar, .top-bar ul {
+  background-color: white;
+}
+
+.mobile-gr-logo {
+  padding: 20px;
+}
+
+.bm-menu {
+  padding: 0 !important;
+}
+
+.top-bar {
+  box-shadow: rgba(0, 0, 0, 0.0784314) 0px 2px 30px 0px;
 }

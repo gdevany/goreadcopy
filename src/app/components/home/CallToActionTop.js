@@ -23,18 +23,24 @@ class CallToActionTop extends PureComponent {
   render() {
     return (
       <div className='center-text header'>
-        <h1>
-          Where readers and authors come together
-        </h1><br />
-        <PrimaryButton
-          label='Sign Up'
-          onClick={this.handleOpen}
-        />
+
+        <div className='slide-up'>
+          <h1>
+            Where readers and authors come together
+          </h1><br />
+
+          <PrimaryButton
+            label='Sign Up'
+            onClick={this.handleOpen}
+          />
+        </div>
+
         <SignUpModal
           modalOpen={this.state.modalOpen}
           handleClose={this.handleClose}
         />
         <br /> <br />
+
       </div>
     )
   }

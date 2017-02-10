@@ -1,34 +1,51 @@
-.carouselWrapper{
+@import 'variables.scss';
+
+.carousel-wrapper {
   margin-top: 135px;
   margin-bottom: -130px;
-  .carouselImage{
+
+  .carousel-image {
     margin: 0 auto;
     border-radius: 150px;
   }
-  .carouselQuotesImage{
+
+  .carousel-quotes-image {
     max-width: 40px;
     z-index: 10;
   }
-  .carouselQuoteText{
+
+  .carousel-quote-text {
     font-size: 24px;
     padding-left: 55px;
   }
-  .carouselQuoteOwnerText{
+
+  .carousel-quote-owner-text {
     font-weight: bold;
   }
 }
 
-.slick-slider{
+.slick-slider {
   box-shadow: 0 1px 3px rgba(0,0,0,0.12);
-  padding-top: 75px;
-  .slick-list{
-    background-color: #fff;
+
+  .slick-list {
+    background-color: $white;
     z-index: 10;
   }
-  .slick-dots{
+
+  .slick-dots {
     box-shadow: 0 3px 3px rgba(0,0,0,0.12);
-    background: #fff;
+    background: $white;
     height: 80px;
     bottom: -80px;
   }
+}
+
+.slick-dots li button:before {
+  color: $grey;
+  opacity: 0.5;
+  font-size: 12px;
+}
+
+.slick-dots li.slick-active button:before {
+  color: $blue;
 }

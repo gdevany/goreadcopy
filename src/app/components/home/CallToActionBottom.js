@@ -1,6 +1,13 @@
 import React, { PureComponent } from 'react'
 import { PrimaryButton, SignUpModal } from '../common'
 
+const styles = {
+  ctaContainer: {
+    position: 'relative',
+    zIndex: -10,
+  }
+}
+
 class CallToActionBottom extends PureComponent {
   constructor(props) {
     super(props)
@@ -22,7 +29,7 @@ class CallToActionBottom extends PureComponent {
 
   render() {
     return (
-      <div className='center-text call-to-action-wrapper'>
+      <div style={styles.ctaContainer} className='center-text call-to-action-wrapper'>
         <h1 className='general-font'>
           Ready to join?
         </h1>

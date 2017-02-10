@@ -1,29 +1,7 @@
 @import 'variables.scss';
 
 .center-text {
-  text-align: center !important;
-}
-
-.general-background {
-  background: $white;
-}
-
-.general-title {
-  font-weight: 600;
-  color: #4A4A4A !important;
-  letter-spacing: 0.85px;
-}
-
-.general-button {
-  padding: 7px 20px 7px 20px;
-  border-radius: 3px;
-  border: 1px solid #979797;
-}
-
-.landing-priority-wrapper {
-  width: 1300px;
-  margin: 0 auto;
-  margin-top: 100px !important;
+  text-align: center;
 }
 
 .side-by-side-wrapper {

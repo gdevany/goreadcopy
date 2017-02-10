@@ -11,14 +11,39 @@ import {
 import { ExternalRoutes as routes } from '../../constants'
 import SignUpModal from './SignUpModal'
 import './styles/mobile-menu.scss'
+import { Colors } from '../../constants/style'
 
 const styles = {
   navContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
+    padding: '0 20px',
+    position: 'relative',
+    zIndex: 10,
   },
 
   navLinks: {
     padding: 20,
+  },
+
+  navUl: {
+    backgroundColor: Colors.white,
+  },
+
+  rightNavItems: {
+    padding: 20,
+  },
+
+  mobileNavContainer: {
+    backgroundColor: Colors.white,
+    left: 0,
+  },
+
+  bmBurgerButton: {
+    position: 'fixed',
+    width: 25,
+    height: '30px',
+    left: '36px',
+    top: '36px'
   },
 }
 
@@ -72,7 +97,7 @@ class NavMenu extends PureComponent {
         >
           <div className='side-by-side-wrapper' onMouseLeave={this.handleRequestClose}>
             <div className='side-left'>
-              <Menu>
+              <Menu styles={styles}>
                 <MenuItem
                   className='nav-popover-menu-title'
                   primaryText='BROWSE CATEGORIES:'
@@ -182,20 +207,23 @@ class NavMenu extends PureComponent {
     ]
 
     return (
-      <div>
-        <div className='top-bar'>
-          <div className='top-bar-mobile'>
+      <div className='slide-down'>
+        <div style={styles.navContainer} className='top-bar'>
+
+          <div style={styles.mobileNavContainer} className='top-bar-mobile'>
             <Link to='/' className='mobile-gr-logo'>
               <img src='./image/logo.png' />
             </Link>
+
             <MobileMenu id={'mobile-menu-container'}>
               <ul className='mobile-menu'>
                 {this.handleMapNavItemsMobile()}
               </ul>
             </MobileMenu>
           </div>
+
           <div className='top-bar-left'>
-            <ul className='dropdown menu' data-dropdown-menu>
+            <ul style={styles.navUl} className='dropdown menu' data-dropdown-menu>
               <li className='menu-text'>
                 <Link to='/'>
                   <img src='./image/logo.png' />
@@ -204,24 +232,29 @@ class NavMenu extends PureComponent {
               {this.handleMapNavItems(categories, genres)}
             </ul>
           </div>
+
           <div className='top-bar-right'>
             <ul className='menu'>
-              <li className='link nav-item'>
+
+              <li style={styles.rightNavItems} className='link nav-item'>
                 <a href='#'>
                   Log In
                 </a>
               </li>
+
               <li>
                 <SecondaryButton
                   label='Sign Up'
                   onClick={this.handleModalOpen}
                 />
               </li>
+
               <SignUpModal
                 modalOpen={this.state.modalOpen}
                 handleClose={this.handleModalClose}
               />
             </ul>
+
           </div>
         </div>
       </div>

@@ -27,6 +27,7 @@ const styles = {
     boxShadow: 0,
     border: '1px solid grey',
     borderRadius: 25,
+    fontFamily: 'Open Sans',
     fontSize: 16,
     padding: '15px 30px',
   },
