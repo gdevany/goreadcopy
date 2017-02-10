@@ -1,10 +1,13 @@
-import R from 'ramda'
 import { browserHistory } from 'react-router'
 import { READERS as A, CURRENT_READER } from '../const/actionTypes'
 import { LITCOIN_TYPES as L } from '../../constants/litcoins'
 import { Readers } from '../../services/api'
 import { Auth, Errors, Promise } from '../../services'
+import { SignupModalValidator } from '../../services/validators'
 import { updateLitcoinBalance } from './litcoins'
+
+const { hasErrors } = Errors
+const { validate } = SignupModalValidator
 
 export function createReader() {
   return (dispatch, getState) => {
@@ -64,22 +67,9 @@ export function updateReaderErrors(error) {
 
 export function checkFields(fields) {
   return (dispatch) => {
-    const errorFields = {}
+    const results = validate(fields)
 
-    // TODO: handle frontend validations more generically
-    if (R.isEmpty(fields.firstName) || R.isEmpty(fields.lastName)) {
-      if (R.isEmpty(fields.firstName)) {
-        errorFields['firstName'] = Errors.message('First name is required')
-      }
-
-      if (R.isEmpty(fields.lastName)) {
-        errorFields['lastName'] = Errors.message('Last name is required')
-      }
-
-      const errors = Errors.errors(errorFields)
-
-      return dispatch(updateReaderErrors(errors))
-    }
+    if (hasErrors(results)) { return dispatch(updateReaderErrors(results)) }
 
     return dispatch(checkEmail(fields))
   }

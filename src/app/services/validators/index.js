@@ -1,0 +1,1 @@
+export SignupModalValidator from './signupModalValidator'
