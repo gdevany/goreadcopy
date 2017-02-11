@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import R from 'ramda'
 import { Dialog, } from 'material-ui'
 import { connect } from 'react-redux'
@@ -8,7 +8,7 @@ import PrimaryButton from './PrimaryButton'
 import SocialButton from './SocialButton'
 import WrappedField from './WrappedField'
 
-const { getInitialReaderData, checkFields } = ReaderData
+const { getInitialReaderData, checkFields, updateReaderData } = ReaderData
 
 const styles = {
   modalBody: {
@@ -29,15 +29,29 @@ const styles = {
   },
 }
 
-class SignUpModal extends PureComponent {
+class SignUpModal extends Component {
+  constructor(props) {
+    super(props)
+
+    this.handleOnChange = this.handleOnChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
   handleSubmit = (event) => {
     event.preventDefault()
-    const fields = R.map(R.prop('value'), this.refs)
+    const fields = R.pick(['firstName', 'lastName', 'email'], this.props)
     this.props.checkFields(fields)
   }
 
+  handleOnChange = R.curry((field, e) => {
+    this.props.updateReaderData({ [field]: e.target.value })
+  })
+
   render() {
     const {
+      firstName,
+      lastName,
+      email,
       errors,
       modalOpen,
       handleClose,
@@ -88,21 +102,36 @@ class SignUpModal extends PureComponent {
                 errors={errors}
               >
                 <span className='form-label'> First name </span>
-                <input type='text' ref='firstName' className='form-input' />
+                <input
+                  type='text'
+                  className='form-input'
+                  onChange={this.handleOnChange('firstName')}
+                  value={firstName}
+                />
               </WrappedField>
               <WrappedField
                 field='lastName'
                 errors={errors}
               >
                 <span className='form-label'> Last name </span>
-                <input type='text' ref='lastName' className='form-input' />
+                <input
+                  type='text'
+                  className='form-input'
+                  onChange={this.handleOnChange('lastName')}
+                  value={lastName}
+                />
               </WrappedField>
               <WrappedField
                 field='email'
                 errors={errors}
               >
                 <span className='form-label'> Email </span>
-                <input type='email' ref='email' className='form-input'/>
+                <input
+                  type='text'
+                  className='form-input'
+                  onChange={this.handleOnChange('email')}
+                  value={email}
+                />
               </ WrappedField>
               <div className='center-text'>
                 <PrimaryButton
@@ -121,4 +150,10 @@ class SignUpModal extends PureComponent {
 
 const mapStateToProps = R.prop('readerData')
 
-export default connect(mapStateToProps, { getInitialReaderData, checkFields })(SignUpModal)
+const mapDispatchToProps = {
+  getInitialReaderData,
+  updateReaderData,
+  checkFields,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpModal)

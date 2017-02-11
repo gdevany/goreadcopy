@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import Radium from 'radium'
 import { connect } from 'react-redux'
 import { ReaderData, Litcoins } from '../../redux/actions'
@@ -33,7 +33,14 @@ const styles = {
   },
 }
 
-class SignUpStepOne extends PureComponent {
+class SignUpStepOne extends Component {
+  constructor(props) {
+    super(props)
+
+    this.handleOnChange = this.handleOnChange.bind(this)
+    this.handleOnBlur = this.handleOnBlur.bind(this)
+  }
+
   componentWillReceiveProps({ submitSuccessful }) {
     if (submitSuccessful) { this.props.handleNext() }
   }
@@ -41,7 +48,7 @@ class SignUpStepOne extends PureComponent {
   handleFormSubmit = (event) => {
     event.preventDefault()
     const buttonText = document.activeElement.getAttribute('value')
-    const data = R.map(R.prop('value'), this.refs)
+    const fields = R.pick(['username', 'password', 'passwordConfirmation'], this.props)
     const {
       updateReaderData,
       createReader,
@@ -50,28 +57,42 @@ class SignUpStepOne extends PureComponent {
 
     if (buttonText === 'Next') {
       // TODO: consider error handling + validations?
-      updateReaderData(data)
+      updateReaderData(fields)
       createReader()
     } else if (buttonText === 'Back') {
       handlePrev()
     }
   }
 
+  handleOnChange = R.curry((field, event) => {
+    this.props.updateReaderData({ [field]: event.target.value })
+  })
+
   handleOnBlur = (event) => {
-    const { username, password } = this.refs
-    const { updateReaderData, updateLitcoinBalance } = this.props
+    const {
+      username,
+      password,
+      passwordConfirmation,
+      updateReaderData,
+      updateLitcoinBalance
+    } = this.props
 
     if (event.target.type === 'text' && username.value !== '') {
-      updateReaderData({ username: this.refs.username.value })
+      updateReaderData({ username })
       updateLitcoinBalance(L.ENTERS_USERNAME)
     } else if (event.target.type === 'password' && password.value !== '') {
-      updateReaderData({ password: this.refs.password.value })
+      updateReaderData({ password, passwordConfirmation })
       updateLitcoinBalance(L.ENTERS_PASSWORD)
     }
   }
 
   render() {
-    const { errors } = this.props
+    const {
+      errors,
+      username,
+      password,
+      passwordConfirmation,
+    } = this.props
 
     return (
       <div>
@@ -88,8 +109,9 @@ class SignUpStepOne extends PureComponent {
               <span className='form-label'> User ID </span>
               <input
                 type='text'
-                ref='username'
                 className='form-input'
+                value={username}
+                onChange={this.handleOnChange('username')}
                 onBlur={this.handleOnBlur}
               />
             </WrappedField>
@@ -101,8 +123,9 @@ class SignUpStepOne extends PureComponent {
               <span className='form-label'> Create Password </span>
               <input
                 type='password'
-                ref='password'
                 className='form-input'
+                value={password}
+                onChange={this.handleOnChange('password')}
                 onBlur={this.handleOnBlur}
               />
             </WrappedField>
@@ -112,7 +135,13 @@ class SignUpStepOne extends PureComponent {
               errors={errors}
             >
               <span className='form-label'> Confirm Password </span>
-              <input type='password' ref='passwordConfirmation' className='form-input'/>
+              <input
+                type='password'
+                className='form-input'
+                value={passwordConfirmation}
+                onChange={this.handleOnChange('passwordConfirmation')}
+                onBlur={this.handleOnBlur}
+              />
             </WrappedField>
 
             <div className='center-text'>
