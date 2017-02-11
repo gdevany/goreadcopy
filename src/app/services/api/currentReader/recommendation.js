@@ -1,12 +1,23 @@
-import { default as http } from 'axios'
-import endpoints from '../../../constants/endpoints'
+import http from '../../http'
+import { Endpoints } from '../../../constants'
 
-const { currentReader: { likedReaders, likedAuthors, recommendation } } = endpoints
+const { authenticated } = http
 
-const Recommendation = {
-  findRecommendation: (body) => http.get(recommendation(body)),
-  likedReaders: (body) => http.post(likedReaders(), body),
-  likedAuthors: (body) => http.post(likedAuthors(), body)
+const { currentReader: {
+  likedReaders,
+  likedAuthors,
+  getRecommendation,
+  searchRecommendation,
+  }
+} = Endpoints
+
+const Recommendation = () => {
+  return {
+    getRecommendation: (body) => http.get(getRecommendation(), body),
+    likedReaders: (body) => authenticated.post(likedReaders(), body),
+    likedAuthors: (body) => authenticated.post(likedAuthors(), body),
+    searchRecommendation: (body) => authenticated().get(searchRecommendation(), body),
+  }
 }
 
-export default Recommendation
+export default Recommendation()

@@ -4,15 +4,16 @@ import { LITCOIN_TYPES as L } from '../../constants/litcoins'
 import { Promise } from '../../services'
 import { updateReaderData } from './readerData'
 import { updateLitcoinBalance } from './litcoins'
+import { debounce } from 'lodash'
 
-export function getRecommendation(perUserType = 1) {
+export function getRecommendation() {
   return (dispatch, getState) => {
     /**
     uncomment this code when api endpoint is set up and delete the
     recomendation const
     const genreIds = getState().readerData.genreIds
 
-    CR_Recommendation.findRecommendation({
+    CurrentReaderRecommendation.getRecommendation({
       genreIds: genreIds,
       perUserType: perUserType.count
     })
@@ -129,6 +130,21 @@ export function getRecommendation(perUserType = 1) {
   }
 }
 
+export function searchRecommendation(search) {
+  const debounceSearch = () => {
+    return debounce(dispatch => {
+      CurrentReaderRecommendation.searchRecommendation({
+        author: search,
+        reader: search
+      })
+        .then(res => dispatch(updateRecommended([res.data])))
+        .catch(err => console.log(`Error in searchRecommendation ${err}`))
+    }, 1000)
+  }
+
+  return debounceSearch()
+}
+
 export function choseRecommendation(data, type) {
   return dispatch => {
     switch (type) {
@@ -171,6 +187,7 @@ export function updateRecommended(recommendation) {
 export default {
   choseRecommendation,
   getRecommendation,
+  searchRecommendation,
   updateRecommended,
   updateRecommendedLitcoins,
 }

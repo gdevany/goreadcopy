@@ -58,6 +58,7 @@ const styles = {
 const { pairs } = Collections
 const {
   getRecommendation,
+  searchRecommendation,
   choseRecommendation,
   updateRecommendedLitcoins
 } = Recommended
@@ -94,7 +95,8 @@ class SignUpStepThree extends PureComponent {
       chosenReaders: [],
       chosenAuthors: [],
       selectAll: false,
-      searchInput: '',
+      oldSearchInput: '',
+      newSearchInput: '',
       shouldSubmit: false,
     }
 
@@ -105,12 +107,15 @@ class SignUpStepThree extends PureComponent {
   }
 
   componentWillMount = () => {
-    this.props.getRecommendation({ count: 3 })
+    this.props.getRecommendation()
   }
 
   componentDidUpdate = () => {
-    const { chosenReaders, chosenAuthors } = this.state
-
+    const { chosenReaders, chosenAuthors, oldSearchInput, newSearchInput } = this.state
+    if (newSearchInput !== '' && newSearchInput !== oldSearchInput) {
+      this.props.searchRecommendation(newSearchInput)
+    }
+    this.setState({ oldSearchInput: newSearchInput })
     if (chosenReaders.length) { this.props.updateRecommendedLitcoins(chosenReaders, 'readers') }
     if (chosenAuthors.length) { this.props.updateRecommendedLitcoins(chosenAuthors, 'authors') }
   }
@@ -176,13 +181,12 @@ class SignUpStepThree extends PureComponent {
     return result
   }
 
-  handleSearch = (event) => {
-    event.preventDefault()
-    // see notes below: this.props.getRecommendation(this.refs.search.value)
-  }
-
-  handleSearchTyping = (event) => {
-    this.setState({ searchInput: this.refs.search.value })
+  handleSearchTyping = () => {
+    const search = this.refs.search.value
+    this.setState({ newSearchInput: search })
+    if (search === '') {
+      this.props.getRecommendation()
+    }
   }
 
   checkBoxesFor(dataType, users) {
@@ -193,7 +197,7 @@ class SignUpStepThree extends PureComponent {
         lastName,
         image,
         booksWritten,
-        aboutSlogan,
+        inspiredBy,
       } = user
 
       return (
@@ -204,7 +208,7 @@ class SignUpStepThree extends PureComponent {
           lastName={lastName}
           image={image}
           booksWritten={booksWritten}
-          aboutSlogan={aboutSlogan}
+          inspiredBy={inspiredBy}
           handleCheckBoxClick={this.handleCheckBoxClick(dataType)}
           isChecked={this.isChosen(id)}
           dataType={dataType}
@@ -220,21 +224,10 @@ class SignUpStepThree extends PureComponent {
 
   render() {
     const { stepIndex, recommended } = this.props
-    const { searchInput, selectAll, shouldSubmit } = this.state
+    const { newSearchInput, selectAll, shouldSubmit } = this.state
     const readers = this.checkBoxesFor('readers', displayable(allReaders(recommended)))
     const authors = this.checkBoxesFor('authors', displayable(allAuthors(recommended)))
-    /*
-     TODO: Add search bar
-      * We should really discuss the API implementation for this.
-      * An idea I have:
-      * 1. Users search for the author/reader they like
-      * 2. getRecommendation is called with getRecommendation({search: 'Someone'})
-      * 3. database looks for readers and authors of that name. If they exist they get
-        added to readers AND/OR authors array for their related genre.
-      * 4. This info gets added to the current recommendations sent to us.
-      * 5. Thus when can still use the recommended prop, the only difference being that another
-        author AND OR reader would be rendered.
-    */
+
     return (
       <div style={styles.container} className='card front-card'>
 
@@ -250,9 +243,9 @@ class SignUpStepThree extends PureComponent {
         <h5 style={styles.labelText}> Add Your Own </h5>
 
         <div className='small-12'>
-          <form className='form-input-wrapper' onSubmit={this.handleSearch}>
+          <form className='form-input-wrapper'>
             <input
-              value={searchInput}
+              value={newSearchInput}
               className='form-input'
               type='text'
               ref='search'
@@ -319,6 +312,7 @@ const mapStateToProps = ({ recommended }) => {
 
 const mapDispatchToProps = {
   getRecommendation,
+  searchRecommendation,
   choseRecommendation,
   updateRecommendedLitcoins,
 }

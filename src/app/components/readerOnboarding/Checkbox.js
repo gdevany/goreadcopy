@@ -34,12 +34,15 @@ const Checkbox = ({
   lastName,
   image,
   booksWritten,
-  aboutSlogan,
+  inspiredBy,
   handleCheckBoxClick,
   isChecked,
   dataType,
 }) => {
   {/** TODO: need to account for if name is too long needs '...'**/}
+  const subtitle = (booksWritten ? `Author of ${booksWritten[0]}` : null) ||
+    (inspiredBy ? `Inspired by ${inspiredBy}` : null)
+
   return (
     <div style={styles.item}>
         <div style={styles.checkboxContainer} className='checkbox-wrapper'>
@@ -56,7 +59,7 @@ const Checkbox = ({
           <CardHeader
             title={`${firstName} ${lastName}`}
             titleStyle={styles.nameText}
-            subtitle={(booksWritten ? `Author of ${booksWritten[0]}` : null) || aboutSlogan}
+            subtitle={subtitle}
             subtitleStyle={styles.subTitleText}
             avatar={image}
             style={styles.infoContainer}

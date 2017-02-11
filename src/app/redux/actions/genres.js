@@ -5,6 +5,7 @@ import { updateLitcoinBalance } from './litcoins'
 import { LITCOIN_TYPES as L } from '../../constants/litcoins'
 
 export function getGenres(query) {
+
   return dispatch => {
     /* Use this code when API ready and delete genres array below:
     Readers.getLandingGenres(query)
