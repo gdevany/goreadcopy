@@ -1,51 +1,18 @@
 import { default as A } from '../const/actionTypes'
 import CurrentReaderGenres from '../../services/api/currentReader/genres'
-// import Readers from '../../services/api/readers'
+import Readers from '../../services/api/readers'
 import { updateReaderData } from './readerData'
 import { updateLitcoinBalance } from './litcoins'
 import { LITCOIN_TYPES as L } from '../../constants/litcoins'
+import { Deserialization } from '../../services'
 
-export function getGenres(query) {
+const { fromPaginated } = Deserialization
+
+export function getGenres() {
   return dispatch => {
-    // Readers.getLandingGenres()
-    //   .then(res => {
-    //     console.log('result', res)
-    //     // dispatch(updateGenres(res))
-    //   })
-    //   .catch((err) => console.log(`Error in getGenres api call: ${err}`))
-
-    const genres = [
-      {
-        id: 0,
-        name: 'Popular'
-      },
-      {
-        id: 1,
-        name: 'Sci-Fi'
-      },
-      {
-        id: 2,
-        name: 'Romance'
-      },
-      {
-        id: 3,
-        name: 'Young Adult'
-      },
-      {
-        id: 4,
-        name: 'Sports'
-      },
-      {
-        id: 5,
-        name: 'Business'
-      },
-      {
-        id: 6,
-        name: 'Cooking'
-      }
-    ]
-
-    dispatch(updateGenres(genres))
+    return Readers.getLandingGenres()
+      .then(res => dispatch(updateGenres(fromPaginated(res))))
+      .catch((err) => console.log(`Error in getGenres api call: ${err}`))
   }
 }
 

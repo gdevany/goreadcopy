@@ -3,7 +3,7 @@ import { Paths } from '../services'
 const Endpoints = () => {
   const { apiUrl } = Paths
   const routes = {
-    books: () => apiUrl('onboarding/books'),
+    books: (params) => apiUrl('onboarding/books', params),
     readers: (params) => apiUrl('onboarding/readers', params),
     readerValidation: (params) => apiUrl('onboarding/readers/check', params),
     getGenres: (params) => {

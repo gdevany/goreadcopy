@@ -1,12 +1,12 @@
-import Http from '../http'
+import http from '../http'
 import { Endpoints } from '../../constants'
 
 const { books } = Endpoints
 
-const Books = (http) => {
+const Books = () => {
   return {
     getBooks: (params) => http.get(books(params))
   }
 }
 
-export default Books(Http)
+export default Books()

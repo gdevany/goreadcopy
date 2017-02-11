@@ -1,4 +1,3 @@
-import R from 'ramda'
 import { BOOKS as A } from '../const/actionTypes'
 import { Books } from '../../services/api'
 import { Deserialization } from '../../services'
@@ -7,20 +6,11 @@ const { fromPaginated } = Deserialization
 
 export function getBooks(params) {
   return (dispatch, getState) => {
-    const defaultParams = {
-      genreId: null,
-      page: undefined,
-      perPage: undefined,
-      sort: 'popular',
-      imageSize: 'average'
-    }
-
-    const allParams = R.merge(defaultParams, params)
-
     dispatch({ type: A.GET_BOOKS })
 
-    Books.getBooks(allParams)
+    return Books.getBooks(params)
       .then(res => dispatch(getBooksSuccess(fromPaginated(res))))
+      .catch((err) => console.log(`Error in getBooks api call: ${err}`))
   }
 }
 
