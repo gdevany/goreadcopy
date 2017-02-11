@@ -1,16 +1,19 @@
 import { default as A } from '../const/actionTypes'
 import CurrentReaderGenres from '../../services/api/currentReader/genres'
+// import Readers from '../../services/api/readers'
 import { updateReaderData } from './readerData'
 import { updateLitcoinBalance } from './litcoins'
 import { LITCOIN_TYPES as L } from '../../constants/litcoins'
 
 export function getGenres(query) {
-
   return dispatch => {
-    /* Use this code when API ready and delete genres array below:
-    Readers.getLandingGenres(query)
-      .then((response) => dispatch(updateGenres(response.result)))
-      .catch((error) => console.log(`Error in getGenres api call: ${err}`)) */
+    // Readers.getLandingGenres()
+    //   .then(res => {
+    //     console.log('result', res)
+    //     // dispatch(updateGenres(res))
+    //   })
+    //   .catch((err) => console.log(`Error in getGenres api call: ${err}`))
+
     const genres = [
       {
         id: 0,
@@ -67,8 +70,8 @@ export function updateGenres(genres) {
 }
 
 export default {
-  createChosenReaderGenres,
   getGenres,
+  createChosenReaderGenres,
   updateGenres,
   updateGenreLitcoins,
 }

@@ -7,14 +7,16 @@ const styles = {
     backgroundColor: Colors.blue,
     border: `1px solid ${Colors.blue}`,
     color: Colors.white,
-    boxShadow: 0,
     borderRadius: 25,
     fontSize: 16,
     padding: '15px 30px',
 
     ':hover': {
       backgroundColor: Colors.blue,
-      opacity: 0.85,
+      boxShadow: '0px 15px 30px 0px rgba(0,0,0,0.15)',
+      opacity: 0.9,
+      transform: 'translateY(-5px)',
+      transition: '0.25s'
     },
 
     ':focus': {
@@ -27,7 +29,6 @@ const styles = {
     boxShadow: 0,
     border: '1px solid grey',
     borderRadius: 25,
-    fontFamily: 'Open Sans',
     fontSize: 16,
     padding: '15px 30px',
   },

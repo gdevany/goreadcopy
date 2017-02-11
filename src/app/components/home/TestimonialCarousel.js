@@ -9,7 +9,7 @@ const styles = {
   carouselContainer: {
     position: 'relative',
     width: '80%',
-    zIndex: 0,
+    zIndex: 10,
   },
 
   portraitRow: {
@@ -33,7 +33,7 @@ const TestimonialCarousel = () => {
 
   return (
     <div style={styles.carouselContainer} className='row carousel-wrapper'>
-      <Slider autoplay={true} {...settings}>
+      <Slider autoplay={true} autoplaySpeed={5000} {...settings}>
 
         <div>
           <div style={styles.portraitRow} className='row'>

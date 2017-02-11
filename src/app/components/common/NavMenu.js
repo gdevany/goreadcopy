@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import Radium from 'radium'
 import { stack as MobileMenu } from 'react-burger-menu'
 import { Link } from 'react-router'
 import R from 'ramda'
@@ -45,6 +46,15 @@ const styles = {
     left: '36px',
     top: '36px'
   },
+
+  popover: {
+    padding: 20,
+
+    ':hover': {
+      backgroundColor: Colors.white,
+      color: Colors.blue,
+    },
+  },
 }
 
 class NavMenu extends PureComponent {
@@ -85,18 +95,24 @@ class NavMenu extends PureComponent {
 
     const bookStoreItem = (
       <li key={'popover-nav-item'} style={styles.navLinks} className='link nav-item'>
+
         <a onMouseEnter={this.handleNavHover} href={bookStore()}>
           Book Store
         </a>
+
         <Popover
           open={this.state.open}
           anchorEl={this.state.anchorEl}
           anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
           targetOrigin={{ horizontal: 'left', vertical: 'top' }}
           onRequestClose={this.handleRequestClose}
+          style={styles.popover}
+          className='nav-popover'
         >
+
           <div className='side-by-side-wrapper' onMouseLeave={this.handleRequestClose}>
             <div className='side-left'>
+
               <Menu styles={styles}>
                 <MenuItem
                   className='nav-popover-menu-title'
@@ -116,7 +132,9 @@ class NavMenu extends PureComponent {
                   })
                 }
               </Menu>
+
             </div>
+
             <div className='side-right'>
               <Menu>
                 <MenuItem
@@ -138,6 +156,7 @@ class NavMenu extends PureComponent {
                 <MenuItem primaryText='See More >' href={bookStore()} />
               </Menu>
             </div>
+
           </div>
         </Popover>
       </li>
@@ -262,4 +281,4 @@ class NavMenu extends PureComponent {
   }
 }
 
-export default NavMenu
+export default Radium(NavMenu)

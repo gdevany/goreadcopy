@@ -60,6 +60,7 @@ class SignUpModal extends Component {
 
     return (
       <div>
+
         <Dialog
           bodyClassName='signup-modal-content'
           bodyStyle={styles.modalBody}
@@ -69,34 +70,48 @@ class SignUpModal extends Component {
           onRequestClose={handleClose}
           autoDetectWindowHeight={false}
         >
-          <div
+          <img
+            src='./image/close.png'
             className='general-font center-text signup-modal-x'
             onClick={handleClose}
-          >
-            X
-          </div>
-          <h1 className='center-text'>
+          />
+
+          <h1 className='center-text large-header'>
             Join GoRead
           </h1>
+
           <div className='center-text'>
+
             <SocialButton
               href={routes.providerLogin({ provider: 'facebook' })}
               text={'Sign up with Facebook'}
+              backgroundColor={'#3B5998'}
+              icon={'./image/facebook.png'}
             />
+
             <SocialButton
               href={routes.providerLogin({ provider: 'google' })}
               text={'Sign up with Google'}
+              backgroundColor={'#EA4235'}
+              icon={'./image/google.png'}
             />
+
             <SocialButton
               href={routes.providerLogin({ provider: 'linkedin' })}
               text={'Sign up with Linkedin'}
+              backgroundColor={'#0077B5'}
+              icon={'./image/linkedin.png'}
             />
+
           </div>
+
           <h4 className='inner-title center-text'>
             or sign up with email:
           </h4>
+
           <div style={styles.formContainer}>
             <form onSubmit={this.handleSubmit} className='form-wrapper general-font'>
+
               <WrappedField
                 field='firstName'
                 errors={errors}
@@ -109,6 +124,7 @@ class SignUpModal extends Component {
                   value={firstName}
                 />
               </WrappedField>
+
               <WrappedField
                 field='lastName'
                 errors={errors}
@@ -121,6 +137,7 @@ class SignUpModal extends Component {
                   value={lastName}
                 />
               </WrappedField>
+
               <WrappedField
                 field='email'
                 errors={errors}
@@ -133,6 +150,7 @@ class SignUpModal extends Component {
                   value={email}
                 />
               </ WrappedField>
+
               <div className='center-text'>
                 <PrimaryButton
                   label={'Sign up with email'}
@@ -140,6 +158,7 @@ class SignUpModal extends Component {
                   type={'submit'}
                 />
               </div>
+
             </form>
           </div>
         </Dialog>

@@ -21,7 +21,7 @@ const Book = ({ book }) => {
               by {book.author}
              </a>
            </div>
-          <img className='book' src={`./image/${book.imageUrl}`} />
+          <img className='book' src={book.imageUrl} />
         </a>
       </div>
 

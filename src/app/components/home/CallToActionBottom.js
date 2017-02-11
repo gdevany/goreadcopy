@@ -4,7 +4,6 @@ import { PrimaryButton, SignUpModal } from '../common'
 const styles = {
   ctaContainer: {
     position: 'relative',
-    zIndex: -10,
   }
 }
 

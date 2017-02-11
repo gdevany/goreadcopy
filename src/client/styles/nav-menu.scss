@@ -25,14 +25,14 @@
   padding:0;
   background-color: none;
 
-  @media all and (min-width: 1200px){
+  @media all and (min-width: 1100px){
     padding: .5rem;
   }
 }
 
 .top-bar-left, .top-bar-right{
   display: none;
-  @media all and (min-width: 1200px){
+  @media all and (min-width: 1100px){
     display: block;
   }
 }
@@ -42,7 +42,7 @@
   justify-content: center;
   align-items: center;
   padding: 1em 0;
-  @media all and (min-width: 1200px){
+  @media all and (min-width: 1100px){
     display: none;
   }
 }
@@ -71,4 +71,11 @@
 
 .top-bar {
   box-shadow: rgba(0, 0, 0, 0.0784314) 0px 2px 30px 0px;
+}
+
+.nav-popover {
+  &:hover {
+    background-color: $white !important;
+    color: $blue !important;
+  }
 }

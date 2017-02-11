@@ -49,16 +49,13 @@ const styles = {
 
 class BookLanding extends PureComponent {
   componentWillMount = () => {
-    const { books, genres, getBooks } = this.props
-    if (R.isEmpty(books)) { getBooks({ sort: 'popular' }) }
-    // TODO: Will we be sorting genres shown here by what's popular?
-    if (R.isEmpty(genres)) {
-      getGenres({ sort: 'popular' })
-    }
+    const { books, genres, getBooks, getGenres } = this.props
+    if (R.isEmpty(books)) { getBooks() }
+    if (R.isEmpty(genres)) { getGenres() }
   }
 
   handleMapGenres = (genres) => {
-    return genres.map((genre, index) => {
+    return R.take(8, genres.map((genre, index) => {
       return (
         <li style={styles.shopList} className='link nav-item' key={index}>
           <a onClick={(event) => this.handleGenreClick(event, genre.id)} >
@@ -66,7 +63,17 @@ class BookLanding extends PureComponent {
           </a>
         </li>
       )
-    })
+    }))
+  }
+
+  handleMapBooks = (books) => {
+    return R.take(6, books.map((book, index) => {
+      return (
+        <div key={index} className='small-2 columns'>
+          {<Book book={book} />}
+        </div>
+      )
+    }))
   }
 
   handleGenreClick = (event, genreId) => {
@@ -81,34 +88,30 @@ class BookLanding extends PureComponent {
       <div style={styles.shopSection}>
         <div>
           <div style={styles.shopLinkSection}>
+
             <div className='row'>
               <ul style={styles.shopUl}>
+
                 <li style={styles.shopList}>
                   <p style={styles.shopText} className='nav-item'>
                     Shop:
                   </p>
                 </li>
+
                 {this.handleMapGenres(genres)}
                 <li className='link nav-item' style={{ float: 'right' }}>
                   <a href={bookStore()}>
                     Shop More
                   </a>
                 </li>
+
               </ul>
             </div>
           </div>
         </div>
 
         <div className='row' style={styles.bookSection}>
-          {
-            books.map((book, index) => {
-              return (
-                <div key={index} className='small-2 columns'>
-                  {<Book book={book} />}
-                </div>
-              )
-            })
-          }
+          {this.handleMapBooks(books)}
         </div>
       </div>
     )

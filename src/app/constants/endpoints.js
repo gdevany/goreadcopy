@@ -6,7 +6,10 @@ const Endpoints = () => {
     books: () => apiUrl('onboarding/books'),
     readers: (params) => apiUrl('onboarding/readers', params),
     readerValidation: (params) => apiUrl('onboarding/readers/check', params),
-    getGenres: (params) => apiUrl('onboarding/genres', params),
+    getGenres: (params) => {
+      console.log(apiUrl('onboarding/genres', params))
+      apiUrl('onboarding/genres', params)
+    },
     getBooks: (params) => apiUrl('onboarding/books', params),
     currentReader: {
       getRecommendation: (params) => apiUrl('onboarding/genres/top_users', params),

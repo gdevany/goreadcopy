@@ -128,7 +128,7 @@ class SignUpStepTwo extends PureComponent {
           className={isChosen ? 'chosenGenre' : null}
           labelStyle={styles.chipText}
           style={styles.chip}
-          onTouchTap={this.handleSelectGenre}
+          onClick={this.handleSelectGenre}
         >
           {isChosen ?
             <img style={styles.checkmark} src='./image/checkmark.png' /> :

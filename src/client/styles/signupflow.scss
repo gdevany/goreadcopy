@@ -1,8 +1,7 @@
 @import 'variables.scss';
 
 .signup-modal-x {
-  float: left;
-  font-size: 2.3em;
+  position: absolute;
 
   &:hover {
     cursor: pointer;

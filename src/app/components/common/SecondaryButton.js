@@ -14,6 +14,7 @@ const styles = {
 
     ':hover': {
       backgroundColor: Colors.blue,
+      transition: '0.35s'
     },
 
     ':focus': {
