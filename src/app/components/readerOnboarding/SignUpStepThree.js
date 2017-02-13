@@ -104,6 +104,7 @@ class SignUpStepThree extends PureComponent {
     this.handleCheckBoxClick = this.handleCheckBoxClick.bind(this)
     this.handleSelectAll = this.handleSelectAll.bind(this)
     this.isChosen = this.isChosen.bind(this)
+    this.checkBoxesFor = this.checkBoxesFor.bind(this)
   }
 
   componentWillMount = () => {
@@ -209,7 +210,7 @@ class SignUpStepThree extends PureComponent {
           image={image}
           booksWritten={booksWritten}
           inspiredBy={inspiredBy}
-          handleCheckBoxClick={this.handleCheckBoxClick(dataType)}
+          onClick={this.handleCheckBoxClick(dataType)}
           isChecked={this.isChosen(id)}
           dataType={dataType}
         />

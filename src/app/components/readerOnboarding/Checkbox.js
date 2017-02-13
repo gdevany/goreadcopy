@@ -4,7 +4,6 @@ import { Colors } from '../../constants/style'
 
 const styles = {
   checkboxContainer: {
-    float: 'left',
     marginTop: 5,
   },
 
@@ -35,9 +34,9 @@ const Checkbox = ({
   image,
   booksWritten,
   inspiredBy,
-  handleCheckBoxClick,
-  isChecked,
   dataType,
+  onClick,
+  isChecked,
 }) => {
   {/** TODO: need to account for if name is too long needs '...'**/}
   const subtitle = (booksWritten ? `Author of ${booksWritten[0]}` : null) ||
@@ -45,27 +44,26 @@ const Checkbox = ({
 
   return (
     <div style={styles.item}>
-        <div style={styles.checkboxContainer} className='checkbox-wrapper'>
-          <input
-            id={id}
-            name={dataType}
-            type='checkbox'
-            checked={isChecked}
-            onChange={() => handleCheckBoxClick(id)}
-          />
-        </div>
+      <div style={styles.checkboxContainer} className='checkbox-wrapper'>
+        <input
+          id={id}
+          name={dataType}
+          type='checkbox'
+          onClick={() => onClick(id)}
+          checked={isChecked}
+        />
+      </div>
 
-        <div className='checkbox-info-wrapper'>
-          <CardHeader
-            title={`${firstName} ${lastName}`}
-            titleStyle={styles.nameText}
-            subtitle={subtitle}
-            subtitleStyle={styles.subTitleText}
-            avatar={image}
-            style={styles.infoContainer}
-          />
-        </div>
-
+      <div className='checkbox-info-wrapper'>
+        <CardHeader
+          title={`${firstName} ${lastName}`}
+          titleStyle={styles.nameText}
+          subtitle={subtitle}
+          subtitleStyle={styles.subTitleText}
+          avatar={image}
+          style={styles.infoContainer}
+        />
+      </div>
     </div>
   )
 }

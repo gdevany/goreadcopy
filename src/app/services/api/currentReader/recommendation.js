@@ -14,8 +14,8 @@ const { currentReader: {
 const Recommendation = () => {
   return {
     getRecommendation: (body) => http.get(getRecommendation(), body),
-    likedReaders: (body) => authenticated.post(likedReaders(), body),
-    likedAuthors: (body) => authenticated.post(likedAuthors(), body),
+    likedReaders: (body) => authenticated().post(likedReaders(), body),
+    likedAuthors: (body) => authenticated().post(likedAuthors(), body),
     searchRecommendation: (body) => authenticated().get(searchRecommendation(), body),
   }
 }

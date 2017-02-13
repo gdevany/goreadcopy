@@ -134,7 +134,7 @@ const Link = ({ href, children, className }) => {
   )
 }
 
-const Button = ({ href, children }) => {
+const Button = ({ href, children, shouldSubmit }) => {
   return (
     <TriggeredSubmit
       shouldSubmit={shouldSubmit}
