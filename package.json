@@ -6,7 +6,8 @@
     "build": "webpack --config webpack-production.config.js --colors",
     "build:dev": "webpack --config webpack-dev-server.config.js --progress --colors",
     "deploy": "gcloud app deploy --project rl-staging",
-    "start": "concurrently \"npm run build\" \"node src/server/server.js\"",
+    "heroku-postbuild": "npm run build",
+    "start": "node src/server/server.js",
     "start:dev": "nodemon src/server/server.js --ignore components --progress --inline --colors",
     "test": "echo 'none yet!'"
   },
