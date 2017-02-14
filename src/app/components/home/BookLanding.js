@@ -78,7 +78,7 @@ class BookLanding extends PureComponent {
 
   handleGenreClick = (event, genreId) => {
     (event.target.text === 'Popular') ? this.props.getBooks() :
-      this.props.getBooks({ genreIds: [genreId] })
+      this.props.getBooks({ genreIds: genreId })
   }
 
   render() {
