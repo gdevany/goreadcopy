@@ -151,6 +151,11 @@ class SignUpModal extends Component {
                 />
               </ WrappedField>
 
+              <WrappedField
+                field='nonFieldErrors'
+                errors={errors}
+              />
+
               <div className='center-text'>
                 <PrimaryButton
                   label={'Sign up with email'}

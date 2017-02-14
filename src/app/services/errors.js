@@ -33,7 +33,26 @@ const Errors = () => {
 
   const none = R.always({})
 
-  const errorsFrom = R.compose(R.propOr({}, 'errors'), R.prop('data'), R.prop('response'))
+  const expectedErrors = R.compose(R.prop('errors'), R.propOr({}, 'data'), R.propOr({}, 'response'))
+
+  const unexpectedErrors = (error) => {
+    const hasAnError = R.prop('message', error)
+    const catchallMessage = 'Sorry! There was a problem on our end. Please try again later'
+    if (hasAnError) {
+      return { nonFieldErrors: message(catchallMessage) }
+    }
+    return null
+  }
+
+  const errorsFrom = (error) => {
+    // for expected error messages from the API
+    const expected = expectedErrors(error)
+
+    // for unexpected error messages, i.e. network, syntax, etc
+    const unexpected = unexpectedErrors(error)
+
+    return expected || unexpected || {}
+  }
 
   const messageFrom = R.compose(R.join(' '), R.propOr('', 'message'))
 
