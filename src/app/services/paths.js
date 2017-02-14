@@ -22,7 +22,7 @@ const Paths = () => {
   }
 
   const backendUrl = (path, query) => {
-    const backendUrl = `${Env.REDIRECT_BASE_URL}}/`
+    const backendUrl = `${Env.REDIRECT_BASE_URL}/`
     return checkUrl(backendUrl, path, query) || backendUrl
   }
 
