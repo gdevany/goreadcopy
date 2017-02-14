@@ -13,7 +13,6 @@ const { getInitialReaderData, checkFields, updateReaderData } = ReaderData
 const styles = {
   modalBody: {
     marginTop: -80,
-    maxHeight: '100%',
   },
 
   modalContent: {
@@ -69,6 +68,7 @@ class SignUpModal extends Component {
           open={modalOpen}
           onRequestClose={handleClose}
           autoDetectWindowHeight={false}
+          autoScrollBodyContent={true}
         >
           <img
             src='./image/close.png'
