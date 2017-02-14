@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import R from 'ramda'
+import S from 'underscore.string.fp'
 import { connect } from 'react-redux'
 import { ExternalRoutes as routes } from '../../constants'
 import { Genres, Books } from '../../redux/actions'
@@ -59,7 +60,7 @@ class BookLanding extends PureComponent {
       return (
         <li style={styles.shopList} className='link nav-item' key={index}>
           <a onClick={(event) => this.handleGenreClick(event, genre.id)} >
-            {genre.name}
+            {S.titleize(genre.name)}
           </a>
         </li>
       )
