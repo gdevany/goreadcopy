@@ -117,8 +117,8 @@ class SignUpStepThree extends PureComponent {
       this.props.searchRecommendation(newSearchInput)
     }
     this.setState({ oldSearchInput: newSearchInput })
-    if (chosenReaders.length) { this.props.updateRecommendedLitcoins(chosenReaders, 'readers') }
-    if (chosenAuthors.length) { this.props.updateRecommendedLitcoins(chosenAuthors, 'authors') }
+    this.props.updateRecommendedLitcoins(chosenReaders, 'readers')
+    this.props.updateRecommendedLitcoins(chosenAuthors, 'authors')
   }
 
   handleButtonClick = (event) => {
@@ -127,8 +127,8 @@ class SignUpStepThree extends PureComponent {
     const buttonText = document.activeElement.getAttribute('value')
     if (buttonText === 'Finish & go explore books') {
       this.setState({ shouldSubmit: true })
-      if (chosenReaders.length) { this.props.choseRecommendation(chosenReaders, 'readers') }
-      if (chosenAuthors.length) { this.props.choseRecommendation(chosenAuthors, 'authors') }
+      this.props.choseRecommendation(chosenReaders, 'readers')
+      this.props.choseRecommendation(chosenAuthors, 'authors')
     } else if (buttonText === 'Back') {
       this.props.handlePrev()
     }
@@ -167,8 +167,8 @@ class SignUpStepThree extends PureComponent {
       selectAll,
     })
 
-    if (chosenReaders.length) { this.props.choseRecommendation(chosenReaders, 'readers') }
-    if (chosenAuthors.length) { this.props.choseRecommendation(chosenAuthors, 'authors') }
+    this.props.updateRecommendedLitcoins(chosenReaders, 'readers')
+    this.props.updateRecommendedLitcoins(chosenAuthors, 'authors')
 
     clickedSelectAll()
   }

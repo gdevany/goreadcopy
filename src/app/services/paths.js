@@ -22,13 +22,15 @@ const Paths = () => {
   }
 
   const backendUrl = (path, query) => {
-    const backendUrl = `${Env.REDIRECT_BASE_URL}/`
-    return checkUrl(backendUrl, path, query) || backendUrl
+    const backendUrl = Env.REDIRECT_BASE_URL
+    const fullPath = `${backendUrl}/${path}`
+    return query ? `${fullPath}${asParams(query)}` : `${fullPath}/`
   }
 
   const apiUrl = (path, query) => {
-    const apiUrl = `${Env.API_URL}/api/`
-    return checkUrl(apiUrl, path, query) || apiUrl
+    const apiUrl = `${Env.API_URL}/api`
+    const fullPath = `${apiUrl}/${path}`
+    return query ? `${fullPath}${asParams(query)}` : `${fullPath}/`
   }
 
   const appUrl = (path, query) => {

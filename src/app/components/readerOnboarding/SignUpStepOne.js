@@ -56,7 +56,6 @@ class SignUpStepOne extends Component {
     } = this.props
 
     if (buttonText === 'Next') {
-      // TODO: consider error handling + validations?
       updateReaderData(fields)
       createReader()
     } else if (buttonText === 'Back') {
