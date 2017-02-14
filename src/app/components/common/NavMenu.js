@@ -61,8 +61,8 @@ const styles = {
 }
 
 const {
-  about,
   articles,
+  childrensLiteracy,
   authors,
   bookStore,
   login,
@@ -175,7 +175,7 @@ class NavMenu extends PureComponent {
     )
 
     const nonMenuRoutes = [
-      ['About', about],
+      ["Children's Literacy", childrensLiteracy],
       ['News', news],
       ['Articles', articles],
       ['Authors', authors],
@@ -198,11 +198,11 @@ class NavMenu extends PureComponent {
   }
 
   handleMapNavItemsMobile = () => {
-    const { bookStore, about, news, articles, authors } = routes
+    const { bookStore, childrensLiteracy, news, articles, authors } = routes
 
     const nonMenuRoutes = [
       ['Book Store', bookStore],
-      ['About', about],
+      ["Children's Literacy", childrensLiteracy],
       ['News', news],
       ['Articles', articles],
       ['Authors', authors],
