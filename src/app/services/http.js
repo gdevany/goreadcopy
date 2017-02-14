@@ -5,7 +5,6 @@ const Http = () => {
   const authHeaders = (token) => {
     return {
       'Authorization': `Bearer ${token}`,
-      'Access-Control-Allow-Origin': '*'
     }
   }
 
@@ -14,13 +13,6 @@ const Http = () => {
     const headers = authHeaders(token)
     return axios.create({ headers })
   }
-
-  // const http = () => {
-  //   const headers = {
-  //     'Access-Control-Allow-Origin': '*',
-  //   }
-  //   return axios.create({ headers })
-  // }
 
   return {
     ...axios,
