@@ -5,16 +5,21 @@ import { Promise } from '../../services'
 import { updateReaderData } from './readerData'
 import { updateLitcoinBalance } from './litcoins'
 import { debounce } from 'lodash'
+import { Deserialization } from '../../services'
 
-export function getRecommendation(params) {
+const { fromPaginated } = Deserialization
+
+export function getRecommendation() {
   return (dispatch, getState) => {
     const genreIds = getState().readerData.genreIds
 
     CurrentReaderRecommendation.getRecommendation({ genreIds })
-      .then(res => console.log(res))
+      .then(res => {
+        dispatch(updateRecommended(fromPaginated()))
+      })
       .catch(err => console.log(`Error in getRecommendation api call: ${err}`))
 
-    // const recommendation = [
+    // results: [
     //   {
     //     id: 0,
     //     name: 'Young Adult',
