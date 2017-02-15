@@ -10,9 +10,8 @@ const QueryParams = () => {
     // NOTE: API needs array params of the format ?arg=X,Y,Z which isn't
     // commonly supported. Need to handle them separately from other
     // types of params
-    const arraysAndOthers = R.partition(Array.isArray, paramsObj)
-    const [arrayArgs, otherArgs] = arraysAndOthers
-    const arraysAsStrings = R.map(R.compose(R.join(','), R.values), arrayArgs)
+    const [arrayArgs, otherArgs] = R.partition(Array.isArray, paramsObj)
+    const arraysAsStrings = R.map(R.join(','), arrayArgs)
     const allArgs = R.merge(otherArgs, arraysAsStrings)
 
     return `?${QS.stringify(allArgs)}`
