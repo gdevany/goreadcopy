@@ -5,124 +5,17 @@ import { Promise } from '../../services'
 import { updateReaderData } from './readerData'
 import { updateLitcoinBalance } from './litcoins'
 import { debounce } from 'lodash'
-import { Deserialization } from '../../services'
-
-const { fromPaginated } = Deserialization
 
 export function getRecommendation() {
   return (dispatch, getState) => {
     const genreIds = getState().readerData.genreIds
 
-    CurrentReaderRecommendation.getRecommendation({ genreIds })
-      .then(res => {
-        dispatch(updateRecommended(fromPaginated()))
-      })
+    CurrentReaderRecommendation.getRecommendation({
+      genreIds,
+      perUserType: 5,
+    })
+      .then(res => dispatch(updateRecommended(res.data)))
       .catch(err => console.log(`Error in getRecommendation api call: ${err}`))
-
-    // results: [
-    //   {
-    //     id: 0,
-    //     name: 'Young Adult',
-    //     authors: [
-    //       {
-    //         id: 3,
-    //         firstName: 'JK',
-    //         lastName: 'Rowling1',
-    //         image: './image/example1.png',
-    //         booksWritten: ['Harry Potter1', 'Harry Potter 2'],
-    //       },
-    //       {
-    //         id: 2,
-    //         firstName: 'LM',
-    //         lastName: 'Mowers1',
-    //         image: './image/example1.png',
-    //         booksWritten: ['Some Book'],
-    //       },
-    //       {
-    //         id: 4,
-    //         firstName: 'JK',
-    //         lastName: 'Rowling2',
-    //         image: './image/example1.png',
-    //         booksWritten: ['Harry Potter1', 'Harry Potter 2'],
-    //       }
-    //     ],
-    //     readers: [
-    //       {
-    //         id: 7,
-    //         firstName: 'Dude',
-    //         lastName: 'Awesome',
-    //         image: './image/example1.png',
-    //         aboutSlogan: 'Loves Harry Potter',
-    //       },
-    //       {
-    //         id: 5,
-    //         firstName: 'LM',
-    //         lastName: 'Mowers2',
-    //         image: './image/example1.png',
-    //         aboutSlogan: 'Young Adult Book Lover',
-    //       },
-    //       {
-    //         id: 1,
-    //         firstName: 'JK',
-    //         lastName: 'Rowling3',
-    //         image: './image/example1.png',
-    //         aboutSlogan: 'Edward for the Win + Comics all day!!',
-    //       }
-    //     ]
-    //   },
-    //   {
-    //     id: 1,
-    //     name: 'Health',
-    //     authors: [
-    //       {
-    //         id: 6,
-    //         firstName: 'JK',
-    //         lastName: 'Healthing',
-    //         image: './image/example1.png',
-    //         booksWritten: ['Harry Plays Basketball', 'Harry Wins a Soccer Game'],
-    //       },
-    //       {
-    //         id: 9,
-    //         firstName: 'Mr',
-    //         lastName: 'Healthy',
-    //         image: './image/example1.png',
-    //         booksWritten: ['Book About Health'],
-    //       },
-    //       {
-    //         id: 10,
-    //         firstName: 'JK',
-    //         lastName: 'Healthing2',
-    //         image: './image/example1.png',
-    //         booksWritten: ['Harry Plays Basketball', 'Harry Wins a Soccer Game'],
-    //       },
-    //     ],
-    //     readers: [
-    //       {
-    //         id: 8,
-    //         firstName: 'Dude',
-    //         lastName: 'Surfboard',
-    //         image: './image/example1.png',
-    //         aboutSlogan: 'Loves Surfing',
-    //       },
-    //       {
-    //         id: 11,
-    //         firstName: 'LM',
-    //         lastName: 'Mowers3',
-    //         image: './image/example1.png',
-    //         aboutSlogan: 'Loves mowing lawns for exercise',
-    //       },
-    //       {
-    //         id: 12,
-    //         firstName: 'JK',
-    //         lastName: 'Rollin',
-    //         image: './image/example1.png',
-    //         aboutSlogan: 'Drives to exercise',
-    //       }
-    //     ]
-    //   }
-    // ]
-
-    //return dispatch(updateRecommended(recommendation))
   }
 }
 
@@ -133,7 +26,10 @@ export function searchRecommendation(search) {
         author: search,
         reader: search
       })
-        .then(res => dispatch(updateRecommended([res.data])))
+        .then(res => {
+          console.log(res.data)
+          return dispatch(updateRecommended([res.data]))
+        })
         .catch(err => console.log(`Error in searchRecommendation ${err}`))
     }, 1000)
   }

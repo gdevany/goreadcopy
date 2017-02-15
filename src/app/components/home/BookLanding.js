@@ -99,7 +99,11 @@ class BookLanding extends PureComponent {
                     Shop:
                   </p>
                 </li>
-
+                <li style={styles.shopList} className='link nav-item' >
+                  <a onClick={(event) => this.handleGenreClick(event, 'Popular')} >
+                    Popular
+                  </a>
+                </li>
                 {this.handleMapGenres(genres)}
                 <li className='link nav-item' style={{ float: 'right' }}>
                   <a href={bookStore()}>
