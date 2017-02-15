@@ -28,7 +28,8 @@ const styles = {
 
   container: {
     backgroundColor: Colors.white,
-    padding: '50px 100px',
+    height: '100%',
+    padding: '50px 70px',
     marginTop: 10,
     maxWidth: 900,
 

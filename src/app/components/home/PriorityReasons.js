@@ -2,6 +2,7 @@ import React from 'react'
 import LandingImage from './LandingImage'
 import LandingReasons from './LandingReasons'
 import { Breakpoints } from '../../constants/style'
+import Radium from 'radium'
 
 const styles = {
   propContainer: {
@@ -91,4 +92,4 @@ const PriorityReasons = () => {
   )
 }
 
-export default PriorityReasons
+export default Radium(PriorityReasons)

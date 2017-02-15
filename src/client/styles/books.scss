@@ -19,11 +19,14 @@
   background: $blue;
   color: $white;
   height: 100%;
+  font-size: 14px;
+  left: 4%;
   padding: 15px;
   position: absolute;
   opacity: 0;
+  overflow: hidden;
   text-align: left;
-  width: 95%;
+  width: 92%;
 
   &:hover {
     opacity: 1;

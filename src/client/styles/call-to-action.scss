@@ -9,4 +9,8 @@
   padding: 100px 0 200px;
   background: url('../image/header-image.jpg') no-repeat center;
   background-size: cover;
+
+  @media all and (max-width: 1200px){
+    padding-top: 170px;
+  }
 }

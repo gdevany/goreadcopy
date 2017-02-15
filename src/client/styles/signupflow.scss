@@ -38,7 +38,8 @@
     box-sizing: border-box;
     display: block;
     font-size: 16px;
-    padding-left: 15px;
+    margin: 0px;
+    padding: 15px;
     width: 100%;
 
     &:focus {
@@ -66,7 +67,20 @@
   z-index: 10;
 }
 
+.front-card:before {
+  content: "";
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px;
+  display: none;
+  position: relative;
+  margin-left: 20px;
+  height: 100%;
+  width: 100%;
+}
+
+
 .behind-card-container {
+  display: none;
   margin: -610px auto 0;
   position: relative;
   width: 900px;

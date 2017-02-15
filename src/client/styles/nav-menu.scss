@@ -25,14 +25,14 @@
   padding:0;
   background-color: none;
 
-  @media all and (min-width: 1100px){
+  @media all and (min-width: 1200px){
     padding: .5rem;
   }
 }
 
 .top-bar-left, .top-bar-right{
   display: none;
-  @media all and (min-width: 1100px){
+  @media all and (min-width: 1200px){
     display: block;
   }
 }
@@ -42,7 +42,7 @@
   justify-content: center;
   align-items: center;
   padding: 1em 0;
-  @media all and (min-width: 1100px){
+  @media all and (min-width: 1200px){
     display: none;
   }
 }
