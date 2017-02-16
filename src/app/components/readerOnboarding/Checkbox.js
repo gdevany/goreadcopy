@@ -8,7 +8,7 @@ const styles = {
   },
 
   infoContainer: {
-    padding: '0 0 0 30px',
+    padding: 0,
   },
 
   item: {
@@ -43,8 +43,8 @@ const Checkbox = ({
     (inspiredBy ? `Inspired by ${inspiredBy}` : null)
 
   return (
-    <div style={styles.item}>
-      <div style={styles.checkboxContainer} className='checkbox-wrapper'>
+    <div className='row' style={styles.item}>
+      <div style={styles.checkboxContainer} className='small-2 columns checkbox-wrapper'>
         <input
           id={id}
           name={dataType}
@@ -54,7 +54,7 @@ const Checkbox = ({
         />
       </div>
 
-      <div className='checkbox-info-wrapper'>
+      <div className='small-10 columns checkbox-info-wrapper'>
         <CardHeader
           title={`${firstName} ${lastName}`}
           titleStyle={styles.nameText}

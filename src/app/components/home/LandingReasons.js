@@ -1,12 +1,30 @@
 import React from 'react'
+import Radium from 'radium'
+import { Colors, Breakpoints } from '../../constants/style'
+
+const styles = {
+  reasons: {
+    color: Colors.black,
+    padding: '150px 50px',
+
+    [Breakpoints.tablet]: {
+      marginTop: 0,
+      padding: 50,
+    },
+  },
+
+  header: {
+    color: Colors.black,
+  },
+}
 
 const LandingReasons = ({ statement, description }) => {
   return (
-    <div className='landing-reasons-wrapper'>
-      <h2 className='general-font general-statement'>{statement}</h2>
-      <p className='general-font'>{description}</p>
+    <div style={styles.reasons} className='landing-reasons-wrapper'>
+      <h1 style={styles.header}>{statement}</h1>
+      <p>{description}</p>
     </div>
   )
 }
 
-export default LandingReasons
+export default Radium(LandingReasons)

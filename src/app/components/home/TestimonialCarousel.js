@@ -54,14 +54,11 @@ const TestimonialCarousel = () => {
 
               <div className='carousel-quote-text'>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Donec quis metus nec dolor venenatis blandit non vel mauris.
-                  Phasellus et lobortis erat. Quisque quis ipsum erat. Donec venenatis
-                  leo in tincidunt facilisis. Integer a sapien eget lorem facilisis
-                  lobortis. Pellentesque lacinia ex sit amet sapien blandit faucibus.
+                  Finding a community of people who love books as much as I do was amazing.
+                  I love being a part of three book clubs at once!
                 </p>
                 <p>
-                  - <span className='carouse-quote-owner-text'>Mary Reynolds</span>
+                  - <span className='carousel-quote-owner-text'>Mary Reynolds</span>
                   , <span>GoRead User</span>
                 </p>
               </div>
@@ -88,14 +85,11 @@ const TestimonialCarousel = () => {
               />
               <div className='carousel-quote-text'>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Donec quis metus nec dolor venenatis blandit non vel mauris.
-                  Phasellus et lobortis erat. Quisque quis ipsum erat. Donec venenatis
-                  leo in tincidunt facilisis. Integer a sapien eget lorem facilisis
-                  lobortis. Pellentesque lacinia ex sit amet sapien blandit faucibus.
+                  I’m a reader and an author, so being able to discover great
+                  new books and grow my audience in one platform is a dream come true.
                 </p>
                 <p>
-                  - <span className='carousel-quote-owner-text'>John E. Dip</span>
+                  - <span className='carousel-quote-owner-text'>John Cushing</span>
                   , <span>GoRead User</span>
                 </p>
               </div>
@@ -123,14 +117,10 @@ const TestimonialCarousel = () => {
               />
               <div className='carousel-quote-text'>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Donec quis metus nec dolor venenatis blandit non vel mauris.
-                  Phasellus et lobortis erat. Quisque quis ipsum erat. Donec venenatis
-                  leo in tincidunt facilisis. Integer a sapien eget lorem facilisis
-                  lobortis. Pellentesque lacinia ex sit amet sapien blandit faucibus.
+                  GoRead has every book I’m looking for. I probably buy a book per week!
                 </p>
                 <p>
-                  - <span className='carousel-quote-owner-text'>Ayesha Curry</span>
+                  - <span className='carousel-quote-owner-text'>Jessica Lopez</span>
                   , <span>GoRead User</span>
                 </p>
               </div>

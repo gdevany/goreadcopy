@@ -32,6 +32,12 @@ class SignUpModal extends Component {
   constructor(props) {
     super(props)
 
+    this.state = {
+      firstName: '',
+      lastName: '',
+      email: '',
+    }
+
     this.handleOnChange = this.handleOnChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -43,19 +49,23 @@ class SignUpModal extends Component {
   }
 
   handleOnChange = R.curry((field, e) => {
+    this.setState({ [field]: e.target.value })
     this.props.updateReaderData({ [field]: e.target.value })
   })
 
   render() {
     const {
-      firstName,
-      lastName,
-      email,
       errors,
       modalOpen,
       handleClose,
       handleSubmit
     } = this.props
+
+    const {
+      firstName,
+      lastName,
+      email,
+    } = this.state
 
     return (
       <div>
@@ -150,6 +160,11 @@ class SignUpModal extends Component {
                   value={email}
                 />
               </ WrappedField>
+
+              <WrappedField
+                field='nonFieldErrors'
+                errors={errors}
+              />
 
               <div className='center-text'>
                 <PrimaryButton

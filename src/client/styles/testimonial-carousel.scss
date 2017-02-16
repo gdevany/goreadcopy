@@ -4,6 +4,10 @@
   margin-top: 135px;
   margin-bottom: -130px;
 
+  @media only screen and (max-width: 640px) {
+    margin-top: 70px;
+  }
+
   .carousel-image {
     margin: 0 auto;
     border-radius: 150px;
@@ -17,6 +21,10 @@
   .carousel-quote-text {
     font-size: 24px;
     padding-left: 55px;
+
+    @media only screen and (max-width: 640px) {
+      padding-left: 0px;
+    }
   }
 
   .carousel-quote-owner-text {

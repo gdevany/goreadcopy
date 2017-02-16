@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import Radium from 'radium'
 import R from 'ramda'
+import S from 'underscore.string.fp'
 import { connect } from 'react-redux'
 import { Chip } from 'material-ui'
 import { Genres } from '../../redux/actions'
@@ -27,7 +28,8 @@ const styles = {
 
   container: {
     backgroundColor: Colors.white,
-    padding: '50px 100px',
+    height: '100%',
+    padding: '50px 70px',
     marginTop: 10,
     maxWidth: 900,
 
@@ -134,7 +136,7 @@ class SignUpStepTwo extends PureComponent {
             <img style={styles.checkmark} src='./image/checkmark.png' /> :
             <img style={styles.checkmark} src='./image/plus.png' />
           }
-            {genre.name}
+            {S.titleize(genre.name)}
         </Chip>
       )
     })
