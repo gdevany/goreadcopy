@@ -24,6 +24,11 @@ const styles = {
   subTitleText: {
     color: Colors.black,
   },
+
+  please: {
+    padding: 0,
+    width: '70%',
+  },
 }
 
 // TODO: rename? `Checkbox` is a little generic for something talking about authors/readers
@@ -58,6 +63,7 @@ const Checkbox = ({
         <CardHeader
           title={`${firstName} ${lastName}`}
           titleStyle={styles.nameText}
+          textStyle={styles.please}
           subtitle={subtitle}
           subtitleStyle={styles.subTitleText}
           avatar={image}
