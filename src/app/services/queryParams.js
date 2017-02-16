@@ -1,5 +1,4 @@
 import QS from 'query-string'
-window.QS = QS
 import R from 'ramda'
 
 const QueryParams = () => {
@@ -14,7 +13,7 @@ const QueryParams = () => {
     const arraysAsStrings = R.map(R.join(','), arrayArgs)
     const allArgs = R.merge(otherArgs, arraysAsStrings)
 
-    return `?${QS.stringify(allArgs)}`
+    return `?${QS.stringify(allArgs, { encode: false })}` //temporary
   }
 
   return {

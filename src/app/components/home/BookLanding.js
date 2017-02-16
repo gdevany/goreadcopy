@@ -19,6 +19,11 @@ const styles = {
     maxWidth: 1150,
     width: '98%',
     boxShadow: '0px 2px 30px 0px rgba(0,0,0,0.08)',
+
+    [Breakpoints.mobile]: {
+      padding: '0 20px 50px 20px',
+      width: '92%',
+    },
   },
 
   shopList: {
@@ -33,6 +38,13 @@ const styles = {
 
   shopMoreText: {
     color: Colors.blue,
+  },
+
+  shopMoreMobileText: {
+    color: Colors.blue,
+    float: 'right',
+    fontWeight: 300,
+    marginRight: 10,
   },
 
   shopMoreContainer: {
@@ -55,6 +67,9 @@ const styles = {
   bookSection: {
     marginTop: 35,
     maxWidth: 1050,
+    [Breakpoints.mobile]: {
+      maxWidth: 640,
+    }
   },
 
   shopContainer: {
@@ -68,6 +83,8 @@ const styles = {
 
     [Breakpoints.mobile]: {
       display: 'inline',
+      fontWeight: 700,
+      marginLeft: 10,
     },
   },
 }
@@ -92,18 +109,36 @@ class BookLanding extends PureComponent {
   }
 
   handleMapBooks = (books) => {
-    return R.take(6, books.map((book, index) => {
-      return (
-        <div key={index} className='small-2 columns'>
-          {<Book book={book} />}
-        </div>
-      )
-    }))
+    const deviceType = this.checkScreenSize()
+    let result = []
+    if (deviceType === 'phone') {
+      result = R.take(3, books.map((book, index) => {
+        return (
+          <div key={index} className='small-4 columns'>
+            {<Book book={book} />}
+          </div>
+        )
+      }))
+    } else if (deviceType === 'laptop') {
+      result = R.take(6, books.map((book, index) => {
+        return (
+          <div key={index} className='small-2 columns'>
+            {<Book book={book} />}
+          </div>
+        )
+      }))
+    }
+
+    return result
   }
 
   handleGenreClick = (event, genreId) => {
     (event.target.text === 'Popular') ? this.props.getBooks() :
       this.props.getBooks({ genreIds: genreId })
+  }
+
+  checkScreenSize = () => {
+    return window.screen.width > 680 ? 'laptop' : 'phone'
   }
 
   render() {
@@ -116,6 +151,9 @@ class BookLanding extends PureComponent {
           <div style={styles.shopLinkSection}>
             <div style={styles.mobileShopTitle}>
               <a>Shop popular titles</a>
+              <a style={styles.shopMoreMobileText} className='link nav-item' href={bookStore()}>
+                Shop more
+              </a>
             </div>
 
             <div style={styles.shopContainer} className='row'>
