@@ -25,7 +25,7 @@ const styles = {
     color: Colors.black,
   },
 
-  please: {
+  textContainer: {
     padding: 0,
     width: '70%',
   },
@@ -63,7 +63,7 @@ const Checkbox = ({
         <CardHeader
           title={`${firstName} ${lastName}`}
           titleStyle={styles.nameText}
-          textStyle={styles.please}
+          textStyle={styles.textContainer}
           subtitle={subtitle}
           subtitleStyle={styles.subTitleText}
           avatar={image}
