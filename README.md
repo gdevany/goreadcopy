@@ -171,6 +171,14 @@ TODO: add browser support matrix
 
 There is a mock API server available at http://gitlab.readerslegacy.com/jdwolkgoread/goread-mock-api
 
+### Postman
+
+We use the [Postman](https://www.getpostman.com/) app as an API client for testing API endpoints from the readerslegacy API.
+
+The common config for these endpoints is in `api_endpoints.postman_collection`. You can import this file in Postman to hit the endpoints yourself.
+
+As we add new endpoints to the API, be sure to update this file
+
 ### TODO
 
 * Will eventually need all `.env` credentials.
