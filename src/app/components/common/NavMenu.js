@@ -80,7 +80,7 @@ class NavMenu extends PureComponent {
     this.state = {
       open: false,
       modalOpen: false,
-      isLogged: true
+      isLogged: false
     }
 
     this.handleModalClose = this.handleModalClose.bind(this)
