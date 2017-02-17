@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import Radium from 'radium'
 import { stack as MobileMenu } from 'react-burger-menu'
 import { Link } from 'react-router'
+import LitcoinBalance from './LitcoinBalance'
 import R from 'ramda'
 import SecondaryButton from './SecondaryButton'
 import {
@@ -27,6 +28,9 @@ const styles = {
 
   navLinks: {
     padding: 20,
+  },
+  navItemLinks: {
+    fontWeight: 200,
   },
 
   navUl: {
@@ -75,7 +79,8 @@ class NavMenu extends PureComponent {
 
     this.state = {
       open: false,
-      modalOpen: false
+      modalOpen: false,
+      isLogged: true
     }
 
     this.handleModalClose = this.handleModalClose.bind(this)
@@ -214,7 +219,7 @@ class NavMenu extends PureComponent {
           href={routeFn()}
         >
           {title}
-        </ AuthedRedirect.Link>
+        </AuthedRedirect.Link>
       </li>
     )
 
@@ -223,6 +228,51 @@ class NavMenu extends PureComponent {
   }
 
   render() {
+    if (this.state.isLogged) {
+      return (
+        <div className='slide-down'>
+          <div style={styles.navContainer} className='top-bar'>
+            <div className='top-bar-left'>
+              <ul style={styles.navUl} className='dropdown menu' data-dropdown-menu>
+                <li className='menu-text'>
+                  <Link to='/'>
+                    <img src='./image/logo.png' />
+                  </Link>
+                </li>
+                <li className='menu-text'>
+                  <Link to='/' style={styles.navItemLinks}>
+                    Read Feed
+                  </Link>
+                </li>
+                <li className='menu-text'>
+                  <Link to='my-profile' style={styles.navItemLinks}>
+                    My Profile
+                  </Link>
+                </li>
+                <li className='menu-text'>
+                  <a href='' style={styles.navItemLinks}>
+                    Notifications
+                  </a>
+                </li>
+                <li className='menu-text'>
+                  <a href='' style={styles.navItemLinks}>
+                    Messages
+                  </a>
+                </li>
+
+              </ul>
+            </div>
+            <div className='top-bar-right'>
+              <ul className='menu'>
+                <li>
+                  <LitcoinBalance />
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      )
+    }
     return (
       <div className='slide-down'>
         <div style={styles.navContainer} className='top-bar'>
