@@ -12,6 +12,7 @@ import {
 import { ExternalRoutes as routes, PopularTopics } from '../../constants'
 import { Colors } from '../../constants/style'
 import SignUpModal from './SignUpModal'
+import LogInModal from './SignInModal'
 import AuthedRedirect from './AuthedRedirect'
 import './styles/mobile-menu.scss'
 
@@ -65,7 +66,6 @@ const {
   childrensLiteracy,
   authors,
   bookStore,
-  login,
   news,
 } = routes
 
@@ -75,10 +75,12 @@ class NavMenu extends PureComponent {
 
     this.state = {
       open: false,
-      modalOpen: false
+      modalOpen: false,
+      modalLogInOpen: false,
     }
 
     this.handleModalClose = this.handleModalClose.bind(this)
+    this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
   }
 
   handleModalOpen = () => {
@@ -87,6 +89,15 @@ class NavMenu extends PureComponent {
 
   handleModalClose = () => {
     this.setState({ modalOpen: false })
+  }
+
+  handleLogInModalOpen = (event) => {
+    event.preventDefault()
+    this.setState({ modalLogInOpen: true })
+  }
+
+  handleLogInModalClose = () => {
+    this.setState({ modalLogInOpen: false })
   }
 
   handleNavHover = (event) => {
@@ -214,7 +225,7 @@ class NavMenu extends PureComponent {
           href={routeFn()}
         >
           {title}
-        </ AuthedRedirect.Link>
+        </AuthedRedirect.Link>
       </li>
     )
 
@@ -254,7 +265,7 @@ class NavMenu extends PureComponent {
             <ul className='menu'>
 
               <li style={styles.rightNavItems} className='link nav-item'>
-                <a href={login()}>
+                <a href='' onClick={this.handleLogInModalOpen}>
                   Log In
                 </a>
               </li>
@@ -269,6 +280,10 @@ class NavMenu extends PureComponent {
               <SignUpModal
                 modalOpen={this.state.modalOpen}
                 handleClose={this.handleModalClose}
+              />
+              <LogInModal
+                modalOpen={this.state.modalLogInOpen}
+                handleClose={this.handleLogInModalClose}
               />
             </ul>
 

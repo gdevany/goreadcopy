@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import R from 'ramda'
 import { Dialog, } from 'material-ui'
-import { connect } from 'react-redux'
-import { ReaderData } from '../../redux/actions'
+// import { connect } from 'react-redux'
+// import { ReaderData } from '../../redux/actions'
 import { ExternalRoutes as routes } from '../../constants'
 import PrimaryButton from './PrimaryButton'
 import SocialButton from './SocialButton'
-import WrappedField from './WrappedField'
+// import WrappedField from './WrappedField'
 
-const { getInitialReaderData, checkFields, updateReaderData } = ReaderData
+// const { getInitialReaderData, checkFields, updateReaderData } = ReaderData
 
 const styles = {
   modalBody: {
@@ -28,43 +28,36 @@ const styles = {
   },
 }
 
-class SignUpModal extends Component {
+class SignInModal extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      firstName: '',
-      lastName: '',
       email: '',
+      password: '',
     }
 
-    this.handleOnChange = this.handleOnChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleOnChange = this.handleOnChange.bind(this)
   }
-
   handleSubmit = (event) => {
-    event.preventDefault()
-    const fields = R.pick(['firstName', 'lastName', 'email'], this.props)
-    this.props.checkFields(fields)
+    console.log(event)
   }
 
   handleOnChange = R.curry((field, e) => {
     this.setState({ [field]: e.target.value })
-    this.props.updateReaderData({ [field]: e.target.value })
   })
 
   render() {
     const {
-      errors,
       modalOpen,
       handleClose,
       handleSubmit
     } = this.props
 
     const {
-      firstName,
-      lastName,
       email,
+      password,
     } = this.state
 
     return (
@@ -87,28 +80,28 @@ class SignUpModal extends Component {
           />
 
           <h1 className='center-text large-header'>
-            Join GoRead
+            Sign in to GoRead
           </h1>
 
           <div className='center-text'>
 
             <SocialButton
               href={routes.providerLogin({ provider: 'facebook' })}
-              text={'Sign up with Facebook'}
+              text={'Continue with Facebook'}
               backgroundColor={'#3B5998'}
               icon={'./image/facebook.png'}
             />
 
             <SocialButton
               href={routes.providerLogin({ provider: 'google' })}
-              text={'Sign up with Google'}
+              text={'Continue with Google'}
               backgroundColor={'#EA4235'}
               icon={'./image/google.png'}
             />
 
             <SocialButton
               href={routes.providerLogin({ provider: 'linkedin' })}
-              text={'Sign up with Linkedin'}
+              text={'Continue with Linkedin'}
               backgroundColor={'#0077B5'}
               icon={'./image/linkedin.png'}
             />
@@ -116,64 +109,34 @@ class SignUpModal extends Component {
           </div>
 
           <h4 className='inner-title center-text'>
-            or sign up with email:
+            or sign in with email:
           </h4>
 
           <div style={styles.formContainer}>
             <form onSubmit={this.handleSubmit} className='form-wrapper general-font'>
 
-              <WrappedField
-                field='firstName'
-                errors={errors}
-              >
-                <span className='form-label'> First name </span>
-                <input
-                  type='text'
-                  className='form-input'
-                  onChange={this.handleOnChange('firstName')}
-                  value={firstName}
-                />
-              </WrappedField>
-
-              <WrappedField
-                field='lastName'
-                errors={errors}
-              >
-                <span className='form-label'> Last name </span>
-                <input
-                  type='text'
-                  className='form-input'
-                  onChange={this.handleOnChange('lastName')}
-                  value={lastName}
-                />
-              </WrappedField>
-
-              <WrappedField
-                field='email'
-                errors={errors}
-              >
-                <span className='form-label'> Email </span>
-                <input
-                  type='text'
-                  className='form-input'
-                  onChange={this.handleOnChange('email')}
-                  value={email}
-                />
-              </WrappedField>
-
-              <WrappedField
-                field='nonFieldErrors'
-                errors={errors}
+              <span className='form-label'> Email </span>
+              <input
+                type='text'
+                className='form-input'
+                onChange={this.handleOnChange('email')}
+                value={email}
               />
 
+              <span className='form-label'> Password </span>
+              <input
+                type='password'
+                className='form-input'
+                onChange={this.handleOnChange('password')}
+                value={password}
+              />
               <div className='center-text'>
-                <PrimaryButton
-                  label={'Sign up with email'}
-                  onClick={handleSubmit}
-                  type={'submit'}
-                />
+              <PrimaryButton
+                label={'Sign in with email'}
+                onClick={handleSubmit}
+                type={'submit'}
+              />
               </div>
-
             </form>
           </div>
         </Dialog>
@@ -182,12 +145,14 @@ class SignUpModal extends Component {
   }
 }
 
-const mapStateToProps = R.prop('readerData')
+// const mapStateToProps = R.prop('readerData')
+//
+// const mapDispatchToProps = {
+//   getInitialReaderData,
+//   updateReaderData,
+//   checkFields,
+// }
 
-const mapDispatchToProps = {
-  getInitialReaderData,
-  updateReaderData,
-  checkFields,
-}
+// export default connect(mapStateToProps, mapDispatchToProps)(SignUpModal)
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpModal)
+export default SignInModal
