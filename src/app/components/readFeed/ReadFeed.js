@@ -1,9 +1,19 @@
 import React from 'react'
 
+import NavMenu from '../common/NavMenu'
+import LeftContainer from './LeftContainer'
+import MiddleContainer from './MiddleContainer'
+import RightContainer from './RightContainer'
+
 const ReadFeed = () => {
   return (
     <div className='home'>
-      IN READ FEED // Put components for readfeed in here.
+      <NavMenu />
+      <div className='row'>
+        <LeftContainer />
+        <MiddleContainer />
+        <RightContainer />
+      </div>
     </div>
   )
 }
