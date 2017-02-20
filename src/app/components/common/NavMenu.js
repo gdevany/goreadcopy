@@ -87,7 +87,9 @@ class NavMenu extends PureComponent {
     this.state = {
       open: false,
       modalOpen: false,
-      isLogged: true
+      // TODO: Here we should add the correct validation to
+      //check if the Reader is Logged.
+      isLogged: false,
     }
 
     this.handleModalClose = this.handleModalClose.bind(this)
