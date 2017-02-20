@@ -37,6 +37,12 @@ class SignUpStepOne extends Component {
   constructor(props) {
     super(props)
 
+    this.state = {
+      username: '',
+      password: '',
+      passwordConfirmation: '',
+    }
+
     this.handleOnChange = this.handleOnChange.bind(this)
     this.handleOnBlur = this.handleOnBlur.bind(this)
   }
@@ -64,6 +70,7 @@ class SignUpStepOne extends Component {
   }
 
   handleOnChange = R.curry((field, event) => {
+    this.setState({ [field]: event.target.value })
     this.props.updateReaderData({ [field]: event.target.value })
   })
 
@@ -76,22 +83,24 @@ class SignUpStepOne extends Component {
       updateLitcoinBalance
     } = this.props
 
-    if (event.target.type === 'text' && username.value !== '') {
-      updateReaderData({ username })
-      updateLitcoinBalance(L.ENTERS_USERNAME)
-    } else if (event.target.type === 'password' && password.value !== '') {
-      updateReaderData({ password, passwordConfirmation })
-      updateLitcoinBalance(L.ENTERS_PASSWORD)
+    if (username || password) {
+      if (event.target.type === 'text' && username.value !== '') {
+        updateReaderData({ username })
+        updateLitcoinBalance(L.ENTERS_USERNAME)
+      } else if (event.target.type === 'password' && password.value !== '') {
+        updateReaderData({ password, passwordConfirmation })
+        updateLitcoinBalance(L.ENTERS_PASSWORD)
+      }
     }
   }
 
   render() {
+    const { errors } = this.props
     const {
-      errors,
       username,
       password,
-      passwordConfirmation,
-    } = this.props
+      passwordConfirmation
+    } = this.state
 
     return (
       <div>

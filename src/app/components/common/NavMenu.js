@@ -87,7 +87,7 @@ class NavMenu extends PureComponent {
     this.state = {
       open: false,
       modalOpen: false,
-      isLogged: false
+      isLogged: true
     }
 
     this.handleModalClose = this.handleModalClose.bind(this)
@@ -245,11 +245,6 @@ class NavMenu extends PureComponent {
 
             <MobileMenu id={'mobile-menu-container'}>
               <ul className='mobile-menu'>
-                <li className='menu-text'>
-                  <Link to='/'>
-                    <img src='./image/logo.png' />
-                  </Link>
-                </li>
                 <li className='menu-text'>
                   <Link to='/' style={styles.navItemLinks}>
                     <HomeIcon /> Read Feed
