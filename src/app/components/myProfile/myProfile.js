@@ -1,22 +1,12 @@
-import React, { PureComponent } from 'react'
-import { NavMenu } from '../common'
-class MyProfile extends PureComponent {
+import React from 'react'
+import NavMenu from '../common/NavMenu'
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      isLogged: true
-    }
-
-  }
-  render() {
-    return (
-      <div>
-        <NavMenu />
-      </div>
-    )
-  }
+const MyProfile = () => {
+  return (
+    <div className='home'>
+      <NavMenu />
+    </div>
+  )
 }
 
 export default MyProfile
