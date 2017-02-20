@@ -67,9 +67,7 @@ class SignUpModal extends Component {
       email,
     } = this.state
 
-    let isFinished = false
-
-    if (firstName !== '' && lastName !== '' & email !== '') isFinished = true
+    const isFinished = (firstName !== '' & lastName !== '' && email !== '')
 
     return (
       <div>
@@ -171,20 +169,12 @@ class SignUpModal extends Component {
               />
 
               <div className='center-text'>
-                { isFinished ?
-                  <PrimaryButton
-                    label={'Sign up with email'}
-                    onClick={handleSubmit}
-                    type={'submit'}
-                  /> :
-                  <PrimaryButton
-                    disabled
-                    label={'Sign up with email'}
-                    onClick={handleSubmit}
-                    type={'submit'}
-                  />
-                }
-
+                <PrimaryButton
+                  disabled={!isFinished}
+                  label={'Sign up with email'}
+                  onClick={handleSubmit}
+                  type={'submit'}
+                />
               </div>
 
             </form>
