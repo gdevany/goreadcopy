@@ -67,6 +67,8 @@ class SignUpModal extends Component {
       email,
     } = this.state
 
+    const isFinished = (firstName !== '' & lastName !== '' && email !== '')
+
     return (
       <div>
 
@@ -159,7 +161,7 @@ class SignUpModal extends Component {
                   onChange={this.handleOnChange('email')}
                   value={email}
                 />
-              </ WrappedField>
+              </WrappedField>
 
               <WrappedField
                 field='nonFieldErrors'
@@ -168,6 +170,7 @@ class SignUpModal extends Component {
 
               <div className='center-text'>
                 <PrimaryButton
+                  disabled={!isFinished}
                   label={'Sign up with email'}
                   onClick={handleSubmit}
                   type={'submit'}
