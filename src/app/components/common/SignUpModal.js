@@ -67,7 +67,7 @@ class SignUpModal extends Component {
       email,
     } = this.state
 
-    const isFinished = (firstName !== '' & lastName !== '' && email !== '')
+    const isFinished = (firstName !== '' && lastName !== '' && email !== '')
 
     return (
       <div>
