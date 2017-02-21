@@ -87,9 +87,6 @@ class NavMenu extends PureComponent {
     this.state = {
       open: false,
       modalOpen: false,
-      // TODO: Here we should add the correct validation to
-      //check if the Reader is Logged.
-      isLogged: false,
     }
 
     this.handleModalClose = this.handleModalClose.bind(this)
@@ -237,7 +234,9 @@ class NavMenu extends PureComponent {
   }
 
   render() {
-    if (this.state.isLogged) {
+    const { isUserLoggedIn } = this.props
+
+    if (isUserLoggedIn) {
       return (
         <div className='slide-down'>
           <div style={styles.mobileNavContainer} className='top-bar-mobile'>
@@ -253,10 +252,10 @@ class NavMenu extends PureComponent {
                   </Link>
                 </li>
                 <li className='menu-text'>
-                  <Link to='my-profile' style={styles.navItemLinks}>
+                  <a href='#' style={styles.navItemLinks}>
                     <PersonIcon/>
                     My Profile
-                  </Link>
+                  </a>
                 </li>
                 <li className='menu-text'>
                   <a href='' style={styles.navItemLinks}>
@@ -287,10 +286,10 @@ class NavMenu extends PureComponent {
                   </Link>
                 </li>
                 <li className='menu-text'>
-                  <Link to='my-profile' style={styles.navItemLinks}>
+                  <a href='#' style={styles.navItemLinks}>
                     <PersonIcon/>
                     My Profile
-                  </Link>
+                  </a>
                 </li>
                 <li className='menu-text'>
                   <a href='' style={styles.navItemLinks}>

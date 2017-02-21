@@ -1,7 +1,6 @@
 import React from 'react'
 import { Route, IndexRoute } from 'react-router'
 import App from './components/App'
-import MyProfile from './components/myProfile/myProfile'
 import { Home } from './components/home'
 import { SignUpFlow } from './components/readerOnboarding'
 import { ReadFeed } from './components/readFeed'
@@ -12,7 +11,6 @@ const Routes = (
     <IndexRoute component={ReadFeed} />
     <Route path='/home' component={Home} />
     <Route path='/signup' component={SignUpFlow} />
-    <Route path='/my-profile' component={MyProfile} />
     <Route path='/redirect' component={IncomingRedirect} />
   </Route>
 )
