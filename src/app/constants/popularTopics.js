@@ -1,18 +1,14 @@
 import Paths from '../services/paths'
-import ExternalRoutes from './externalRoutes'
 
 const PopularTopics = () => {
-  const { bookStore } = ExternalRoutes
   const { backendUrl } = Paths
 
   const CATEGORIES = {
     popular: 'POPULAR',
     newest: 'NEWEST',
-    awardWinners: 'AWARD_WINNERS',
+    // awardWinners: 'AWARD_WINNERS',
     goreadPicks: 'GOREAD_PICKS',
-    audioBooks: 'AUDIOBOOKS',
-    textBooks: 'TEXTBOOKS',
-    sale: 'SALE',
+    // sale: 'SALE',
   }
 
   const GENRES = {
@@ -27,11 +23,9 @@ const PopularTopics = () => {
   const {
     popular,
     newest,
-    awardWinners,
+    // awardWinners,
     goreadPicks,
-    audioBooks,
-    textBooks,
-    sale,
+    // sale,
   } = CATEGORIES
 
   const {
@@ -46,11 +40,9 @@ const PopularTopics = () => {
   const names = {
     [popular]: 'Popular',
     [newest]: 'Newest',
-    [awardWinners]: 'Award Winners',
+    // [awardWinners]: 'Award Winners',
     [goreadPicks]: 'GoRead Picks',
-    [audioBooks]: 'AudioBooks',
-    [textBooks]: 'Textbooks',
-    [sale]: 'Sale',
+    // [sale]: 'Sale',
     [sciFi]: 'Sci-Fi',
     [romance]: 'Romance',
     [youngAdult]: 'Young Adult',
@@ -61,20 +53,15 @@ const PopularTopics = () => {
 
   const categoryUrl = (path) => backendUrl('book/category/' + path)
 
-  // TODO: replace w/ actual URLs as API team supplies them
-  const PENDING_URL_FROM_API_TEAM = '/'
-
   const routes = {
-    [popular]: bookStore(),
-    [newest]: PENDING_URL_FROM_API_TEAM,
-    [awardWinners]: PENDING_URL_FROM_API_TEAM,
-    [goreadPicks]: PENDING_URL_FROM_API_TEAM,
-    [audioBooks]: PENDING_URL_FROM_API_TEAM,
-    [textBooks]: PENDING_URL_FROM_API_TEAM,
-    [sale]: PENDING_URL_FROM_API_TEAM,
+    [popular]: categoryUrl('goread-popular'),
+    [newest]: categoryUrl('goread-newest'),
+    // [awardWinners]: PENDING_URL_FROM_API_TEAM, // Team says it should be hidden for now
+    [goreadPicks]: categoryUrl('goread-picks'),
+    // [sale]: PENDING_URL_FROM_API_TEAM, // Team says it should be hidden for now
     [sciFi]: categoryUrl('fiction'),
     [romance]: categoryUrl('love-amp-romance'),
-    [youngAdult]: PENDING_URL_FROM_API_TEAM,
+    [youngAdult]: categoryUrl('juvenile-fiction'),
     [sports]: categoryUrl('sports-amp-recreation'),
     [business]: categoryUrl('business-amp-economics'),
     [cooking]: categoryUrl('cooking'),
