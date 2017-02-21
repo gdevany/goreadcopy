@@ -60,7 +60,7 @@ class LeftHandLinks extends PureComponent {
       ['Books With Ken', booksWithKen],
       ['Children\'s Literacy', childrensLiteracy],
       ['Video Tutorials', videoTutorials],
-      ['refferals', refferals],
+      ['Refferals', refferals],
       ['Games', games],
     ]
 
