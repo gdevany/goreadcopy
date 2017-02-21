@@ -24,7 +24,7 @@ const ExternalRoutes = () => {
     myOrders: () => backendUrl('my-orders'),
     booksWithKen: () => backendUrl('books-with-ken'),
     videoTutorials: () => backendUrl('video-tutorials'),
-    refferals: () => backendUrl('refferals'),
+    referrals: () => backendUrl('referrals'),
     games: () => backendUrl('games'),
   }
   return routes

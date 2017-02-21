@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import '../../../client/styles/left-hand-links.scss'
 import { ExternalRoutes as routes } from '../../constants'
 import R from 'ramda'
 import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
@@ -52,7 +51,7 @@ class LeftHandLinks extends PureComponent {
       booksWithKen,
       childrensLiteracy,
       videoTutorials,
-      refferals,
+      referrals,
       games,
     } = routes
 
@@ -60,7 +59,7 @@ class LeftHandLinks extends PureComponent {
       ['Books With Ken', booksWithKen],
       ['Children\'s Literacy', childrensLiteracy],
       ['Video Tutorials', videoTutorials],
-      ['Refferals', refferals],
+      ['Referrals', referrals],
       ['Games', games],
     ]
 
@@ -86,7 +85,7 @@ class LeftHandLinks extends PureComponent {
   }
 
   render() {
-    const isCollapsed = this.state.isCollapsed
+    const { isCollapsed } = this.state
 
     return (
       <ul className='left-hand-menu-container'>
