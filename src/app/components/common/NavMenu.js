@@ -214,7 +214,7 @@ class NavMenu extends PureComponent {
           href={routeFn()}
         >
           {title}
-        </ AuthedRedirect.Link>
+        </AuthedRedirect.Link>
       </li>
     )
 

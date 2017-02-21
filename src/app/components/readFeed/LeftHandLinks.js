@@ -1,4 +1,9 @@
 import React, { PureComponent } from 'react'
+import '../../../client/styles/left-hand-links.scss'
+import { ExternalRoutes as routes } from '../../constants'
+import R from 'ramda'
+import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
+import ArrowUpIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
 
 class LeftHandLinks extends PureComponent {
   constructor(props) {
@@ -12,56 +17,104 @@ class LeftHandLinks extends PureComponent {
     this.handleShowLess = this.handleShowLess.bind(this, true)
   }
 
+  handleMapMenuItems = () => {
+    const {
+      myBookClubs,
+      bookStore,
+      myOrders,
+      news,
+      articles,
+    } = routes
+
+    const leftMenuRoutes = [
+      ['My Book Clubs', myBookClubs],
+      ['Book Store', bookStore],
+      ['My Orders', myOrders],
+      ['News', news],
+      ['Articles', articles],
+    ]
+
+    const leftMenuItem = ([title, routeFn], index) => (
+      <li className='left-hand-menu-item' key={title + index}>
+        <a
+          className='left-hand-menu-anchor'
+          href={routeFn()}
+        >
+          {title}
+        </a>
+      </li>
+    )
+    return R.map(leftMenuItem, leftMenuRoutes)
+  }
+
+  handleMapHiddenMenuItems = () => {
+    const {
+      booksWithKen,
+      childrensLiteracy,
+      videoTutorials,
+      refferals,
+      games,
+    } = routes
+
+    const leftMenuRoutes = [
+      ['Books With Ken', booksWithKen],
+      ['Children\'s Literacy', childrensLiteracy],
+      ['Video Tutorials', videoTutorials],
+      ['refferals', refferals],
+      ['Games', games],
+    ]
+
+    const leftMenuItem = ([title, routeFn], index) => (
+      <li className='left-hand-menu-item' key={title + index}>
+        <a
+          className='left-hand-menu-anchor'
+          href={routeFn()}
+        >
+          {title}
+        </a>
+      </li>
+    )
+    return R.map(leftMenuItem, leftMenuRoutes)
+  }
+
   handleShowMore = () => {
     this.setState({ isCollapsed: false })
   }
+
   handleShowLess = () => {
     this.setState({ isCollapsed: true })
   }
+
   render() {
     const isCollapsed = this.state.isCollapsed
 
     return (
-      <ul>
-        <li>
-          <a href='#'>My Book Clubs</a>
-        </li>
-        <li>
-          <a href='#'>Book Store</a>
-        </li>
-        <li>
-          <a href='#'>My Orders</a>
-        </li>
-        <li>
-          <a href='#'>News</a>
-        </li>
-        <li>
-          <a href='#'>Articles</a>
-        </li>
+      <ul className='left-hand-menu-container'>
+        { this.handleMapMenuItems() }
         { !isCollapsed ?
           <div>
-            <li>
-              <a href='#'>Books with Ken</a>
-            </li>
-            <li>
-              <a href='#'>Children's Literacy</a>
-            </li>
-            <li>
-              <a href='#'>Video Tutorials</a>
-            </li>
-            <li>
-              <a href='#'>Refferals</a>
-            </li>
-            <li>
-              <a href='#'>Games</a>
-            </li>
+            { this.handleMapHiddenMenuItems() }
           </div> :
           null
         }
         <li>
           { isCollapsed ?
-            <a onClick={this.handleShowMore} href='#'>Show More</a> :
-            <a onClick={this.handleShowLess} href='#'>Show Less</a>
+            <a
+              className='left-hand-action-more'
+              onClick={this.handleShowMore}
+              href='#'
+            >
+              See More
+              <ArrowDownIcon />
+            </a> :
+            <a
+              className='left-hand-action-less'
+              onClick={this.handleShowLess}
+              href='#'
+            >
+              See Less
+              <ArrowUpIcon />
+            </a>
           }
         </li>
       </ul>
