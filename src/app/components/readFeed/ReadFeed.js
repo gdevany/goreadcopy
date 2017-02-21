@@ -4,6 +4,7 @@ import LeftContainer from './LeftContainer'
 import MiddleContainer from './MiddleContainer'
 import RightContainer from './RightContainer'
 import { Auth } from '../../services'
+
 const ReadFeed = () => {
   const isUserLoggedIn = Auth.currentUserExists()
   return (
