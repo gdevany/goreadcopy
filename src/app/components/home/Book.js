@@ -10,35 +10,33 @@ const bookInfoCharLimit = 40
 
 const Book = ({ book }) => {
   const truncInfo = (text, limit) => {
-    return text.length > limit ? `${text.slice(0, limit)}...` : null
+    return text.length >= limit ? `${text.slice(0, limit)}...` : null
   }
-  const renderedText = truncInfo(`${book.title} by ${book.author}`, bookInfoCharLimit)
+  const renderBookInfo = (book) => {
+    const renderText = truncInfo(`${book.title} by ${book.author}`, bookInfoCharLimit)
+    return renderText ? (
+      <span className='link'>
+        {renderText}
+      </span>
+    ) : (
+      <span className='link'>
+        {book.title}
+        <br />
+        by {book.author}
+      </span>
+    )
+  }
 
   return (
     <div style={styles.bookSection}>
       <div style={styles.bookImage} className='book-container'>
         <a href={book.slug}>
-          { renderedText != null ? (
-              <div className='book-info'>
-                <span className='link'>
-                  {renderedText}
-                </span>
-              </div>
-            ) : (
-              <div className='book-info'>
-                <span className='link'>
-                  {book.title}
-                </span><br />
-                <span className='link'>
-                  by {book.author}
-                </span>
-              </div>
-            )
-          }
+          <div className='book-info'>
+            {renderBookInfo(book)}
+          </div>
           <img className='book' src={book.imageUrl} />
         </a>
       </div>
-
     </div>
   )
 }
