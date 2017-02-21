@@ -2,7 +2,7 @@ import React from 'react'
 
 const RightContainer = () => {
   return (
-    <div className='right-container small-12 medium-3 columns'>
+    <div className='right-container small-12 large-3 columns'>
       <p>Right Container</p>
     </div>
   )

@@ -57,6 +57,10 @@ html, body {
   }
 }
 
+.read-feed {
+  padding-top: 30px;
+}
+
 @import 'variables.scss';
 @import 'general.scss';
 @import 'errors.scss';
@@ -71,3 +75,4 @@ html, body {
 @import 'litcoins.scss';
 @import 'left-hand-links.scss';
 @import 'typography.scss';
+@import 'read-feed-profile.scss';

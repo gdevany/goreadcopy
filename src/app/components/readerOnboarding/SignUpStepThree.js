@@ -83,10 +83,6 @@ const UsersRow = ([firstUser, secondUser], i) => {
   )
 }
 
-/*
-  * Once they choose, onClick call the endpoint that sends their checks to
-  the other enpoint /current_reader/liked_authors
- */
 class SignUpStepThree extends PureComponent {
   constructor(props) {
     super(props)
@@ -191,7 +187,7 @@ class SignUpStepThree extends PureComponent {
   }
 
   checkBoxesFor(dataType, users) {
-    return users.map((user) => {
+    return users.map(user => {
       const {
         id,
         firstName,
