@@ -1,15 +1,15 @@
 import React from 'react'
-import NavMenu from '../common/NavMenu'
+import NavMenuLogged from '../common/NavMenuLogged'
 import LeftContainer from './LeftContainer'
 import MiddleContainer from './MiddleContainer'
 import RightContainer from './RightContainer'
-import { Auth } from '../../services'
+// import { Auth } from '../../services'
 
 const ReadFeed = () => {
-  const isUserLoggedIn = Auth.currentUserExists()
+  const isUserLoggedIn = true
   return (
     <div className='home'>
-      <NavMenu isUserLoggedIn={isUserLoggedIn} />
+      <NavMenuLogged isUserLoggedIn={isUserLoggedIn} />
       <div className='row'>
         <LeftContainer />
         <MiddleContainer />
