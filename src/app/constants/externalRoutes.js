@@ -19,12 +19,15 @@ const ExternalRoutes = () => {
     publishers: () => backendUrl('publishers_enrollment'),
     support: () => 'https://support.readerslegacy.com/', // TODO: until further notice
     terms: () => backendUrl('terms'),
+    orders: () => backendUrl('orders'),
+    referrals: () => backendUrl('referrals'),
+    settings: () => backendUrl('settings'),
+    help: () => backendUrl('help'),
     readFeed: () => backendUrl(),
     myBookClubs: () => 'https://www.goread.com/bookclubs/',
     myOrders: () => 'https://www.goread.com/store/orders/',
-    booksWithKen: () => 'https://goread.com/bookswithken/',
+    booksWithKen: () => 'https://www.goread.com/bookswithken/',
     videoTutorials: () => 'https://www.goread.com/video-tutorials/',
-    referrals: () => 'https://www.goread.com/profile/referrals/',
     games: () => 'https://www.goread.com/games/',
   }
   return routes
