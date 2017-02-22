@@ -1,12 +1,9 @@
 import React, { PureComponent } from 'react'
 import { stack as MobileMenu } from 'react-burger-menu'
 import { Link } from 'react-router'
-// import {
-//   Popover,
-//   Menu,
-//   MenuItem
-// } from 'material-ui'
+import R from 'ramda'
 import { Colors } from '../../constants/style'
+import { ExternalRoutes as routes } from '../../constants'
 import HomeIcon from 'material-ui/svg-icons/action/home'
 import PersonIcon from 'material-ui/svg-icons/action/perm-identity'
 import SearchIcon from 'material-ui/svg-icons/action/search'
@@ -47,9 +44,9 @@ const styles = {
     left: 0,
   },
   profileImageBadge: {
-    width: '32px',
+    width: '42px',
     margin: '0 auto',
-    height: '32px',
+    height: '42px',
     borderRadius: '100%',
     border: 'solid 1px #696969',
   },
@@ -59,15 +56,6 @@ const styles = {
     height: '30px',
     left: '36px',
     top: '36px'
-  },
-
-  popover: {
-    padding: 20,
-
-    ':hover': {
-      backgroundColor: Colors.white,
-      color: Colors.blue,
-    },
   },
 }
 class NavMenuLogged extends PureComponent {
@@ -81,7 +69,7 @@ class NavMenuLogged extends PureComponent {
     this.handleProfileMenuHide = this.handleProfileMenuHide.bind(this)
   }
 
-  handleProfileMenuShow() {
+  handleProfileMenuShow = () => {
     if (!this.state.profileMenuOpen) {
       this.setState({ profileMenuOpen: true })
     } else {
@@ -89,9 +77,57 @@ class NavMenuLogged extends PureComponent {
     }
   }
 
-  handleProfileMenuHide() {
+  handleProfileMenuHide = () => {
     this.setState({ profileMenuOpen: false })
   }
+
+  handleMapProfileMenuItems = () => {
+    const { orders, referrals, settings, help } = routes
+
+    const nonMenuRoutes = [
+      ['Orders', orders],
+      ['Referrals', referrals],
+      ['Settings', settings],
+      ['Help', help],
+    ]
+
+    const NonMenuItem = ([title, routeFn], index) => (
+      <li className='profile-menu-element' key={title + index}>
+        <a
+          className='profile-menu-anchor'
+          href={routeFn()}
+        >
+          {title}
+        </a>
+      </li>
+    )
+
+    return R.map(NonMenuItem, nonMenuRoutes)
+
+  }
+
+  userProfileMenu = () => {
+    return (
+      <ul
+        className='profile-menu-container'
+        onMouseLeave={this.handleProfileMenuHide}
+      >
+        <li className='profile-menu-element'>
+          <a href='' className='profile-menu-anchor'>
+            View Profile
+          </a>
+        </li>
+        <hr className='profile-menu-divider' />
+        { this.handleMapProfileMenuItems() }
+        <li className='profile-menu-element'>
+          <a href='' className='profile-menu-anchor'>
+            Logout
+          </a>
+        </li>
+      </ul>
+    )
+  }
+
   render() {
     return (
       <div className='slide-down'>
@@ -104,7 +140,7 @@ class NavMenuLogged extends PureComponent {
             <ul className='mobile-menu'>
               <li className='menu-text'>
                 <Link to='/' style={styles.navItemLinks}>
-                  <HomeIcon /> Read Feed
+                  <HomeIcon /> Home
                 </Link>
               </li>
               <li className='menu-text'>
@@ -196,42 +232,7 @@ class NavMenuLogged extends PureComponent {
                   />
                 </a>
                 { this.state.profileMenuOpen ?
-                  <ul
-                    className='profile-menu-container'
-                    onMouseLeave={this.handleProfileMenuHide}
-                  >
-                    <li className='profile-menu-element'>
-                      <a href='' className='profile-menu-anchor'>
-                        View Profile
-                      </a>
-                    </li>
-                    <hr className='profile-menu-divider' />
-                    <li className='profile-menu-element'>
-                      <a href='' className='profile-menu-anchor'>
-                        Orders
-                      </a>
-                    </li>
-                    <li className='profile-menu-element'>
-                      <a href='' className='profile-menu-anchor'>
-                        Refferals
-                      </a>
-                    </li>
-                    <li className='profile-menu-element'>
-                      <a href='' className='profile-menu-anchor'>
-                        Settings
-                      </a>
-                    </li>
-                    <li className='profile-menu-element'>
-                      <a href='' className='profile-menu-anchor'>
-                        Help
-                      </a>
-                    </li>
-                    <li className='profile-menu-element'>
-                      <a href='' className='profile-menu-anchor'>
-                        Logout
-                      </a>
-                    </li>
-                  </ul> : null}
+                  this.userProfileMenu() : null}
               </li>
             </ul>
           </div>

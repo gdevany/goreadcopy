@@ -117,10 +117,11 @@
 
 .profile-menu-badge{
   position: relative;
+  padding: 0 1rem;
   .profile-menu-container{
     position: absolute;
-    right: 0;
-    top: 65px;
+    right: 5px;
+    top: 70px;
     background: white;
     border: 1px solid #e6e6e6;
     border-radius: 10px;
