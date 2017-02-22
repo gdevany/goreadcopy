@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import Radium from 'radium'
 import { stack as MobileMenu } from 'react-burger-menu'
 import { Link } from 'react-router'
+import LitcoinBalance from './LitcoinBalance'
 import R from 'ramda'
 import SecondaryButton from './SecondaryButton'
 import {
@@ -13,6 +14,10 @@ import { ExternalRoutes as routes, PopularTopics } from '../../constants'
 import { Colors } from '../../constants/style'
 import SignUpModal from './SignUpModal'
 import AuthedRedirect from './AuthedRedirect'
+import HomeIcon from 'material-ui/svg-icons/action/home'
+import PersonIcon from 'material-ui/svg-icons/action/perm-identity'
+import NotificationIcon from 'material-ui/svg-icons/social/notifications-none'
+import ChatIcon from 'material-ui/svg-icons/communication/chat-bubble-outline'
 import './styles/mobile-menu.scss'
 
 const { CATEGORIES, GENRES } = PopularTopics
@@ -27,6 +32,12 @@ const styles = {
 
   navLinks: {
     padding: 20,
+  },
+  navItemLinks: {
+    fontWeight: 200,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   navUl: {
@@ -75,7 +86,7 @@ class NavMenu extends PureComponent {
 
     this.state = {
       open: false,
-      modalOpen: false
+      modalOpen: false,
     }
 
     this.handleModalClose = this.handleModalClose.bind(this)
@@ -223,6 +234,88 @@ class NavMenu extends PureComponent {
   }
 
   render() {
+    const { isUserLoggedIn } = this.props
+
+    if (isUserLoggedIn) {
+      return (
+        <div className='slide-down'>
+          <div style={styles.mobileNavContainer} className='top-bar-mobile'>
+            <Link to='/' className='mobile-gr-logo'>
+              <img src='./image/logo.png' />
+            </Link>
+
+            <MobileMenu id={'mobile-menu-container'}>
+              <ul className='mobile-menu'>
+                <li className='menu-text'>
+                  <Link to='/' style={styles.navItemLinks}>
+                    <HomeIcon /> Read Feed
+                  </Link>
+                </li>
+                <li className='menu-text'>
+                  <a href='#' style={styles.navItemLinks}>
+                    <PersonIcon/>
+                    My Profile
+                  </a>
+                </li>
+                <li className='menu-text'>
+                  <a href='' style={styles.navItemLinks}>
+                    <NotificationIcon/>
+                    Notifications
+                  </a>
+                </li>
+                <li className='menu-text'>
+                  <a href='' style={styles.navItemLinks}>
+                    <ChatIcon/>
+                    Messages
+                  </a>
+                </li>
+              </ul>
+            </MobileMenu>
+          </div>
+          <div style={styles.navContainer} className='top-bar'>
+            <div className='top-bar-left'>
+              <ul style={styles.navUl} className='dropdown menu' data-dropdown-menu>
+                <li className='menu-text'>
+                  <Link to='/'>
+                    <img src='./image/logo.png' />
+                  </Link>
+                </li>
+                <li className='menu-text'>
+                  <Link to='/' style={styles.navItemLinks}>
+                    <HomeIcon /> Read Feed
+                  </Link>
+                </li>
+                <li className='menu-text'>
+                  <a href='#' style={styles.navItemLinks}>
+                    <PersonIcon/>
+                    My Profile
+                  </a>
+                </li>
+                <li className='menu-text'>
+                  <a href='' style={styles.navItemLinks}>
+                    <NotificationIcon/>
+                    Notifications
+                  </a>
+                </li>
+                <li className='menu-text'>
+                  <a href='' style={styles.navItemLinks}>
+                    <ChatIcon/>
+                    Messages
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className='top-bar-right'>
+              <ul className='menu'>
+                <li>
+                  <LitcoinBalance />
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      )
+    }
     return (
       <div className='slide-down'>
         <div style={styles.navContainer} className='top-bar'>

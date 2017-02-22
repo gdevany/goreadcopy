@@ -19,12 +19,15 @@ const ExternalRoutes = () => {
     publishers: () => backendUrl('publishers_enrollment'),
     support: () => 'https://support.readerslegacy.com/', // TODO: until further notice
     terms: () => backendUrl('terms'),
+    orders: () => backendUrl('orders'),
+    referrals: () => backendUrl('referrals'),
+    settings: () => backendUrl('settings'),
+    help: () => backendUrl('help'),
     readFeed: () => backendUrl(),
     myBookClubs: () => backendUrl('my-book-clubs'),
     myOrders: () => backendUrl('my-orders'),
     booksWithKen: () => backendUrl('books-with-ken'),
     videoTutorials: () => backendUrl('video-tutorials'),
-    referrals: () => backendUrl('referrals'),
     games: () => backendUrl('games'),
   }
   return routes
