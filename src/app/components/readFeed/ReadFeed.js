@@ -1,22 +1,30 @@
-import React from 'react'
-import NavMenuLogged from '../common/NavMenuLogged'
+import React, { PureComponent } from 'react'
 import LeftContainer from './LeftContainer'
 import MiddleContainer from './MiddleContainer'
 import RightContainer from './RightContainer'
-// import { Auth } from '../../services'
+import NavMenuLogged from '../common/NavMenuLogged'
+import { Auth } from '../../services'
 
-const ReadFeed = () => {
-  const isUserLoggedIn = true
-  return (
-    <div className='home'>
-      <NavMenuLogged isUserLoggedIn={isUserLoggedIn} />
-      <div className='row'>
-        <LeftContainer />
-        <MiddleContainer />
-        <RightContainer />
+class ReadFeed extends PureComponent {
+  componentDidMount = () => {
+    // call currentReader endpoint here and pass down the info each container needs.
+  }
+
+  render() {
+    const isUserLoggedIn = Auth.currentUserExists()
+
+    return (
+      <div className='read-feed'>
+        <NavMenuLogged isUserLoggedIn={isUserLoggedIn} />
+        <div className='row center-text'>
+          {/** pass down backgroundImage and profileImage prop to Left Container**/}
+          <LeftContainer isUserLoggedIn={isUserLoggedIn} />
+          <MiddleContainer isUserLoggedIn={isUserLoggedIn} />
+          <RightContainer isUserLoggedIn={isUserLoggedIn} />
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 export default ReadFeed
