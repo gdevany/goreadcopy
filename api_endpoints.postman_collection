@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "GoRead Staging API server",
-		"_postman_id": "863649f6-41a2-7e5d-22d1-2f3e4e95502b",
+		"_postman_id": "d7c2b76a-6ca1-f4b5-d282-f8e01ff49b10",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -167,32 +167,7 @@
 			"response": []
 		},
 		{
-			"name": "POST api/onboarding/current_reader/liked_readers/",
-			"request": {
-				"url": "https://staging2.readerslegacy.com/api/onboarding/current_reader/liked_authors/",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpkK3Rlc3QxMjciLCJvcmlnX2lhdCI6MTQ4NzI4MTM4NywidXNlcl9pZCI6NTU5NTgsImVtYWlsIjoiamQrdGVzdDEyN0BwaGlsb3NvcGhpZS5pcyIsImV4cCI6MTQ5NTA1NzM4N30.vMjcxw1YDeXKMZebWWdx3bT-IRz0beb-UOPj20xBIwA",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"authorIds\": [2026, 43007, 11082]\n}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "POST api/onboarding/current_reader/liked_readers/ copy",
+			"name": "POST api/onboarding/current_reader/liked_readers",
 			"request": {
 				"url": "https://staging2.readerslegacy.com/api/onboarding/current_reader/liked_readers/",
 				"method": "POST",
@@ -231,10 +206,10 @@
 			"response": []
 		},
 		{
-			"name": "GET api/feed/social/1/followers",
+			"name": "POST api/onboarding/current_reader/liked_authors",
 			"request": {
-				"url": "https://staging2.readerslegacy.com/api/feed/social/1/followers",
-				"method": "GET",
+				"url": "https://staging2.readerslegacy.com/api/onboarding/current_reader/liked_authors/",
+				"method": "POST",
 				"header": [],
 				"body": {},
 				"description": ""
@@ -242,14 +217,14 @@
 			"response": []
 		},
 		{
-			"name": "POST api/feed/current_reader/images",
+			"name": "Get api/onboarding/current_reader",
 			"request": {
-				"url": "https://staging2.readerslegacy.com/api/feed/current_reader/images",
-				"method": "POST",
+				"url": "https://staging2.readerslegacy.com/api/onboarding/current_reader",
+				"method": "GET",
 				"header": [
 					{
-						"key": "Content-Type",
-						"value": "multipart/form-data",
+						"key": "cont",
+						"value": "application/json",
 						"description": ""
 					},
 					{
@@ -258,69 +233,25 @@
 						"description": ""
 					}
 				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "imageType",
-							"value": "profileImage",
-							"type": "text",
-							"enabled": true
-						},
-						{
-							"key": "file",
-							"type": "file",
-							"enabled": true,
-							"src": "ninja.png"
-						}
-					]
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "GET api/feed/social/1/followed",
-			"request": {
-				"url": "https://staging2.readerslegacy.com/api/feed/social/1/followers",
-				"method": "GET",
-				"header": [],
 				"body": {},
 				"description": ""
 			},
 			"response": []
 		},
 		{
-			"name": "POST api/feed/current_reader/social/posts",
+			"name": "POST api/onboarding/redirect/",
 			"request": {
-				"url": "https://staging2.readerslegacy.com/api/feed/current_reader/social/posts",
+				"url": "https://staging2.readerslegacy.com/api/onboarding/redirect/",
 				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "multipart/form-data",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpkK3Rlc3QxMjciLCJvcmlnX2lhdCI6MTQ4NzI4MTM4NywidXNlcl9pZCI6NTU5NTgsImVtYWlsIjoiamQrdGVzdDEyN0BwaGlsb3NvcGhpZS5pcyIsImV4cCI6MTQ5NTA1NzM4N30.vMjcxw1YDeXKMZebWWdx3bT-IRz0beb-UOPj20xBIwA",
-						"description": ""
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "formdata",
 					"formdata": [
 						{
-							"key": "imageType",
-							"value": "profileImage",
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpkK3Rlc3QxMjciLCJvcmlnX2lhdCI6MTQ4NzI4MTM4NywidXNlcl9pZCI6NTU5NTgsImVtYWlsIjoiamQrdGVzdDEyN0BwaGlsb3NvcGhpZS5pcyIsImV4cCI6MTQ5NTA1NzM4N30.vMjcxw1YDeXKMZebWWdx3bT-IRz0beb-UOPj20xBIwA",
 							"type": "text",
 							"enabled": true
-						},
-						{
-							"key": "file",
-							"type": "file",
-							"enabled": true,
-							"src": "ninja.png"
 						}
 					]
 				},
