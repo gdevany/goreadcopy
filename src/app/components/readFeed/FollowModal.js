@@ -182,6 +182,12 @@ class FollowModal extends PureComponent {
           autoDetectWindowHeight={false}
           autoScrollBodyContent={true}
         >
+          <img
+            src='./image/close.png'
+            className='general-font center-text signup-modal-x'
+            onClick={handleClose}
+          /><br />
+
           <div className='center-text modal-heading'>
             <h4>
               <strong> {count} </strong>
