@@ -3,7 +3,7 @@
 .search-modal-content {
   height: 100vh !important;
   max-height: none !important;
-  padding: 1em;
+  padding: 2em !important;
 }
 
 .search-modal-x{
@@ -38,4 +38,9 @@
   a{
     color: $blue;
   }
+}
+
+.search-results-contianer{
+  display: flex;
+  justify-content: center;
 }

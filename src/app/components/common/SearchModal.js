@@ -1,18 +1,22 @@
 import React, { Component } from 'react'
 import { Dialog, } from 'material-ui'
 import R from 'ramda'
+import { Colors } from '../../constants/style'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
 
 const styles = {
   modalBody: {
     marginTop: -80,
   },
-
   modalContent: {
     maxWidth: '100%',
     width: '100%',
     opacity: 0.93,
   },
-
+  refresh: {
+    display: 'inline-block',
+    position: 'relative',
+  },
 }
 
 class SearchModal extends Component {
@@ -77,6 +81,16 @@ class SearchModal extends Component {
                 Can't find what you are looking for? Try with our
                 <a href=''> Advanced Search </a>
               </p>
+            </div>
+            <div className='search-results-contianer'>
+              <RefreshIndicator
+                size={50}
+                left={70}
+                top={0}
+                loadingColor={Colors.blue}
+                status='loading'
+                style={styles.refresh}
+              />
             </div>
           </div>
         </Dialog>
