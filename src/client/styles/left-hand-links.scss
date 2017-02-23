@@ -9,13 +9,14 @@
       display: block;
       padding: .5em 0;
       font-size: 15px;
+      text-align: left;
     }
   }
 }
 
 .left-hand-action-more, .left-hand-action-less{
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;;
   align-items: center;
   padding: .5em 0;
   font-size: 15px;

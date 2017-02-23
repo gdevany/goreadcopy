@@ -48,7 +48,7 @@ const styles = {
     margin: '0 auto',
     height: '42px',
     borderRadius: '100%',
-    border: 'solid 1px #696969',
+    border: 'solid 2px #696969',
   },
   bmBurgerButton: {
     position: 'fixed',
@@ -226,7 +226,6 @@ class NavMenuLogged extends PureComponent {
                   onClick={this.handleProfileMenuShow}
                 >
                   <img
-                    className='litcoin-img'
                     src='./image/kendunn.jpg'
                     style={styles.profileImageBadge}
                   />
