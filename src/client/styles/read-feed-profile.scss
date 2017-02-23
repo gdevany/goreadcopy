@@ -30,11 +30,11 @@
   opacity: 0;
 }
 
-.background-image-wrapper:hover + .dropzone-background {
+.background-image-wrapper:hover + .dropzone-background, .dropzone-background:hover {
   opacity: 0.2;
 }
 
-.profile-image:hover + .camera-profile {
+.profile-image:hover + .camera-profile, .camera-profile:hover {
   opacity: 0.2;
 }
 
