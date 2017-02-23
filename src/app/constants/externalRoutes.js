@@ -24,9 +24,9 @@ const ExternalRoutes = () => {
     settings: () => backendUrl('settings'),
     help: () => backendUrl('help'),
     readFeed: () => backendUrl(),
-    myBookClubs: () => backendUrl('my-book-clubs'),
-    myOrders: () => backendUrl('my-orders'),
-    booksWithKen: () => backendUrl('books-with-ken'),
+    myBookClubs: () => backendUrl('bookclubs'),
+    myOrders: () => backendUrl('store/orders'),
+    booksWithKen: () => backendUrl('bookswithken'),
     videoTutorials: () => backendUrl('video-tutorials'),
     games: () => backendUrl('games'),
   }
