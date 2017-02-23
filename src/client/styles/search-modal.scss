@@ -1,0 +1,41 @@
+@import './variables.scss';
+
+.search-modal-content {
+  height: 100vh !important;
+  max-height: none !important;
+  padding: 1em;
+}
+
+.search-modal-x{
+  position: absolute;
+  right: 25px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.search-modal-logo{
+  width: 150px;
+}
+
+.search-input-container{
+  margin-top: .5em;
+  .search-input{
+    border: none;
+    font-weight: 600;
+    font-size: 77px;
+    height: 100px;
+    letter-spacing: -1.925px;
+    line-height: 100px;
+    width: 100%;
+    padding-left: 0!important;
+    box-shadow: none;
+  }
+}
+
+.advanced-search-pharagraph{
+  font-size: 16px;
+  a{
+    color: $blue;
+  }
+}

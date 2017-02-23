@@ -4,6 +4,7 @@ import { Link } from 'react-router'
 import R from 'ramda'
 import { Colors } from '../../constants/style'
 import { ExternalRoutes as routes } from '../../constants'
+import SearchModal from './SearchModal'
 import HomeIcon from 'material-ui/svg-icons/action/home'
 import PersonIcon from 'material-ui/svg-icons/action/perm-identity'
 import SearchIcon from 'material-ui/svg-icons/action/search'
@@ -64,9 +65,11 @@ class NavMenuLogged extends PureComponent {
 
     this.state = {
       profileMenuOpen: false,
+      searchModalOpen: false,
     }
     this.handleProfileMenuShow = this.handleProfileMenuShow.bind(this)
     this.handleProfileMenuHide = this.handleProfileMenuHide.bind(this)
+    this.handleClickSearch = this.handleClickSearch.bind(this)
   }
 
   handleProfileMenuShow = () => {
@@ -126,6 +129,15 @@ class NavMenuLogged extends PureComponent {
         </li>
       </ul>
     )
+  }
+
+  handleClickSearch = (event) => {
+    event.preventDefault()
+    this.setState({ searchModalOpen: true })
+  }
+
+  handleSearchClose = () => {
+    this.setState({ searchModalOpen: false })
   }
 
   render() {
@@ -188,7 +200,11 @@ class NavMenuLogged extends PureComponent {
                 </a>
               </li>
               <li className='menu-text loged-menu-item'>
-                <a href='' style={styles.navItemLinks}>
+                <a
+                  href=''
+                  style={styles.navItemLinks}
+                  onClick={this.handleClickSearch}
+                >
                   <SearchIcon/>
                   Search
                 </a>
@@ -236,6 +252,10 @@ class NavMenuLogged extends PureComponent {
             </ul>
           </div>
         </div>
+        <SearchModal
+          modalOpen={this.state.searchModalOpen}
+          handleClose={this.handleSearchClose}
+        />
       </div>
     )
   }
