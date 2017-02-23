@@ -1,7 +1,7 @@
 require('babel-register')();
 
 function ignoreCSS () { return null };
-require.extensions['.css'] = ignoreCSS;
+require.extensions['.css, .scss'] = ignoreCSS;
 
 var jsdom = require('jsdom').jsdom;
 

@@ -1,0 +1,30 @@
+@import 'variables.scss';
+
+.left-hand-menu-container{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  .left-hand-menu-item{
+    .left-hand-menu-anchor{
+      display: block;
+      padding: .5em 0;
+      font-size: 15px;
+    }
+  }
+}
+
+.left-hand-action-more, .left-hand-action-less{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: .5em 0;
+  font-size: 15px;
+}
+
+.left-hand-action-more:hover, .left-hand-action-less:hover{
+  color: $blue;
+}
+
+.left-hand-action-more:visited, .left-hand-action-less:visited{
+  color: $black;
+}
