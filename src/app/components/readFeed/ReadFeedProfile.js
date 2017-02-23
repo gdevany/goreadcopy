@@ -161,8 +161,8 @@ class ReadFeedProfile extends PureComponent {
       followersCount :
       followedCount
     const modalFollowType = modalFollowersOpen ?
-      'followed' :
-      'followers'
+      'followers' :
+      'followed'
 
     return (
       <Paper>
