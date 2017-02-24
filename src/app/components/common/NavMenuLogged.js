@@ -11,6 +11,10 @@ import NotificationsIcon from 'material-ui/svg-icons/social/notifications-none'
 import Badge from 'material-ui/Badge'
 import ChatIcon from 'material-ui/svg-icons/communication/chat-bubble-outline'
 import './styles/mobile-menu.scss'
+import { Auth } from '../../redux/actions'
+import { connect } from 'react-redux'
+
+const { processUserLogout } = Auth
 
 const styles = {
   navContainer: {
@@ -67,6 +71,7 @@ class NavMenuLogged extends PureComponent {
     }
     this.handleProfileMenuShow = this.handleProfileMenuShow.bind(this)
     this.handleProfileMenuHide = this.handleProfileMenuHide.bind(this)
+    this.handleLogoutClick = this.handleLogoutClick.bind(this)
   }
 
   handleProfileMenuShow = () => {
@@ -106,6 +111,11 @@ class NavMenuLogged extends PureComponent {
 
   }
 
+  handleLogoutClick(event) {
+    event.preventDefault()
+    this.props.processUserLogout()
+  }
+
   userProfileMenu = () => {
     return (
       <ul
@@ -120,7 +130,7 @@ class NavMenuLogged extends PureComponent {
         <hr className='profile-menu-divider' />
         { this.handleMapProfileMenuItems() }
         <li className='profile-menu-element'>
-          <a href='' className='profile-menu-anchor'>
+          <a href='' className='profile-menu-anchor' onClick={this.handleLogoutClick}>
             Logout
           </a>
         </li>
@@ -241,4 +251,4 @@ class NavMenuLogged extends PureComponent {
   }
 }
 
-export default NavMenuLogged
+export default connect(null, { processUserLogout })(NavMenuLogged)

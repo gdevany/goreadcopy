@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
 import R from 'ramda'
 import { Dialog, } from 'material-ui'
-// import { connect } from 'react-redux'
+import { connect } from 'react-redux'
 // import { ReaderData } from '../../redux/actions'
 import { ExternalRoutes as routes } from '../../constants'
 import PrimaryButton from './PrimaryButton'
 import SocialButton from './SocialButton'
 // import WrappedField from './WrappedField'
+import { Auth } from '../../redux/actions'
 
 // const { getInitialReaderData, checkFields, updateReaderData } = ReaderData
+const { processUserLogin } = Auth
 
 const styles = {
   modalBody: {
@@ -33,7 +35,7 @@ class SignInModal extends Component {
     super(props)
 
     this.state = {
-      email: '',
+      username: '',
       password: '',
     }
 
@@ -41,7 +43,9 @@ class SignInModal extends Component {
     this.handleOnChange = this.handleOnChange.bind(this)
   }
   handleSubmit = (event) => {
-    console.log(event)
+    event.preventDefault()
+    const credentials = R.pick(['username', 'password'], this.state)
+    this.props.processUserLogin(credentials)
   }
 
   handleOnChange = R.curry((field, e) => {
@@ -56,7 +60,7 @@ class SignInModal extends Component {
     } = this.props
 
     const {
-      email,
+      username,
       password,
     } = this.state
 
@@ -115,12 +119,12 @@ class SignInModal extends Component {
           <div style={styles.formContainer}>
             <form onSubmit={this.handleSubmit} className='form-wrapper general-font'>
 
-              <span className='form-label'> Email </span>
+              <span className='form-label'> Username </span>
               <input
                 type='text'
                 className='form-input'
-                onChange={this.handleOnChange('email')}
-                value={email}
+                onChange={this.handleOnChange('username')}
+                value={username}
               />
 
               <span className='form-label'> Password </span>
@@ -153,6 +157,4 @@ class SignInModal extends Component {
 //   checkFields,
 // }
 
-// export default connect(mapStateToProps, mapDispatchToProps)(SignUpModal)
-
-export default SignInModal
+export default connect(null, { processUserLogin })(SignInModal)

@@ -16,6 +16,7 @@ const Endpoints = () => {
       searchRecommendation: (params) => apiUrl('onboarding/search', params)
     },
     jwtRefresh: () => apiUrl('token/refresh'),
+    jwtAuth: () => apiUrl('token/auth'),
     redirect: () => apiUrl('onboarding/redirect'),
   }
 
