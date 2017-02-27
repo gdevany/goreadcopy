@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import LeftContainer from './LeftContainer'
 import MiddleContainer from './MiddleContainer'
 import RightContainer from './RightContainer'
-import NavMenuLogged from '../common/NavMenuLogged'
+import NavMenu from '../common/NavMenu'
 import { Auth } from '../../services'
 
 class ReadFeed extends PureComponent {
@@ -15,7 +15,7 @@ class ReadFeed extends PureComponent {
 
     return (
       <div className=''>
-        <NavMenuLogged isUserLoggedIn={isUserLoggedIn} />
+        <NavMenu isUserLoggedIn={isUserLoggedIn} />
         <div className='row center-text read-feed'>
           {/** pass down backgroundImage and profileImage prop to Left Container**/}
           <LeftContainer isUserLoggedIn={isUserLoggedIn} />
