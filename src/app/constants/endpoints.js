@@ -6,14 +6,15 @@ const Endpoints = () => {
     books: (params) => apiUrl('onboarding/books', params),
     readers: (params) => apiUrl('onboarding/readers', params),
     readerValidation: (params) => apiUrl('onboarding/readers/check', params),
-    getGenres: (params) => apiUrl('onboarding/genres', params),
+    getGenres: (params) => apiUrl('genres', params),
     getBooks: (params) => apiUrl('onboarding/books', params),
+    searchData: (params) => apiUrl('search', params),
     currentReader: {
-      getRecommendation: (params) => apiUrl('onboarding/genres/top_users', params),
+      getRecommendation: (params) => apiUrl('genres/top_users', params),
+      getCurrentReader: () => apiUrl('onboarding/current_reader'),
       likedGenres: (params) => apiUrl('onboarding/current_reader/liked_genres', params),
       likedReaders: (params) => apiUrl('onboarding/current_reader/liked_readers', params),
       likedAuthors: (params) => apiUrl('onboarding/current_reader/liked_authors', params),
-      searchRecommendation: (params) => apiUrl('onboarding/search', params)
     },
     jwtRefresh: () => apiUrl('token/refresh'),
     redirect: () => apiUrl('onboarding/redirect'),

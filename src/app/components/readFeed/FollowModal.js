@@ -118,13 +118,13 @@ class FollowModal extends PureComponent {
             value={this.state.slideIndex}
           >
             <Tab
-              label={`${readersFollowed.length} Readers`}
+              label={readersFollowed ? `${readersFollowed.length} Readers` : '0 Readers'}
               value={0}
               className='row center-text'
               key={'readers-following-tab'}
             />
             <Tab
-              label={`${authorsFollowed.length} Authors`}
+              label={authorsFollowed ? `${authorsFollowed.length} Authors` : '0 Authors'}
               value={1}
               className='row center-text'
               key={'authors-following-tab'}
@@ -171,9 +171,10 @@ class FollowModal extends PureComponent {
     const followersData = followers.result ? followers.result : []
     const followedData = followed.result ? followed.result : []
     const data = followType === 'followers' ? followersData : followedData[0]
+    const title = followType === 'followers' ? 'Followers' : 'Following'
 
     return (
-      <div className='read-feed'>
+      <div className='follow-modal'>
         <Dialog
           bodyClassName='follow-modal-content'
           modal={false}
@@ -191,10 +192,10 @@ class FollowModal extends PureComponent {
           <div className='center-text modal-heading'>
             <h4>
               <strong> {count} </strong>
-              {followType} {/** Derrick: Do text-transform:capitalize; for this **/}
+              {title} {/** Derrick: Do text-transform:capitalize; for this **/}
             </h4>
           </div>
-          {this.renderModal(followType, data)}
+          {data ? this.renderModal(followType, data) : null}
         </ Dialog>
       </div>
     )

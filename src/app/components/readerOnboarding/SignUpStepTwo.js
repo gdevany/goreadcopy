@@ -132,7 +132,8 @@ class SignUpStepTwo extends PureComponent {
           style={styles.chip}
           onClick={this.handleSelectGenre}
         >
-          {isChosen ?
+          {
+            isChosen ?
             <img style={styles.checkmark} src='./image/checkmark.png' /> :
             <img style={styles.checkmark} src='./image/plus.png' />
           }
