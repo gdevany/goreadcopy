@@ -54,7 +54,7 @@ const Errors = () => {
     return expected || unexpected || {}
   }
 
-  const messageFrom = R.compose(R.join(' '), R.propOr('', 'message'))
+  const messageFrom = R.propOr('', 'message')
 
   return {
     errors,

@@ -4,6 +4,7 @@ import { Errors } from '../../services'
 
 const WrappedField = ({ field, errors, children }) => {
   const fieldErrors = errors[field]
+
   return R.isEmpty(fieldErrors) || R.isNil(fieldErrors) ?
     (
       <div className='form-input-wrapper'>

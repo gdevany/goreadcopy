@@ -1,4 +1,5 @@
 import CurrentReaderRecommendation from '../../services/api/currentReader/recommendation'
+import Search from '../../services/api/search'
 import { CURRENT_READER as A } from '../const/actionTypes'
 import { LITCOIN_TYPES as L } from '../../constants/litcoins'
 import { Promise } from '../../services'
@@ -22,12 +23,11 @@ export function getRecommendation() {
 export function searchRecommendation(search) {
   const debounceSearch = () => {
     return debounce(dispatch => {
-      CurrentReaderRecommendation.searchRecommendation({
+      Search.search({
         author: search,
         reader: search
       })
         .then(res => {
-          console.log(res.data)
           return dispatch(updateRecommended([res.data]))
         })
         .catch(err => console.log(`Error in searchRecommendation ${err}`))

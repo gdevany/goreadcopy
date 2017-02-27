@@ -6,6 +6,10 @@ export default (state = initialState.currentReader, { type, payload }) => {
   switch (type) {
     case A.SET_CURRENT_READER:
       return R.merge(state, payload)
+    case A.GET_CURRENT_READER:
+      return R.merge(state, payload)
+    case A.UPDATE_CURRENT_READER_DATA:
+      return R.merge(state, payload)
     default:
       return state
   }

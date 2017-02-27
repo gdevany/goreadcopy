@@ -1,0 +1,263 @@
+{
+	"variables": [],
+	"info": {
+		"name": "GoRead Staging API server",
+		"_postman_id": "d7c2b76a-6ca1-f4b5-d282-f8e01ff49b10",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET api/onboarding/readers/check",
+			"request": {
+				"url": "https://staging2.readerslegacy.com/api/onboarding/readers/check?email=jd%2Btest123%40philosophie.is",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "text",
+							"enabled": false
+						},
+						{
+							"key": "redirectPath",
+							"value": "",
+							"type": "text",
+							"enabled": false
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "POST api/onboarding/readers",
+			"request": {
+				"url": "https://staging2.readerslegacy.com/api/onboarding/readers/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"email\": \"jd+test127@philosophie.is\",\n\"errors\": {},\n\"firstName\": \"JD\",\n\"lastName\": \"Wolk\",\n\"password\": \"pass\",\n\"passwordConfirmation\": \"pass\",\n\"username\": \"jd+test127\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET api/onboarding/books",
+			"request": {
+				"url": "https://staging2.readerslegacy.com/api/onboarding/books",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET api/onboarding/genres",
+			"request": {
+				"url": "https://staging2.readerslegacy.com/api/onboarding/genres",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET api/onboarding/books",
+			"request": {
+				"url": "https://staging2.readerslegacy.com/api/onboarding/books",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "POST api/token/refresh",
+			"request": {
+				"url": "https://staging2.readerslegacy.com/api/token/refresh/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpkK3Rlc3QxMjciLCJvcmlnX2lhdCI6MTQ4NzI4MTM4NywidXNlcl9pZCI6NTU5NTgsImVtYWlsIjoiamQrdGVzdDEyN0BwaGlsb3NvcGhpZS5pcyIsImV4cCI6MTQ5NTA1NzM4N30.vMjcxw1YDeXKMZebWWdx3bT-IRz0beb-UOPj20xBIwA",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpkK3Rlc3QxMjciLCJvcmlnX2lhdCI6MTQ4NzI4MTM4NywidXNlcl9pZCI6NTU5NTgsImVtYWlsIjoiamQrdGVzdDEyN0BwaGlsb3NvcGhpZS5pcyIsImV4cCI6MTQ5NTA1NzM4N30.vMjcxw1YDeXKMZebWWdx3bT-IRz0beb-UOPj20xBIwA\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "POST api/onboarding/current_reader/liked_genres",
+			"request": {
+				"url": "https://staging2.readerslegacy.com/api/onboarding/current_reader/liked_genres/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpkK3Rlc3QxMjciLCJvcmlnX2lhdCI6MTQ4NzI4MTM4NywidXNlcl9pZCI6NTU5NTgsImVtYWlsIjoiamQrdGVzdDEyN0BwaGlsb3NvcGhpZS5pcyIsImV4cCI6MTQ5NTA1NzM4N30.vMjcxw1YDeXKMZebWWdx3bT-IRz0beb-UOPj20xBIwA",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"genreIds\": [1,2,3]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET api/onboarding/genres/top_users",
+			"request": {
+				"url": "https://staging2.readerslegacy.com/api/onboarding/genres/top_users?genreIds=123&perUserType=5",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "POST api/onboarding/current_reader/liked_readers",
+			"request": {
+				"url": "https://staging2.readerslegacy.com/api/onboarding/current_reader/liked_readers/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpkK3Rlc3QxMjciLCJvcmlnX2lhdCI6MTQ4NzI4MTM4NywidXNlcl9pZCI6NTU5NTgsImVtYWlsIjoiamQrdGVzdDEyN0BwaGlsb3NvcGhpZS5pcyIsImV4cCI6MTQ5NTA1NzM4N30.vMjcxw1YDeXKMZebWWdx3bT-IRz0beb-UOPj20xBIwA",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"readerIds\": [1,2,3]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET api/onboarding/search",
+			"request": {
+				"url": "https://staging2.readerslegacy.com/api/onboarding/search?reader=Ken Dunn&author=Ken Dunn",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "POST api/onboarding/current_reader/liked_authors",
+			"request": {
+				"url": "https://staging2.readerslegacy.com/api/onboarding/current_reader/liked_authors/",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get api/onboarding/current_reader",
+			"request": {
+				"url": "https://staging2.readerslegacy.com/api/onboarding/current_reader",
+				"method": "GET",
+				"header": [
+					{
+						"key": "cont",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpkK3Rlc3QxMjciLCJvcmlnX2lhdCI6MTQ4NzI4MTM4NywidXNlcl9pZCI6NTU5NTgsImVtYWlsIjoiamQrdGVzdDEyN0BwaGlsb3NvcGhpZS5pcyIsImV4cCI6MTQ5NTA1NzM4N30.vMjcxw1YDeXKMZebWWdx3bT-IRz0beb-UOPj20xBIwA",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "POST api/onboarding/redirect/",
+			"request": {
+				"url": "https://staging2.readerslegacy.com/api/onboarding/redirect/",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpkK3Rlc3QxMjciLCJvcmlnX2lhdCI6MTQ4NzI4MTM4NywidXNlcl9pZCI6NTU5NTgsImVtYWlsIjoiamQrdGVzdDEyN0BwaGlsb3NvcGhpZS5pcyIsImV4cCI6MTQ5NTA1NzM4N30.vMjcxw1YDeXKMZebWWdx3bT-IRz0beb-UOPj20xBIwA",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,48 @@
+.profile-wrapper {
+}
+
+.camera-solid {
+}
+
+.dropzone-background {
+  margin-left: 150px;
+  width: 50px;
+  opacity: 0;
+}
+
+.dropzone-profile {
+  width: 70px;
+}
+
+.camera-transparent {
+  opacity: 0;
+}
+
+.profile-image {
+  opacity: 1;
+}
+
+.camera-background {
+  opacity: 1
+}
+
+.camera-profile {
+  opacity: 0;
+}
+
+.background-image-wrapper:hover + .dropzone-background, .dropzone-background:hover {
+  opacity: 0.2;
+}
+
+.profile-image:hover + .camera-profile, .camera-profile:hover {
+  opacity: 0.2;
+}
+
+.chosenFollow {
+  background: $blue !important;
+  padding: 7px !important;
+
+  span {
+    color: white !important;
+  }
+}
