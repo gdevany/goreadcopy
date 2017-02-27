@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Dialog, } from 'material-ui'
 import R from 'ramda'
 import { Colors } from '../../constants/style'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
+import { Search } from '../../redux/actions'
+
+const { mainSearch } = Search
 
 const styles = {
   modalBody: {
@@ -31,8 +35,26 @@ class SearchModal extends Component {
 
   handleOnChange = R.curry((field, e) => {
     this.setState({ [field]: e.target.value })
+    if (e.target.value.length > 3) {
+      this.props.mainSearch(e.target.value)
+    }
   })
 
+  renderSearchResults = () => {
+    if (this.props.searchResults.counts) {
+      return <div> Search Results Here</div>
+    }
+    return (
+      <RefreshIndicator
+        size={50}
+        left={70}
+        top={0}
+        loadingColor={Colors.blue}
+        status='loading'
+        style={styles.refresh}
+      />
+    )
+  }
   render() {
     const {
       modalOpen,
@@ -83,22 +105,19 @@ class SearchModal extends Component {
               </p>
             </div>
             <div className='search-results-contianer'>
-              <RefreshIndicator
-                size={50}
-                left={70}
-                top={0}
-                loadingColor={Colors.blue}
-                status='loading'
-                style={styles.refresh}
-              />
+              { this.renderSearchResults() }
             </div>
           </div>
         </Dialog>
       </div>
     )
-
   }
-
 }
 
-export default SearchModal
+const mapStateToProps = (state) => {
+  return {
+    searchResults: state.search
+  }
+}
+
+export default connect(mapStateToProps, { mainSearch })(SearchModal)
