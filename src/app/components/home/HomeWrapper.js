@@ -1,12 +1,21 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-
 import Home from './Home'
 import { ReadFeed } from '../readFeed'
+import { Auth } from '../../redux/actions'
+import { Auth as CurrentToken } from '../../services'
 
-const { PureComponent } = React
+const { verifyUserToken } = Auth
 
 class HomeWrapper extends PureComponent {
+  componentDidMount = () => {
+    const token = CurrentToken.token()
+    if (token) {
+      this.props.verifyUserToken({
+        token,
+      })
+    }
+  }
   render() {
     return this.props.isLogged ? (<ReadFeed />) : (<Home />)
   }
@@ -18,4 +27,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, null)(HomeWrapper)
+export default connect(mapStateToProps, { verifyUserToken })(HomeWrapper)

@@ -17,6 +17,7 @@ const Endpoints = () => {
     },
     jwtRefresh: () => apiUrl('token/refresh'),
     jwtAuth: () => apiUrl('token/auth'),
+    jwtVerify: () => apiUrl('token/verify'),
     redirect: () => apiUrl('onboarding/redirect'),
   }
 

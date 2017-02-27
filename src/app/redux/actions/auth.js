@@ -5,7 +5,7 @@ import { Auth } from '../../services'
 import { CURRENT_READER as A } from '../const/actionTypes'
 import { Promise } from '../../services'
 
-const { authJwt } = Jwt
+const { authJwt, verifyJwt } = Jwt
 const { deleteToken } = Auth
 
 export function processUserLogin(credentials) {
@@ -28,7 +28,16 @@ export function processUserLogout() {
   }
 }
 
+export function verifyUserToken(token) {
+  return (dispatch) => {
+    return verifyJwt(token)
+    .then((response) => { dispatch(setCurrentReader(response.data)) })
+    .catch(err => { console.log(err) })
+  }
+}
+
 export default {
   processUserLogin,
   processUserLogout,
+  verifyUserToken,
 }
