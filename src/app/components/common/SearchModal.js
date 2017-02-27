@@ -6,7 +6,7 @@ import { Colors } from '../../constants/style'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { Search } from '../../redux/actions'
 
-const { mainSearch } = Search
+const { mainSearch, updateSearch } = Search
 
 const styles = {
   modalBody: {
@@ -41,8 +41,33 @@ class SearchModal extends Component {
   })
 
   renderSearchResults = () => {
-    if (this.props.searchResults.counts) {
-      return <div> Search Results Here</div>
+    const searchTerms = this.props.searchResults
+    if (searchTerms.counts) {
+
+      const rResults = searchTerms.readers.map((reader, index) => {
+        return <div key={reader.id}>Reader: {reader.firstName}</div>
+      })
+
+      const aResults = searchTerms.authors.map((author, index) => {
+        return <div key={author.id}>Author: {author.firstName}</div>
+      })
+
+      const bResults = searchTerms.books.map((book, index) => {
+        return <div key={book.id}>Book: {book.title}</div>
+      })
+
+      const pResults = searchTerms.publishers.map((publisher, index) => {
+        return <div key={publisher.id}>Book: {publisher.title}</div>
+      })
+
+      return (
+        <div>
+          <div>{rResults}</div>
+          <div>{aResults}</div>
+          <div>{bResults}</div>
+          <div>{pResults}</div>
+        </div>
+      )
     }
     return (
       <RefreshIndicator
@@ -120,4 +145,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { mainSearch })(SearchModal)
+export default connect(mapStateToProps, { mainSearch, updateSearch })(SearchModal)
