@@ -20,6 +20,9 @@
   align-items: center;
   padding: .5em 0;
   font-size: 15px;
+  &:hover{
+    cursor: pointer;
+  }
 }
 
 .left-hand-action-more:hover, .left-hand-action-less:hover{
