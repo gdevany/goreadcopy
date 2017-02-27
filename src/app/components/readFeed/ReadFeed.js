@@ -1,13 +1,17 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import LeftContainer from './LeftContainer'
 import MiddleContainer from './MiddleContainer'
 import RightContainer from './RightContainer'
 import NavMenu from '../common/NavMenu'
 import { Auth } from '../../services'
+import { CurrentReader } from '../../redux/actions'
+
+const { getCurrentReader } = CurrentReader
 
 class ReadFeed extends PureComponent {
   componentDidMount = () => {
-    // call currentReader endpoint here and pass down the info each container needs.
+    this.props.getCurrentReader()
   }
 
   render() {
@@ -27,4 +31,4 @@ class ReadFeed extends PureComponent {
   }
 }
 
-export default ReadFeed
+export default connect(null, { getCurrentReader })(ReadFeed)
