@@ -98,22 +98,20 @@ class LeftHandLinks extends PureComponent {
         }
         <li>
           { isCollapsed ?
-            <a
+            <span
               className='left-hand-action-more'
               onClick={this.handleShowMore}
-              href='#'
             >
               See More
               <ArrowDownIcon />
-            </a> :
-            <a
+            </span> :
+            <span
               className='left-hand-action-less'
               onClick={this.handleShowLess}
-              href='#'
             >
               See Less
               <ArrowUpIcon />
-            </a>
+            </span>
           }
         </li>
       </ul>
