@@ -44,7 +44,7 @@ class SearchModal extends Component {
     const searchTerms = this.props.searchResults
     if (searchTerms.counts) {
 
-      const rResults = searchTerms.readers.map((reader, index) => {
+      const readerResults = searchTerms.readers.map((reader, index) => {
         return (
           <div key={reader.id} className='result-container'>
             <div className='image-container'>
@@ -71,7 +71,7 @@ class SearchModal extends Component {
         )
       })
 
-      const aResults = searchTerms.authors.map((author, index) => {
+      const authorResults = searchTerms.authors.map((author, index) => {
         return (
           <div key={author.id} className='result-container'>
             <div className='image-container'>
@@ -98,7 +98,7 @@ class SearchModal extends Component {
         )
       })
 
-      const bResults = searchTerms.books.map((book, index) => {
+      const bookResults = searchTerms.books.map((book, index) => {
         return (
           <div key={book.id} className='result-container'>
             <div className='image-container'>
@@ -129,7 +129,7 @@ class SearchModal extends Component {
         )
       })
 
-      const pResults = searchTerms.publishers.map((publisher, index) => {
+      const publisherResults = searchTerms.publishers.map((publisher, index) => {
         return (
           <div key={publisher.id} className='result-container'>
             <div className='image-container'>
@@ -159,12 +159,20 @@ class SearchModal extends Component {
       return (
         <div className='search-results'>
           <div className='rap-results-container'>
-            {rResults ? <div className='search-reader-results'>{rResults}</div> : null}
-            {aResults ? <div className='search-author-results'>{aResults}</div> : null}
-            {pResults ? <div className='search-publisher-results'>{pResults}</div> : null}
+            {readerResults ? (
+              <div className='search-reader-results'>{readerResults}</div>
+            ) : null}
+            {authorResults ? (
+              <div className='search-author-results'>{authorResults}</div>
+            ) : null}
+            {publisherResults ? (
+              <div className='search-publisher-results'>{publisherResults}</div>
+            ) : null}
           </div>
           <div className='book-results-container'>
-            {bResults ? <div className='search-book-results'>{bResults}</div> : null}
+            {bookResults ? (
+              <div className='search-book-results'>{bookResults}</div>
+            ) : null}
           </div>
         </div>
       )
