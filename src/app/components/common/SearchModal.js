@@ -122,7 +122,7 @@ class SearchModal extends Component {
               </a>
               <br/>
               <a className='search-type-anchor' href={book.url}>
-                Binding: {book.binding} {book.pages}
+                {book.binding} {book.pages}
               </a>
             </div>
           </div>
