@@ -14,6 +14,7 @@ const emptyState = (state = {}) => {
 export default {
   genres: [],
   recommended: [],
+  search: emptyState(),
   books: emptyState({ payload: [] }),
   readerData: emptyState(),
   currentReader: {},

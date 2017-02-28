@@ -7,6 +7,7 @@ import litcoinsReducer from './litcoins'
 import readerDataReducer from './readerData'
 import recommendedReducer from './recommended'
 import socialReducer from './social'
+import searchReducer from './search'
 
 const rootReducer = combineReducers({
   books: booksReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   recommended: recommendedReducer,
   routing: routerReducer,
   social: socialReducer,
+  search: searchReducer,
 })
 
 export default rootReducer

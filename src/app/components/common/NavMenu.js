@@ -5,12 +5,9 @@ import { Auth } from '../../redux/actions'
 import { connect } from 'react-redux'
 import R from 'ramda'
 import SecondaryButton from './SecondaryButton'
-import {
-  Popover,
-  Menu,
-  MenuItem
-} from 'material-ui'
+import { Popover, Menu, MenuItem } from 'material-ui'
 import { ExternalRoutes as routes, PopularTopics } from '../../constants'
+import SearchModal from './SearchModal'
 import { Colors } from '../../constants/style'
 import SignUpModal from './SignUpModal'
 import LogInModal from './SignInModal'
@@ -108,6 +105,7 @@ class NavMenu extends PureComponent {
       modalOpen: false,
       modalLogInOpen: false,
       profileMenuOpen: false,
+      searchModalOpen: false,
     }
 
     this.handleModalClose = this.handleModalClose.bind(this)
@@ -115,6 +113,7 @@ class NavMenu extends PureComponent {
     this.handleProfileMenuShow = this.handleProfileMenuShow.bind(this)
     this.handleProfileMenuHide = this.handleProfileMenuHide.bind(this)
     this.handleLogoutClick = this.handleLogoutClick.bind(this)
+    this.handleClickSearch = this.handleClickSearch.bind(this)
   }
 
   handleModalOpen = () => {
@@ -157,6 +156,15 @@ class NavMenu extends PureComponent {
 
   handleProfileMenuHide = () => {
     this.setState({ profileMenuOpen: false })
+  }
+
+  handleClickSearch = (event) => {
+    event.preventDefault()
+    this.setState({ searchModalOpen: true })
+  }
+
+  handleSearchClose = () => {
+    this.setState({ searchModalOpen: false })
   }
 
   handleMapProfileMenuItems = () => {
@@ -393,7 +401,11 @@ class NavMenu extends PureComponent {
                 </a>
               </li>
               <li className='menu-text loged-menu-item'>
-                <a href='' style={styles.logNavItemLink}>
+                <a
+                  href=''
+                  style={styles.logNavItemLink}
+                  onClick={this.handleClickSearch}
+                >
                   <SearchIcon/>
                   Search
                 </a>
@@ -441,6 +453,10 @@ class NavMenu extends PureComponent {
             </ul>
           </div>
         </div>
+        <SearchModal
+          modalOpen={this.state.searchModalOpen}
+          handleClose={this.handleSearchClose}
+        />
       </div>
     )
   }
