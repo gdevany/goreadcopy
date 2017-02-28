@@ -30,9 +30,14 @@ export const CURRENT_READER = { // for /current_reader
   UPDATE_CURRENT_READER_DATA: 'UPDATE_CURRENT_READER_DATA',
 }
 
+export const SEARCH = {
+  GET_SEARCH: 'GET_SEARCH'
+}
+
 export default {
   BOOKS,
   CURRENT_READER,
   GET_GENRES: 'GET_GENRES',
   READERS,
+  SEARCH,
 }
