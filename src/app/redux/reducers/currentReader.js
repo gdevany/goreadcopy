@@ -7,7 +7,7 @@ export default (state = initialState.currentReader, { type, payload }) => {
     case A.SET_CURRENT_READER:
       return R.merge(state, payload)
     case A.UNSET_CURRENT_READER:
-      return R.omit(['token'], state)
+      return R.empty(state)
     case A.GET_CURRENT_READER:
       return R.merge(state, payload)
     case A.UPDATE_CURRENT_READER_DATA:

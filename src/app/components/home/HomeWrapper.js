@@ -8,7 +8,10 @@ import { Auth as CurrentToken } from '../../services'
 const { verifyUserToken } = Auth
 
 class HomeWrapper extends PureComponent {
-  componentDidMount = () => {
+  constructor(props) {
+    super(props)
+  }
+  componentWillMount = () => {
     const token = CurrentToken.token()
     if (token) {
       this.props.verifyUserToken({
@@ -17,13 +20,17 @@ class HomeWrapper extends PureComponent {
     }
   }
   render() {
-    return this.props.isLogged ? (<ReadFeed />) : (<Home />)
+    return CurrentToken.currentUserExists() ? (
+      <ReadFeed currentReader={this.props.currentReader}/>
+    ) : (
+      <Home />
+    )
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    isLogged: state.currentReader.token
+    currenReader: state.currentReader
   }
 }
 

@@ -190,13 +190,14 @@ class NavMenu extends PureComponent {
   }
 
   userProfileMenu = () => {
+    const { currenReader } = this.props
     return (
       <ul
         className='profile-menu-container'
         onMouseLeave={this.handleProfileMenuHide}
       >
         <li className='profile-menu-element'>
-          <a href='' className='profile-menu-anchor'>
+          <a href={currenReader.url} className='profile-menu-anchor'>
             View Profile
           </a>
         </li>
@@ -332,6 +333,7 @@ class NavMenu extends PureComponent {
   }
 
   renderLogInMenu = () => {
+    const { currenReader } = this.props
     return (
       <div className='slide-down'>
         <div style={styles.mobileNavContainer} className='top-bar-mobile'>
@@ -347,7 +349,7 @@ class NavMenu extends PureComponent {
                 </Link>
               </li>
               <li className='menu-text'>
-                <a href='#' style={styles.logNavItemLink}>
+                <a href={currenReader.url} style={styles.logNavItemLink}>
                   <PersonIcon/>
                   My Profile
                 </a>
@@ -418,7 +420,7 @@ class NavMenu extends PureComponent {
               </li>
               <li className='menu-text'>
                 <a href='' style={styles.logNavItemLink}>
-                  <span>30,000</span>
+                  <span>{currenReader.litcoinBalance}</span>
                   <img className='litcoin-img' src='./image/litcoin.png' />
                 </a>
               </li>
@@ -429,7 +431,7 @@ class NavMenu extends PureComponent {
                   onClick={this.handleProfileMenuShow}
                 >
                   <img
-                    src='./image/kendunn.jpg'
+                    src={currenReader.profileImage}
                     style={styles.profileImageBadge}
                   />
                 </a>
@@ -443,9 +445,9 @@ class NavMenu extends PureComponent {
     )
   }
   render() {
-    const { isUserLoggedIn } = this.props
+    const { isUserLoggedIn, currenReader } = this.props
 
-    if (isUserLoggedIn) {
+    if (isUserLoggedIn || currenReader.litcoinBalance) {
       return (
         this.renderLogInMenu()
       )
@@ -510,4 +512,10 @@ class NavMenu extends PureComponent {
   }
 }
 
-export default connect(null, { processUserLogout })(NavMenu)
+const mapStateToProps = (state) => {
+  return {
+    currenReader: state.currentReader
+  }
+}
+
+export default connect(mapStateToProps, { processUserLogout })(NavMenu)

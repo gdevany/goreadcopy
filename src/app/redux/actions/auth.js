@@ -21,7 +21,6 @@ export function processUserLogout() {
   return (dispatch) => {
     return Promise.resolve(dispatch({ type: A.UNSET_CURRENT_READER }))
       .then(() => {
-        console.log('Freak me out')
         deleteToken()
         browserHistory.push('/')
       })
