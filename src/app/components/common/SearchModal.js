@@ -45,27 +45,47 @@ class SearchModal extends Component {
     if (searchTerms.counts) {
 
       const rResults = searchTerms.readers.map((reader, index) => {
-        return <div key={reader.id}>Reader: {reader.firstName}</div>
+        return (
+          <div key={reader.id}>
+            {reader.firstName} {reader.lastName}
+            <img src={reader.image} alt={reader.slug}/>
+          </div>
+        )
       })
 
       const aResults = searchTerms.authors.map((author, index) => {
-        return <div key={author.id}>Author: {author.firstName}</div>
+        return (
+          <div key={author.id}>
+            {author.firstName} {author.lastName}
+            <img src={author.image} alt={author.slug}/>
+          </div>
+        )
       })
 
       const bResults = searchTerms.books.map((book, index) => {
-        return <div key={book.id}>Book: {book.title}</div>
+        return (
+          <div key={book.id}>
+            {book.title}
+            <img src={book.image} alt={book.slug}/>
+          </div>
+        )
       })
 
       const pResults = searchTerms.publishers.map((publisher, index) => {
-        return <div key={publisher.id}>Book: {publisher.title}</div>
+        return (
+          <div key={publisher.id}>
+            {publisher.title}
+            <img src={publisher.image} alt={publisher.slug}/>
+          </div>
+        )
       })
 
       return (
         <div>
-          <div>{rResults}</div>
-          <div>{aResults}</div>
-          <div>{bResults}</div>
-          <div>{pResults}</div>
+          {rResults ? <div>{rResults}</div> : null}
+          {aResults ? <div>{aResults}</div> : null}
+          {bResults ? <div>{bResults}</div> : null}
+          {pResults ? <div>{pResults}</div> : null}
         </div>
       )
     }
