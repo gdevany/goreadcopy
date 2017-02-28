@@ -43,4 +43,46 @@
 .search-results-contianer{
   display: flex;
   justify-content: center;
+  .search-results{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    align-items: flex-start;
+    .rap-results-container, .book-results-container{
+      width: 50%;
+      .search-reader-results, .search-author-results,
+      .search-publisher-results, .search-book-results{
+        .result-container{
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          flex-direction: row;
+          padding: .5em;
+          .image-container{
+            a{
+              .search-result-figure{
+                margin: 0;
+                width: 70px;
+                height: 70px;
+                .search-result-image{
+                  width: 100%;
+                  border-radius: 100%;
+                }
+              }
+            }
+          }
+        }
+        .search-result-info-container{
+          margin-left: .5em;
+          .search-type-anchor{
+            color:$blue;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+    .book-results-container{
+      width: 50%;
+    }
+  }
 }

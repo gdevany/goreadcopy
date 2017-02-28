@@ -46,46 +46,126 @@ class SearchModal extends Component {
 
       const rResults = searchTerms.readers.map((reader, index) => {
         return (
-          <div key={reader.id}>
-            {reader.firstName} {reader.lastName}
-            <img src={reader.image} alt={reader.slug}/>
+          <div key={reader.id} className='result-container'>
+            <div className='image-container'>
+              <a href={reader.url}>
+                <figure className='search-result-figure'>
+                  <img
+                    src={reader.image}
+                    className='search-result-image'
+                    alt={reader.slug}
+                  />
+                </figure>
+              </a>
+            </div>
+            <div className='search-result-info-container'>
+              <a href={reader.url}>
+                {reader.firstName} {reader.lastName}
+              </a>
+              <br/>
+              <a className='search-type-anchor' href={reader.url}>
+                Personal Library
+              </a>
+            </div>
           </div>
         )
       })
 
       const aResults = searchTerms.authors.map((author, index) => {
         return (
-          <div key={author.id}>
-            {author.firstName} {author.lastName}
-            <img src={author.image} alt={author.slug}/>
+          <div key={author.id} className='result-container'>
+            <div className='image-container'>
+              <a href={author.url}>
+                <figure className='search-result-figure'>
+                  <img
+                    src={author.image}
+                    className='search-result-image'
+                    alt={author.slug}
+                  />
+                </figure>
+              </a>
+            </div>
+            <div className='search-result-info-container'>
+              <a href={author.url}>
+                {author.firstName} {author.lastName}
+              </a>
+              <br/>
+              <a className='search-type-anchor' href={author.url}>
+                Author
+              </a>
+            </div>
           </div>
         )
       })
 
       const bResults = searchTerms.books.map((book, index) => {
         return (
-          <div key={book.id}>
-            {book.title}
-            <img src={book.image} alt={book.slug}/>
+          <div key={book.id} className='result-container'>
+            <div className='image-container'>
+              <a href={book.url}>
+                <figure className='search-result-figure'>
+                  <img
+                    src={book.image}
+                    className='search-result-image'
+                    alt={book.slug}
+                  />
+                </figure>
+              </a>
+            </div>
+            <div className='search-result-info-container'>
+              <a href={book.url}>
+                {book.title}
+              </a>
+              <br/>
+              <a className='search-type-anchor' href={book.url}>
+                {book.writtenBy}
+              </a>
+              <br/>
+              <a className='search-type-anchor' href={book.url}>
+                Binding: {book.binding} {book.pages}
+              </a>
+            </div>
           </div>
         )
       })
 
       const pResults = searchTerms.publishers.map((publisher, index) => {
         return (
-          <div key={publisher.id}>
-            {publisher.title}
-            <img src={publisher.image} alt={publisher.slug}/>
+          <div key={publisher.id} className='result-container'>
+            <div className='image-container'>
+              <a href={publisher.url}>
+                <figure className='search-result-figure'>
+                  <img
+                    src={publisher.image}
+                    className='search-result-image'
+                    alt={publisher.slug}
+                  />
+                </figure>
+              </a>
+            </div>
+            <div className='search-result-info-container'>
+              <a href={publisher.url}>
+                {publisher.title}
+              </a>
+              <br/>
+              <a className='search-type-anchor' href={publisher.url}>
+                Publisher
+              </a>
+            </div>
           </div>
         )
       })
 
       return (
-        <div>
-          {rResults ? <div>{rResults}</div> : null}
-          {aResults ? <div>{aResults}</div> : null}
-          {bResults ? <div>{bResults}</div> : null}
-          {pResults ? <div>{pResults}</div> : null}
+        <div className='search-results'>
+          <div className='rap-results-container'>
+            {rResults ? <div className='search-reader-results'>{rResults}</div> : null}
+            {aResults ? <div className='search-author-results'>{aResults}</div> : null}
+            {pResults ? <div className='search-publisher-results'>{pResults}</div> : null}
+          </div>
+          <div className='book-results-container'>
+            {bResults ? <div className='search-book-results'>{bResults}</div> : null}
+          </div>
         </div>
       )
     }
