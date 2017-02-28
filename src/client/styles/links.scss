@@ -2,7 +2,6 @@
 
 a {
   text-decoration: none;
-  color: #5B5B5B;
 
   &:visited {
     text-decoration: none;
@@ -20,4 +19,8 @@ a {
   &:active {
     color: $blue;
   }
+}
+
+.rf-nav-link {
+  color: $grey;
 }
