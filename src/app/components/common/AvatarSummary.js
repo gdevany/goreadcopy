@@ -60,7 +60,7 @@ const AvatarSummary = ({
 
   return (
     <div className='row' style={styles.item} key={id}>
-      <div className='small-10 columns checkbox-info-wrapper'>
+      <div className='small-10 columns'>
         <CardHeader
           title={title}
           titleStyle={styles.nameText}

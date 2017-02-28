@@ -1,6 +1,7 @@
 // Define global style vars here
 
 const lightGrey = '#FCFBF9'
+const medGrey = '#DADADA'
 const blue = '#0042D6'
 const darkBlue = '#0137AF'
 const white = '#fff'
@@ -11,6 +12,7 @@ const litcoins = yellow
 
 export const Colors = {
   lightGrey,
+  medGrey,
   blue,
   darkBlue,
   white,

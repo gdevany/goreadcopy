@@ -13,6 +13,10 @@ a {
     text-decoration: none;
   }
 
+  &:focus {
+    color: $blue;
+  }
+
   &:active {
     color: $blue;
   }

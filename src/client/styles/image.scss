@@ -1,3 +1,33 @@
 .landing-image {
   padding-top: 0px;
 }
+
+.landing-image-1 {
+  background: url('../image/discover.jpg') no-repeat left;
+  background-size: cover;
+  height: 600px;
+  margin-top: -50px;
+
+  @media all and (max-width: 1024px){
+    margin-top: 0px;
+  }
+}
+
+.landing-image-2 {
+  background: url('../image/bookclub.jpg') no-repeat left;
+  background-size: cover;
+  height: 550px;
+}
+
+.landing-image-3 {
+  background: url('../image/earn.jpg') no-repeat left;
+  background-size: cover;
+  height: 550px;
+}
+
+.landing-image-4 {
+  background: url('../image/community.jpg') no-repeat left;
+  background-size: cover;
+  height: 550px;
+  margin-bottom: -50px;
+}

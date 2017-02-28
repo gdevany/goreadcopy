@@ -31,7 +31,8 @@ const styles = {
     height: '100%',
     padding: '50px 70px',
     marginTop: 10,
-    maxWidth: 900,
+    marginBottom: 30,
+    maxWidth: 950,
 
     [Breakpoints.mobile]: {
       padding: '50px 15px',
@@ -54,6 +55,7 @@ const styles = {
 
   checkmark: {
     marginRight: 7,
+    marginBottom: 3,
   },
 }
 
@@ -154,7 +156,7 @@ class SignUpStepTwo extends PureComponent {
             Add your favorite genres
           </h1>
 
-          <p>
+          <p className='subheader-text'>
             {"We'll use this information to suggest new books and authors for you"}
           </p>
 

@@ -13,12 +13,15 @@ const { getBooks } = Books
 
 const styles = {
   shopSection: {
+    borderRadius: 5,
     backgroundColor: '#F9F9FC',
     padding: '0 40px 50px 40px',
+    position: 'relative',
     margin: '-100px auto 0',
     maxWidth: 1150,
     width: '98%',
-    boxShadow: '0px 2px 30px 0px rgba(0,0,0,0.08)',
+    boxShadow: '0px 2px 30px 0px rgba(0,0,0,0.2)',
+    zIndex: 10,
 
     [Breakpoints.mobile]: {
       padding: '0 20px 50px 20px',

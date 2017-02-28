@@ -80,7 +80,7 @@
 
 
 .behind-card-container {
-  display: none;
+  display: none; // need to fix display issues later
   margin: -610px auto 0;
   position: relative;
   width: 900px;
@@ -94,6 +94,7 @@
 }
 
 .third-behind-card-container {
+  display: none; // need to fix display issues later
   margin: -610px auto 0;
   position: relative;
   width: 900px;
@@ -129,4 +130,10 @@
   span {
       color: white !important;
     }
+}
+
+.checkbox-info-wrapper {
+  img {
+    border-radius: 15% !important;
+  }
 }

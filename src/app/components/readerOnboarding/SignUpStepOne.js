@@ -15,6 +15,7 @@ const styles = {
   container: {
     backgroundColor: Colors.white,
     marginTop: 10,
+    marginBottom: 30,
     maxWidth: 900,
 
     [Breakpoints.mobile]: {
@@ -159,9 +160,6 @@ class SignUpStepOne extends Component {
               />
             </div>
 
-            <div className='page-number'>
-              <p className={styles.pageText}>1</p>
-            </div>
           </form>
         </div>
 

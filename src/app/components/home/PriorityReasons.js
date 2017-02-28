@@ -1,5 +1,4 @@
 import React from 'react'
-import LandingImage from './LandingImage'
 import LandingReasons from './LandingReasons'
 import { Breakpoints } from '../../constants/style'
 import Radium from 'radium'
@@ -7,8 +6,8 @@ import Radium from 'radium'
 const styles = {
   propContainer: {
     maxWidth: '100%',
-    paddingTop: 100,
     position: 'relative',
+    zIndex: 0,
 
     [Breakpoints.tablet]: {
       paddingTop: 0,
@@ -27,15 +26,18 @@ const PriorityReasons = () => {
         <div style={styles.textContainer} className='medium-12 large-5 large-offset-1 columns'>
           <LandingReasons
             statement={'Discover your next book'}
-            description={"Find books you'll love while exploring our community"}
+            description={'Find books you love while exploring our community'}
           />
         </div>
-        <div style={styles.imageContainer} className='medium-12 large-6 center-text columns'>
+        <div
+          style={styles.imageContainer}
+          className='medium-12 large-6 landing-image-1 center-text columns'
+        >
           {/**TODO: Check if this works in staging/production.
             If not either we change the path based on the environment
             or maybe we change webpack config?
           **/}
-          <LandingImage imageUrl='./image/discover.jpg' />
+          {/** <LandingImage imageUrl='./image/discover.jpg' /> **/}
         </div>
       </div>
 
@@ -52,9 +54,9 @@ const PriorityReasons = () => {
 
         <div
           style={styles.imageContainer}
-          className='medium-12 large-6 large-pull-6 center-text columns'
+          className='medium-12 large-6 large-pull-6 landing-image-2 center-text columns'
         >
-          <LandingImage imageUrl='./image/bookclub.jpg' />
+          {/** <LandingImage imageUrl='./image/bookclub.jpg' /> **/}
         </div>
       </div>
 
@@ -65,8 +67,11 @@ const PriorityReasons = () => {
             description={'Get any book shipped to you by just hanging out with other on GoRead'}
           />
         </div>
-        <div style={styles.imageContainer} className='medium-12 large-6 center-text columns'>
-          <LandingImage imageUrl='./image/earn.jpg' />
+        <div
+          style={styles.imageContainer}
+          className='medium-12 large-6 landing-image-3 center-text columns'
+        >
+          {/** <LandingImage imageUrl='./image/earn.jpg' /> **/}
         </div>
       </div>
 
@@ -82,9 +87,9 @@ const PriorityReasons = () => {
         </div>
         <div
           style={styles.imageContainer}
-          className='medium-12 large-6 large-pull-6 center-text columns'
+          className='medium-12 large-6 large-pull-6 landing-image-4 center-text columns'
         >
-          <LandingImage imageUrl='./image/community.jpg' />
+          {/** <LandingImage imageUrl='./image/community.jpg' /> **/}
         </div>
       </div>
 
