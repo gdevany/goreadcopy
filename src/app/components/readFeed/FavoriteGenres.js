@@ -69,7 +69,7 @@ class FavoriteGenres extends PureComponent {
     const { genreIds } = this.props
     const { modalOpen } = this.state
     return (
-      <div>
+      <div className='text-left'>
         <h5> Your Genres </h5>
         <div onClick={this.handleOpen} style={styles.genreSection}>
           {genreIds ? this.renderChosenGenres(genreIds) : null}

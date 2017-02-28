@@ -44,9 +44,17 @@ export function updateCurrentReader(payload) {
   }
 }
 
+export function updateCurrentReaderRecommendation(recommendation) {
+  return {
+    type: A.UPDATE_CURRENT_READER_RECOMMENDATION,
+    payload: recommendation,
+  }
+}
+
 export default {
   setCurrentReader,
   refreshCurrentReader,
   getCurrentReader,
-  updateCurrentReader
+  updateCurrentReader,
+  updateCurrentReaderRecommendation,
 }

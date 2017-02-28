@@ -1,6 +1,6 @@
 import React from 'react'
-import ReactTooltip from 'react-tooltip'
 import { Colors } from '../../constants/style'
+import Rating from 'react-rating'
 
 const styles = {
   bookImage: {
@@ -18,38 +18,30 @@ const styles = {
     color: Colors.black,
   },
 }
-const bookInfoCharLimit = 40
 
 const Book = ({ book }) => {
   const truncInfo = (text, limit) => {
-    return text.length >= limit ? `${text.slice(0, limit)}...` : null
+    return text.length >= limit ? `${text.slice(0, limit)}...` : text
   }
-  const renderBookInfo = (book) => {
-    const truncText = truncInfo(`${book.title}`, bookInfoCharLimit)
-    const authorText = `by ${book.author}`
-    return truncText ? (
-      <div style={styles.tooltip}>
-        <span className='link'>
-          {truncText}
-        </span>
-        <br />
-        <span className='link' style={styles.tooltipAuthor}>
-          {authorText}
-        </span>
-      </div>
-    ) : (
-      <div style={styles.tooltip}>
-        <span className='link'>
-          {book.title}
-        </span>
-        <br/>
-        <span className='link' style={styles.tooltipAuthor}>
-          by {book.author}
-        </span>
-      </div>
+
+  const renderRating = (rating) => {
+    {
+      /** TODO:
+      Derrick replace full with a full star icon
+      and empty with an empty star icon
+      **/
+    }
+    return (
+      <Rating
+        readonly={true}
+        initialRate={rating}
+        full={<img src='./image/camera-material-ui.png' />}
+        empty={<img src='./image/close.png' />}
+      />
     )
   }
 
+  const author = `${book.authors[0].firstName} ${book.authors[0].lastName}`
   return (
     <div style={styles.bookSection}>
       <div
@@ -61,14 +53,18 @@ const Book = ({ book }) => {
           <img className='book' src={book.imageUrl} />
         </a>
       </div>
-      <ReactTooltip
-        id={book.slug}
-        type='light'
-        effect='solid'
-        place='top'
-      >
-        {renderBookInfo(book)}
-      </ReactTooltip>
+      <div style={styles.tooltip}>
+        <span className='link'>
+          {truncInfo(book.title, 20)}
+        </span>
+        <br />
+        <span className='link subheader' style={styles.tooltipAuthor}>
+          by {truncInfo(author, 20)}
+        </span> <br />
+        <span className='rating' >
+          {renderRating(Math.round(book.rating.average))}
+        </span>
+      </div>
     </div>
   )
 }

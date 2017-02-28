@@ -1,9 +1,10 @@
 import React from 'react'
+import BookRecommendations from './BookRecommendations'
 
-const RightContainer = () => {
+const RightContainer = ({ isUserLoggedIn }) => {
   return (
     <div className='right-container small-12 large-3 columns'>
-      <p>Right Container</p>
+      { isUserLoggedIn ? <BookRecommendations /> : null }
     </div>
   )
 }
