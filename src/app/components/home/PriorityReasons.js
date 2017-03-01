@@ -32,13 +32,11 @@ const PriorityReasons = () => {
         <div
           style={styles.imageContainer}
           className='medium-12 large-6 landing-image-1 center-text columns'
-        >
+        />
           {/**TODO: Check if this works in staging/production.
             If not either we change the path based on the environment
             or maybe we change webpack config?
           **/}
-          {/** <LandingImage imageUrl='./image/discover.jpg' /> **/}
-        </div>
       </div>
 
       <div className='row' style={styles.propContainer}>
@@ -55,9 +53,7 @@ const PriorityReasons = () => {
         <div
           style={styles.imageContainer}
           className='medium-12 large-6 large-pull-6 landing-image-2 center-text columns'
-        >
-          {/** <LandingImage imageUrl='./image/bookclub.jpg' /> **/}
-        </div>
+        />
       </div>
 
       <div className='row' style={styles.propContainer}>
@@ -70,9 +66,7 @@ const PriorityReasons = () => {
         <div
           style={styles.imageContainer}
           className='medium-12 large-6 landing-image-3 center-text columns'
-        >
-          {/** <LandingImage imageUrl='./image/earn.jpg' /> **/}
-        </div>
+        />
       </div>
 
       <div className='row' style={styles.propContainer}>
@@ -88,9 +82,7 @@ const PriorityReasons = () => {
         <div
           style={styles.imageContainer}
           className='medium-12 large-6 large-pull-6 landing-image-4 center-text columns'
-        >
-          {/** <LandingImage imageUrl='./image/community.jpg' /> **/}
-        </div>
+        />
       </div>
 
     </div>
