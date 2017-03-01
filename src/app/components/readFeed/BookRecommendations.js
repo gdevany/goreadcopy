@@ -36,7 +36,6 @@ class BookRecommendations extends PureComponent {
           { recommended ? this.renderBooks(recommended.books) : null }
         </div>
         <div>
-          {/** TODO: Where does this link go to? **/}
           <a href={bookStore()}>
             See more books >
           </a>

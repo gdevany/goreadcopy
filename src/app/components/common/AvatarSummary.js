@@ -51,12 +51,14 @@ const AvatarSummary = ({
   title,
   image,
   description,
+  booksWritten,
   handleChipClick,
   isChosen,
   followType,
 }) => {
 
   const chosen = isChosen(id, followType)
+  const subtitle = booksWritten ? `Author of ${booksWritten[0]}` : description
 
   return (
     <div className='row' style={styles.item} key={id}>
@@ -65,7 +67,7 @@ const AvatarSummary = ({
           title={title}
           titleStyle={styles.nameText}
           textStyle={styles.textContainer}
-          subtitle={description}
+          subtitle={subtitle}
           subtitleStyle={styles.subTitleText}
           avatar={image}
           style={styles.infoContainer}

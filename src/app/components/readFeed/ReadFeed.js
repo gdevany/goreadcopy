@@ -10,7 +10,7 @@ import { CurrentReader } from '../../redux/actions'
 const { getCurrentReader } = CurrentReader
 
 class ReadFeed extends PureComponent {
-  componentDidMount = () => {
+  componentWillMount = () => {
     this.props.getCurrentReader()
   }
 

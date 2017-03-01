@@ -24,7 +24,7 @@ export function searchGenres(search) {
       Search.search(search)
         .then(res => { dispatch(updateGenres(res.data.genres))})
         .catch(err => console.log(`Error in searchGenres ${err}`))
-    }, 2000)
+    }, 300)
   }
 
   return debounceSearch()

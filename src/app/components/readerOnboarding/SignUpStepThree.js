@@ -104,7 +104,7 @@ class SignUpStepThree extends PureComponent {
   }
 
   componentWillMount = () => {
-    this.props.getRecommendation()
+    this.props.getRecommendation(5)
   }
 
   componentDidUpdate = () => {

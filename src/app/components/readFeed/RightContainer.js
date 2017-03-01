@@ -1,11 +1,22 @@
 import React from 'react'
 import BookRecommendations from './BookRecommendations'
+import AuthorRecommendations from './AuthorRecommendations'
 
 const RightContainer = ({ isUserLoggedIn }) => {
+  const isLoggedIn = () => {
+    return (
+      <div>
+        <BookRecommendations />
+        <AuthorRecommendations />
+      </div>
+    )
+  }
+
   return (
     <div className='right-container small-12 large-3 columns'>
-      { isUserLoggedIn ? <BookRecommendations /> : null }
+      { isUserLoggedIn ? isLoggedIn() : null }
     </div>
+
   )
 }
 
