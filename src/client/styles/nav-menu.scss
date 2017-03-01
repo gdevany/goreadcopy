@@ -163,3 +163,121 @@
     }
   }
 }
+
+.top-bar-mobile{
+  display: flex;
+  @media all and (min-width: 1024px){
+    display: none;
+  }
+  .nav-menu-logged{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 1em 0;
+    background-color: $light-grey;
+    border-bottom: solid 1px $grey;
+    .nav-menu-logged-container{
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin: 0;
+      list-style: none;
+      width: 100%;
+    }
+  }
+}
+
+#mobile-menu-logged{
+  left: 0;
+  top: 64px;
+  .bm-menu{
+    .bm-item-list{
+      padding: 0;
+      background-color: $light-grey;
+      height: auto !important;
+      overflow: hidden;
+    }
+  }
+  .profile-section-container{
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: $white;
+    padding: 1em;
+    border-bottom: solid 1px #d4d4d4;
+    .first-row-elements{
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: row;
+      width: 100%;
+      .profile-badge-anchor{
+        .profile-badge-container{
+          width: 60px;
+          .profile-badge-img{
+            border-radius: 100%;
+            border: solid 2px $grey;
+          }
+        }
+      }
+      .profile-name-anchor{
+        margin-left: 1em;
+      }
+    }
+    .second-row-elements{
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: row;
+      width: 100%;
+      margin-top: .5em;
+      .follows-container{
+        span{
+          color:$black;
+          font-size: 16px;
+        }
+        &:last-child{
+          margin-left: 1.5em;
+        }
+      }
+    }
+    .third-row-elements{
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: row;
+      width: 100%;
+      margin-top: .5em;
+      .litcoin-balance-anchor{
+        span{
+          color:$black;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+  .explore-links-container{
+    display: flex !important;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1em 1em 4em 1em;
+    .links-container{
+      margin: 0;
+      list-style: none;
+      .links-title{
+        text-transform: uppercase;
+        font-size: 12px;
+        font-weight: bold;;
+      }
+      .links-list{
+        .links-anchor{
+          display: block;
+          padding: .5em 0;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
