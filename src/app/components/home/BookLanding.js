@@ -87,9 +87,20 @@ const styles = {
       marginLeft: 10,
     },
   },
+  genreSelected: {
+    fontWeight: 'bold',
+    color: Colors.blue,
+  },
 }
 
 class BookLanding extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = {
+      genreSelected: 'Popular',
+    }
+  }
+
   componentWillMount = () => {
     const { books, genres, getBooks, getGenres } = this.props
     if (R.isEmpty(books)) { getBooks() }
@@ -100,7 +111,10 @@ class BookLanding extends PureComponent {
     return R.take(8, genres.map((genre, index) => {
       return (
         <li style={styles.shopList} className='link nav-item' key={index}>
-          <a onClick={(event) => this.handleGenreClick(event, genre.id)} >
+          <a
+            onClick={(event) => this.handleGenreClick(event, genre.id, genre.name)}
+            style={this.state.genreSelected === genre.name ? styles.genreSelected : null}
+          >
             {S.titleize(genre.name)}
           </a>
         </li>
@@ -132,9 +146,19 @@ class BookLanding extends PureComponent {
     return result
   }
 
-  handleGenreClick = (event, genreId) => {
-    (event.target.text === 'Popular') ? this.props.getBooks() :
-      this.props.getBooks({ genreIds: genreId })
+  handleGenreClick = (event, genreId, genreName) => {
+    let genreSelected
+
+    if (event.target.text === 'Popular') {
+      this.props.getBooks()
+      genreSelected = 'Popular'
+    } else {
+      this.props.getBooks({ genreIds: genreName })
+      genreSelected = genreName
+    }
+    this.setState({
+      genreSelected,
+    })
   }
 
   checkScreenSize = () => {
@@ -167,7 +191,10 @@ class BookLanding extends PureComponent {
                 <ul style={styles.shopUl}>
                   <li style={styles.shopList} />
                   <li style={styles.shopList} className='link nav-item' >
-                    <a onClick={(event) => this.handleGenreClick(event, 'Popular')} >
+                    <a
+                      onClick={(event) => this.handleGenreClick(event, 'Popular')}
+                      style={this.state.genreSelected === 'Popular' ? styles.genreSelected : null}
+                    >
                       Popular
                     </a>
                   </li>
