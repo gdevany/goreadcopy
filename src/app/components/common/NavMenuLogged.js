@@ -279,6 +279,7 @@ class NavMenuLogged extends PureComponent {
           </nav>
           <MobileMenu
             customBurgerIcon={false}
+            customCrossIcon={false}
             id={'mobile-menu-logged'}
             isOpen={this.state.isMobileMenuOpen}
             width={300}
