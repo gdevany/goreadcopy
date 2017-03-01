@@ -2,14 +2,12 @@ import React, { Component } from 'react'
 import R from 'ramda'
 import { Dialog, } from 'material-ui'
 import { connect } from 'react-redux'
-// import { ReaderData } from '../../redux/actions'
 import { ExternalRoutes as routes } from '../../constants'
 import PrimaryButton from './PrimaryButton'
 import SocialButton from './SocialButton'
-// import WrappedField from './WrappedField'
+import WrappedField from './WrappedField'
 import { Auth } from '../../redux/actions'
 
-// const { getInitialReaderData, checkFields, updateReaderData } = ReaderData
 const { processUserLogin } = Auth
 
 const styles = {
@@ -54,6 +52,7 @@ class SignInModal extends Component {
 
   render() {
     const {
+      errors,
       modalOpen,
       handleClose,
       handleSubmit
@@ -119,27 +118,40 @@ class SignInModal extends Component {
           <div style={styles.formContainer}>
             <form onSubmit={this.handleSubmit} className='form-wrapper general-font'>
 
-              <span className='form-label'> Username </span>
-              <input
-                type='text'
-                className='form-input'
-                onChange={this.handleOnChange('username')}
-                value={username}
-              />
-
-              <span className='form-label'> Password </span>
-              <input
-                type='password'
-                className='form-input'
-                onChange={this.handleOnChange('password')}
-                value={password}
+              <WrappedField
+                field='username'
+                errors={errors}
+              >
+                <span className='form-label'> Username </span>
+                <input
+                  type='text'
+                  className='form-input'
+                  onChange={this.handleOnChange('username')}
+                  value={username}
+                />
+              </WrappedField>
+              <WrappedField
+                field='password'
+                errors={errors}
+              >
+                <span className='form-label'> Password </span>
+                <input
+                  type='password'
+                  className='form-input'
+                  onChange={this.handleOnChange('password')}
+                  value={password}
+                />
+              </WrappedField>
+              <WrappedField
+                field='nonFieldErrors'
+                errors={errors}
               />
               <div className='center-text'>
-              <PrimaryButton
-                label={'Sign in with email'}
-                onClick={handleSubmit}
-                type={'submit'}
-              />
+                <PrimaryButton
+                  label={'Sign in with email'}
+                  onClick={handleSubmit}
+                  type={'submit'}
+                />
               </div>
             </form>
           </div>
@@ -149,12 +161,6 @@ class SignInModal extends Component {
   }
 }
 
-// const mapStateToProps = R.prop('readerData')
-//
-// const mapDispatchToProps = {
-//   getInitialReaderData,
-//   updateReaderData,
-//   checkFields,
-// }
+const mapStateToProps = R.prop('readerData')
 
-export default connect(null, { processUserLogin })(SignInModal)
+export default connect(mapStateToProps, { processUserLogin })(SignInModal)
