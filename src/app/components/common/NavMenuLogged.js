@@ -85,32 +85,38 @@ class NavMenuLogged extends PureComponent {
     this.setState({ profileMenuOpen: false })
   }
 
-  handleMapProfileMenuItems = () => {
-    const { orders, referrals, settings, help } = routes
-
-    const nonMenuRoutes = [
-      ['Orders', orders],
-      ['Referrals', referrals],
-      ['Settings', settings],
-      ['Help', help],
-    ]
-
-    const NonMenuItem = ([title, routeFn], index) => (
-      <li className='profile-menu-element' key={title + index}>
+  mapElementsHandler = (liClass, anchorClass) => {
+    return ([title, routeFn], index) => (
+      <li className={liClass} key={title + index}>
         <a
-          className='profile-menu-anchor'
+          className={anchorClass}
           href={routeFn()}
         >
           {title}
         </a>
       </li>
     )
+  }
+
+  handleMapProfileMenuItems = () => {
+    const liClass = 'profile-menu-element'
+    const anchorClass = 'profile-menu-anchor'
+    const { orders, referrals, settings, help } = routes
+    const nonMenuRoutes = [
+      ['Orders', orders],
+      ['Referrals', referrals],
+      ['Settings', settings],
+      ['Help', help],
+    ]
+    const NonMenuItem = this.mapElementsHandler(liClass, anchorClass)
 
     return R.map(NonMenuItem, nonMenuRoutes)
 
   }
 
-  mapMobileMenuExploreItems = () => {
+  mapMobileMenuItems = (type) => {
+    const liClass = 'links-list'
+    const anchorClass = 'links-anchor'
     const {
       myBookClubs,
       bookStore,
@@ -122,48 +128,33 @@ class NavMenuLogged extends PureComponent {
       videoTutorials,
       referrals,
       games,
+      settings,
+      help
     } = routes
+    let nonMenuRoutes
 
-    const nonMenuRoutes = [
-      ['My Book Clubs', myBookClubs],
-      ['Book Store', bookStore],
-      ['My Orders', myOrders],
-      ['News', news],
-      ['Articles', articles],
-      ['Books With Ken', booksWithKen],
-      ['Children\'s Literacy', childrensLiteracy],
-      ['Video Tutorials', videoTutorials],
-      ['Referrals', referrals],
-      ['Games', games],
-    ]
+    if (type === 'Explore') {
+      nonMenuRoutes = [
+        ['My Book Clubs', myBookClubs],
+        ['Book Store', bookStore],
+        ['My Orders', myOrders],
+        ['News', news],
+        ['Articles', articles],
+        ['Books With Ken', booksWithKen],
+        ['Children\'s Literacy', childrensLiteracy],
+        ['Video Tutorials', videoTutorials],
+        ['Referrals', referrals],
+        ['Games', games],
+      ]
+    }
+    if (type === 'Help') {
+      nonMenuRoutes = [
+        ['Settings', settings],
+        ['Help', help],
+      ]
+    }
 
-    const NonMenuItem = ([title, routeFn], index) => (
-      <li className='links-list' key={title + index}>
-        <a href={routeFn()} className='links-anchor'>
-          {title}
-        </a>
-      </li>
-    )
-
-    return R.map(NonMenuItem, nonMenuRoutes)
-
-  }
-
-  mapMobileMenuHelpItems = () => {
-    const { settings, help } = routes
-
-    const nonMenuRoutes = [
-      ['Settings', settings],
-      ['Help', help],
-    ]
-
-    const NonMenuItem = ([title, routeFn], index) => (
-      <li className='links-list' key={title + index}>
-        <a href={routeFn()} className='links-anchor'>
-          {title}
-        </a>
-      </li>
-    )
+    const NonMenuItem = this.mapElementsHandler(liClass, anchorClass)
 
     return R.map(NonMenuItem, nonMenuRoutes)
 
@@ -319,13 +310,13 @@ class NavMenuLogged extends PureComponent {
                 <span className='links-title'>
                   Explore
                 </span>
-                {this.mapMobileMenuExploreItems()}
+                {this.mapMobileMenuItems('Explore')}
               </ul>
               <ul className='links-container'>
                 <span className='links-title'>
                   Help & Settings
                 </span>
-                {this.mapMobileMenuHelpItems()}
+                {this.mapMobileMenuItems('Help')}
                 <li className='links-list'>
                   <a href='#' className='links-anchor'>
                     Logout
