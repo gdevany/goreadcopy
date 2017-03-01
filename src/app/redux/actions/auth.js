@@ -20,7 +20,7 @@ export function processUserLogin(credentials) {
 
     return authJwt(credentials)
       .then((response) => { dispatch(setCurrentReader(response.data)) })
-      .catch(err => { console.log(err) })
+      .catch(err => { dispatch(updateReaderErrors(err)) })
   }
 }
 
