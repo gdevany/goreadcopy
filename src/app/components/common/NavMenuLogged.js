@@ -169,6 +169,23 @@ class NavMenuLogged extends PureComponent {
 
   }
 
+  mapMobileMenuFooterItems = () => {
+    const { advertisers, authorEnrollment, publishers, media } = routes
+
+    const nonMenuRoutes = [
+      ['Advertising', advertisers],
+      ['Author Enrollment', authorEnrollment],
+      ['Publisher Enrollment', publishers],
+      ['Media', media],
+    ]
+    const NonMenuItem = ([title, routeFn], index) => (
+      <a href={routeFn()} className='footer-anchor' key={title + index}>
+        {title}
+      </a>
+    )
+    return R.map(NonMenuItem, nonMenuRoutes)
+  }
+
   userProfileMenu = () => {
     return (
       <ul
@@ -302,6 +319,8 @@ class NavMenuLogged extends PureComponent {
                   Explore
                 </span>
                 {this.mapMobileMenuExploreItems()}
+              </ul>
+              <ul className='links-container'>
                 <span className='links-title'>
                   Help & Settings
                 </span>
@@ -312,6 +331,9 @@ class NavMenuLogged extends PureComponent {
                   </a>
                 </li>
               </ul>
+            </div>
+            <div className='footer-links-container'>
+              {this.mapMobileMenuFooterItems()}
             </div>
           </MobileMenu>
         </div>

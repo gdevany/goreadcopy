@@ -166,7 +166,7 @@
 
 .top-bar-mobile{
   display: flex;
-  @media all and (min-width: 1024px){
+  @media all and (min-width: 1200px){
     display: none;
   }
   .nav-menu-logged{
@@ -262,10 +262,12 @@
     display: flex !important;
     justify-content: flex-start;
     align-items: center;
-    padding: 1em 1em 4em 1em;
+    flex-direction: column;
+    padding: 1em;
     .links-container{
       margin: 0;
       list-style: none;
+      width: 100%;
       .links-title{
         text-transform: uppercase;
         font-size: 12px;
@@ -278,6 +280,18 @@
           font-size: 16px;
         }
       }
+    }
+  }
+  .footer-links-container{
+    padding: 0 1em 4em 1em;
+    display: flex !important;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: center;
+    .footer-anchor{
+      display: block;
+      color: $grey;
+      font-size: 14px;
     }
   }
 }
