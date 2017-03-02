@@ -6,14 +6,17 @@ import { Promise } from '../../services'
 import { updateReaderData } from './readerData'
 import { updateLitcoinBalance } from './litcoins'
 import { debounce } from 'lodash'
+import R from 'ramda'
 
-export function getRecommendation() {
+export function getRecommendation(amount) {
   return (dispatch, getState) => {
-    const genreIds = getState().readerData.genreIds
+    const genreData = getState().currentReader.genreIds || getState().readerData.genreIds
+    const genreIds = typeof genreData[0] === 'number' ?
+      genreData : R.pluck('id', (genreData))
 
     CurrentReaderRecommendation.getRecommendation({
       genreIds,
-      perUserType: 5,
+      perUserType: amount,
     })
       .then(res => dispatch(updateRecommended(res.data)))
       .catch(err => console.log(`Error in getRecommendation api call: ${err}`))
@@ -28,7 +31,7 @@ export function searchRecommendation(search) {
         reader: search
       })
         .then(res => {
-          return dispatch(updateRecommended([res.data]))
+          return dispatch(updateRecommended(res.data))
         })
         .catch(err => console.log(`Error in searchRecommendation ${err}`))
     }, 1000)

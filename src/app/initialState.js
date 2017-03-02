@@ -17,7 +17,7 @@ export default {
   search: emptyState(),
   books: emptyState({ payload: [] }),
   readerData: emptyState(),
-  currentReader: {},
+  currentReader: emptyState(),
   litcoins: {},
   social: {}
 }

@@ -4,6 +4,7 @@ import { Chip } from 'material-ui'
 import S from 'underscore.string.fp'
 import { Colors } from '../../constants/style'
 import FavoriteGenresModal from './FavoriteGenresModal'
+import R from 'ramda'
 
 const styles = {
   chip: {
@@ -50,7 +51,7 @@ class FavoriteGenres extends PureComponent {
   }
 
   renderChosenGenres = (genres) => {
-    return genres.map((genre, index) => {
+    return R.take(3, genres).map((genre, index) => {
       return (
         <div key={`${genre}-${index}`}>
           <Chip

@@ -2,6 +2,7 @@ import { CURRENT_READER as A } from '../const/actionTypes'
 import CurrentReader from '../../services/api/currentReader/general'
 import { Auth } from '../../services'
 import { Jwt } from '../../services/api'
+import { getRecommendation } from './recommended'
 
 const tokenFrom = ({ data: { token } }) => {
   return { token }
@@ -19,6 +20,7 @@ export function getCurrentReader() {
   return dispatch => {
     CurrentReader.getCurrentReader()
       .then(res => dispatch(updateCurrentReader(res.data)))
+      .then(() => dispatch(getRecommendation(3)))
       .catch(err => console.log(`Error in getCurrentReader ${err}`))
   }
 }

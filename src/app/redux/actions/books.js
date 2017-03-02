@@ -2,6 +2,7 @@ import { BOOKS as A } from '../const/actionTypes'
 import { Deserialization } from '../../services'
 import { Books } from '../../services/api'
 import { Promise } from '../../services'
+import CurrentReaderRecommendation from '../../services/api/currentReader/recommendation'
 import { updateCurrentReaderRecommendation } from './currentReader'
 
 const { fromPaginated } = Deserialization
@@ -124,6 +125,14 @@ export function getBookRecommendations() {
   }
 }
 
+export function getBookClubRecommendations(amount) {
+  return dispatch => {
+    CurrentReaderRecommendation.getBookClubRecommenation({ perPage: amount })
+      .then(res => dispatch(updateCurrentReaderRecommendation({ bookClubs: res.data.results })))
+      .catch(err => console.log(`Error in getBookClubRecommenation: ${err}`))
+  }
+}
+
 export function getBooksSuccess(books) {
   return {
     type: A.GET_BOOKS_SUCCESS,
@@ -134,5 +143,6 @@ export function getBooksSuccess(books) {
 export default {
   getBooks,
   getBooksSuccess,
-  getBookRecommendations
+  getBookRecommendations,
+  getBookClubRecommendations,
 }

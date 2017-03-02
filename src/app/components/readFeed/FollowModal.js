@@ -3,7 +3,10 @@ import { connect } from 'react-redux'
 import { AvatarSummary } from '../common'
 import { Dialog, Tabs, Tab } from 'material-ui'
 import SwipeableViews from 'react-swipeable-views'
+import { Follow } from '../../redux/actions'
 import R from 'ramda'
+
+const { updateFollowed, updateFollowers } = Follow
 
 const styles = {
   headline: {
@@ -43,10 +46,10 @@ class FollowModal extends PureComponent {
   }
 
   componentDidUpdate = () => {
-    // const { followed, followers } = this.props
-    // TODO: set these actions up
-    // if (followed.length) this.props.updateFollowed({ followed })
-    // if (followers.length) this.props.updateFollowers({ followers })
+    const { followed, followers } = this.state
+    const { updateFollowed, updateFollowers } = this.props
+    if (followed.length) updateFollowed({ followed })
+    if (followers.length) updateFollowers({ followers })
   }
 
   handleChipClick = (event, followType, id) => {
@@ -62,7 +65,7 @@ class FollowModal extends PureComponent {
     }
   }
 
-  isChosen(id, followType) {
+  isChosen = (id, followType) => {
     return (followType === 'followers') ?
       R.contains(id, this.state.followers) :
       R.contains(id, this.state.followed)
@@ -214,4 +217,9 @@ const mapStateToProps = ({
   }
 }
 
-export default connect(mapStateToProps)(FollowModal)
+const mapDispatchToProps = {
+  updateFollowed,
+  updateFollowers
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FollowModal)

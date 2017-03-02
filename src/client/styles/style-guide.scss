@@ -13,6 +13,25 @@ html, body {
   margin: 50px 0;
 }
 
+input[type='checkbox'] {
+  -webkit-appearance:none;
+  width:20px;
+  height:20px;
+  margin: 0 0px -3px;
+  background:white;
+  border-radius:3px;
+  border:1px solid #DADADA;
+}
+
+input[type='checkbox']:checked {
+  -webkit-appearance:none;
+  background: $blue url(../image/checkmark.png) center no-repeat;
+}
+
+input[type="checkbox"]:focus{
+      outline:0;
+  }
+
 .secondary-button {
   &:hover {
     span {

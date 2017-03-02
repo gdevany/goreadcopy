@@ -110,10 +110,12 @@ class LitcoinBalance extends PureComponent {
 
                   Congrats!
                   <br /> <br />
-                  You just earned your first
-                  <img className='litcoin-img-small' src='./image/litcoin.png' />Litcoins.<br />
-                  Think of Litcoins as money.
-                  <br /> <br />
+                  You just earned your first Litcoins
+                  <img
+                    className='litcoin-img-small'
+                    src='./image/litcoin.png'
+                  />.
+                  <br />
                   You can earn up to 30,000
                   <img
                     className='litcoin-img-small'

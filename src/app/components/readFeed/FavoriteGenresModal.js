@@ -91,7 +91,7 @@ class FavoriteGenresModal extends PureComponent {
       newSearchInput,
     } = this.state
 
-    if (newSearchInput !== '' && newSearchInput !== oldSearchInput) {
+    if (newSearchInput.length > 3 && newSearchInput !== oldSearchInput) {
       this.props.searchGenres({ genre: newSearchInput })
     }
     this.setState({ oldSearchInput: newSearchInput })

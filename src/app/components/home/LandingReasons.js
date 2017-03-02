@@ -5,7 +5,7 @@ import { Colors, Breakpoints } from '../../constants/style'
 const styles = {
   reasons: {
     color: Colors.black,
-    padding: '150px 50px',
+    padding: '200px 50px 0px 60px',
 
     [Breakpoints.tablet]: {
       marginTop: 0,

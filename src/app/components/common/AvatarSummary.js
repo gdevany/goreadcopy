@@ -51,21 +51,23 @@ const AvatarSummary = ({
   title,
   image,
   description,
+  booksWritten,
   handleChipClick,
   isChosen,
   followType,
 }) => {
 
-  const chosen = isChosen(id, followType)
+  const chosen = followType ? isChosen(id, followType) : isChosen(id)
+  const subtitle = booksWritten ? `Author of ${booksWritten[0]}` : description
 
   return (
     <div className='row' style={styles.item} key={id}>
-      <div className='small-10 columns checkbox-info-wrapper'>
+      <div className='small-10 columns'>
         <CardHeader
           title={title}
           titleStyle={styles.nameText}
           textStyle={styles.textContainer}
-          subtitle={description}
+          subtitle={subtitle}
           subtitleStyle={styles.subTitleText}
           avatar={image}
           style={styles.infoContainer}

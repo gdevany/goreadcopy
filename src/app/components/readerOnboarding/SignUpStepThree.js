@@ -13,6 +13,7 @@ const styles = {
     backgroundColor: Colors.white,
     padding: '50px 150px',
     marginTop: 10,
+    marginBottom: 30,
     maxWidth: 900,
     height: '100%',
 
@@ -52,6 +53,7 @@ const styles = {
 
   selectText: {
     fontSize: 18,
+    marginLeft: 15,
   },
 }
 
@@ -104,7 +106,7 @@ class SignUpStepThree extends PureComponent {
   }
 
   componentWillMount = () => {
-    this.props.getRecommendation()
+    this.props.getRecommendation(5)
   }
 
   componentDidUpdate = () => {
@@ -232,7 +234,7 @@ class SignUpStepThree extends PureComponent {
           Create your Read Feed
         </h1>
 
-        <p className='center-text'>
+        <p className='center-text subheader-text'>
           {`We recommend following these authors and readers to bring you books
              and articles you'll love`}
         </p>
@@ -252,12 +254,12 @@ class SignUpStepThree extends PureComponent {
         </div>
 
         <div>
+          <input
+            type='checkbox'
+            checked={selectAll}
+            onClick={this.handleSelectAll}
+          />
           <label style={styles.selectText}>
-            <input
-              type='checkbox'
-              checked={selectAll}
-              onClick={this.handleSelectAll}
-            />
             Select all
         </label>
         </div>

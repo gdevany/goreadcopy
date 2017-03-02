@@ -11,7 +11,8 @@ const Endpoints = () => {
     searchData: (params) => apiUrl('search', params),
     currentReader: {
       getRecommendation: (params) => apiUrl('genres/top_users', params),
-      getCurrentReader: () => apiUrl('onboarding/current_reader'),
+      getBookClubRecommenation: (params) => apiUrl('current_reader/recommended/book_clubs', params),
+      getCurrentReader: () => apiUrl('current_reader'),
       likedGenres: (params) => apiUrl('onboarding/current_reader/liked_genres', params),
       likedReaders: (params) => apiUrl('onboarding/current_reader/liked_readers', params),
       likedAuthors: (params) => apiUrl('onboarding/current_reader/liked_authors', params),
