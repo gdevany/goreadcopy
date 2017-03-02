@@ -160,7 +160,6 @@ class SignUpStepper extends PureComponent {
 
   render() {
     const { loading, stepIndex } = this.state
-    // stepText
     return (
       <div style={{ width: '100%', margin: 'auto' }}>
         <div style={styles.stepperContainer}>
