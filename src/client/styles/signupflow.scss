@@ -137,3 +137,19 @@
     border-radius: 15% !important;
   }
 }
+
+
+.signup-active-stepper{
+  font-weight: bold;
+  span{
+    color: $blue !important;
+    svg{
+      fill: $blue !important;
+    }
+  }
+}
+.complete-sign-up-step{
+  svg{
+    fill: $blue !important;
+  }
+}
