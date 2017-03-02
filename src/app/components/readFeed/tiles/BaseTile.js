@@ -1,10 +1,58 @@
 import React, { Component } from 'react'
+import { AlbumTile } from './'
+import FavoriteIcon from 'material-ui/svg-icons/action/favorite'
+import CommentsIcon from 'material-ui/svg-icons/communication/chat-bubble-outline'
+import ShareIcon from 'material-ui/svg-icons/social/share'
 
-class BaseTile extends Component{
-  render(){
+class BaseTile extends Component {
+  render() {
     return (
-      <div className='tile'>
-        {this.props.children()}
+      <div className='base-tile-container'>
+        <div className='base-tile-header'>
+          <figure className='tile-actor-figure'>
+            <img className='tile-actor-image' src='./image/kendunn.jpg' alt=''/>
+          </figure>
+          <div className='tile-actor-details'>
+            <div className='tile-actor-container'>
+              <span className='tile-actor-name'>Mary Reynolds</span>
+              <span className='tile-actor-action'>posted a photo</span>
+            </div>
+            <div className='tile-actor-timestamp'>
+              <span>
+                10m ago
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className='tile-main-content'>
+          {this.props.tileType === 'AlbumTile' ? <AlbumTile /> : null}
+        </div>
+        <div className='base-tile-footer'>
+          <div className='like-action-container'>
+            <a href='#' className='like-anchor'>
+              <FavoriteIcon className='liked'/>
+            </a>
+            <span className='likes-counter'>
+              42
+            </span>
+          </div>
+          <div className='comments-action-container'>
+            <a href='#' className='comments-anchor'>
+              <CommentsIcon />
+            </a>
+            <span className='comments-counter'>
+              2
+            </span>
+          </div>
+          <div className='shares-action-container'>
+            <a href='#' className='shares-anchor'>
+              <ShareIcon />
+            </a>
+            <span className='shares-title'>
+              Share
+            </span>
+          </div>
+        </div>
       </div>
     )
   }

@@ -1,0 +1,72 @@
+@import 'variables.scss';
+
+.base-tile-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  border: solid 1px #dedede;
+  background-color: $white;
+  border-radius: 2px;
+  .base-tile-header{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    padding: 1em 1em .5em;
+    .tile-actor-figure{
+      width: 50px;
+      .tile-actor-image{
+        border-radius: 2px;
+        border: solid 1px #dedede;
+      }
+    }
+    .tile-actor-details{
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: column;
+      margin-left: 1em;
+      .tile-actor-container{
+        .tile-actor-name{
+          font-size: 14px;
+          font-weight: bold;
+        }
+        .tile-actor-action{
+          font-size: 14px;
+          margin-left: .5em;
+        }
+      }
+      .tile-actor-timestamp{
+        align-self: flex-start;
+        font-size: 14px;
+      }
+    }
+  }
+  .tile-main-content{
+    width: 100%;
+    padding: .5em 1em 1em;
+  }
+  .base-tile-footer{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    padding: .5em 1em;
+    border-top: solid 1px #dedede;
+    .like-action-container, .comments-action-container, .shares-action-container{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .like-anchor, .comments-anchor, .shares-anchor{
+        display: flex;
+      }
+      .likes-counter, .comments-counter, .shares-title{
+        margin-left: .25em;
+      }
+    }
+  }
+}

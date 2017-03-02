@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
-import { BaseTile } from './' 
 
-class AlbumTile extends Component{
+class AlbumTile extends Component {
   render() {
     return (
-      <BaseTile>
-        <p>Album Tile</p>
-      </BaseTile>
+      <div>Album Tile</div>
     )
   }
 }
