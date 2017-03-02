@@ -7,15 +7,22 @@ const styles = {
     position: 'relative',
     textAlign: 'center',
   },
+
   tooltip: {
-    maxWidth: '120px',
-    backgroundColor: '#FFF',
-    fontSize: '14px',
-    opacity: '1',
-    color: Colors.blue,
-  },
-  tooltipAuthor: {
     color: Colors.black,
+    fontSize: '14px',
+    margin: '15px auto',
+    maxWidth: '120px',
+    opacity: '1',
+  },
+
+  tooltipAuthor: {
+    color: Colors.grey,
+  },
+
+  rating: {
+    width: 30,
+    display: 'none',
   },
 }
 
@@ -35,8 +42,8 @@ const Book = ({ book }) => {
       <Rating
         readonly={true}
         initialRate={rating}
-        full={<img src='./image/camera-material-ui.png' />}
-        empty={<img src='./image/close.png' />}
+        full={<img className='rating-icon' src='./image/star.svg' />}
+        empty={<img className='rating-icon' src='./image/star-empty.svg' />}
       />
     )
   }
