@@ -6,8 +6,8 @@ import { Colors } from '../../constants/style'
 import { ExternalRoutes as routes } from '../../constants'
 import SearchModal from './SearchModal'
 import HomeIcon from 'material-ui/svg-icons/action/home'
-import PersonIcon from 'material-ui/svg-icons/action/perm-identity'
 import SearchIcon from 'material-ui/svg-icons/action/search'
+import MenuIcon from 'material-ui/svg-icons/navigation/menu'
 import NotificationsIcon from 'material-ui/svg-icons/social/notifications-none'
 import Badge from 'material-ui/Badge'
 import ChatIcon from 'material-ui/svg-icons/communication/chat-bubble-outline'
@@ -66,6 +66,7 @@ class NavMenuLogged extends PureComponent {
     this.state = {
       profileMenuOpen: false,
       searchModalOpen: false,
+      isMobileMenuOpen: false,
     }
     this.handleProfileMenuShow = this.handleProfileMenuShow.bind(this)
     this.handleProfileMenuHide = this.handleProfileMenuHide.bind(this)
@@ -84,29 +85,96 @@ class NavMenuLogged extends PureComponent {
     this.setState({ profileMenuOpen: false })
   }
 
-  handleMapProfileMenuItems = () => {
-    const { orders, referrals, settings, help } = routes
-
-    const nonMenuRoutes = [
-      ['Orders', orders],
-      ['Referrals', referrals],
-      ['Settings', settings],
-      ['Help', help],
-    ]
-
-    const NonMenuItem = ([title, routeFn], index) => (
-      <li className='profile-menu-element' key={title + index}>
+  mapElementsHandler = (liClass, anchorClass) => {
+    return ([title, routeFn], index) => (
+      <li className={liClass} key={title + index}>
         <a
-          className='profile-menu-anchor'
+          className={anchorClass}
           href={routeFn()}
         >
           {title}
         </a>
       </li>
     )
+  }
+
+  handleMapProfileMenuItems = () => {
+    const liClass = 'profile-menu-element'
+    const anchorClass = 'profile-menu-anchor'
+    const { orders, referrals, settings, help } = routes
+    const nonMenuRoutes = [
+      ['Orders', orders],
+      ['Referrals', referrals],
+      ['Settings', settings],
+      ['Help', help],
+    ]
+    const NonMenuItem = this.mapElementsHandler(liClass, anchorClass)
 
     return R.map(NonMenuItem, nonMenuRoutes)
 
+  }
+
+  mapMobileMenuItems = (type) => {
+    const liClass = 'links-list'
+    const anchorClass = 'links-anchor'
+    const {
+      myBookClubs,
+      bookStore,
+      myOrders,
+      news,
+      articles,
+      booksWithKen,
+      childrensLiteracy,
+      videoTutorials,
+      referrals,
+      games,
+      settings,
+      help
+    } = routes
+    let nonMenuRoutes
+
+    if (type === 'Explore') {
+      nonMenuRoutes = [
+        ['My Book Clubs', myBookClubs],
+        ['Book Store', bookStore],
+        ['My Orders', myOrders],
+        ['News', news],
+        ['Articles', articles],
+        ['Books With Ken', booksWithKen],
+        ['Children\'s Literacy', childrensLiteracy],
+        ['Video Tutorials', videoTutorials],
+        ['Referrals', referrals],
+        ['Games', games],
+      ]
+    }
+    if (type === 'Help') {
+      nonMenuRoutes = [
+        ['Settings', settings],
+        ['Help', help],
+      ]
+    }
+
+    const NonMenuItem = this.mapElementsHandler(liClass, anchorClass)
+
+    return R.map(NonMenuItem, nonMenuRoutes)
+
+  }
+
+  mapMobileMenuFooterItems = () => {
+    const { advertisers, authorEnrollment, publishers, media } = routes
+
+    const nonMenuRoutes = [
+      ['Advertising', advertisers],
+      ['Author Enrollment', authorEnrollment],
+      ['Publisher Enrollment', publishers],
+      ['Media', media],
+    ]
+    const NonMenuItem = ([title, routeFn], index) => (
+      <a href={routeFn()} className='footer-anchor' key={title + index}>
+        {title}
+      </a>
+    )
+    return R.map(NonMenuItem, nonMenuRoutes)
   }
 
   userProfileMenu = () => {
@@ -140,40 +208,125 @@ class NavMenuLogged extends PureComponent {
     this.setState({ searchModalOpen: false })
   }
 
+  handleMenuClick = (event) => {
+    event.preventDefault()
+    if (this.state.isMobileMenuOpen) {
+      this.setState({ isMobileMenuOpen: false })
+    } else {
+      this.setState({ isMobileMenuOpen: true })
+    }
+  }
+
   render() {
     return (
       <div className='slide-down'>
         <div style={styles.mobileNavContainer} className='top-bar-mobile'>
-          <Link to='/' className='mobile-gr-logo'>
-            <img src='./image/logo.png' />
-          </Link>
-
-          <MobileMenu id={'mobile-menu-container'}>
-            <ul className='mobile-menu'>
-              <li className='menu-text'>
-                <Link to='/' style={styles.navItemLinks}>
-                  <HomeIcon /> Home
-                </Link>
-              </li>
-              <li className='menu-text'>
-                <a href='#' style={styles.navItemLinks}>
-                  <PersonIcon/>
-                  My Profile
+          <nav className='nav-menu-logged'>
+            <ul className='nav-menu-logged-container'>
+              <li className='nav-menu-logged-list'>
+                <a href='' className='nav-menu-logged-anchor'>
+                  <HomeIcon/>
                 </a>
               </li>
-              <li className='menu-text'>
-                <a href='' style={styles.navItemLinks}>
-                  <NotificationsIcon/>
-                  Notifications
+              <li className='nav-menu-logged-list'>
+                <a
+                  href=''
+                  className='nav-menu-logged-anchor'
+                  onClick={this.handleClickSearch}
+                >
+                  <SearchIcon/>
                 </a>
               </li>
-              <li className='menu-text'>
-                <a href='' style={styles.navItemLinks}>
+              <li className='nav-menu-logged-list'>
+                <a href='' className='nav-menu-logged-anchor'>
                   <ChatIcon/>
-                  Messages
+                </a>
+              </li>
+              <li className='nav-menu-logged-list'>
+                <a
+                  href=''
+                  className='nav-menu-logged-anchor menu-badge-container'
+                >
+                  <Badge
+                    badgeContent={10}
+                    primary={true}
+                    badgeStyle={{
+                      top: -10,
+                      right: -10,
+                      width: '18px',
+                      height: '18px',
+                    }}
+                  >
+                    <NotificationsIcon />
+                  </Badge>
+                </a>
+              </li>
+              <li className='nav-menu-logged-list'>
+                <a href='' className='nav-menu-logged-anchor'>
+                  <MenuIcon onClick={this.handleMenuClick}/>
                 </a>
               </li>
             </ul>
+          </nav>
+          <MobileMenu
+            customBurgerIcon={false}
+            customCrossIcon={false}
+            id={'mobile-menu-logged'}
+            isOpen={this.state.isMobileMenuOpen}
+            width={300}
+          >
+            <div className='profile-section-container'>
+              <div className='first-row-elements'>
+                <a href='' className='profile-badge-anchor'>
+                  <figure className='profile-badge-container'>
+                    <img
+                      src='./image/kendunn.jpg'
+                      className='profile-badge-img'
+                      alt=''
+                    />
+                  </figure>
+                </a>
+                <a href='' className='profile-name-anchor'>
+                  <span>Ken Dunn</span>
+                </a>
+              </div>
+              <div className='second-row-elements'>
+                <div className='follows-container'>
+                  <span>0 Followers</span>
+                </div>
+                <div className='follows-container'>
+                  <span>10 Following</span>
+                </div>
+              </div>
+              <div className='third-row-elements'>
+                <a href='' className='litcoin-balance-anchor'>
+                  <span>30,000</span>
+                  <img className='litcoin-img' src='./image/litcoin.png' />
+                </a>
+              </div>
+            </div>
+            <div className='explore-links-container'>
+              <ul className='links-container'>
+                <span className='links-title'>
+                  Explore
+                </span>
+                {this.mapMobileMenuItems('Explore')}
+              </ul>
+              <ul className='links-container'>
+                <span className='links-title'>
+                  Help & Settings
+                </span>
+                {this.mapMobileMenuItems('Help')}
+                <li className='links-list'>
+                  <a href='#' className='links-anchor'>
+                    Logout
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className='footer-links-container'>
+              {this.mapMobileMenuFooterItems()}
+            </div>
           </MobileMenu>
         </div>
         <div style={styles.navContainer} className='top-bar top-bar-logged-menu'>
