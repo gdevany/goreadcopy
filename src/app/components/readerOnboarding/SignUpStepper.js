@@ -160,7 +160,10 @@ class SignUpStepper extends PureComponent {
     return (
       <div style={{ width: '100%', margin: 'auto' }}>
         <div style={styles.stepperContainer}>
-          <Stepper activeStep={stepIndex} connector={<ArrowIcon />}>
+          <Stepper
+            activeStep={stepIndex}
+            connector={<ArrowIcon color={Colors.medGrey} />}
+          >
 
             <Step active={false} style={this.isActiveStepper(Steps.STEPS.USER_INFO)}>
               <StepLabel className='stepText'>
