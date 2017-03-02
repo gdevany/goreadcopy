@@ -1,6 +1,7 @@
 import React from 'react'
 import BookRecommendations from './BookRecommendations'
 import AuthorRecommendations from './AuthorRecommendations'
+import BookClubRecommendations from './BookClubRecommendations'
 
 const RightContainer = ({ isUserLoggedIn }) => {
   const isLoggedIn = () => {
@@ -8,6 +9,7 @@ const RightContainer = ({ isUserLoggedIn }) => {
       <div>
         <BookRecommendations />
         <AuthorRecommendations />
+        <BookClubRecommendations />
       </div>
     )
   }

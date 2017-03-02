@@ -57,7 +57,7 @@ const AvatarSummary = ({
   followType,
 }) => {
 
-  const chosen = isChosen(id, followType)
+  const chosen = followType ? isChosen(id, followType) : isChosen(id)
   const subtitle = booksWritten ? `Author of ${booksWritten[0]}` : description
 
   return (

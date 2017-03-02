@@ -25,6 +25,7 @@ class BookRecommendations extends PureComponent {
 
   render() {
     const { recommended } = this.props
+    const books = recommended ? recommended.books : null
 
     return (
       <div className='left-container small-12 columns'>
@@ -33,7 +34,7 @@ class BookRecommendations extends PureComponent {
         </div>
         {/** Derrick, feel free to change how it's rendered in different views: **/}
         <div className='row small-up-1 medium-up-2 large-up-2'>
-          { recommended ? this.renderBooks(recommended.books) : null }
+          { books ? this.renderBooks(books) : null }
         </div>
         <div>
           <a href={bookStore()}>

@@ -88,7 +88,6 @@ class AuthorRecommendations extends PureComponent {
           { authors ? this.renderAuthors(authors) : null }
         </div>
         <div>
-          {/** TODO: will change this **/}
           <a href={findAuthors()}>
             See more authors >
           </a>

@@ -22,10 +22,16 @@ const Collections = () => {
     return R.zipObj(firsts(assocList), seconds(assocList))
   }
 
+  const mergesAll = (argA, argB) => {
+    if (R.isArrayLike(argA) && R.isArrayLike(argB)) { return R.concat(argA, argB) }
+    return R.merge(argA, argB)
+  }
+
   return {
     assocList,
     fromAssocList,
     pairs,
+    mergesAll,
   }
 }
 
