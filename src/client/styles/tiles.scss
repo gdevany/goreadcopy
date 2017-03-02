@@ -9,6 +9,7 @@
   border: solid 1px #dedede;
   background-color: $white;
   border-radius: 2px;
+  margin-bottom: 1em;
   .base-tile-header{
     display: flex;
     justify-content: flex-start;
@@ -75,6 +76,14 @@
       .likes-counter, .comments-counter{
         margin-left: .25em;
       }
+    }
+  }
+}
+.album-tile-container{
+  .album-tile-figure{
+    width: 100%;
+    .album-tile-img{
+      width: 100%;
     }
   }
 }
