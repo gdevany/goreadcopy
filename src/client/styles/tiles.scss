@@ -55,7 +55,7 @@
     flex-direction: row;
     align-items: center;
     width: 100%;
-    padding: .5em 1em;
+    padding: 1em;
     border-top: solid 1px #dedede;
     .like-action-container, .comments-action-container, .shares-action-container{
       display: flex;
@@ -63,8 +63,16 @@
       align-items: center;
       .like-anchor, .comments-anchor, .shares-anchor{
         display: flex;
+        .shares-title{
+          margin-left: .25em;
+        }
+        &:hover{
+          .shares-title{
+            color: $black;
+          }
+        }
       }
-      .likes-counter, .comments-counter, .shares-title{
+      .likes-counter, .comments-counter{
         margin-left: .25em;
       }
     }

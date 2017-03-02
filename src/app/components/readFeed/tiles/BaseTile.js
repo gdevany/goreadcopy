@@ -47,10 +47,10 @@ class BaseTile extends Component {
           <div className='shares-action-container'>
             <a href='#' className='shares-anchor'>
               <ShareIcon />
+              <span className='shares-title'>
+                Share
+              </span>
             </a>
-            <span className='shares-title'>
-              Share
-            </span>
           </div>
         </div>
       </div>
