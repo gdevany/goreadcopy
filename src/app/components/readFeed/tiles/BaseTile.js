@@ -3,8 +3,9 @@ import {
   AlbumTile,
   ArticleTile,
   AuthorTile,
-  StatusPostTile,
-  AwardTile
+  AwardTile,
+  AppearanceTile,
+  StatusPostTile
 } from './'
 import FavoriteIcon from 'material-ui/svg-icons/action/favorite'
 import CommentsIcon from 'material-ui/svg-icons/communication/chat-bubble-outline'
@@ -36,6 +37,7 @@ class BaseTile extends Component {
           {this.props.tileType === 'AuthorTile' ? <AuthorTile /> : null}
           {this.props.tileType === 'StatusPostTile' ? <StatusPostTile /> : null}
           {this.props.tileType === 'AwardTile' ? <AwardTile /> : null}
+          {this.props.tileType === 'AppearanceTile' ? <AppearanceTile /> : null}
         </div>
         <div className='base-tile-footer'>
           <div className='like-action-container'>

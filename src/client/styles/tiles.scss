@@ -89,14 +89,6 @@
 }
 
 .article-tile-container{
-  .article-heading-figure{
-    width: 100%;
-    max-height: 250px;
-    overflow: hidden;
-    .harticle-heading-img{
-      width: 100%;
-    }
-  }
   .article-content{
     display: flex;
     justify-content: flex-start;
@@ -175,6 +167,52 @@
   }
 }
 
+
+.award-tile-container{
+  .award-tile-figure{
+    max-width: 300px;
+    margin: 0 auto;
+    .award-tile-img{
+      width: 100%;
+    }
+  }
+}
+.appearance-tile-container{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  .appearance-container{
+    margin-top: 1em;
+    .appearance-row{
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-direction: row;
+      .appearance-column{
+        align-self: flex-start;
+        width: 50%;
+        .appearance-label{
+          display: flex;
+          align-self: flex-start;
+          text-transform: uppercase;
+          font-size: 14px;
+        }
+        .appearance-date, .appearance-time{
+          text-align: left;
+        }
+        .appearance-date{
+          font-size: 28px;
+        }
+        .appearance-time{
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
+
 .post-excerpt-container{
   width: 100%;
   text-align: justify;
@@ -190,12 +228,11 @@
   }
 }
 
-.award-tile-container{
-  .award-tile-figure{
-    max-width: 300px;
-    margin: 0 auto;
-    .award-tile-img{
-      width: 100%;
-    }
+.heading-overflow-figure{
+  width: 100%;
+  max-height: 250px;
+  overflow: hidden;
+  .heading-img{
+    width: 100%;
   }
 }

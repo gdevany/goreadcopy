@@ -4,8 +4,8 @@ class ArticleTile extends Component {
   render() {
     return (
       <div className='article-tile-container'>
-        <figure className='article-heading-figure'>
-          <img className='harticle-heading-img' src='./image/image.jpg' alt=''/>
+        <figure className='heading-overflow-figure'>
+          <img className='heading-img' src='./image/image.jpg' alt=''/>
         </figure>
         <div className='article-content'>
           <h2 className='article-title'>Lorem ipsun dolor sit amet</h2>
