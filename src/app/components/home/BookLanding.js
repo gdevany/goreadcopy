@@ -131,9 +131,9 @@ class BookLanding extends PureComponent {
     const deviceType = this.checkScreenSize()
     let result = []
     if (deviceType === 'phone') {
-      result = R.take(3, books.map((book, index) => {
+      result = R.take(2, books.map((book, index) => {
         return (
-          <div key={index} className='small-4 columns'>
+          <div key={index} className='small-6 columns'>
             {<Book book={book} />}
           </div>
         )
