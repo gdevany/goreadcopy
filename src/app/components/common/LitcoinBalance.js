@@ -64,11 +64,7 @@ class LitcoinBalance extends PureComponent {
     this.setState({ totalBalance: total })
   }
 
-  handleRequestClose = () => {
-    this.setState({
-      open: false,
-    })
-  }
+  handleRequestClose = () => this.setState({ open: false })
 
   renderAnimation() {
     this.setState({ litcoinClass: 'fade-in' })

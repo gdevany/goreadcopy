@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Follow, Images } from '../../redux/actions'
 import FollowModal from './FollowModal'
 import Dropzone from 'react-dropzone'
+import { Auth } from '../../services'
 import R from 'ramda'
 
 const styles = {
@@ -164,8 +165,9 @@ class ReadFeedProfile extends PureComponent {
     const {
       followed,
       followers,
-      isUserLoggedIn,
     } = this.props
+
+    const isUserLoggedIn = Auth.currentUserExists()
 
     const cameraBackgroundClass = (backgroundImageUpload || hasBackgroundImage) ?
       'camera-transparent' :
