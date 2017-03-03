@@ -5,6 +5,7 @@ const MiddleContainer = () => {
     <div className='middle-container small-12 large-6 columns'>
         <BaseTile tileType='AlbumTile' />
         <BaseTile tileType='ArticleTile' />
+        <BaseTile tileType='AuthorTile' />
     </div>
   )
 }
