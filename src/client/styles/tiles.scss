@@ -8,7 +8,7 @@
   width: 100%;
   border: solid 1px #dedede;
   background-color: $white;
-  border-radius: 2px;
+  border-radius: 5px;
   margin-bottom: 1em;
   .base-tile-header{
     display: flex;
@@ -18,7 +18,7 @@
     width: 100%;
     padding: 1em 1em .5em;
     .tile-actor-figure{
-      width: 50px;
+      width: 42px;
       .tile-actor-image{
         border-radius: 2px;
         border: solid 1px #dedede;
@@ -84,6 +84,45 @@
     width: 100%;
     .album-tile-img{
       width: 100%;
+    }
+  }
+}
+
+.article-tile-container{
+  .article-heading-figure{
+    width: 100%;
+    max-height: 250px;
+    overflow: hidden;
+    .harticle-heading-img{
+      width: 100%;
+    }
+  }
+  .article-content{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+    .article-title{
+      font-size: 20px;
+      width: 100%;
+      text-align:left;
+      margin: .5em 0;
+      font-weight: 400;
+    }
+    .article-excerpt-container{
+      width: 100%;
+      text-align: justify;
+      word-wrap: break-word;
+      .article-excerpt-pharagraph{
+        font-size: 16px;
+        .article-readmore-anchor{
+          text-decoration: underline;
+          color: $grey;
+          margin-left: .5em;
+          font-size: 15px;
+        }
+      }
     }
   }
 }
