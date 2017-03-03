@@ -11,7 +11,7 @@ const styles = {
   tooltip: {
     color: Colors.black,
     fontSize: '14px',
-    margin: '15px auto',
+    margin: '15px auto 0px',
     maxWidth: '120px',
     opacity: '1',
   },
@@ -61,16 +61,18 @@ const Book = ({ book }) => {
         </a>
       </div>
       <div style={styles.tooltip}>
-        <span className='link'>
-          {truncInfo(book.title, 20)}
-        </span>
-        <br />
-        <span className='link subheader' style={styles.tooltipAuthor}>
-          by {truncInfo(author, 20)}
-        </span> <br />
-        <span className='rating' >
-          {renderRating(Math.round(book.rating.average))}
-        </span>
+        <a href={book.slug}>
+          <span className='link'>
+            {truncInfo(book.title, 30)}
+          </span>
+          <br />
+          <span className='link subheader' style={styles.tooltipAuthor}>
+            by {truncInfo(author, 15)}
+          </span> <br />
+          <span className='rating' >
+            {renderRating(Math.round(book.rating.average))}
+          </span>
+        </a>
       </div>
     </div>
   )
