@@ -40,9 +40,16 @@ a {
   color: $grey;
 }
 
-.nav-item {
-  color: $black;
+.shop-nav-item {
   font-size: 16px;
+
+  a {
+    color: $grey;
+
+    &:hover {
+      color: $blue;
+    }
+  }
 }
 
 .subheader-text {
