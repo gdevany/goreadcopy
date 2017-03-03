@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { AlbumTile, ArticleTile, AuthorTile } from './'
+import { AlbumTile, ArticleTile, AuthorTile, StatusPostTile } from './'
 import FavoriteIcon from 'material-ui/svg-icons/action/favorite'
 import CommentsIcon from 'material-ui/svg-icons/communication/chat-bubble-outline'
 import ShareIcon from 'material-ui/svg-icons/social/share'
@@ -28,6 +28,7 @@ class BaseTile extends Component {
           {this.props.tileType === 'AlbumTile' ? <AlbumTile /> : null}
           {this.props.tileType === 'ArticleTile' ? <ArticleTile /> : null}
           {this.props.tileType === 'AuthorTile' ? <AuthorTile /> : null}
+          {this.props.tileType === 'StatusPostTile' ? <StatusPostTile /> : null}
         </div>
         <div className='base-tile-footer'>
           <div className='like-action-container'>

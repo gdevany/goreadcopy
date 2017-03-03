@@ -6,6 +6,7 @@ const MiddleContainer = () => {
         <BaseTile tileType='AlbumTile' />
         <BaseTile tileType='ArticleTile' />
         <BaseTile tileType='AuthorTile' />
+        <BaseTile tileType='StatusPostTile' />
     </div>
   )
 }

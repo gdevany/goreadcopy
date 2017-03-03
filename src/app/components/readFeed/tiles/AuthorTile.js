@@ -12,16 +12,18 @@ class AuthorTile extends Component {
             Los Angeles, CA
           </h5>
         </div>
-        <div className='author-short-bio-container'>
-          <p className='author-short-bio'>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Consectetur dicta laudantium odio illo asperiores. Eos nesciunt
-            quibusdam odio fuga nam. At rerum consequatur aliquam quasi, totam
-            magni! Modi accusantium, nostrum.
-            <a href='#' className='author-readmore-anchor'>
-              Read more
-            </a>
-          </p>
+        <div className='author-content'>
+          <div className='post-excerpt-container'>
+            <p className='post-excerpt-pharagraph'>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              Consectetur dicta laudantium odio illo asperiores. Eos nesciunt
+              quibusdam odio fuga nam. At rerum consequatur aliquam quasi, totam
+              magni! Modi accusantium, nostrum.
+              <a href='#' className='post-readmore-anchor'>
+                Read more
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     )

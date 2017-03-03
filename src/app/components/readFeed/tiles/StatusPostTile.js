@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 
-class ArticleTile extends Component {
+class StatusPostTile extends Component {
   render() {
     return (
-      <div className='article-tile-container'>
-        <figure className='article-heading-figure'>
-          <img className='harticle-heading-img' src='./image/image.jpg' alt=''/>
+      <div className='statuspost-tile-container'>
+        <figure className='statuspost-figure'>
+          <img className='statuspost-img' src='./image/image.jpg' alt=''/>
         </figure>
-        <div className='article-content'>
-          <h2 className='article-title'>Lorem ipsun dolor sit amet</h2>
+        <div className='statuspost-content'>
           <div className='post-excerpt-container'>
             <p className='post-excerpt-pharagraph'>
               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -24,4 +23,4 @@ class ArticleTile extends Component {
   }
 }
 
-export default ArticleTile
+export default StatusPostTile

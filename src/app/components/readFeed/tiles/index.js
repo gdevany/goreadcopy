@@ -1,4 +1,5 @@
 export AlbumTile from './AlbumTile'
 export ArticleTile from './ArticleTile'
 export AuthorTile from './AuthorTile'
+export StatusPostTile from './StatusPostTile'
 export BaseTile from './BaseTile'
