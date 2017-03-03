@@ -7,6 +7,7 @@ class AppearanceTile extends Component {
           <img className='heading-img' src='./image/image.jpg' alt=''/>
         </figure>
         <div className='appearance-container'>
+          <h4 className='appearance-title'>JK Rowling Los Angeles Meetup</h4>
           <div className='appearance-row'>
             <div className='appearance-column'>
               <span className='appearance-label'>Starts</span>
