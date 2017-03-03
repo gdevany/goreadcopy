@@ -3,12 +3,13 @@ import { BaseTile } from './tiles'
 const MiddleContainer = () => {
   return (
     <div className='middle-container small-12 large-6 columns'>
-        <BaseTile tileType='AlbumTile' />
-        <BaseTile tileType='ArticleTile' />
-        <BaseTile tileType='AuthorTile' />
-        <BaseTile tileType='StatusPostTile' />
-        <BaseTile tileType='AwardTile' />
-        <BaseTile tileType='AppearanceTile' />
+        <BaseTile tileType='Album' />
+        <BaseTile tileType='Article' />
+        <BaseTile tileType='Author' />
+        <BaseTile tileType='StatusPost' />
+        <BaseTile tileType='Award' />
+        <BaseTile tileType='Appearance' />
+        <BaseTile tileType='BookClubTask' />
     </div>
   )
 }

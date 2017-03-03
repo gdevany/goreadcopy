@@ -5,7 +5,8 @@ import {
   AuthorTile,
   AwardTile,
   AppearanceTile,
-  StatusPostTile
+  StatusPostTile,
+  BookClubTaskTile
 } from './'
 import FavoriteIcon from 'material-ui/svg-icons/action/favorite'
 import CommentsIcon from 'material-ui/svg-icons/communication/chat-bubble-outline'
@@ -32,12 +33,13 @@ class BaseTile extends Component {
           </div>
         </div>
         <div className='tile-main-content'>
-          {this.props.tileType === 'AlbumTile' ? <AlbumTile /> : null}
-          {this.props.tileType === 'ArticleTile' ? <ArticleTile /> : null}
-          {this.props.tileType === 'AuthorTile' ? <AuthorTile /> : null}
-          {this.props.tileType === 'StatusPostTile' ? <StatusPostTile /> : null}
-          {this.props.tileType === 'AwardTile' ? <AwardTile /> : null}
-          {this.props.tileType === 'AppearanceTile' ? <AppearanceTile /> : null}
+          {this.props.tileType === 'Album' ? <AlbumTile /> : null}
+          {this.props.tileType === 'Article' ? <ArticleTile /> : null}
+          {this.props.tileType === 'Author' ? <AuthorTile /> : null}
+          {this.props.tileType === 'StatusPost' ? <StatusPostTile /> : null}
+          {this.props.tileType === 'Award' ? <AwardTile /> : null}
+          {this.props.tileType === 'Appearance' ? <AppearanceTile /> : null}
+          {this.props.tileType === 'BookClubTask' ? <BookClubTaskTile /> : null}
         </div>
         <div className='base-tile-footer'>
           <div className='like-action-container'>
