@@ -1,35 +1,42 @@
 import React, { PureComponent } from 'react'
-import { stack as MobileMenu } from 'react-burger-menu'
+// import { stack as MobileMenu } from 'react-burger-menu'
 import { Link } from 'react-router'
 import R from 'ramda'
 import { Colors } from '../../constants/style'
 import { ExternalRoutes as routes } from '../../constants'
 import SearchModal from './SearchModal'
-import HomeIcon from 'material-ui/svg-icons/action/home'
-import SearchIcon from 'material-ui/svg-icons/action/search'
-import MenuIcon from 'material-ui/svg-icons/navigation/menu'
-import NotificationsIcon from 'material-ui/svg-icons/social/notifications-none'
+// import HomeIcon from 'material-ui/svg-icons/action/home'
+// import PersonIcon from 'material-ui/svg-icons/action/perm-identity'
+// import SearchIcon from 'material-ui/svg-icons/action/search'
+// import NotificationsIcon from 'material-ui/svg-icons/social/notifications-none'
 import Badge from 'material-ui/Badge'
-import ChatIcon from 'material-ui/svg-icons/communication/chat-bubble-outline'
 import './styles/mobile-menu.scss'
 
 const styles = {
   navContainer: {
     backgroundColor: Colors.white,
-    padding: '0 20px',
+    height: 60,
+    padding: 0,
     position: 'relative',
     zIndex: 10,
+  },
+
+  insideNavContainer: {
+    margin: '0 auto',
+    maxWidth: 1172,
+    padding: 0,
   },
 
   navLinks: {
     padding: 20,
   },
+
   navItemLinks: {
-    fontWeight: 200,
+    fontSize: 16,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '0.5em 0',
+    padding: '19px 0px',
   },
 
   navUl: {
@@ -44,13 +51,15 @@ const styles = {
     backgroundColor: Colors.white,
     left: 0,
   },
+
   profileImageBadge: {
-    width: '42px',
+    width: '36px',
     margin: '0 auto',
-    height: '42px',
-    borderRadius: '100%',
-    border: 'solid 2px #696969',
+    height: '36px',
+    borderRadius: '15%',
+    border: 'solid 1px #DADADA',
   },
+
   bmBurgerButton: {
     position: 'fixed',
     width: 25,
@@ -58,6 +67,19 @@ const styles = {
     left: '36px',
     top: '36px'
   },
+
+  loggedInNavLi: {
+    padding: '0px 20px',
+  },
+
+  loggedInRightNavLi: {
+    padding: '0px 10px',
+  },
+
+  rightNavLinks: {
+    padding: 0,
+    fontSize: 16,
+  }
 }
 class NavMenuLogged extends PureComponent {
   constructor(props) {
@@ -220,7 +242,7 @@ class NavMenuLogged extends PureComponent {
   render() {
     return (
       <div className='slide-down'>
-        <div style={styles.mobileNavContainer} className='top-bar-mobile'>
+        {/**<div style={styles.mobileNavContainer} className='top-bar-mobile'>
           <nav className='nav-menu-logged'>
             <ul className='nav-menu-logged-container'>
               <li className='nav-menu-logged-list'>
@@ -264,6 +286,32 @@ class NavMenuLogged extends PureComponent {
               <li className='nav-menu-logged-list'>
                 <a href='' className='nav-menu-logged-anchor'>
                   <MenuIcon onClick={this.handleMenuClick}/>
+                  **/}
+        {/**<div style={styles.mobileNavContainer} className='top-bar-mobile'>
+          <Link to='/' className='mobile-gr-logo'>
+            <img src='./image/logo.png' />
+          </Link>
+
+          <MobileMenu id={'mobile-menu-container'}>
+            <ul className='mobile-menu'>
+              <li style={styles.loggedInNavLi}>
+                <Link to='/' style={styles.navItemLinks}>
+                  Home
+                </Link>
+              </li>
+              <li className='menu-text'>
+                <a href='#' style={styles.navItemLinks}>
+                  My Profile
+                </a>
+              </li>
+              <li className='menu-text'>
+                <a href='' style={styles.navItemLinks}>
+                  Notifications
+                </a>
+              </li>
+              <li className='menu-text'>
+                <a href='' style={styles.navItemLinks}>
+                  Messages
                 </a>
               </li>
             </ul>
@@ -329,7 +377,8 @@ class NavMenuLogged extends PureComponent {
             </div>
           </MobileMenu>
         </div>
-        <div style={styles.navContainer} className='top-bar top-bar-logged-menu'>
+        **/}
+  {/**     <div style={styles.navContainer} className='top-bar top-bar-logged-menu'>
           <div className='top-bar-left'>
             <ul style={styles.navUl} className='menu'>
               <li className='menu-text align-middle'>
@@ -393,16 +442,96 @@ class NavMenuLogged extends PureComponent {
                   href='#'
                   style={styles.navItemLinks}
                   onClick={this.handleProfileMenuShow}
+                  **/}
+        <div style={styles.navContainer} className='top-bar'>
+          <div style={styles.insideNavContainer} className='top-bar-logged-menu'>
+            <div className='top-bar-left'>
+              <ul style={styles.navUl} className='menu'>
+                <li className='align-middle'>
+                  <Link to='/'>
+                    <img src='./image/logo.png' />
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div className='top-bar-center-items'>
+              <ul className='menu'>
+
+                <li
+                  style={styles.loggedInNavLi}
+                  className='loged-menu-item loged-menu-item-active home'
                 >
-                  <img
-                    src='./image/kendunn.jpg'
-                    style={styles.profileImageBadge}
-                  />
-                </a>
-                { this.state.profileMenuOpen ?
-                  this.userProfileMenu() : null}
-              </li>
-            </ul>
+                  <Link to='/' style={styles.navItemLinks} className='home-link rf-nav-link'>
+                    Home
+                  </Link>
+                </li>
+
+                <li style={styles.loggedInNavLi} className='loged-menu-item'>
+                  <a href='' style={styles.navItemLinks} className='messages-link rf-nav-link'>
+                    Messages
+                  </a>
+                </li>
+
+                <li style={styles.loggedInNavLi} className='loged-menu-item'>
+                  <a href='' style={styles.navItemLinks} className='search-link rf-nav-link'>
+                    Search
+                  </a>
+                </li>
+
+              </ul>
+            </div>
+
+            <div className='top-bar-right'>
+              <ul className='menu'>
+
+                <li style={styles.loggedInRightNavLi}>
+                  <a href='' style={styles.rightNavLinks} className='rf-nav-link'>
+                    <span>30,000</span>
+                    <img className='litcoin-nav-img' src='./image/litcoin.png' />
+                  </a>
+                </li>
+
+                <li style={styles.loggedInRightNavLi}>
+                  <a
+                    href=''
+                    style={styles.navItemLinks}
+                    className='menu-badge-container rf-nav-link'
+                  >
+                    <Badge
+                      badgeContent={10}
+                      primary={true}
+                      badgeStyle={{
+                        top: -4,
+                        right: -4,
+                        width: '20px',
+                        height: '20px',
+                        paddingTop: 1,
+                        fontWeight: 700,
+                        backgroundColor: Colors.red,
+                      }}
+                    >
+                      <img src='./image/notifications-icon.svg' />
+                    </Badge>
+                  </a>
+                </li>
+
+                <li style={styles.loggedInRightNavLi} className='profile-menu-badge'>
+                  <a
+                    href='#'
+                    style={styles.rightNavLinks}
+                    onClick={this.handleProfileMenuShow}
+                  >
+                    <img
+                      src='./image/kendunn.jpg'
+                      style={styles.profileImageBadge}
+                    />
+                  </a>
+                  { this.state.profileMenuOpen ?
+                    this.userProfileMenu() : null}
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
         <SearchModal

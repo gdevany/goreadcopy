@@ -101,14 +101,19 @@
   }
 }
 
-.loged-menu-item{
-  border-bottom: solid 4px transparent;
-  &:hover{
-    border-bottom: solid 4px $black;
-  }
-}
+// .loged-menu-item{
+//   border-bottom: solid 2px transparent;
+//   &:hover{
+//     border-bottom: solid 2px $blue;
+//   }
+// }
+
 .loged-menu-item-active{
-  border-bottom: solid 4px $black;
+  border-bottom: solid 2px $blue;
+
+  a {
+    color: $blue;
+  }
 }
 
 .menu-badge-container > div{
@@ -271,7 +276,7 @@
       .links-title{
         text-transform: uppercase;
         font-size: 12px;
-        font-weight: bold;;
+        font-weight: bold;
       }
       .links-list{
         .links-anchor{
@@ -282,16 +287,127 @@
       }
     }
   }
-  .footer-links-container{
+  .footer-links-container {
     padding: 0 1em 4em 1em;
     display: flex !important;
     justify-content: space-around;
     flex-wrap: wrap;
     align-items: center;
-    .footer-anchor{
+    .footer-anchor {
       display: block;
       color: $grey;
       font-size: 14px;
     }
+  }
+}
+
+
+.home-link {
+  &:before {
+    content: '';
+    display: block;
+    background: url(../image/home-icon-hover.svg) no-repeat; /*TODO: switchout icon*/
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin: 0 6px 0 0;
+  }
+
+  &:hover::before {
+    content: '';
+    display: block;
+    background: url(../image/home-icon-hover.svg) no-repeat;
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin: 0 6px 0 0;
+  }
+}
+
+.messages-link {
+  &:before {
+    content: '';
+    display: block;
+    background: url(../image/messages-icon.svg) no-repeat;
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin: 0 10px 0 0;
+  }
+
+  &:hover::before {
+    content: '';
+    display: block;
+    background: url(../image/messages-icon-hover.svg) no-repeat;
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin: 0 10px 0 0;
+  }
+}
+
+.search-link {
+  &:before {
+    content: '';
+    display: block;
+    background: url(../image/search-icon.svg) no-repeat;
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin: 0 6px -4px 0;
+  }
+
+  &:hover::before {
+    content: '';
+    display: block;
+    background: url(../image/home-icon-hover.svg) no-repeat;
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin: 0 6px 0 0;
+  }
+}
+
+.messages-link {
+  &:before {
+    content: '';
+    display: block;
+    background: url(../image/messages-icon.svg) no-repeat;
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin: 0 10px 0 0;
+  }
+
+  &:hover::before {
+    content: '';
+    display: block;
+    background: url(../image/messages-icon-hover.svg) no-repeat;
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin: 0 10px 0 0;
+  }
+}
+
+.search-link {
+  &:before {
+    content: '';
+    display: block;
+    background: url(../image/search-icon.svg) no-repeat;
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin: 0 6px -4px 0;
+  }
+
+  &:hover::before {
+    content: '';
+    display: block;
+    background: url(../image/search-icon-hover.svg) no-repeat;
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin: 0 6px -4px 0;
   }
 }

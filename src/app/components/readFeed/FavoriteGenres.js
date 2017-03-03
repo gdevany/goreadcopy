@@ -9,21 +9,25 @@ import R from 'ramda'
 const styles = {
   chip: {
     backgroundColor: Colors.white,
-    border: `1px solid ${Colors.blue}`,
+    border: `1px solid ${Colors.lightMedGrey}`,
     borderRadius: 25,
-    color: Colors.blue,
+    color: Colors.black,
     display: 'inline-block',
     margin: '30px 15px 0px 0px',
     padding: 7,
   },
 
   chipText: {
-    color: Colors.blue,
-    fontSize: 16,
+    color: Colors.black,
+    fontSize: 14,
   },
 
   checkmark: {
     marginRight: 7,
+  },
+
+  container: {
+    marginTop: 50,
   },
 }
 
@@ -70,14 +74,14 @@ class FavoriteGenres extends PureComponent {
     const { genreIds } = this.props
     const { modalOpen } = this.state
     return (
-      <div className='text-left'>
-        <h5> Your Genres </h5>
+      <div style={styles.container} className='text-left'>
+        <span className='small-header'> Your Genres </span>
         <div onClick={this.handleOpen} style={styles.genreSection}>
           {genreIds ? this.renderChosenGenres(genreIds) : null}
           <br />
-          <span>
+          <a className='sublink'>
             Add or edit genres >
-          </span>
+          </a>
         </div>
         <FavoriteGenresModal
           modalOpen={modalOpen}

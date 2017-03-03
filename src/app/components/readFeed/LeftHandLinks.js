@@ -4,6 +4,13 @@ import R from 'ramda'
 import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import ArrowUpIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
 
+const styles = {
+  linkContainer: {
+    marginTop: 30,
+    textAlign: 'left',
+  },
+}
+
 class LeftHandLinks extends PureComponent {
   constructor(props) {
     super(props)
@@ -88,33 +95,36 @@ class LeftHandLinks extends PureComponent {
     const { isCollapsed } = this.state
 
     return (
-      <ul className='left-hand-menu-container'>
-        { this.handleMapMenuItems() }
-        { !isCollapsed ?
-          <div>
-            { this.handleMapHiddenMenuItems() }
-          </div> :
-          null
-        }
-        <li>
-          { isCollapsed ?
-            <span
-              className='left-hand-action-more'
-              onClick={this.handleShowMore}
-            >
-              See More
-              <ArrowDownIcon />
-            </span> :
-            <span
-              className='left-hand-action-less'
-              onClick={this.handleShowLess}
-            >
-              See Less
-              <ArrowUpIcon />
-            </span>
+      <div style={styles.linkContainer}>
+        <span className='small-header'>Explore</span>
+        <ul className='left-hand-menu-container'>
+          { this.handleMapMenuItems() }
+          { !isCollapsed ?
+            <div>
+              { this.handleMapHiddenMenuItems() }
+            </div> :
+            null
           }
-        </li>
-      </ul>
+          <li>
+            { isCollapsed ?
+              <span
+                className='left-hand-action-more'
+                onClick={this.handleShowMore}
+              >
+                See More
+                <ArrowDownIcon />
+              </span> :
+              <span
+                className='left-hand-action-less'
+                onClick={this.handleShowLess}
+              >
+                See Less
+                <ArrowUpIcon />
+              </span>
+            }
+          </li>
+        </ul>
+      </div>
     )
   }
 

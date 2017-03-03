@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700');
 @import 'variables.scss';
 
-body, h5, span, div, a, p {
+body, h4, h5, span, div, a, p {
   font-family: 'Open Sans', san-serif;
 }
 
@@ -51,4 +51,24 @@ a {
 
 .step-header {
   margin-bottom: 35px;
+}
+
+.small-title {
+  font-size: 12px;
+}
+
+.profile-large-text {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.small-header {
+  font-size: 14px;
+  font-weight: bold;
+  color: $light-med-grey;
+}
+
+.sublink {
+  font-size: 14px;
+  color: $grey;
 }
