@@ -189,3 +189,13 @@
     }
   }
 }
+
+.award-tile-container{
+  .award-tile-figure{
+    max-width: 300px;
+    margin: 0 auto;
+    .award-tile-img{
+      width: 100%;
+    }
+  }
+}
