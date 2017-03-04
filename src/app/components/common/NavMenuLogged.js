@@ -253,7 +253,6 @@ class NavMenuLogged extends PureComponent {
               </li>
               <li className='nav-menu-logged-list'>
                 <a
-                  href=''
                   className='nav-menu-logged-anchor'
                   onClick={this.handleClickSearch}
                 >
@@ -383,7 +382,7 @@ class NavMenuLogged extends PureComponent {
                 </li>
 
                 <li style={styles.loggedInNavLi} className='loged-menu-item'>
-                  <a href=''
+                  <a
                     style={styles.navItemLinks}
                     className='search-link rf-nav-link'
                     onClick={this.handleClickSearch}
@@ -431,7 +430,6 @@ class NavMenuLogged extends PureComponent {
 
                 <li style={styles.loggedInRightNavLi} className='profile-menu-badge'>
                   <a
-                    href='#'
                     style={styles.rightNavLinks}
                     onClick={this.handleProfileMenuShow}
                   >
