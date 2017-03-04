@@ -63,6 +63,42 @@ const styles = {
   checkmark: {
     marginRight: 7,
   },
+
+  modalBody: {
+    marginTop: -80,
+  },
+
+  modalContent: {
+    maxWidth: '100%',
+    width: '100%',
+    opacity: 0.93,
+  },
+
+  formContainer: {
+    height: '100vh',
+    margin: '0 auto',
+    maxWidth: 400,
+  },
+
+  header: {
+    color: Colors.black,
+    marginBottom: 50,
+  },
+
+  contentContainer: {
+    maxWidth: 800,
+  },
+
+  genreSearch: {
+    padding: '30px 0 0',
+    margin: '0 auto',
+    maxWidth: 575,
+  },
+
+  inputField: {
+    paddingBottom: 0,
+    position: 'relative',
+  }
 }
 
 class FavoriteGenresModal extends PureComponent {
@@ -277,7 +313,9 @@ class FavoriteGenresModal extends PureComponent {
     return (
       <div>
         <Dialog
-          bodyClassName='favorite-genres-modal-content'
+          bodyClassName='modal-content'
+          bodyStyle={styles.modalBody}
+          contentStyle={styles.modalContent}
           modal={false}
           open={modalOpen}
           onRequestClose={handleClose}
@@ -289,38 +327,42 @@ class FavoriteGenresModal extends PureComponent {
             className='general-font center-text signup-modal-x'
             onClick={handleClose}
           /><br />
-          <h1 className='center-text' style={styles.headerText}>
-            Create your Read Feed
-          </h1>
 
-          <p className='center-text'>
-            {"We'll use this information to suggest new books and authors for you"}
-          </p>
+          <div className='rf-modal center'>
+            <h1 className='center-text' style={styles.headerText}>
+              Create your Read Feed
+            </h1>
 
-          <div className='small-12'>
-            <form className='form-input-wrapper'>
-              <input
-                value={newSearchInput}
-                className='form-input'
-                type='text'
-                ref='search'
-                placeholder='Search for genres to add'
-                onChange={this.handleSearchTyping}
+            <p className='center-text'>
+              {"We'll use this information to suggest new books and authors for you"}
+            </p>
+
+            <div style={styles.genreSearch} className='small-12'>
+              <form style={styles.inputField} className='form-input-wrapper'>
+                <div className='search-icon' />
+                <input
+                  value={newSearchInput}
+                  className='form-input'
+                  type='text'
+                  ref='search'
+                  placeholder='Search for genres to add'
+                  onChange={this.handleSearchTyping}
+                />
+              </form>
+            </div>
+
+            <div>
+              {genreIds ? this.renderGenres(chosenGenres, 'chosen') : null}
+              <br />
+              {genres ? this.renderBottomGenres() : null}
+            </div> <br />
+
+            <div className='center-text'>
+              <PrimaryButton
+                label='Save'
+                onClick={this.handleButtonClick}
               />
-            </form>
-          </div>
-
-          <div>
-            {genreIds ? this.renderGenres(chosenGenres, 'chosen') : null}
-            <br />
-            {genres ? this.renderBottomGenres() : null}
-          </div> <br />
-
-          <div className='center-text'>
-            <PrimaryButton
-              label='Save'
-              onClick={this.handleButtonClick}
-            />
+            </div>
           </div>
         </ Dialog>
       </div>

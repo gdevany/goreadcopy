@@ -1,6 +1,7 @@
 import React from 'react'
+import Radium from 'radium'
 import { CardHeader, Chip } from 'material-ui'
-import { Colors } from '../../constants/style'
+import { Colors, Breakpoints } from '../../constants/style'
 
 const styles = {
   infoContainer: {
@@ -31,14 +32,25 @@ const styles = {
     border: `1px solid ${Colors.blue}`,
     borderRadius: 25,
     color: Colors.blue,
+    cursor: 'pointer',
     display: 'inline-block',
-    margin: '30px 15px 0px 0px',
-    padding: 7,
+    margin: '25px 15px 0px 10px',
+    padding: 5,
+
+    [Breakpoints.tablet]: {
+      marginRight: 0,
+    },
+
+    ':hover': {
+      backgroundColor: Colors.blue,
+      color: Colors.white,
+      cursor: 'pointer',
+    },
   },
 
   chipText: {
     color: Colors.blue,
-    fontSize: 16,
+    fontSize: 14,
   },
 
   checkmark: {
@@ -62,7 +74,7 @@ const AvatarSummary = ({
 
   return (
     <div className='row' style={styles.item} key={id}>
-      <div className='small-10 columns'>
+      <div className='small-10 small-offset-1 large-12 columns'>
         <CardHeader
           title={title}
           titleStyle={styles.nameText}
@@ -73,23 +85,28 @@ const AvatarSummary = ({
           style={styles.infoContainer}
         />
 
-        <Chip
-          key={id}
-          value={id}
-          className={chosen ? 'chosenFollow' : null}
-          labelStyle={styles.chipText}
-          style={styles.chip}
-          onClick={handleChipClick}
-        >
-          {chosen ?
-            <img style={styles.checkmark} src='./image/checkmark.png' /> :
-            <img style={styles.checkmark} src='./image/plus.png' />
-          }
-            {chosen ? 'Following' : 'Follow'}
-        </Chip>
+        <div className='row'>
+          <div className='small-10 small-offset-2 medium-12 columns'>
+            <Chip
+              key={id}
+              value={id}
+              className={chosen ? 'chosenFollow' : null}
+              labelStyle={styles.chipText}
+              style={styles.chip}
+              onClick={handleChipClick}
+            >
+              {chosen ?
+                <img style={styles.checkmark} src='./image/checkmark.png' /> :
+                <img style={styles.checkmark} src='./image/plus.png' />
+              }
+                {chosen ? 'Following' : 'Follow'}
+            </Chip>
+          </div>
+        </div>
+
       </div>
     </div>
   )
 }
 
-export default AvatarSummary
+export default Radium(AvatarSummary)

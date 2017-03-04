@@ -105,6 +105,19 @@ input[type="checkbox"]:focus{
   }
 }
 
+.search-icon {
+  &:before {
+    content: '';
+    display: block;
+    background: url(../image/search-icon.svg) no-repeat;
+    position: absolute;;
+    width: 20px;
+    height: 20px;
+    right: 15px;
+    top: 11px;
+  }
+}
+
 @import 'variables.scss';
 @import 'general.scss';
 @import 'errors.scss';
