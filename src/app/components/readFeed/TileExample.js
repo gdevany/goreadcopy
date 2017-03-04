@@ -5,9 +5,6 @@ const name = 'JK Rowling'
 const description = 'posted on her page'
 const profileImage = './image/portrait3.png'
 const timestamp = '3 hours ago' // TODO: Need to know how time will be sent over
-const shared = {
-  count: 30
-}
 const likes = {
   count: 10,
   likedByCurrentUser: false
@@ -58,7 +55,6 @@ class TileExample extends PureComponent {
           description={description}
           profileImage={profileImage}
           timestamp={timestamp}
-          shared={shared}
           likes={likes}
           comments={comments}
           content={content}

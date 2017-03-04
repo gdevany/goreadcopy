@@ -60,7 +60,6 @@ class TileDefault extends PureComponent {
       commentInput: '',
       shareInput: '',
       sharedOpen: false,
-      sharedCount: props.shared.count,
       sharePostOpen: false,
     }
   }
