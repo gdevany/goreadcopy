@@ -32,7 +32,7 @@ const TestimonialCarousel = () => {
   }
 
   return (
-    <div style={styles.carouselContainer} className='row carousel-wrapper'>
+    <div style={styles.carouselContainer} className='row box carousel-wrapper'>
       <Slider autoplay={true} autoplaySpeed={5000} {...settings}>
 
         <div>

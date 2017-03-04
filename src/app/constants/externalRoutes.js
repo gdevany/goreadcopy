@@ -25,7 +25,7 @@ const ExternalRoutes = () => {
     referrals: () => backendUrl('referrals'),
     settings: () => backendUrl('settings'),
     help: () => backendUrl('help'),
-    readFeed: () => backendUrl(),
+    readFeed: () => backendUrl(''),
     myBookClubs: () => backendUrl('bookclubs'),
     myOrders: () => backendUrl('store/orders'),
     booksWithKen: () => backendUrl('bookswithken'),

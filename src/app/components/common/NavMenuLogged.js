@@ -1,14 +1,15 @@
 import React, { PureComponent } from 'react'
-// import { stack as MobileMenu } from 'react-burger-menu'
+import { stack as MobileMenu } from 'react-burger-menu'
 import { Link } from 'react-router'
 import R from 'ramda'
 import { Colors } from '../../constants/style'
 import { ExternalRoutes as routes } from '../../constants'
 import SearchModal from './SearchModal'
-// import HomeIcon from 'material-ui/svg-icons/action/home'
-// import PersonIcon from 'material-ui/svg-icons/action/perm-identity'
-// import SearchIcon from 'material-ui/svg-icons/action/search'
-// import NotificationsIcon from 'material-ui/svg-icons/social/notifications-none'
+import HomeIcon from 'material-ui/svg-icons/action/home'
+import SearchIcon from 'material-ui/svg-icons/action/search'
+import MenuIcon from 'material-ui/svg-icons/navigation/menu'
+import ChatIcon from 'material-ui/svg-icons/communication/chat-bubble-outline'
+import NotificationsIcon from 'material-ui/svg-icons/social/notifications-none'
 import Badge from 'material-ui/Badge'
 import './styles/mobile-menu.scss'
 
@@ -242,7 +243,7 @@ class NavMenuLogged extends PureComponent {
   render() {
     return (
       <div className='slide-down'>
-        {/**<div style={styles.mobileNavContainer} className='top-bar-mobile'>
+        <div style={styles.mobileNavContainer} className='top-bar-mobile'>
           <nav className='nav-menu-logged'>
             <ul className='nav-menu-logged-container'>
               <li className='nav-menu-logged-list'>
@@ -252,7 +253,6 @@ class NavMenuLogged extends PureComponent {
               </li>
               <li className='nav-menu-logged-list'>
                 <a
-                  href=''
                   className='nav-menu-logged-anchor'
                   onClick={this.handleClickSearch}
                 >
@@ -286,32 +286,6 @@ class NavMenuLogged extends PureComponent {
               <li className='nav-menu-logged-list'>
                 <a href='' className='nav-menu-logged-anchor'>
                   <MenuIcon onClick={this.handleMenuClick}/>
-                  **/}
-        {/**<div style={styles.mobileNavContainer} className='top-bar-mobile'>
-          <Link to='/' className='mobile-gr-logo'>
-            <img src='./image/logo.png' />
-          </Link>
-
-          <MobileMenu id={'mobile-menu-container'}>
-            <ul className='mobile-menu'>
-              <li style={styles.loggedInNavLi}>
-                <Link to='/' style={styles.navItemLinks}>
-                  Home
-                </Link>
-              </li>
-              <li className='menu-text'>
-                <a href='#' style={styles.navItemLinks}>
-                  My Profile
-                </a>
-              </li>
-              <li className='menu-text'>
-                <a href='' style={styles.navItemLinks}>
-                  Notifications
-                </a>
-              </li>
-              <li className='menu-text'>
-                <a href='' style={styles.navItemLinks}>
-                  Messages
                 </a>
               </li>
             </ul>
@@ -377,72 +351,6 @@ class NavMenuLogged extends PureComponent {
             </div>
           </MobileMenu>
         </div>
-        **/}
-  {/**     <div style={styles.navContainer} className='top-bar top-bar-logged-menu'>
-          <div className='top-bar-left'>
-            <ul style={styles.navUl} className='menu'>
-              <li className='menu-text align-middle'>
-                <Link to='/'>
-                  <img src='./image/logo.png' />
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div className='top-bar-center-items'>
-            <ul className='menu'>
-              <li className='menu-text loged-menu-item loged-menu-item-active'>
-                <Link to='/' style={styles.navItemLinks}>
-                  <HomeIcon /> Home
-                </Link>
-              </li>
-              <li className='menu-text loged-menu-item'>
-                <a href='' style={styles.navItemLinks}>
-                  <ChatIcon/>
-                  Messages
-                </a>
-              </li>
-              <li className='menu-text loged-menu-item'>
-                <a
-                  href=''
-                  style={styles.navItemLinks}
-                  onClick={this.handleClickSearch}
-                >
-                  <SearchIcon/>
-                  Search
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div className='top-bar-right'>
-            <ul className='menu'>
-              <li className='menu-text'>
-                <a href='' style={styles.navItemLinks} className='menu-badge-container'>
-                  <Badge
-                    badgeContent={10}
-                    primary={true}
-                    badgeStyle={{
-                      top: -10,
-                      right: -10,
-                      width: '18px',
-                      height: '18px',
-                    }}
-                  >
-                    <NotificationsIcon />
-                  </Badge>
-                </a>
-              </li>
-              <li className='menu-text'>
-                <a href='' style={styles.navItemLinks}>
-                  <span>30,000</span>
-                  <img className='litcoin-img' src='./image/litcoin.png' />
-                </a>
-              </li>
-              <li className='menu-text profile-menu-badge'>
-                <a
-                  href='#'
-                  style={styles.navItemLinks}
-                  onClick={this.handleProfileMenuShow}
-                  **/}
         <div style={styles.navContainer} className='top-bar'>
           <div style={styles.insideNavContainer} className='top-bar-logged-menu'>
             <div className='top-bar-left'>
@@ -474,7 +382,11 @@ class NavMenuLogged extends PureComponent {
                 </li>
 
                 <li style={styles.loggedInNavLi} className='loged-menu-item'>
-                  <a href='' style={styles.navItemLinks} className='search-link rf-nav-link'>
+                  <a
+                    style={styles.navItemLinks}
+                    className='search-link rf-nav-link'
+                    onClick={this.handleClickSearch}
+                  >
                     Search
                   </a>
                 </li>
@@ -518,7 +430,6 @@ class NavMenuLogged extends PureComponent {
 
                 <li style={styles.loggedInRightNavLi} className='profile-menu-badge'>
                   <a
-                    href='#'
                     style={styles.rightNavLinks}
                     onClick={this.handleProfileMenuShow}
                   >

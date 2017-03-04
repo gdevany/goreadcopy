@@ -3,20 +3,12 @@ import BookRecommendations from './BookRecommendations'
 import AuthorRecommendations from './AuthorRecommendations'
 import BookClubRecommendations from './BookClubRecommendations'
 
-const RightContainer = ({ isUserLoggedIn }) => {
-  const isLoggedIn = () => {
-    return (
-      <div>
-        <BookRecommendations />
-        <AuthorRecommendations />
-        <BookClubRecommendations />
-      </div>
-    )
-  }
-
+const RightContainer = () => {
   return (
     <div className='right-container small-12 large-3 columns'>
-      { isUserLoggedIn ? isLoggedIn() : null }
+      <BookRecommendations />
+      <AuthorRecommendations />
+      <BookClubRecommendations />
     </div>
 
   )

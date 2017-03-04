@@ -22,11 +22,10 @@
 }
 
 .top-bar{
-  padding:0;
-  background-color: none;
-
+  display: none;
   @media all and (min-width: 1200px){
     padding: .5rem;
+    display:block;
   }
 }
 

@@ -92,6 +92,19 @@ input[type="checkbox"]:focus{
   -webkit-transition: opacity .25s ease;
 }
 
+.home {
+  background-color: $white;
+}
+
+.priority {
+  margin: 0px;
+  width: 50%;
+
+  @media all and (max-width: 1024px){
+    width: 100%;
+  }
+}
+
 @import 'variables.scss';
 @import 'general.scss';
 @import 'errors.scss';
