@@ -1,10 +1,26 @@
 import React from 'react'
-import TileExample from './TileExample'
+import {
+  AlbumTile,
+  AppearanceTile,
+  ArticleTile,
+  AuthorTile,
+  AwardTile,
+  BookClubTaskTile,
+  PublisherUpdateTile,
+  StatusPostTile
+} from './tiles'
 
 const MiddleContainer = () => {
   return (
     <div className='middle-container small-12 large-6 columns'>
-      <TileExample />
+      <AlbumTile />
+      <AppearanceTile />
+      <ArticleTile />
+      <AuthorTile />
+      <AwardTile />
+      <BookClubTaskTile />
+      <PublisherUpdateTile />
+      <StatusPostTile />
     </div>
   )
 }

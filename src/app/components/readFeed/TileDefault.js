@@ -2,6 +2,9 @@ import React, { PureComponent, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Tiles } from '../../redux/actions'
 import { PrimaryButton } from '../common'
+import FavoriteIcon from 'material-ui/svg-icons/action/favorite'
+import CommentsIcon from 'material-ui/svg-icons/communication/chat-bubble-outline'
+import ShareIcon from 'material-ui/svg-icons/social/share'
 import {
   Card,
   CardActions,
@@ -206,135 +209,150 @@ class TileDefault extends PureComponent {
     const shareUrl = 'https://www.goread.com/'
 
     return (
-      <div className='tile-default-wrapper'>
-        <div className='tile-default-top'>
-          <Card expanded={commentsOpen}>
-            <CardHeader
-              title={name}
-              subtitle={description}
-              avatar={profileImage}
-              actAsExpander={true}
-            >
-              <span> {timestamp} </span>
-            </CardHeader>
-            <CardText>
-              {this.props.children}
-            </CardText>
-            <CardActions>
-              <div className='likes-count'>
-                <a
-                  onClick={this.handleLiked}
-                  className={liked ? 'liked' : 'not-liked'}
-                >
-                {/** TODO: Derrick insert heart icon here **/}
-                {liked ? 'LIKED' : 'NOT LIKED'}
-                </a> {likedCount}
+      <div>
+        <Card expanded={commentsOpen} className='base-tile-container'>
+          <div className='base-tile-header'>
+            <figure className='tile-actor-figure'>
+              <img className='tile-actor-image' src={profileImage} alt=''/>
+            </figure>
+            <div className='tile-actor-details'>
+              <div className='tile-actor-container'>
+                <span className='tile-actor-name'>{name}</span>
+                <span className='tile-actor-action'>{description}</span>
               </div>
-              <div
-                className='comments-count'
-              >
-                <a
-                  onClick={this.handleCommentsOpen}
-                >
-                  {/** TODO: Derrick insert comment icon here **/}
-                  {commented ? 'COMMENTED' : 'NOT COMMENTED'}
-                </a> {commentedCount}
-              </div>
-              <div className='shared-count'>
-                <a
-                  onClick={this.handleShareOpen}
-                >
-                <span ref='share'>
-                  {/** TODO: Derrick insert share icon here **/}
-                  SHARES
+              <div className='tile-actor-timestamp'>
+                <span>
+                  {timestamp}
                 </span>
-                </a> {sharedCount}
               </div>
-            </CardActions>
+            </div>
+          </div>
+          <CardText className='tile-main-content'>
+            {this.props.children}
+          </CardText>
+          <CardActions className='base-tile-footer'>
+            <div className='like-action-container'>
+              <a
+                className='like-anchor'
+                onClick={this.handleLiked}
+                className={liked ? 'liked' : 'not-liked'}
+              >
+              {/** TODO: Derrick insert heart icon here **/}
+              <FavoriteIcon className={liked ? 'liked' : 'not-liked'}/>
+              </a>
+              <span className='likes-counter'>
+                {likedCount}
+              </span>
+            </div>
+            <div className='comments-action-container'>
+              <a
+                onClick={this.handleCommentsOpen}
+                className='comments-anchor'
+              >
+                {/** TODO: Derrick insert comment icon here **/}
+                <CommentsIcon className={commented ? 'commented' : 'not-commented'}/>
+              </a>
+              <span className='comments-counter'>
+                {commentedCount}
+              </span>
+            </div>
+            <div className='shared-count shares-action-container'>
+              <a
+                className='shares-anchor'
+                onClick={this.handleShareOpen}
+              >
+              <span ref='share'>
+                {/** TODO: Derrick insert share icon here **/}
+                <ShareIcon/>
+              </span>
+              <span className='shares-title'>
+                Share
+              </span>
+              </a> {sharedCount}
+            </div>
+          </CardActions>
 
-            <CardText
-              className='comments-wrapper'
-              expandable={true}
-            >
-              <div className='comments'>
-                {this.handleRenderComments(comments.results)}
-              </div>
-              {
-                sharePostOpen ?
-                  <div className='shared-post'>
-                    {this.renderPostBox('share')}
-                  </div> :
-                  <div className='comments-post'>
-                    {this.renderPostBox('comment')}
-                  </div>
-              }
-            </CardText>
-          </Card>
-
-          <Popover
-            open={this.state.sharedOpen}
-            anchorEl={this.state.anchorEl}
-            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-            targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-            onRequestClose={this.handleShareClose}
-            zDepth={5}
-            style={styles.popover}
+          <CardText
+            className='comments-wrapper'
+            expandable={true}
           >
-            <ul>
-              <li>
-                <FacebookShareButton
-                  url={shareUrl}
-                  title={content.title}
-                  className='facebook-share-button'
-                >
-                  <FacebookIcon
-                    size={32}
-                    round
-                  />
-                </FacebookShareButton>
-              </li>
-              <li>
-                <TwitterShareButton
-                  url={shareUrl}
-                  title={content.title}
-                  className='twitter-share-button'
-                >
-                  <TwitterIcon
-                    size={32}
-                    round
-                  />
-                </TwitterShareButton>
-              </li>
-              <li>
-                <LinkedinShareButton
-                  url={shareUrl}
-                  title={content.title}
-                  windowWidth={750}
-                  windowHeight={600}
-                  className='linkedin-share-button'
-                >
-                    <LinkedinIcon
-                      size={32}
-                      round
-                    />
-                </LinkedinShareButton>
-              </li>
-              <li>
-                <GooglePlusShareButton
-                  url={shareUrl}
-                  className='google-plus-share-button'
-                >
-                  <GooglePlusIcon
-                    size={32}
-                    round
-                  />
-                </GooglePlusShareButton>
-              </li>
-              <li onClick={this.handleShareOpenGoRead}> GoRead </li>
-            </ul>
-          </Popover>
+            <div className='comments'>
+              {this.handleRenderComments(comments.results)}
+            </div>
+            {
+              sharePostOpen ?
+                <div className='shared-post'>
+                  {this.renderPostBox('share')}
+                </div> :
+                <div className='comments-post'>
+                  {this.renderPostBox('comment')}
+                </div>
+            }
+          </CardText>
+        </Card>
 
-        </div>
+        <Popover
+          open={this.state.sharedOpen}
+          anchorEl={this.state.anchorEl}
+          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+          targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+          onRequestClose={this.handleShareClose}
+          zDepth={5}
+          style={styles.popover}
+        >
+          <ul>
+            <li>
+              <FacebookShareButton
+                url={shareUrl}
+                title={content.title}
+                className='facebook-share-button'
+              >
+                <FacebookIcon
+                  size={32}
+                  round
+                />
+              </FacebookShareButton>
+            </li>
+            <li>
+              <TwitterShareButton
+                url={shareUrl}
+                title={content.title}
+                className='twitter-share-button'
+              >
+                <TwitterIcon
+                  size={32}
+                  round
+                />
+              </TwitterShareButton>
+            </li>
+            <li>
+              <LinkedinShareButton
+                url={shareUrl}
+                title={content.title}
+                windowWidth={750}
+                windowHeight={600}
+                className='linkedin-share-button'
+              >
+                  <LinkedinIcon
+                    size={32}
+                    round
+                  />
+              </LinkedinShareButton>
+            </li>
+            <li>
+              <GooglePlusShareButton
+                url={shareUrl}
+                className='google-plus-share-button'
+              >
+                <GooglePlusIcon
+                  size={32}
+                  round
+                />
+              </GooglePlusShareButton>
+            </li>
+            <li onClick={this.handleShareOpenGoRead}> GoRead </li>
+          </ul>
+        </Popover>
       </div>
     )
   }

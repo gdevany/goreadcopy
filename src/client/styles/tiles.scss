@@ -1,14 +1,15 @@
 @import 'variables.scss';
 
+.base-tile-container > div {
+  width: 100%;
+}
+
 .base-tile-container{
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 100%;
-  border: solid 1px #dedede;
-  background-color: $white;
-  border-radius: 5px;
   margin-bottom: 1em;
   .base-tile-header{
     display: flex;
@@ -56,8 +57,9 @@
     flex-direction: row;
     align-items: center;
     width: 100%;
-    padding: 1em;
+    padding: 1em !important;
     border-top: solid 1px #dedede;
+    position: relative;
     .like-action-container, .comments-action-container, .shares-action-container{
       display: flex;
       justify-content: center;
