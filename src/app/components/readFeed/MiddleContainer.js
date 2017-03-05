@@ -7,7 +7,9 @@ import {
   AwardTile,
   BookClubTaskTile,
   PublisherUpdateTile,
-  StatusPostTile
+  StatusPostTile,
+  UserProfileTile,
+  VideoTile
 } from './tiles'
 
 const MiddleContainer = () => {
@@ -21,6 +23,8 @@ const MiddleContainer = () => {
       <BookClubTaskTile />
       <PublisherUpdateTile />
       <StatusPostTile />
+      <UserProfileTile />
+      <VideoTile />
     </div>
   )
 }

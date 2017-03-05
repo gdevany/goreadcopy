@@ -46,7 +46,7 @@ const content = {
   details: 'These are the 5 best books in the industry!'
 }
 
-class PublisherUpdateTile extends PureComponent {
+class UserProfileTile extends PureComponent {
   render() {
     return (
       <TileDefault
@@ -58,17 +58,17 @@ class PublisherUpdateTile extends PureComponent {
         comments={comments}
         content={content}
       >
-        <div className='publisher-tile-container'>
-          <figure className='publisher-figure'>
-            <img className='publisher-img' src='./image/ncp.jpg' alt=''/>
+        <div className='userprofile-tile-container'>
+          <figure className='userprofile-figure'>
+            <img className='userprofile-img' src='./image/kendunn.jpg' alt=''/>
           </figure>
-          <div className='publisher-content'>
-            <h2 className='publisher-name'>Next Century Publishing</h2>
-            <h4 className='publisher-title'>Publisher</h4>
-            <div className='publisher-location-container'>
-              <LocationIcon className='publisher-location-icon'/>
-              <h5 className='publisher-location'>
-                Los Angeles, CA
+          <div className='userprofile-content'>
+            <h2 className='userprofile-name'>Ken Dunn</h2>
+            <h4 className='userprofile-title'>Reader</h4>
+            <div className='userprofile-location-container'>
+              <LocationIcon className='userprofile-location-icon'/>
+              <h5 className='userprofile-location'>
+                Austin, TX
               </h5>
             </div>
           </div>
@@ -89,4 +89,4 @@ class PublisherUpdateTile extends PureComponent {
   }
 }
 
-export default PublisherUpdateTile
+export default UserProfileTile
