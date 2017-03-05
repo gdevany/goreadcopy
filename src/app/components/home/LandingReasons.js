@@ -5,10 +5,13 @@ import { Colors, Breakpoints } from '../../constants/style'
 const styles = {
   reasons: {
     color: Colors.black,
-    padding: '200px 50px 0px 60px',
+    margin: '0 auto',
+    maxWidth: 400,
+    paddingTop: 200,
 
     [Breakpoints.tablet]: {
       marginTop: 0,
+      maxWidth: 500,
       padding: 50,
     },
   },

@@ -23,7 +23,10 @@ const PriorityReasons = () => {
   return (
     <div>
       <div className='row' style={styles.propContainer}>
-        <div style={styles.textContainer} className='medium-12 large-5 large-offset-1 columns'>
+        <div
+          style={styles.textContainer}
+          className='medium-12 large-5 large-offset-1 priority columns'
+        >
           <LandingReasons
             statement={'Discover your next book'}
             description={'Find books you love while exploring our community'}
@@ -42,7 +45,7 @@ const PriorityReasons = () => {
       <div className='row' style={styles.propContainer}>
         <div
           style={styles.rightTextContainer}
-          className='medium-12 large-5 large-push-6 end columns'
+          className='medium-12 large-5 large-push-6 priority end columns'
         >
           <LandingReasons
             statement={'Join your favorite book clubs'}
@@ -57,7 +60,10 @@ const PriorityReasons = () => {
       </div>
 
       <div className='row' style={styles.propContainer}>
-        <div style={styles.textContainer} className='medium-12 large-5 large-offset-1 columns'>
+        <div
+          style={styles.textContainer}
+          className='medium-12 large-5 large-offset-1 priority columns'
+        >
           <LandingReasons
             statement={'Earn your favorite books'}
             description={'Get any book shipped to you by just hanging out with other on GoRead'}
@@ -72,7 +78,7 @@ const PriorityReasons = () => {
       <div className='row' style={styles.propContainer}>
         <div
           style={styles.rightTextContainer}
-          className='medium-12 large-5 large-push-6 end columns'
+          className='medium-12 large-5 large-push-6 end priority columns'
         >
           <LandingReasons
             statement={'Build a community'}

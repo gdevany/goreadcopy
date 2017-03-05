@@ -30,6 +30,7 @@ const styles = {
   },
 
   shopList: {
+    fontSize: 16,
     float: 'left',
     paddingRight: 20,
   },
@@ -64,7 +65,8 @@ const styles = {
   },
 
   shopText: {
-    color: '#979797',
+    fontSize: 16,
+    color: Colors.grey,
   },
 
   bookSection: {
@@ -91,7 +93,7 @@ const styles = {
     },
   },
   genreSelected: {
-    fontWeight: 'bold',
+    fontWeight: '600',
     color: Colors.blue,
   },
 }
@@ -111,9 +113,9 @@ class BookLanding extends PureComponent {
   }
 
   handleMapGenres = (genres) => {
-    return R.take(8, genres.map((genre, index) => {
+    return R.take(4, genres.map((genre, index) => {
       return (
-        <li style={styles.shopList} className='link nav-item' key={index}>
+        <li style={styles.shopList} className='link shop-nav-item' key={index}>
           <a
             onClick={(event) => this.handleGenreClick(event, genre.id, genre.name)}
             style={this.state.genreSelected === genre.name ? styles.genreSelected : null}
@@ -129,9 +131,9 @@ class BookLanding extends PureComponent {
     const deviceType = this.checkScreenSize()
     let result = []
     if (deviceType === 'phone') {
-      result = R.take(3, books.map((book, index) => {
+      result = R.take(2, books.map((book, index) => {
         return (
-          <div key={index} className='small-4 columns'>
+          <div key={index} className='small-6 columns'>
             {<Book book={book} />}
           </div>
         )
@@ -178,14 +180,18 @@ class BookLanding extends PureComponent {
           <div style={styles.shopLinkSection}>
             <div style={styles.mobileShopTitle}>
               <a>Shop popular titles</a>
-              <a style={styles.shopMoreMobileText} className='link nav-item' href={bookStore()}>
+              <a
+                style={styles.shopMoreMobileText}
+                className='link shop-nav-item'
+                href={bookStore()}
+              >
                 Shop more
               </a>
             </div>
 
             <div style={styles.shopContainer} className='row'>
               <div style={styles.shopTitleContainer} className='small-1 columns'>
-                <span style={styles.shopText} className='nav-item'>
+                <span style={styles.shopText} className='shop-nav-item'>
                 Shop:
                 </span>
               </div>
@@ -193,10 +199,11 @@ class BookLanding extends PureComponent {
               <div className='small-10 columns'>
                 <ul style={styles.shopUl}>
                   <li style={styles.shopList} />
-                  <li style={styles.shopList} className='link nav-item' >
+                  <li style={styles.shopList} className='link shop-nav-item' >
                     <a
                       onClick={(event) => this.handleGenreClick(event, 'Popular')}
                       style={this.state.genreSelected === 'Popular' ? styles.genreSelected : null}
+                      className='shop-genre-links'
                     >
                       Popular
                     </a>
@@ -206,7 +213,7 @@ class BookLanding extends PureComponent {
               </div>
 
               <div style={styles.shopMoreContainer} className='small-1 columns'>
-                <a style={styles.shopMoreText} className='link nav-item' href={bookStore()}>
+                <a style={styles.shopMoreText} className='link shop-nav-item' href={bookStore()}>
                   Shop more
                 </a>
               </div>
@@ -214,7 +221,7 @@ class BookLanding extends PureComponent {
           </div>
         </div>
 
-        <div className='row' style={styles.bookSection}>
+        <div className='row slide-up' style={styles.bookSection}>
           {this.handleMapBooks(books)}
         </div>
       </div>
