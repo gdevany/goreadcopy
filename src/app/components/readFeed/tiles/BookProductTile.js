@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import TileDefault from '../TileDefault'
+import Rating from 'react-rating'
 
 const name = 'JK Rowling'
 const description = 'posted on her page'
@@ -45,7 +46,19 @@ const content = {
   details: 'These are the 5 best books in the industry!'
 }
 
-class VideoTile extends PureComponent {
+class BookProductTile extends PureComponent {
+
+  renderRating = (rating) => {
+    return (
+      <Rating
+        readonly={true}
+        initialRate={rating}
+        full={<img className='rating-icon' src='./image/star.svg' />}
+        empty={<img className='rating-icon' src='./image/star-empty.svg' />}
+      />
+    )
+  }
+
   render() {
     return (
       <TileDefault
@@ -57,30 +70,32 @@ class VideoTile extends PureComponent {
         comments={comments}
         content={content}
       >
-        <div className='video-tile-container'>
-          <div className='video-iframe-container'>
-            <iframe
-              src='https://www.youtube.com/embed/9qB2RiRdRvY'
-              frameBorder='0'
-              allowFullScreen
-            />
-          </div>
-          <div className='video-content'>
-            <h2 className='video-title'>Lorem ipsun dolor sit amet</h2>
-            <div className='post-excerpt-container'>
-              <p className='post-excerpt-pharagraph'>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Dignissimos ratione cum sapiente quas, voluptas doloribus aperiam
-                beatae placeat praesentium incidunt vitae inventore, rerum, enim
-                iste sit dolor minus aliquid veritatis...
-                <a href='#' className='post-readmore-anchor'>Read more</a>
-              </p>
+        <div className='book-tile-container'>
+          <figure className='book-figure'>
+            <img className='book-img' src='./image/example2.png' alt=''/>
+          </figure>
+          <div className='book-content'>
+            <h2 className='book-title'>Book Title</h2>
+            <h4 className='book-author'>by Ken Dunn</h4>
+            <div className='book-rating-container'>
+              {this.renderRating(Math.round(4.2))}
             </div>
           </div>
+        </div>
+        <div className='post-excerpt-container'>
+          <p className='post-excerpt-pharagraph'>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            Consectetur dicta laudantium odio illo asperiores. Eos nesciunt
+            quibusdam odio fuga nam. At rerum consequatur aliquam quasi, totam
+            magni! Modi accusantium, nostrum.
+            <a href='#' className='post-readmore-anchor'>
+              Read more
+            </a>
+          </p>
         </div>
       </TileDefault>
     )
   }
 }
 
-export default VideoTile
+export default BookProductTile

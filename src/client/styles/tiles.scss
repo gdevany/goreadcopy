@@ -312,6 +312,50 @@
   }
 }
 
+.book-tile-container{
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: row;
+  margin-bottom: 1em;
+  .book-figure{
+    width: 40%;
+    @media all and (min-width: 600px){
+      width: 20%;
+    }
+    @media all and (min-width: 1024px){
+      width: 35%;
+    }
+    .book-img{
+      width: 100%;
+    }
+  }
+  .book-content{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    margin-left: 1.5em;
+    .book-title{
+      width: 100%;
+      text-align:left;
+      margin: 0;
+      font-weight: 400;
+    }
+    .book-author{
+      margin: 0;
+      width: 100%;
+      text-align: left;
+      font-size: 24px;
+    }
+    .book-rating-container{
+      width: 100%;
+      text-align: left;
+      margin-top: 1.5em;
+    }
+  }
+}
 
 .post-excerpt-container{
   width: 100%;
