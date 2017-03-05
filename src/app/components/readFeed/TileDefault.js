@@ -213,11 +213,15 @@ class TileDefault extends PureComponent {
         <Card expanded={commentsOpen} className='base-tile-container'>
           <div className='base-tile-header'>
             <figure className='tile-actor-figure'>
-              <img className='tile-actor-image' src={profileImage} alt=''/>
+              <a href='#'>
+                <img className='tile-actor-image' src={profileImage} alt=''/>
+              </a>
             </figure>
             <div className='tile-actor-details'>
               <div className='tile-actor-container'>
-                <span className='tile-actor-name'>{name}</span>
+                <span className='tile-actor-name'>
+                  <a href=''>{name}</a>
+                </span>
                 <span className='tile-actor-action'>{description}</span>
               </div>
               <div className='tile-actor-timestamp'>
