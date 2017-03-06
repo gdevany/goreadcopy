@@ -64,6 +64,16 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      .liked{
+        svg{
+          fill: #ff3e3e !important;
+        }
+      }
+      .not-liked{
+        svg{
+          fill: $light-med-grey !important;
+        }
+      }
       .like-anchor, .comments-anchor, .shares-anchor{
         display: flex;
         .shares-title{
@@ -77,6 +87,7 @@
       }
       .likes-counter, .comments-counter{
         margin-left: .25em;
+        align-self: baseline;
       }
     }
   }
