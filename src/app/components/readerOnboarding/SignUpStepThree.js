@@ -55,6 +55,10 @@ const styles = {
     fontSize: 18,
     marginLeft: 15,
   },
+
+  formWrapper: {
+    position: 'relative',
+  },
 }
 
 const { pairs } = Collections
@@ -242,7 +246,8 @@ class SignUpStepThree extends PureComponent {
         <h5 style={styles.labelText}> Add Your Own </h5>
 
         <div className='small-12'>
-          <form className='form-input-wrapper'>
+          <form style={styles.formWrapper} className='form-input-wrapper'>
+            <div className='search-icon' />
             <input
               value={newSearchInput}
               className='form-input'

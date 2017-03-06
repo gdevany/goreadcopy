@@ -111,6 +111,17 @@ input[type="checkbox"]:focus{
   font-size: 14px;
   a {
     color: $grey;
+
+.search-icon {
+  &:before {
+    content: '';
+    display: block;
+    background: url(../image/search-icon.svg) no-repeat;
+    position: absolute;;
+    width: 20px;
+    height: 20px;
+    right: 15px;
+    top: 11px;
   }
 }
 
