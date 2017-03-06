@@ -163,14 +163,14 @@
   }
 }
 
-.statuspost-tile-container{
+.statuspost-tile-container, .bookclubtask-tile-container{
   .statuspost-heading-figure{
     width: 100%;
     .statuspost-heading-img{
       width: 100%;
     }
   }
-  .statuspost-content{
+  .statuspost-content, .bookclubtask-content{
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -381,6 +381,39 @@
       text-align:left;
       margin: .5em 0;
       font-weight: 400;
+    }
+  }
+}
+
+.bookclub-tile-container{
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  @media all and (min-width: 768px){
+    flex-direction: row;
+  }
+  .bookclub-figure{
+    width: 40%;
+    margin: 0 auto;
+    @media all and (min-width: 600px){
+      width: 20%;
+    }
+    @media all and (min-width: 1024px){
+      width: 35%;
+    }
+    .bookclub-img{
+      width: 100%;
+    }
+  }
+  .bookclub-content{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 100%;
+    @media all and (min-width: 768px){
+      margin-left: 1.5em;
     }
   }
 }

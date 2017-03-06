@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
 import TileDefault from '../TileDefault'
 
-const name = 'Harry Potter Fans'
-const description = 'posted a new Task'
+const name = 'JK Rowling'
+const description = 'is now member of Harry Potter Fans'
 const profileImage = './image/portrait3.png'
 const timestamp = '3 hours ago' // TODO: Need to know how time will be sent over
 const likes = {
@@ -45,7 +45,7 @@ const content = {
   details: 'These are the 5 best books in the industry!'
 }
 
-class BookClubTaskTile extends PureComponent {
+class BookClubTile extends PureComponent {
   render() {
     return (
       <TileDefault
@@ -57,15 +57,21 @@ class BookClubTaskTile extends PureComponent {
         comments={comments}
         content={content}
       >
-        <div className='bookclubtask-tile-container'>
-          <div className='bookclubtask-content'>
+        <div className='bookclub-tile-container'>
+          <figure className='bookclub-figure'>
+            <img className='bookclub-img' src='./image/example2.png' alt=''/>
+          </figure>
+          <div className='bookclub-content'>
+            <h2 className='bookclub-name'>Harry Potter Fans</h2>
             <div className='post-excerpt-container'>
               <p className='post-excerpt-pharagraph'>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Dignissimos ratione cum sapiente quas, voluptas doloribus aperiam
-                beatae placeat praesentium incidunt vitae inventore, rerum, enim
-                iste sit dolor minus aliquid veritatis...
-                <a href='#' className='post-readmore-anchor'>Read more</a>
+                Consectetur dicta laudantium odio illo asperiores. Eos nesciunt
+                quibusdam odio fuga nam. At rerum consequatur aliquam quasi, totam
+                magni! Modi accusantium, nostrum.
+                <a href='#' className='post-readmore-anchor'>
+                  Read more
+                </a>
               </p>
             </div>
           </div>
@@ -75,4 +81,4 @@ class BookClubTaskTile extends PureComponent {
   }
 }
 
-export default BookClubTaskTile
+export default BookClubTile

@@ -11,7 +11,8 @@ import {
   UserProfileTile,
   VideoTile,
   BookProductTile,
-  AdvertisingTile
+  AdvertisingTile,
+  BookClubTile
 } from './tiles'
 
 const MiddleContainer = () => {
@@ -29,6 +30,7 @@ const MiddleContainer = () => {
       <VideoTile />
       <BookProductTile />
       <AdvertisingTile />
+      <BookClubTile />
     </div>
   )
 }
