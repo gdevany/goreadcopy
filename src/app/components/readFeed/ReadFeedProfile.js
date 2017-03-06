@@ -31,6 +31,10 @@ const styles = {
     margin: '-28px 0 0 10px',
     fontSize: 18,
   },
+
+  container: {
+    padding: 0,
+  },
 }
 const { getFollowers, getFollowed } = Follow
 const { uploadProfileImage, uploadBackgroundImage } = Images
@@ -190,7 +194,7 @@ class ReadFeedProfile extends PureComponent {
       'followed'
 
     return (
-      <div className='box'>
+      <div style={styles.container} className='box'>
         <div className='profile-wrapper'>
           <div className='profile-top'>
             <div className='background-image-wrapper'> {/** dont remove this for hover to work **/}
