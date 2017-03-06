@@ -37,7 +37,7 @@ const styles = {
   },
 }
 const { getFollowers, getFollowed } = Follow
-const { uploadProfileImage, uploadBackgroundImage } = Images
+const { uploadImage } = Images
 
 class ReadFeedProfile extends PureComponent {
   constructor(props) {
@@ -56,14 +56,13 @@ class ReadFeedProfile extends PureComponent {
   }
 
   componentDidMount = () => {
-    // check if profile and background images exist from prop passed down.
-    const { backgroundImage, profileImage } = this.props
-    const checkProfileImage = backgroundImage !== ''
-    const checkBackgroundImage = profileImage !== ''
-    if (checkProfileImage) { this.setState({ hasProfileImage: profileImage }) }
-    if (checkBackgroundImage) { this.setState({ hasBackgroundImage: backgroundImage }) }
-    this.props.getFollowers()
-    this.props.getFollowed()
+    const { id } = this.props
+    id ? this.getFollow(id) : null
+  }
+
+  getFollow = (id) => {
+    this.props.getFollowers(id)
+    this.props.getFollowed(id)
   }
 
   handleOpen = (followType) => {
@@ -79,13 +78,23 @@ class ReadFeedProfile extends PureComponent {
   backgroundUpload = (file) => {
     this.setState({ backgroundImageUpload: file })
     this.setState({ hasBackgroundImage: false })
-    this.props.uploadBackgroundImage(file)
+    this.getBase64AndUpdate(file[0], 'backgroundImage')
   }
 
   profileUpload = (file) => {
     this.setState({ profileImageUpload: file })
     this.setState({ hasProfileImage: false })
-    this.props.uploadProfileImage(file)
+
+    this.getBase64AndUpdate(file[0], 'profileImage')
+  }
+
+  getBase64AndUpdate = (file, imageType) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = () => resolve(reader.result)
+      reader.onerror = (error) => reject(`Error in getBase64: ${error}`)
+    }).then(res => this.props.uploadImage({ imageType, file: res }))
   }
 
   renderImage = (hasImage, upload, imageType) => {
@@ -94,25 +103,7 @@ class ReadFeedProfile extends PureComponent {
     const type = isProfile ? 'profile-image' : 'background-image'
     const result = []
 
-    if (hasImage) {
-      result.push(
-        <img
-          className={type}
-          src={hasImage}
-          key={type}
-        />
-      )
-
-      if (isProfile && isUserLoggedIn) {
-        result.push(
-          <img
-            className='camera-profile camera-transparent'
-            src='./image/upload-photo-icon.svg'
-            key='camera'
-          />
-        )
-      }
-    } else if (upload) {
+    if (upload) {
       result.push(
         <img
           className={type}
@@ -130,27 +121,24 @@ class ReadFeedProfile extends PureComponent {
           />
         )
       }
-    } else if (isProfile && isUserLoggedIn) {
-      {/** Derrick: Placeholder for profile image **/}
+    } else if (hasImage) {
       result.push(
-        <div
-          className='backgroundImage rf-profile-photo'
-          key={type}
-        />,
         <img
-          className='camera-profile camera-solid'
-          src='./image/upload-photo-icon.svg'
-          key='camera'
-        />
-      )
-    } else {
-      {/** Derrick: This is placeholder for background **/}
-      result.push(
-        <div
-          className='backgroundImage rf-cover-photo'
+          className={type}
+          src={hasImage}
           key={type}
         />
       )
+
+      if (isProfile && isUserLoggedIn) {
+        result.push(
+          <img
+            className='camera-profile camera-transparent'
+            src='./image/upload-photo-icon.svg'
+            key='camera'
+          />
+        )
+      }
     }
 
     return result
@@ -159,9 +147,7 @@ class ReadFeedProfile extends PureComponent {
   render() {
     const {
       backgroundImageUpload,
-      hasBackgroundImage,
       profileImageUpload,
-      hasProfileImage,
       modalFollowersOpen,
       modalFollowingOpen,
     } = this.state
@@ -169,7 +155,12 @@ class ReadFeedProfile extends PureComponent {
     const {
       followed,
       followers,
+      profileImage,
+      backgroundImage
     } = this.props
+
+    const hasProfileImage = profileImage !== '' ? profileImage : null
+    const hasBackgroundImage = backgroundImage !== '' ? backgroundImage : null
 
     const isUserLoggedIn = Auth.currentUserExists()
 
@@ -198,7 +189,10 @@ class ReadFeedProfile extends PureComponent {
         <div className='profile-wrapper'>
           <div className='profile-top'>
             <div className='background-image-wrapper'> {/** dont remove this for hover to work **/}
-              { this.renderImage(hasBackgroundImage, backgroundImageUpload, 'background') }
+              {
+                backgroundImage || backgroundImageUpload ?
+                this.renderImage(hasBackgroundImage, backgroundImageUpload, 'background') : null
+              }
             </div>
 
             <div className='overlay'>
@@ -229,7 +223,10 @@ class ReadFeedProfile extends PureComponent {
               {/** Derrick: You can remove paper and add border instead if you want **/}
               <div style={styles.profileImageWrapper}>
                 <Dropzone onDrop={this.profileUpload} className='dropzone-profile'>
-                  { this.renderImage(hasProfileImage, profileImageUpload, 'profile') }
+                  {
+                    profileImage || profileImageUpload ?
+                      this.renderImage(hasProfileImage, profileImageUpload, 'profile') : null
+                  }
                 </Dropzone>
               </div>
 
@@ -308,8 +305,7 @@ const mapStateToProps = ({
 }
 
 const mapDispatchToProps = {
-  uploadProfileImage,
-  uploadBackgroundImage,
+  uploadImage,
   getFollowers,
   getFollowed
 }

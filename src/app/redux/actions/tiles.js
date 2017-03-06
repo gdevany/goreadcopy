@@ -1,28 +1,23 @@
 import { CURRENT_READER as A } from '../const/actionTypes'
+import CurrentReaderSocial from '../../services/api/currentReader/social'
 
-export function updateLikes(likesCount) {
-  // TODO: Need to update likes count for current post on backend, which endpoint?
+export function updateLikes(id, liked) {
   return dispatch => {
-    dispatch({ type: A.UPDATE_LIKES })
+    CurrentReaderSocial.updateLikes(id, liked)
+      .then(() => dispatch({ type: A.UPDATE_LIKES }))
+      .catch((err) => `Error in updateLikes: ${err}`)
   }
 }
 
 export function updateComments(comments) {
-  // TODO: Need to update comments for current post on backend, which endpoint?
   return dispatch => {
-    dispatch({ type: A.UPDATE_COMMENTS })
-  }
-}
-
-export function updateShares(sharesCount) {
-  // TODO: Need to update share count for current post on backend, which endpoint?
-  return dispatch => {
-    dispatch({ type: A.UPDATE_SHARES })
+    CurrentReaderSocial.updateComments(id, liked)
+      .then(() => dispatch({ type: A.UPDATE_COMMENTS }))
+      .catch((err) => `Error in updateComments: ${err}`)
   }
 }
 
 export default {
   updateLikes,
   updateComments,
-  updateShares,
 }

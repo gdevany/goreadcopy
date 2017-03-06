@@ -5,7 +5,7 @@ import Radium from 'radium'
 import { connect } from 'react-redux'
 import { ExternalRoutes as routes } from '../../constants'
 import { Genres, Books } from '../../redux/actions'
-import Book from './Book'
+import { Book } from '../common'
 import { Colors, Breakpoints } from '../../constants/style'
 
 const { getGenres } = Genres

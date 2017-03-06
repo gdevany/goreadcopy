@@ -26,7 +26,7 @@ const TwitterIcon = generateShareIcon('twitter')
 const GooglePlusIcon = generateShareIcon('google')
 const LinkedinIcon = generateShareIcon('linkedin')
 
-const { updateLikes, updateComments, updateShares } = Tiles
+const { updateLikes, updateComments } = Tiles
 
 const styles = {
   popover: {
@@ -42,7 +42,6 @@ const styles = {
   * Description: (example: 'posted on her page')
   * TimeStamp: How long ago they posted
   * Likes: How many Likes this post has and if its been liked by current user
-  * Shares: How many shares this post has.
   * Comments: An object with the comment count, if current user has liked this tile
   and result props that displays each comment with user info.
  */
@@ -75,7 +74,8 @@ class TileDefault extends PureComponent {
 
   componentDidUpdate = (prevProps, prevState) => {
     const { likedCount } = this.state
-    if (prevState.likedCount !== likedCount) this.props.updateLikes(likedCount)
+    const { tileId } = this.props
+    if (prevState.likedCount !== likedCount) this.props.updateLikes(tileId, { liked: true })
   }
 
   handleLiked = () => {
@@ -133,13 +133,11 @@ class TileDefault extends PureComponent {
   }
 
   handleShareSubmit = () => {
-    const { sharedCount, shareInput } = this.state
+    const { sharedCount } = this.state
     this.setState({ sharePostOpen: false })
     this.setState({ commentPostOpen: true })
     this.setState({ sharedCount: sharedCount + 1 })
     this.setState({ shareInput: '' })
-    // TODO: What to send over?
-    this.props.updateShares(shareInput)
   }
 
   handleShareOpen = () => {
@@ -353,6 +351,5 @@ TileDefault.propTypes = {
 const mapDispatchToProps = {
   updateLikes,
   updateComments,
-  updateShares,
 }
 export default connect(null, mapDispatchToProps)(TileDefault)

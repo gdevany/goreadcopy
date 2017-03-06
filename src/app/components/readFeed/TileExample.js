@@ -45,6 +45,8 @@ const content = {
   details: 'These are the 5 best books in the industry!'
 }
 
+const tileId = 3
+
 {/**An example of what a tile would look like using TileDefault **/}
 class TileExample extends PureComponent {
   render() {
@@ -58,6 +60,7 @@ class TileExample extends PureComponent {
           likes={likes}
           comments={comments}
           content={content}
+          tileId={tileId}
         >
           <h2> {content.title} </h2>
           <img src={content.media} />
