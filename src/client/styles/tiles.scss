@@ -471,3 +471,20 @@
     }
   }
 }
+
+.share-elements-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 0;
+  list-style: none;
+  padding: .5em;
+  border-radius:9px;
+  border: solid 1px $light-med-grey;
+  .share-elements-item{
+    &:hover{
+      cursor: pointer;
+    }
+  }
+}

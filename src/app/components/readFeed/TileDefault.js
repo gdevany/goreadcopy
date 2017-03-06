@@ -316,8 +316,8 @@ class TileDefault extends PureComponent {
           zDepth={5}
           style={styles.popover}
         >
-          <ul>
-            <li>
+          <ul className='share-elements-container'>
+            <li className='share-elements-item'>
               <FacebookShareButton
                 url={shareUrl}
                 title={content.title}
@@ -329,7 +329,7 @@ class TileDefault extends PureComponent {
                 />
               </FacebookShareButton>
             </li>
-            <li>
+            <li className='share-elements-item'>
               <TwitterShareButton
                 url={shareUrl}
                 title={content.title}
@@ -341,7 +341,7 @@ class TileDefault extends PureComponent {
                 />
               </TwitterShareButton>
             </li>
-            <li>
+            <li className='share-elements-item'>
               <LinkedinShareButton
                 url={shareUrl}
                 title={content.title}
@@ -355,7 +355,7 @@ class TileDefault extends PureComponent {
                   />
               </LinkedinShareButton>
             </li>
-            <li>
+            <li className='share-elements-item'>
               <GooglePlusShareButton
                 url={shareUrl}
                 className='google-plus-share-button'
@@ -366,7 +366,12 @@ class TileDefault extends PureComponent {
                 />
               </GooglePlusShareButton>
             </li>
-            <li onClick={this.handleShareOpenGoRead}> GoRead </li>
+            <li
+              className='share-elements-item'
+              onClick={this.handleShareOpenGoRead}
+            >
+              GoRead
+            </li>
           </ul>
         </Popover>
       </div>
