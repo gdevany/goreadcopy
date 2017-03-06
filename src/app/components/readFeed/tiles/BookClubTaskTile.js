@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
 import TileDefault from '../TileDefault'
 
-const name = 'JK Rowling'
-const description = 'posted on her page'
+const name = 'Harry Potter Fans'
+const description = 'posted a new Task'
 const profileImage = './image/portrait3.png'
 const timestamp = '3 hours ago' // TODO: Need to know how time will be sent over
 const likes = {

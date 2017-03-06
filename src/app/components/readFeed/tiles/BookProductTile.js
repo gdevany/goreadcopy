@@ -3,7 +3,7 @@ import TileDefault from '../TileDefault'
 import Rating from 'react-rating'
 
 const name = 'JK Rowling'
-const description = 'posted on her page'
+const description = 'added a new Book to his Library'
 const profileImage = './image/portrait3.png'
 const timestamp = '3 hours ago' // TODO: Need to know how time will be sent over
 const likes = {

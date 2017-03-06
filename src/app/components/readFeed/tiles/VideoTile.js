@@ -3,7 +3,7 @@ import TileDefault from '../TileDefault'
 import ReactPlayer from 'react-player'
 
 const name = 'JK Rowling'
-const description = 'posted on her page'
+const description = 'posted a new Video on his Page'
 const profileImage = './image/portrait3.png'
 const timestamp = '3 hours ago' // TODO: Need to know how time will be sent over
 const likes = {

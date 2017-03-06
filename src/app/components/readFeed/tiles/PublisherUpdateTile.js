@@ -3,7 +3,7 @@ import TileDefault from '../TileDefault'
 import LocationIcon from 'material-ui/svg-icons/communication/location-on'
 
 const name = 'JK Rowling'
-const description = 'posted on her page'
+const description = 'is Following a new Publisher'
 const profileImage = './image/portrait3.png'
 const timestamp = '3 hours ago' // TODO: Need to know how time will be sent over
 const likes = {
