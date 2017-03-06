@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import TileDefault from '../TileDefault'
+import ReactPlayer from 'react-player'
 
 const name = 'JK Rowling'
 const description = 'posted on her page'
@@ -59,10 +60,9 @@ class VideoTile extends PureComponent {
       >
         <div className='video-tile-container'>
           <div className='video-iframe-container'>
-            <iframe
-              src='https://www.youtube.com/embed/9qB2RiRdRvY'
-              frameBorder='0'
-              allowFullScreen
+            <ReactPlayer
+              className='video-player'
+              url='https://player.vimeo.com/video/203611117'
             />
           </div>
           <div className='video-content'>

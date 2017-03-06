@@ -286,24 +286,24 @@
 
 .video-tile-container{
   .video-iframe-container{
-    iframe{
-      width: 100%;
-      height: 180px;
+    .video-player{
+      width: 100% !important;
+      height: 180px  !important;
       @media all and (min-width: 600px){
-        width: 80%;
-        height: 275px;
+        width: 80% !important;
+        height: 275px !important;
       }
       @media all and (min-width: 768px){
-        width: 100%;
-        height: 400px;
+        width: 100% !important;
+        height: 400px !important;
       }
       @media all and (min-width: 1024px){
-        width: 100%;
-        height: 254px;
+        width: 100% !important;
+        height: 254px !important;
       }
       @media all and (min-width: 1200px){
-        width: 100%;
-        height: 300px;
+        width: 100% !important;
+        height: 300px !important;
       }
     }
   }
@@ -417,7 +417,7 @@
       font-weight: 600;
     }
     .comment-timestamp{
-      font-size: 13px;      
+      font-size: 13px;
     }
   }
 }
