@@ -10,6 +10,7 @@ const isUserLoggedIn = Auth.currentUserExists()
 
 const Routes = (
   <Route path='/' component={App}>
+
     <IndexRoute isUserLoggedIn={isUserLoggedIn} component={HomeWrapper} />
     <Route path='/signup' component={SignUpFlow} />
     <Route path='/redirect' component={IncomingRedirect} />

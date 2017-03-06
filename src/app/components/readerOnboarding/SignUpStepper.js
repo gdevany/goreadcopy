@@ -85,11 +85,15 @@ class SignUpStepper extends PureComponent {
   }
 
   isActiveStepper = (index) => {
-    return this.state.stepIndex === index ? { fontWeight: 'bold' } : null
+    return this.state.stepIndex === index ? 'signup-active-stepper' : null
   }
 
   isActiveLabel = (index) => {
     return this.state.stepIndex === index ? { color: Colors.blue } : null
+  }
+
+  isPrevStep = (index) => {
+    return index < this.state.stepIndex ? 'complete-sign-up-step' : null
   }
 
   getStepContent = (stepIndex) => {
@@ -156,7 +160,6 @@ class SignUpStepper extends PureComponent {
 
   render() {
     const { loading, stepIndex } = this.state
-
     return (
       <div style={{ width: '100%', margin: 'auto' }}>
         <div style={styles.stepperContainer}>
@@ -164,21 +167,20 @@ class SignUpStepper extends PureComponent {
             activeStep={stepIndex}
             connector={<ArrowIcon color={Colors.medGrey} />}
           >
-
-            <Step active={false} style={this.isActiveStepper(Steps.STEPS.USER_INFO)}>
-              <StepLabel className='stepText'>
+            <Step active={false} className={this.isActiveStepper(Steps.STEPS.USER_INFO)}>
+              <StepLabel className={this.isPrevStep(Steps.STEPS.USER_INFO)}>
                 Create your account
               </StepLabel>
             </Step>
 
-            <Step active={false} style={this.isActiveStepper(Steps.STEPS.SELECT_GENRES)}>
-              <StepLabel className='stepText'>
+            <Step active={false} className={this.isActiveStepper(Steps.STEPS.SELECT_GENRES)}>
+              <StepLabel className={this.isPrevStep(Steps.STEPS.SELECT_GENRES)}>
                 Add genres
               </StepLabel>
             </Step>
 
-            <Step active={false} style={this.isActiveStepper(Steps.STEPS.SELECT_USERS)}>
-              <StepLabel className='stepText'>
+            <Step active={false} className={this.isActiveStepper(Steps.STEPS.SELECT_USERS)}>
+              <StepLabel className={this.isPrevStep(Steps.STEPS.SELECT_USERS)}>
                 Create read feed
               </StepLabel>
             </Step>

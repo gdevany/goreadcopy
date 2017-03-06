@@ -7,21 +7,31 @@
 */
 import QueryParams from './queryParams'
 import Env from '../constants/env'
+import R from 'ramda'
 
 const { asParams } = QueryParams
 
 const Paths = () => {
+  const makeUrl = (base, path, query) => {
+    const params = query ? asParams(query) : query
+
+    const urlComponents = [
+      base,
+      path,
+      params,
+    ]
+    const url = R.join('/', R.reject(R.isEmpty, urlComponents))
+    return url
+  }
+
   const backendUrl = (path, query) => {
-    const backendUrl = Env.REDIRECT_BASE_URL
-    const fullPath = `${backendUrl}/${path}`
-    return query ? `${fullPath}${asParams(query)}` : `${fullPath}/`
+    return makeUrl(Env.REDIRECT_BASE_URL, path, query)
   }
 
   const apiUrl = (path, query) => {
-    const apiUrl = `${Env.API_URL}/api`
-    const fullPath = `${apiUrl}/${path}`
     // NOTE: API endpoints require an explicit '/' before query params
-    return query ? `${fullPath}/${asParams(query)}` : `${fullPath}/`
+    const base = `${Env.API_URL}/api`
+    return makeUrl(base, path, query)
   }
 
   return {

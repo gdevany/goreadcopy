@@ -1,11 +1,37 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Follow, Images } from '../../redux/actions'
-import { Paper } from 'material-ui'
 import FollowModal from './FollowModal'
 import Dropzone from 'react-dropzone'
+import { Auth } from '../../services'
 import R from 'ramda'
 
+const styles = {
+  nameText: {
+    margin: '22px 0 0 -47px',
+    display: 'inline-block',
+  },
+
+  followContainer: {
+    marginTop: 20,
+    paddingBottom: 20,
+  },
+
+  profileImageWrapper: {
+    display: 'inline-block',
+    float: 'left',
+  },
+
+  followersSection: {
+    marginLeft: 32,
+  },
+
+  followingSection: {
+    marginRight: 32,
+    margin: '-28px 0 0 10px',
+    fontSize: 18,
+  },
+}
 const { getFollowers, getFollowed } = Follow
 const { uploadProfileImage, uploadBackgroundImage } = Images
 
@@ -77,7 +103,7 @@ class ReadFeedProfile extends PureComponent {
         result.push(
           <img
             className='camera-profile camera-transparent'
-            src='./image/camera-material-ui.png'
+            src='./image/upload-photo-icon.svg'
             key='camera'
           />
         )
@@ -95,7 +121,7 @@ class ReadFeedProfile extends PureComponent {
         result.push(
           <img
             className='camera-profile camera-transparent'
-            src='./image/camera-material-ui.png'
+            src='./image/upload-photo-icon.svg'
             key='camera'
           />
         )
@@ -103,23 +129,21 @@ class ReadFeedProfile extends PureComponent {
     } else if (isProfile && isUserLoggedIn) {
       {/** Derrick: Placeholder for profile image **/}
       result.push(
-        <img
-          className={type}
-          src={'./image/portrait2.png'}
+        <div
+          className='backgroundImage rf-profile-photo'
           key={type}
         />,
         <img
           className='camera-profile camera-solid'
-          src='./image/camera-material-ui.png'
+          src='./image/upload-photo-icon.svg'
           key='camera'
         />
       )
     } else {
       {/** Derrick: This is placeholder for background **/}
       result.push(
-        <img
-          src='./image/discover.jpg'
-          className='backgroundImage'
+        <div
+          className='backgroundImage rf-cover-photo'
           key={type}
         />
       )
@@ -141,8 +165,9 @@ class ReadFeedProfile extends PureComponent {
     const {
       followed,
       followers,
-      isUserLoggedIn,
     } = this.props
+
+    const isUserLoggedIn = Auth.currentUserExists()
 
     const cameraBackgroundClass = (backgroundImageUpload || hasBackgroundImage) ?
       'camera-transparent' :
@@ -165,13 +190,28 @@ class ReadFeedProfile extends PureComponent {
       'followed'
 
     return (
-      <Paper>
+      <div className='box'>
         <div className='profile-wrapper'>
           <div className='profile-top'>
             <div className='background-image-wrapper'> {/** dont remove this for hover to work **/}
               { this.renderImage(hasBackgroundImage, backgroundImageUpload, 'background') }
             </div>
+
+            <div className='overlay'>
+              <Dropzone onDrop={this.backgroundUpload} className='dropzone-background'>
+                {
+                  isUserLoggedIn ?
+                    <img
+                      className={R.concat('camera-background ', cameraBackgroundClass)}
+                      src='./image/upload-photo-icon.svg'
+                    /> : null
+                }
+              </Dropzone>
+            </div>
+          </div>
+
             <Dropzone onDrop={this.backgroundUpload} className='dropzone-background'>
+              <img src='./image/upload-photo-icon.svg' />
               {
                 isUserLoggedIn ?
                   <img
@@ -180,48 +220,67 @@ class ReadFeedProfile extends PureComponent {
                   /> : null
               }
             </Dropzone>
-          </div> <br />
+          </div>
           <div className='profile-bottom'>
-            <div>
               {/** Derrick: You can remove paper and add border instead if you want **/}
-              <div className='profile-image-wrapper' >
-                <Paper>
-                  <Dropzone onDrop={this.profileUpload} className='dropzone-profile'>
-                    { this.renderImage(hasProfileImage, profileImageUpload, 'profile') }
-                  </Dropzone>
-                </Paper>
+              <div style={styles.profileImageWrapper}>
+                <Dropzone onDrop={this.profileUpload} className='dropzone-profile'>
+                  { this.renderImage(hasProfileImage, profileImageUpload, 'profile') }
+                </Dropzone>
               </div>
+
+              <h4
+                style={styles.nameText}
+                className='profile-large-text profile-link'
+              >
+                Mary Reynolds
+              </h4>
+
+          <div style={styles.followContainer} className='follow-wrapper row center-text'>
               <div className='follow-wrapper row center-text'>
-                <h4> Mary Reynolds </h4>
+                <h4 style={styles.nameText}> Mary Reynolds </h4>
                 <div className='followers small-6 columns'>
-                  <div onClick={() => this.handleOpen('followers')}>
-                    <h4> {followersCount} </h4>
-                    <span>
+                  <div
+                    style={styles.followersSection}
+                    className='profile-link'
+                    onClick={() => this.handleOpen('followers')}
+                  >
+                    <span className='small-title'>
                       Followers
                     </span>
+                    <br />
+                    <span className='profile-large-text'> {followersCount} </span>
                   </div>
                 </div>
+
                 <div className='following small-6 columns'>
-                  <div onClick={() => this.handleOpen('following')}>
-                    <h4> {followedCount} </h4>
-                    <span>
-                      Following
+                  <div
+                    style={styles.followingSection}
+                    className='profile-link'
+                    onClick={() => this.handleOpen('following')}
+                  >
+                  <div className='profile-link' onClick={() => this.handleOpen('following')}>
+                    <span className='small-title'>
+                    Following
                     </span>
+                    <br />
+                    <span className='profile-large-text'> {followedCount} </span>
                   </div>
                 </div>
-              </div>
-              <div>
-                <FollowModal
-                  modalOpen={openedModal}
-                  handleClose={toCloseModal}
-                  count={modalFollowCount}
-                  followType={modalFollowType}
-                />
+
               </div>
             </div>
           </div>
         </div>
-      </ Paper>
+          <div>
+            <FollowModal
+              modalOpen={openedModal}
+              handleClose={toCloseModal}
+              count={modalFollowCount}
+              followType={modalFollowType}
+            />
+          </div>
+        </div>
     )
   }
 }
