@@ -8,7 +8,6 @@ import ShareIcon from 'material-ui/svg-icons/social/share'
 import {
   Card,
   CardActions,
-  CardHeader,
   CardText,
   Popover,
 } from 'material-ui'
@@ -112,11 +111,21 @@ class TileDefault extends PureComponent {
     return comments.map(comment => {
       return (
         <Card key={`${comment.name}-${comment.id}`}>
-          <CardHeader
-            title={comment.name}
-            subtitle={comment.timestamp}
-            avatar={comment.authorImage}
-          />
+          <div className='comment-header-container'>
+            <figure className='comment-figure-container'>
+              <a href=''>
+                <img className='comment-img' src={comment.authorImage}/>
+              </a>
+            </figure>
+            <div className='comment-details-container'>
+              <a href='' className='comment-author-anchor'>
+                {comment.name}
+              </a>
+              <span className='comment-timestamp'>
+                {comment.timestamp}
+              </span>
+            </div>
+          </div>
           <CardText>
             {comment.content}
           </CardText>

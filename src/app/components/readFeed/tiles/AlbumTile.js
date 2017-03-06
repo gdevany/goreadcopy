@@ -15,7 +15,7 @@ const comments = {
   results: [{
     id: 2,
     name: 'Julia Jules',
-    authorImage: '.../image/path',
+    authorImage: './image/kendunn.jpg',
     commentImage: '.../commentImage/path', // if they posted an image with their post
     timestamp: '3 minutes ago',
     content: 'sooo cool!'
@@ -23,7 +23,7 @@ const comments = {
   {
     id: 3,
     name: 'Larry Rules',
-    authorImage: '.../image/path',
+    authorImage: './image/kendunn.jpg',
     commentImage: '.../commentImage/path', // if they posted an image with their post
     timestamp: '2 hours ago',
     content: 'This is wow, just wow!',
@@ -31,7 +31,7 @@ const comments = {
   {
     id: 5,
     name: 'Berry Shmules',
-    authorImage: '.../image/path',
+    authorImage: './image/kendunn.jpg',
     commentImage: '.../commentImage/path', // if they posted an image with their post
     timestamp: '5 seconds ago',
     content: 'AMAAAAZING.',

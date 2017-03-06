@@ -391,3 +391,33 @@
     width: 100%;
   }
 }
+
+.comment-header-container{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  padding: 1em;
+  .comment-figure-container{
+    width: 42px;
+    a{
+      .comment-img{
+        border-radius: 5px;
+        border: solid 1px #dedede;
+      }
+    }
+  }
+  .comment-details-container{
+    margin-left: 1em;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    .comment-author-anchor{
+      font-weight: 600;
+    }
+    .comment-timestamp{
+      font-size: 13px;      
+    }
+  }
+}
