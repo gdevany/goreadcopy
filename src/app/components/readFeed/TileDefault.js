@@ -213,6 +213,7 @@ class TileDefault extends PureComponent {
       timestamp,
       comments,
       content,
+      promoted,
     } = this.props
 
     const shareUrl = 'https://www.goread.com/'
@@ -231,11 +232,13 @@ class TileDefault extends PureComponent {
                 <span className='tile-actor-name'>
                   <a href=''>{name}</a>
                 </span>
-                <span className='tile-actor-action'>{description}</span>
+                <span className='tile-actor-action'>
+                  { promoted ? null : description }
+                </span>
               </div>
               <div className='tile-actor-timestamp'>
                 <span>
-                  {timestamp}
+                  { promoted ? 'Promoted' : timestamp }
                 </span>
               </div>
             </div>
