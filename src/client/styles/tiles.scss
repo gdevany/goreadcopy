@@ -4,6 +4,30 @@
   width: 100%;
 }
 
+.base-tile-sidebar-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 1em;
+  padding: 1em;
+  .sidebar-content{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+    .sidebar-title{
+      font-size: 17px;
+      width: 100%;
+      text-align: left;
+      margin: .5em 0;
+      font-weight: 600;
+    }
+  }
+}
+
 .base-tile-container{
   display: flex;
   justify-content: center;
