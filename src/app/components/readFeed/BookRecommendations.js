@@ -5,6 +5,16 @@ import Book from '../home/Book'
 import { ExternalRoutes } from '../../constants'
 import R from 'ramda'
 
+const styles = {
+  container: {
+    textAlign: 'left',
+  },
+
+  book: {
+    marginBottom: 30,
+  },
+}
+
 const { bookStore } = ExternalRoutes
 const { getBookRecommendations } = Books
 
@@ -16,7 +26,7 @@ class BookRecommendations extends PureComponent {
   renderBooks(books) {
     return R.take(4, books).map(book => {
       return (
-        <div className='small-6 columns' key={book.id}>
+        <div style={styles.book} className='small-6 columns' key={book.id}>
           <Book book={book} />
         </div>
       )
@@ -28,17 +38,19 @@ class BookRecommendations extends PureComponent {
     const books = recommended ? recommended.books : null
 
     return (
-      <div className='left-container small-12 columns'>
-        <div className='lead'>
+      <div className='left-container box small-12 columns'>
+
+        <div className='rec-header'>
           <h4> {"We think you'll love these books"} </h4>
         </div>
+
         {/** Derrick, feel free to change how it's rendered in different views: **/}
-        <div className='row small-up-1 medium-up-2 large-up-2'>
+        <div style={styles.container} className='row small-up-1 medium-up-2 large-up-2'>
           { books ? this.renderBooks(books) : null }
         </div>
-        <div>
+        <div className='sub-link'>
           <a href={bookStore()}>
-            See more books >
+            See more books
           </a>
         </div>
       </div>

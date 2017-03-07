@@ -5,6 +5,7 @@ import R from 'ramda'
 import { Colors } from '../../constants/style'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { Search } from '../../redux/actions'
+import { debounce } from 'lodash'
 
 const { mainSearch, updateSearch } = Search
 
@@ -31,14 +32,20 @@ class SearchModal extends Component {
       searchTerm: '',
     }
     this.handleOnChange = this.handleOnChange.bind(this)
+    this.debouncedSearch = this.debouncedSearch.bind(this)
   }
 
   handleOnChange = R.curry((field, e) => {
+    e.persist()
     this.setState({ [field]: e.target.value })
-    if (e.target.value.length > 3) {
-      this.props.mainSearch(e.target.value)
-    }
+    this.debouncedSearch(e)
   })
+
+  debouncedSearch = debounce((event) => {
+    if (event.target.value.length > 3) {
+      this.props.mainSearch(event.target.value)
+    }
+  }, 300)
 
   renderSearchResults = () => {
     const searchTerms = this.props.searchResults

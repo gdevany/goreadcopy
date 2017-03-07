@@ -18,6 +18,8 @@ const Endpoints = () => {
       likedAuthors: (params) => apiUrl('current_reader/liked_authors', params),
     },
     jwtRefresh: () => apiUrl('token/refresh'),
+    jwtAuth: () => apiUrl('token/auth'),
+    jwtVerify: () => apiUrl('token/verify'),
     redirect: () => apiUrl('onboarding/redirect'),
   }
 

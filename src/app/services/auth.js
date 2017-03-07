@@ -13,12 +13,17 @@ const Auth = () => {
     return Storage.get(TOKEN_FIELD)
   }
 
+  const deleteToken = () => {
+    Storage.remove(TOKEN_FIELD)
+  }
+
   const currentUserExists = () => !!token()
 
   return {
     currentUserExists,
     token,
     setToken,
+    deleteToken,
   }
 }
 

@@ -1,21 +1,28 @@
 import React, { PureComponent } from 'react'
-import Radium from 'radium'
 import { stack as MobileMenu } from 'react-burger-menu'
 import { Link } from 'react-router'
+import { Auth } from '../../redux/actions'
+import { connect } from 'react-redux'
 import R from 'ramda'
 import SecondaryButton from './SecondaryButton'
-import {
-  Popover,
-  Menu,
-  MenuItem
-} from 'material-ui'
+import { Popover, Menu, MenuItem } from 'material-ui'
 import { ExternalRoutes as routes, PopularTopics } from '../../constants'
+import SearchModal from './SearchModal'
 import { Colors } from '../../constants/style'
 import SignUpModal from './SignUpModal'
+import LogInModal from './SignInModal'
 import AuthedRedirect from './AuthedRedirect'
+import HomeIcon from 'material-ui/svg-icons/action/home'
+import SearchIcon from 'material-ui/svg-icons/action/search'
+import MenuIcon from 'material-ui/svg-icons/navigation/menu'
+import ChatIcon from 'material-ui/svg-icons/communication/chat-bubble-outline'
+import NotificationsIcon from 'material-ui/svg-icons/social/notifications-none'
+import Badge from 'material-ui/Badge'
+
 import './styles/mobile-menu.scss'
 
 const { CATEGORIES, GENRES } = PopularTopics
+const { processUserLogout } = Auth
 
 const styles = {
   navContainer: {
@@ -28,11 +35,20 @@ const styles = {
   navLinks: {
     padding: 20,
   },
+
   navItemLinks: {
     fontWeight: 200,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+
+  logNavItemLink: {
+    fontWeight: 200,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: '0.5em 0',
   },
 
   navUl: {
@@ -66,6 +82,13 @@ const styles = {
       color: Colors.blue,
     },
   },
+  profileImageBadge: {
+    width: '42px',
+    margin: '0 auto',
+    height: '42px',
+    borderRadius: '100%',
+    border: 'solid 2px #696969',
+  },
 }
 
 const {
@@ -73,7 +96,6 @@ const {
   childrensLiteracy,
   authors,
   bookStore,
-  login,
   news,
 } = routes
 
@@ -84,9 +106,17 @@ class NavMenu extends PureComponent {
     this.state = {
       open: false,
       modalOpen: false,
+      modalLogInOpen: false,
+      profileMenuOpen: false,
+      searchModalOpen: false,
     }
 
     this.handleModalClose = this.handleModalClose.bind(this)
+    this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
+    this.handleProfileMenuShow = this.handleProfileMenuShow.bind(this)
+    this.handleProfileMenuHide = this.handleProfileMenuHide.bind(this)
+    this.handleLogoutClick = this.handleLogoutClick.bind(this)
+    this.handleClickSearch = this.handleClickSearch.bind(this)
   }
 
   handleModalOpen = () => {
@@ -95,6 +125,15 @@ class NavMenu extends PureComponent {
 
   handleModalClose = () => {
     this.setState({ modalOpen: false })
+  }
+
+  handleLogInModalOpen = (event) => {
+    event.preventDefault()
+    this.setState({ modalLogInOpen: true })
+  }
+
+  handleLogInModalClose = () => {
+    this.setState({ modalLogInOpen: false })
   }
 
   handleNavHover = (event) => {
@@ -108,6 +147,80 @@ class NavMenu extends PureComponent {
 
   handleRequestClose = () => {
     this.setState({ open: false })
+  }
+
+  handleProfileMenuShow = () => {
+    if (!this.state.profileMenuOpen) {
+      this.setState({ profileMenuOpen: true })
+    } else {
+      this.setState({ profileMenuOpen: false })
+    }
+  }
+
+  handleProfileMenuHide = () => {
+    this.setState({ profileMenuOpen: false })
+  }
+
+  handleClickSearch = (event) => {
+    event.preventDefault()
+    this.setState({ searchModalOpen: true })
+  }
+
+  handleSearchClose = () => {
+    this.setState({ searchModalOpen: false })
+  }
+
+  handleMapProfileMenuItems = () => {
+    const { orders, referrals, settings, help } = routes
+
+    const nonMenuRoutes = [
+      ['Orders', orders],
+      ['Referrals', referrals],
+      ['Settings', settings],
+      ['Help', help],
+    ]
+
+    const NonMenuItem = ([title, routeFn], index) => (
+      <li className='profile-menu-element' key={title + index}>
+        <a
+          className='profile-menu-anchor'
+          href={routeFn()}
+        >
+          {title}
+        </a>
+      </li>
+    )
+
+    return R.map(NonMenuItem, nonMenuRoutes)
+
+  }
+
+  handleLogoutClick(event) {
+    event.preventDefault()
+    this.props.processUserLogout()
+  }
+
+  userProfileMenu = () => {
+    const { currenReader } = this.props
+    return (
+      <ul
+        className='profile-menu-container'
+        onMouseLeave={this.handleProfileMenuHide}
+      >
+        <li className='profile-menu-element'>
+          <a href={currenReader.url} className='profile-menu-anchor'>
+            View Profile
+          </a>
+        </li>
+        <hr className='profile-menu-divider' />
+        { this.handleMapProfileMenuItems() }
+        <li className='profile-menu-element'>
+          <a href='' className='profile-menu-anchor' onClick={this.handleLogoutClick}>
+            Logout
+          </a>
+        </li>
+      </ul>
+    )
   }
 
   handleMapNavItems = (categories, genres) => {
@@ -229,8 +342,328 @@ class NavMenu extends PureComponent {
     return R.map(NonMenuItem, nonMenuRoutes)
 
   }
+  mapElementsHandler = (liClass, anchorClass) => {
+    return ([title, routeFn], index) => (
+      <li className={liClass} key={title + index}>
+        <a
+          className={anchorClass}
+          href={routeFn()}
+        >
+          {title}
+        </a>
+      </li>
+    )
+  }
 
+  handleMapProfileMenuItems = () => {
+    const liClass = 'profile-menu-element'
+    const anchorClass = 'profile-menu-anchor'
+    const { orders, referrals, settings, help } = routes
+    const nonMenuRoutes = [
+      ['Orders', orders],
+      ['Referrals', referrals],
+      ['Settings', settings],
+      ['Help', help],
+    ]
+    const NonMenuItem = this.mapElementsHandler(liClass, anchorClass)
+
+    return R.map(NonMenuItem, nonMenuRoutes)
+
+  }
+
+  mapMobileMenuItems = (type) => {
+    const liClass = 'links-list'
+    const anchorClass = 'links-anchor'
+    const {
+      myBookClubs,
+      bookStore,
+      myOrders,
+      news,
+      articles,
+      booksWithKen,
+      childrensLiteracy,
+      videoTutorials,
+      referrals,
+      games,
+      settings,
+      help
+    } = routes
+    let nonMenuRoutes
+
+    if (type === 'Explore') {
+      nonMenuRoutes = [
+        ['My Book Clubs', myBookClubs],
+        ['Book Store', bookStore],
+        ['My Orders', myOrders],
+        ['News', news],
+        ['Articles', articles],
+        ['Books With Ken', booksWithKen],
+        ['Children\'s Literacy', childrensLiteracy],
+        ['Video Tutorials', videoTutorials],
+        ['Referrals', referrals],
+        ['Games', games],
+      ]
+    }
+    if (type === 'Help') {
+      nonMenuRoutes = [
+        ['Settings', settings],
+        ['Help', help],
+      ]
+    }
+
+    const NonMenuItem = this.mapElementsHandler(liClass, anchorClass)
+
+    return R.map(NonMenuItem, nonMenuRoutes)
+
+  }
+
+  mapMobileMenuFooterItems = () => {
+    const { advertisers, authorEnrollment, publishers, media } = routes
+
+    const nonMenuRoutes = [
+      ['Advertising', advertisers],
+      ['Author Enrollment', authorEnrollment],
+      ['Publisher Enrollment', publishers],
+      ['Media', media],
+    ]
+    const NonMenuItem = ([title, routeFn], index) => (
+      <a href={routeFn()} className='footer-anchor' key={title + index}>
+        {title}
+      </a>
+    )
+    return R.map(NonMenuItem, nonMenuRoutes)
+  }
+
+  handleMenuClick = (event) => {
+    event.preventDefault()
+    if (this.state.isMobileMenuOpen) {
+      this.setState({ isMobileMenuOpen: false })
+    } else {
+      this.setState({ isMobileMenuOpen: true })
+    }
+  }
+
+  renderLogInMenu = () => {
+    const { currenReader } = this.props
+    return (
+      <div className='slide-down'>
+        <div style={styles.mobileNavContainer} className='top-bar-mobile'>
+          <nav className='nav-menu-logged'>
+            <ul className='nav-menu-logged-container'>
+              <li className='nav-menu-logged-list'>
+                <a href='' className='nav-menu-logged-anchor'>
+                  <HomeIcon/>
+                </a>
+              </li>
+              <li className='nav-menu-logged-list'>
+                <a
+                  className='nav-menu-logged-anchor'
+                  onClick={this.handleClickSearch}
+                >
+                  <SearchIcon/>
+                </a>
+              </li>
+              <li className='nav-menu-logged-list'>
+                <a href='' className='nav-menu-logged-anchor'>
+                  <ChatIcon/>
+                </a>
+              </li>
+              <li className='nav-menu-logged-list'>
+                <a
+                  href=''
+                  className='nav-menu-logged-anchor menu-badge-container'
+                >
+                  <Badge
+                    badgeContent={10}
+                    primary={true}
+                    badgeStyle={{
+                      top: -10,
+                      right: -10,
+                      width: '18px',
+                      height: '18px',
+                    }}
+                  >
+                    <NotificationsIcon />
+                  </Badge>
+                </a>
+              </li>
+              <li className='nav-menu-logged-list'>
+                <a href='' className='nav-menu-logged-anchor'>
+                  <MenuIcon onClick={this.handleMenuClick}/>
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <MobileMenu
+            customBurgerIcon={false}
+            customCrossIcon={false}
+            id={'mobile-menu-logged'}
+            isOpen={this.state.isMobileMenuOpen}
+            width={300}
+          >
+            <div className='profile-section-container'>
+              <div className='first-row-elements'>
+                <a href='' className='profile-badge-anchor'>
+                  <figure className='profile-badge-container'>
+                    <img
+                      src={currenReader.profileImage}
+                      className='profile-badge-img'
+                      alt=''
+                    />
+                  </figure>
+                </a>
+                <a href='' className='profile-name-anchor'>
+                  <span>{currenReader.firstName} {currenReader.lastName}</span>
+                </a>
+              </div>
+              <div className='second-row-elements'>
+                <div className='follows-container'>
+                  <span>0 Followers</span>
+                </div>
+                <div className='follows-container'>
+                  <span>10 Following</span>
+                </div>
+              </div>
+              <div className='third-row-elements'>
+                <a href='' className='litcoin-balance-anchor'>
+                  <span>{currenReader.litcoinBalance}</span>
+                  <img className='litcoin-img' src='./image/litcoin.png' />
+                </a>
+              </div>
+            </div>
+            <div className='explore-links-container'>
+              <ul className='links-container'>
+                <span className='links-title'>
+                  Explore
+                </span>
+                {this.mapMobileMenuItems('Explore')}
+              </ul>
+              <ul className='links-container'>
+                <span className='links-title'>
+                  Help & Settings
+                </span>
+                {this.mapMobileMenuItems('Help')}
+                <li className='links-list'>
+                  <a href='#' className='links-anchor'>
+                    Logout
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className='footer-links-container'>
+              {this.mapMobileMenuFooterItems()}
+            </div>
+          </MobileMenu>
+        </div>
+        <div style={styles.navContainer} className='top-bar'>
+          <div style={styles.insideNavContainer} className='top-bar-logged-menu'>
+            <div className='top-bar-left'>
+              <ul style={styles.navUl} className='menu'>
+                <li className='align-middle'>
+                  <Link to='/'>
+                    <img src='./image/logo.png' />
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div className='top-bar-center-items'>
+              <ul className='menu'>
+
+                <li
+                  style={styles.loggedInNavLi}
+                  className='loged-menu-item loged-menu-item-active home'
+                >
+                  <Link to='/' style={styles.navItemLinks} className='home-link rf-nav-link'>
+                    Home
+                  </Link>
+                </li>
+
+                <li style={styles.loggedInNavLi} className='loged-menu-item'>
+                  <a href='' style={styles.navItemLinks} className='messages-link rf-nav-link'>
+                    Messages
+                  </a>
+                </li>
+
+                <li style={styles.loggedInNavLi} className='loged-menu-item'>
+                  <a
+                    style={styles.navItemLinks}
+                    className='search-link rf-nav-link'
+                    onClick={this.handleClickSearch}
+                  >
+                    Search
+                  </a>
+                </li>
+
+              </ul>
+            </div>
+
+            <div className='top-bar-right'>
+              <ul className='menu'>
+
+                <li style={styles.loggedInRightNavLi}>
+                  <a href='' style={styles.rightNavLinks} className='rf-nav-link'>
+                    <span>{currenReader.litcoinBalance}</span>
+                    <img className='litcoin-nav-img' src='./image/litcoin.png' />
+                  </a>
+                </li>
+
+                <li style={styles.loggedInRightNavLi}>
+                  <a
+                    href=''
+                    style={styles.navItemLinks}
+                    className='menu-badge-container rf-nav-link'
+                  >
+                    <Badge
+                      badgeContent={10}
+                      primary={true}
+                      badgeStyle={{
+                        top: -4,
+                        right: -4,
+                        width: '20px',
+                        height: '20px',
+                        paddingTop: 1,
+                        fontWeight: 700,
+                        backgroundColor: Colors.red,
+                      }}
+                    >
+                      <img src='./image/notifications-icon.svg' />
+                    </Badge>
+                  </a>
+                </li>
+
+                <li style={styles.loggedInRightNavLi} className='profile-menu-badge'>
+                  <a
+                    style={styles.rightNavLinks}
+                    onClick={this.handleProfileMenuShow}
+                  >
+                    <img
+                      src={currenReader.profileImage}
+                      style={styles.profileImageBadge}
+                    />
+                  </a>
+                  { this.state.profileMenuOpen ?
+                    this.userProfileMenu() : null}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <SearchModal
+          modalOpen={this.state.searchModalOpen}
+          handleClose={this.handleSearchClose}
+        />
+      </div>
+    )
+  }
   render() {
+    const { isUserLoggedIn, currenReader } = this.props
+
+    if (isUserLoggedIn || currenReader.litcoinBalance) {
+      return (
+        this.renderLogInMenu()
+      )
+    }
     return (
       <div className='slide-down'>
         <div style={styles.mobileNavContainer} className='top-bar-mobile'>
@@ -256,7 +689,7 @@ class NavMenu extends PureComponent {
             <ul className='menu'>
 
               <li style={styles.rightNavItems} className='link nav-item'>
-                <a href={login()}>
+                <a href='' onClick={this.handleLogInModalOpen}>
                   Log In
                 </a>
               </li>
@@ -272,6 +705,10 @@ class NavMenu extends PureComponent {
                 modalOpen={this.state.modalOpen}
                 handleClose={this.handleModalClose}
               />
+              <LogInModal
+                modalOpen={this.state.modalLogInOpen}
+                handleClose={this.handleLogInModalClose}
+              />
             </ul>
 
           </div>
@@ -281,4 +718,10 @@ class NavMenu extends PureComponent {
   }
 }
 
-export default Radium(NavMenu)
+const mapStateToProps = (state) => {
+  return {
+    currenReader: state.currentReader
+  }
+}
+
+export default connect(mapStateToProps, { processUserLogout })(NavMenu)

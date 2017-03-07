@@ -1,3 +1,4 @@
+export Auth from './auth'
 export Books from './books'
 export CurrentReader from './currentReader'
 export Genres from './genres'
