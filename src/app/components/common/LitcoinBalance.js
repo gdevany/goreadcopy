@@ -85,10 +85,10 @@ class LitcoinBalance extends PureComponent {
       <div style={styles.container}>
 
         <div ref='total'>
-          <h2 style={styles.litcoinText}>
-            {total}
-            <img className='litcoin-img' src='./image/litcoin.png' />
-          </h2>
+          <a style={styles.litcoinText} className='rf-nav-link'>
+            <span>{total}</span>
+            <img className='litcoin-nav-img' src='./image/litcoin.png' />
+          </a>
         </div>
         {
           shouldRenderPopover ?
@@ -129,10 +129,10 @@ class LitcoinBalance extends PureComponent {
         }
 
         <div className={this.state.litcoinClass}>
-          <h2 style={styles.litcoinText}>
+          <a style={styles.litcoinText} className='litcoin-balance-anchor'>
             + {selected}
-            <img className='litcoin-img' src='./image/litcoin.png' />
-          </h2>
+            <img className='litcoin-nav-img' src='./image/litcoin.png' />
+          </a>
         </div>
 
       </div>

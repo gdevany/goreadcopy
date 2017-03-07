@@ -527,7 +527,7 @@ class NavMenu extends PureComponent {
               <div className='third-row-elements'>
                 <a href='' className='litcoin-balance-anchor'>
                   <span>{currenReader.litcoinBalance}</span>
-                  <img className='litcoin-img' src='./image/litcoin.png' />
+                  <img className='litcoin-nav-img' src='./image/litcoin.png' />
                 </a>
               </div>
             </div>
