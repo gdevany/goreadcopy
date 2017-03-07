@@ -75,6 +75,11 @@ class AdvertisingTile extends PureComponent {
               </p>
             </div>
           </div>
+          <div className='action-btn-container'>
+            <a href='#' className='adv-learn-more-btn'>
+              Learn more
+            </a>
+          </div>
         </div>
       </TileDefault>
     )

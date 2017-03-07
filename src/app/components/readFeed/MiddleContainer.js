@@ -12,7 +12,8 @@ import {
   VideoTile,
   BookProductTile,
   AdvertisingTile,
-  BookClubTile
+  BookClubTile,
+  AdsenseTile
 } from './tiles'
 
 const MiddleContainer = () => {
@@ -31,6 +32,7 @@ const MiddleContainer = () => {
       <BookProductTile />
       <AdvertisingTile />
       <BookClubTile />
+      <AdsenseTile />
     </div>
   )
 }
