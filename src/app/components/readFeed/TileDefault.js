@@ -2,6 +2,7 @@ import React, { PureComponent, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Tiles } from '../../redux/actions'
 import { PrimaryButton } from '../common'
+import { Colors } from '../../constants/style'
 import {
   Card,
   CardActions,
@@ -32,6 +33,111 @@ const styles = {
   popover: {
     borderRadius: 9,
     boxShadow: 'rgba(0, 0, 0, 0.1) 0px 2px 20px',
+  },
+
+  headerContainer: {
+    padding: 30,
+    textAlign: 'left',
+  },
+
+  commentHeaderContainer: {
+    padding: '30px 30px 15px',
+    textAlign: 'left',
+  },
+
+  card: {
+    boxShadow: 'rgba(0, 0, 0, 0.1) 0px 2px 20px',
+  },
+
+  nameText: {
+    color: Colors.blue,
+    display: 'inline',
+    fontSize: 14,
+    fontWeight: 600,
+  },
+
+  postText: {
+    display: 'inline',
+    marginLeft: 6,
+  },
+
+  commentTimeStamp: {
+    display: 'inline',
+    marginLeft: 10,
+  },
+
+  timeStamp: {
+    fontSize: 14,
+    color: Colors.grey,
+    position: 'absolute',
+    left: 85,
+    top: 53,
+  },
+
+  textContainer: {
+    marginTop: -5,
+  },
+
+  contentContainer: {
+    padding: '0 30px',
+  },
+
+  socialContainer: {
+    margin: 0,
+  },
+
+  socialWrapper: {
+    borderTop: `2px solid ${Colors.lightGrey}`,
+    fontSize: 14,
+    padding: '20px 30px',
+  },
+
+  commentContainer: {
+    borderTop: `2px solid ${Colors.lightGrey}`,
+    padding: 0,
+  },
+
+  likesContainer: {
+    textAlign: 'left',
+    padding: 0,
+  },
+
+  shareContainer: {
+    textAlign: 'right',
+    padding: 0,
+  },
+
+  sharePopover: {
+    margin: 0,
+    padding: 20,
+    listStyle: 'none',
+  },
+
+  shareLink: {
+    marginBottom: 10,
+  },
+
+  shareButton: {
+    margin: '0 auto',
+  },
+
+  shareGoReadLink: {
+    margin: 0,
+  },
+
+  commentCard: {
+    boxShadow: 'none',
+  },
+
+  commentContent: {
+    padding: '0 30px',
+    marginLeft: 54,
+    textAlign: 'left',
+  },
+
+  postButton: {
+    float: 'right',
+    marginRight: 30,
   },
 }
 
@@ -108,13 +214,18 @@ class TileDefault extends PureComponent {
   handleRenderComments = (comments) => {
     return comments.map(comment => {
       return (
-        <Card key={`${comment.name}-${comment.id}`}>
+        <Card key={`${comment.name}-${comment.id}`} style={styles.commentCard}>
           <CardHeader
             title={comment.name}
-            subtitle={comment.timestamp}
+            titleStyle={styles.nameText}
+            style={styles.commentHeaderContainer}
             avatar={comment.authorImage}
-          />
-          <CardText>
+            textStyle={styles.textContainer}
+          >
+            <p style={styles.timeStamp}> {comment.timestamp} </p>
+          </CardHeader>
+
+          <CardText style={styles.commentContent}>
             {comment.content}
           </CardText>
         </Card>
@@ -168,17 +279,20 @@ class TileDefault extends PureComponent {
     const inputType = isComment ? 'commentInput' : 'shareInput'
     return (
       <div className='input-post-box'>
-        <input
+        <textarea
           type='text'
-          className='search-input'
-          placeholder='Share your thoughts'
+          className='post-input'
+          placeholder='Write a comment...'
           onChange={this.handleInputOnChange(`${inputType}`)}
           value={isComment ? commentInput : shareInput}
+          rows='2'
         />
-        <PrimaryButton
-          label={isComment ? 'Post' : 'Share'}
-          onClick={isComment ? this.handleCommentSubmit : this.handleShareSubmit}
-        />
+        <div style={styles.postButton}>
+          <PrimaryButton
+            label={isComment ? 'Post' : 'Share'}
+            onClick={isComment ? this.handleCommentSubmit : this.handleShareSubmit}
+          />
+        </div>
       </div>
     )
   }
@@ -208,53 +322,80 @@ class TileDefault extends PureComponent {
     return (
       <div className='tile-default-wrapper'>
         <div className='tile-default-top'>
-          <Card expanded={commentsOpen}>
+          <Card expanded={commentsOpen} style={styles.card}>
+
             <CardHeader
               title={name}
+              titleStyle={styles.nameText}
               subtitle={description}
+              subtitleStyle={styles.postText}
+              style={styles.headerContainer}
+              textStyle={styles.textContainer}
               avatar={profileImage}
               actAsExpander={true}
             >
-              <span> {timestamp} </span>
+              <span style={styles.timeStamp}> {timestamp} </span>
             </CardHeader>
-            <CardText>
+
+            <CardText style={styles.contentContainer}>
               {this.props.children}
             </CardText>
-            <CardActions>
-              <div className='likes-count'>
-                <a
-                  onClick={this.handleLiked}
-                  className={liked ? 'liked' : 'not-liked'}
-                >
-                {/** TODO: Derrick insert heart icon here **/}
-                {liked ? 'LIKED' : 'NOT LIKED'}
-                </a> {likedCount}
-              </div>
-              <div
-                className='comments-count'
-              >
-                <a
-                  onClick={this.handleCommentsOpen}
-                >
-                  {/** TODO: Derrick insert comment icon here **/}
-                  {commented ? 'COMMENTED' : 'NOT COMMENTED'}
-                </a> {commentedCount}
-              </div>
-              <div className='shared-count'>
-                <a
-                  onClick={this.handleShareOpen}
-                >
-                <span ref='share'>
-                  {/** TODO: Derrick insert share icon here **/}
-                  SHARES
-                </span>
-                </a> {sharedCount}
+
+            <CardActions style={styles.socialWrapper}>
+              <div style={styles.socialContainer} className='row'>
+
+                <div className='small-4 columns' style={styles.likesContainer}>
+                  <div className='likes-count'>
+                    <a
+                      onClick={this.handleLiked}
+                      className={liked ? 'liked' : 'not-liked'}
+                    />
+
+                  <span
+                    className={liked ? 'liked-number' : 'not-liked-number'}
+                  >
+                    {likedCount}
+                  </span>
+
+                  </div>
+                </div>
+
+                <div className='small-4 columns'>
+                  <div
+                    className='comments-count'
+                  >
+                    <a
+                      onClick={this.handleCommentsOpen}
+                      className={commented ? 'commented' : 'not-commented'}
+                    />
+
+                    <span
+                      className={commented ? 'commented-number' : 'not-commented-number'}
+                    >
+                    {commentedCount}
+                    </span>
+                  </div>
+                </div>
+
+                <div className='small-4 columns' style={styles.shareContainer}>
+                  <div className='shared-count'>
+                    <a
+                      onClick={this.handleShareOpen}
+                    >
+                    <span className='share' ref='share'>
+                      Share
+                    </span>
+                    </a> {sharedCount}
+                  </div>
+                </div>
+
               </div>
             </CardActions>
 
             <CardText
               className='comments-wrapper'
               expandable={true}
+              style={styles.commentContainer}
             >
               <div className='comments'>
                 {this.handleRenderComments(comments.results)}
@@ -280,8 +421,8 @@ class TileDefault extends PureComponent {
             zDepth={5}
             style={styles.popover}
           >
-            <ul>
-              <li>
+            <ul style={styles.sharePopover}>
+              <li style={styles.shareLink}>
                 <FacebookShareButton
                   url={shareUrl}
                   title={content.title}
@@ -293,7 +434,8 @@ class TileDefault extends PureComponent {
                   />
                 </FacebookShareButton>
               </li>
-              <li>
+
+              <li style={styles.shareLink}>
                 <TwitterShareButton
                   url={shareUrl}
                   title={content.title}
@@ -302,10 +444,12 @@ class TileDefault extends PureComponent {
                   <TwitterIcon
                     size={32}
                     round
+                    style={styles.shareButton}
                   />
                 </TwitterShareButton>
               </li>
-              <li>
+
+              <li style={styles.shareLink}>
                 <LinkedinShareButton
                   url={shareUrl}
                   title={content.title}
@@ -319,7 +463,8 @@ class TileDefault extends PureComponent {
                     />
                 </LinkedinShareButton>
               </li>
-              <li>
+
+              <li style={styles.shareLink}>
                 <GooglePlusShareButton
                   url={shareUrl}
                   className='google-plus-share-button'
@@ -330,7 +475,13 @@ class TileDefault extends PureComponent {
                   />
                 </GooglePlusShareButton>
               </li>
-              <li onClick={this.handleShareOpenGoRead}> GoRead </li>
+
+              <li
+                style={styles.shareGoReadLink}
+                onClick={this.handleShareOpenGoRead}
+              >
+              GoRead
+              </li>
             </ul>
           </Popover>
 
