@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
-import TileDefault from './TileDefault'
+import TileDefault from '../TileDefault'
 
 const name = 'JK Rowling'
-const description = 'posted on her page'
+const description = 'posted on Ken Dun\'s wall'
 const profileImage = './image/portrait3.png'
 const timestamp = '3 hours ago' // TODO: Need to know how time will be sent over
 const likes = {
@@ -45,30 +45,37 @@ const content = {
   details: 'These are the 5 best books in the industry!'
 }
 
-const tileId = 3
-
-{/**An example of what a tile would look like using TileDefault **/}
-class TileExample extends PureComponent {
+class StatusPostTile extends PureComponent {
   render() {
     return (
-      <div className='foobarbaz'>
-        <TileDefault
-          name={name}
-          description={description}
-          profileImage={profileImage}
-          timestamp={timestamp}
-          likes={likes}
-          comments={comments}
-          content={content}
-          tileId={tileId}
-        >
-          <h2> {content.title} </h2>
-          <img src={content.media} />
-          <p> {content.details}</p>
-        </TileDefault>
-      </div>
+      <TileDefault
+        name={name}
+        description={description}
+        profileImage={profileImage}
+        timestamp={timestamp}
+        likes={likes}
+        comments={comments}
+        content={content}
+      >
+        <div className='statuspost-tile-container'>
+          <figure className='statuspost-figure'>
+            <img className='statuspost-img' src='./image/image.jpg' alt=''/>
+          </figure>
+          <div className='statuspost-content'>
+            <div className='post-excerpt-container'>
+              <p className='post-excerpt-pharagraph'>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                Dignissimos ratione cum sapiente quas, voluptas doloribus aperiam
+                beatae placeat praesentium incidunt vitae inventore, rerum, enim
+                iste sit dolor minus aliquid veritatis...
+                <a href='#' className='post-readmore-anchor'>Read more</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </TileDefault>
     )
   }
 }
 
-export default TileExample
+export default StatusPostTile

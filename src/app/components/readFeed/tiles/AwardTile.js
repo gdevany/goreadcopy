@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
-import TileDefault from './TileDefault'
+import TileDefault from '../TileDefault'
 
 const name = 'JK Rowling'
-const description = 'posted on her page'
+const description = 'earned a new Award'
 const profileImage = './image/portrait3.png'
 const timestamp = '3 hours ago' // TODO: Need to know how time will be sent over
 const likes = {
@@ -45,30 +45,26 @@ const content = {
   details: 'These are the 5 best books in the industry!'
 }
 
-const tileId = 3
-
-{/**An example of what a tile would look like using TileDefault **/}
-class TileExample extends PureComponent {
+class AwardTile extends PureComponent {
   render() {
     return (
-      <div className='foobarbaz'>
-        <TileDefault
-          name={name}
-          description={description}
-          profileImage={profileImage}
-          timestamp={timestamp}
-          likes={likes}
-          comments={comments}
-          content={content}
-          tileId={tileId}
-        >
-          <h2> {content.title} </h2>
-          <img src={content.media} />
-          <p> {content.details}</p>
-        </TileDefault>
-      </div>
+      <TileDefault
+        name={name}
+        description={description}
+        profileImage={profileImage}
+        timestamp={timestamp}
+        likes={likes}
+        comments={comments}
+        content={content}
+      >
+        <div className='award-tile-container'>
+          <figure className='award-tile-figure'>
+            <img className='award-tile-img' src='./image/award.png' alt=''/>
+          </figure>
+        </div>
+      </TileDefault>
     )
   }
 }
 
-export default TileExample
+export default AwardTile

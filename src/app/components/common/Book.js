@@ -47,8 +47,8 @@ const Book = ({ book }) => {
       />
     )
   }
+  const author = book.authors.length ? book.authors[0].fullname : null
 
-  const author = `${book.authors[0].firstName} ${book.authors[0].lastName}`
   return (
     <div style={styles.bookSection}>
       <div
@@ -56,18 +56,18 @@ const Book = ({ book }) => {
         style={styles.bookImage}
         className='book-container'
       >
-        <a href={book.slug}>
+        <a href={book.link || book.slug}>
           <img className='book' src={book.imageUrl} />
         </a>
       </div>
       <div style={styles.tooltip}>
         <a href={book.slug}>
           <span className='link'>
-            {truncInfo(book.title, 30)}
+            {book.title ? truncInfo(book.title, 30) : null}
           </span>
           <br />
           <span className='link subheader' style={styles.tooltipAuthor}>
-            by {truncInfo(author, 15)}
+            by { author ? truncInfo(author, 15) : <i> unknown </i>}
           </span> <br />
           <span className='rating' >
             {renderRating(Math.round(book.rating.average))}

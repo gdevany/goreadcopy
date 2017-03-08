@@ -19,7 +19,7 @@ h2 {
 }
 
 h4 {
-  font-size: 18;
+  font-size: 18px;
   font-weight: 400;
 }
 
@@ -78,4 +78,9 @@ a {
 .sublink {
   font-size: 14px;
   color: $grey;
+}
+
+.rec-header {
+  margin-bottom: 23px;
+  text-align: left;
 }

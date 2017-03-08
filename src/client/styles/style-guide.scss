@@ -78,10 +78,14 @@ input[type="checkbox"]:focus{
 }
 
 .read-feed {
-  padding-top: 30px;
+  padding-top: 80px;
+  @media all and (min-width: 1200px){
+    padding-top: 30px;
+  }
 }
 
 .box {
+  padding: 30px;
   border-radius: 5px;
   box-shadow: rgba(222, 222, 222, 0.5) 0px 4px 20px 0px;
 }
@@ -105,6 +109,14 @@ input[type="checkbox"]:focus{
   }
 }
 
+.sub-link {
+  text-align: left;
+  font-size: 14px;
+  a {
+    color: $grey;
+  }
+}
+
 .search-icon {
   &:before {
     content: '';
@@ -116,6 +128,11 @@ input[type="checkbox"]:focus{
     right: 15px;
     top: 11px;
   }
+}
+
+.signup-modal-content{
+  height: 100vh !important;
+  max-height: none !important;
 }
 
 @import 'variables.scss';
@@ -133,4 +150,5 @@ input[type="checkbox"]:focus{
 @import 'left-hand-links.scss';
 @import 'typography.scss';
 @import 'read-feed-profile.scss';
-@import 'search-modal.scss'
+@import 'search-modal.scss';
+@import 'tiles.scss';
