@@ -1,7 +1,6 @@
 import { BOOKS as A } from '../const/actionTypes'
 import { Deserialization } from '../../services'
 import { Books } from '../../services/api'
-import { Promise } from '../../services'
 import CurrentReaderRecommendation from '../../services/api/currentReader/recommendation'
 import { updateCurrentReaderRecommendation } from './currentReader'
 
@@ -17,119 +16,19 @@ export function getBooks(params) {
   }
 }
 
-export function getBookRecommendations() {
+export function getBookRecommendations(amount) {
   return dispatch => {
-    //TODO: implement API endpoint here
-    const books = [
-      {
-        id: 12,
-        title: 'Harry Potter',
-        imageUrl: './image/example2.png',
-        link: 'www.goread.com',
-        rating: {
-          average: 5
-        },
-        authors: [
-          {
-            id: 10,
-            firstName: 'JK',
-            lastName: 'Rowling',
-          }
-        ]
-      },
-      {
-        id: 2,
-        title: 'Guilty',
-        imageUrl: './image/example1.png',
-        link: 'www.goread.com',
-        rating: {
-          average: 3
-        },
-        authors: [
-          {
-            id: 5,
-            firstName: 'David',
-            lastName: 'Baldacci',
-          }
-        ]
-      },
-      {
-        id: 7,
-        title: 'The Nest',
-        imageUrl: './image/example3.png',
-        link: 'www.goread.com',
-        rating: {
-          average: 4
-        },
-        authors: [
-          {
-            id: 1,
-            firstName: 'Some',
-            lastName: 'Rowling',
-          }
-        ]
-      },
-      {
-        id: 3,
-        title: 'Harry Potter',
-        imageUrl: './image/example2.png',
-        link: 'www.goread.com',
-        rating: {
-          average: 5
-        },
-        authors: [
-          {
-            id: 15,
-            firstName: 'JK',
-            lastName: 'Rowling',
-          }
-        ]
-      },
-      {
-        id: 1,
-        title: 'Guilty',
-        imageUrl: './image/example1.png',
-        link: 'www.goread.com',
-        rating: {
-          average: 3
-        },
-        authors: [
-          {
-            id: 19,
-            firstName: 'David',
-            lastName: 'Baldacci',
-          }
-        ]
-      },
-      {
-        id: 8,
-        title: 'The Nest',
-        imageUrl: './image/example3.png',
-        link: 'www.goread.com',
-        rating: {
-          average: 4
-        },
-        authors: [
-          {
-            id: 30,
-            firstName: 'Some',
-            lastName: 'Rowling',
-          }
-        ]
-      },
-    ]
-
-    return Promise.resolve(dispatch(updateCurrentReaderRecommendation({ books })))
-      .catch(err => console.log(`Error in getBookRecommendations ${err}`))
-
+    CurrentReaderRecommendation.getBookRecommendations({ perPage: amount })
+      .then(res => dispatch(updateCurrentReaderRecommendation({ books: res.data.results })))
+      .catch(err => console.log(`Error in getBookRecommendations: ${err}`))
   }
 }
 
 export function getBookClubRecommendations(amount) {
   return dispatch => {
-    CurrentReaderRecommendation.getBookClubRecommenation({ perPage: amount })
+    CurrentReaderRecommendation.getBookClubRecommendations({ perPage: amount })
       .then(res => dispatch(updateCurrentReaderRecommendation({ bookClubs: res.data.results })))
-      .catch(err => console.log(`Error in getBookClubRecommenation: ${err}`))
+      .catch(err => console.log(`Error in getBookClubRecommendations: ${err}`))
   }
 }
 

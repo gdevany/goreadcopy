@@ -78,13 +78,14 @@ input[type="checkbox"]:focus{
 }
 
 .read-feed {
-  padding-top: 80px;  
+  padding-top: 80px;
   @media all and (min-width: 1200px){
     padding-top: 30px;
   }
 }
 
 .box {
+  padding: 30px;
   border-radius: 5px;
   box-shadow: rgba(222, 222, 222, 0.5) 0px 4px 20px 0px;
 }
@@ -105,6 +106,14 @@ input[type="checkbox"]:focus{
 
   @media all and (max-width: 1024px){
     width: 100%;
+  }
+}
+
+.sub-link {
+  text-align: left;
+  font-size: 14px;
+  a {
+    color: $grey;
   }
 }
 

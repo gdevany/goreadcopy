@@ -16,7 +16,7 @@ const styles = {
 
 class BookClubRecommendations extends PureComponent {
   componentWillMount = () => {
-    this.props.getBookClubRecommendations()
+    this.props.getBookClubRecommendations(3)
   }
 
   renderBookClubs(bookClubs) {
