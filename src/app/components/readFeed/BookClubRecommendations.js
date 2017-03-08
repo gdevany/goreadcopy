@@ -14,7 +14,11 @@ const styles = {
     float: 'left',
     width: '30%',
     marginRight: 15,
-  }
+  },
+
+  recContainer: {
+    marginTop: 20,
+  },
 }
 
 const { myBookClubs } = ExternalRoutes
@@ -52,7 +56,7 @@ class BookClubRecommendations extends PureComponent {
     const bookClubs = recommended ? recommended.bookClubs : null
 
     return (
-      <div className='left-container small-12 box columns'>
+      <div className='left-container small-12 box columns' style={styles.recContainer}>
         <div className='rec-header'>
           <h4> Check out these Book Clubs </h4>
         </div>
