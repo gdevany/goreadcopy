@@ -1,9 +1,13 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Litcoins } from '../../redux/actions'
-// import { LITCOIN_TYPES as L, READER_ACTIONS } from '../../constants/litcoins'
-
 const { updateLitcoinBalance } = Litcoins
+
+const styles = {
+  container: {
+    position: 'absolute',
+  }
+}
 
 class LitcoinStatus extends PureComponent {
 
@@ -53,7 +57,7 @@ class LitcoinStatus extends PureComponent {
           <span>{currentBalance ? currentBalance : null}</span>
           <img className='litcoin-img' src='./image/litcoin.png' />
         </a>
-        <div className={this.state.litcoinClass}>
+        <div style={styles.container} className={this.state.litcoinClass}>
           <a className='litcoin-balance-anchor'>
             + {litcoinDifference}
             <img className='litcoin-img' src='./image/litcoin.png' />
