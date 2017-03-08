@@ -31,6 +31,7 @@ const ExternalRoutes = () => {
     booksWithKen: () => backendUrl('bookswithken'),
     videoTutorials: () => backendUrl('video-tutorials'),
     games: () => backendUrl('games'),
+    advancedSearch: () => backendUrl('search'),
   }
   return routes
 }
