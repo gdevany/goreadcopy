@@ -33,7 +33,6 @@ export function searchGenres(search) {
 export function createChosenReaderGenres(genres) {
   return (dispatch) => {
     CurrentReaderGenres.createChosenGenres(genres)
-      .then(res => console.log(res, 'in createChosenGenres'))
       .catch(err => console.log(`Error in createChosenRederGenres: ${err}`))
   }
 }

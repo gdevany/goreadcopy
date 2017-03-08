@@ -1,40 +1,14 @@
-import React from 'react'
-import {
-  AlbumTile,
-  AppearanceTile,
-  ArticleTile,
-  AuthorTile,
-  AwardTile,
-  BookClubTaskTile,
-  PublisherUpdateTile,
-  StatusPostTile,
-  UserProfileTile,
-  VideoTile,
-  BookProductTile,
-  AdvertisingTile,
-  BookClubTile,
-  AdsenseTile
-} from './tiles'
+import React, { PureComponent } from 'react'
+import TilesWrapper from './TilesWrapper'
 
-const MiddleContainer = () => {
-  return (
-    <div className='middle-container small-12 large-6 columns'>
-      <AlbumTile />
-      <AppearanceTile />
-      <ArticleTile />
-      <AuthorTile />
-      <AwardTile />
-      <BookClubTaskTile />
-      <PublisherUpdateTile />
-      <StatusPostTile />
-      <UserProfileTile />
-      <VideoTile />
-      <BookProductTile />
-      <AdvertisingTile />
-      <BookClubTile />
-      <AdsenseTile />
-    </div>
-  )
+class MiddleContainer extends PureComponent {
+  render() {
+    return (
+      <div className='middle-container small-12 large-6 columns'>
+        <TilesWrapper />
+      </div>
+    )
+  }
 }
 
 export default MiddleContainer

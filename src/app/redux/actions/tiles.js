@@ -1,5 +1,15 @@
 import { CURRENT_READER as A } from '../const/actionTypes'
+import CurrentReaderTiles from '../../services/api/currentReader/tiles'
 import CurrentReaderSocial from '../../services/api/currentReader/social'
+
+export function getReadFeedTiles(page) {
+  return dispatch => {
+    CurrentReaderTiles.getReadFeedTiles({ page })
+    // TODO: change this to res.data.results
+    .then(res => dispatch({ type: A.GET_READFEED_TILES, payload: res.data }))
+    .catch(err => `Error in updateLikes: ${err}`)
+  }
+}
 
 export function updateLikes(id, liked) {
   return dispatch => {
@@ -18,6 +28,7 @@ export function updateComments(comments) {
 }
 
 export default {
+  getReadFeedTiles,
   updateLikes,
   updateComments,
 }

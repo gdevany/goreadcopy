@@ -11,7 +11,7 @@ const {
   }
 } = Endpoints
 
-const Genres = () => {
+const Social = () => {
   return {
     getFollowers: (id, body) => authenticated().get(getFollowers(id), body),
     getFollowed: (id, body) => authenticated().get(getFollowed(id), body),
@@ -20,4 +20,4 @@ const Genres = () => {
   }
 }
 
-export default Genres()
+export default Social()
