@@ -78,7 +78,10 @@ input[type="checkbox"]:focus{
 }
 
 .read-feed {
-  padding-top: 30px;
+  padding-top: 80px;
+  @media all and (min-width: 1200px){
+    padding-top: 30px;
+  }
 }
 
 .box {
@@ -143,3 +146,4 @@ input[type="checkbox"]:focus{
 @import 'typography.scss';
 @import 'read-feed-profile.scss';
 @import 'search-modal.scss';
+@import 'tiles.scss';
