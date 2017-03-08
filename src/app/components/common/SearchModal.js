@@ -209,7 +209,6 @@ class SearchModal extends Component {
     const {
       advancedSearch,
     } = routes
-    console.log(advancedSearch)
     return (
       <div>
         <Dialog
