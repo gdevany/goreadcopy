@@ -14,12 +14,14 @@ import {
   AdvertisingTile,
   BookClubTile,
   AdsenseTile,
-  AnnouncementTile
+  AnnouncementTile,
+  ProfileDetailerTile
 } from './tiles'
 
 const MiddleContainer = () => {
   return (
     <div className='middle-container small-12 large-6 columns'>
+      <ProfileDetailerTile />
       <AnnouncementTile/>
       <AlbumTile />
       <AppearanceTile />
