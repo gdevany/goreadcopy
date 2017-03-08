@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import {
+  Card,
+  CardText,
+} from 'material-ui'
 
 const Welcome = {
   title: 'Welcome to GoRead!',
@@ -7,38 +11,47 @@ const Welcome = {
         books and content from Authors and 
         Readers you follow.`,
 }
-const Blank = {
-  title: '',
-  body: ''
-}
 
 class AnnouncementTile extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      announcement: {
-        title: '',
-        body: ''
-      }
+      isOpen: '',
+      announcement: null
     }
+    this.handleClose = this.handleClose.bind(this)
   }
 
-  componentWillMount() {
-    this.getAnnouncement()
+  componentWillMount = () => {
+    this.setState({
+      isOpen: true,
+      announcement: this.props.isFirstLogin ? Welcome : null
+    })
   }
 
-  getAnnouncement() {
-    const announcement = this.state.isFirstLogin ? Welcome : Blank
-    this.setState({ announcement })
+  handleClose = () => {
+    this.setState({
+      isOpen: false,
+    })
   }
 
   render() {
-    return (
-      <div className='text-center'>
-        <h2>{this.state.content.title}</h2>
-        <p>{this.state.content.body}</p>
-      </div>
-    )
+    if (this.state.isOpen && this.state.announcement) {
+      return (
+        <Card className='readfeed-announcement'>
+          <img
+            src='./image/close.png'
+            className='general-font readfeed-announcement-close'
+            onClick={this.handleClose}
+          />
+          <CardText>
+            <h2>{this.state.announcement.title}</h2>
+            <p>{this.state.announcement.body}</p>
+          </CardText>
+        </Card>
+      )
+    }
+    return null
   }
 }
 
