@@ -22,7 +22,7 @@ class ProfileDetailerTile extends Component {
               className='profile-detailer-progress-bar'
               mode='determinate'
               color={Colors.blue}
-              value='75'
+              value={75}
             />
           </div>
           <CardText className='profile-detailer-content'>
