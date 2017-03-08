@@ -3,7 +3,9 @@ import { connect } from 'react-redux'
 import {
   Card,
   CardText,
+  LinearProgress,
 } from 'material-ui'
+import { Colors } from '../../../constants/style'
 
 class ProfileDetailerTile extends Component {
 
@@ -16,7 +18,12 @@ class ProfileDetailerTile extends Component {
             <h3 className='profile-detailer-title'>
               Complete your Profile
             </h3>
-            <div className='profile-detailer-progress-bar'/>
+            <LinearProgress
+              className='profile-detailer-progress-bar'
+              mode='determinate'
+              color={Colors.blue}
+              value='75'
+            />
           </div>
           <CardText className='profile-detailer-content'>
             <div className='profile-detailer-actions-content'>

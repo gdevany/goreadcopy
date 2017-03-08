@@ -563,6 +563,11 @@
       margin: 0;
       font-weight: 400;
       align-self: flex-start;
+      width: 100%;
+      text-align: left;
+    }
+    .profile-detailer-progress-bar{
+      height: 15px !important;
     }
   }
   .profile-detailer-content{
@@ -594,13 +599,19 @@
           align-items: center;
           flex-direction: column;
           margin-left: .75em;
+          .action-name{
+            font-size: 16px;
+          }
           .litcoin-earn-container{
             align-self: flex-start;
             display: flex;
             justify-content: flex-start;
             align-items: center;
+            .litcoin-amount{
+              font-size: 16px;
+            }
             .litcoin-image{
-              width: 20px;
+              width: 15px;
               margin-left: .25em;
             }
           }
