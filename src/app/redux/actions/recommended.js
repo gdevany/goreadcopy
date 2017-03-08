@@ -11,7 +11,13 @@ import R from 'ramda'
 
 export function getRecommendation(amount) {
   return (dispatch, getState) => {
-    const genreData = getState().currentReader.genreIds || getState().readerData.genreIds
+    const currentReaderGenres = getState().currentReader.genreIds
+    const readerDataGenres = getState().readerData.genreIds
+    const genreData =
+      R.isEmpty(currentReaderGenres) ?
+      readerDataGenres :
+      currentReaderGenres
+
     const genreIds = typeof genreData[0] === 'number' ?
       genreData : R.pluck('id', (genreData))
 
@@ -82,9 +88,14 @@ export function getRecommendedAuthors(amount) {
 }
 
 export function updateRecommended(recommendation) {
+  const payload =
+    R.isArrayLike(recommendation) ?
+    recommendation :
+    [recommendation]
+
   return {
     type: A.GET_RECOMMENDATION,
-    payload: recommendation,
+    payload,
   }
 }
 
