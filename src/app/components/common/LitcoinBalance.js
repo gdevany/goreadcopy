@@ -87,7 +87,7 @@ class LitcoinBalance extends PureComponent {
         <div ref='total'>
           <a style={styles.litcoinText} className='rf-nav-link'>
             <span>{total}</span>
-            <img className='litcoin-nav-img' src='./image/litcoin.png' />
+            <img className='litcoin-img' src='./image/litcoin.png' />
           </a>
         </div>
         {
@@ -131,7 +131,7 @@ class LitcoinBalance extends PureComponent {
         <div className={this.state.litcoinClass}>
           <a style={styles.litcoinText} className='litcoin-balance-anchor'>
             + {selected}
-            <img className='litcoin-nav-img' src='./image/litcoin.png' />
+            <img className='litcoin-img' src='./image/litcoin.png' />
           </a>
         </div>
 

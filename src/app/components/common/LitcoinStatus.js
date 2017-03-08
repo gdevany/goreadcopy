@@ -1,0 +1,73 @@
+import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
+import { Litcoins } from '../../redux/actions'
+// import { LITCOIN_TYPES as L, READER_ACTIONS } from '../../constants/litcoins'
+
+const { updateLitcoinBalance } = Litcoins
+
+class LitcoinStatus extends PureComponent {
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      currentBalance: this.props.litcoinBalance,
+      litcoinClass: 'invisible',
+      litcoinsDifference: 0,
+    }
+  }
+
+  componentWillMount = () => {
+    this.props.updateLitcoinBalance()
+  }
+
+  componentWillReceiveProps = ({ litcoinBalance }) => {
+    const { currentBalance, litcoinDifference } = this.state
+    const checkBalance = litcoinBalance > currentBalance
+    if (checkBalance) {
+      this.setState({
+        litcoinDifference: litcoinBalance - currentBalance
+      })
+      this.renderAnimation(litcoinDifference)
+    }
+    this.setState({
+      currentBalance: litcoinBalance
+    })
+  }
+
+  renderAnimation() {
+    this.setState({ litcoinClass: 'fade-in' })
+    setTimeout(() => {
+      this.setState({ litcoinClass: 'fade-out' })
+      setTimeout(() => {
+        this.setState({ litcoinClass: 'invisible' })
+      }, 600)
+    }, 500)
+  }
+
+  render() {
+    const { currentBalance, litcoinDifference } = this.state
+    return (
+      <div>
+        <a className='rf-nav-link'>
+          <span>{currentBalance ? currentBalance : null}</span>
+          <img className='litcoin-img' src='./image/litcoin.png' />
+        </a>
+        <div className={this.state.litcoinClass}>
+          <a className='litcoin-balance-anchor'>
+            + {litcoinDifference}
+            <img className='litcoin-img' src='./image/litcoin.png' />
+          </a>
+        </div>
+      </div>
+    )
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    litcoinBalance: state.currentReader.litcoinBalance
+  }
+}
+
+export default connect(mapStateToProps, { updateLitcoinBalance })(LitcoinStatus)

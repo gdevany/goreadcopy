@@ -13,6 +13,10 @@ export const LITCOIN_TYPES = {
   MAX_LITCOINS: 'MAX_LITCOINS'
 }
 
+export const READER_ACTIONS = {
+  'BOOK_ADDED': 1,
+}
+
 export const ONBOARDING = {
   'COMPLETE_SIGNUP_MODAL': 10000,
   'ENTERS_USERNAME': 1000,
