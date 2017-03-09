@@ -533,3 +533,86 @@
     }
   }
 }
+
+.profile-detailer-container{
+  margin-bottom: 1em;
+  .profile-detailer-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .75em 2em;
+    width: 100%;
+    border-bottom: solid 1px #dedede;
+    .profile-detailer-title{
+      font-size: 18px;
+      margin: 0;
+      font-weight: 400;
+      align-self: flex-start;
+      width: 100%;
+      text-align: left;
+    }
+    .profile-detailer-progress-bar{
+      height: 15px !important;
+    }
+  }
+  .profile-detailer-content{
+    .profile-detailer-actions-content{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: center;
+      .dropzone-profile-detailer{
+        width: auto;
+        height: auto;
+        border: none;
+      }
+    }
+    .profile-detailer-goto{
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  }
+}
+
+.profile-detailer-single-action{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  background-color: $white;
+  border: 1px solid $blue;
+  border-radius: 35px;
+  font-size: 16px;
+  padding: 12.5px 25px;
+  margin: 0 0 .5em .5em;
+  .action-icon{
+    span{
+      font-weight: 700;
+      font-size: 25px;
+    }
+  }
+  .action-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-left: .75em;
+    .action-name{
+      font-size: 16px;
+    }
+    .litcoin-earn-container{
+      align-self: flex-start;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      .litcoin-amount{
+        font-size: 16px;
+      }
+      .litcoin-image{
+        width: 15px;
+        margin-left: .25em;
+      }
+    }
+  }
+}
