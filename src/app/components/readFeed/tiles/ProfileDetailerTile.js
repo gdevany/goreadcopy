@@ -8,6 +8,8 @@ import {
   LinearProgress,
 } from 'material-ui'
 import { Colors } from '../../../constants/style'
+import CompleteProfileModal from '../CompleteProfileModal'
+import AddBooksModal from '../AddBooksModal'
 
 const { uploadImage } = Images
 
@@ -18,7 +20,29 @@ class ProfileDetailerTile extends Component {
     this.state = {
       profileImageUpload: null,
       hasProfileImage: false,
+      completeProfileModalOpen: false,
+      addBooksModal: false,
     }
+    this.handleClickProfileComplete = this.handleClickProfileComplete.bind(this)
+    this.handleClickaddBooksModal = this.handleClickaddBooksModal.bind(this)
+  }
+
+  handleClickProfileComplete = (event) => {
+    event.preventDefault()
+    this.setState({ completeProfileModalOpen: true })
+  }
+
+  handleClickProfileClose = () => {
+    this.setState({ completeProfileModalOpen: false })
+  }
+
+  handleClickaddBooksModal = (event) => {
+    event.preventDefault()
+    this.setState({ addBooksModal: true })
+  }
+
+  handleClickaddBooksModalClose = () => {
+    this.setState({ addBooksModal: false })
   }
 
   profileUpload = (file) => {
@@ -75,7 +99,10 @@ class ProfileDetailerTile extends Component {
                   </div>
                 </a>
               </Dropzone>
-              <a href='' className='profile-detailer-single-action'>
+              <a
+                onClick={this.handleClickProfileComplete}
+                className='profile-detailer-single-action'
+              >
                 <div className='action-icon'>
                   <span>+</span>
                 </div>
@@ -88,8 +115,15 @@ class ProfileDetailerTile extends Component {
                     <img className='litcoin-image' src='./image/litcoin.png' />
                   </div>
                 </div>
+                <CompleteProfileModal
+                  modalOpen={this.state.completeProfileModalOpen}
+                  handleClose={this.handleClickProfileClose}
+                />
               </a>
-              <a href='' className='profile-detailer-single-action'>
+              <a
+                onClick={this.handleClickaddBooksModal}
+                className='profile-detailer-single-action'
+              >
                 <div className='action-icon'>
                   <span>+</span>
                 </div>
@@ -102,6 +136,10 @@ class ProfileDetailerTile extends Component {
                     <img className='litcoin-image' src='./image/litcoin.png' />
                   </div>
                 </div>
+                <AddBooksModal
+                  modalOpen={this.state.addBooksModal}
+                  handleClose={this.handleClickaddBooksModalClose}
+                />
               </a>
             </div>
             <a href='' className='profile-detailer-goto'>
