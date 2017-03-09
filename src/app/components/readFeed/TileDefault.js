@@ -52,10 +52,10 @@ class TileDefault extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      liked: props.likes.likedByCurrentUser,
+      liked: props.likes.likedByReader,
       likedCount: props.likes.count,
       commentsOpen: false,
-      commented: props.comments.commentedByCurrentUser,
+      commented: props.comments.commentedByReader,
       commentedCount: props.comments.count,
       commentPostOpen: false,
       commentInput: '',
@@ -205,33 +205,30 @@ class TileDefault extends PureComponent {
     } = this.state
 
     const {
-      name,
-      description,
-      profileImage,
+      author,
       timestamp,
       comments,
-      content,
+      shareInfo,
       promoted,
+      action
     } = this.props
-
-    const shareUrl = 'https://www.goread.com/'
 
     return (
       <div>
         <Card expanded={commentsOpen} className='base-tile-container'>
           <div className='base-tile-header'>
             <figure className='tile-actor-figure'>
-              <a href='#'>
-                <img className='tile-actor-image' src={profileImage} alt=''/>
+              <a href={author.link}>
+                <img className='tile-actor-image' src={author.image} alt=''/>
               </a>
             </figure>
             <div className='tile-actor-details'>
               <div className='tile-actor-container'>
                 <span className='tile-actor-name'>
-                  <a href=''>{name}</a>
+                  <a href={author.link}>{author.name}</a>
                 </span>
                 <span className='tile-actor-action'>
-                  { promoted ? null : description }
+                  { promoted ? null : action }
                 </span>
               </div>
               <div className='tile-actor-timestamp'>
@@ -251,7 +248,6 @@ class TileDefault extends PureComponent {
                 onClick={this.handleLiked}
                 className={liked ? 'liked' : 'not-liked'}
               >
-              {/** TODO: Derrick insert heart icon here **/}
               <FavoriteIcon className={liked ? 'liked' : 'not-liked'}/>
               </a>
               <span className='likes-counter'>
@@ -263,7 +259,6 @@ class TileDefault extends PureComponent {
                 onClick={this.handleCommentsOpen}
                 className='comments-anchor'
               >
-                {/** TODO: Derrick insert comment icon here **/}
                 <CommentsIcon className={commented ? 'commented' : 'not-commented'}/>
               </a>
               <span className='comments-counter'>
@@ -276,7 +271,6 @@ class TileDefault extends PureComponent {
                 onClick={this.handleShareOpen}
               >
               <span ref='share'>
-                {/** TODO: Derrick insert share icon here **/}
                 <ShareIcon/>
               </span>
               <span className='shares-title'>
@@ -291,6 +285,7 @@ class TileDefault extends PureComponent {
             expandable={true}
           >
             <div className='comments'>
+              {/** TODO: Call API endpoint to get comments.results.here**/}
               {this.handleRenderComments(comments.results)}
             </div>
             {
@@ -317,8 +312,8 @@ class TileDefault extends PureComponent {
           <ul className='share-elements-container'>
             <li className='share-elements-item'>
               <FacebookShareButton
-                url={shareUrl}
-                title={content.title}
+                url={shareInfo.shareLink}
+                title={shareInfo.title}
                 className='facebook-share-button'
               >
                 <FacebookIcon
@@ -329,8 +324,8 @@ class TileDefault extends PureComponent {
             </li>
             <li className='share-elements-item'>
               <TwitterShareButton
-                url={shareUrl}
-                title={content.title}
+                url={shareInfo.shareLink}
+                title={shareInfo.title}
                 className='twitter-share-button'
               >
                 <TwitterIcon
@@ -341,8 +336,8 @@ class TileDefault extends PureComponent {
             </li>
             <li className='share-elements-item'>
               <LinkedinShareButton
-                url={shareUrl}
-                title={content.title}
+                url={shareInfo.shareLink}
+                title={shareInfo.title}
                 windowWidth={750}
                 windowHeight={600}
                 className='linkedin-share-button'
@@ -355,7 +350,7 @@ class TileDefault extends PureComponent {
             </li>
             <li className='share-elements-item'>
               <GooglePlusShareButton
-                url={shareUrl}
+                url={shareInfo.shareLink}
                 className='google-plus-share-button'
               >
                 <GooglePlusIcon
@@ -378,13 +373,13 @@ class TileDefault extends PureComponent {
 }
 
 TileDefault.propTypes = {
-  name: PropTypes.string,
-  description: PropTypes.string,
-  timestamp: PropTypes.string, // Change this when we know how it'll be passed in.
+  author: PropTypes.object,
+  action: PropTypes.string,
+  timestamp: PropTypes.number, // Change this when we know how it'll be passed in.
   shared: PropTypes.object,
   likes: PropTypes.object,
   comments: PropTypes.object,
-  content: PropTypes.object
+  shareInfo: PropTypes.object
 }
 
 const mapDispatchToProps = {

@@ -1,18 +1,17 @@
 import React, { PureComponent } from 'react'
 import AdsenseDefault from '../AdsenseDefault'
 
-const promoted = true
-const isAdsense = true
-
 class AdsenseTile extends PureComponent {
   render() {
+    const { content } = this.props
+
     return (
       <AdsenseDefault
-        promoted={promoted}
-        adsense={isAdsense}
+        promoted={content.promoted}
+        adsense={content.isAdsense}
       >
         <div className='adv-sense-tile-container'>
-          <img className='adv-sense-img' src='./image/adv-sense.png'/>
+          <img className='adv-sense-img' src={content.image}/>
         </div>
       </AdsenseDefault>
     )

@@ -12,7 +12,6 @@ const RightContainer = () => {
       <AuthorRecommendations />
       <BookClubRecommendations />
     </div>
-
   )
 }
 
