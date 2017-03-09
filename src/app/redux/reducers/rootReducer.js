@@ -8,6 +8,7 @@ import readerDataReducer from './readerData'
 import recommendedReducer from './recommended'
 import socialReducer from './social'
 import searchReducer from './search'
+import tilesReducer from './tiles'
 
 const rootReducer = combineReducers({
   books: booksReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   routing: routerReducer,
   social: socialReducer,
   search: searchReducer,
+  tiles: tilesReducer,
 })
 
 export default rootReducer

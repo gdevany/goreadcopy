@@ -12,6 +12,7 @@ export default {
   books: emptyState({ payload: [] }),
   readerData: emptyState(),
   currentReader: emptyState(),
-  litcoins: {},
-  social: {}
+  litcoins: emptyState(),
+  social: emptyState(),
+  tiles: emptyState(),
 }

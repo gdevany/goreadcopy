@@ -18,6 +18,7 @@ const Endpoints = () => {
       },
       getCurrentReader: () => apiUrl('current_reader'),
       getAnnouncement: () => apiUrl('/'),
+      getReadFeedTiles: () => apiUrl('current_reader/activities_test'),
       likedGenres: (params) => apiUrl('current_reader/liked_genres', params),
       likedReaders: (params) => apiUrl('current_reader/liked_readers', params),
       likedAuthors: (params) => apiUrl('current_reader/liked_authors', params),
