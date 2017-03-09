@@ -17,6 +17,7 @@ import {
   BookClubTile,
   AdsenseTile
 } from './tiles'
+import moment from 'moment'
 
 const { getReadFeedTiles } = Tiles
 
@@ -24,24 +25,15 @@ class TilesWrapper extends PureComponent {
   componentWillMount = () => this.props.getReadFeedTiles(2)
 
   renderTime = (time, timeType) => {
-    /**
-    TODO: calculate time using Moment.js
-    Something like:
-      * If timeType === 'ago'..this 146094649 should return a string like '3 hours ago'
-      * If timeType === 'time-date', this 2016-04-24T04:00:00Z should return an object like:
-      {
-        date: April 24
-        time: 4AM
-      }
-    **/
     if (timeType === 'ago') {
-      return time
+      return moment(moment.unix(time).format('MM/DD/YYYY HH:mm:ss')).fromNow()
     } else if (timeType === 'time-date') {
       return {
-        date: 'April 24',
-        time: '4AM'
+        date: moment.unix(time).format('MMMM DD'),
+        time: moment.unix(time).format('HA')
       }
     }
+    return time
   }
 
   renderTiles = (tiles) => {
