@@ -46,29 +46,33 @@ class TilesWrapper extends PureComponent {
 
   renderTiles = (tiles) => {
     const result = []
+
     tiles.forEach((tile, index) => {
       // TODO: Remove comments results
-      const tileDefaultProps = {
-        timestamp: this.renderTime(tile.timestamp, 'ago'),
-        action: tile.description,
-        id: tile.id,
-        author: {
-          name: (tile.actor.fullname || tile.actor.name),
-          image: (tile.actor.imageUrl || tile.actor.image),
-          link: (tile.actor.url || tile.actor.link)
-        },
-        likes: {
-          likes: tile.likes.count,
-          likedByReader: tile.likedByReader
-        },
-        comments: {
-          count: tile.comments.count,
-          commentedByReader: tile.commentedByReader,
-          results: (tile.comments.results || [])
-        },
-        shareInfo: {
-          title: tile.content.title,
-          shareLink: tile.link
+      let tileDefaultProps = {}
+      if (tile.tileType !== 'advertising') {
+        tileDefaultProps = {
+          timestamp: this.renderTime(tile.timestamp, 'ago'),
+          action: tile.description,
+          id: tile.id,
+          author: {
+            name: (tile.actor.fullname || tile.actor.name),
+            image: (tile.actor.imageUrl || tile.actor.image),
+            link: (tile.actor.url || tile.actor.link)
+          },
+          likes: {
+            likes: tile.likes.count,
+            likedByReader: tile.likedByReader
+          },
+          comments: {
+            count: tile.comments.count,
+            commentedByReader: tile.commentedByReader,
+            results: (tile.comments.results || [])
+          },
+          shareInfo: {
+            title: tile.content.title,
+            shareLink: tile.link
+          }
         }
       }
 
@@ -295,8 +299,6 @@ class TilesWrapper extends PureComponent {
           )
           break
         case 'advertising':
-          // TODO: Not sure how data coming in will look since not included in
-          // test endpoint
           const adSenseContent = {
             promoted: true,
             isAdsense: true,
