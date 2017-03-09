@@ -26,8 +26,9 @@ const Endpoints = () => {
       uploadImage: (params) => apiUrl('current_reader/images', params),
       getFollowers: (id) => apiUrl(`social/reader/${id}/followers`),
       getFollowed: (id) => apiUrl(`social/reader/${id}/followed`),
-      updateLikes: (id) => apiUrl(`social/posts/${id}/likes`),
-      updateComments: (id) => apiUrl(`social/posts/${id}/comments`)
+      updateReadFeedLikes: (id) => apiUrl(`social/posts/${id}/likes`),
+      updateReadFeedComments: (id) => apiUrl(`social/posts/${id}/comments`),
+      getReadFeedComments: (id) => apiUrl(`activities/${id}/comments`),
     },
     jwtRefresh: () => apiUrl('token/refresh'),
     jwtAuth: () => apiUrl('token/auth'),
