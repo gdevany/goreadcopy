@@ -45,17 +45,19 @@ class AnnouncementTile extends Component {
 
   queryAnnouncement() {
     getAnnouncements()
-      .then(({ data: { title, body, id } }) => {
-        this.setState({ announcement: { title, body, id } })
+      .then((res) => {
+        const { title, body, id } = res.data
+        if (title && body) {
+          this.setState({ announcement: { title, body, id } })
+        } else {
+          this.setState({ announcement: null })
+        }
       })
       .catch(() => this.setState({ announcement: null }))
   }
 
   handleClose = () => {
-    this.setState({
-      isOpen: false,
-    })
-    // TO DO: SEND THE ID IN THE CORRECT FORMAT
+    this.setState({ isOpen: false })
     if (this.state.announcement.id) {
       dismissAnnouncement({ id: this.state.announcement.id })
     }
