@@ -1,11 +1,26 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
+import FollowProfile from './FollowProfile'
 
-const LeftProfileContainer = () => {
-  return (
-    <div className='right-container small-4 columns'>
-      LEFT CONTAINER
-    </div>
-  )
+class LeftProfileContainer extends PureComponent {
+  render() {
+    const { id } = this.props
+    return (
+      <div className='right-container small-6 columns'>
+        { id ? <FollowProfile id={id} /> : null}
+      </div>
+    )
+  }
 }
 
-export default LeftProfileContainer
+const mapStateToProps = ({
+  currentReader: {
+    id
+  }
+}) => {
+  return {
+    id
+  }
+}
+
+export default connect(mapStateToProps)(LeftProfileContainer)
