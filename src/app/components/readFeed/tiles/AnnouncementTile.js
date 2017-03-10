@@ -26,17 +26,17 @@ class AnnouncementTile extends Component {
   }
 
   componentDidMount() {
-    this.getAnnouncement(this.props.isFirstLogin)
+    this.getAnnouncement(this.props.loginCount)
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.isFirstLogin !== nextProps.isFirstLogin) {
-      this.getAnnouncement(nextProps.isFirstLogin)
+    if (this.props.loginCount !== nextProps.loginCount) {
+      this.getAnnouncement(nextProps.loginCount)
     }
   }
 
-  getAnnouncement(isFirstLogin) {
-    if (isFirstLogin) {
+  getAnnouncement(loginCount) {
+    if (loginCount) {
       this.setState({ announcement: Welcome })
     } else {
       this.queryAnnouncement()
@@ -64,7 +64,8 @@ class AnnouncementTile extends Component {
   }
 
   render() {
-    if (this.state.isOpen && this.state.announcement) {
+    const { isOpen, announcement } = this.state
+    if (isOpen && announcement) {
       return (
         <Card className='readfeed-announcement'>
           <img
@@ -73,8 +74,8 @@ class AnnouncementTile extends Component {
             onClick={this.handleClose}
           />
           <CardText>
-            <h2>{this.state.announcement.title}</h2>
-            <p>{this.state.announcement.body}</p>
+            <h2>{announcement.title}</h2>
+            <p>{announcement.body}</p>
           </CardText>
         </Card>
       )
@@ -83,9 +84,13 @@ class AnnouncementTile extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({
+  currentReader: {
+    loginCount
+  }
+}) => {
   return {
-    isFirstLogin: state.currentReader.loginCount === 0
+    loginCount
   }
 }
 
