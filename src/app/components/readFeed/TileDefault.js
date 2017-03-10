@@ -2,6 +2,7 @@ import React, { PureComponent, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Tiles } from '../../redux/actions'
 import { PrimaryButton } from '../common'
+import { Colors } from '../../constants/style'
 import {
   Card,
   CardActions,
@@ -32,6 +33,90 @@ const styles = {
   popover: {
     borderRadius: 9,
     boxShadow: 'rgba(0, 0, 0, 0.1) 0px 2px 20px',
+  },
+  headerContainer: {
+    padding: 30,
+    textAlign: 'left',
+  },
+  commentHeaderContainer: {
+    padding: '30px 30px 15px',
+    textAlign: 'left',
+  },
+  card: {
+    boxShadow: 'rgba(0, 0, 0, 0.1) 0px 2px 20px',
+  },
+  nameText: {
+    color: Colors.blue,
+    display: 'inline',
+    fontSize: 14,
+    fontWeight: 600,
+  },
+  postText: {
+    display: 'inline',
+    marginLeft: 6,
+  },
+  commentTimeStamp: {
+    display: 'inline',
+    marginLeft: 10,
+  },
+  timeStamp: {
+    fontSize: 14,
+    color: Colors.grey,
+    position: 'absolute',
+    left: 85,
+    top: 53,
+  },
+  textContainer: {
+    marginTop: -5,
+  },
+  contentContainer: {
+    padding: '0 30px',
+  },
+  socialContainer: {
+    margin: 0,
+  },
+  socialWrapper: {
+    borderTop: `2px solid ${Colors.lightGrey}`,
+    fontSize: 14,
+    padding: '20px 30px',
+  },
+  commentContainer: {
+    borderTop: `2px solid ${Colors.lightGrey}`,
+    padding: 0,
+  },
+  likesContainer: {
+    textAlign: 'left',
+    padding: 0,
+  },
+  shareContainer: {
+    textAlign: 'right',
+    padding: 0,
+  },
+  sharePopover: {
+    margin: 0,
+    padding: 20,
+    listStyle: 'none',
+  },
+  shareLink: {
+    marginBottom: 10,
+  },
+  shareButton: {
+    margin: '0 auto',
+  },
+  shareGoReadLink: {
+    margin: 0,
+  },
+  commentCard: {
+    boxShadow: 'none',
+  },
+  commentContent: {
+    padding: '0 30px',
+    marginLeft: 54,
+    textAlign: 'left',
+  },
+  postButton: {
+    float: 'right',
+    marginRight: 30,
   },
 }
 
