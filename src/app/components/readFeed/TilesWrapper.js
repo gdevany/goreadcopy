@@ -17,6 +17,7 @@ import {
   BookClubTile,
   AdsenseTile
 } from './tiles'
+import moment from 'moment'
 
 const { getReadFeedTiles } = Tiles
 
@@ -24,33 +25,22 @@ class TilesWrapper extends PureComponent {
   componentWillMount = () => this.props.getReadFeedTiles(2)
 
   renderTime = (time, timeType) => {
-    /**
-    TODO: calculate time using Moment.js
-    Something like:
-      * If timeType === 'ago'..this 146094649 should return a string like '3 hours ago'
-      * If timeType === 'time-date', this 2016-04-24T04:00:00Z should return an object like:
-      {
-        date: April 24
-        time: 4AM
-      }
-    **/
-    if (timeType === 'ago') {
-      return time
+    if (timeType === 'ago' && moment(moment.unix(time)).isValid()) {
+      return moment(moment.unix(time)).fromNow()
     } else if (timeType === 'time-date') {
       return {
-        date: 'April 24',
-        time: '4AM'
+        date: moment.unix(time).format('MMMM DD'),
+        time: moment.unix(time).format('HA')
       }
     }
-    return timeType
+    return time
   }
 
   renderTiles = (tiles) => {
     const result = []
-
     tiles.forEach((tile, index) => {
       let tileDefaultProps = {}
-      if (tile.tileType !== 'advertising') {
+      if (tile.tileType !== 'advertising' && tile.actor) {
         tileDefaultProps = {
           timestamp: this.renderTime(tile.timestamp, 'ago'),
           action: tile.description,
@@ -298,6 +288,8 @@ class TilesWrapper extends PureComponent {
           )
           break
         case 'advertising':
+          // TODO: Not sure how data coming in will look since not included in
+          // test endpoint
           const adSenseContent = {
             promoted: true,
             isAdsense: true,
