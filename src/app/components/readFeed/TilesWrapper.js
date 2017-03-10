@@ -17,6 +17,7 @@ import {
   BookClubTile,
   AdsenseTile
 } from './tiles'
+import moment from 'moment'
 
 const { getReadFeedTiles } = Tiles
 
@@ -24,55 +25,42 @@ class TilesWrapper extends PureComponent {
   componentWillMount = () => this.props.getReadFeedTiles(2)
 
   renderTime = (time, timeType) => {
-    /**
-    TODO: calculate time using Moment.js
-    Something like:
-      * If timeType === 'ago'..this 146094649 should return a string like '3 hours ago'
-      * If timeType === 'time-date', this 2016-04-24T04:00:00Z should return an object like:
-      {
-        date: April 24
-        time: 4AM
-      }
-    **/
-    if (timeType === 'ago') {
-      return time
+    if (timeType === 'ago' && moment(moment.unix(time)).isValid()) {
+      return moment(moment.unix(time)).fromNow()
     } else if (timeType === 'time-date') {
       return {
-        date: 'April 24',
-        time: '4AM'
+        date: moment.unix(time).format('MMMM DD'),
+        time: moment.unix(time).format('HA')
       }
     }
+    return time
   }
 
   renderTiles = (tiles) => {
     const result = []
-
     tiles.forEach((tile, index) => {
       // TODO: Remove comments results
-      let tileDefaultProps = {}
-      if (tile.tileType !== 'advertising') {
-        tileDefaultProps = {
-          timestamp: this.renderTime(tile.timestamp, 'ago'),
-          action: tile.description,
-          id: tile.id,
-          author: {
-            name: (tile.actor.fullname || tile.actor.name),
-            image: (tile.actor.imageUrl || tile.actor.image),
-            link: (tile.actor.url || tile.actor.link)
-          },
-          likes: {
-            likes: tile.likes.count,
-            likedByReader: tile.likedByReader
-          },
-          comments: {
-            count: tile.comments.count,
-            commentedByReader: tile.commentedByReader,
-            results: (tile.comments.results || [])
-          },
-          shareInfo: {
-            title: tile.content.title,
-            shareLink: tile.link
-          }
+      const tileDefaultProps = {
+        timestamp: this.renderTime(tile.timestamp, 'ago'),
+        action: tile.description,
+        id: tile.id,
+        author: {
+          name: (tile.actor.fullname || tile.actor.name),
+          image: (tile.actor.imageUrl || tile.actor.image),
+          link: (tile.actor.url || tile.actor.link)
+        },
+        likes: {
+          likes: tile.likes.count,
+          likedByReader: tile.likedByReader
+        },
+        comments: {
+          count: tile.comments.count,
+          commentedByReader: tile.commentedByReader,
+          results: (tile.comments.results || [])
+        },
+        shareInfo: {
+          title: tile.content.title,
+          shareLink: tile.link
         }
       }
 
@@ -299,6 +287,8 @@ class TilesWrapper extends PureComponent {
           )
           break
         case 'advertising':
+          // TODO: Not sure how data coming in will look since not included in
+          // test endpoint
           const adSenseContent = {
             promoted: true,
             isAdsense: true,
