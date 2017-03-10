@@ -42,6 +42,7 @@ class TilesWrapper extends PureComponent {
         time: '4AM'
       }
     }
+    return timeType
   }
 
   renderTiles = (tiles) => {
