@@ -40,7 +40,7 @@ class TilesWrapper extends PureComponent {
     const result = []
     tiles.forEach((tile, index) => {
       // TODO: Remove comments results
-      const tileDefaultProps = {
+      const tileDefaultProps = (tile.tileType !== 'advertising') ? {
         timestamp: this.renderTime(tile.timestamp, 'ago'),
         action: tile.description,
         id: tile.id,
@@ -62,7 +62,7 @@ class TilesWrapper extends PureComponent {
           title: tile.content.title,
           shareLink: tile.link
         }
-      }
+      } : null
 
       switch (tile.tileType) {
         case 'article':
