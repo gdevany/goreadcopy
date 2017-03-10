@@ -262,6 +262,8 @@ class ReadFeedProfile extends PureComponent {
             </div>
 
             <FollowModal
+              followed={followed}
+              followers={followers}
               modalOpen={openedModal}
               handleClose={toCloseModal}
               count={modalFollowCount}
