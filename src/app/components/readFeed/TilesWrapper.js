@@ -285,8 +285,6 @@ class TilesWrapper extends PureComponent {
         case 'advertising':
           switch (tile.advertiser.name) {
             case 'readerslegacy':
-              console.log('readerslegacy ad')
-              console.log(tile)
               const adContent = {
                 promoted: true,
                 image: tile.advertiser.buzzAd.imageUrl,
@@ -323,8 +321,6 @@ class TilesWrapper extends PureComponent {
               )
               break
             case 'adsense':
-              console.log('Adsense ad')
-              console.log(tile)
               const adSenseContent = {
                 promoted: true,
                 isAdsense: true,
