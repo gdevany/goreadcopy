@@ -6,7 +6,7 @@ export function getReadFeedTiles(page) {
   return dispatch => {
     CurrentReaderTiles.getReadFeedTiles({ page })
     // TODO: change this to res.data.results
-    .then(res => dispatch({ type: A.GET_READFEED_TILES, payload: res.data }))
+    .then(res => dispatch({ type: A.GET_READFEED_TILES, payload: res.data.results }))
     .catch(err => `Error in updateLikes: ${err}`)
   }
 }

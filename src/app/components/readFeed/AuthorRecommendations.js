@@ -1,13 +1,19 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { ExternalRoutes } from '../../constants'
-import { AvatarSummary } from '../common'
+import { AuthorRecSummary } from '../common'
 import { Follow, Recommended } from '../../redux/actions'
 import R from 'ramda'
 
 const { updateFollowed } = Follow
 const { findAuthors } = ExternalRoutes
 const { getRecommendedAuthors } = Recommended
+
+const styles = {
+  recContainer: {
+    marginTop: 20,
+  },
+}
 
 class AuthorRecommendations extends PureComponent {
   constructor(props) {
@@ -62,7 +68,7 @@ class AuthorRecommendations extends PureComponent {
       } = author
       return (
         <div className='column column-block' key={id}>
-          <AvatarSummary
+          <AuthorRecSummary
             id={id}
             key={id}
             title={`${firstName} ${lastName}`}
@@ -84,17 +90,17 @@ class AuthorRecommendations extends PureComponent {
     const authors = recommended ? recommended.authors : null
 
     return (
-      <div className='left-container small-12 columns'>
-        <div className='lead'>
+      <div style={styles.recContainer} className='left-container small-12 columns box'>
+        <div className='rec-header'>
           <h4> Recommended Authors </h4>
         </div>
         {/** Derrick, feel free to change how it's rendered in different views: **/}
         <div className='row small-up-1'>
           { authors ? this.renderAuthors(authors) : null }
         </div>
-        <div>
+        <div className='sub-link'>
           <a href={findAuthors()}>
-            See more authors >
+            See more authors
           </a>
         </div>
       </div>

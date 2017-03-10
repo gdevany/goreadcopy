@@ -4,6 +4,9 @@ import {
   Card,
   CardText,
 } from 'material-ui'
+import { Tiles } from '../../../services/api/currentReader'
+
+const { getAnnouncements, dismissAnnouncement } = Tiles
 
 const Welcome = {
   title: 'Welcome to GoRead!',
@@ -16,23 +19,50 @@ class AnnouncementTile extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isOpen: '',
-      announcement: null
+      isOpen: true,
     }
     this.handleClose = this.handleClose.bind(this)
+    this.getAnnouncement = this.getAnnouncement.bind(this)
   }
 
-  componentWillMount = () => {
-    this.setState({
-      isOpen: true,
-      announcement: this.props.isFirstLogin ? Welcome : null
-    })
+  /*
+  componentDidMount() {
+    this.getAnnouncement(this.props.isFirstLogin)
+  }
+  */
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.isFirstLogin !== nextProps.isFirstLogin) {
+      this.getAnnouncement(nextProps.isFirstLogin)
+    }
+  }
+
+  getAnnouncement(isFirstLogin) {
+    debugger
+    if (false) {
+      this.setState({ announcement: Welcome })
+    } else {
+      debugger
+      this.queryAnnouncement()
+    }
+  }
+
+  queryAnnouncement() {
+    debugger
+    getAnnouncements()
+      .then(({ data: { title, body, id } }) => {
+        this.setState({ announcement: { title, body, id } })
+      })
+      .catch(() => this.setState({ announcement: null }))
   }
 
   handleClose = () => {
     this.setState({
       isOpen: false,
     })
+    if (this.state.announcement.id) {
+      dismissAnnouncement({ data: this.state.announcement.id })
+    }
   }
 
   render() {
