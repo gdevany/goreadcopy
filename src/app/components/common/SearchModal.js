@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Dialog, } from 'material-ui'
 import R from 'ramda'
+import { ExternalRoutes as routes } from '../../constants'
 import { Colors } from '../../constants/style'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { Search } from '../../redux/actions'
@@ -205,6 +206,9 @@ class SearchModal extends Component {
       searchTerm,
     } = this.state
 
+    const {
+      advancedSearch,
+    } = routes
     return (
       <div>
         <Dialog
@@ -241,7 +245,7 @@ class SearchModal extends Component {
               </form>
               <p className='advanced-search-pharagraph'>
                 Can't find what you are looking for? Try with our
-                <a href=''> Advanced Search </a>
+                <a href={advancedSearch()}> Advanced Search </a>
               </p>
             </div>
             <div className='search-results-contianer'>

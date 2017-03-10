@@ -117,19 +117,20 @@ class FollowModal extends PureComponent {
     return users.map((user, index) => {
       const {
         id,
-        title,
+        firstName,
+        lastName,
         image,
-        description
       } = user
+
+      const name = `${firstName} ${lastName}`
 
       return (
         <div className='column column-block' key={id}>
           <AvatarSummary
             id={id}
             key={id}
-            title={title}
+            title={name}
             image={image}
-            description={description}
             followType={followType}
             isChosen={this.isChosen}
             handleChipClick={(event) => this.handleChipClick(event, followType, id)}
@@ -152,7 +153,7 @@ class FollowModal extends PureComponent {
           className='modal-chips row large-up-3 medium-up-2 small-up-1 rf-modal'
           key={'users-following-this-user'}
         >
-          {this.renderUsers(followType, data)}
+          {this.renderUsers(followType, readersFollowed)}
         </div>
       )
     } else {
@@ -217,9 +218,24 @@ class FollowModal extends PureComponent {
       followType
     } = this.props
 
-    const followersData = followers.result ? followers.result : []
-    const followedData = followed.result ? followed.result : []
-    const data = followType === 'followers' ? followersData : followedData[0]
+    const readersAndAuthors = (results) => {
+      const defaults = { readers: [], authors: [] }
+
+      // TODO: remove once API team normalizes responses for follower/followed endpoints
+      if (R.isNil(results)) { return {} }
+      if (R.isArrayLike(results)) { return { readers: results, authors: [] } }
+      return R.merge(defaults, results)
+    }
+
+    //const followersData = followers.result ? followers.result : []
+    //const followedData = followed.result ? followed.result : []
+    //const data = followType === 'followers' ? followersData : followedData[0]
+
+    const followersData = readersAndAuthors(followers.results)
+    const followedData = readersAndAuthors(followed.results)
+    const data = followType === 'followers' ? followersData : followedData
+    console.log(data)
+    //const data = undefined
     const title = followType === 'followers' ? 'Followers' : 'Following'
 
     return (
@@ -246,7 +262,7 @@ class FollowModal extends PureComponent {
               {title} {/** Derrick: Do text-transform:capitalize; for this **/}
             </h4>
           </div>
-          {data ? this.renderModal(followType, data) : null}
+          {R.isEmpty(data) ? null : this.renderModal(followType, data)}
         </ Dialog>
       </div>
     )

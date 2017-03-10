@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Books } from '../../redux/actions'
-import Book from '../home/Book'
+import { Book } from '../common'
 import { ExternalRoutes } from '../../constants'
 import R from 'ramda'
 
@@ -20,7 +20,7 @@ const { getBookRecommendations } = Books
 
 class BookRecommendations extends PureComponent {
   componentWillMount = () => {
-    this.props.getBookRecommendations()
+    this.props.getBookRecommendations(4)
   }
 
   renderBooks(books) {
@@ -43,8 +43,6 @@ class BookRecommendations extends PureComponent {
         <div className='rec-header'>
           <h4> {"We think you'll love these books"} </h4>
         </div>
-
-        {/** Derrick, feel free to change how it's rendered in different views: **/}
         <div style={styles.container} className='row small-up-1 medium-up-2 large-up-2'>
           { books ? this.renderBooks(books) : null }
         </div>

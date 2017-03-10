@@ -4,19 +4,29 @@ import { Books } from '../../redux/actions'
 import { ExternalRoutes } from '../../constants'
 import R from 'ramda'
 
-const { myBookClubs } = ExternalRoutes
-const { getBookClubRecommendations } = Books
-
 const styles = {
-  bookClubImage: {
-    position: 'relative',
-    textAlign: 'center',
+  bookClubText: {
+    textAlign: 'left',
+    fontSize: 14,
+  },
+
+  bookClubImg: {
+    float: 'left',
+    width: '30%',
+    marginRight: 15,
+  },
+
+  recContainer: {
+    marginTop: 20,
   },
 }
 
+const { myBookClubs } = ExternalRoutes
+const { getBookClubRecommendations } = Books
+
 class BookClubRecommendations extends PureComponent {
   componentWillMount = () => {
-    this.props.getBookClubRecommendations()
+    this.props.getBookClubRecommendations(3)
   }
 
   renderBookClubs(bookClubs) {
@@ -25,13 +35,16 @@ class BookClubRecommendations extends PureComponent {
         <div className='column column-block' key={bookClub.id}>
           <div
             data-tip data-for={bookClub.link}
-            style={styles.bookClubImage}
-            className='book-container'
           >
+
             <a href={bookClub.link}>
-              <img className='book' src={bookClub.image} />
+              <img style={styles.bookClubImg} src={bookClub.image} />
+
+              <div style={styles.bookClubText}>
+                <span> {bookClub.name} </span>
+              </div>
             </a>
-            {bookClub.name}
+
           </div>
         </div>
       )
@@ -43,17 +56,17 @@ class BookClubRecommendations extends PureComponent {
     const bookClubs = recommended ? recommended.bookClubs : null
 
     return (
-      <div className='left-container small-12 columns'>
-        <div className='lead'>
+      <div className='left-container small-12 box columns' style={styles.recContainer}>
+        <div className='rec-header'>
           <h4> Check out these Book Clubs </h4>
         </div>
         {/** Derrick, feel free to change how it's rendered in different views: **/}
         <div className='row small-up-1'>
           { bookClubs ? this.renderBookClubs(bookClubs) : null }
         </div>
-        <div>
+        <div className='sub-link'>
           <a href={myBookClubs()}>
-            See more Book Clubs >
+            See more Book Clubs
           </a>
         </div>
       </div>

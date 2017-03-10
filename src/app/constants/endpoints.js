@@ -11,11 +11,21 @@ const Endpoints = () => {
     searchData: (params) => apiUrl('search', params),
     currentReader: {
       getRecommendation: (params) => apiUrl('genres/top_users', params),
-      getBookClubRecommenation: (params) => apiUrl('current_reader/recommended/book_clubs', params),
+      getRecommendedAuthors: (params) => apiUrl('current_reader/recommended/authors', params),
+      getBookRecommendations: (params) => apiUrl('current_reader/recommended/books', params),
+      getBookClubRecommendations: (params) => {
+        return apiUrl('current_reader/recommended/book_clubs', params)
+      },
       getCurrentReader: () => apiUrl('current_reader'),
+      getReadFeedTiles: () => apiUrl('current_reader/activities'),
       likedGenres: (params) => apiUrl('current_reader/liked_genres', params),
       likedReaders: (params) => apiUrl('current_reader/liked_readers', params),
       likedAuthors: (params) => apiUrl('current_reader/liked_authors', params),
+      uploadImage: (params) => apiUrl('current_reader/images', params),
+      getFollowers: (id) => apiUrl(`social/reader/${id}/followers`),
+      getFollowed: (id) => apiUrl(`social/reader/${id}/followed`),
+      updateLikes: (id) => apiUrl(`social/posts/${id}/likes`),
+      updateComments: (id) => apiUrl(`social/posts/${id}/comments`)
     },
     jwtRefresh: () => apiUrl('token/refresh'),
     jwtAuth: () => apiUrl('token/auth'),

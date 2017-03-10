@@ -1,1 +1,1 @@
-export Home from './Home'
+export HomeWrapper from './HomeWrapper'

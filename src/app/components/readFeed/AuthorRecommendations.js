@@ -1,12 +1,19 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { ExternalRoutes } from '../../constants'
-import { AvatarSummary } from '../common'
-import { Follow } from '../../redux/actions'
+import { AuthorRecSummary } from '../common'
+import { Follow, Recommended } from '../../redux/actions'
 import R from 'ramda'
 
 const { updateFollowed } = Follow
 const { findAuthors } = ExternalRoutes
+const { getRecommendedAuthors } = Recommended
+
+const styles = {
+  recContainer: {
+    marginTop: 20,
+  },
+}
 
 class AuthorRecommendations extends PureComponent {
   constructor(props) {
@@ -20,12 +27,17 @@ class AuthorRecommendations extends PureComponent {
     this.isChosen = this.isChosen.bind(this)
   }
 
+  componentDidMount = () => {
+    this.props.getRecommendedAuthors(3)
+  }
+
   componentDidUpdate = () => {
     const { followed } = this.state
     if (followed.length) this.props.updateFollowed(followed)
     else {
-      const followedExists = this.props.followed.result ?
-        this.props.followed.result[0].authors : null
+      const followedExists = this.props.followed ? followedAuthorExists : null
+      const followedAuthorExists = this.props.followed.results.length ?
+        this.props.followed.results[0].authors : null
       if (followedExists) this.setState({ followed: R.pluck('id', followedExists) })
     }
   }
@@ -51,19 +63,18 @@ class AuthorRecommendations extends PureComponent {
         id,
         firstName,
         lastName,
-        image,
+        imageUrl,
         booksWritten,
-        description // TODO: temporary while we have fake data. should delete this.
       } = author
       return (
         <div className='column column-block' key={id}>
-          <AvatarSummary
+          <AuthorRecSummary
             id={id}
             key={id}
             title={`${firstName} ${lastName}`}
-            image={image}
-            description={description}
-            booksWritten={booksWritten || description}
+            image={imageUrl}
+            description={'Nothing about me yet'}
+            booksWritten={booksWritten}
             isChosen={this.isChosen}
             handleChipClick={event => {
               this.handleChipClick(event, id, firstName, lastName, image, booksWritten)
@@ -76,20 +87,20 @@ class AuthorRecommendations extends PureComponent {
 
   render() {
     const { recommended } = this.props
-    const authors = recommended[0] ? recommended[0].authors : null
+    const authors = recommended ? recommended.authors : null
 
     return (
-      <div className='left-container small-12 columns'>
-        <div className='lead'>
+      <div style={styles.recContainer} className='left-container small-12 columns box'>
+        <div className='rec-header'>
           <h4> Recommended Authors </h4>
         </div>
         {/** Derrick, feel free to change how it's rendered in different views: **/}
         <div className='row small-up-1'>
           { authors ? this.renderAuthors(authors) : null }
         </div>
-        <div>
+        <div className='sub-link'>
           <a href={findAuthors()}>
-            See more authors >
+            See more authors
           </a>
         </div>
       </div>
@@ -98,7 +109,9 @@ class AuthorRecommendations extends PureComponent {
 }
 
 const mapStateToProps = ({
-  recommended = [],
+  currentReader: {
+    recommended
+  },
   social: {
     followed
   }
@@ -109,4 +122,9 @@ const mapStateToProps = ({
   }
 }
 
-export default connect(mapStateToProps, { updateFollowed })(AuthorRecommendations)
+const mapDispatchToProps = {
+  getRecommendedAuthors,
+  updateFollowed
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthorRecommendations)

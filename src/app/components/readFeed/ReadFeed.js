@@ -20,7 +20,6 @@ class ReadFeed extends PureComponent {
       <div className=''>
         <NavMenu isUserLoggedIn={isUserLoggedIn} />
         <div className='row center-text read-feed'>
-          {/** pass down backgroundImage and profileImage prop to Left Container**/}
           <LeftContainer/>
           <MiddleContainer />
           <RightContainer />
