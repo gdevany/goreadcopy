@@ -284,6 +284,7 @@ class TilesWrapper extends PureComponent {
           break
         case 'advertising':
           switch (tile.advertiser.name) {
+            // TODO: Need the likes and comments objects from the API team
             case 'readerslegacy':
               const adContent = {
                 promoted: true,
