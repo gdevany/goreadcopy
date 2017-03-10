@@ -108,14 +108,14 @@
 // }
 
 .loged-menu-item-active{
-  border-bottom: solid 2px $blue;
+  border-bottom: solid 1px $black;
 
   @media all and (max-width: 1024px){
     border-bottom: none;
   }
 
   a {
-    color: $blue;
+    color: $black;
   }
 
 
@@ -311,7 +311,7 @@
   &:before {
     content: '';
     display: block;
-    background: url(../image/home-icon-hover.svg) no-repeat; /*TODO: switchout icon*/
+    background: url(../image/home-icon-active.svg) no-repeat; /*TODO: switchout icon*/
     width: 20px;
     height: 20px;
     float: left;
