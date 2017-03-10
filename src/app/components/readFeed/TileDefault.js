@@ -52,6 +52,7 @@ const styles = {
     fontWeight: 600,
   },
   postText: {
+    color: Colors.black,
     display: 'inline',
     marginLeft: 6,
   },
@@ -70,7 +71,7 @@ const styles = {
     marginTop: -5,
   },
   contentContainer: {
-    padding: '0 30px',
+    padding: '0 30px 30px 30px',
   },
   socialContainer: {
     margin: 0,
@@ -116,7 +117,18 @@ const styles = {
   },
   postButton: {
     float: 'right',
-    marginRight: 30,
+    marginRight: 35,
+  },
+  cardContainer: {
+    borderRadius: 5,
+    boxShadow: 'rgba(222, 222, 222, 0.5) 0px 4px 20px 0px',
+  },
+  postInput: {
+    border: `1px solid ${Colors.lightMedGrey}`,
+    borderRadius: 3,
+    outline: 'none',
+    marginLeft: 85,
+    maxWidth: 450,
   },
 }
 
@@ -256,17 +268,22 @@ class TileDefault extends PureComponent {
     const inputType = isComment ? 'commentInput' : 'shareInput'
     return (
       <div className='input-post-box'>
-        <input
+        <textarea
           type='text'
           className='search-input'
           placeholder='Share your thoughts'
           onChange={this.handleInputOnChange(`${inputType}`)}
           value={isComment ? commentInput : shareInput}
+          rows='3'
+          style={styles.postInput}
         />
-        <PrimaryButton
-          label={isComment ? 'Post' : 'Share'}
-          onClick={isComment ? this.handleCommentSubmit : this.handleShareSubmit}
-        />
+
+        <div style={styles.postButton}>
+          <PrimaryButton
+            label={isComment ? 'Post' : 'Share'}
+            onClick={isComment ? this.handleCommentSubmit : this.handleShareSubmit}
+          />
+        </div>
       </div>
     )
   }
@@ -298,7 +315,11 @@ class TileDefault extends PureComponent {
 
     return (
       <div>
-        <Card expanded={commentsOpen} className='base-tile-container'>
+        <Card
+          style={styles.cardContainer}
+          expanded={commentsOpen}
+          className='base-tile-container'
+        >
           <CardHeader
             title={author.name}
             titleStyle={styles.nameText}
@@ -311,7 +332,7 @@ class TileDefault extends PureComponent {
           >
             <span style={styles.timeStamp}> { promoted ? 'Promoted' : timestamp } </span>
           </CardHeader>
-          <CardText className='tile-main-content'>
+          <CardText style={styles.contentContainer} className='tile-main-content'>
             {this.props.children}
           </CardText>
 
