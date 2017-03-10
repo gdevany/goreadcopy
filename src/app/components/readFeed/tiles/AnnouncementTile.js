@@ -25,11 +25,9 @@ class AnnouncementTile extends Component {
     this.getAnnouncement = this.getAnnouncement.bind(this)
   }
 
-  /*
   componentDidMount() {
     this.getAnnouncement(this.props.isFirstLogin)
   }
-  */
 
   componentWillReceiveProps(nextProps) {
     if (this.props.isFirstLogin !== nextProps.isFirstLogin) {
@@ -38,17 +36,14 @@ class AnnouncementTile extends Component {
   }
 
   getAnnouncement(isFirstLogin) {
-    debugger
-    if (false) {
+    if (isFirstLogin) {
       this.setState({ announcement: Welcome })
     } else {
-      debugger
       this.queryAnnouncement()
     }
   }
 
   queryAnnouncement() {
-    debugger
     getAnnouncements()
       .then(({ data: { title, body, id } }) => {
         this.setState({ announcement: { title, body, id } })
@@ -60,8 +55,9 @@ class AnnouncementTile extends Component {
     this.setState({
       isOpen: false,
     })
+    // TO DO: SEND THE ID IN THE CORRECT FORMAT
     if (this.state.announcement.id) {
-      dismissAnnouncement({ data: this.state.announcement.id })
+      dismissAnnouncement({ id: this.state.announcement.id })
     }
   }
 
