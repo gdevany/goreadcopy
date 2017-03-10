@@ -133,22 +133,6 @@ class TilesWrapper extends PureComponent {
             />
           )
           break
-        case 'buzz_ad':
-          const adContent = {
-            promoted: true,
-            image: tile.content.imageUrl,
-            title: tile.content.heading,
-            description: tile.content.description,
-            link: tile.content.url
-          }
-          result.push(
-            <AdvertisingTile
-              key={index}
-              tileDefaultProps={tileDefaultProps}
-              content={adContent}
-            />
-          )
-          break
         case 'bookclub_event':
         case 'buzzappearance':
           const eventContent = {
@@ -299,18 +283,64 @@ class TilesWrapper extends PureComponent {
           )
           break
         case 'advertising':
-          const adSenseContent = {
-            promoted: true,
-            isAdsense: true,
-            image: './image/adv-sense.png'
-          }
+          switch (tile.advertiser.name) {
+            case 'readerslegacy':
+              console.log('readerslegacy ad')
+              console.log(tile)
+              const adContent = {
+                promoted: true,
+                image: tile.advertiser.buzzAd.imageUrl,
+                title: tile.advertiser.buzzAd.heading,
+                description: tile.advertiser.buzzAd.description,
+                link: tile.advertiser.buzzAd.url
+              }
+              tileDefaultProps = {
+                author: {
+                  name: (tile.advertiser.buzzAd.author.fullname),
+                  image: (tile.advertiser.buzzAd.author.imageUrl),
+                  link: (tile.advertiser.buzzAd.author.url)
+                },
+                likes: {
+                  likes: 0,
+                  likedByReader: true
+                },
+                comments: {
+                  count: 0,
+                  commentedByReader: false,
+                  results: []
+                },
+                shareInfo: {
+                  title: tile.advertiser.buzzAd.heading,
+                  shareLink: tile.advertiser.buzzAd.url
+                }
+              }
+              result.push(
+                <AdvertisingTile
+                  key={index}
+                  tileDefaultProps={tileDefaultProps}
+                  content={adContent}
+                />
+              )
+              break
+            case 'adsense':
+              console.log('Adsense ad')
+              console.log(tile)
+              const adSenseContent = {
+                promoted: true,
+                isAdsense: true,
+                image: './image/adv-sense.png'
+              }
 
-          result.push(
-            <AdsenseTile
-              key={index}
-              content={adSenseContent}
-            />
-          )
+              result.push(
+                <AdsenseTile
+                  key={index}
+                  content={adSenseContent}
+                />
+              )
+              break
+            default:
+              return
+          }
           break
         default:
           return
