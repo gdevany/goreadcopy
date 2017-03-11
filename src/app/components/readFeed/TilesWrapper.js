@@ -286,18 +286,26 @@ class TilesWrapper extends PureComponent {
           switch (tile.advertiser.name) {
             // TODO: Need the likes and comments objects from the API team
             case 'readerslegacy':
+              const {
+                imageUrl,
+                heading,
+                description,
+                url,
+                author,
+              } = tile.advertiser.buzzAd
+
               const adContent = {
                 promoted: true,
-                image: tile.advertiser.buzzAd.imageUrl,
-                title: tile.advertiser.buzzAd.heading,
-                description: tile.advertiser.buzzAd.description,
-                link: tile.advertiser.buzzAd.url
+                image: imageUrl,
+                title: heading,
+                description: description,
+                link: url
               }
               tileDefaultProps = {
                 author: {
-                  name: (tile.advertiser.buzzAd.author.fullname),
-                  image: (tile.advertiser.buzzAd.author.imageUrl),
-                  link: (tile.advertiser.buzzAd.author.url)
+                  name: (author.fullname),
+                  image: (author.imageUrl),
+                  link: (author.url)
                 },
                 likes: {
                   likes: 0,
@@ -306,7 +314,7 @@ class TilesWrapper extends PureComponent {
                 comments: {
                   count: 0,
                   commentedByReader: false,
-                  results: []
+                  results: [],
                 },
                 shareInfo: {
                   title: tile.advertiser.buzzAd.heading,
@@ -325,7 +333,6 @@ class TilesWrapper extends PureComponent {
               const adSenseContent = {
                 promoted: true,
                 isAdsense: true,
-                image: './image/adv-sense.png'
               }
 
               result.push(
