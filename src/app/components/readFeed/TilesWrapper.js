@@ -239,7 +239,7 @@ class TilesWrapper extends PureComponent {
             }
           }
           const accountContent = {
-            name: tile.actor.fullname,
+            name: tile.content.fullname,
             location: 'Los Angeles, CA',
             description: tile.content.description,
             image: tile.content.imageUrl,
@@ -307,13 +307,14 @@ class TilesWrapper extends PureComponent {
                   link: (author.url)
                 },
                 likes: {
-                  likes: 0,
+                  likes: {
+                    count: 0
+                  },
                   likedByReader: true
                 },
                 comments: {
                   count: 0,
                   commentedByReader: false,
-                  results: [],
                 },
                 shareInfo: {
                   title: tile.advertiser.buzzAd.heading,
