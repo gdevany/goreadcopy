@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import FollowProfile from './FollowProfile'
+import { FavoriteGenres } from '../common'
 
 class LeftProfileContainer extends PureComponent {
   render() {
@@ -8,6 +9,7 @@ class LeftProfileContainer extends PureComponent {
     return (
       <div className='right-container small-6 columns'>
         { id ? <FollowProfile id={id} /> : null}
+        <FavoriteGenres />
       </div>
     )
   }
