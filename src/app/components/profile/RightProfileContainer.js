@@ -2,7 +2,7 @@ import React from 'react'
 
 const RightProfileContainer = () => {
   return (
-    <div className='right-container small-8 columns'>
+    <div className='right-container small-6 columns'>
       RIGHT CONTAINER
     </div>
   )

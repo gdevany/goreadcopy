@@ -75,15 +75,18 @@ class ReadFeedProfile extends PureComponent {
   }
 
   backgroundUpload = (file) => {
-    this.setState({ backgroundImageUpload: file })
-    this.setState({ hasBackgroundImage: false })
+    this.setState({
+      hasBackgroundImage: false,
+      backgroundImageUpload: file
+    })
     this.getBase64AndUpdate(file[0], 'backgroundImage')
   }
 
   profileUpload = (file) => {
-    this.setState({ profileImageUpload: file })
-    this.setState({ hasProfileImage: false })
-
+    this.setState({
+      profileImageUpload: file,
+      hasProfileImage: false
+    })
     this.getBase64AndUpdate(file[0], 'profileImage')
   }
 
