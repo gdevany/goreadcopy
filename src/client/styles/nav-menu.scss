@@ -416,3 +416,16 @@
     margin: 0 6px -4px 0;
   }
 }
+
+.search-icon {
+  &:before {
+    content: '';
+    display: block;
+    background: url(../image/search-icon.svg) no-repeat;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: 15px;
+    top: 11px;
+  }
+}
