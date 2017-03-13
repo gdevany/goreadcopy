@@ -42,13 +42,13 @@ class TilesWrapper extends PureComponent {
         time: '4AM'
       }
     }
+    return timeType
   }
 
   renderTiles = (tiles) => {
     const result = []
 
     tiles.forEach((tile, index) => {
-      // TODO: Remove comments results
       let tileDefaultProps = {}
       if (tile.tileType !== 'advertising') {
         tileDefaultProps = {
@@ -61,13 +61,12 @@ class TilesWrapper extends PureComponent {
             link: (tile.actor.url || tile.actor.link)
           },
           likes: {
-            likes: tile.likes.count,
+            count: tile.likes.count,
             likedByReader: tile.likedByReader
           },
           comments: {
             count: tile.comments.count,
-            commentedByReader: tile.commentedByReader,
-            results: (tile.comments.results || [])
+            commentedByReader: tile.commentedByReader
           },
           shareInfo: {
             title: tile.content.title,

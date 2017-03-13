@@ -49,6 +49,17 @@
   }
 }
 
+.dropzone-profile-profilepage {
+  height: 150px;
+  margin-left: 15px;
+  width: 150px;
+
+  img {
+    height: 100%;
+    border-radius: 3%;
+  }
+}
+
 .camera-transparent {
   opacity: 0;
 }
@@ -68,6 +79,12 @@
   width: 30px;
 }
 
+.camera-profile-profilepage {
+  opacity: 0;
+  margin-top: -80px;
+  width: 50px;
+}
+
 .background-image-wrapper:hover + .dropzone-background,
 .profile-top:hover .overlay,
 .profile-top:hover .dropzone-background {
@@ -81,6 +98,12 @@
 }
 
 .profile-image:hover + .camera-profile, .camera-profile:hover {
+  cursor: pointer;
+  opacity: 0.9;
+  transition: .3s ease;
+}
+
+.profile-image-profilepage:hover + .camera-profile-profilepage, .camera-profile-profilepage:hover {
   cursor: pointer;
   opacity: 0.9;
   transition: .3s ease;

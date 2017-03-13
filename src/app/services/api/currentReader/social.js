@@ -6,8 +6,8 @@ const {
   currentReader: {
     getFollowers,
     getFollowed,
-    updateLikes,
-    updateComments
+    updateReadFeedLikes,
+    updateReadFeedComments,
   }
 } = Endpoints
 
@@ -15,8 +15,8 @@ const Social = () => {
   return {
     getFollowers: (id, body) => authenticated().get(getFollowers(id), body),
     getFollowed: (id, body) => authenticated().get(getFollowed(id), body),
-    updateLikes: (id, body) => authenticated().get(updateLikes(id), body),
-    updateComments: (id, body) => authenticated().get(updateComments(id), body)
+    updateReadFeedLikes: (id, body) => authenticated().post(updateReadFeedLikes(id), body),
+    updateReadFeedComments: (id, body) => authenticated().post(updateReadFeedComments(id), body)
   }
 }
 
