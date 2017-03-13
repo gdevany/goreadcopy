@@ -326,7 +326,7 @@ class TilesWrapper extends PureComponent {
             <MergedTile
               key={index}
               tileDefaultProps={tileDefaultProps}
-              content={tile.targets}
+              content={tile}
             />
           )
           break
