@@ -2,12 +2,11 @@ import React, { PureComponent, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Tiles } from '../../redux/actions'
 import { PrimaryButton } from '../common'
-import FavoriteIcon from 'material-ui/svg-icons/action/favorite'
-import CommentsIcon from 'material-ui/svg-icons/communication/chat-bubble-outline'
-import ShareIcon from 'material-ui/svg-icons/social/share'
+import { Colors } from '../../constants/style'
 import {
   Card,
   CardActions,
+  CardHeader,
   CardText,
   Popover,
 } from 'material-ui'
@@ -28,12 +27,112 @@ const TwitterIcon = generateShareIcon('twitter')
 const GooglePlusIcon = generateShareIcon('google')
 const LinkedinIcon = generateShareIcon('linkedin')
 
-const { updateLikes, updateComments } = Tiles
+const {
+  updateReadFeedLikes,
+  updateReadFeedComments,
+  getReadFeedComments,
+} = Tiles
 
 const styles = {
   popover: {
     borderRadius: 9,
     boxShadow: 'rgba(0, 0, 0, 0.1) 0px 2px 20px',
+  },
+  headerContainer: {
+    padding: 30,
+    textAlign: 'left',
+  },
+  commentHeaderContainer: {
+    padding: '30px 30px 15px',
+    textAlign: 'left',
+  },
+  card: {
+    boxShadow: 'rgba(0, 0, 0, 0.1) 0px 2px 20px',
+  },
+  nameText: {
+    color: Colors.blue,
+    display: 'inline',
+    fontSize: 14,
+    fontWeight: 600,
+  },
+  postText: {
+    color: Colors.black,
+    display: 'inline',
+    marginLeft: 6,
+  },
+  commentTimeStamp: {
+    display: 'inline',
+    marginLeft: 10,
+  },
+  timeStamp: {
+    fontSize: 14,
+    color: Colors.grey,
+    position: 'absolute',
+    left: 85,
+    top: 53,
+  },
+  textContainer: {
+    marginTop: -5,
+  },
+  contentContainer: {
+    padding: '0 30px 30px 30px',
+  },
+  socialContainer: {
+    margin: 0,
+  },
+  socialWrapper: {
+    borderTop: `2px solid ${Colors.lightGrey}`,
+    fontSize: 14,
+    padding: '20px 30px',
+  },
+  commentContainer: {
+    borderTop: `2px solid ${Colors.lightGrey}`,
+    padding: 0,
+  },
+  likesContainer: {
+    textAlign: 'left',
+    padding: 0,
+  },
+  shareContainer: {
+    textAlign: 'right',
+    padding: 0,
+  },
+  sharePopover: {
+    margin: 0,
+    padding: 20,
+    listStyle: 'none',
+  },
+  shareLink: {
+    marginBottom: 10,
+  },
+  shareButton: {
+    margin: '0 auto',
+  },
+  shareGoReadLink: {
+    margin: 0,
+  },
+  commentCard: {
+    boxShadow: 'none',
+  },
+  commentContent: {
+    padding: '0 30px',
+    marginLeft: 54,
+    textAlign: 'left',
+  },
+  postButton: {
+    float: 'right',
+    marginRight: 35,
+  },
+  cardContainer: {
+    borderRadius: 5,
+    boxShadow: 'rgba(222, 222, 222, 0.5) 0px 4px 20px 0px',
+  },
+  postInput: {
+    border: `1px solid ${Colors.lightMedGrey}`,
+    borderRadius: 3,
+    outline: 'none',
+    marginLeft: 85,
+    maxWidth: 450,
   },
 }
 
@@ -58,16 +157,12 @@ class TileDefault extends PureComponent {
       commented: props.comments.commentedByReader,
       commentedCount: props.comments.count,
       commentPostOpen: false,
+      calledCommentEndpoint: false,
       commentInput: '',
       shareInput: '',
       sharedOpen: false,
       sharePostOpen: false,
     }
-  }
-
-  componentWillMount = () => {
-    //TODO: set current liked, share, and comment count
-    //TODO: Set if user liked, commented, and shared on this post before?
   }
 
   componentDidMount = () => {
@@ -76,80 +171,124 @@ class TileDefault extends PureComponent {
 
   componentDidUpdate = (prevProps, prevState) => {
     const { likedCount } = this.state
-    const { tileId } = this.props
-    if (prevState.likedCount !== likedCount) this.props.updateLikes(tileId, { liked: true })
+    const { tileId, updateReadFeedLikes } = this.props
+    if (prevState.likedCount !== likedCount) updateReadFeedLikes(tileId, { liked: true })
   }
 
   handleLiked = () => {
     const { liked, likedCount } = this.state
     if (liked) {
-      this.setState({ liked: false })
-      this.setState({ likedCount: likedCount - 1 })
+      this.setState({
+        liked: false,
+        likedCount: likedCount - 1
+      })
     } else {
-      this.setState({ liked: true })
+      this.setState({
+        liked: true,
+        likedCount: likedCount + 1
+      })
       this.setState({ likedCount: likedCount + 1 })
     }
   }
 
   handleCommentsOpen = () => {
-    const { commentsOpen, sharePostOpen } = this.state
+    const {
+      commentsOpen,
+      sharePostOpen,
+      calledCommentEndpoint
+    } = this.state
+    const { readFeedComments, tileId } = this.props
     if (commentsOpen) {
       if (sharePostOpen) {
-        this.setState({ sharePostOpen: false })
-        this.setState({ commentPostOpen: true })
+        this.setState({
+          sharePostOpen: false,
+          commentPostOpen: true
+        })
       } else {
-        this.setState({ commentsOpen: false })
-        this.setState({ commentPostOpen: false })
+        this.setState({
+          commentsOpen: false,
+          commentPostOpen: false
+        })
       }
     } else {
-      this.setState({ commentsOpen: true })
-      this.setState({ commentPostOpen: true })
+      if (!calledCommentEndpoint && readFeedComments) {
+        this.setState({ calledCommentEndpoint: this.findCommentsForThisTile() })
+      }
+      if (!calledCommentEndpoint) this.props.getReadFeedComments(tileId)
+      this.setState({
+        commentsOpen: true,
+        commentPostOpen: true
+      })
     }
   }
 
-  handleRenderComments = (comments) => {
-    return comments.map(comment => {
+  findCommentsForThisTile = () => {
+    const { tileId, readFeedComments } = this.props
+    return R.prop(tileId, readFeedComments)
+  }
+
+  handleRenderComments = (allComments) => {
+    const foundComments = this.findCommentsForThisTile()
+    return foundComments ? foundComments.comments.map(comment => {
       return (
-        <Card key={`${comment.name}-${comment.id}`}>
-          <div className='comment-header-container'>
-            <figure className='comment-figure-container'>
-              <a href=''>
-                <img className='comment-img' src={comment.authorImage}/>
-              </a>
-            </figure>
-            <div className='comment-details-container'>
-              <a href='' className='comment-author-anchor'>
-                {comment.name}
-              </a>
-              <span className='comment-timestamp'>
-                {comment.timestamp}
-              </span>
-            </div>
-          </div>
-          <CardText>
+        <Card
+          key={`${comment.profile.fullname}-${comment.id}`}
+          style={styles.commentCard}
+        >
+          <CardHeader
+            title={comment.profile.fullname}
+            titleStyle={styles.nameText}
+            style={styles.commentHeaderContainer}
+            avatar={comment.profile.imageUrl}
+            textStyle={styles.textContainer}
+          >
+            <p style={styles.timeStamp}> {comment.datetime} </p>
+          </CardHeader>
+
+          <CardText style={styles.commentContent}>
+            {/** TODO: use renderTime method here **/}
             {comment.content}
           </CardText>
         </Card>
       )
-    })
+    }) : null
   }
 
   handleCommentSubmit = () => {
-    const { commented, commentedCount, commentInput } = this.state
+    const {
+      commented,
+      commentedCount,
+      commentInput
+    } = this.state
+    const {
+      tileId,
+      url,
+      fullname,
+      profileImage
+    } = this.props
+    const findDateTime = Date.now().toString().split('').slice(0, 10).join('')
+    const dateTime = Number(findDateTime)
+    const profile = {
+      url,
+      fullname,
+      imageUrl: profileImage
+    }
     if (!commented) this.setState({ commented: true })
-    this.setState({ commentedCount: commentedCount + 1 })
-    this.setState({ commentInput: '' })
-    // TODO: What to send over? Comment, current_reader?, comment count?
-    // which post it is? anything else?
-    this.props.updateComments(commentInput)
+    this.setState({
+      commentedCount: commentedCount + 1,
+      commentInput: ''
+    })
+    this.props.updateReadFeedComments(tileId, commentInput, dateTime, profile)
   }
 
   handleShareSubmit = () => {
     const { sharedCount } = this.state
-    this.setState({ sharePostOpen: false })
-    this.setState({ commentPostOpen: true })
-    this.setState({ sharedCount: sharedCount + 1 })
-    this.setState({ shareInput: '' })
+    this.setState({
+      sharePostOpen: false,
+      commentPostOpen: true,
+      sharedCount: sharedCount + 1,
+      shareInput: ''
+    })
   }
 
   handleShareOpen = () => {
@@ -161,11 +300,14 @@ class TileDefault extends PureComponent {
 
   handleShareOpenGoRead = () => {
     const { commentsOpen, commentPostOpen, sharedOpen } = this.state
-    if (!commentsOpen && sharedOpen) this.setState({ commentsOpen: true })
-    if (commentPostOpen) {
-      this.setState({ commentPostOpen: false })
-      this.setState({ sharePostOpen: true })
+    if (!commentsOpen && sharedOpen) {
+      this.setState({
+        commentsOpen: true,
+        sharedOpen: false
+      })
     }
+    if (commentPostOpen) this.setState({ commentPostOpen: false })
+    this.setState({ sharePostOpen: true })
   }
 
   handleInputOnChange = R.curry((field, event) => {
@@ -178,17 +320,22 @@ class TileDefault extends PureComponent {
     const inputType = isComment ? 'commentInput' : 'shareInput'
     return (
       <div className='input-post-box'>
-        <input
+        <textarea
           type='text'
           className='search-input'
           placeholder='Share your thoughts'
           onChange={this.handleInputOnChange(`${inputType}`)}
           value={isComment ? commentInput : shareInput}
+          rows='3'
+          style={styles.postInput}
         />
-        <PrimaryButton
-          label={isComment ? 'Post' : 'Share'}
-          onClick={isComment ? this.handleCommentSubmit : this.handleShareSubmit}
-        />
+
+        <div style={styles.postButton}>
+          <PrimaryButton
+            label={isComment ? 'Post' : 'Share'}
+            onClick={isComment ? this.handleCommentSubmit : this.handleShareSubmit}
+          />
+        </div>
       </div>
     )
   }
@@ -207,86 +354,89 @@ class TileDefault extends PureComponent {
     const {
       author,
       timestamp,
-      comments,
       shareInfo,
       promoted,
-      action
+      action,
+      readFeedComments
     } = this.props
-
     return (
       <div>
-        <Card expanded={commentsOpen} className='base-tile-container'>
-          <div className='base-tile-header'>
-            <figure className='tile-actor-figure'>
-              <a href={author.link}>
-                <img className='tile-actor-image' src={author.image} alt=''/>
-              </a>
-            </figure>
-            <div className='tile-actor-details'>
-              <div className='tile-actor-container'>
-                <span className='tile-actor-name'>
-                  <a href={author.link}>{author.name}</a>
-                </span>
-                <span className='tile-actor-action'>
-                  { promoted ? null : action }
-                </span>
-              </div>
-              <div className='tile-actor-timestamp'>
-                <span>
-                  { promoted ? 'Promoted' : timestamp }
-                </span>
-              </div>
-            </div>
-          </div>
-          <CardText className='tile-main-content'>
+        <Card
+          style={styles.cardContainer}
+          expanded={commentsOpen}
+          className='base-tile-container'
+        >
+          <CardHeader
+            title={author.name}
+            titleStyle={styles.nameText}
+            subtitle={action}
+            subtitleStyle={styles.postText}
+            style={styles.headerContainer}
+            textStyle={styles.textContainer}
+            avatar={author.image}
+            actAsExpander={true}
+          >
+            <span style={styles.timeStamp}> { promoted ? 'Promoted' : timestamp } </span>
+          </CardHeader>
+          <CardText style={styles.contentContainer} className='tile-main-content'>
             {this.props.children}
           </CardText>
-          <CardActions className='base-tile-footer'>
-            <div className='like-action-container'>
-              <a
-                className='like-anchor'
-                onClick={this.handleLiked}
-                className={liked ? 'liked' : 'not-liked'}
-              >
-              <FavoriteIcon className={liked ? 'liked' : 'not-liked'}/>
-              </a>
-              <span className='likes-counter'>
-                {likedCount}
-              </span>
-            </div>
-            <div className='comments-action-container'>
-              <a
-                onClick={this.handleCommentsOpen}
-                className='comments-anchor'
-              >
-                <CommentsIcon className={commented ? 'commented' : 'not-commented'}/>
-              </a>
-              <span className='comments-counter'>
-                {commentedCount}
-              </span>
-            </div>
-            <div className='shared-count shares-action-container'>
-              <a
-                className='shares-anchor'
-                onClick={this.handleShareOpen}
-              >
-              <span ref='share'>
-                <ShareIcon/>
-              </span>
-              <span className='shares-title'>
-                Share
-              </span>
-              </a> {sharedCount}
+
+          <CardActions style={styles.socialWrapper}>
+            <div style={styles.socialContainer} className='row'>
+              <div className='small-4 columns' style={styles.likesContainer}>
+                <div className='likes-count'>
+                  <a
+                    onClick={this.handleLiked}
+                    className={liked ? 'liked' : 'not-liked'}
+                  />
+
+                <span
+                  className={liked ? 'liked-number' : 'not-liked-number'}
+                >
+                  {likedCount}
+                </span>
+
+                </div>
+              </div>
+
+              <div className='small-4 columns'>
+                <div
+                  className='comments-count'
+                >
+                  <a
+                    onClick={this.handleCommentsOpen}
+                    className={commented ? 'commented' : 'not-commented'}
+                  />
+
+                  <span
+                    className={commented ? 'commented-number' : 'not-commented-number'}
+                  >
+                  {commentedCount}
+                  </span>
+                </div>
+              </div>
+              <div className='small-4 columns' style={styles.shareContainer}>
+                <div className='shared-count'>
+                  <a
+                    onClick={this.handleShareOpen}
+                  >
+                  <span className='share' ref='share'>
+                    Share
+                  </span>
+                  </a> {sharedCount}
+                </div>
+              </div>
             </div>
           </CardActions>
-
           <CardText
             className='comments-wrapper'
             expandable={true}
+            style={styles.commentContainer}
           >
             <div className='comments'>
               {/** TODO: Call API endpoint to get comments.results.here**/}
-              {this.handleRenderComments(comments.results)}
+              {readFeedComments ? this.handleRenderComments(readFeedComments) : null}
             </div>
             {
               sharePostOpen ?
@@ -299,7 +449,6 @@ class TileDefault extends PureComponent {
             }
           </CardText>
         </Card>
-
         <Popover
           open={this.state.sharedOpen}
           anchorEl={this.state.anchorEl}
@@ -309,8 +458,8 @@ class TileDefault extends PureComponent {
           zDepth={5}
           style={styles.popover}
         >
-          <ul className='share-elements-container'>
-            <li className='share-elements-item'>
+          <ul style={styles.sharePopover}>
+            <li style={styles.shareLink}>
               <FacebookShareButton
                 url={shareInfo.shareLink}
                 title={shareInfo.title}
@@ -322,7 +471,8 @@ class TileDefault extends PureComponent {
                 />
               </FacebookShareButton>
             </li>
-            <li className='share-elements-item'>
+
+            <li style={styles.shareLink}>
               <TwitterShareButton
                 url={shareInfo.shareLink}
                 title={shareInfo.title}
@@ -331,10 +481,12 @@ class TileDefault extends PureComponent {
                 <TwitterIcon
                   size={32}
                   round
+                  style={styles.shareButton}
                 />
               </TwitterShareButton>
             </li>
-            <li className='share-elements-item'>
+
+            <li style={styles.shareLink}>
               <LinkedinShareButton
                 url={shareInfo.shareLink}
                 title={shareInfo.title}
@@ -348,7 +500,8 @@ class TileDefault extends PureComponent {
                   />
               </LinkedinShareButton>
             </li>
-            <li className='share-elements-item'>
+
+            <li style={styles.shareLink}>
               <GooglePlusShareButton
                 url={shareInfo.shareLink}
                 className='google-plus-share-button'
@@ -359,11 +512,12 @@ class TileDefault extends PureComponent {
                 />
               </GooglePlusShareButton>
             </li>
+
             <li
-              className='share-elements-item'
+              style={styles.shareGoReadLink}
               onClick={this.handleShareOpenGoRead}
             >
-              GoRead
+            GoRead
             </li>
           </ul>
         </Popover>
@@ -382,8 +536,27 @@ TileDefault.propTypes = {
   shareInfo: PropTypes.object
 }
 
-const mapDispatchToProps = {
-  updateLikes,
-  updateComments,
+const mapStateToProps = ({
+  currentReader: {
+    fullname,
+    url,
+    profileImage
+  },
+  tiles: {
+    readFeedComments
+  }
+}) => {
+  return {
+    readFeedComments,
+    fullname,
+    url,
+    profileImage
+  }
 }
-export default connect(null, mapDispatchToProps)(TileDefault)
+
+const mapDispatchToProps = {
+  updateReadFeedLikes,
+  updateReadFeedComments,
+  getReadFeedComments
+}
+export default connect(mapStateToProps, mapDispatchToProps)(TileDefault)
