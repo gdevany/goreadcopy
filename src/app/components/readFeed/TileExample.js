@@ -1,6 +1,21 @@
 import React, { PureComponent } from 'react'
 import TileDefault from './TileDefault'
 
+const styles = {
+  contentTextContainer: {
+    textAlign: 'left',
+    padding: '30px 0',
+  },
+
+  img: {
+    borderRadius: 4,
+  },
+
+  descriptionText: {
+    marginBottom: 0,
+  },
+}
+
 const name = 'JK Rowling'
 const description = 'posted on her page'
 const profileImage = './image/portrait3.png'
@@ -18,7 +33,7 @@ const comments = {
     authorImage: '.../image/path',
     commentImage: '.../commentImage/path', // if they posted an image with their post
     timestamp: '3 minutes ago',
-    content: 'sooo cool!'
+    content: 'Kinfolk succulents poutine glossier polaroid, squid photo booth 3 wolf moon vaporware'
   },
   {
     id: 3,
@@ -62,9 +77,12 @@ class TileExample extends PureComponent {
           content={content}
           tileId={tileId}
         >
-          <h2> {content.title} </h2>
-          <img src={content.media} />
-          <p> {content.details}</p>
+          <img style={styles.img} src={content.media} />
+
+          <div style={styles.contentTextContainer}>
+            <h3> {content.title} </h3>
+            <p style={styles.descriptionText}> {content.details}</p>
+          </div>
         </TileDefault>
       </div>
     )
