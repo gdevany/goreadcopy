@@ -53,7 +53,7 @@ const styles = {
   },
 }
 
-class BaseMergedTile extends PureComponent {
+class MergedTileDefault extends PureComponent {
 
   render() {
     const {
@@ -86,4 +86,4 @@ class BaseMergedTile extends PureComponent {
   }
 }
 
-export default BaseMergedTile
+export default MergedTileDefault

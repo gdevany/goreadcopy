@@ -1,14 +1,25 @@
 import React, { PureComponent } from 'react'
-import BaseMergedTile from '../BaseMergedTile'
+import MergedTileDefault from '../MergedTileDefault'
 
 class MergedTile extends PureComponent {
 
-  mapMergedTiles = () => {
+  mapMergedUserTiles = () => {
     const { content } = this.props
     return content.targets.map((tile) => {
       return (
-        <a key={tile.id} href={tile.url}>
+        <a className='merged-users' key={tile.id} href={tile.url}>
           <span>{tile.fullname || tile.name}</span>
+        </a>
+      )
+    })
+  }
+
+  mapMergedBookTiles = () => {
+    const { content } = this.props
+    return content.targets.map((tile) => {
+      return (
+        <a className='merged-books' key={tile.id} href={tile.url}>
+          <img src={tile.imageUrl} alt={tile.title}/>
         </a>
       )
     })
@@ -20,18 +31,19 @@ class MergedTile extends PureComponent {
         author,
         timestamp,
         action,
-      }
+      },
+      content
     } = this.props
     return (
-      <BaseMergedTile
+      <MergedTileDefault
         action={action}
         author={author}
         timestamp={timestamp}
       >
         <div className='merged-tile-container'>
-          {this.mapMergedTiles()}
+          {content.mergedType === 'users' ? this.mapMergedUserTiles() : this.mapMergedBookTiles()}
         </div>
-      </BaseMergedTile>
+      </MergedTileDefault>
     )
   }
 }

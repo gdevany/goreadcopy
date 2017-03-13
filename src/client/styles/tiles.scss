@@ -545,7 +545,9 @@
   justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
-  a{
+  max-height: 300px;
+  overflow: scroll;
+  .merged-users{
     &:first-child{
       &:before{
         content: '';
@@ -575,6 +577,12 @@
           color: $black;
         }
       }
+    }
+  }
+  .merged-books{
+    img{
+      width: 113px;
+      margin: .5em;
     }
   }
 }
