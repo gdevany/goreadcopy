@@ -28,7 +28,6 @@ const styles = {
 
   followingSection: {
     marginRight: 32,
-    margin: '-28px 0 0 10px',
     fontSize: 18,
   },
 
@@ -76,15 +75,18 @@ class ReadFeedProfile extends PureComponent {
   }
 
   backgroundUpload = (file) => {
-    this.setState({ backgroundImageUpload: file })
-    this.setState({ hasBackgroundImage: false })
+    this.setState({
+      hasBackgroundImage: false,
+      backgroundImageUpload: file
+    })
     this.getBase64AndUpdate(file[0], 'backgroundImage')
   }
 
   profileUpload = (file) => {
-    this.setState({ profileImageUpload: file })
-    this.setState({ hasProfileImage: false })
-
+    this.setState({
+      profileImageUpload: file,
+      hasProfileImage: false
+    })
     this.getBase64AndUpdate(file[0], 'profileImage')
   }
 
@@ -188,7 +190,7 @@ class ReadFeedProfile extends PureComponent {
       <div style={styles.container} className='box'>
         <div className='profile-wrapper'>
           <div className='profile-top'>
-            <div className='background-image-wrapper'> {/** dont remove this for hover to work **/}
+            <div className='background-image-wrapper'>
               {
                 backgroundImage || backgroundImageUpload ?
                 this.renderImage(hasBackgroundImage, backgroundImageUpload, 'background') : null
@@ -208,80 +210,72 @@ class ReadFeedProfile extends PureComponent {
             </div>
           </div>
 
-            <Dropzone onDrop={this.backgroundUpload} className='dropzone-background'>
-              <img src='./image/upload-photo-icon.svg' />
-              {
-                isUserLoggedIn ?
-                  <img
-                    className={R.concat('camera-background ', cameraBackgroundClass)}
-                    src='./image/camera-material-ui.png'
-                  /> : null
-              }
-            </Dropzone>
-          </div>
           <div className='profile-bottom'>
-              {/** Derrick: You can remove paper and add border instead if you want **/}
-              <div style={styles.profileImageWrapper}>
-                <Dropzone onDrop={this.profileUpload} className='dropzone-profile'>
-                  {
-                    profileImage || profileImageUpload ?
-                      this.renderImage(hasProfileImage, profileImageUpload, 'profile') : null
-                  }
-                </Dropzone>
-              </div>
+            <div style={styles.profileImageWrapper}>
+              <Dropzone onDrop={this.profileUpload} className='dropzone-profile'>
+                {
+                  profileImage || profileImageUpload ?
+                    this.renderImage(hasProfileImage, profileImageUpload, 'profile') : null
+                }
+              </Dropzone>
+            </div>
 
-              <h4
-                style={styles.nameText}
-                className='profile-large-text profile-link'
-              >
-                Mary Reynolds
-              </h4>
+            <h4
+              style={styles.nameText}
+              className='profile-large-text profile-link'
+            >
+              Mary Reynolds
+            </h4>
 
-          <div style={styles.followContainer} className='follow-wrapper row center-text'>
-              <div className='follow-wrapper row center-text'>
-                <h4 style={styles.nameText}> Mary Reynolds </h4>
-                <div className='followers small-6 columns'>
-                  <div
-                    style={styles.followersSection}
-                    className='profile-link'
-                    onClick={() => this.handleOpen('followers')}
-                  >
-                    <span className='small-title'>
-                      Followers
-                    </span>
-                    <br />
-                    <span className='profile-large-text'> {followersCount} </span>
+            <div style={styles.followContainer} className='follow-wrapper row center-text'>
+              <div className='small-12 columns'>
+                <div className='follow-wrapper row center-text'>
+                  <div className='followers small-6 columns'>
+                    <div
+                      style={styles.followersSection}
+                      className='profile-link'
+                      onClick={() => this.handleOpen('followers')}
+                    >
+                      <span className='small-title'>
+                        Followers
+                      </span>
+                      <br />
+                      <span className='profile-large-text'> {followersCount} </span>
+                    </div>
                   </div>
-                </div>
 
-                <div className='following small-6 columns'>
-                  <div
-                    style={styles.followingSection}
-                    className='profile-link'
-                    onClick={() => this.handleOpen('following')}
-                  >
-                  <div className='profile-link' onClick={() => this.handleOpen('following')}>
-                    <span className='small-title'>
-                    Following
-                    </span>
-                    <br />
-                    <span className='profile-large-text'> {followedCount} </span>
+                  <div className='following small-6 columns'>
+                    <div
+                      style={styles.followingSection}
+                      className='profile-link'
+                      onClick={() => this.handleOpen('following')}
+                    >
+                      <div className='profile-link' onClick={() => this.handleOpen('following')}>
+                        <span className='small-title'>
+                        Following
+                        </span>
+                        <br />
+                        <span className='profile-large-text'> {followedCount} </span>
+                      </div>
+                    </div>
                   </div>
-                </div>
 
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-          <div>
+
             <FollowModal
+              followed={followed}
+              followers={followers}
               modalOpen={openedModal}
               handleClose={toCloseModal}
               count={modalFollowCount}
               followType={modalFollowType}
             />
+
           </div>
         </div>
+      </div>
     )
   }
 }

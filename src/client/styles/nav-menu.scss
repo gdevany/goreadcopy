@@ -110,9 +110,15 @@
 .loged-menu-item-active{
   border-bottom: solid 2px $blue;
 
+  @media all and (max-width: 1024px){
+    border-bottom: none;
+  }
+
   a {
     color: $blue;
   }
+
+
 }
 
 .menu-badge-container > div{
@@ -179,8 +185,8 @@
     align-items: center;
     width: 100%;
     padding: 1em 0;
-    background-color: $light-grey;
-    border-bottom: solid 1px $grey;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 20px;
+
     .nav-menu-logged-container{
       display: flex;
       justify-content: space-around;

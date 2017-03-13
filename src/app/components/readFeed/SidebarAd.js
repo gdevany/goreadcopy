@@ -1,14 +1,15 @@
 import React, { PureComponent } from 'react'
-import { Card } from 'material-ui'
 
 class SidebarAd extends PureComponent {
   render() {
     return (
-      <Card className='base-tile-sidebar-container'>
+      <div className='base-tile-sidebar-container box'>
         <div className='adv-sidebar-container'>
+
           <figure className='heading-overflow-figure'>
             <img className='heading-img' src='./image/image.jpg' alt=''/>
           </figure>
+
           <div className='sidebar-content'>
             <h2 className='sidebar-title'>Lorem ipsun dolor sit amet</h2>
             <div className='post-excerpt-container'>
@@ -19,8 +20,9 @@ class SidebarAd extends PureComponent {
               </p>
             </div>
           </div>
+
         </div>
-      </Card>
+      </div>
     )
   }
 }

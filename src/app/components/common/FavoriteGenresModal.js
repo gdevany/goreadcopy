@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { CurrentReader, Genres } from '../../redux/actions'
 import { Dialog, Chip } from 'material-ui'
-import { PrimaryButton } from '../common'
+import PrimaryButton from './PrimaryButton'
 import { Colors, Breakpoints } from '../../constants/style'
 import S from 'underscore.string.fp'
 import R from 'ramda'
@@ -216,8 +216,10 @@ class FavoriteGenresModal extends PureComponent {
     const indexOfGenre = R.findIndex(R.propEq('id', genre.id))(mostPopularGenres)
     if (indexOfGenre >= 0) {
       const updatedGenres = R.reject(R.propEq('id', genre.id), mostPopularGenres)
-      this.setState({ mostPopularGenres: [...updatedGenres] })
-      this.setState({ chosenGenres: [...chosenGenres, genre] })
+      this.setState({
+        chosenGenres: [...chosenGenres, genre],
+        mostPopularGenres: [...updatedGenres]
+      })
     } else {
       this.setState({ mostPopularGenres: [...mostPopularGenres, genre] })
     }
@@ -234,8 +236,10 @@ class FavoriteGenresModal extends PureComponent {
     const indexOfGenre = R.findIndex(R.propEq('id', genre.id))(searchResults)
     if (indexOfGenre >= 0) {
       const updatedGenres = R.reject(R.propEq('id', genre.id), searchResults)
-      this.setState({ searchResults: [...updatedGenres] })
-      this.setState({ chosenGenres: [...chosenGenres, genre] })
+      this.setState({
+        chosenGenres: [...chosenGenres, genre],
+        searchResults: [...updatedGenres]
+      })
     } else {
       this.setState({ searchResults: [...searchResults, genre] })
     }

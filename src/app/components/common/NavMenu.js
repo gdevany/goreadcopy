@@ -12,11 +12,7 @@ import { Colors } from '../../constants/style'
 import SignUpModal from './SignUpModal'
 import LogInModal from './SignInModal'
 import AuthedRedirect from './AuthedRedirect'
-import HomeIcon from 'material-ui/svg-icons/action/home'
-import SearchIcon from 'material-ui/svg-icons/action/search'
 import MenuIcon from 'material-ui/svg-icons/navigation/menu'
-import ChatIcon from 'material-ui/svg-icons/communication/chat-bubble-outline'
-import NotificationsIcon from 'material-ui/svg-icons/social/notifications-none'
 import Badge from 'material-ui/Badge'
 import LitcoinStatus from './LitcoinStatus'
 
@@ -83,12 +79,20 @@ const styles = {
       color: Colors.blue,
     },
   },
+
   profileImageBadge: {
     width: '42px',
     margin: '0 auto',
     height: '42px',
     borderRadius: '100%',
     border: 'solid 2px #696969',
+  },
+
+  menuIcon: {
+    color: Colors.grey,
+    marginTop: 5,
+    height: 28,
+    width: 28,
   },
 }
 
@@ -451,46 +455,53 @@ class NavMenu extends PureComponent {
         <div style={styles.mobileNavContainer} className='top-bar-mobile'>
           <nav className='nav-menu-logged'>
             <ul className='nav-menu-logged-container'>
-              <li className='nav-menu-logged-list'>
-                <a href='' className='nav-menu-logged-anchor'>
-                  <HomeIcon/>
-                </a>
+
+              <li
+                style={styles.loggedInNavLi}
+                className='loged-menu-item loged-menu-item-active home'
+              >
+                <Link to='/' style={styles.navItemLinks} className='home-link rf-nav-link' />
               </li>
-              <li className='nav-menu-logged-list'>
+
+              <li style={styles.loggedInNavLi} className='loged-menu-item'>
                 <a
-                  className='nav-menu-logged-anchor'
+                  style={styles.navItemLinks}
+                  className='search-link rf-nav-link'
                   onClick={this.handleClickSearch}
-                >
-                  <SearchIcon/>
-                </a>
+                />
               </li>
-              <li className='nav-menu-logged-list'>
-                <a href='' className='nav-menu-logged-anchor'>
-                  <ChatIcon/>
-                </a>
+
+              <li style={styles.loggedInNavLi} className='loged-menu-item'>
+                <a href='' style={styles.navItemLinks} className='messages-link rf-nav-link' />
               </li>
-              <li className='nav-menu-logged-list'>
+
+              <li style={styles.loggedInRightNavLi}>
                 <a
                   href=''
-                  className='nav-menu-logged-anchor menu-badge-container'
+                  style={styles.navItemLinks}
+                  className='menu-badge-container rf-nav-link'
                 >
                   <Badge
                     badgeContent={10}
                     primary={true}
                     badgeStyle={{
-                      top: -10,
-                      right: -10,
-                      width: '18px',
-                      height: '18px',
+                      top: -5,
+                      right: -7,
+                      width: '20px',
+                      height: '20px',
+                      paddingTop: 1,
+                      fontWeight: 700,
+                      backgroundColor: Colors.red,
                     }}
                   >
-                    <NotificationsIcon />
+                    <img src='./image/notifications-icon.svg' />
                   </Badge>
                 </a>
               </li>
+
               <li className='nav-menu-logged-list'>
                 <a href='' className='nav-menu-logged-anchor'>
-                  <MenuIcon onClick={this.handleMenuClick}/>
+                  <MenuIcon style={styles.menuIcon} onClick={this.handleMenuClick}/>
                 </a>
               </li>
             </ul>

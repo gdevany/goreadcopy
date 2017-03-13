@@ -6,7 +6,7 @@ import SidebarAd from './SidebarAd'
 
 const RightContainer = () => {
   return (
-    <div className='right-container small-12 large-3 columns'>
+    <div className='right-container large-3 hide-for-small-only hide-for-medium-only columns'>
       <SidebarAd />
       <BookRecommendations />
       <AuthorRecommendations />
