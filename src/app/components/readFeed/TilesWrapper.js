@@ -40,7 +40,7 @@ class TilesWrapper extends PureComponent {
     const result = []
     tiles.forEach((tile, index) => {
       let tileDefaultProps = {}
-      if (tile.tileType !== 'advertising' && tile.actor) {
+      if (tile.tileType !== 'advertising' && tile.tileType !== 'merged') {
         tileDefaultProps = {
           timestamp: this.renderTime(tile.timestamp, 'ago'),
           action: tile.description,
@@ -119,22 +119,6 @@ class TilesWrapper extends PureComponent {
               key={index}
               tileDefaultProps={tileDefaultProps}
               content={albumContent}
-            />
-          )
-          break
-        case 'buzz_ad':
-          const adContent = {
-            promoted: true,
-            image: tile.content.imageUrl,
-            title: tile.content.heading,
-            description: tile.content.description,
-            link: tile.content.url
-          }
-          result.push(
-            <AdvertisingTile
-              key={index}
-              tileDefaultProps={tileDefaultProps}
-              content={adContent}
             />
           )
           break
@@ -245,7 +229,7 @@ class TilesWrapper extends PureComponent {
             }
           }
           const accountContent = {
-            name: tile.actor.fullname,
+            name: tile.content.fullname,
             location: 'Los Angeles, CA',
             description: tile.content.description,
             image: tile.content.imageUrl,
@@ -288,20 +272,66 @@ class TilesWrapper extends PureComponent {
           )
           break
         case 'advertising':
-          // TODO: Not sure how data coming in will look since not included in
-          // test endpoint
-          const adSenseContent = {
-            promoted: true,
-            isAdsense: true,
-            image: './image/adv-sense.png'
-          }
+          switch (tile.advertiser.name) {
+            // TODO: Need the likes and comments objects from the API team
+            case 'readerslegacy':
+              const {
+                imageUrl,
+                heading,
+                description,
+                url,
+                author,
+              } = tile.advertiser.buzzAd
+              const adContent = {
+                promoted: true,
+                image: imageUrl,
+                title: heading,
+                description: description,
+                link: url
+              }
+              tileDefaultProps = {
+                author: {
+                  name: (author.fullname),
+                  image: (author.imageUrl),
+                  link: (author.url)
+                },
+                likes: {
+                  count: 0,
+                  likedByReader: true
+                },
+                comments: {
+                  count: 0,
+                  commentedByReader: false,
+                },
+                shareInfo: {
+                  title: tile.advertiser.buzzAd.heading,
+                  shareLink: tile.advertiser.buzzAd.url
+                }
+              }
+              result.push(
+                <AdvertisingTile
+                  key={index}
+                  tileDefaultProps={tileDefaultProps}
+                  content={adContent}
+                />
+              )
+              break
+            case 'adsense':
+              const adSenseContent = {
+                promoted: true,
+                isAdsense: true,
+              }
 
-          result.push(
-            <AdsenseTile
-              key={index}
-              content={adSenseContent}
-            />
-          )
+              result.push(
+                <AdsenseTile
+                  key={index}
+                  content={adSenseContent}
+                />
+              )
+              break
+            default:
+              return
+          }
           break
         default:
           return

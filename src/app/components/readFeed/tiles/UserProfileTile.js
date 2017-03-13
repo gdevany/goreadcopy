@@ -17,7 +17,6 @@ class UserProfileTile extends PureComponent {
       },
       content
     } = this.props
-
     return (
       <TileDefault
         tileId={id}

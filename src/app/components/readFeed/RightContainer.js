@@ -2,7 +2,7 @@ import React from 'react'
 import BookRecommendations from './BookRecommendations'
 import AuthorRecommendations from './AuthorRecommendations'
 import BookClubRecommendations from './BookClubRecommendations'
-import SidebarAd from './SidebarAd'
+import SidebarAdWrapper from './SidebarAdWrapper'
 
 const RightContainer = () => {
   return (
@@ -10,7 +10,7 @@ const RightContainer = () => {
       <BookRecommendations />
       <AuthorRecommendations />
       <BookClubRecommendations />
-      <SidebarAd />
+      <SidebarAdWrapper />
     </div>
   )
 }
