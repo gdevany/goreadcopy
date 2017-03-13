@@ -16,4 +16,5 @@ export default {
   profilePage: emptyState(),
   social: emptyState(),
   tiles: emptyState(),
+  sidebarAds: emptyState(),
 }

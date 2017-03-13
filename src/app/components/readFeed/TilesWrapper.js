@@ -50,7 +50,7 @@ class TilesWrapper extends PureComponent {
 
     tiles.forEach((tile, index) => {
       let tileDefaultProps = {}
-      if (tile.tileType !== 'advertising') {
+      if (tile.tileType !== 'advertising' && tile.tileType !== 'merged') {
         tileDefaultProps = {
           timestamp: this.renderTime(tile.timestamp, 'ago'),
           action: tile.description,
@@ -307,9 +307,7 @@ class TilesWrapper extends PureComponent {
                   link: (author.url)
                 },
                 likes: {
-                  likes: {
-                    count: 0
-                  },
+                  count: 0,
                   likedByReader: true
                 },
                 comments: {
