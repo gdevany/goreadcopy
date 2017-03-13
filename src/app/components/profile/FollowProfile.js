@@ -106,9 +106,7 @@ class FollowProfile extends PureComponent {
     */
 
    // TODO where does 'Edit Profile' go to?
-    const { profileUsername, isMyProfile } = this.props
-    const currentReaderId = 3
-    const isCurrentReader = profileUsername === currentReaderId
+    const { isCurrentReader, isViewMyProfile } = this.props
     return (
       <Chip
         className={'chosenFollow'}
@@ -116,9 +114,9 @@ class FollowProfile extends PureComponent {
         style={styles.chip}
       >
         {
-          isMyProfile ?
+          isCurrentReader ?
             <a href=''> + Edit Profile </a> :
-            <a onClick={isCurrentReader ? this.cantFollow : this.handleFollow}>
+            <a onClick={isViewMyProfile ? this.cantFollow : this.handleFollow}>
               + Follow
             </a>
         }

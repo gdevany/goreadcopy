@@ -6,6 +6,7 @@ const LeftProfileContainer = ({
   id,
   genreIds,
   isMyProfile,
+  isViewMyProfile,
   username,
   profileFollowed
 }) => {
@@ -14,10 +15,11 @@ const LeftProfileContainer = ({
       {
         id ?
           <FollowProfile
-            id={7}
+            id={id}
             profileUsername={username}
-            isMyProfile={isMyProfile}
+            isCurrentReader={isMyProfile}
             profileFollowed={profileFollowed}
+            isViewMyProfile={isViewMyProfile}
           /> : null
       }
       <FavoriteGenres
