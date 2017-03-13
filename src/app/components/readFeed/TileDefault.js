@@ -529,7 +529,7 @@ class TileDefault extends PureComponent {
 TileDefault.propTypes = {
   author: PropTypes.object,
   action: PropTypes.string,
-  timestamp: PropTypes.number, // Change this when we know how it'll be passed in.
+  timestamp: PropTypes.string,
   shared: PropTypes.object,
   likes: PropTypes.object,
   comments: PropTypes.object,
