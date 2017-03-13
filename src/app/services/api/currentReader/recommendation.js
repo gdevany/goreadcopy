@@ -21,6 +21,8 @@ const Recommendation = () => {
     getBookClubRecommendations: (params) => authenticated().get(getBookClubRecommendations(params)),
     likedReaders: (body) => authenticated().post(likedReaders(), body),
     likedAuthors: (body) => authenticated().post(likedAuthors(), body),
+    unlikedAuthors: (data) => authenticated().delete(likedAuthors(), { data }),
+    unlikedReaders: (data) => authenticated().delete(likedReaders(), { data }),
   }
 }
 

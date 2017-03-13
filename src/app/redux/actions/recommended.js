@@ -1,7 +1,7 @@
 import CurrentReaderRecommendation from '../../services/api/currentReader/recommendation'
 import Search from '../../services/api/search'
 import { CURRENT_READER as A } from '../const/actionTypes'
-import { LITCOIN_TYPES as L } from '../../constants/litcoins'
+import { LITCOIN_TYPES as L, CONTEXTS as C } from '../../constants/litcoins'
 import { Promise } from '../../services'
 import { updateReaderData } from './readerData'
 import { updateCurrentReaderRecommendation } from './currentReader'
@@ -26,7 +26,7 @@ export function getRecommendation(amount) {
       perUserType: amount,
     })
       .then(res => dispatch(updateRecommended(res.data)))
-      .catch(err => console.log(`Error in getRecommendation api call: ${err}`))
+      .catch(err => console.error(`Error in getRecommendation api call: ${err}`))
   }
 }
 
@@ -40,24 +40,24 @@ export function searchRecommendation(search) {
         .then(res => {
           return dispatch(updateRecommended(res.data))
         })
-        .catch(err => console.log(`Error in searchRecommendation ${err}`))
+        .catch(err => console.error(`Error in searchRecommendation ${err}`))
     }, 1000)
   }
 
   return debounceSearch()
 }
 
-export function choseRecommendation(data, type) {
+export function choseRecommendation(data, type, context = C.ONBOARDING) {
   return dispatch => {
     switch (type) {
       case 'readers':
-        return CurrentReaderRecommendation.likedReaders({ readerIds: data })
+        return CurrentReaderRecommendation.likedReaders({ readerIds: data, context })
           .then(res => dispatch({ type: A.CHOSE_RECOMMENDATION }))
-          .catch((err) => console.log(`Error in choseRecommendation api call: ${err}`))
+          .catch((err) => console.error(`Error in choseRecommendation api call: ${err}`))
       case 'authors':
-        return CurrentReaderRecommendation.likedAuthors({ authorIds: data })
+        return CurrentReaderRecommendation.likedAuthors({ authorIds: data, context })
           .then(res => dispatch({ type: A.CHOSE_RECOMMENDATION }))
-          .catch((err) => console.log(`Error in choseRecommendation api call: ${err}`))
+          .catch((err) => console.error(`Error in choseRecommendation api call: ${err}`))
       default:
         return Promise.reject('Error in choseRecommendation')
     }

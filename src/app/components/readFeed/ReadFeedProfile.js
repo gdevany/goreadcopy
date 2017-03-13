@@ -72,6 +72,7 @@ class ReadFeedProfile extends PureComponent {
   handleClose = (followType) => {
     if (followType === 'following') this.setState({ modalFollowingOpen: false })
     else if (followType === 'followers') this.setState({ modalFollowersOpen: false })
+    this.getFollow(this.props.id)
   }
 
   backgroundUpload = (file) => {
@@ -155,6 +156,7 @@ class ReadFeedProfile extends PureComponent {
     } = this.state
 
     const {
+      id,
       followed,
       followers,
       profileImage,
@@ -265,6 +267,7 @@ class ReadFeedProfile extends PureComponent {
             </div>
 
             <FollowModal
+              currentReaderId={id}
               followed={followed}
               followers={followers}
               modalOpen={openedModal}

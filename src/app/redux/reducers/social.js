@@ -13,6 +13,14 @@ export default (state = initialState.social, { type, payload, errors }) => {
         ...state,
         followed: payload
       }
+    case A.UPDATE_FOLLOWED_AUTHORS:
+      return state
+    case A.REMOVE_FOLLOWED_AUTHORS:
+      return state
+    case A.UPDATE_FOLLOWED_READERS:
+      return state
+    case A.REMOVE_FOLLOWED_READERS:
+      return state
     default:
       return state
   }
