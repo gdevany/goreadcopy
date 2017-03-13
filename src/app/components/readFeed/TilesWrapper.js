@@ -15,7 +15,8 @@ import {
   BookProductTile,
   AdvertisingTile,
   BookClubTile,
-  AdsenseTile
+  AdsenseTile,
+  MergedTile
 } from './tiles'
 import moment from 'moment'
 
@@ -229,7 +230,7 @@ class TilesWrapper extends PureComponent {
             }
           }
           const accountContent = {
-            name: tile.content.fullname,
+            name: tile.content.fullname || tile.actor.fullname,
             location: 'Los Angeles, CA',
             description: tile.content.description,
             image: tile.content.imageUrl,
@@ -332,6 +333,24 @@ class TilesWrapper extends PureComponent {
             default:
               return
           }
+          break
+        case 'merged':
+          tileDefaultProps = {
+            timestamp: this.renderTime(tile.timestamp, 'ago'),
+            action: tile.description,
+            author: {
+              name: (tile.actor.fullname || tile.actor.name),
+              image: (tile.actor.imageUrl || tile.actor.image),
+              link: (tile.actor.url || tile.actor.link)
+            },
+          }
+          result.push(
+            <MergedTile
+              key={index}
+              tileDefaultProps={tileDefaultProps}
+              content={tile}
+            />
+          )
           break
         default:
           return
