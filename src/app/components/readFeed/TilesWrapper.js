@@ -230,7 +230,7 @@ class TilesWrapper extends PureComponent {
             }
           }
           const accountContent = {
-            name: tile.content.fullname,
+            name: tile.content.fullname || tile.actor.fullname,
             location: 'Los Angeles, CA',
             description: tile.content.description,
             image: tile.content.imageUrl,
