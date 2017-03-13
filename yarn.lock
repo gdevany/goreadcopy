@@ -4491,6 +4491,10 @@ react-ga@^2.1.2:
   dependencies:
     object-assign "^4.0.1"
 
+react-google-ad@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-google-ad/-/react-google-ad-1.0.2.tgz#ae95e1dbc4c5fc5e1c7054c585e545cf10d0509d"
+
 react-hot-api@^0.4.5:
   version "0.4.7"
   resolved "https://registry.yarnpkg.com/react-hot-api/-/react-hot-api-0.4.7.tgz#a7e22a56d252e11abd9366b61264cf4492c58171"

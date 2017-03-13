@@ -53,9 +53,7 @@ class AuthorRecommendations extends PureComponent {
     }
   }
 
-  isChosen = (id) => {
-    return R.contains(id, this.state.followed)
-  }
+  isChosen = (id) => R.contains(id, this.state.followed)
 
   renderAuthors = (authors) => {
     return authors.map(author => {

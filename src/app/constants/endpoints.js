@@ -9,6 +9,8 @@ const Endpoints = () => {
     getGenres: (params) => apiUrl('genres', params),
     getBooks: (params) => apiUrl('onboarding/books', params),
     searchData: (params) => apiUrl('search', params),
+    getProfilePage: (slug, params) => apiUrl(`social/reader/${slug}`, params),
+    getSidebarAds: (slug, params) => apiUrl('advertising/get_sidebar_ads'),
     currentReader: {
       getRecommendation: (params) => apiUrl('genres/top_users', params),
       getRecommendedAuthors: (params) => apiUrl('current_reader/recommended/authors', params),

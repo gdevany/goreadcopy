@@ -13,6 +13,8 @@ export default {
   readerData: emptyState(),
   currentReader: emptyState(),
   litcoins: emptyState(),
+  profilePage: emptyState(),
   social: emptyState(),
   tiles: emptyState(),
+  sidebarAds: emptyState(),
 }
