@@ -3,7 +3,6 @@ import React, { PureComponent } from 'react'
 class SidebarAd extends PureComponent {
   render() {
     const { content } = this.props
-    console.log(content.isExternalTarget)
     return (
       <div className='base-tile-sidebar-container box'>
         <div className='adv-sidebar-container'>

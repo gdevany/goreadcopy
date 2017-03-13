@@ -93,6 +93,10 @@ const styles = {
     height: 28,
     width: 28,
   },
+
+  loggedInNavLi: {
+    height: 64,
+  },
 }
 
 const {

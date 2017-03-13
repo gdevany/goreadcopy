@@ -34,16 +34,22 @@ class Profile extends PureComponent {
 
     if (slug) {
       getProfilePage(slug)
-      this.setState({ slug })
+      this.setState({
+        slug,
+        isMyProfile: false
+      })
     } else if (isUserLoggedIn) {
       this.setState({ isMyProfile: true })
-      getCurrentReader()
     } else {
       browserHistory.push('/')
     }
+
+    getCurrentReader()
   }
 
   getGenreIds = (genres) => R.map(R.prop('id'), genres)
+
+  isViewMyProfile = (profilePageId, id) => profilePageId === id
 
   render() {
     const {
@@ -94,6 +100,7 @@ class Profile extends PureComponent {
           isMyProfile={isMyProfile}
           username={profile.username}
           profileFollowed={notMyProfile.followed}
+          isViewMyProfile={this.isViewMyProfile(profilePage.id, id)}
         />
         <RightProfileContainer />
       </div>
