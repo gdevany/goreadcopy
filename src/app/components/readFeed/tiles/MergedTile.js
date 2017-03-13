@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import BaseMergedTile from './BaseMergedTile'
+import BaseMergedTile from '../BaseMergedTile'
 
 class MergedTile extends PureComponent {
   render() {
