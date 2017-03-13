@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import ReadFeedProfile from './ReadFeedProfile'
 import LeftHandLinks from './LeftHandLinks'
-import FavoriteGenres from './FavoriteGenres'
+import { FavoriteGenres } from '../common'
 
 class LeftContainer extends PureComponent {
   render() {

@@ -13,7 +13,7 @@ export function mainSearch(searchTerm) {
     return debounce(dispatch => {
       Search.search(terms)
         .then(res => { dispatch(updateSearch(res.data))})
-        .catch(err => console.log(`Error in main search ${err}`))
+        .catch(err => console.error(`Error in main search ${err}`))
     }, 300)
   }
   return debounceSearch()

@@ -17,6 +17,8 @@ const Endpoints = () => {
         return apiUrl('current_reader/recommended/book_clubs', params)
       },
       getCurrentReader: () => apiUrl('current_reader'),
+      getLatestAnnouncement: () => apiUrl('current_reader/latest_announcement'),
+      dismissAnnouncement: (params) => apiUrl('current_reader/dismiss_announcement', params),
       getReadFeedTiles: () => apiUrl('current_reader/activities'),
       likedGenres: (params) => apiUrl('current_reader/liked_genres', params),
       likedReaders: (params) => apiUrl('current_reader/liked_readers', params),
@@ -24,8 +26,9 @@ const Endpoints = () => {
       uploadImage: (params) => apiUrl('current_reader/images', params),
       getFollowers: (id) => apiUrl(`social/reader/${id}/followers`),
       getFollowed: (id) => apiUrl(`social/reader/${id}/followed`),
-      updateLikes: (id) => apiUrl(`social/posts/${id}/likes`),
-      updateComments: (id) => apiUrl(`social/posts/${id}/comments`)
+      updateReadFeedLikes: (id) => apiUrl(`social/posts/${id}/likes`),
+      updateReadFeedComments: (id) => apiUrl(`social/posts/${id}/comments`),
+      getReadFeedComments: (id) => apiUrl(`activities/${id}/comments`),
     },
     jwtRefresh: () => apiUrl('token/refresh'),
     jwtAuth: () => apiUrl('token/auth'),
