@@ -15,7 +15,8 @@ import {
   BookProductTile,
   AdvertisingTile,
   BookClubTile,
-  AdsenseTile
+  AdsenseTile,
+  MergedTile
 } from './tiles'
 
 const { getReadFeedTiles } = Tiles
@@ -308,6 +309,24 @@ class TilesWrapper extends PureComponent {
             <AdsenseTile
               key={index}
               content={adSenseContent}
+            />
+          )
+          break
+        case 'merged':
+          tileDefaultProps = {
+            timestamp: this.renderTime(tile.timestamp, 'ago'),
+            action: tile.description,
+            author: {
+              name: (tile.actor.fullname || tile.actor.name),
+              image: (tile.actor.imageUrl || tile.actor.image),
+              link: (tile.actor.url || tile.actor.link)
+            },
+          }
+          result.push(
+            <MergedTile
+              key={index}
+              tileDefaultProps={tileDefaultProps}
+              content={tile.targets}
             />
           )
           break
