@@ -61,7 +61,6 @@ class BaseMergedTile extends PureComponent {
       timestamp,
       action,
     } = this.props
-
     return (
       <Card
         style={styles.cardContainer}
