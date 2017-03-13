@@ -11,7 +11,7 @@
   flex-direction: column;
   width: 100%;
   margin-bottom: 1em;
-  padding: 1em;
+  padding: 30px;
   .sidebar-content{
     display: flex;
     justify-content: flex-start;
@@ -19,11 +19,11 @@
     width: 100%;
     flex-direction: column;
     .sidebar-title{
-      font-size: 17px;
+      font-size: 16px;
       width: 100%;
       text-align: left;
-      margin: .5em 0;
-      font-weight: 600;
+      margin: 20px 0 10px;
+      font-weight: 400;
     }
   }
 }
@@ -211,7 +211,7 @@
 
 .award-tile-container{
   .award-tile-figure{
-    max-width: 300px;
+    max-width: 150px;
     margin: 0 auto;
     .award-tile-img{
       width: 100%;
@@ -280,17 +280,21 @@
     flex-direction: column;
     width: 100%;
     margin-left: 1.5em;
-    .publisher-name, .publisher-title, .userprofile-name, .userprofile-title{
+    a{
       width: 100%;
-      text-align:left;
-      font-weight: 400;
-    }
-    .publisher-name, .userprofile-name{
-      margin: .5em 0;
-      font-size: 24px;
-    }
-    .publisher-title, .userprofile-title{
-      font-size: 18px;
+      .publisher-name, .userprofile-name{
+        margin: .5em 0;
+        font-size: 24px;
+        width: 100%;
+        text-align:left;
+        font-weight: 400;
+      }
+      .publisher-title, .userprofile-title{
+        font-size: 18px;
+        width: 100%;
+        text-align:left;
+        font-weight: 400;
+      }
     }
     .publisher-location-container, .userprofile-location-container{
       display: flex;
@@ -467,7 +471,9 @@
   text-align: justify;
   word-wrap: break-word;
   .post-excerpt-pharagraph{
-    font-size: 16px;
+    margin: 0;
+    font-size: 14px;
+    color: $grey;
     .post-readmore-anchor{
       text-decoration: underline;
       color: $grey;
@@ -480,7 +486,7 @@
 .heading-overflow-figure{
   width: 100%;
   max-height: 250px;
-  border-radius: 10px;
+  border-radius: 3px;
   overflow: hidden;
   .heading-img{
     width: 100%;
