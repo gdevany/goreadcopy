@@ -21,17 +21,11 @@ class HomeWrapper extends PureComponent {
   }
   render() {
     return CurrentToken.currentUserExists() ? (
-      <ReadFeed currentReader={this.props.currentReader}/>
+      <ReadFeed isMyReadFeed={true}/>
     ) : (
       <Home />
     )
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    currenReader: state.currentReader
-  }
-}
-
-export default connect(mapStateToProps, { verifyUserToken })(HomeWrapper)
+export default connect(null, { verifyUserToken })(HomeWrapper)

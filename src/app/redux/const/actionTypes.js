@@ -38,6 +38,10 @@ export const CURRENT_READER = { // for /current_reader
   GET_READFEED_COMMENTS: 'GET_READFEED_COMMENTS',
 }
 
+export const PROFILE_PAGE = {
+  GET_PROFILE_PAGE: 'GET_PROFILE_PAGE'
+}
+
 export const SEARCH = {
   GET_SEARCH: 'GET_SEARCH'
 }
@@ -46,6 +50,7 @@ export default {
   BOOKS,
   CURRENT_READER,
   GET_GENRES: 'GET_GENRES',
+  PROFILE_PAGE,
   READERS,
   SEARCH,
 }

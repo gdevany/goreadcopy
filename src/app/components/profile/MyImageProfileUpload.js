@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Images } from '../../redux/actions'
-import { Auth } from '../../services'
 import Dropzone from 'react-dropzone'
 import R from 'ramda'
 
@@ -45,45 +44,37 @@ class MyImageProfileUpload extends PureComponent {
   }
 
   render() {
-    const { profileImage } = this.props
+    const { profileImage, isMyProfile } = this.props
     const { profileImageUpload } = this.state
-
-    const isUserLoggedIn = Auth.currentUserExists()
     const hasProfileImage = !R.isEmpty(profileImage)
     const cameraBackgroundClass = (profileImageUpload || hasProfileImage) ?
       'camera-transparent' :
       'camera-solid'
+    const getImage = profileImage || profileImageUpload ?
+      this.renderImage(profileImage, profileImageUpload) : null
 
     return (
       <div className='profile-bottom'>
         <div>
-          <Dropzone
-            onDrop={this.profileUpload}
-            className='dropzone-profile-profilepage'
-          >
-            {
-              profileImage || profileImageUpload ?
-                this.renderImage(profileImage, profileImageUpload) : null
-            }
+          {
+            isMyProfile ?
+              <Dropzone
+                onDrop={this.profileUpload}
+                className='dropzone-profile-profilepage'
+              >
+                {getImage}
 
-            {
-              isUserLoggedIn ?
                 <img
                   className={R.concat('camera-profile-profilepage ', cameraBackgroundClass)}
-                  src='./image/upload-photo-icon.svg'
-                /> : null
-            }
-          </Dropzone>
+                  src='../image/upload-photo-icon.svg'
+                />
+            </Dropzone> :
+            getImage
+          }
         </div>
       </div>
     )
   }
 }
 
-const mapStateToProps = ({
-  currentReader: {
-    profileImage = '',
-  }
-}) => { return { profileImage } }
-
-export default connect(mapStateToProps, { uploadImage })(MyImageProfileUpload)
+export default connect(null, { uploadImage })(MyImageProfileUpload)

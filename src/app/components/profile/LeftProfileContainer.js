@@ -1,28 +1,32 @@
-import React, { PureComponent } from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
 import FollowProfile from './FollowProfile'
 import { FavoriteGenres } from '../common'
 
-class LeftProfileContainer extends PureComponent {
-  render() {
-    const { id } = this.props
-    return (
-      <div className='right-container small-6 columns'>
-        { id ? <FollowProfile id={id} /> : null}
-        <FavoriteGenres />
-      </div>
-    )
-  }
-}
-
-const mapStateToProps = ({
-  currentReader: {
-    id
-  }
+const LeftProfileContainer = ({
+  id,
+  genreIds,
+  isMyProfile,
+  username,
+  profileFollowed
 }) => {
-  return {
-    id
-  }
+  return (
+    <div className='right-container small-6 columns'>
+      {
+        id ?
+          <FollowProfile
+            id={7}
+            profileUsername={username}
+            isMyProfile={isMyProfile}
+            profileFollowed={profileFollowed}
+          /> : null
+      }
+      <FavoriteGenres
+        genreIds={genreIds}
+        isCurrentReader={isMyProfile}
+        username={username}
+      />
+    </div>
+  )
 }
 
-export default connect(mapStateToProps)(LeftProfileContainer)
+export default LeftProfileContainer
