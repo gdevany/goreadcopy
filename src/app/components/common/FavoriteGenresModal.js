@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import Radium from 'radium'
 import { connect } from 'react-redux'
 import { CurrentReader, Genres } from '../../redux/actions'
 import { Dialog, Chip } from 'material-ui'
@@ -385,4 +386,4 @@ const mapDispatchToProps = {
   searchGenres,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FavoriteGenresModal)
+export default connect(mapStateToProps, mapDispatchToProps)(Radium(FavoriteGenresModal))

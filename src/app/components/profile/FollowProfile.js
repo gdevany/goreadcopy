@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import Radium from 'radium'
 import { connect } from 'react-redux'
 import { Follow } from '../../redux/actions'
 import { FollowModal } from '../common'
@@ -104,7 +105,7 @@ class FollowProfile extends PureComponent {
     }
   }
 
-  isChosen = (id) => R.contains(id, this.state.followed)
+  isChosen = (id) => R.contains(id, this.state.followed || [])
 
   cantFollow = () => this.setState({ triggerCantFollow: true })
 
@@ -226,4 +227,4 @@ const mapDispatchToProps = {
   updateFollowed
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FollowProfile)
+export default connect(mapStateToProps, mapDispatchToProps)(Radium(FollowProfile))
