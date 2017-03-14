@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import { connect } from 'react-redux'
 import { Chip } from 'material-ui'
 import S from 'underscore.string.fp'
 import { Colors } from '../../constants/style'
@@ -71,17 +70,27 @@ class FavoriteGenres extends PureComponent {
   }
 
   render() {
-    const { genreIds } = this.props
+    const {
+      genreIds,
+      isCurrentReader,
+      username
+    } = this.props
     const { modalOpen } = this.state
+
     return (
       <div style={styles.container} className='text-left'>
-        <span className='small-header'> Your Genres </span>
-        <div onClick={this.handleOpen} style={styles.genreSection}>
+        <span className='small-header'>
+          { isCurrentReader ? 'Your' : `${username || '?'}` } Favorite Genres
+        </span>
+        <div style={styles.genreSection}>
           {genreIds ? this.renderChosenGenres(genreIds) : null}
           <br />
-          <a className='sublink'>
-            Add or edit genres >
-          </a>
+          {
+            isCurrentReader ?
+              <a className='sublink' onClick={this.handleOpen}>
+                Add or edit genres >
+              </a> : null
+          }
         </div>
         <FavoriteGenresModal
           modalOpen={modalOpen}
@@ -93,12 +102,4 @@ class FavoriteGenres extends PureComponent {
   }
 }
 
-const mapStateToProps = ({
-  currentReader: {
-    genreIds = []
-  }
-}) => {
-  return { genreIds }
-}
-
-export default connect(mapStateToProps)(FavoriteGenres)
+export default FavoriteGenres

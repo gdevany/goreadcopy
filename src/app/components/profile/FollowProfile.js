@@ -7,7 +7,7 @@ import { Chip } from 'material-ui'
 import { Colors, Breakpoints } from '../../constants/style'
 import R from 'ramda'
 
-const { getFollowers, getFollowed } = Follow
+const { getFollowers, getFollowed, updateFollowed } = Follow
 
 const styles = {
   chip: {
@@ -48,6 +48,8 @@ class FollowProfile extends PureComponent {
     this.state = {
       modalFollowingOpen: false,
       modalFollowersOpen: false,
+      triggerCantFollow: false,
+      followed: []
     }
 
     this.handleClose = this.handleClose.bind(this)
@@ -56,6 +58,14 @@ class FollowProfile extends PureComponent {
   componentDidMount = () => {
     const { id } = this.props
     id ? this.getFollow(id) : null
+  }
+
+  componentDidUpdate = () => {
+    const { followed } = this.state
+    const { profileFollowed } = this.props
+
+    if (followed.length) this.props.updateFollowed(followed)
+    else this.setState({ followed: profileFollowed })
   }
 
   getFollow = (id) => {
@@ -73,10 +83,52 @@ class FollowProfile extends PureComponent {
     else if (followType === 'followers') this.setState({ modalFollowersOpen: false })
   }
 
+  handleFollow = () => {
+    const { followed } = this.state
+    const { id } = this.props
+    if (this.isChosen(id)) {
+      const collectionWithoutMember = R.reject(R.equals(id), followed)
+      this.setState({ followed: [...collectionWithoutMember] })
+    } else {
+      this.setState({ followed: [...followed, id] })
+    }
+  }
+
+  isChosen = (id) => R.contains(id, this.state.followed)
+
+  cantFollow = () => this.setState({ triggerCantFollow: true })
+
+  renderChip = () => {
+    /*
+      TODO: Do a check here to see if current reader's username matches
+      this profile's username. If so, then current reader is viewing their profile
+      in view mode and if they click 'Follow', should say: 'You can't follow yourself'
+    */
+
+   // TODO where does 'Edit Profile' go to?
+    const { isCurrentReader, isViewMyProfile } = this.props
+    return (
+      <Chip
+        className={'chosenFollow'}
+        labelStyle={styles.chipText}
+        style={styles.chip}
+      >
+        {
+          isCurrentReader ?
+            <a href=''> + Edit Profile </a> :
+            <a onClick={isViewMyProfile ? this.cantFollow : this.handleFollow}>
+              + Follow
+            </a>
+        }
+      </Chip>
+    )
+  }
+
   render() {
     const {
       modalFollowersOpen,
       modalFollowingOpen,
+      triggerCantFollow
     } = this.state
 
     const {
@@ -132,13 +184,8 @@ class FollowProfile extends PureComponent {
               </div>
             </div>
             <div className='small-4 columns'>
-              <Chip
-                className={'chosenFollow'}
-                labelStyle={styles.chipText}
-                style={styles.chip}
-              >
-               Edit Profile
-              </Chip>
+              {this.renderChip()}
+              {triggerCantFollow ? <span> You can't follow yourself!</span> : null}
             </div>
           </div>
         </div>
@@ -169,7 +216,8 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = {
   getFollowers,
-  getFollowed
+  getFollowed,
+  updateFollowed
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FollowProfile)

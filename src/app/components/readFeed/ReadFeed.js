@@ -15,12 +15,13 @@ class ReadFeed extends PureComponent {
   }
 
   render() {
+    const { isMyReadFeed } = this.props
     const isUserLoggedIn = Auth.currentUserExists()
     return (
       <div className=''>
         <NavMenu isUserLoggedIn={isUserLoggedIn} />
         <div className='row center-text read-feed'>
-          <LeftContainer/>
+          <LeftContainer isMyReadFeed={isMyReadFeed}/>
           <MiddleContainer />
           <RightContainer />
         </div>

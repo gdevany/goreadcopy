@@ -10,7 +10,7 @@
   align-items: center;
   flex-direction: column;
   width: 100%;
-  margin-bottom: 1em;
+  margin: 1em 0;
   padding: 30px;
   .sidebar-content{
     display: flex;
@@ -623,14 +623,61 @@
   }
 }
 
+.merged-tile-container{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  max-height: 300px;
+  overflow: scroll;
+  .merged-users{
+    &:first-child{
+      &:before{
+        content: '';
+        margin-right: 0;
+      }
+    }
+    &:before{
+      content: ',';
+      margin-right: .5em;
+    }
+    &:hover{
+      &:before{
+        color: $black;
+      }
+    }
+    &:last-child{
+      &:before{
+        content: 'and';
+        margin: 0 .5em;
+      }
+
+      &:after{
+        content: '...';
+      }
+      &:hover{
+        &:after, &:before{
+          color: $black;
+        }
+      }
+    }
+  }
+  .merged-books{
+    img{
+      width: 113px;
+      margin: .5em;
+    }
+  }
+}
+
 .readfeed-announcement{
   margin-bottom: 1em;
   position: relative;
   .readfeed-announcement-close{
     position: absolute;
-    top:10px;
-    right: 10px;
-    width: 20px;
+    top:20px;
+    right: 20px;
+    width: 15px;
     &:hover{
       cursor: pointer;
     }

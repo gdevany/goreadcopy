@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Images } from '../../redux/actions'
-import { Auth } from '../../services'
 import Dropzone from 'react-dropzone'
 import R from 'ramda'
 
@@ -45,17 +44,16 @@ class BackgroundImageProfileUpload extends PureComponent {
   }
 
   render() {
-    const { backgroundImage, fullname } = this.props
+    const { backgroundImage, fullname, isMyProfile } = this.props
     const { backgroundImageUpload } = this.state
-
-    const isUserLoggedIn = Auth.currentUserExists()
     const hasBackgroundImage = !R.isEmpty(backgroundImage)
     const cameraBackgroundClass = (backgroundImageUpload || hasBackgroundImage) ?
       'camera-transparent' :
       'camera-solid'
+
     return (
       <div className='profile-top'>
-        <div className='background-image-wrapper'> {/** dont remove this for hover to work **/}
+        <div className='background-image-wrapper'>
           {
             backgroundImage || backgroundImageUpload ?
              this.renderImage(backgroundImage, backgroundImageUpload) :
@@ -63,16 +61,16 @@ class BackgroundImageProfileUpload extends PureComponent {
            }
         </div>
 
-        <div className='overlay' style={{ backgroundColor: 'grey' }}>
-          <Dropzone onDrop={this.backgroundUpload} className='dropzone-background'>
-            {
-              isUserLoggedIn ?
+        <div className={isMyProfile ? 'overlay' : ''}>
+          {
+            isMyProfile ?
+              <Dropzone onDrop={this.backgroundUpload} className='dropzone-background'>
                 <img
                   className={R.concat('camera-background ', cameraBackgroundClass)}
-                  src='./image/upload-photo-icon.svg'
-                /> : null
-            }
-          </Dropzone>
+                  src='../image/upload-photo-icon.svg'
+                />
+              </Dropzone> : null
+          }
         </div>
 
         <div className='profile-name'>
@@ -83,11 +81,4 @@ class BackgroundImageProfileUpload extends PureComponent {
   }
 }
 
-const mapStateToProps = ({
-  currentReader: {
-    fullname = '',
-    backgroundImage = '',
-  }
-}) => { return { backgroundImage, fullname } }
-
-export default connect(mapStateToProps, { uploadImage })(BackgroundImageProfileUpload)
+export default connect(null, { uploadImage })(BackgroundImageProfileUpload)

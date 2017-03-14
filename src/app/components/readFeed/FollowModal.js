@@ -234,8 +234,6 @@ class FollowModal extends PureComponent {
     const followersData = readersAndAuthors(followers.results)
     const followedData = readersAndAuthors(followed.results)
     const data = followType === 'followers' ? followersData : followedData
-    console.log(data)
-    //const data = undefined
     const title = followType === 'followers' ? 'Followers' : 'Following'
 
     return (

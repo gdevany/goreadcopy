@@ -15,8 +15,10 @@ import {
   BookProductTile,
   AdvertisingTile,
   BookClubTile,
-  AdsenseTile
+  AdsenseTile,
+  MergedTile
 } from './tiles'
+import moment from 'moment'
 
 const { getReadFeedTiles } = Tiles
 
@@ -24,33 +26,22 @@ class TilesWrapper extends PureComponent {
   componentWillMount = () => this.props.getReadFeedTiles(2)
 
   renderTime = (time, timeType) => {
-    /**
-    TODO: calculate time using Moment.js
-    Something like:
-      * If timeType === 'ago'..this 146094649 should return a string like '3 hours ago'
-      * If timeType === 'time-date', this 2016-04-24T04:00:00Z should return an object like:
-      {
-        date: April 24
-        time: 4AM
-      }
-    **/
-    if (timeType === 'ago') {
-      return time
+    if (timeType === 'ago' && moment(moment.unix(time)).isValid()) {
+      return moment(moment.unix(time)).fromNow()
     } else if (timeType === 'time-date') {
       return {
-        date: 'April 24',
-        time: '4AM'
+        date: moment.unix(time).format('MMMM DD'),
+        time: moment.unix(time).format('HA')
       }
     }
-    return timeType
+    return time
   }
 
   renderTiles = (tiles) => {
     const result = []
-
     tiles.forEach((tile, index) => {
       let tileDefaultProps = {}
-      if (tile.tileType !== 'advertising') {
+      if (tile.tileType !== 'advertising' && tile.tileType !== 'merged') {
         tileDefaultProps = {
           timestamp: this.renderTime(tile.timestamp, 'ago'),
           action: tile.description,
@@ -129,22 +120,6 @@ class TilesWrapper extends PureComponent {
               key={index}
               tileDefaultProps={tileDefaultProps}
               content={albumContent}
-            />
-          )
-          break
-        case 'buzz_ad':
-          const adContent = {
-            promoted: true,
-            image: tile.content.imageUrl,
-            title: tile.content.heading,
-            description: tile.content.description,
-            link: tile.content.url
-          }
-          result.push(
-            <AdvertisingTile
-              key={index}
-              tileDefaultProps={tileDefaultProps}
-              content={adContent}
             />
           )
           break
@@ -255,7 +230,7 @@ class TilesWrapper extends PureComponent {
             }
           }
           const accountContent = {
-            name: tile.actor.fullname,
+            name: tile.content.fullname || tile.actor.fullname,
             location: 'Los Angeles, CA',
             description: tile.content.description,
             image: tile.content.imageUrl,
@@ -298,16 +273,82 @@ class TilesWrapper extends PureComponent {
           )
           break
         case 'advertising':
-          const adSenseContent = {
-            promoted: true,
-            isAdsense: true,
-            image: './image/adv-sense.png'
-          }
+          switch (tile.advertiser.name) {
+            // TODO: Need the likes and comments objects from the API team
+            case 'readerslegacy':
+              const {
+                imageUrl,
+                heading,
+                description,
+                url,
+                author,
+              } = tile.advertiser.buzzAd
+              const adContent = {
+                promoted: true,
+                image: imageUrl,
+                title: heading,
+                description: description,
+                link: url
+              }
+              tileDefaultProps = {
+                author: {
+                  name: (author.fullname),
+                  image: (author.imageUrl),
+                  link: (author.url)
+                },
+                likes: {
+                  count: 0,
+                  likedByReader: true
+                },
+                comments: {
+                  count: 0,
+                  commentedByReader: false,
+                },
+                shareInfo: {
+                  title: tile.advertiser.buzzAd.heading,
+                  shareLink: tile.advertiser.buzzAd.url
+                }
+              }
+              result.push(
+                <AdvertisingTile
+                  key={index}
+                  tileDefaultProps={tileDefaultProps}
+                  content={adContent}
+                />
+              )
+              break
+            case 'adsense':
+              const adSenseContent = {
+                promoted: true,
+                isAdsense: true,
+              }
 
+              result.push(
+                <AdsenseTile
+                  key={index}
+                  content={adSenseContent}
+                />
+              )
+              break
+            default:
+              return
+          }
+          break
+        case 'merged':
+          tileDefaultProps = {
+            timestamp: this.renderTime(tile.timestamp, 'ago'),
+            action: tile.description,
+            author: {
+              name: (tile.actor.fullname || tile.actor.name),
+              image: (tile.actor.imageUrl || tile.actor.image),
+              link: (tile.actor.url || tile.actor.link)
+            },
+          }
           result.push(
-            <AdsenseTile
+            <MergedTile
               key={index}
-              content={adSenseContent}
+              tileDefaultProps={tileDefaultProps}
+              content={tile}
             />
           )
           break
