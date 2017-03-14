@@ -1,45 +1,53 @@
-import { CURRENT_READER as A } from '../const/actionTypes'
+import { CURRENT_READER as A, READERS as B } from '../const/actionTypes'
 import CurrentReaderTiles from '../../services/api/currentReader/tiles'
-import CurrentReaderSocial from '../../services/api/currentReader/social'
+import ReaderTiles from '../../services/api/tiles'
 import R from 'ramda'
 
 export function getReadFeedTiles(page) {
   return dispatch => {
     CurrentReaderTiles.getReadFeedTiles({ page })
     .then(res => dispatch({ type: A.GET_READFEED_TILES, payload: res.data.results }))
-    .catch(err => console.error(`Error in updateLikes: ${err}`))
+    .catch(err => console.error(`Error in getReadFeedTiles: ${err}`))
   }
 }
 
-export function getReadFeedComments(tileId, page) {
+export function getProfileTiles(id, page) {
   return dispatch => {
-    CurrentReaderTiles.getReadFeedComments(tileId, { page })
+    ReaderTiles.getProfileTiles(id, { page })
+    .then(res => dispatch({ type: B.GET_PROFILE_TILES, payload: res.data.results }))
+    .catch(err => console.error(`Error in getProfileTiles: ${err}`))
+  }
+}
+
+export function getComments(tileId, page, isProfilePage) {
+  return dispatch => {
+    ReaderTiles.getComments(tileId, { page })
       .then(res => {
         dispatch({
-          type: A.GET_READFEED_COMMENTS,
+          type: B.GET_COMMENTS,
           payload: { [tileId]: { comments: res.data.results } }
         })
       })
-      .catch(err => console.error(`Error in getReadFeedComments: ${err}`))
+      .catch(err => console.error(`Error in getComments: ${err}`))
   }
 }
 
-export function updateReadFeedComments(tileId, comment, dateTime, profile) {
+export function updateComments(tileId, comment, datetime, profile) {
   return (dispatch, getState) => {
-    CurrentReaderSocial.updateReadFeedComments(tileId, { comment })
+    ReaderTiles.updateComments(tileId, { comment })
       .then(() => {
-        const existingTilesComments = getState().tiles.readFeedComments || {}
+        const existingTilesComments = getState().tiles.feedComments || {}
         const tileInfo = R.prop(tileId, existingTilesComments) || {}
         const commentsForTile = tileInfo.comments || []
         const newComments = R.concat(commentsForTile, [{
           id: tileId,
           comment,
-          dateTime,
+          datetime,
           profile
         }])
         const newTileComments = { [tileId]: { comments: newComments } }
         dispatch({
-          type: A.UPDATE_READFEED_COMMENTS,
+          type: B.UPDATE_COMMENTS,
           payload: { newTileComments }
         })
       })
@@ -47,17 +55,18 @@ export function updateReadFeedComments(tileId, comment, dateTime, profile) {
   }
 }
 
-export function updateReadFeedLikes(tileId, liked) {
+export function updateLikes(tileId, liked) {
   return dispatch => {
-    CurrentReaderSocial.updateReadFeedLikes(tileId, { liked })
-      .then(() => dispatch({ type: A.UPDATE_READFEED_LIKES }))
+    ReaderTiles.updateLikes(tileId, { liked })
+      .then(() => dispatch({ type: B.UPDATE_LIKES }))
       .catch((err) => console.error(`Error in updateLikes: ${err}`))
   }
 }
 
 export default {
   getReadFeedTiles,
-  getReadFeedComments,
-  updateReadFeedLikes,
-  updateReadFeedComments,
+  getProfileTiles,
+  getComments,
+  updateLikes,
+  updateComments,
 }

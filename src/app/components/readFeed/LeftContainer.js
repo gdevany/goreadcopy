@@ -10,7 +10,7 @@ class LeftContainer extends PureComponent {
       id,
       genreIds,
       isMyReadFeed,
-      username
+      fullname
     } = this.props
     return (
       <div className='left-container large-3 hide-for-small-only hide-for-medium-only columns'>
@@ -19,7 +19,7 @@ class LeftContainer extends PureComponent {
         <FavoriteGenres
           genreIds={genreIds}
           isCurrentReader={isMyReadFeed}
-          username={username}
+          fullname={fullname}
         />
       </div>
     )
@@ -30,13 +30,13 @@ const mapStateToProps = ({
   currentReader: {
     id,
     genreIds = [],
-    username
+    fullname
   }
 }) => {
   return {
     id,
     genreIds,
-    username
+    fullname
   }
 }
 

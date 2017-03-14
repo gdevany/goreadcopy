@@ -7,7 +7,7 @@ const LeftProfileContainer = ({
   genreIds,
   isMyProfile,
   isViewMyProfile,
-  username,
+  fullname,
   profileFollowed
 }) => {
   return (
@@ -16,7 +16,6 @@ const LeftProfileContainer = ({
         id ?
           <FollowProfile
             id={id}
-            profileUsername={username}
             isCurrentReader={isMyProfile}
             profileFollowed={profileFollowed}
             isViewMyProfile={isViewMyProfile}
@@ -25,7 +24,7 @@ const LeftProfileContainer = ({
       <FavoriteGenres
         genreIds={genreIds}
         isCurrentReader={isMyProfile}
-        username={username}
+        fullname={fullname}
       />
     </div>
   )

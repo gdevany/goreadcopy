@@ -57,7 +57,7 @@ class Profile extends PureComponent {
       profileImage,
       backgroundImage,
       genreIds,
-      username,
+      fullname,
       profilePage
     } = this.props
 
@@ -68,7 +68,7 @@ class Profile extends PureComponent {
     const myProfile = {
       profileImage,
       backgroundImage,
-      username,
+      fullname,
       genreIds,
       id
     }
@@ -77,7 +77,7 @@ class Profile extends PureComponent {
       profileImage: profilePage.profileImage,
       backgroundImage: profilePage.backgroundImage,
       followed: this.getGenreIds(profilePage.genreIds),
-      username: (profilePage.username ? profilePage.username : ''),
+      fullname: profilePage.fullname,
       genreIds: profilePage.genreIds,
       id: profilePage.id
     } : {}
@@ -98,11 +98,14 @@ class Profile extends PureComponent {
           id={profile.id}
           genreIds={profile.genreIds}
           isMyProfile={isMyProfile}
-          username={profile.username}
+          fullname={profile.fullname}
           profileFollowed={notMyProfile.followed}
           isViewMyProfile={this.isViewMyProfile(profilePage.id, id)}
         />
-        <RightProfileContainer />
+        <RightProfileContainer
+          id={profile.id}
+          isProfilePage={true}
+        />
       </div>
     )
   }
@@ -114,7 +117,6 @@ const mapStateToProps = ({
     fullname = '',
     backgroundImage = '',
     profileImage = '',
-    username = '',
     genreIds = [],
   },
   profilePage
@@ -124,7 +126,6 @@ const mapStateToProps = ({
     fullname,
     backgroundImage,
     profileImage,
-    username,
     genreIds,
     profilePage,
   }

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { AvatarSummary } from '../common'
+import AvatarSummary from './AvatarSummary'
 import { Dialog, Tabs, Tab } from 'material-ui'
 import SwipeableViews from 'react-swipeable-views'
 import { Colors } from '../../constants/style'
