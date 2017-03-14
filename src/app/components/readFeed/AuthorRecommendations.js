@@ -2,10 +2,11 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { ExternalRoutes, Litcoins } from '../../constants'
 import { AuthorRecSummary } from '../common'
-import { Recommended } from '../../redux/actions'
+import { Recommended, Follow } from '../../redux/actions'
 
 const { findAuthors } = ExternalRoutes
 const { getRecommendedAuthors } = Recommended
+const { getFollowersAndFollowed } = Follow
 const { CONTEXTS: { READ_FEED } } = Litcoins
 
 const styles = {
@@ -17,10 +18,16 @@ const styles = {
 class AuthorRecommendations extends PureComponent {
   constructor(props) {
     super(props)
+
+    this.handleAuthorClick = this.handleAuthorClick.bind(this)
   }
 
   componentDidMount = () => {
     this.props.getRecommendedAuthors(3)
+  }
+
+  handleAuthorClick = () => {
+    this.props.getFollowersAndFollowed(this.props.currentReaderId)
   }
 
   renderAuthors = (authors) => {
@@ -42,6 +49,7 @@ class AuthorRecommendations extends PureComponent {
             description={'Nothing about me yet'}
             booksWritten={booksWritten}
             context={READ_FEED}
+            onClick={this.handleAuthorClick}
           />
         </div>
       )
@@ -73,13 +81,15 @@ class AuthorRecommendations extends PureComponent {
 
 const mapStateToProps = ({
   currentReader: {
-    recommended
+    id,
+    recommended,
   },
   social: {
     followed
   }
 }) => {
   return {
+    currentReaderId: id,
     recommended,
     followed
   }
@@ -87,6 +97,7 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = {
   getRecommendedAuthors,
+  getFollowersAndFollowed,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthorRecommendations)

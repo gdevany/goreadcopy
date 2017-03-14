@@ -78,11 +78,12 @@ class AuthorRecSummary extends Component {
     const { id, context } = this.props
     this.setState({ isChosen: isChosenNow })
 
-    if (isChosenNow) {
-      this.props.updateFollowedAuthors({ authorIds: [id], context })
-    } else {
+    const followOrUnfollow =
+      isChosenNow ?
+      this.props.updateFollowedAuthors({ authorIds: [id], context }) :
       this.props.removeFollowedAuthors({ authorIds: [id], context })
-    }
+
+    followOrUnfollow.then(this.props.onClick)
   }
 
   render() {
@@ -130,6 +131,10 @@ class AuthorRecSummary extends Component {
       </div>
     )
   }
+}
+
+AuthorRecSummary.defaultProps = {
+  onClick: () => null,
 }
 
 const mapDispatchToProps = {

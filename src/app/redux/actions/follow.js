@@ -3,12 +3,13 @@ import { CONTEXTS as C } from '../../constants/litcoins'
 import CurrentReaderSocial from '../../services/api/currentReader/social'
 import CurrentReaderRecommendation from '../../services/api/currentReader/recommendation'
 import Users from '../../services/users'
+import Promise from '../../services/promise'
 
 const { TYPES: { READER, AUTHOR } } = Users
 
 export function getFollowers(id, body) {
   return dispatch => {
-    CurrentReaderSocial.getFollowers(id, body)
+    return CurrentReaderSocial.getFollowers(id, body)
       .then((res) => dispatch({ type: A.GET_FOLLOWERS, payload: res.data }))
       .catch(err => console.error(`Error in getFollowers ${err}`))
   }
@@ -19,6 +20,13 @@ export function getFollowed(id, body) {
     CurrentReaderSocial.getFollowed(id, body)
       .then((res) => dispatch({ type: A.GET_FOLLOWED, payload: res.data }))
       .catch(err => console.error(`Error in getFollowed ${err}`))
+  }
+}
+
+export function getFollowersAndFollowed(id) {
+  return (dispatch) => {
+    return dispatch(getFollowers(id))
+      .then(() => dispatch(getFollowed(id)))
   }
 }
 
@@ -130,6 +138,7 @@ export default {
   followOrUnfollow,
   getFollowers,
   getFollowed,
+  getFollowersAndFollowed,
   updateFollowed,
   updateFollowers,
   updateFollowedAuthors,
