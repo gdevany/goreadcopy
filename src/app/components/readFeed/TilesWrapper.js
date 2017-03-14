@@ -77,11 +77,11 @@ const TilesWrapper = ({ feed }) => {
           )
           break
         case 'author':
-          // TODO: Pass in location and about props
           const authorContent = {
             name: tile.content.fullname,
-            location: 'Los Angeles, CA',
-            about: 'blah blah blah',
+            city: tile.content.city,
+            state: tile.content.state,
+            about: (tile.content.shortBio || tile.content.aboutMe),
             link: tile.content.url,
           }
           result.push(
@@ -137,9 +137,8 @@ const TilesWrapper = ({ feed }) => {
         case 'product_review':
         case 'book_review':
         case 'book':
-          // TODO: product_review should be returning url inside content.product
           const getUrl = () => {
-            if (tile.content.product) return tile.content.product.link
+            if (tile.content.product) return tile.content.product.url
             else if (tile.content.book) return tile.content.book.link
             else if (tile.content.link) return tile.content.link
             return '#'
@@ -194,13 +193,13 @@ const TilesWrapper = ({ feed }) => {
           )
           break
         case 'publisher':
-          // TODO: Needs a location and description keys
           const publisherContent = {
             name: tile.content.fullname,
             image: tile.content.imageUrl,
             link: tile.content.url,
-            location: 'Los Angeles, CA',
-            description: 'blab blah blah'
+            city: tile.content.city,
+            state: tile.content.state,
+            description: tile.content.description
           }
           result.push(
             <PublisherUpdateTile
@@ -212,7 +211,6 @@ const TilesWrapper = ({ feed }) => {
           break
         case 'account':
         case 'userprofile':
-          // TODO: Add location
           const findUserType = (type) => {
             switch (type) {
               case 'userProfile':
@@ -225,7 +223,8 @@ const TilesWrapper = ({ feed }) => {
           }
           const accountContent = {
             name: tile.content.fullname || tile.actor.fullname,
-            location: 'Los Angeles, CA',
+            city: tile.content.city,
+            state: tile.content.state,
             description: tile.content.description,
             image: tile.content.imageUrl,
             link: tile.actor.url,
@@ -268,7 +267,6 @@ const TilesWrapper = ({ feed }) => {
           break
         case 'advertising':
           switch (tile.advertiser.name) {
-            // TODO: Need the likes and comments objects from the API team
             case 'readerslegacy':
               const {
                 imageUrl,
@@ -330,7 +328,7 @@ const TilesWrapper = ({ feed }) => {
           break
         case 'merged':
           tileDefaultProps = {
-            timestamp: this.renderTime(tile.timestamp, 'ago'),
+            timestamp: renderTime(tile.timestamp, 'ago'),
             action: tile.description,
             author: {
               name: (tile.actor.fullname || tile.actor.name),

@@ -18,6 +18,14 @@ class PublisherUpdateTile extends PureComponent {
       content
     } = this.props
 
+    const {
+      city,
+      state,
+      link,
+      image,
+      name
+    } = content
+
     return (
       <TileDefault
         tileId={id}
@@ -31,27 +39,30 @@ class PublisherUpdateTile extends PureComponent {
       >
         <div className='publisher-tile-container'>
           <figure className='publisher-figure'>
-            <a href={content.link}>
-              <img className='publisher-img' src={content.image} alt='publisher'/>
+            <a href={link}>
+              <img className='publisher-img' src={image} alt='publisher'/>
             </a>
           </figure>
           <div className='publisher-content'>
-            <a href={content.link}>
-              <h2 className='publisher-name'>{content.name}</h2>
+            <a href={link}>
+              <h2 className='publisher-name'>{name}</h2>
             </a>
             <h4 className='publisher-title'>Publisher</h4>
-            <div className='publisher-location-container'>
-              <LocationIcon className='publisher-location-icon'/>
-              <h5 className='publisher-location'>
-                {content.location}
-              </h5>
-            </div>
+            {
+              city || state ?
+                <div className='publisher-location-container'>
+                  <LocationIcon className='publisher-location-icon'/>
+                  <h5 className='publisher-location'>
+                    {city ? city : null} {state ? state : null}
+                  </h5>
+                </div> : null
+            }
           </div>
         </div>
         <div className='post-excerpt-container'>
           <p className='post-excerpt-pharagraph'>
-            {content.description}
-            <a href={content.link} className='post-readmore-anchor'>
+            {content.description ? content.description : null}
+            <a href={link} className='post-readmore-anchor'>
               Read more
             </a>
           </p>
