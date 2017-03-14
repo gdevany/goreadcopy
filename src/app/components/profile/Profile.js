@@ -6,7 +6,7 @@ import LeftProfileContainer from './LeftProfileContainer'
 import RightProfileContainer from './RightProfileContainer'
 import BackgroundImageProfileUpload from './BackgroundImageProfileUpload'
 import MyImageProfileUpload from './MyImageProfileUpload'
-import NavMenu from '../common/NavMenu'
+import { NavMenu } from '../common'
 import { CurrentReader, ProfilePage } from '../../redux/actions'
 import R from 'ramda'
 
