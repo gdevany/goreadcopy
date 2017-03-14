@@ -3,26 +3,9 @@ import { Dialog, } from 'material-ui'
 import { connect } from 'react-redux'
 import { Search } from '../../redux/actions'
 import R from 'ramda'
-import { Colors } from '../../constants/style'
-import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { debounce } from 'lodash'
 
 const { mainSearch, updateSearch } = Search
-
-const styles = {
-  modalBody: {
-    marginTop: -80,
-  },
-  modalContent: {
-    maxWidth: '100%',
-    width: '100%',
-    opacity: 0.93,
-  },
-  refresh: {
-    display: 'inline-block',
-    position: 'relative',
-  },
-}
 
 class AddBooksModal extends Component {
 
@@ -86,16 +69,7 @@ class AddBooksModal extends Component {
         </div>
       )
     }
-    return (
-      <RefreshIndicator
-        size={50}
-        left={70}
-        top={0}
-        loadingColor={Colors.blue}
-        status='loading'
-        style={styles.refresh}
-      />
-    )
+    return null
   }
 
   render() {
