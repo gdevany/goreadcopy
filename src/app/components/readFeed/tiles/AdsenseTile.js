@@ -1,5 +1,12 @@
 import React, { PureComponent } from 'react'
 import AdsenseDefault from '../AdsenseDefault'
+import GoogleAd from 'react-google-ad'
+
+const styles = {
+  googleAd: {
+    display: 'block',
+  },
+}
 
 class AdsenseTile extends PureComponent {
   render() {
@@ -11,7 +18,13 @@ class AdsenseTile extends PureComponent {
         adsense={content.isAdsense}
       >
         <div className='adv-sense-tile-container'>
-          <img className='adv-sense-img' src={content.image}/>
+          <GoogleAd
+            className='adsbygoogle'
+            style={styles.googleAd}
+            client='ca-pub-7843612025672312'
+            slot='2948177383'
+            format='rectangle'
+          />
         </div>
       </AdsenseDefault>
     )

@@ -6,12 +6,21 @@ import { FavoriteGenres } from '../common'
 
 class LeftContainer extends PureComponent {
   render() {
-    const { id } = this.props
+    const {
+      id,
+      genreIds,
+      isMyReadFeed,
+      username
+    } = this.props
     return (
       <div className='left-container large-3 hide-for-small-only hide-for-medium-only columns'>
         { id ? <ReadFeedProfile id={id}/> : null }
         <LeftHandLinks />
-        <FavoriteGenres />
+        <FavoriteGenres
+          genreIds={genreIds}
+          isCurrentReader={isMyReadFeed}
+          username={username}
+        />
       </div>
     )
   }
@@ -19,11 +28,15 @@ class LeftContainer extends PureComponent {
 
 const mapStateToProps = ({
   currentReader: {
-    id
+    id,
+    genreIds = [],
+    username
   }
 }) => {
   return {
-    id
+    id,
+    genreIds,
+    username
   }
 }
 
