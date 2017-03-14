@@ -4,10 +4,10 @@ import AvatarSummary from './AvatarSummary'
 import { Dialog, Tabs, Tab } from 'material-ui'
 import SwipeableViews from 'react-swipeable-views'
 import { Colors } from '../../constants/style'
-import { Users } from '../../services'
+import { Users as U } from '../../services'
 import R from 'ramda'
 
-const { TYPES: { READER, AUTHOR } } = Users
+const { TYPES: { READER, AUTHOR } } = U
 
 const styles = {
   headline: {
@@ -72,23 +72,21 @@ class FollowModal extends PureComponent {
   }
 
   renderUsers = (userType, followType, users) => {
-    return users.map((user, index) => {
+    return users.map((attrs, index) => {
       const {
         id,
-        firstName,
-        lastName,
-        image,
-      } = user
+      } = attrs
 
-      const name = `${firstName} ${lastName}`
+      const user = U.from(attrs)
 
       return (
         <div className='column column-block' key={id}>
           <AvatarSummary
             id={id}
             key={id}
-            title={name}
-            image={image}
+            description={U.description(user)}
+            title={U.fullName(user)}
+            image={U.imageUrl(user)}
             followType={followType}
             userType={userType}
             isChosen={true}
