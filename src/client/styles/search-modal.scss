@@ -50,39 +50,59 @@
     align-items: flex-start;
     .rap-results-container, .book-results-container{
       width: 50%;
-      .search-reader-results, .search-author-results,
-      .search-publisher-results, .search-book-results{
-        .result-container{
-          display: flex;
-          justify-content: flex-start;
-          align-items: center;
-          flex-direction: row;
-          padding: .5em;
-          .image-container{
-            a{
-              .search-result-figure{
-                margin: 0;
-                width: 70px;
-                height: 70px;
-                .search-result-image{
-                  width: 100%;
-                  border-radius: 100%;
-                }
-              }
-            }
-          }
-        }
-        .search-result-info-container{
-          margin-left: .5em;
-          .search-type-anchor{
-            color:$blue;
-            font-size: 12px;
-          }
-        }
-      }
     }
     .book-results-container{
       width: 50%;
     }
   }
+}
+
+.search-reader-results, .search-author-results,
+.search-publisher-results, .search-book-results{
+  .result-container{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    padding: .5em;
+    .image-container{
+      a{
+        .search-result-figure{
+          margin: 0;
+          width: 70px;
+          height: 70px;
+          .search-result-image{
+            width: 100%;
+            border-radius: 100%;
+          }
+        }
+      }
+    }
+  }
+  .search-result-info-container{
+    margin-left: .5em;
+    .search-type-anchor{
+      color:$blue;
+      font-size: 12px;
+    }
+    .search-result-add-to{
+      display: block;
+      background-color: #fff;
+      border: 1px solid #0042D6;
+      border-radius: 35px;
+      font-size: 16px;
+      margin-top: .25em;
+      padding: 7px 15px;
+      width: 140px;
+    }
+  }
+}
+
+.complete-profile-books-modal{
+  height: 100vh;
+  overflow: scroll;
+}
+
+.book-search-results-container{
+  width: 100%;
 }

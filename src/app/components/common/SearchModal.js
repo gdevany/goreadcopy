@@ -44,14 +44,13 @@ class SearchModal extends Component {
 
   debouncedSearch = debounce((event) => {
     if (event.target.value.length > 3) {
-      this.props.mainSearch(event.target.value)
+      this.props.mainSearch(event.target.value, 'main-search')
     }
   }, 300)
 
   renderSearchResults = () => {
     const searchTerms = this.props.searchResults
     if (searchTerms.counts) {
-
       const readerResults = searchTerms.readers.map((reader, index) => {
         return (
           <div key={reader.id} className='result-container'>
