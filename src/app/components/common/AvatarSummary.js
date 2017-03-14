@@ -1,7 +1,13 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import Radium from 'radium'
 import { CardHeader, Chip } from 'material-ui'
 import { Colors, Breakpoints } from '../../constants/style'
+import { Follow } from '../../redux/actions'
+
+const {
+  followOrUnfollow,
+} = Follow
 
 const styles = {
   infoContainer: {
@@ -58,55 +64,92 @@ const styles = {
   },
 }
 
-const AvatarSummary = ({
-  id,
-  title,
-  image,
-  description,
-  booksWritten,
-  handleChipClick,
-  isChosen,
-  followType,
-}) => {
+class AvatarSummary extends Component {
+  constructor(props) {
+    super(props)
 
-  const chosen = followType ? isChosen(id, followType) : isChosen(id)
-  const subtitle = booksWritten ? `Author of ${booksWritten[0]}` : description
+    this.state = {
+      isChosen: props.isChosen || true,
+    }
 
-  return (
-    <div className='row' style={styles.item} key={id}>
-      <div className='small-10 small-offset-1 large-12 columns'>
-        <CardHeader
-          title={title}
-          titleStyle={styles.nameText}
-          textStyle={styles.textContainer}
-          subtitle={subtitle}
-          subtitleStyle={styles.subTitleText}
-          avatar={image}
-          style={styles.infoContainer}
-        />
+    this.handleChipClick = this.handleChipClick.bind(this)
+  }
 
-        <div className='row'>
-          <div className='small-10 small-offset-2 medium-12 columns'>
-            <Chip
-              key={id}
-              value={id}
-              className={chosen ? 'chosenFollow' : null}
-              labelStyle={styles.chipText}
-              style={styles.chip}
-              onClick={handleChipClick}
-            >
-              {chosen ?
-                <img style={styles.checkmark} src='./image/checkmark.png' /> :
-                <img style={styles.checkmark} src='./image/plus.png' />
-              }
-                {chosen ? 'Following' : 'Follow'}
-            </Chip>
+  handleChipClick() {
+    const isChosenNow = !this.state.isChosen
+    const {
+      id,
+      userType,
+      context,
+      followOrUnfollow,
+    } = this.props
+
+    followOrUnfollow({
+      follow: isChosenNow,
+      context,
+      userType,
+      ids: [id],
+    })
+    this.setState({ isChosen: isChosenNow })
+    this.props.onClick()
+  }
+
+  render() {
+    const {
+      id,
+      title,
+      image,
+      description,
+      booksWritten,
+    } = this.props
+
+    const { isChosen } = this.state
+
+    const subtitle = booksWritten ? `Author of ${booksWritten[0]}` : description
+
+    return (
+      <div className='row' style={styles.item} key={id}>
+        <div className='small-10 small-offset-1 large-12 columns'>
+          <CardHeader
+            title={title}
+            titleStyle={styles.nameText}
+            textStyle={styles.textContainer}
+            subtitle={subtitle}
+            subtitleStyle={styles.subTitleText}
+            avatar={image}
+            style={styles.infoContainer}
+          />
+
+          <div className='row'>
+            <div className='small-10 small-offset-2 medium-12 columns'>
+              <Chip
+                key={id}
+                value={id}
+                className={isChosen ? 'chosenFollow' : null}
+                labelStyle={styles.chipText}
+                style={styles.chip}
+                onClick={this.handleChipClick}
+              >
+                {isChosen ?
+                  <img style={styles.checkmark} src='./image/checkmark.png' /> :
+                  <img style={styles.checkmark} src='./image/plus.png' />
+                }
+                  {isChosen ? 'Following' : 'Follow'}
+              </Chip>
+            </div>
           </div>
         </div>
-
       </div>
-    </div>
-  )
+    )
+  }
 }
 
-export default Radium(AvatarSummary)
+AvatarSummary.defaultProps = {
+  onClick: () => null
+}
+
+const mapDispatchToProps = {
+  followOrUnfollow,
+}
+
+export default connect(null, mapDispatchToProps)(Radium(AvatarSummary))

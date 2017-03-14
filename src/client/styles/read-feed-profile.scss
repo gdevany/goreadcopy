@@ -233,7 +233,7 @@
   &:before {
     content: '';
     display: inline-block;
-    background: url(../image/portrait3.png) no-repeat center;
+    // background: url(../image/portrait3.png) no-repeat center; Delete this when ready
     background-size: cover;
     border-radius: 5px;
     position: absolute;

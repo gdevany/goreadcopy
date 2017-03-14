@@ -57,19 +57,21 @@ class Profile extends PureComponent {
       profileImage,
       backgroundImage,
       genreIds,
-      username,
+      fullname,
+      favoriteQuotes,
+      achievements,
       profilePage
     } = this.props
 
-    const {
-      isMyProfile,
-    } = this.state
+    const { isMyProfile } = this.state
 
     const myProfile = {
       profileImage,
       backgroundImage,
-      username,
+      fullname,
       genreIds,
+      favoriteQuotes,
+      achievements,
       id
     }
 
@@ -77,8 +79,10 @@ class Profile extends PureComponent {
       profileImage: profilePage.profileImage,
       backgroundImage: profilePage.backgroundImage,
       followed: this.getGenreIds(profilePage.genreIds),
-      username: (profilePage.username ? profilePage.username : ''),
+      fullname: profilePage.fullname,
       genreIds: profilePage.genreIds,
+      favoriteQuotes: profilePage.favoriteQuotes,
+      achievements: profilePage.achievements,
       id: profilePage.id
     } : {}
 
@@ -98,11 +102,16 @@ class Profile extends PureComponent {
           id={profile.id}
           genreIds={profile.genreIds}
           isMyProfile={isMyProfile}
-          username={profile.username}
+          fullname={profile.fullname}
           profileFollowed={notMyProfile.followed}
+          achievements={profile.achievements}
           isViewMyProfile={this.isViewMyProfile(profilePage.id, id)}
+          favoriteQuotes={profile.favoriteQuotes}
         />
-        <RightProfileContainer />
+        <RightProfileContainer
+          id={profile.id}
+          isProfilePage={true}
+        />
       </div>
     )
   }
@@ -114,8 +123,9 @@ const mapStateToProps = ({
     fullname = '',
     backgroundImage = '',
     profileImage = '',
-    username = '',
     genreIds = [],
+    favoriteQuotes = [],
+    achievements = [],
   },
   profilePage
 }) => {
@@ -124,8 +134,8 @@ const mapStateToProps = ({
     fullname,
     backgroundImage,
     profileImage,
-    username,
     genreIds,
+    achievements,
     profilePage,
   }
 }

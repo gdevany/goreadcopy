@@ -32,6 +32,7 @@ const ExternalRoutes = () => {
     videoTutorials: () => backendUrl('video-tutorials'),
     games: () => backendUrl('games'),
     advancedSearch: () => backendUrl('search'),
+    editProfile: () => backendUrl('profile/settings'),
   }
   return routes
 }

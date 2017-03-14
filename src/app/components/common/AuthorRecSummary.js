@@ -1,7 +1,13 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import Radium from 'radium'
 import { CardHeader, Chip } from 'material-ui'
 import { Colors, Breakpoints } from '../../constants/style'
+import { Follow } from '../../redux/actions'
+const {
+  removeFollowedAuthors,
+  updateFollowedAuthors,
+} = Follow
 
 const styles = {
   infoContainer: {
@@ -56,51 +62,84 @@ const styles = {
   },
 }
 
-const AuthorRecSummary = ({
-  id,
-  title,
-  image,
-  description,
-  booksWritten,
-  handleChipClick,
-  isChosen,
-  followType,
-}) => {
+class AuthorRecSummary extends Component {
+  constructor(props) {
+    super(props)
 
-  const chosen = followType ? isChosen(id, followType) : isChosen(id)
-  const subtitle = booksWritten ? `Author of ${booksWritten[0]}` : description
+    this.state = {
+      isChosen: false,
+    }
 
-  return (
-    <div className='row' style={styles.item} key={id}>
-      <div className='small-12 columns'>
-        <CardHeader
-          title={title}
-          titleStyle={styles.nameText}
-          textStyle={styles.textContainer}
-          subtitle={subtitle}
-          subtitleStyle={styles.subTitleText}
-          avatar={image}
-          style={styles.infoContainer}
-        />
+    this.handleChipClick = this.handleChipClick.bind(this)
+  }
 
-        <Chip
-          key={id}
-          value={id}
-          className={chosen ? 'chosenFollow' : null}
-          labelStyle={styles.chipText}
-          style={styles.chip}
-          onClick={handleChipClick}
-        >
-          {chosen ?
-            <img style={styles.checkmark} src='./image/checkmark.png' /> :
-            <img style={styles.checkmark} src='./image/plus.png' />
-          }
-            {chosen ? 'Following' : 'Follow'}
-        </Chip>
+  handleChipClick() {
+    const isChosenNow = !this.state.isChosen
+    const { id, context } = this.props
+    this.setState({ isChosen: isChosenNow })
 
+    const followOrUnfollow =
+      isChosenNow ?
+      this.props.updateFollowedAuthors({ authorIds: [id], context }) :
+      this.props.removeFollowedAuthors({ authorIds: [id], context })
+
+    followOrUnfollow.then(this.props.onClick)
+  }
+
+  render() {
+    const {
+      id,
+      title,
+      image,
+      description,
+      booksWritten,
+    } = this.props
+
+    const { isChosen } = this.state
+
+    const subtitle = booksWritten ? `Author of ${booksWritten[0]}` : description
+
+    return (
+      <div className='row' style={styles.item} key={id}>
+        <div className='small-12 columns'>
+          <CardHeader
+            title={title}
+            titleStyle={styles.nameText}
+            textStyle={styles.textContainer}
+            subtitle={subtitle}
+            subtitleStyle={styles.subTitleText}
+            avatar={image}
+            style={styles.infoContainer}
+          />
+
+          <Chip
+            key={id}
+            value={id}
+            className={isChosen ? 'chosenFollow' : null}
+            labelStyle={styles.chipText}
+            style={styles.chip}
+            onClick={this.handleChipClick}
+          >
+            {isChosen ?
+              <img style={styles.checkmark} src='./image/checkmark.png' /> :
+              <img style={styles.checkmark} src='./image/plus.png' />
+            }
+              {isChosen ? 'Following' : 'Follow'}
+          </Chip>
+
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
-export default Radium(AuthorRecSummary)
+AuthorRecSummary.defaultProps = {
+  onClick: () => null,
+}
+
+const mapDispatchToProps = {
+  updateFollowedAuthors,
+  removeFollowedAuthors,
+}
+
+export default connect(null, mapDispatchToProps)(Radium(AuthorRecSummary))

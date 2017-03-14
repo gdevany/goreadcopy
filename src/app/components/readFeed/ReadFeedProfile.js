@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Follow, Images } from '../../redux/actions'
-import FollowModal from './FollowModal'
+import { FollowModal } from '../common'
 import Dropzone from 'react-dropzone'
 import { Auth } from '../../services'
 import R from 'ramda'
@@ -72,6 +72,7 @@ class ReadFeedProfile extends PureComponent {
   handleClose = (followType) => {
     if (followType === 'following') this.setState({ modalFollowingOpen: false })
     else if (followType === 'followers') this.setState({ modalFollowersOpen: false })
+    this.getFollow(this.props.id)
   }
 
   backgroundUpload = (file) => {
@@ -155,10 +156,12 @@ class ReadFeedProfile extends PureComponent {
     } = this.state
 
     const {
+      id,
       followed,
       followers,
       profileImage,
-      backgroundImage
+      backgroundImage,
+      fullname,
     } = this.props
 
     const hasProfileImage = profileImage !== '' ? profileImage : null
@@ -224,7 +227,7 @@ class ReadFeedProfile extends PureComponent {
               style={styles.nameText}
               className='profile-large-text profile-link'
             >
-              Mary Reynolds
+              {fullname}
             </h4>
 
             <div style={styles.followContainer} className='follow-wrapper row center-text'>
@@ -265,6 +268,7 @@ class ReadFeedProfile extends PureComponent {
             </div>
 
             <FollowModal
+              currentReaderId={id}
               followed={followed}
               followers={followers}
               modalOpen={openedModal}
@@ -288,6 +292,7 @@ const mapStateToProps = ({
   currentReader: {
     backgroundImage = '',
     profileImage = '',
+    fullname = '',
   }
 }) => {
   return {
@@ -295,6 +300,7 @@ const mapStateToProps = ({
     followers,
     backgroundImage,
     profileImage,
+    fullname,
   }
 }
 
