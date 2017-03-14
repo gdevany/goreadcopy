@@ -5,7 +5,7 @@ import { Follow } from '../../redux/actions'
 import { FollowModal } from '../common'
 import { ExternalRoutes } from '../../constants'
 import { Chip } from 'material-ui'
-import { Colors, Breakpoints } from '../../constants/style'
+import { Colors } from '../../constants/style'
 import R from 'ramda'
 
 const { editProfile } = ExternalRoutes
@@ -22,10 +22,6 @@ const styles = {
     display: 'inline-block',
     margin: '15px 15px 0px 20px',
     padding: 5,
-
-    [Breakpoints.tablet]: {
-      marginRight: 0,
-    },
 
     ':hover': {
       backgroundColor: Colors.blue,
