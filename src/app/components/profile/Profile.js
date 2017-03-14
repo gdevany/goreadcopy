@@ -58,18 +58,18 @@ class Profile extends PureComponent {
       backgroundImage,
       genreIds,
       fullname,
+      favoriteQuotes,
       profilePage
     } = this.props
 
-    const {
-      isMyProfile,
-    } = this.state
+    const { isMyProfile } = this.state
 
     const myProfile = {
       profileImage,
       backgroundImage,
       fullname,
       genreIds,
+      favoriteQuotes,
       id
     }
 
@@ -79,6 +79,7 @@ class Profile extends PureComponent {
       followed: this.getGenreIds(profilePage.genreIds),
       fullname: profilePage.fullname,
       genreIds: profilePage.genreIds,
+      favoriteQuotes: profilePage.favoriteQuotes,
       id: profilePage.id
     } : {}
 
@@ -101,6 +102,7 @@ class Profile extends PureComponent {
           fullname={profile.fullname}
           profileFollowed={notMyProfile.followed}
           isViewMyProfile={this.isViewMyProfile(profilePage.id, id)}
+          favoriteQuotes={profile.favoriteQuotes}
         />
         <RightProfileContainer
           id={profile.id}
@@ -118,6 +120,7 @@ const mapStateToProps = ({
     backgroundImage = '',
     profileImage = '',
     genreIds = [],
+    favoriteQuotes = [],
   },
   profilePage
 }) => {
@@ -127,6 +130,7 @@ const mapStateToProps = ({
     backgroundImage,
     profileImage,
     genreIds,
+    favoriteQuotes,
     profilePage,
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import FollowProfile from './FollowProfile'
 import { FavoriteGenres } from '../common'
+import FavoriteQuotes from './FavoriteQuotes'
 
 const LeftProfileContainer = ({
   id,
@@ -8,7 +9,8 @@ const LeftProfileContainer = ({
   isMyProfile,
   isViewMyProfile,
   fullname,
-  profileFollowed
+  profileFollowed,
+  favoriteQuotes,
 }) => {
   return (
     <div className='right-container small-6 columns'>
@@ -26,6 +28,7 @@ const LeftProfileContainer = ({
         isCurrentReader={isMyProfile}
         fullname={fullname}
       />
+    <FavoriteQuotes quotes={favoriteQuotes} />
     </div>
   )
 }
