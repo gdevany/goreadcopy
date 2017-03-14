@@ -6,6 +6,7 @@ import LeftProfileContainer from './LeftProfileContainer'
 import RightProfileContainer from './RightProfileContainer'
 import BackgroundImageProfileUpload from './BackgroundImageProfileUpload'
 import MyImageProfileUpload from './MyImageProfileUpload'
+import NavMenu from '../common/NavMenu'
 import { CurrentReader, ProfilePage } from '../../redux/actions'
 import R from 'ramda'
 
@@ -89,29 +90,32 @@ class Profile extends PureComponent {
     const profile = isMyProfile ? myProfile : notMyProfile
 
     return (
-      <div className='row'>
-        <BackgroundImageProfileUpload
-          backgroundImage={profile.backgroundImage}
-          isMyProfile={isMyProfile}
-        />
-        <MyImageProfileUpload
-          profileImage={profile.profileImage}
-          isMyProfile={isMyProfile}
-        />
-        <LeftProfileContainer
-          id={profile.id}
-          genreIds={profile.genreIds}
-          isMyProfile={isMyProfile}
-          fullname={profile.fullname}
-          profileFollowed={notMyProfile.followed}
-          achievements={profile.achievements}
-          isViewMyProfile={this.isViewMyProfile(profilePage.id, id)}
-          favoriteQuotes={profile.favoriteQuotes}
-        />
-        <RightProfileContainer
-          id={profile.id}
-          isProfilePage={true}
-        />
+      <div>
+        <NavMenu isUserLoggedIn={isUserLoggedIn} />
+        <div className='row'>
+          <BackgroundImageProfileUpload
+            backgroundImage={profile.backgroundImage}
+            isMyProfile={isMyProfile}
+          />
+          <MyImageProfileUpload
+            profileImage={profile.profileImage}
+            isMyProfile={isMyProfile}
+          />
+          <LeftProfileContainer
+            id={profile.id}
+            genreIds={profile.genreIds}
+            isMyProfile={isMyProfile}
+            fullname={profile.fullname}
+            profileFollowed={notMyProfile.followed}
+            achievements={profile.achievements}
+            isViewMyProfile={this.isViewMyProfile(profilePage.id, id)}
+            favoriteQuotes={profile.favoriteQuotes}
+          />
+          <RightProfileContainer
+            id={profile.id}
+            isProfilePage={true}
+          />
+        </div>
       </div>
     )
   }
