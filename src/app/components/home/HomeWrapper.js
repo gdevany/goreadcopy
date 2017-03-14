@@ -28,4 +28,10 @@ class HomeWrapper extends PureComponent {
   }
 }
 
-export default connect(null, { verifyUserToken })(HomeWrapper)
+const mapStateToProps = ({ currentReader }) => {
+  return {
+    currentReader
+  }
+}
+
+export default connect(mapStateToProps, { verifyUserToken })(HomeWrapper)
