@@ -38,6 +38,11 @@ class PublisherUpdateTile extends PureComponent {
         action={action}
       >
         <div className='publisher-tile-container'>
+          <div className='post-excerpt-container'>
+            <p className='post-excerpt-pharagraph'>
+              {content.socialComment ? content.socialComment : null}
+            </p>
+          </div>
           <figure className='publisher-figure'>
             <a href={link}>
               <img className='publisher-img' src={image} alt='publisher'/>
