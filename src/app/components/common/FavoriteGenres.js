@@ -73,14 +73,14 @@ class FavoriteGenres extends PureComponent {
     const {
       genreIds,
       isCurrentReader,
-      username
+      fullname
     } = this.props
     const { modalOpen } = this.state
 
     return (
       <div style={styles.container} className='text-left'>
         <span className='small-header'>
-          { isCurrentReader ? 'Your' : `${username || '?'}` } Favorite Genres
+          { isCurrentReader ? 'Your' : `${fullname}'s'` } Favorite Genres
         </span>
         <div style={styles.genreSection}>
           {genreIds ? this.renderChosenGenres(genreIds) : null}

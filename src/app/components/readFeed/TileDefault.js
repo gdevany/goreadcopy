@@ -28,9 +28,10 @@ const GooglePlusIcon = generateShareIcon('google')
 const LinkedinIcon = generateShareIcon('linkedin')
 
 const {
-  updateReadFeedLikes,
-  updateReadFeedComments,
-  getReadFeedComments,
+  updateLikes,
+  updateComments,
+  getComments,
+  shareTile,
 } = Tiles
 
 const styles = {
@@ -171,8 +172,8 @@ class TileDefault extends PureComponent {
 
   componentDidUpdate = (prevProps, prevState) => {
     const { likedCount } = this.state
-    const { tileId, updateReadFeedLikes } = this.props
-    if (prevState.likedCount !== likedCount) updateReadFeedLikes(tileId, { liked: true })
+    const { tileId, updateLikes } = this.props
+    if (prevState.likedCount !== likedCount) updateLikes(tileId, { liked: true })
   }
 
   handleLiked = () => {
@@ -197,7 +198,12 @@ class TileDefault extends PureComponent {
       sharePostOpen,
       calledCommentEndpoint
     } = this.state
-    const { readFeedComments, tileId } = this.props
+    const {
+      feedComments,
+      tileId,
+      getComments,
+    } = this.props
+
     if (commentsOpen) {
       if (sharePostOpen) {
         this.setState({
@@ -211,10 +217,12 @@ class TileDefault extends PureComponent {
         })
       }
     } else {
-      if (!calledCommentEndpoint && readFeedComments) {
-        this.setState({ calledCommentEndpoint: this.findCommentsForThisTile() })
+      if (!calledCommentEndpoint) {
+        if (feedComments) {
+          this.setState({ calledCommentEndpoint: this.findCommentsForThisTile(feedComments) })
+        }
+        getComments(tileId)
       }
-      if (!calledCommentEndpoint) this.props.getReadFeedComments(tileId)
       this.setState({
         commentsOpen: true,
         commentPostOpen: true
@@ -222,13 +230,14 @@ class TileDefault extends PureComponent {
     }
   }
 
-  findCommentsForThisTile = () => {
-    const { tileId, readFeedComments } = this.props
-    return R.prop(tileId, readFeedComments)
+  findCommentsForThisTile = (comments) => {
+    const { tileId } = this.props
+    return R.prop(tileId, comments)
   }
 
   handleRenderComments = (allComments) => {
-    const foundComments = this.findCommentsForThisTile()
+    const { feedComments } = this.props
+    const foundComments = this.findCommentsForThisTile(feedComments)
     return foundComments ? foundComments.comments.map(comment => {
       return (
         <Card
@@ -242,12 +251,14 @@ class TileDefault extends PureComponent {
             avatar={comment.profile.imageUrl}
             textStyle={styles.textContainer}
           >
-            <p style={styles.timeStamp}> {comment.datetime} </p>
+            <p style={styles.timeStamp}>
+              {/** TODO: use renderTime method here **/}
+              {comment.datetime}
+            </p>
           </CardHeader>
 
           <CardText style={styles.commentContent}>
-            {/** TODO: use renderTime method here **/}
-            {comment.content}
+            {comment.comment}
           </CardText>
         </Card>
       )
@@ -264,10 +275,11 @@ class TileDefault extends PureComponent {
       tileId,
       url,
       fullname,
-      profileImage
+      profileImage,
+      updateComments
     } = this.props
     const findDateTime = Date.now().toString().split('').slice(0, 10).join('')
-    const dateTime = Number(findDateTime)
+    const datetime = Number(findDateTime)
     const profile = {
       url,
       fullname,
@@ -278,17 +290,20 @@ class TileDefault extends PureComponent {
       commentedCount: commentedCount + 1,
       commentInput: ''
     })
-    this.props.updateReadFeedComments(tileId, commentInput, dateTime, profile)
+    updateComments(tileId, commentInput, datetime, profile)
   }
 
   handleShareSubmit = () => {
-    const { sharedCount } = this.state
+    const { sharedCount, shareInput } = this.state
+    const { tileId, shareTile } = this.props
     this.setState({
       sharePostOpen: false,
       commentPostOpen: true,
       sharedCount: sharedCount + 1,
       shareInput: ''
     })
+
+    shareTile(tileId, 5, shareInput)
   }
 
   handleShareOpen = () => {
@@ -316,10 +331,12 @@ class TileDefault extends PureComponent {
 
   renderPostBox = (buttonType) => {
     const { commentInput, shareInput } = this.state
+    const { profileImage } = this.props
     const isComment = buttonType === 'comment'
     const inputType = isComment ? 'commentInput' : 'shareInput'
     return (
       <div className='input-post-box'>
+        <img src={profileImage} />
         <textarea
           type='text'
           className='search-input'
@@ -357,8 +374,9 @@ class TileDefault extends PureComponent {
       shareInfo,
       promoted,
       action,
-      readFeedComments
+      feedComments,
     } = this.props
+
     return (
       <div>
         <Card
@@ -435,8 +453,7 @@ class TileDefault extends PureComponent {
             style={styles.commentContainer}
           >
             <div className='comments'>
-              {/** TODO: Call API endpoint to get comments.results.here**/}
-              {readFeedComments ? this.handleRenderComments(readFeedComments) : null}
+              {feedComments ? this.handleRenderComments(feedComments) : null}
             </div>
             {
               sharePostOpen ?
@@ -543,11 +560,11 @@ const mapStateToProps = ({
     profileImage
   },
   tiles: {
-    readFeedComments
+    feedComments
   }
 }) => {
   return {
-    readFeedComments,
+    feedComments,
     fullname,
     url,
     profileImage
@@ -555,8 +572,9 @@ const mapStateToProps = ({
 }
 
 const mapDispatchToProps = {
-  updateReadFeedLikes,
-  updateReadFeedComments,
-  getReadFeedComments
+  updateLikes,
+  updateComments,
+  getComments,
+  shareTile
 }
 export default connect(mapStateToProps, mapDispatchToProps)(TileDefault)

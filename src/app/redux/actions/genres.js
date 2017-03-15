@@ -14,7 +14,7 @@ export function getGenres(search) {
   return dispatch => {
     return Readers.getLandingGenres()
       .then(res => dispatch(updateGenres(fromPaginated(res))))
-      .catch((err) => console.log(`Error in getGenres api call: ${err}`))
+      //.catch((err) => console.error(`Error in getGenres api call: ${err}`))
   }
 }
 

@@ -12,7 +12,7 @@ export function getBooks(params) {
 
     return Books.getBooks(params)
       .then(res => dispatch(getBooksSuccess(fromPaginated(res))))
-      .catch((err) => console.log(`Error in getBooks api call: ${err}`))
+      .catch((err) => console.error(`Error in getBooks api call: ${err}`))
   }
 }
 
@@ -20,7 +20,7 @@ export function getBookRecommendations(amount) {
   return dispatch => {
     CurrentReaderRecommendation.getBookRecommendations({ perPage: amount })
       .then(res => dispatch(updateCurrentReaderRecommendation({ books: res.data.results })))
-      .catch(err => console.log(`Error in getBookRecommendations: ${err}`))
+      .catch(err => console.error(`Error in getBookRecommendations: ${err}`))
   }
 }
 
@@ -28,7 +28,7 @@ export function getBookClubRecommendations(amount) {
   return dispatch => {
     CurrentReaderRecommendation.getBookClubRecommendations({ perPage: amount })
       .then(res => dispatch(updateCurrentReaderRecommendation({ bookClubs: res.data.results })))
-      .catch(err => console.log(`Error in getBookClubRecommendations: ${err}`))
+      .catch(err => console.error(`Error in getBookClubRecommendations: ${err}`))
   }
 }
 

@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { AvatarSummary } from '../common'
+import AvatarSummary from './AvatarSummary'
 import { Dialog, Tabs, Tab } from 'material-ui'
 import SwipeableViews from 'react-swipeable-views'
-import { Follow } from '../../redux/actions'
 import { Colors } from '../../constants/style'
+import { Users as U } from '../../services'
 import R from 'ramda'
 
-const { updateFollowed, updateFollowers } = Follow
+const { TYPES: { READER, AUTHOR } } = U
 
 const styles = {
   headline: {
@@ -67,73 +67,29 @@ class FollowModal extends PureComponent {
     super(props)
 
     this.state = {
-      followed: [],
-      followers: [],
       slideIndex: 0,
     }
-
-    this.handleChipClick = this.handleChipClick.bind(this)
-    this.isChosen = this.isChosen.bind(this)
   }
 
-  componentDidMount = () => {
-    const { followed, followers } = this.props
-    if (followed.count) {
-      // TODO: map over followed prop and push user ids to following local state
-    }
-
-    if (followers.count) {
-      // TODO: map over followers prop and push user ids to following local state
-    }
-  }
-
-  componentDidUpdate = () => {
-    const { followed, followers } = this.state
-    const { updateFollowed, updateFollowers } = this.props
-    if (followed.length) updateFollowed({ followed })
-    if (followers.length) updateFollowers({ followers })
-  }
-
-  handleChipClick = (event, followType, id) => {
-    event.preventDefault()
-    const state = (followType === 'followers') ? this.state.followers : this.state.followed
-    const stateKey = (followType === 'followers') ? 'followers' : 'followed'
-
-    if (this.isChosen(id, followType)) {
-      const collectionWithoutMember = R.reject(R.equals(id), state)
-      this.setState({ [stateKey]: [...collectionWithoutMember] })
-    } else {
-      this.setState({ [stateKey]: [...state, id] })
-    }
-  }
-
-  isChosen = (id, followType) => {
-    return (followType === 'followers') ?
-      R.contains(id, this.state.followers) :
-      R.contains(id, this.state.followed)
-  }
-
-  renderUsers = (followType, users) => {
-    return users.map((user, index) => {
+  renderUsers = (userType, followType, users) => {
+    return users.map((attrs, index) => {
       const {
         id,
-        firstName,
-        lastName,
-        image,
-      } = user
+      } = attrs
 
-      const name = `${firstName} ${lastName}`
+      const user = U.from(attrs)
 
       return (
         <div className='column column-block' key={id}>
           <AvatarSummary
             id={id}
             key={id}
-            title={name}
-            image={image}
+            description={U.description(user)}
+            title={U.fullName(user)}
+            image={U.imageUrl(user)}
             followType={followType}
-            isChosen={this.isChosen}
-            handleChipClick={(event) => this.handleChipClick(event, followType, id)}
+            userType={userType}
+            isChosen={true}
           />
         </div>
       )
@@ -153,7 +109,7 @@ class FollowModal extends PureComponent {
           className='modal-chips row large-up-3 medium-up-2 small-up-1 rf-modal'
           key={'users-following-this-user'}
         >
-          {this.renderUsers(followType, readersFollowed)}
+          {this.renderUsers(READER, followType, readersFollowed)}
         </div>
       )
     } else {
@@ -190,7 +146,7 @@ class FollowModal extends PureComponent {
                 className='modal-chips rf-modal row large-up-3 medium-up-2 small-up-1'
                 key={'users-following-this-user'}
               >
-                {this.renderUsers(followType, readersFollowed)}
+                {this.renderUsers(READER, followType, readersFollowed)}
               </div>
             </div>
             <div style={styles.slide} key={'authors-following'}>
@@ -198,7 +154,7 @@ class FollowModal extends PureComponent {
                 className='modal-chips row large-up-3 medium-up-2 small-up-1'
                 key={'users-following-this-user'}
               >
-                {this.renderUsers(followType, authorsFollowed)}
+                {this.renderUsers(AUTHOR, followType, authorsFollowed)}
               </div>
             </div>
           </SwipeableViews>
@@ -226,10 +182,6 @@ class FollowModal extends PureComponent {
       if (R.isArrayLike(results)) { return { readers: results, authors: [] } }
       return R.merge(defaults, results)
     }
-
-    //const followersData = followers.result ? followers.result : []
-    //const followedData = followed.result ? followed.result : []
-    //const data = followType === 'followers' ? followersData : followedData[0]
 
     const followersData = readersAndAuthors(followers.results)
     const followedData = readersAndAuthors(followed.results)
@@ -279,9 +231,4 @@ const mapStateToProps = ({
   }
 }
 
-const mapDispatchToProps = {
-  updateFollowed,
-  updateFollowers
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(FollowModal)
+export default connect(mapStateToProps)(FollowModal)

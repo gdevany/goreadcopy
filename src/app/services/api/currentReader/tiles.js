@@ -5,7 +5,6 @@ const { authenticated } = http
 const {
   currentReader: {
     getReadFeedTiles,
-    getReadFeedComments,
     getLatestAnnouncement,
     dismissAnnouncement
   }
@@ -16,7 +15,6 @@ const Tiles = () => {
     getReadFeedTiles: (body) => authenticated().get(getReadFeedTiles(), body),
     getAnnouncements: () => authenticated().get(getLatestAnnouncement()),
     dismissAnnouncement: (body) => authenticated().post(dismissAnnouncement(), body),
-    getReadFeedComments: (id, body) => authenticated().get(getReadFeedComments(id), body)
   }
 }
 
