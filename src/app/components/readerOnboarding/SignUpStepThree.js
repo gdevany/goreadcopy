@@ -126,7 +126,7 @@ class SignUpStepThree extends PureComponent {
   handleButtonClick = (event) => {
     event.preventDefault()
     const { chosenReaders, chosenAuthors } = this.state
-    const buttonText = document.activeElement.getAttribute('value')
+    const buttonText = event.target.value
     if (buttonText === 'Finish & go explore books') {
       this.setState({ shouldSubmit: true })
       this.props.choseRecommendation(chosenReaders, 'readers')

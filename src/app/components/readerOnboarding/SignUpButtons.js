@@ -33,7 +33,7 @@ const SignUpButtons = ({
             disabled={disabled ? disabled : false}
             primary={true}
             type={buttonType === 'form' ? 'submit' : null}
-            onClick={buttonType === 'form' ? null : handleButtonClick}
+            onClick={handleButtonClick}
           />
         </div>
       </div>
@@ -49,7 +49,7 @@ const SignUpButtons = ({
           disabled={isDisabled}
           style={{ marginRight: 12 }}
           type={buttonType === 'form' ? 'submit' : null}
-          onClick={buttonType === 'form' ? null : handleButtonClick}
+          onClick={handleButtonClick}
         />
       </div>
       <div style={styles.nextButton}>
@@ -66,12 +66,16 @@ const SignUpButtons = ({
               disabled={disabled ? disabled : false}
               primary={true}
               type={buttonType === 'form' ? 'submit' : null}
-              onClick={buttonType === 'form' ? null : handleButtonClick}
+              onClick={handleButtonClick}
             />
           )
       }
       </div>
     </div>
   )
+}
+
+SignUpButtons.defaultProps = {
+  handleButtonClick: () => null,
 }
 export default SignUpButtons
