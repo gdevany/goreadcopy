@@ -15,6 +15,7 @@ const Endpoints = () => {
     updateComments: (id) => apiUrl(`social/posts/${id}/comments`),
     updateLikes: (id) => apiUrl(`social/posts/${id}/likes`),
     getSidebarAds: (slug, params) => apiUrl('advertising/get_sidebar_ads'),
+    shareTile: (id) => apiUrl(`social/posts/${id}/shares`),
     currentReader: {
       getRecommendation: (params) => apiUrl('genres/top_users', params),
       getRecommendedAuthors: (params) => apiUrl('current_reader/recommended/authors', params),

@@ -30,6 +30,11 @@ class AdvertisingTile extends PureComponent {
         promoted={content.promoted}
       >
         <div className='adv-tile-container'>
+          <div className='post-excerpt-container'>
+            <p className='post-excerpt-pharagraph'>
+              {content.socialComment ? content.socialComment : null}
+            </p>
+          </div>
           <figure className='heading-overflow-figure'>
             <img className='heading-img' src={content.image} alt='advertising'/>
           </figure>

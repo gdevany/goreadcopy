@@ -31,6 +31,7 @@ const {
   updateLikes,
   updateComments,
   getComments,
+  shareTile,
 } = Tiles
 
 const styles = {
@@ -293,13 +294,16 @@ class TileDefault extends PureComponent {
   }
 
   handleShareSubmit = () => {
-    const { sharedCount } = this.state
+    const { sharedCount, shareInput } = this.state
+    const { tileId, shareTile } = this.props
     this.setState({
       sharePostOpen: false,
       commentPostOpen: true,
       sharedCount: sharedCount + 1,
       shareInput: ''
     })
+
+    shareTile(tileId, 5, shareInput)
   }
 
   handleShareOpen = () => {
@@ -570,6 +574,7 @@ const mapStateToProps = ({
 const mapDispatchToProps = {
   updateLikes,
   updateComments,
-  getComments
+  getComments,
+  shareTile
 }
 export default connect(mapStateToProps, mapDispatchToProps)(TileDefault)

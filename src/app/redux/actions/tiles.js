@@ -19,6 +19,14 @@ export function getProfileTiles(id, page) {
   }
 }
 
+export function shareTile(id, shareType, comment) {
+  return dispatch => {
+    ReaderTiles.shareTile(id, { shareType, comment })
+
+      .catch(err => console.error(`Error in shareTile: ${err}`))
+  }
+}
+
 export function getComments(tileId, page, isProfilePage) {
   return dispatch => {
     ReaderTiles.getComments(tileId, { page })
@@ -69,4 +77,5 @@ export default {
   getComments,
   updateLikes,
   updateComments,
+  shareTile
 }

@@ -16,7 +16,6 @@ class AwardTile extends PureComponent {
       },
       content
     } = this.props
-
     return (
       <TileDefault
         tileId={id}
@@ -29,6 +28,11 @@ class AwardTile extends PureComponent {
         action={action}
       >
         <div className='award-tile-container'>
+          <div className='post-excerpt-container'>
+            <p className='post-excerpt-pharagraph'>
+              {content.socialComment ? content.socialComment : null}
+            </p>
+          </div>
           <figure className='award-tile-figure'>
             <img className='award-tile-img' src={content.image} alt='award'/>
           </figure>

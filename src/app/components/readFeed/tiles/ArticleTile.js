@@ -27,6 +27,11 @@ class ArticleTile extends PureComponent {
         action={action}
       >
         <div className='article-tile-container'>
+          <div className='post-excerpt-container'>
+            <p className='post-excerpt-pharagraph'>
+              {content.socialComment ? content.socialComment : null}
+            </p>
+          </div>
           <figure className='heading-overflow-figure'>
             <img className='heading-img' src={content.image} alt=''/>
           </figure>

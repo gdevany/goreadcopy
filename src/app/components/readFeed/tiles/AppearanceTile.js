@@ -29,6 +29,11 @@ class AppearanceTile extends PureComponent {
         action={action}
       >
         <div className='appearance-tile-container'>
+          <div className='post-excerpt-container'>
+            <p className='post-excerpt-pharagraph'>
+              {content.socialComment ? content.socialComment : null}
+            </p>
+          </div>
           <div className='appearance-container'>
             <h4 className='appearance-title'>{content.title}</h4>
             <div className='appearance-row'>
