@@ -13,7 +13,6 @@ class ReadFeed extends PureComponent {
   componentWillMount = () => {
     this.props.getCurrentReader()
   }
-
   render() {
     const { isMyReadFeed } = this.props
     const isUserLoggedIn = Auth.currentUserExists()

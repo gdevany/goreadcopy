@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import TileDefault from '../TileDefault'
-import ReactPlayer from 'react-player'
+//import ReactPlayer from 'react-player'
 
 class VideoTile extends PureComponent {
   render() {
@@ -17,7 +17,7 @@ class VideoTile extends PureComponent {
       },
       content
     } = this.props
-
+    console.log(content)
     return (
       <TileDefault
         tileId={id}
@@ -31,10 +31,11 @@ class VideoTile extends PureComponent {
       >
         <div className='video-tile-container'>
           <div className='video-iframe-container'>
-            <ReactPlayer
+            {/* <ReactPlayer
               className='video-player'
               url={content.link}
-            />
+            /> */}
+            <iframe src={content.link} frameBorder='0'/>
           </div>
           <div className='video-content'>
             <h2 className='video-title'>{content.tile}</h2>
