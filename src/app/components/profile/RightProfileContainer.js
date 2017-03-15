@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { Tiles } from '../../redux/actions'
 import { connect } from 'react-redux'
 import TilesWrapper from '../readFeed/TilesWrapper'
+import { StatusPost } from '../common'
 
 const { getProfileTiles } = Tiles
 
@@ -16,6 +17,7 @@ class RightProfileContainer extends PureComponent {
 
     return (
       <div className='right-container small-6 columns'>
+        <StatusPost />
         {profile ? <TilesWrapper feed={profile} /> : null}
       </div>
     )

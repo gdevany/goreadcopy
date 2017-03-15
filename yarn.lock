@@ -3370,6 +3370,10 @@ jsesc@~0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-0.5.0.tgz#e7dee66e35d6fc16f710fe91d5cf69f70f08911d"
 
+json-loader@^0.5.4:
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/json-loader/-/json-loader-0.5.4.tgz#8baa1365a632f58a3c46d20175fc6002c96e37de"
+
 json-schema@0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/json-schema/-/json-schema-0.2.3.tgz#b480c892e59a2f05954ce727bd3f2a4e882f9e13"
@@ -4901,6 +4905,14 @@ react-mdl@^1.9.0:
     classnames "^2.2.3"
     lodash.isequal "^4.4.0"
 
+react-mentions@^0.6.4:
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/react-mentions/-/react-mentions-0.6.4.tgz#21abfba6fb545504438f108f10acfef6f64d6dc5"
+  dependencies:
+    babel-runtime "^6.11.6"
+    lodash "^4.5.1"
+    substyle "^3.0.1"
+
 react-player@^0.14.3:
   version "0.14.3"
   resolved "https://registry.yarnpkg.com/react-player/-/react-player-0.14.3.tgz#4b836092bdb527ac2926460905f4e953c6a127ce"
@@ -5788,11 +5800,21 @@ style-loader@^0.13.1:
   dependencies:
     loader-utils "^0.2.7"
 
+<<<<<<< HEAD
 supports-color@3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.1.2.tgz#72a262894d9d408b956ca05ff37b2ed8a6e2a2d5"
   dependencies:
     has-flag "^1.0.0"
+=======
+substyle@^3.0.1:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/substyle/-/substyle-3.0.3.tgz#38b7d2b854c1cb9dba93a8ee32e02a5dd74bd7f0"
+  dependencies:
+    invariant "^2.2.0"
+    lodash "^4.3.0"
+    warning "^2.1.0"
+>>>>>>> Adding statuspost on Profile Page.
 
 supports-color@^0.2.0:
   version "0.2.0"
@@ -6176,6 +6198,12 @@ void-elements@^2.0.0:
 vow@^0.4.9:
   version "0.4.13"
   resolved "https://registry.yarnpkg.com/vow/-/vow-0.4.13.tgz#e7c14f1bd9c8be0e7359a4597fe2d1ef6d1a7e88"
+
+warning@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/warning/-/warning-2.1.0.tgz#21220d9c63afc77a8c92111e011af705ce0c6901"
+  dependencies:
+    loose-envify "^1.0.0"
 
 warning@^3.0.0:
   version "3.0.0"
