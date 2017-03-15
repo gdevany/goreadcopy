@@ -37,6 +37,11 @@ class AuthorTile extends PureComponent {
         shareInfo={shareInfo}
         action={action}
       >
+        <div className='post-excerpt-container'>
+          <p className='post-excerpt-pharagraph'>
+            {content.socialComment ? content.socialComment : null}
+          </p>
+        </div>
         <div className='author-tile-container'>
           <h2 className='author-name'>
             <a href={link}>

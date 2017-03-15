@@ -26,7 +26,7 @@ class UserProfileTile extends PureComponent {
       name,
       userType,
     } = content
-
+    console.log(content.socialComment)
     return (
       <TileDefault
         tileId={id}
@@ -38,6 +38,11 @@ class UserProfileTile extends PureComponent {
         shareInfo={shareInfo}
         action={action}
       >
+        <div className='post-excerpt-container'>
+          <p className='post-excerpt-pharagraph'>
+            {content.socialComment ? content.socialComment : null}
+          </p>
+        </div>
         <div className='userprofile-tile-container'>
           <figure className='userprofile-figure'>
             <a href={link}>

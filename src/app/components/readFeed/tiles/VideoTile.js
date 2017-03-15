@@ -30,6 +30,11 @@ class VideoTile extends PureComponent {
         action={action}
       >
         <div className='video-tile-container'>
+          <div className='post-excerpt-container'>
+            <p className='post-excerpt-pharagraph'>
+              {content.socialComment ? content.socialComment : null}
+            </p>
+          </div>
           <div className='video-iframe-container'>
             <ReactPlayer
               className='video-player'
