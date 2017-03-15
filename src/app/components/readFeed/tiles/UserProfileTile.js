@@ -26,7 +26,6 @@ class UserProfileTile extends PureComponent {
       name,
       userType,
     } = content
-    console.log(content.socialComment)
     return (
       <TileDefault
         tileId={id}
