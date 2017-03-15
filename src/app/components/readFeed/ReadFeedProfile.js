@@ -5,6 +5,7 @@ import { FollowModal } from '../common'
 import Dropzone from 'react-dropzone'
 import { Auth } from '../../services'
 import R from 'ramda'
+import Promise from 'bluebird'
 
 const styles = {
   nameText: {
