@@ -57,10 +57,10 @@ const TilesWrapper = ({ feed }) => {
           shareInfo: {
             title: tile.content.title,
             shareLink: tile.link,
+            sharesCount: tile.shares.count
           }
         }
       }
-
       if (tile.tileType === 'socialpost') {
         if (tile.content.tileType) {
           tileType = tile.content.tileType
