@@ -20,8 +20,15 @@ export function getProfileTiles(id, page) {
 }
 
 export function shareTile(id, shareType, comment) {
+  if (comment) {
+    return dispatch => {
+      ReaderTiles.shareTile(id, { shareType, comment })
+
+        .catch(err => console.error(`Error in shareTile: ${err}`))
+    }
+  }
   return dispatch => {
-    ReaderTiles.shareTile(id, { shareType, comment })
+    ReaderTiles.shareTile(id, { shareType })
 
       .catch(err => console.error(`Error in shareTile: ${err}`))
   }
