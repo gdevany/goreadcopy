@@ -21,9 +21,9 @@ class StatusPost extends PureComponent {
     console.log('Post button')
   }
 
-  handlePostChange(e) {
+  handlePostChange(event, newValue, newPlainTextValue, mentions) {
     this.setState({
-      text: e.target.value
+      text: event.target.value
     })
   }
 
@@ -95,7 +95,7 @@ class StatusPost extends PureComponent {
           <MentionsInput
             value={this.state.text}
             onChange={this.handlePostChange}
-            displayTransform={this.displayMention}
+            markup='@[__display__](__id__)'
           >
             <Mention trigger='@'
               type='User'
