@@ -165,7 +165,6 @@ class TileDefault extends PureComponent {
       sharedOpen: false,
       sharePostOpen: false,
     }
-    // this.handleShareSubmit = this.handleShareSubmit.bind(this)
   }
   componentDidMount = () => {
     this.setState({ anchorEl: this.refs.share })
@@ -300,13 +299,17 @@ class TileDefault extends PureComponent {
     if (shareType === 5) {
       this.setState({
         sharePostOpen: false,
-        commentPostOpen: true,
+        sharedOpen: false,
         sharedCount: sharedCount + 1,
-        shareInput: ''
+        shareInput: '',
+        commentsOpen: false,
+        commentPostOpen: false,
+
       })
       shareTile(tileId, shareType, shareInput)
     } else {
       this.setState({
+        sharedOpen: false,
         sharedCount: sharedCount + 1,
       })
       shareTile(tileId, shareType, null)
