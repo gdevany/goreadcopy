@@ -29,6 +29,11 @@ class BookClubTaskTile extends PureComponent {
         action={action}
       >
         <div className='bookclubtask-tile-container'>
+          <div className='post-excerpt-container'>
+            <p className='post-excerpt-pharagraph'>
+              {content.socialComment ? content.socialComment : null}
+            </p>
+          </div>
           <div className='bookclubtask-content'>
             <div className='post-excerpt-container'>
               <p className='post-excerpt-pharagraph'>

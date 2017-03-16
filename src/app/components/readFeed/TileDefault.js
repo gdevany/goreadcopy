@@ -160,12 +160,12 @@ class TileDefault extends PureComponent {
       commentPostOpen: false,
       calledCommentEndpoint: false,
       commentInput: '',
+      sharedCount: props.shareInfo.sharesCount,
       shareInput: '',
       sharedOpen: false,
       sharePostOpen: false,
     }
   }
-
   componentDidMount = () => {
     this.setState({ anchorEl: this.refs.share })
   }
@@ -293,17 +293,26 @@ class TileDefault extends PureComponent {
     updateComments(tileId, commentInput, datetime, profile)
   }
 
-  handleShareSubmit = () => {
+  handleShareSubmit = (shareType) => {
     const { sharedCount, shareInput } = this.state
     const { tileId, shareTile } = this.props
-    this.setState({
-      sharePostOpen: false,
-      commentPostOpen: true,
-      sharedCount: sharedCount + 1,
-      shareInput: ''
-    })
-
-    shareTile(tileId, 5, shareInput)
+    if (shareType === 5) {
+      this.setState({
+        sharePostOpen: false,
+        sharedOpen: false,
+        sharedCount: sharedCount + 1,
+        shareInput: '',
+        commentsOpen: false,
+        commentPostOpen: false,
+      })
+      shareTile(tileId, shareType, shareInput)
+    } else {
+      this.setState({
+        sharedOpen: false,
+        sharedCount: sharedCount + 1,
+      })
+      shareTile(tileId, shareType, null)
+    }
   }
 
   handleShareOpen = () => {
@@ -350,7 +359,7 @@ class TileDefault extends PureComponent {
         <div style={styles.postButton}>
           <PrimaryButton
             label={isComment ? 'Post' : 'Share'}
-            onClick={isComment ? this.handleCommentSubmit : this.handleShareSubmit}
+            onClick={isComment ? this.handleCommentSubmit : () => this.handleShareSubmit(5)}
           />
         </div>
       </div>
@@ -376,7 +385,6 @@ class TileDefault extends PureComponent {
       action,
       feedComments,
     } = this.props
-
     return (
       <div>
         <Card
@@ -476,10 +484,14 @@ class TileDefault extends PureComponent {
           style={styles.popover}
         >
           <ul style={styles.sharePopover}>
-            <li style={styles.shareLink}>
+            <li
+              style={styles.shareLink}
+              onClick={() => this.handleShareSubmit(1)}
+            >
               <FacebookShareButton
                 url={shareInfo.shareLink}
                 title={shareInfo.title}
+                description={action}
                 className='facebook-share-button'
               >
                 <FacebookIcon
@@ -489,7 +501,10 @@ class TileDefault extends PureComponent {
               </FacebookShareButton>
             </li>
 
-            <li style={styles.shareLink}>
+            <li
+              style={styles.shareLink}
+              onClick={() => this.handleShareSubmit(2)}
+            >
               <TwitterShareButton
                 url={shareInfo.shareLink}
                 title={shareInfo.title}
@@ -503,12 +518,16 @@ class TileDefault extends PureComponent {
               </TwitterShareButton>
             </li>
 
-            <li style={styles.shareLink}>
+            <li
+              style={styles.shareLink}
+              onClick={() => this.handleShareSubmit(4)}
+            >
               <LinkedinShareButton
                 url={shareInfo.shareLink}
                 title={shareInfo.title}
                 windowWidth={750}
                 windowHeight={600}
+                description={action}
                 className='linkedin-share-button'
               >
                   <LinkedinIcon
@@ -518,7 +537,10 @@ class TileDefault extends PureComponent {
               </LinkedinShareButton>
             </li>
 
-            <li style={styles.shareLink}>
+            <li
+              style={styles.shareLink}
+              onClick={() => this.handleShareSubmit(3)}
+            >
               <GooglePlusShareButton
                 url={shareInfo.shareLink}
                 className='google-plus-share-button'

@@ -17,7 +17,6 @@ class VideoTile extends PureComponent {
       },
       content
     } = this.props
-
     return (
       <TileDefault
         tileId={id}
@@ -30,10 +29,16 @@ class VideoTile extends PureComponent {
         action={action}
       >
         <div className='video-tile-container'>
+          <div className='post-excerpt-container'>
+            <p className='post-excerpt-pharagraph'>
+              {content.socialComment ? content.socialComment : null}
+            </p>
+          </div>
           <div className='video-iframe-container'>
             <ReactPlayer
               className='video-player'
-              url={content.link}
+              controls={true}
+              url={content.originUrl}
             />
           </div>
           <div className='video-content'>
@@ -41,8 +46,6 @@ class VideoTile extends PureComponent {
             <div className='post-excerpt-container'>
               <p className='post-excerpt-pharagraph'>
                 {content.description}
-                {/** TODO: Do we need this?
-                <a href='#' className='post-readmore-anchor'>Read more</a> **/}
               </p>
             </div>
           </div>

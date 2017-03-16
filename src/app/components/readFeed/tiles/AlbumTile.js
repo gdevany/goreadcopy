@@ -29,6 +29,11 @@ class AlbumTile extends PureComponent {
         action={action}
       >
         <div className='album-tile-container'>
+          <div className='post-excerpt-container'>
+            <p className='post-excerpt-pharagraph'>
+              {content.socialComment ? content.socialComment : null}
+            </p>
+          </div>
           <figure className='album-tile-figure'>
             <img className='album-tile-img' src={content.image} alt='album'/>
           </figure>
