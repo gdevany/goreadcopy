@@ -265,6 +265,7 @@ const TilesWrapper = ({ feed }) => {
         case 'buzzvideo':
           const buzzVideoContent = {
             link: tileContent.link,
+            originUrl: tileContent.originUrl,
             title: tileContent.title,
             description: tileContent.summary,
             socialComment: (tile.socialPostComment || null)
