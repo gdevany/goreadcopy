@@ -304,7 +304,6 @@ class TileDefault extends PureComponent {
         shareInput: '',
         commentsOpen: false,
         commentPostOpen: false,
-
       })
       shareTile(tileId, shareType, shareInput)
     } else {
