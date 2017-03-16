@@ -31,6 +31,7 @@ const Endpoints = () => {
       updateReadFeedLikes: (id) => apiUrl(`social/posts/${id}/likes`),
       updateReadFeedComments: (id) => apiUrl(`social/posts/${id}/comments`),
       getReadFeedComments: (id) => apiUrl(`activities/${id}/comments`),
+      postMessage: (params) => apiUrl('current_reader/posts', params),
     },
     jwtRefresh: () => apiUrl('token/refresh'),
     jwtAuth: () => apiUrl('token/auth'),
