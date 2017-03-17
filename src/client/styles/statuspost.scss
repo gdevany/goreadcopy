@@ -69,6 +69,9 @@
       font-family: Roboto, sans-serif;
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
       box-shadow: rgba(222, 222, 222, 0.498039) 0px 4px 20px 0px;
+      &:focus{                
+        border: 1px solid #cacaca;
+      }
       @media all and (min-width: 768px){
         width: 85%;
       }

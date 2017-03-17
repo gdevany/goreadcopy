@@ -21,6 +21,7 @@ const LeftProfileContainer = ({
       <MyImageProfileUpload
         profileImage={profileImage}
         isMyProfile={isMyProfile}
+        isProfilePage={true}
       />
       {
         id ?

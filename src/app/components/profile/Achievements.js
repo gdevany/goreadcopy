@@ -18,7 +18,7 @@ class Achievements extends PureComponent {
 
   renderAchievements = (achievements) => {
     return achievements.map((achievement, index) => {
-      return <img key={index} src={achievement.imageUrl} />
+      return <img className='sidebar-archivement-img' key={index} src={achievement.imageUrl} />
     })
   }
 
@@ -29,20 +29,20 @@ class Achievements extends PureComponent {
     return (
       <div>
         <h3> Achievements </h3>
-        <div>
-          {achievements ? this.renderAchievements(R.take(6, achievements)) : null}
+        <div className='sidebar-archivements-container'>
+          {achievements ? this.renderAchievements(R.take(5, achievements)) : null}
           {
-            !isCollapsed && achievements.length > 6 ?
-              this.renderAchievements(achievements.slice(6)) : null
+            !isCollapsed && achievements.length > 5 ?
+              this.renderAchievements(achievements.slice(5)) : null
           }
-          <span
-            className='left-hand-action-more'
-            onClick={isCollapsed ? this.handleShowMore : this.handleShowLess}
-          >
-            {isCollapsed ? 'See More' : 'See Less'}
-            {isCollapsed ? <ArrowDownIcon /> : <ArrowUpIcon />}
-          </span>
         </div>
+        <span
+          className='left-hand-action-more'
+          onClick={isCollapsed ? this.handleShowMore : this.handleShowLess}
+        >
+          {isCollapsed ? 'See More' : 'See Less'}
+          {isCollapsed ? <ArrowDownIcon /> : <ArrowUpIcon />}
+        </span>
       </div>
     )
   }
