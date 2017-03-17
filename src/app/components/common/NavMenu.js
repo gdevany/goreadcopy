@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { stack as MobileMenu } from 'react-burger-menu'
 import { Link } from 'react-router'
-import { Auth } from '../../redux/actions'
+import { Auth, CurrentReader } from '../../redux/actions'
 import { connect } from 'react-redux'
 import R from 'ramda'
 import SecondaryButton from './SecondaryButton'
@@ -20,6 +20,7 @@ import './styles/mobile-menu.scss'
 
 const { CATEGORIES, GENRES } = PopularTopics
 const { processUserLogout } = Auth
+const { usePlatformAs } = CurrentReader
 
 const styles = {
   navContainer: {
@@ -118,6 +119,7 @@ class NavMenu extends PureComponent {
       modalLogInOpen: false,
       profileMenuOpen: false,
       searchModalOpen: false,
+      usePlatformAs: false,
     }
 
     this.handleModalClose = this.handleModalClose.bind(this)
@@ -126,6 +128,12 @@ class NavMenu extends PureComponent {
     this.handleProfileMenuHide = this.handleProfileMenuHide.bind(this)
     this.handleLogoutClick = this.handleLogoutClick.bind(this)
     this.handleClickSearch = this.handleClickSearch.bind(this)
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    if (!this.state.usePlatformAs && nextProps.currentReader.publishingAs) {
+      this.setState({ usePlatformAs: nextProps.currentReader.publishingAs })
+    }
   }
 
   handleModalOpen = () => {
@@ -209,15 +217,70 @@ class NavMenu extends PureComponent {
     this.props.processUserLogout()
   }
 
+  handlePlatformUse(platformUse) {
+    this.setState({ usePlatformAs: platformUse })
+    this.props.usePlatformAs(platformUse)
+  }
+
   userProfileMenu = () => {
-    const { currenReader } = this.props
+    const { currentReader } = this.props
+    const { usePlatformAs } = this.state
+
     return (
       <ul
         className='profile-menu-container'
         onMouseLeave={this.handleProfileMenuHide}
       >
         <li className='profile-menu-element'>
-          <a href={currenReader.url} className='profile-menu-anchor'>
+          {currentReader.hasAuthorBuzz || currentReader.hasPublisherBuzz ?
+            (
+              <div className='publishing-as-container'>
+                <label className='publishing-as-label'>
+                  Use Platform as
+                </label>
+                <ul className='publishing-as-ul-container'>
+                  <li className='publishing-as-list'>
+                    <a
+                      onClick={() => this.handlePlatformUse('reader')}
+                      className={usePlatformAs === 'reader' ?
+                      ('publishing-as-active') : ('publishing-as-anchor')}
+                    >
+                      Reader
+                    </a>
+                  </li>
+                  {currentReader.hasAuthorBuzz ?
+                    (
+                      <li className='publishing-as-list'>
+                        <a
+                          onClick={() => this.handlePlatformUse('author')}
+                          className={usePlatformAs === 'author' ?
+                          ('publishing-as-active') : ('publishing-as-anchor')}
+                        >
+                          Author
+                        </a>
+                      </li>
+                    ) : null
+                  }
+                  {currentReader.hasPublisherBuzz ? (
+                    <li className='publishing-as-list'>
+                      <a
+                        onClick={() => this.handlePlatformUse('publisher')}
+                        className={usePlatformAs === 'publisher' ?
+                        ('publishing-as-active') : ('publishing-as-anchor')}
+                      >
+                        Publisher
+                      </a>
+                    </li>
+                  ) : null}
+                </ul>
+              </div>
+            ) : null
+          }
+
+        </li>
+        <hr className='profile-menu-divider' />
+        <li className='profile-menu-element'>
+          <a href={currentReader.url} className='profile-menu-anchor'>
             View Profile
           </a>
         </li>
@@ -453,7 +516,7 @@ class NavMenu extends PureComponent {
   }
 
   renderLogInMenu = () => {
-    const { currenReader } = this.props
+    const { currentReader } = this.props
     return (
       <div className='slide-down'>
         <div style={styles.mobileNavContainer} className='top-bar-mobile'>
@@ -522,14 +585,14 @@ class NavMenu extends PureComponent {
                 <a href='' className='profile-badge-anchor'>
                   <figure className='profile-badge-container'>
                     <img
-                      src={currenReader.profileImage}
+                      src={currentReader.profileImage}
                       className='profile-badge-img'
                       alt=''
                     />
                   </figure>
                 </a>
                 <a href='' className='profile-name-anchor'>
-                  <span>{currenReader.firstName} {currenReader.lastName}</span>
+                  <span>{currentReader.firstName} {currentReader.lastName}</span>
                 </a>
               </div>
               <div className='second-row-elements'>
@@ -617,7 +680,6 @@ class NavMenu extends PureComponent {
                 <li style={styles.loggedInRightNavLi}>
                   <LitcoinStatus />
                 </li>
-
                 <li style={styles.loggedInRightNavLi}>
                   <a
                     href=''
@@ -648,7 +710,7 @@ class NavMenu extends PureComponent {
                     onClick={this.handleProfileMenuShow}
                   >
                     <img
-                      src={currenReader.profileImage}
+                      src={currentReader.profileImage}
                       style={styles.profileImageBadge}
                     />
                   </a>
@@ -667,9 +729,9 @@ class NavMenu extends PureComponent {
     )
   }
   render() {
-    const { isUserLoggedIn, currenReader } = this.props
+    const { isUserLoggedIn, currentReader } = this.props
 
-    if (isUserLoggedIn || currenReader.litcoinBalance) {
+    if (isUserLoggedIn || currentReader.litcoinBalance) {
       return (
         this.renderLogInMenu()
       )
@@ -730,8 +792,8 @@ class NavMenu extends PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    currenReader: state.currentReader
+    currentReader: state.currentReader
   }
 }
 
-export default connect(mapStateToProps, { processUserLogout })(NavMenu)
+export default connect(mapStateToProps, { processUserLogout, usePlatformAs })(NavMenu)
