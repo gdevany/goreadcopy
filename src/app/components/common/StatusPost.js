@@ -5,6 +5,7 @@ import CameraIcon from 'material-ui/svg-icons/image/camera'
 import { Posts } from '../../services/api/currentReader'
 import SuggestionList from './SuggestionList'
 import { Search } from '../../services/api'
+import { debounce } from 'lodash'
 
 const { search } = Search
 const { postNewMessage } = Posts
@@ -42,6 +43,7 @@ class StatusPost extends PureComponent {
     this.checkMentions = this.checkMentions.bind(this)
     this.replaceMention = this.replaceMention.bind(this)
     this.handleSuggestionClick = this.handleSuggestionClick.bind(this)
+    this.getMentions = debounce(this.getMentions, 150)
   }
 
   onUploadButtonClick(e) {
@@ -63,10 +65,6 @@ class StatusPost extends PureComponent {
       },
       mentionsArray: mentions
     })
-  }
-
-  getMentionsArray() {
-    return this
   }
 
   getMentions(query) {
