@@ -94,10 +94,6 @@ const styles = {
     height: 28,
     width: 28,
   },
-
-  loggedInNavLi: {
-    height: 64,
-  },
 }
 
 const {
@@ -523,13 +519,12 @@ class NavMenu extends PureComponent {
             <ul className='nav-menu-logged-container'>
 
               <li
-                style={styles.loggedInNavLi}
                 className='loged-menu-item loged-menu-item-active home'
               >
                 <Link to='/' style={styles.navItemLinks} className='home-link rf-nav-link' />
               </li>
 
-              <li style={styles.loggedInNavLi} className='loged-menu-item'>
+              <li className='loged-menu-item'>
                 <a
                   style={styles.navItemLinks}
                   className='search-link rf-nav-link'
@@ -537,7 +532,7 @@ class NavMenu extends PureComponent {
                 />
               </li>
 
-              <li style={styles.loggedInNavLi} className='loged-menu-item'>
+              <li className='loged-menu-item'>
                 <a href='' style={styles.navItemLinks} className='messages-link rf-nav-link' />
               </li>
 
@@ -649,7 +644,6 @@ class NavMenu extends PureComponent {
               <ul className='menu'>
 
                 <li
-                  style={styles.loggedInNavLi}
                   className='loged-menu-item loged-menu-item-active home'
                 >
                   <Link to='/' style={styles.navItemLinks} className='home-link rf-nav-link'>
@@ -657,13 +651,13 @@ class NavMenu extends PureComponent {
                   </Link>
                 </li>
 
-                <li style={styles.loggedInNavLi} className='loged-menu-item'>
+                <li className='loged-menu-item'>
                   <a href='' style={styles.navItemLinks} className='messages-link rf-nav-link'>
                     Messages
                   </a>
                 </li>
 
-                <li style={styles.loggedInNavLi} className='loged-menu-item'>
+                <li className='loged-menu-item'>
                   <a
                     style={styles.navItemLinks}
                     className='search-link rf-nav-link'
