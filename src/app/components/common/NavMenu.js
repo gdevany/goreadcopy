@@ -519,12 +519,12 @@ class NavMenu extends PureComponent {
             <ul className='nav-menu-logged-container'>
 
               <li
-                className='loged-menu-item loged-menu-item-active home'
+                className='logged-menu-item loged-menu-item-active home'
               >
                 <Link to='/' style={styles.navItemLinks} className='home-link rf-nav-link' />
               </li>
 
-              <li className='loged-menu-item'>
+              <li className='logged-menu-item'>
                 <a
                   style={styles.navItemLinks}
                   className='search-link rf-nav-link'
@@ -532,7 +532,7 @@ class NavMenu extends PureComponent {
                 />
               </li>
 
-              <li className='loged-menu-item'>
+              <li className='logged-menu-item'>
                 <a href='' style={styles.navItemLinks} className='messages-link rf-nav-link' />
               </li>
 
@@ -644,20 +644,20 @@ class NavMenu extends PureComponent {
               <ul className='menu'>
 
                 <li
-                  className='loged-menu-item loged-menu-item-active home'
+                  className='logged-menu-item loged-menu-item-active home'
                 >
                   <Link to='/' style={styles.navItemLinks} className='home-link rf-nav-link'>
                     Home
                   </Link>
                 </li>
 
-                <li className='loged-menu-item'>
+                <li className='logged-menu-item'>
                   <a href='' style={styles.navItemLinks} className='messages-link rf-nav-link'>
                     Messages
                   </a>
                 </li>
 
-                <li className='loged-menu-item'>
+                <li className='logged-menu-item'>
                   <a
                     style={styles.navItemLinks}
                     className='search-link rf-nav-link'
