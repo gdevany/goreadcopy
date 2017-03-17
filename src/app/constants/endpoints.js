@@ -24,6 +24,7 @@ const Endpoints = () => {
         return apiUrl('current_reader/recommended/book_clubs', params)
       },
       getCurrentReader: () => apiUrl('current_reader'),
+      usePlatformAs: () => apiUrl('current_reader/publishing_as'),
       getLatestAnnouncement: () => apiUrl('current_reader/latest_announcement'),
       dismissAnnouncement: (params) => apiUrl('current_reader/dismiss_announcement', params),
       getReadFeedTiles: () => apiUrl('current_reader/activities'),

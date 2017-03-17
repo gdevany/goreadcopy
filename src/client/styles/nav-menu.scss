@@ -429,3 +429,36 @@
     top: 11px;
   }
 }
+
+.publishing-as-container{
+  .publishing-as-label{
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: .7rem 2rem;
+  }
+  .publishing-as-ul-container{
+    margin:0;
+    padding: 0;
+    list-style: none;
+    .publishing-as-list{      
+      a{
+        display: block;
+        padding: .7rem 2rem;
+
+      }
+      .publishing-as-active{
+        background-color: #f5f5f5;
+        &:hover{
+          background-color: $white;
+        }
+      }
+      .publishing-as-anchor{
+        background-color: $white;
+        &:hover{
+          background-color: #f5f5f5;
+        }
+      }
+    }
+  }
+}
