@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { PrimaryButton } from './'
-import CameraIcon from 'material-ui/svg-icons/image/camera'
+import CameraIcon from 'material-ui/svg-icons/action/camera-enhance'
 import { Posts } from '../../services/api/currentReader'
 import SuggestionList from './SuggestionList'
 import { Search } from '../../services/api'
@@ -24,22 +23,25 @@ class StatusPost extends PureComponent {
       suggestions: [],
       showSuggestions: false,
       showImagePreview: false,
-      showVideoPreview: false
+      showVideoPreview: false,
+      textareaOpen: false,
     }
     this.handleChange = this.handleChange.bind(this)
     this.checkMentions = this.checkMentions.bind(this)
     this.replaceMention = this.replaceMention.bind(this)
     this.handleSuggestionClick = this.handleSuggestionClick.bind(this)
     this.onPostButtonClick = this.onPostButtonClick.bind(this)
+    this.handleTextAreaClick = this.handleTextAreaClick.bind(this)
+    this.handleTextAreaClose = this.handleTextAreaClose.bind(this)
     this.getMentions = debounce(this.getMentions, 250)
   }
 
-  onUploadButtonClick(e) {
+  onUploadButtonClick(event) {
     console.log('Upload image')
-    e.preventDefault()
+    event.preventDefault()
   }
 
-  onPostButtonClick(e) {
+  onPostButtonClick(event) {
     const {
       body,
       mentions,
@@ -89,9 +91,9 @@ class StatusPost extends PureComponent {
     return []
   }
 
-  handleSuggestionClick(e) {
-    e.stopPropagation()
-    const { type, display, contenttype, id } = e.target.dataset
+  handleSuggestionClick(event) {
+    event.stopPropagation()
+    const { type, display, contenttype, id } = event.target.dataset
     this.replaceMention(type, display, contenttype, id)
   }
 
@@ -107,15 +109,60 @@ class StatusPost extends PureComponent {
     })
     this.refs.statuspost.focus()
   }
+  handleTextAreaClick = (event) => {
+    event.preventDefault()
+    this.setState({
+      textareaOpen: true
+    })
+  }
 
+  handleTextAreaClose = (event) => {
+    event.preventDefault()
+    this.setState({
+      textareaOpen: false
+    })
+  }
   render() {
+    const { currentReader } = this.props
     return (
       <div className='statuspost'>
-        <div className='row'>
+        <div className='status-post-text-container'>
+          <a
+            className='status-post-upload-icon-container'
+            href='javascript:void(0)' onClick={this.onUploadButtonClick}
+          >
+            <CameraIcon />
+          </a>
+          { this.state.textareaOpen ? (
+            <div>
+              <a
+                className='statuspost-action-btn'
+                onClick={this.onPostButtonClick}
+              >
+                Post
+              </a>
+              <a
+                className='statuspost-close-btn'
+                onClick={this.handleTextAreaClose}
+              >
+                x
+              </a>
+            </div>
+          ) : null }
+          <figure className='current-reader-badge'>
+            <img className='current-reader-image'
+              src={currentReader.profileImage}
+              alt=''
+            />
+          </figure>
           <textarea
             cols='30'
             rows='4'
             ref='statuspost'
+            className={this.state.textareaOpen ?
+              'status-post-textarea-open' : 'status-post-textarea'}
+            placeholder='Type inside me'
+            onClick={this.handleTextAreaClick}
             onChange={this.handleChange} value={this.state.body}
           />
           {this.state.showSuggestions ?
@@ -126,16 +173,6 @@ class StatusPost extends PureComponent {
             ) : null
           }
         </div>
-        <div className='row'>
-          <div className='small-4 column'>
-            <a href='javascript:void(0)' onClick={this.onUploadButtonClick}>
-              <CameraIcon />
-            </a>
-          </div>
-          <div className='small-4 column'>
-            <PrimaryButton label='Post' onClick={this.onPostButtonClick}/>
-          </div>
-        </div>
       </div>
     )
   }
@@ -143,6 +180,7 @@ class StatusPost extends PureComponent {
 
 const mapStateToProps = (state) => {
   return {
+    currentReader: state.currentReader
   }
 }
 
