@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import { Auth } from '../../services'
 import { browserHistory } from 'react-router'
 import LeftProfileContainer from './LeftProfileContainer'
+import MiddleProfileContainer from './MiddleProfileContainer'
 import RightProfileContainer from './RightProfileContainer'
 import BackgroundImageProfileUpload from './BackgroundImageProfileUpload'
-import MyImageProfileUpload from './MyImageProfileUpload'
 import { NavMenu } from '../common'
 import { CurrentReader, ProfilePage } from '../../redux/actions'
 import R from 'ramda'
@@ -97,10 +97,6 @@ class Profile extends PureComponent {
             backgroundImage={profile.backgroundImage}
             isMyProfile={isMyProfile}
           />
-          <MyImageProfileUpload
-            profileImage={profile.profileImage}
-            isMyProfile={isMyProfile}
-          />
           <LeftProfileContainer
             id={profile.id}
             genreIds={profile.genreIds}
@@ -110,11 +106,13 @@ class Profile extends PureComponent {
             achievements={profile.achievements}
             isViewMyProfile={this.isViewMyProfile(profilePage.id, id)}
             favoriteQuotes={profile.favoriteQuotes}
+            profileImage={profile.profileImage}
           />
-          <RightProfileContainer
+          <MiddleProfileContainer
             id={profile.id}
             isProfilePage={true}
           />
+          <RightProfileContainer />
         </div>
       </div>
     )

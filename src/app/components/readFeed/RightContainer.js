@@ -2,7 +2,7 @@ import React from 'react'
 import BookRecommendations from './BookRecommendations'
 import AuthorRecommendations from './AuthorRecommendations'
 import BookClubRecommendations from './BookClubRecommendations'
-import SidebarAdWrapper from './SidebarAdWrapper'
+import SidebarAdWrapper from '../common/SidebarAdWrapper'
 
 const RightContainer = () => {
   return (
