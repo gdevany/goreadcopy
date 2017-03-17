@@ -1,5 +1,7 @@
 import React from 'react'
 import FollowProfile from './FollowProfile'
+import Achievements from './Achievements'
+import FavoriteQuotes from './FavoriteQuotes'
 import { FavoriteGenres } from '../common'
 
 const LeftProfileContainer = ({
@@ -7,8 +9,10 @@ const LeftProfileContainer = ({
   genreIds,
   isMyProfile,
   isViewMyProfile,
-  username,
-  profileFollowed
+  fullname,
+  profileFollowed,
+  favoriteQuotes,
+  achievements
 }) => {
   return (
     <div className='right-container small-6 columns'>
@@ -16,7 +20,6 @@ const LeftProfileContainer = ({
         id ?
           <FollowProfile
             id={id}
-            profileUsername={username}
             isCurrentReader={isMyProfile}
             profileFollowed={profileFollowed}
             isViewMyProfile={isViewMyProfile}
@@ -25,8 +28,10 @@ const LeftProfileContainer = ({
       <FavoriteGenres
         genreIds={genreIds}
         isCurrentReader={isMyProfile}
-        username={username}
+        fullname={fullname}
       />
+    <FavoriteQuotes quotes={favoriteQuotes} />
+    <Achievements achievements={achievements} />
     </div>
   )
 }

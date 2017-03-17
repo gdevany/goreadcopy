@@ -83,13 +83,9 @@ class LeftHandLinks extends PureComponent {
     return R.map(leftMenuItem, leftMenuRoutes)
   }
 
-  handleShowMore = () => {
-    this.setState({ isCollapsed: false })
-  }
+  handleShowMore = () => this.setState({ isCollapsed: false })
 
-  handleShowLess = () => {
-    this.setState({ isCollapsed: true })
-  }
+  handleShowLess = () => this.setState({ isCollapsed: true })
 
   render() {
     const { isCollapsed } = this.state
@@ -99,28 +95,29 @@ class LeftHandLinks extends PureComponent {
         <span className='small-header'>Explore</span>
         <ul className='left-hand-menu-container'>
           { this.handleMapMenuItems() }
-          { !isCollapsed ?
-            <div>
-              { this.handleMapHiddenMenuItems() }
-            </div> :
-            null
+          {
+            isCollapsed ? null :
+              <div>
+                { this.handleMapHiddenMenuItems() }
+              </div>
           }
           <li>
-            { isCollapsed ?
-              <span
-                className='left-hand-action-more'
-                onClick={this.handleShowMore}
-              >
-                See More
-                <ArrowDownIcon />
-              </span> :
-              <span
-                className='left-hand-action-less'
-                onClick={this.handleShowLess}
-              >
-                See Less
-                <ArrowUpIcon />
-              </span>
+            {
+              isCollapsed ?
+                <span
+                  className='left-hand-action-more'
+                  onClick={this.handleShowMore}
+                >
+                  See More
+                  <ArrowDownIcon />
+                </span> :
+                <span
+                  className='left-hand-action-less'
+                  onClick={this.handleShowLess}
+                >
+                  See Less
+                  <ArrowUpIcon />
+                </span>
             }
           </li>
         </ul>

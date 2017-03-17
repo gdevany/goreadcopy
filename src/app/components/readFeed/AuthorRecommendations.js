@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { ExternalRoutes } from '../../constants'
+import { ExternalRoutes, Litcoins } from '../../constants'
 import { AuthorRecSummary } from '../common'
-import { Follow, Recommended } from '../../redux/actions'
-import R from 'ramda'
+import { Recommended, Follow } from '../../redux/actions'
 
-const { updateFollowed } = Follow
 const { findAuthors } = ExternalRoutes
 const { getRecommendedAuthors } = Recommended
+const { getFollowersAndFollowed } = Follow
+const { CONTEXTS: { READ_FEED } } = Litcoins
 
 const styles = {
   recContainer: {
@@ -19,41 +19,16 @@ class AuthorRecommendations extends PureComponent {
   constructor(props) {
     super(props)
 
-    this.state = {
-      followed: []
-    }
-
-    this.handleChipClick = this.handleChipClick.bind(this)
-    this.isChosen = this.isChosen.bind(this)
+    this.handleAuthorClick = this.handleAuthorClick.bind(this)
   }
 
   componentDidMount = () => {
     this.props.getRecommendedAuthors(3)
   }
 
-  componentDidUpdate = () => {
-    const { followed } = this.state
-    if (followed.length) this.props.updateFollowed(followed)
-    else {
-      const followedExists = this.props.followed ? followedAuthorExists : null
-      const followedAuthorExists = this.props.followed.results.length ?
-        this.props.followed.results[0].authors : null
-      if (followedExists) this.setState({ followed: R.pluck('id', followedExists) })
-    }
+  handleAuthorClick = () => {
+    this.props.getFollowersAndFollowed(this.props.currentReaderId)
   }
-
-  handleChipClick = (event, id, firstName, lastName, image, booksWritten) => {
-    event.preventDefault()
-    const { followed } = this.state
-    if (this.isChosen(id)) {
-      const collectionWithoutMember = R.reject(R.equals(id), followed)
-      this.setState({ followed: [...collectionWithoutMember] })
-    } else {
-      this.setState({ followed: [...followed, id] })
-    }
-  }
-
-  isChosen = (id) => R.contains(id, this.state.followed)
 
   renderAuthors = (authors) => {
     return authors.map(author => {
@@ -73,10 +48,8 @@ class AuthorRecommendations extends PureComponent {
             image={imageUrl}
             description={'Nothing about me yet'}
             booksWritten={booksWritten}
-            isChosen={this.isChosen}
-            handleChipClick={event => {
-              this.handleChipClick(event, id, firstName, lastName, image, booksWritten)
-            }}
+            context={READ_FEED}
+            onClick={this.handleAuthorClick}
           />
         </div>
       )
@@ -108,13 +81,15 @@ class AuthorRecommendations extends PureComponent {
 
 const mapStateToProps = ({
   currentReader: {
-    recommended
+    id,
+    recommended,
   },
   social: {
     followed
   }
 }) => {
   return {
+    currentReaderId: id,
     recommended,
     followed
   }
@@ -122,7 +97,7 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = {
   getRecommendedAuthors,
-  updateFollowed
+  getFollowersAndFollowed,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthorRecommendations)

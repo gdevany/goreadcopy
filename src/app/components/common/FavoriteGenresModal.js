@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import Radium from 'radium'
 import { connect } from 'react-redux'
 import { CurrentReader, Genres } from '../../redux/actions'
 import { Dialog, Chip } from 'material-ui'
@@ -180,14 +181,9 @@ class FavoriteGenresModal extends PureComponent {
     getGenres()
   }
 
-  handleSelectChosenGenre = () => {
+  handleSelectChosenGenre = (genre) => {
     const { chosenGenres, mostPopularGenres, searchResults } = this.state
     const { genres } = this.props
-    const genreKeys = document.activeElement.getAttribute('value').split('-')
-    const genre = {
-      id: Number(genreKeys[1]),
-      name: genreKeys[0],
-    }
 
     const indexOfGenre = R.findIndex(R.propEq('id', genre.id))(chosenGenres)
     if (indexOfGenre >= 0) {
@@ -205,13 +201,8 @@ class FavoriteGenresModal extends PureComponent {
     }
   }
 
-  handleSelectPopularGenres = () => {
+  handleSelectPopularGenres = (genre) => {
     const { chosenGenres, mostPopularGenres } = this.state
-    const genreKeys = document.activeElement.getAttribute('value').split('-')
-    const genre = {
-      id: Number(genreKeys[1]),
-      name: genreKeys[0],
-    }
 
     const indexOfGenre = R.findIndex(R.propEq('id', genre.id))(mostPopularGenres)
     if (indexOfGenre >= 0) {
@@ -258,6 +249,11 @@ class FavoriteGenresModal extends PureComponent {
     const isChosen = (genreType === 'chosen')
     const isSearch = (genreType === 'search')
     return genres.map((genre, index) => {
+      const transformedGenre = {
+        id: Number(genre.id),
+        name: genre.name
+      }
+
       const inChosenGenres = R.findIndex(R.propEq('id', genre.id))(this.state.chosenGenres)
       const theChip = (
         <Chip
@@ -268,8 +264,8 @@ class FavoriteGenresModal extends PureComponent {
           style={styles.chip}
           onClick={isSearch ? this.handleSelectSearch :
             (isChosen ?
-              this.handleSelectChosenGenre :
-              this.handleSelectPopularGenres)
+              () => this.handleSelectChosenGenre(transformedGenre) :
+              () => this.handleSelectPopularGenres(transformedGenre))
           }
         >
         {
@@ -385,4 +381,4 @@ const mapDispatchToProps = {
   searchGenres,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FavoriteGenresModal)
+export default connect(mapStateToProps, mapDispatchToProps)(Radium(FavoriteGenresModal))

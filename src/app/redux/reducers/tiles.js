@@ -1,4 +1,4 @@
-import { CURRENT_READER as A } from '../const/actionTypes'
+import { CURRENT_READER as A, READERS as B } from '../const/actionTypes'
 import initialState from '../../initialState'
 
 export default (state = initialState.tiles, { type, payload, errors }) => {
@@ -8,25 +8,25 @@ export default (state = initialState.tiles, { type, payload, errors }) => {
         ...state,
         readFeed: payload
       }
-    case A.GET_PROFILE_TILES:
+    case B.GET_PROFILE_TILES:
       return {
         ...state,
         profile: payload
       }
-    case A.GET_READFEED_COMMENTS:
-      const rfComments = state.readFeedComments || {}
+    case B.GET_COMMENTS:
+      const isFeedComments = state.feedComments || {}
       return {
         ...state,
-        readFeedComments: {
-          ...rfComments,
+        feedComments: {
+          ...isFeedComments,
           ...payload
         }
       }
-    case A.UPDATE_READFEED_COMMENTS:
-      const existingTilesComments = state.readFeedComments || {}
+    case B.UPDATE_COMMENTS:
+      const existingTilesComments = state.feedComments || {}
       return {
         ...state,
-        readFeedComments: {
+        feedComments: {
           ...existingTilesComments,
           ...payload.newTileComments
         }

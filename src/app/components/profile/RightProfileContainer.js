@@ -1,12 +1,33 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
+import { Tiles } from '../../redux/actions'
+import { connect } from 'react-redux'
 import { StatusPost } from '../common'
+import TilesWrapper from '../readFeed/TilesWrapper'
 
-const RightProfileContainer = () => {
-  return (
-    <div className='right-container small-6 columns'>
-      <StatusPost />
-    </div>
-  )
+const { getProfileTiles } = Tiles
+
+class RightProfileContainer extends PureComponent {
+  componentDidUpdate = () => {
+    const { id, getProfileTiles } = this.props
+    getProfileTiles(id)
+  }
+
+  render() {
+    const { profile } = this.props
+
+    return (
+      <div className='right-container small-6 columns'>
+        <StatusPost />
+        {profile ? <TilesWrapper feed={profile} /> : null}
+      </div>
+    )
+  }
 }
 
-export default RightProfileContainer
+const mapStateToProps = ({
+  tiles: {
+    profile
+  }
+}) => { return { profile } }
+
+export default connect(mapStateToProps, { getProfileTiles })(RightProfileContainer)

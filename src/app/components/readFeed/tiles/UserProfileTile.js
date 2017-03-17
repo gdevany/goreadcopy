@@ -17,6 +17,15 @@ class UserProfileTile extends PureComponent {
       },
       content
     } = this.props
+
+    const {
+      city,
+      state,
+      link,
+      image,
+      name,
+      userType,
+    } = content
     return (
       <TileDefault
         tileId={id}
@@ -28,29 +37,37 @@ class UserProfileTile extends PureComponent {
         shareInfo={shareInfo}
         action={action}
       >
+        <div className='post-excerpt-container'>
+          <p className='post-excerpt-pharagraph'>
+            {content.socialComment ? content.socialComment : null}
+          </p>
+        </div>
         <div className='userprofile-tile-container'>
           <figure className='userprofile-figure'>
-            <a href={content.link}>
-              <img className='userprofile-img' src={content.image} alt='profile-update'/>
+            <a href={link}>
+              <img className='userprofile-img' src={image} alt='profile-update'/>
             </a>
           </figure>
           <div className='userprofile-content'>
-            <a href={content.link}>
-              <h2 className='userprofile-name'>{content.name}</h2>
+            <a href={link}>
+              <h2 className='userprofile-name'>{name}</h2>
             </a>
-            <h4 className='userprofile-title'>{content.userType}</h4>
-            <div className='userprofile-location-container'>
-              <LocationIcon className='userprofile-location-icon'/>
-              <h5 className='userprofile-location'>
-                {content.location}
-              </h5>
-            </div>
+            <h4 className='userprofile-title'>{userType}</h4>
+            {
+              city || state ?
+                <div className='userprofile-location-container'>
+                  <LocationIcon className='userprofile-location-icon'/>
+                  <h5 className='userprofile-location'>
+                    {city ? city : null} {state ? state : null}
+                  </h5>
+                </div> : null
+            }
           </div>
         </div>
         <div className='post-excerpt-container'>
           <p className='post-excerpt-pharagraph'>
-            { content.description ? content.description : null}
-            <a href={content.link} className='post-readmore-anchor'>
+            {content.description ? content.description : null}
+            <a href={link} className='post-readmore-anchor'>
               Read more
             </a>
           </p>

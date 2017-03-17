@@ -1,11 +1,14 @@
 import React, { PureComponent } from 'react'
+import Radium from 'radium'
 import { connect } from 'react-redux'
 import { Follow } from '../../redux/actions'
-// TODO: move this over to common when bug fixed
-import FollowModal from '../readFeed/FollowModal'
+import { FollowModal } from '../common'
+import { ExternalRoutes } from '../../constants'
 import { Chip } from 'material-ui'
-import { Colors, Breakpoints } from '../../constants/style'
+import { Colors } from '../../constants/style'
 import R from 'ramda'
+
+const { editProfile } = ExternalRoutes
 
 const { getFollowers, getFollowed, updateFollowed } = Follow
 
@@ -19,10 +22,6 @@ const styles = {
     display: 'inline-block',
     margin: '15px 15px 0px 20px',
     padding: 5,
-
-    [Breakpoints.tablet]: {
-      marginRight: 0,
-    },
 
     ':hover': {
       backgroundColor: Colors.blue,
@@ -49,7 +48,8 @@ class FollowProfile extends PureComponent {
       modalFollowingOpen: false,
       modalFollowersOpen: false,
       triggerCantFollow: false,
-      followed: []
+      followingUser: false,
+      followed: [],
     }
 
     this.handleClose = this.handleClose.bind(this)
@@ -62,9 +62,10 @@ class FollowProfile extends PureComponent {
 
   componentDidUpdate = () => {
     const { followed } = this.state
-    const { profileFollowed } = this.props
+    const { profileFollowed, id } = this.props
+    if (this.isChosen(id)) this.setState({ followingUser: true })
 
-    if (followed.length) this.props.updateFollowed(followed)
+    if (followed && followed.length) this.props.updateFollowed(followed)
     else this.setState({ followed: profileFollowed })
   }
 
@@ -88,25 +89,25 @@ class FollowProfile extends PureComponent {
     const { id } = this.props
     if (this.isChosen(id)) {
       const collectionWithoutMember = R.reject(R.equals(id), followed)
-      this.setState({ followed: [...collectionWithoutMember] })
+      this.setState({
+        followed: [...collectionWithoutMember],
+        followingUser: false
+      })
     } else {
-      this.setState({ followed: [...followed, id] })
+      this.setState({
+        followed: [...followed, id],
+        followingUser: true
+      })
     }
   }
 
-  isChosen = (id) => R.contains(id, this.state.followed)
+  isChosen = (id) => R.contains(id, this.state.followed || [])
 
   cantFollow = () => this.setState({ triggerCantFollow: true })
 
   renderChip = () => {
-    /*
-      TODO: Do a check here to see if current reader's username matches
-      this profile's username. If so, then current reader is viewing their profile
-      in view mode and if they click 'Follow', should say: 'You can't follow yourself'
-    */
-
-   // TODO where does 'Edit Profile' go to?
     const { isCurrentReader, isViewMyProfile } = this.props
+    const { followingUser } = this.state
     return (
       <Chip
         className={'chosenFollow'}
@@ -115,9 +116,11 @@ class FollowProfile extends PureComponent {
       >
         {
           isCurrentReader ?
-            <a href=''> + Edit Profile </a> :
+            <a href={editProfile()}> + Edit Profile </a> :
             <a onClick={isViewMyProfile ? this.cantFollow : this.handleFollow}>
-              + Follow
+              {
+                followingUser ? '(checkmark) Following' : 'Follow'
+              }
             </a>
         }
       </Chip>
@@ -220,4 +223,4 @@ const mapDispatchToProps = {
   updateFollowed
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FollowProfile)
+export default connect(mapStateToProps, mapDispatchToProps)(Radium(FollowProfile))

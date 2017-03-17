@@ -18,6 +18,14 @@ class AuthorTile extends PureComponent {
       content
     } = this.props
 
+    const {
+      city,
+      state,
+      link,
+      name,
+      about
+    } = content
+
     return (
       <TileDefault
         tileId={id}
@@ -29,26 +37,32 @@ class AuthorTile extends PureComponent {
         shareInfo={shareInfo}
         action={action}
       >
+        <div className='post-excerpt-container'>
+          <p className='post-excerpt-pharagraph'>
+            {content.socialComment ? content.socialComment : null}
+          </p>
+        </div>
         <div className='author-tile-container'>
           <h2 className='author-name'>
-            <a href={content.link}>
-              {content.name}
+            <a href={link}>
+              {name}
             </a>
           </h2>
           <h4 className='author-title'>Author</h4>
-          <div className='author-location-container'>
-            <LocationIcon className='author-location-icon'/>
-            <h5 className='author-location'>
-              {/**TODO Need about location prop **/}
-              {content.location}
-            </h5>
-          </div>
+          {
+            city || state ?
+            <div className='author-location-container'>
+              <LocationIcon className='author-location-icon'/>
+              <h5 className='author-location'>
+                {city ? city : null} {state ? state : null}
+              </h5>
+            </div> : null
+          }
           <div className='author-content'>
             <div className='post-excerpt-container'>
               <p className='post-excerpt-pharagraph'>
-                {/** TODO: Need Author content about prop **/}
-                {content.about}
-                <a href={content.link} className='post-readmore-anchor'>
+                {about ? about : null}
+                <a href={link} className='post-readmore-anchor'>
                   Read more
                 </a>
               </p>

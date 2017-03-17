@@ -25,7 +25,15 @@ export const ONBOARDING = {
   'MAX_LITCOINS': 30000,
 }
 
+export const CONTEXTS = {
+  ONBOARDING: 'onboarding',
+  COMPLETE_PROFILE: 'complete profile',
+  PROFILE_PAGE: 'profile page',
+  READ_FEED: 'readfeed',
+}
+
 export default {
+  CONTEXTS,
   LITCOIN_TYPES,
   ONBOARDING,
 }

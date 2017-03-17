@@ -158,7 +158,7 @@ class BookLanding extends PureComponent {
       this.props.getBooks()
       genreSelected = 'Popular'
     } else {
-      this.props.getBooks({ genreIds: genreName })
+      this.props.getBooks({ genreIds: [genreId] })
       genreSelected = genreName
     }
     this.setState({

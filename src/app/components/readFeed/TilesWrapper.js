@@ -1,6 +1,4 @@
-import React, { PureComponent } from 'react'
-import { connect } from 'react-redux'
-import { Tiles } from '../../redux/actions'
+import React from 'react'
 import {
   AlbumTile,
   AppearanceTile,
@@ -20,12 +18,8 @@ import {
 } from './tiles'
 import moment from 'moment'
 
-const { getReadFeedTiles } = Tiles
-
-class TilesWrapper extends PureComponent {
-  componentWillMount = () => this.props.getReadFeedTiles(2)
-
-  renderTime = (time, timeType) => {
+const TilesWrapper = ({ feed }) => {
+  const renderTime = (time, timeType) => {
     if (timeType === 'ago' && moment(moment.unix(time)).isValid()) {
       return moment(moment.unix(time)).fromNow()
     } else if (timeType === 'time-date') {
@@ -37,13 +31,14 @@ class TilesWrapper extends PureComponent {
     return time
   }
 
-  renderTiles = (tiles) => {
+  const renderTiles = (tiles) => {
     const result = []
+    let tileType, tileContent
     tiles.forEach((tile, index) => {
       let tileDefaultProps = {}
       if (tile.tileType !== 'advertising' && tile.tileType !== 'merged') {
         tileDefaultProps = {
-          timestamp: this.renderTime(tile.timestamp, 'ago'),
+          timestamp: renderTime(tile.timestamp, 'ago'),
           action: tile.description,
           id: tile.id,
           author: {
@@ -61,18 +56,32 @@ class TilesWrapper extends PureComponent {
           },
           shareInfo: {
             title: tile.content.title,
-            shareLink: tile.link
+            shareLink: tile.link,
+            sharesCount: tile.shares.count
           }
         }
       }
+      if (tile.tileType === 'socialpost') {
+        if (tile.content.tileType) {
+          tileType = tile.content.tileType
+          tileContent = tile.content.content
+        } else {
+          tileType = tile.content.contentType
+          tileContent = tile.content
+        }
+      } else {
+        tileType = tile.tileType
+        tileContent = tile.content
+      }
 
-      switch (tile.tileType) {
+      switch (tileType) {
         case 'article':
           const articleContent = {
-            title: tile.content.title,
-            header: tile.content.header,
-            image: (tile.content.imageUrl || tile.content.image),
-            link: tile.content.link,
+            title: tileContent.title,
+            header: tileContent.header,
+            image: (tileContent.imageUrl || tileContent.image),
+            link: tileContent.link,
+            socialComment: (tile.socialPostComment || null)
           }
           result.push(
             <ArticleTile
@@ -83,12 +92,13 @@ class TilesWrapper extends PureComponent {
           )
           break
         case 'author':
-          // TODO: Pass in location and about props
           const authorContent = {
-            name: tile.content.fullname,
-            location: 'Los Angeles, CA',
-            about: 'blah blah blah',
-            link: tile.content.url,
+            name: tileContent.fullname,
+            city: tileContent.city,
+            state: tileContent.state,
+            about: (tileContent.shortBio || tileContent.aboutMe),
+            link: tileContent.url,
+            socialComment: (tile.socialPostComment || null)
           }
           result.push(
             <AuthorTile
@@ -100,7 +110,8 @@ class TilesWrapper extends PureComponent {
           break
         case 'award':
           const awardContent = {
-            image: tile.content.imageUrl
+            image: tileContent.imageUrl,
+            socialComment: (tile.socialPostComment || null)
           }
           result.push(
             <AwardTile
@@ -113,7 +124,8 @@ class TilesWrapper extends PureComponent {
         case 'album':
         case 'buzzphoto':
           const albumContent = {
-            image: tile.content.imageUrl
+            image: tileContent.imageUrl,
+            socialComment: (tile.socialPostComment || null)
           }
           result.push(
             <AlbumTile
@@ -126,11 +138,12 @@ class TilesWrapper extends PureComponent {
         case 'bookclub_event':
         case 'buzzappearance':
           const eventContent = {
-            title: tile.content.title,
-            description: tile.content.description,
-            url: tile.content.url,
-            start: this.renderTime(tile.content.start, 'time-date'),
-            end: this.renderTime(tile.content.end, 'time-date')
+            title: tileContent.title,
+            description: tileContent.description,
+            url: tileContent.url,
+            start: renderTime(tileContent.start, 'time-date'),
+            end: renderTime(tileContent.end, 'time-date'),
+            socialComment: (tile.socialPostComment || null)
           }
           result.push(
             <AppearanceTile
@@ -143,25 +156,25 @@ class TilesWrapper extends PureComponent {
         case 'product_review':
         case 'book_review':
         case 'book':
-          // TODO: product_review should be returning url inside content.product
           const getUrl = () => {
-            if (tile.content.product) return tile.content.product.link
-            else if (tile.content.book) return tile.content.book.link
-            else if (tile.content.link) return tile.content.link
+            if (tileContent.product) return tileContent.product.url
+            else if (tileContent.book) return tileContent.book.link
+            else if (tileContent.link) return tileContent.link
             return '#'
           }
           const getName = () => {
-            if (tile.content.reviewer) return tile.content.reviewer.fullname
-            else if (tile.content.authors.length) return tile.content.authors[0].fullname
+            if (tileContent.reviewer) return tileContent.reviewer.fullname
+            else if (tileContent.authors.length) return tileContent.authors[0].fullname
             return `${<i>Unknown</i>}`
           }
           const bookAndProductContent = {
             title: (tile.target.name || tile.target.title),
-            description: (tile.content.body || tile.content.description),
-            image: tile.content.imageUrl,
-            rating: tile.content.rating.average,
+            description: (tileContent.body || tileContent.description),
+            image: tileContent.imageUrl,
+            rating: tileContent.rating.average,
             author: getName(),
             url: getUrl(),
+            socialComment: (tile.socialPostComment || null)
           }
           result.push(
             <BookProductTile
@@ -173,10 +186,11 @@ class TilesWrapper extends PureComponent {
           break
         case 'bookclub':
           const bookClubContent = {
-            image: tile.content.image,
-            title: tile.content.name,
-            description: tile.content.description,
-            url: tile.content.link
+            image: tileContent.image,
+            title: tileContent.name,
+            description: tileContent.description,
+            url: tileContent.link,
+            socialComment: (tile.socialPostComment || null)
           }
           result.push(
             <BookClubTile
@@ -188,8 +202,9 @@ class TilesWrapper extends PureComponent {
           break
         case 'bookclub_task':
           const bookClubTaskContent = {
-            description: tile.content.description,
-            link: tile.actor.link
+            description: tileContent.description,
+            link: tileContent.link,
+            socialComment: (tile.socialPostComment || null)
           }
           result.push(
             <BookClubTaskTile
@@ -200,13 +215,14 @@ class TilesWrapper extends PureComponent {
           )
           break
         case 'publisher':
-          // TODO: Needs a location and description keys
           const publisherContent = {
-            name: tile.content.fullname,
-            image: tile.content.imageUrl,
-            link: tile.content.url,
-            location: 'Los Angeles, CA',
-            description: 'blab blah blah'
+            name: tileContent.fullname,
+            image: tileContent.imageUrl,
+            link: tileContent.url,
+            city: tileContent.city,
+            state: tileContent.state,
+            description: tileContent.description,
+            socialComment: (tile.socialPostComment || null)
           }
           result.push(
             <PublisherUpdateTile
@@ -218,7 +234,6 @@ class TilesWrapper extends PureComponent {
           break
         case 'account':
         case 'userprofile':
-          // TODO: Add location
           const findUserType = (type) => {
             switch (type) {
               case 'userProfile':
@@ -230,12 +245,14 @@ class TilesWrapper extends PureComponent {
             }
           }
           const accountContent = {
-            name: tile.content.fullname || tile.actor.fullname,
-            location: 'Los Angeles, CA',
-            description: tile.content.description,
-            image: tile.content.imageUrl,
+            name: tileContent.fullname || tile.actor.fullname,
+            city: tileContent.city,
+            state: tileContent.state,
+            description: tileContent.description,
+            image: tileContent.imageUrl,
             link: tile.actor.url,
-            userType: findUserType(tile.content.contentType)
+            userType: findUserType(tileContent.contentType),
+            socialComment: (tile.socialPostComment || null)
           }
           result.push(
             <UserProfileTile
@@ -247,9 +264,11 @@ class TilesWrapper extends PureComponent {
           break
         case 'buzzvideo':
           const buzzVideoContent = {
-            link: tile.content.link,
-            title: tile.content.title,
-            description: tile.content.summary,
+            link: tileContent.link,
+            originUrl: tileContent.originUrl,
+            title: tileContent.title,
+            description: tileContent.summary,
+            socialComment: (tile.socialPostComment || null)
           }
           result.push(
             <VideoTile
@@ -261,8 +280,9 @@ class TilesWrapper extends PureComponent {
           break
         case 'status':
           const statusPostContent = {
-            image: tile.content.imageUrl.url,
-            description: tile.content.body,
+            image: tileContent.imageUrl.url,
+            description: tileContent.body,
+            socialComment: (tile.socialPostComment || null)
           }
           result.push(
             <StatusPostTile
@@ -274,7 +294,6 @@ class TilesWrapper extends PureComponent {
           break
         case 'advertising':
           switch (tile.advertiser.name) {
-            // TODO: Need the likes and comments objects from the API team
             case 'readerslegacy':
               const {
                 imageUrl,
@@ -288,7 +307,8 @@ class TilesWrapper extends PureComponent {
                 image: imageUrl,
                 title: heading,
                 description: description,
-                link: url
+                link: url,
+                socialComment: (tile.socialPostComment || null)
               }
               tileDefaultProps = {
                 author: {
@@ -336,7 +356,7 @@ class TilesWrapper extends PureComponent {
           break
         case 'merged':
           tileDefaultProps = {
-            timestamp: this.renderTime(tile.timestamp, 'ago'),
+            timestamp: renderTime(tile.timestamp, 'ago'),
             action: tile.description,
             author: {
               name: (tile.actor.fullname || tile.actor.name),
@@ -359,21 +379,11 @@ class TilesWrapper extends PureComponent {
     return result
   }
 
-  render() {
-    const { readFeed } = this.props
-
-    return (
-      <div>
-        { readFeed ? this.renderTiles(readFeed) : null }
-      </div>
-    )
-  }
+  return (
+    <div>
+      {feed ? renderTiles(feed) : null}
+    </div>
+  )
 }
 
-const mapStateToProps = ({
-  tiles: {
-    readFeed
-  }
-}) => { return { readFeed } }
-
-export default connect(mapStateToProps, { getReadFeedTiles })(TilesWrapper)
+export default TilesWrapper

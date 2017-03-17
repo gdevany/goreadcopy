@@ -10,7 +10,12 @@ const Endpoints = () => {
     getBooks: (params) => apiUrl('onboarding/books', params),
     searchData: (params) => apiUrl('search', params),
     getProfilePage: (slug, params) => apiUrl(`social/reader/${slug}`, params),
+    getProfileTiles: (id) => apiUrl(`social/reader/${id}/profile_activities`),
+    getComments: (id) => apiUrl(`activities/${id}/comments`),
+    updateComments: (id) => apiUrl(`social/posts/${id}/comments`),
+    updateLikes: (id) => apiUrl(`social/posts/${id}/likes`),
     getSidebarAds: (slug, params) => apiUrl('advertising/get_sidebar_ads'),
+    shareTile: (id) => apiUrl(`social/posts/${id}/shares`),
     currentReader: {
       getRecommendation: (params) => apiUrl('genres/top_users', params),
       getRecommendedAuthors: (params) => apiUrl('current_reader/recommended/authors', params),
@@ -19,6 +24,7 @@ const Endpoints = () => {
         return apiUrl('current_reader/recommended/book_clubs', params)
       },
       getCurrentReader: () => apiUrl('current_reader'),
+      usePlatformAs: () => apiUrl('current_reader/publishing_as'),
       getLatestAnnouncement: () => apiUrl('current_reader/latest_announcement'),
       dismissAnnouncement: (params) => apiUrl('current_reader/dismiss_announcement', params),
       getReadFeedTiles: () => apiUrl('current_reader/activities'),

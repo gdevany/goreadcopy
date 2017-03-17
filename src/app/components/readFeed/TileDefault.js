@@ -28,9 +28,10 @@ const GooglePlusIcon = generateShareIcon('google')
 const LinkedinIcon = generateShareIcon('linkedin')
 
 const {
-  updateReadFeedLikes,
-  updateReadFeedComments,
-  getReadFeedComments,
+  updateLikes,
+  updateComments,
+  getComments,
+  shareTile,
 } = Tiles
 
 const styles = {
@@ -159,20 +160,20 @@ class TileDefault extends PureComponent {
       commentPostOpen: false,
       calledCommentEndpoint: false,
       commentInput: '',
+      sharedCount: props.shareInfo.sharesCount,
       shareInput: '',
       sharedOpen: false,
       sharePostOpen: false,
     }
   }
-
   componentDidMount = () => {
     this.setState({ anchorEl: this.refs.share })
   }
 
   componentDidUpdate = (prevProps, prevState) => {
     const { likedCount } = this.state
-    const { tileId, updateReadFeedLikes } = this.props
-    if (prevState.likedCount !== likedCount) updateReadFeedLikes(tileId, { liked: true })
+    const { tileId, updateLikes } = this.props
+    if (prevState.likedCount !== likedCount) updateLikes(tileId, { liked: true })
   }
 
   handleLiked = () => {
@@ -197,7 +198,12 @@ class TileDefault extends PureComponent {
       sharePostOpen,
       calledCommentEndpoint
     } = this.state
-    const { readFeedComments, tileId } = this.props
+    const {
+      feedComments,
+      tileId,
+      getComments,
+    } = this.props
+
     if (commentsOpen) {
       if (sharePostOpen) {
         this.setState({
@@ -211,10 +217,12 @@ class TileDefault extends PureComponent {
         })
       }
     } else {
-      if (!calledCommentEndpoint && readFeedComments) {
-        this.setState({ calledCommentEndpoint: this.findCommentsForThisTile() })
+      if (!calledCommentEndpoint) {
+        if (feedComments) {
+          this.setState({ calledCommentEndpoint: this.findCommentsForThisTile(feedComments) })
+        }
+        getComments(tileId)
       }
-      if (!calledCommentEndpoint) this.props.getReadFeedComments(tileId)
       this.setState({
         commentsOpen: true,
         commentPostOpen: true
@@ -222,13 +230,14 @@ class TileDefault extends PureComponent {
     }
   }
 
-  findCommentsForThisTile = () => {
-    const { tileId, readFeedComments } = this.props
-    return R.prop(tileId, readFeedComments)
+  findCommentsForThisTile = (comments) => {
+    const { tileId } = this.props
+    return R.prop(tileId, comments)
   }
 
   handleRenderComments = (allComments) => {
-    const foundComments = this.findCommentsForThisTile()
+    const { feedComments } = this.props
+    const foundComments = this.findCommentsForThisTile(feedComments)
     return foundComments ? foundComments.comments.map(comment => {
       return (
         <Card
@@ -242,12 +251,14 @@ class TileDefault extends PureComponent {
             avatar={comment.profile.imageUrl}
             textStyle={styles.textContainer}
           >
-            <p style={styles.timeStamp}> {comment.datetime} </p>
+            <p style={styles.timeStamp}>
+              {/** TODO: use renderTime method here **/}
+              {comment.datetime}
+            </p>
           </CardHeader>
 
           <CardText style={styles.commentContent}>
-            {/** TODO: use renderTime method here **/}
-            {comment.content}
+            {comment.comment}
           </CardText>
         </Card>
       )
@@ -264,10 +275,11 @@ class TileDefault extends PureComponent {
       tileId,
       url,
       fullname,
-      profileImage
+      profileImage,
+      updateComments
     } = this.props
     const findDateTime = Date.now().toString().split('').slice(0, 10).join('')
-    const dateTime = Number(findDateTime)
+    const datetime = Number(findDateTime)
     const profile = {
       url,
       fullname,
@@ -278,17 +290,29 @@ class TileDefault extends PureComponent {
       commentedCount: commentedCount + 1,
       commentInput: ''
     })
-    this.props.updateReadFeedComments(tileId, commentInput, dateTime, profile)
+    updateComments(tileId, commentInput, datetime, profile)
   }
 
-  handleShareSubmit = () => {
-    const { sharedCount } = this.state
-    this.setState({
-      sharePostOpen: false,
-      commentPostOpen: true,
-      sharedCount: sharedCount + 1,
-      shareInput: ''
-    })
+  handleShareSubmit = (shareType) => {
+    const { sharedCount, shareInput } = this.state
+    const { tileId, shareTile } = this.props
+    if (shareType === 5) {
+      this.setState({
+        sharePostOpen: false,
+        sharedOpen: false,
+        sharedCount: sharedCount + 1,
+        shareInput: '',
+        commentsOpen: false,
+        commentPostOpen: false,
+      })
+      shareTile(tileId, shareType, shareInput)
+    } else {
+      this.setState({
+        sharedOpen: false,
+        sharedCount: sharedCount + 1,
+      })
+      shareTile(tileId, shareType, null)
+    }
   }
 
   handleShareOpen = () => {
@@ -316,10 +340,12 @@ class TileDefault extends PureComponent {
 
   renderPostBox = (buttonType) => {
     const { commentInput, shareInput } = this.state
+    const { profileImage } = this.props
     const isComment = buttonType === 'comment'
     const inputType = isComment ? 'commentInput' : 'shareInput'
     return (
       <div className='input-post-box'>
+        <img src={profileImage} />
         <textarea
           type='text'
           className='search-input'
@@ -333,7 +359,7 @@ class TileDefault extends PureComponent {
         <div style={styles.postButton}>
           <PrimaryButton
             label={isComment ? 'Post' : 'Share'}
-            onClick={isComment ? this.handleCommentSubmit : this.handleShareSubmit}
+            onClick={isComment ? this.handleCommentSubmit : () => this.handleShareSubmit(5)}
           />
         </div>
       </div>
@@ -357,7 +383,7 @@ class TileDefault extends PureComponent {
       shareInfo,
       promoted,
       action,
-      readFeedComments
+      feedComments,
     } = this.props
     return (
       <div>
@@ -435,8 +461,7 @@ class TileDefault extends PureComponent {
             style={styles.commentContainer}
           >
             <div className='comments'>
-              {/** TODO: Call API endpoint to get comments.results.here**/}
-              {readFeedComments ? this.handleRenderComments(readFeedComments) : null}
+              {feedComments ? this.handleRenderComments(feedComments) : null}
             </div>
             {
               sharePostOpen ?
@@ -459,10 +484,14 @@ class TileDefault extends PureComponent {
           style={styles.popover}
         >
           <ul style={styles.sharePopover}>
-            <li style={styles.shareLink}>
+            <li
+              style={styles.shareLink}
+              onClick={() => this.handleShareSubmit(1)}
+            >
               <FacebookShareButton
                 url={shareInfo.shareLink}
                 title={shareInfo.title}
+                description={action}
                 className='facebook-share-button'
               >
                 <FacebookIcon
@@ -472,7 +501,10 @@ class TileDefault extends PureComponent {
               </FacebookShareButton>
             </li>
 
-            <li style={styles.shareLink}>
+            <li
+              style={styles.shareLink}
+              onClick={() => this.handleShareSubmit(2)}
+            >
               <TwitterShareButton
                 url={shareInfo.shareLink}
                 title={shareInfo.title}
@@ -486,12 +518,16 @@ class TileDefault extends PureComponent {
               </TwitterShareButton>
             </li>
 
-            <li style={styles.shareLink}>
+            <li
+              style={styles.shareLink}
+              onClick={() => this.handleShareSubmit(4)}
+            >
               <LinkedinShareButton
                 url={shareInfo.shareLink}
                 title={shareInfo.title}
                 windowWidth={750}
                 windowHeight={600}
+                description={action}
                 className='linkedin-share-button'
               >
                   <LinkedinIcon
@@ -501,7 +537,10 @@ class TileDefault extends PureComponent {
               </LinkedinShareButton>
             </li>
 
-            <li style={styles.shareLink}>
+            <li
+              style={styles.shareLink}
+              onClick={() => this.handleShareSubmit(3)}
+            >
               <GooglePlusShareButton
                 url={shareInfo.shareLink}
                 className='google-plus-share-button'
@@ -543,11 +582,11 @@ const mapStateToProps = ({
     profileImage
   },
   tiles: {
-    readFeedComments
+    feedComments
   }
 }) => {
   return {
-    readFeedComments,
+    feedComments,
     fullname,
     url,
     profileImage
@@ -555,8 +594,9 @@ const mapStateToProps = ({
 }
 
 const mapDispatchToProps = {
-  updateReadFeedLikes,
-  updateReadFeedComments,
-  getReadFeedComments
+  updateLikes,
+  updateComments,
+  getComments,
+  shareTile
 }
 export default connect(mapStateToProps, mapDispatchToProps)(TileDefault)
