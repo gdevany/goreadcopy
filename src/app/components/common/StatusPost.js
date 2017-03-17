@@ -5,6 +5,7 @@ import { Posts } from '../../services/api/currentReader'
 import SuggestionList from './SuggestionList'
 import { Search } from '../../services/api'
 import { debounce } from 'lodash'
+import Dropzone from 'react-dropzone'
 
 const { search } = Search
 const { postNewMessage } = Posts
@@ -33,12 +34,13 @@ class StatusPost extends PureComponent {
     this.onPostButtonClick = this.onPostButtonClick.bind(this)
     this.handleTextAreaClick = this.handleTextAreaClick.bind(this)
     this.handleTextAreaClose = this.handleTextAreaClose.bind(this)
+    this.onUploadButtonClick = this.onUploadButtonClick.bind(this)
     this.getMentions = debounce(this.getMentions, 250)
   }
 
   onUploadButtonClick(event) {
-    console.log('Upload image')
     event.preventDefault()
+    this.dropzone.open()
   }
 
   onPostButtonClick(event) {
@@ -129,7 +131,8 @@ class StatusPost extends PureComponent {
         <div className='status-post-text-container'>
           <a
             className='status-post-upload-icon-container'
-            href='javascript:void(0)' onClick={this.onUploadButtonClick}
+            href='javascript:void(0)'
+            onClick={this.onUploadButtonClick}
           >
             <CameraIcon />
           </a>
@@ -155,6 +158,10 @@ class StatusPost extends PureComponent {
               alt=''
             />
           </figure>
+          <Dropzone
+            ref={(node) => { this.dropzone = node }}
+            style={{ display: 'none' }}
+          />
           <textarea
             cols='30'
             rows='4'
