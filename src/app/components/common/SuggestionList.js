@@ -17,7 +17,11 @@ const renderSuggestion = (entry, type, ctype) => {
   switch (type) {
     case 'Reader':
       return (
-        <li key={entry.id} style={styles.mention}>
+        <li
+          className='suggestion-list-element'
+          key={entry.id}
+          style={styles.mention}
+        >
           <div
             data-id={entry.id}
             data-contentType={ctype}
@@ -25,13 +29,19 @@ const renderSuggestion = (entry, type, ctype) => {
             data-display={`${entry.firstName} ${entry.lastName}`}
             style={styles.layer}
           />
-          <img src={entry.image} alt='User image'/>
-          <span>User: {`${entry.firstName} ${entry.lastName}`}</span>
+          <img className='sugestion-list-image' src={entry.image} alt='User image'/>
+          <span className='suggestion-list-name'>
+            Reader: {`${entry.firstName} ${entry.lastName}`}
+          </span>
         </li>
       )
     case 'Author':
       return (
-        <li key={entry.id} style={styles.mention}>
+        <li
+          className='suggestion-list-element'
+          key={entry.id}
+          style={styles.mention}
+        >
           <div
             data-id={entry.id}
             data-contentType={ctype}
@@ -39,13 +49,19 @@ const renderSuggestion = (entry, type, ctype) => {
             data-display={`${entry.firstName} ${entry.lastName}`}
             style={styles.layer}
           />
-          <img src={entry.image} alt='User image'/>
-          <span>Author: {`${entry.firstName} ${entry.lastName}`}</span>
+          <img className='sugestion-list-image' src={entry.image} alt='User image'/>
+          <span className='suggestion-list-name'>
+            Author: {`${entry.firstName} ${entry.lastName}`}
+          </span>
         </li>
       )
     case 'Book':
       return (
-        <li key={entry.id} style={styles.mention}>
+        <li
+          className='suggestion-list-element'
+          key={entry.id}
+          style={styles.mention}
+        >
           <div
             data-id={entry.id}
             data-contentType={ctype}
@@ -53,13 +69,17 @@ const renderSuggestion = (entry, type, ctype) => {
             data-display={entry.title}
             style={styles.layer}
           />
-          <img src={entry.image} alt='User image'/>
-          <span>Book: {entry.title}</span>
+          <img className='sugestion-list-image' src={entry.image} alt='User image'/>
+          <span className='suggestion-list-name'>Book: {entry.title}</span>
         </li>
       )
     case 'Publisher':
       return (
-        <li key={entry.id} style={styles.mention}>
+        <li
+          className='suggestion-list-element'
+          key={entry.id}
+          style={styles.mention}
+        >
           <div
             data-id={entry.id}
             data-contentType={ctype}
@@ -67,8 +87,8 @@ const renderSuggestion = (entry, type, ctype) => {
             data-display={entry.title}
             style={styles.layer}
           />
-          <img src={entry.image} alt='User image'/>
-          <span>Publisher: {entry.title}</span>
+          <img className='sugestion-list-image' src={entry.image} alt='User image'/>
+          <span className='suggestion-list-name'>Publisher: {entry.title}</span>
         </li>
       )
     default:

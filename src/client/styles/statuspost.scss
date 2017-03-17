@@ -30,7 +30,7 @@
       font-size: 18px;
       right: 18px;
       color:$light-med-grey;
-      display: block;      
+      display: block;
     }
     .current-reader-badge{
       display: none;
@@ -85,5 +85,45 @@
   .current-reader-image{
     width: 100%;
     border-radius: 5px;
+  }
+}
+
+.suggestion-list{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  position: absolute;
+  top: 50px;
+  left: 80px;
+  max-width: 300px;
+  background-color: $white;
+  padding: 1em;
+  border: solid 1px $light-med-grey;
+  border-radius: 5px;
+  z-index: 99;
+  transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  box-sizing: border-box;
+  font-family: Roboto, sans-serif;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  box-shadow: rgba(222, 222, 222, 0.498039) 0px 4px 20px 0px;
+  max-height: 300px;
+  overflow: scroll;
+  .suggestion-list-element{
+    align-self: flex-start;
+    margin-bottom: .5em;
+    &:hover{
+      cursor: pointer;
+    }
+     .sugestion-list-image{
+       width: 50px;
+       border-radius: 5px;
+     }
+     .suggestion-list-name{
+       margin-left: .5em;
+     }
   }
 }
