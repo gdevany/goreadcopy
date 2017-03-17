@@ -7,14 +7,24 @@ import TilesWrapper from '../readFeed/TilesWrapper'
 const { getProfileTiles } = Tiles
 
 class RightProfileContainer extends PureComponent {
-  componentDidUpdate = () => {
-    const { id, getProfileTiles } = this.props
-    getProfileTiles(id)
+  constructor(props) {
+    super(props)
+    this.state = {
+      gotFirstTiles: false
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { id, getProfileTiles } = nextProps
+    const { gotFirstTiles } = this.state
+    if (id && getProfileTiles && !gotFirstTiles) {
+      getProfileTiles(id)
+      this.setState({ gotFirstTiles: true })
+    }
   }
 
   render() {
     const { profile } = this.props
-
     return (
       <div className='right-container small-6 columns'>
         <StatusPost />

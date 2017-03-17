@@ -5800,6 +5800,9 @@ style-loader@^0.13.1:
   dependencies:
     loader-utils "^0.2.7"
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
 substyle@^3.0.1:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/substyle/-/substyle-3.0.3.tgz#38b7d2b854c1cb9dba93a8ee32e02a5dd74bd7f0"
@@ -5808,11 +5811,21 @@ substyle@^3.0.1:
     lodash "^4.3.0"
     warning "^2.1.0"
 
+>>>>>>> 1e0e25fcda6eedac893772cce0423c77e57ae5db
 supports-color@3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.1.2.tgz#72a262894d9d408b956ca05ff37b2ed8a6e2a2d5"
   dependencies:
     has-flag "^1.0.0"
+=======
+substyle@^3.0.1:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/substyle/-/substyle-3.0.3.tgz#38b7d2b854c1cb9dba93a8ee32e02a5dd74bd7f0"
+  dependencies:
+    invariant "^2.2.0"
+    lodash "^4.3.0"
+    warning "^2.1.0"
+>>>>>>> Adding statuspost on Profile Page.
 
 supports-color@^0.2.0:
   version "0.2.0"
