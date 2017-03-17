@@ -119,7 +119,7 @@ class NavMenu extends PureComponent {
       modalLogInOpen: false,
       profileMenuOpen: false,
       searchModalOpen: false,
-      usePlatformAs: 'reader',
+      usePlatformAs: false,
     }
 
     this.handleModalClose = this.handleModalClose.bind(this)
@@ -128,6 +128,12 @@ class NavMenu extends PureComponent {
     this.handleProfileMenuHide = this.handleProfileMenuHide.bind(this)
     this.handleLogoutClick = this.handleLogoutClick.bind(this)
     this.handleClickSearch = this.handleClickSearch.bind(this)
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    if (!this.state.usePlatformAs && nextProps.currentReader.publishingAs) {
+      this.setState({ usePlatformAs: nextProps.currentReader.publishingAs })
+    }
   }
 
   handleModalOpen = () => {
