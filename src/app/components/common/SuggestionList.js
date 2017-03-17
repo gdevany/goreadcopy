@@ -13,13 +13,14 @@ const styles = {
   }
 }
 
-const renderSuggestion = (entry, type) => {
+const renderSuggestion = (entry, type, ctype) => {
   switch (type) {
     case 'Reader':
       return (
         <li key={entry.id} style={styles.mention}>
           <div
             data-id={entry.id}
+            data-contentType={ctype}
             data-type={type}
             data-display={`${entry.firstName} ${entry.lastName}`}
             style={styles.layer}
@@ -33,6 +34,7 @@ const renderSuggestion = (entry, type) => {
         <li key={entry.id} style={styles.mention}>
           <div
             data-id={entry.id}
+            data-contentType={ctype}
             data-type={type}
             data-display={`${entry.firstName} ${entry.lastName}`}
             style={styles.layer}
@@ -46,6 +48,7 @@ const renderSuggestion = (entry, type) => {
         <li key={entry.id} style={styles.mention}>
           <div
             data-id={entry.id}
+            data-contentType={ctype}
             data-type={type}
             data-display={entry.title}
             style={styles.layer}
@@ -59,6 +62,7 @@ const renderSuggestion = (entry, type) => {
         <li key={entry.id} style={styles.mention}>
           <div
             data-id={entry.id}
+            data-contentType={ctype}
             data-type={type}
             data-display={entry.title}
             style={styles.layer}
@@ -73,12 +77,13 @@ const renderSuggestion = (entry, type) => {
 }
 
 const SuggestionList = ({ entries, onMentionListClick }) => {
+  const { readers, authors, books, publishers, ctypes } = entries
   return (
     <ul className='suggestion-list' onClick={onMentionListClick}>
-      {entries.readers.map((reader) => renderSuggestion(reader, 'Reader'))}
-      {entries.authors.map((author) => renderSuggestion(author, 'Author'))}
-      {entries.books.map((book) => renderSuggestion(book, 'Book'))}
-      {entries.publishers.map((publisher) => renderSuggestion(publisher, 'Publisher'))}
+      {readers.map((reader) => renderSuggestion(reader, 'Reader', ctypes.readers))}
+      {authors.map((author) => renderSuggestion(author, 'Author', ctypes.authors))}
+      {books.map((book) => renderSuggestion(book, 'Book', ctypes.books))}
+      {publishers.map((publisher) => renderSuggestion(publisher, 'Publisher', ctypes.publishers))}
     </ul>
   )
 }
