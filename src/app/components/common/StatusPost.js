@@ -3,19 +3,25 @@ import { connect } from 'react-redux'
 import { PrimaryButton } from './'
 import CameraIcon from 'material-ui/svg-icons/image/camera'
 import { Posts } from '../../services/api/currentReader'
+import SuggestionList from './SuggestionList'
+import { Search } from '../../services/api'
 
+const { search } = Search
 const { postNewMessage } = Posts
-const mentionPattern = /\B@(User|)[a-z0-9_-]+/gi
+const mentionPattern = /\B@(?!Reader|Author|Publisher|Book)\w+\s?\w+/gi
 
 class StatusPost extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      body: '',          // Plain text post string
-      mentions: '',      // String with mentions
-      image: '',         // ID of the image
-      targetId: '',      // ID of the profile
-      activeContent: '',  // Filled by liveUrl
+      post: {
+        body: '',           // Plain text post string
+        mentions: '',       // String with mentions
+        image: '',          // ID of the image
+        targetId: '',       // ID of the profile
+        activeContent: '',  // Filled by liveUrl
+      },
+      mentionsArray: [],
       suggestions: [{
         id: 'walter',
         display: 'Walter White',
@@ -34,6 +40,8 @@ class StatusPost extends PureComponent {
     this.handleChange = this.handleChange.bind(this)
     this.getPostParams = this.getPostParams.bind(this)
     this.checkMentions = this.checkMentions.bind(this)
+    this.replaceMention = this.replaceMention.bind(this)
+    this.handleSuggestionClick = this.handleSuggestionClick.bind(this)
   }
 
   onUploadButtonClick(e) {
@@ -47,20 +55,41 @@ class StatusPost extends PureComponent {
 
   handleChange(event) {
     const { value } = event.target
-    this.checkMentions(value)
+    const mentions = this.checkMentions(value)
     this.setState({
-      body: value,
-      mentions: value
+      post: {
+        body: value,
+        mentions: value,
+      },
+      mentionsArray: mentions
     })
+  }
+
+  getMentionsArray() {
+    return this
+  }
+
+  getMentions(query) {
+    const body = {
+      author: query,
+      reader: query,
+      book: query,
+      publisher: query
+    }
+    console.log('searching')
+    search(body)
+      .then((res) => this.setState({ suggestions: res.data }))
+      .then(() => this.setState({ showSuggestions: true }))
   }
 
   checkMentions(value) {
     const mentions = value.match(mentionPattern)
     if (mentions && mentions.length > 0) {
-      this.setState({ showSuggestions: true })
-    } else {
-      this.setState({ showSuggestions: false })
+      this.getMentions(mentions[mentions.length - 1].replace('@', ''))
+      return mentions
     }
+    this.setState({ showSuggestions: false })
+    return []
   }
 
   getPostParams() {
@@ -70,88 +99,45 @@ class StatusPost extends PureComponent {
       image,
       targetId,
       activeContent
-    } = this.state
+    } = this.state.post
 
     return answer
   }
 
   handleSuggestionClick(e) {
-    console.log(this)
-    console.log('Clicked on ', e.target)
+    e.stopPropagation()
+    const { type, display } = e.target.dataset
+    this.replaceMention(type, display)
   }
 
-  handleRenderSuggestion(entry) {
-    // Create a new component SuggestionItem and pass item as a prop
-    // Also, pass a handler to change the value of the state.body
-    return (
-      <li
-        key={entry.id}
-        item={entry}
-        className='suggestion'
-        onClick={this.handleSuggestionClick}
-      >
-        <img src={entry.image} alt='User image'/>
-        <span>{entry.type}: { entry.display }</span>
-      </li>
-    )
+  replaceMention(type, display) {
+    const lastMention = this.state.mentionsArray[this.state.mentionsArray.length - 1]
+    const newString = this.state.post.body.replace(lastMention, `@${type}:${display} `)
+    this.checkMentions(newString)
+    this.setState({
+      post: {
+        body: newString
+      }
+    })
+    this.refs.statuspost.focus()
   }
 
   render() {
-    /*const url = 'https://staging2.readerslegacy.com/media/' +
-      'cache/39/39/39392dda558224b808b480e31c768bee.jpg'
-    const users = [
-      {
-        id: 'walter',
-        display: 'Walter White',
-        image: url,
-        type: 'User'
-      },
-      {
-        id: 'jesse',
-        display: 'Jesse Pinkman',
-        image: url,
-        type: 'User'
-      },
-      {
-        id: 'gus',
-        display: 'Gustavo "Gus" Fring',
-        image: url,
-        type: 'User'
-      },
-      {
-        id: 'saul',
-        display: 'Saul Goodman',
-        image: url,
-        type: 'User'
-      },
-      {
-        id: 'hank',
-        display: 'Hank Schrader',
-        image: url,
-        type: 'User'
-      },
-      {
-        id: 'skyler',
-        display: 'Skyler White',
-        image: url,
-        type: 'User'
-      },
-      {
-        id: 'mike',
-        display: 'Mike Ehrmantraut',
-        image: url,
-        type: 'User'
-      },
-    ]*/
-
     return (
       <div className='statuspost'>
         <div className='row'>
-          <textarea cols='30' rows='4' onChange={this.handleChange} value={this.state.body} />
-          {this.state.showSuggestions ? (
-            <ul className='suggestion-list'>
-              {this.state.suggestions.map((entry, index)=>this.handleRenderSuggestion(entry))}
-            </ul>) : null
+          <textarea
+            cols='30'
+            rows='4'
+            ref='statuspost'
+            onChange={this.handleChange} value={this.state.post.body}
+          />
+          {this.state.showSuggestions ?
+            (<SuggestionList
+              entries={this.state.suggestions}
+              onMentionListClick={this.handleSuggestionClick}
+             />
+            ) : null
           }
         </div>
         <div className='row'>
