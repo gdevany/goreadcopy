@@ -100,12 +100,11 @@
   }
 }
 
-// .loged-menu-item{
-//   border-bottom: solid 2px transparent;
-//   &:hover{
-//     border-bottom: solid 2px $blue;
-//   }
-// }
+.logged-menu-item{
+  @media all and (min-width: 1200px){
+    height: 64px;
+  }
+}
 
 .loged-menu-item-active{
   border-bottom: solid 1px $black;
@@ -441,7 +440,7 @@
     margin:0;
     padding: 0;
     list-style: none;
-    .publishing-as-list{      
+    .publishing-as-list{
       a{
         display: block;
         padding: .7rem 2rem;
