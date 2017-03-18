@@ -3,6 +3,7 @@ import FollowProfile from './FollowProfile'
 import Achievements from './Achievements'
 import FavoriteQuotes from './FavoriteQuotes'
 import { FavoriteGenres } from '../common'
+import MyImageProfileUpload from './MyImageProfileUpload'
 
 const LeftProfileContainer = ({
   id,
@@ -12,10 +13,16 @@ const LeftProfileContainer = ({
   fullname,
   profileFollowed,
   favoriteQuotes,
-  achievements
+  achievements,
+  profileImage,
 }) => {
   return (
-    <div className='right-container small-6 columns'>
+    <div className='small-3 columns'>
+      <MyImageProfileUpload
+        profileImage={profileImage}
+        isMyProfile={isMyProfile}
+        isProfilePage={true}
+      />
       {
         id ?
           <FollowProfile
