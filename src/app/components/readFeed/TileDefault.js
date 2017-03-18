@@ -15,6 +15,7 @@ import {
   ShareButtons,
   generateShareIcon
 } from 'react-share'
+import moment from 'moment'
 const {
   FacebookShareButton,
   GooglePlusShareButton,
@@ -85,6 +86,9 @@ const styles = {
     borderTop: `2px solid ${Colors.lightGrey}`,
     fontSize: 14,
     padding: '20px 30px',
+  },
+  commentIconContainer: {
+    textAlign: 'center',
   },
   commentContainer: {
     borderTop: `2px solid ${Colors.lightGrey}`,
@@ -166,6 +170,14 @@ class TileDefault extends PureComponent {
       sharePostOpen: false,
     }
   }
+
+  renderTime = (time) => {
+    if (moment(moment.unix(time)).isValid()) {
+      return moment(moment.unix(time)).fromNow()
+    }
+    return time
+  }
+
   componentDidMount = () => {
     this.setState({ anchorEl: this.refs.share })
   }
@@ -252,8 +264,7 @@ class TileDefault extends PureComponent {
             textStyle={styles.textContainer}
           >
             <p style={styles.timeStamp}>
-              {/** TODO: use renderTime method here **/}
-              {comment.datetime}
+              {this.renderTime(comment.datetime)}
             </p>
           </CardHeader>
 
@@ -344,19 +355,19 @@ class TileDefault extends PureComponent {
     const isComment = buttonType === 'comment'
     const inputType = isComment ? 'commentInput' : 'shareInput'
     return (
-      <div className='input-post-box'>
-        <img src={profileImage} />
-        <textarea
-          type='text'
-          className='search-input'
-          placeholder='Share your thoughts'
-          onChange={this.handleInputOnChange(`${inputType}`)}
-          value={isComment ? commentInput : shareInput}
-          rows='3'
-          style={styles.postInput}
-        />
-
-        <div style={styles.postButton}>
+      <div className='input-post-box comments-tile-container'>
+        <div className='comments-elelemnts'>
+          <img className='comments-image' src={profileImage} />
+          <textarea
+            type='text'
+            className='search-input comments-textarea'
+            placeholder='Share your thoughts'
+            onChange={this.handleInputOnChange(`${inputType}`)}
+            value={isComment ? commentInput : shareInput}
+            rows='3'
+          />
+        </div>
+        <div>
           <PrimaryButton
             label={isComment ? 'Post' : 'Share'}
             onClick={isComment ? this.handleCommentSubmit : () => this.handleShareSubmit(5)}
@@ -426,7 +437,7 @@ class TileDefault extends PureComponent {
                 </div>
               </div>
 
-              <div className='small-4 columns'>
+              <div className='small-4 columns' style={styles.commentIconContainer}>
                 <div
                   className='comments-count'
                 >
@@ -448,9 +459,9 @@ class TileDefault extends PureComponent {
                     onClick={this.handleShareOpen}
                   >
                   <span className='share' ref='share'>
-                    Share
+                    Share {sharedCount}
                   </span>
-                  </a> {sharedCount}
+                  </a>
                 </div>
               </div>
             </div>
