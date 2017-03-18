@@ -1,14 +1,16 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import CameraIcon from 'material-ui/svg-icons/action/camera-enhance'
-import { Posts } from '../../services/api/currentReader'
-import SuggestionList from './SuggestionList'
+import { Posts, Images } from '../../services/api/currentReader'
 import { Search } from '../../services/api'
+import SuggestionList from './SuggestionList'
 import { debounce } from 'lodash'
 import Dropzone from 'react-dropzone'
 import urlParser from 'js-video-url-parser'
 import R from 'ramda'
+import Promise from 'bluebird'
 
+const { uploadImage } = Images
 const { search } = Search
 const { postNewMessage } = Posts
 const mentionPattern = /\B@(?!Reader|Author|Publisher|Book)\w+\s?\w+/gi
@@ -42,6 +44,7 @@ class StatusPost extends PureComponent {
     this.onUploadButtonClick = this.onUploadButtonClick.bind(this)
     this.refreshMentions = this.refreshMentions.bind(this)
     this.getMentions = debounce(this.getMentions, 250)
+    this.onImageDrop = this.onImageDrop.bind(this)
   }
 
   onUploadButtonClick(event) {
@@ -215,6 +218,19 @@ class StatusPost extends PureComponent {
     return null
   }
 
+  onImageDrop(acceptedFiles, rejectedFiles, e) {
+    this.getBase64AndUpdate(acceptedFiles[0], 'postImage')
+  }
+
+  getBase64AndUpdate = (file, imageType) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = () => resolve(reader.result)
+      reader.onerror = (error) => reject(`Error in getBase64: ${error}`)
+    }).then(res => uploadImage({ imageType, file: res }))
+  }
+
   render() {
     const { currentReader } = this.props
     return (
@@ -252,6 +268,9 @@ class StatusPost extends PureComponent {
           <Dropzone
             ref={(node) => { this.dropzone = node }}
             style={{ display: 'none' }}
+            onDrop={this.onImageDrop}
+            multiple={false}
+            maxSize={10485760}
           />
           <textarea
             cols='30'
