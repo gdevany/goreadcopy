@@ -30,10 +30,10 @@ class Achievements extends PureComponent {
       <div>
         <h3> Achievements </h3>
         <div className='sidebar-archivements-container'>
-          {achievements ? this.renderAchievements(R.take(5, achievements)) : null}
+          {achievements ? this.renderAchievements(R.take(10, achievements)) : null}
           {
-            !isCollapsed && achievements.length > 5 ?
-              this.renderAchievements(achievements.slice(5)) : null
+            !isCollapsed && achievements.length > 10 ?
+              this.renderAchievements(achievements.slice(10)) : null
           }
         </div>
         <span
