@@ -186,14 +186,19 @@ class SearchModal extends Component {
       )
     }
     return (
-      <RefreshIndicator
-        size={50}
-        left={70}
-        top={0}
-        loadingColor={Colors.blue}
-        status='loading'
-        style={styles.refresh}
-      />
+      <div>
+        {this.state.searchTerm !== '' ?
+        (
+          <RefreshIndicator
+            size={50}
+            left={70}
+            top={0}
+            loadingColor={Colors.blue}
+            status='loading'
+            style={styles.refresh}
+          />
+        ) : null}
+      </div>
     )
   }
   render() {
@@ -240,6 +245,7 @@ class SearchModal extends Component {
                     placeholder='Search...'
                     onChange={this.handleOnChange('searchTerm')}
                     value={searchTerm}
+                    autoFocus
                   />
                 </div>
               </form>

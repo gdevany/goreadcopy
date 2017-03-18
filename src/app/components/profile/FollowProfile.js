@@ -15,13 +15,13 @@ const { getFollowers, getFollowed, updateFollowed } = Follow
 const styles = {
   chip: {
     backgroundColor: Colors.white,
-    border: `1px solid ${Colors.blue}`,
+    border: `1px solid ${Colors.lightMedGrey}`,
     borderRadius: 25,
-    color: Colors.blue,
+    color: Colors.lightMedGrey,
     cursor: 'pointer',
-    display: 'inline-block',
-    margin: '15px 15px 0px 20px',
-    padding: 5,
+    alignSelf: 'center',
+    padding: '3px 8px',
+    marginTop: 5,
 
     ':hover': {
       backgroundColor: Colors.blue,
@@ -110,13 +110,12 @@ class FollowProfile extends PureComponent {
     const { followingUser } = this.state
     return (
       <Chip
-        className={'chosenFollow'}
         labelStyle={styles.chipText}
         style={styles.chip}
       >
         {
           isCurrentReader ?
-            <a href={editProfile()}> + Edit Profile </a> :
+            <a href={editProfile()}>Edit</a> :
             <a onClick={isViewMyProfile ? this.cantFollow : this.handleFollow}>
               {
                 followingUser ? '(checkmark) Following' : 'Follow'
@@ -156,27 +155,29 @@ class FollowProfile extends PureComponent {
       'followed'
 
     return (
-      <div>
-        <div>
-            <div className='follow-wrapper row center-text'>
-              <div className='followers small-4 columns'>
-                <div
-                  className='profile-link'
-                  onClick={() => this.handleOpen('followers')}
-                >
-                  <span className='small-title'>
-                    Followers
-                  </span>
-                  <br />
-                  <span className='profile-large-text'> {followersCount} </span>
-                </div>
+      <div className='follow-profile-card-container'>
+        <div className='follow-wrapper row center-text'>
+          <div className='follow-profile-card-name-cont small-12 columns'>
+            <h4 className='follow-profile-card-name'>Carlos Sampol</h4>
+          </div>
+          <div className='follows-profile-actions-container small-12 columns'>
+            <div className='followers small-4 columns'>
+              <div
+                className='profile-link'
+                onClick={() => this.handleOpen('followers')}
+              >
+                <span className='small-title'>
+                  Followers
+                </span>
+                <br />
+                <span className='profile-large-text'> {followersCount} </span>
               </div>
-
-              <div className='following small-4 columns'>
-                <div
-                  className='profile-link'
-                  onClick={() => this.handleOpen('following')}
-                >
+            </div>
+            <div className='following small-4 columns'>
+              <div
+                className='profile-link'
+                onClick={() => this.handleOpen('following')}
+              >
                 <div className='profile-link' onClick={() => this.handleOpen('following')}>
                   <span className='small-title'>
                     Following
