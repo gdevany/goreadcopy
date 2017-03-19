@@ -227,7 +227,8 @@ class NavMenu extends PureComponent {
         onMouseLeave={this.handleProfileMenuHide}
       >
         <li className='profile-menu-element'>
-          {currentReader.hasAuthorBuzz || currentReader.hasPublisherBuzz ?
+          {currentReader.hasAuthorBuzz ||
+           (currentReader.hasPublisherBuzz && currentReader.isPublisher) ?
             (
               <div className='publishing-as-container'>
                 <label className='publishing-as-label'>
