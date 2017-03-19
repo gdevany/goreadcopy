@@ -218,7 +218,6 @@ class StatusPost extends PureComponent {
 
   render() {
     const { currentReader } = this.props
-    console.log(this.state)
     return (
       <div className='statuspost'>
         <div className='status-post-text-container'>
