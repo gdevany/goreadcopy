@@ -81,13 +81,15 @@ class StatusPost extends PureComponent {
       lastVideo = videoUrls[videoUrls.length - 1]
       this.setState({
         showVideoPreview: true,
-        videoInfo: urlParser.parse(lastVideo)
+        videoInfo: urlParser.parse(lastVideo),
+        activeContent: lastVideo
       })
       return
     }
     this.setState({
       showVideoPreview: false,
-      videoInfo: null
+      videoInfo: null,
+      activeContent: ''
     })
   }
 
