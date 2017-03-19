@@ -6,10 +6,12 @@ import SuggestionList from './SuggestionList'
 import { Search } from '../../services/api'
 import { debounce } from 'lodash'
 import Dropzone from 'react-dropzone'
+import urlParser from 'js-video-url-parser'
 
 const { search } = Search
 const { postNewMessage } = Posts
 const mentionPattern = /\B@(?!Reader|Author|Publisher|Book)\w+\s?\w+/gi
+const videoPattern = /((https?:\/\/)?(?:www\.)?(?:vimeo|youtu|dailymotion)[:=#\w\.\/\?\-]+)/gi
 
 class StatusPost extends PureComponent {
   constructor(props) {
@@ -21,6 +23,7 @@ class StatusPost extends PureComponent {
       targetId: '',       // ID of the profile
       activeContent: '',  // Filled by liveUrl
       mentionsArray: [],
+      videoInfo: null,
       suggestions: [],
       showSuggestions: false,
       showImagePreview: false,
@@ -63,11 +66,33 @@ class StatusPost extends PureComponent {
   handleChange(event) {
     const { value } = event.target
     const mentions = this.checkMentions(value)
+    this.checkVideoUrl(value)
     this.setState({
       body: value,
       mentions: value,
-      mentionsArray: mentions
+      mentionsArray: mentions,
     })
+  }
+
+  checkVideoUrl(value) {
+    const videoUrls = value.match(videoPattern)
+    let lastVideo
+    if (videoUrls && videoUrls.length > 0) {
+      lastVideo = videoUrls[videoUrls.length - 1]
+      this.setState({
+        showVideoPreview: true,
+        videoInfo: urlParser.parse(lastVideo)
+      })
+      return
+    }
+    this.setState({
+      showVideoPreview: false,
+      videoInfo: null
+    })
+  }
+
+  getVideoData() {
+    this.setState({ showVideoPreview: true })
   }
 
   getMentions(query) {
@@ -77,7 +102,6 @@ class StatusPost extends PureComponent {
       book: query,
       publisher: query
     }
-    console.log('searching')
     search(body)
       .then((res) => this.setState({ suggestions: res.data }))
       .then(() => this.setState({ showSuggestions: true }))
@@ -124,6 +148,42 @@ class StatusPost extends PureComponent {
       textareaOpen: false
     })
   }
+
+  renderVideoPreview() {
+    let embedUrl = ''
+
+    if (this.state.showVideoPreview && this.state.videoInfo) {
+      const { provider, id } = this.state.videoInfo
+      switch (provider) {
+        case 'vimeo':
+          embedUrl = `https://player.vimeo.com/video/${id}`
+          break
+        case 'youtube':
+          embedUrl = `http://www.youtube.com/embed/${id}`
+          break
+        case 'dailymotion':
+          embedUrl = `http://www.dailymotion.com/embed/video/${id}`
+          break
+        default:
+          embedUrl = ''
+      }
+    }
+
+    if (embedUrl !== '') {
+      return (
+        <iframe
+          frameBorder='0'
+          width='400'
+          height='190'
+          src={embedUrl}
+          allowFullScreen
+        />
+      )
+    }
+
+    return null
+  }
+
   render() {
     const { currentReader } = this.props
     return (
@@ -180,6 +240,7 @@ class StatusPost extends PureComponent {
             ) : null
           }
         </div>
+        { this.renderVideoPreview() }
       </div>
     )
   }
