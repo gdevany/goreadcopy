@@ -5,6 +5,7 @@ import { SignUpFlow } from './components/readerOnboarding'
 import IncomingRedirect from './components/incomingRedirect/IncomingRedirect'
 import { HomeWrapper } from './components/home'
 import { Profile } from './components/profile'
+import { Settings } from './components/settings'
 import { Auth } from './services'
 
 const isUserLoggedIn = Auth.currentUserExists()
@@ -15,6 +16,7 @@ const Routes = (
     {/** when current_reader viewing their own profile **/}
     <Route path='/my_profile' component={Profile} />
     {/** when current_reader is viewing someone else's profile **/}
+    <Route path='/profile/settings' component={Settings} />
     <Route path='/profile/:slug' component={Profile} />
     <Route path='/signup' component={SignUpFlow} />
     <Route path='/redirect' component={IncomingRedirect} />
