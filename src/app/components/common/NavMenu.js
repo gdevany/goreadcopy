@@ -256,7 +256,7 @@ class NavMenu extends PureComponent {
                       </li>
                     ) : null
                   }
-                  {currentReader.hasPublisherBuzz ? (
+                  {currentReader.hasPublisherBuzz && currentReader.isPublisher ? (
                     <li className='publishing-as-list'>
                       <a
                         onClick={() => this.handlePlatformUse('publisher')}
