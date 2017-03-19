@@ -7,6 +7,7 @@ import { Search } from '../../services/api'
 import { debounce } from 'lodash'
 import Dropzone from 'react-dropzone'
 import urlParser from 'js-video-url-parser'
+import R from 'ramda'
 
 const { search } = Search
 const { postNewMessage } = Posts
@@ -22,7 +23,8 @@ class StatusPost extends PureComponent {
       image: '',          // ID of the image
       targetId: '',       // ID of the profile
       activeContent: '',  // Filled by liveUrl
-      mentionsArray: [],
+      onProcessMentions: [],
+      processedMentions: [],
       videoInfo: null,
       suggestions: [],
       showSuggestions: false,
@@ -30,7 +32,7 @@ class StatusPost extends PureComponent {
       showVideoPreview: false,
       textareaOpen: false,
     }
-    this.handleChange = this.handleChange.bind(this)
+    this.handleTextChange = this.handleTextChange.bind(this)
     this.checkMentions = this.checkMentions.bind(this)
     this.replaceMention = this.replaceMention.bind(this)
     this.handleSuggestionClick = this.handleSuggestionClick.bind(this)
@@ -38,6 +40,7 @@ class StatusPost extends PureComponent {
     this.handleTextAreaClick = this.handleTextAreaClick.bind(this)
     this.handleTextAreaClose = this.handleTextAreaClose.bind(this)
     this.onUploadButtonClick = this.onUploadButtonClick.bind(this)
+    this.refreshMentions = this.refreshMentions.bind(this)
     this.getMentions = debounce(this.getMentions, 250)
   }
 
@@ -63,80 +66,107 @@ class StatusPost extends PureComponent {
     })
   }
 
-  handleChange(event) {
-    const { value } = event.target
-    const mentions = this.checkMentions(value)
-    this.checkVideoUrl(value)
+  handleTextChange(event) {
+    const body = event.target.value
+    const { showSuggestions, onProcessMentions } = this.checkMentions(body)
+    const { activeContent, videoInfo, showVideoPreview } = this.checkVideoUrl(body)
+    const {
+      processedMentions,
+      mentions
+    } = this.refreshMentions(body, this.state.processedMentions)
     this.setState({
-      body: value,
-      mentions: value,
-      mentionsArray: mentions,
+      body,
+      mentions,
+      activeContent,
+      onProcessMentions,
+      processedMentions,
+      videoInfo,
+      showVideoPreview,
+      showSuggestions,
     })
   }
 
-  checkVideoUrl(value) {
-    const videoUrls = value.match(videoPattern)
-    let lastVideo
-    if (videoUrls && videoUrls.length > 0) {
-      lastVideo = videoUrls[videoUrls.length - 1]
-      this.setState({
-        showVideoPreview: true,
-        videoInfo: urlParser.parse(lastVideo),
-        activeContent: lastVideo
-      })
-      return
+  checkMentions(latestBody) {
+    const result = {
+      showSuggestions: false,
+      onProcessMentions: latestBody.match(mentionPattern)
     }
-    this.setState({
-      showVideoPreview: false,
-      videoInfo: null,
-      activeContent: ''
-    })
+    if (result.onProcessMentions && result.onProcessMentions.length > 0) {
+      this.getMentions(R.last(result.onProcessMentions).replace('@', ''))
+    }
+    return result
   }
 
-  getVideoData() {
-    this.setState({ showVideoPreview: true })
+  checkVideoUrl(latestBody) {
+    const videoUrls = latestBody.match(videoPattern)
+    let activeContent = '', videoInfo = {}, showVideoPreview = false
+    if (videoUrls && videoUrls.length > 0) {
+      activeContent = R.last(videoUrls)
+      videoInfo = urlParser.parse(activeContent)
+      showVideoPreview = true
+    }
+    return {
+      activeContent,
+      videoInfo,
+      showVideoPreview
+    }
   }
 
   getMentions(query) {
-    const body = {
+    search({
       author: query,
       reader: query,
       book: query,
       publisher: query
-    }
-    search(body)
-      .then((res) => this.setState({ suggestions: res.data }))
-      .then(() => this.setState({ showSuggestions: true }))
-  }
-
-  checkMentions(value) {
-    const mentions = value.match(mentionPattern)
-    if (mentions && mentions.length > 0) {
-      this.getMentions(mentions[mentions.length - 1].replace('@', ''))
-      return mentions
-    }
-    this.setState({ showSuggestions: false })
-    return []
+    }).then((res) => this.setState({
+      suggestions: res.data,
+      showSuggestions: true
+    }))
   }
 
   handleSuggestionClick(event) {
     event.stopPropagation()
     const { type, display, contenttype, id } = event.target.dataset
-    this.replaceMention(type, display, contenttype, id)
-  }
-
-  replaceMention(type, display, contentType, id) {
-    const { body, mentionsArray } = this.state
-    const lastMention = mentionsArray[mentionsArray.length - 1]
-    const updatedBody = body.replace(lastMention, `@${type}:${display} `)
-    const updatedMentions = body.replace(lastMention, `@[${contentType}:${id}] `)
-    this.checkMentions(updatedBody)
+    const body = this.replaceMention(type, display, contenttype, id)
+    const { showSuggestions, onProcessMentions } = this.checkMentions(body)
+    const { processedMentions, mentions } = this.refreshMentions(body, R.concat(
+      this.state.processedMentions,
+      [{
+        display: `@${type}:${display}`,
+        mention: `@[${contenttype}:${id}]`
+      }]
+    ))
     this.setState({
-      body: updatedBody,
-      mentions: updatedMentions,
+      body,
+      mentions,
+      processedMentions,
+      showSuggestions,
+      onProcessMentions,
     })
     this.refs.statuspost.focus()
   }
+
+  refreshMentions(updatedBody, updatedProcessedMentions) {
+    let processedMentions = R.clone(updatedProcessedMentions)
+    let mentions = updatedBody
+    // Beware of indexOf 0 in the next line
+    processedMentions = processedMentions.filter((el) => mentions.indexOf(el.display) >= 0)
+    processedMentions.map(function (el) {
+      mentions = mentions.replace(el.display, el.mention)
+    })
+    return {
+      processedMentions,
+      mentions
+    }
+  }
+
+  replaceMention(type, display, contentType, id) {
+    const { body, onProcessMentions } = this.state
+    const lastMention = R.last(onProcessMentions)
+    const updatedBody = body.replace(lastMention, `@${type}:${display} `)
+    return updatedBody
+  }
+
   handleTextAreaClick = (event) => {
     event.preventDefault()
     this.setState({
@@ -188,6 +218,7 @@ class StatusPost extends PureComponent {
 
   render() {
     const { currentReader } = this.props
+    console.log(this.state)
     return (
       <div className='statuspost'>
         <div className='status-post-text-container'>
@@ -232,7 +263,7 @@ class StatusPost extends PureComponent {
               'status-post-textarea-open' : 'status-post-textarea'}
             placeholder='Type inside me'
             onClick={this.handleTextAreaClick}
-            onChange={this.handleChange} value={this.state.body}
+            onChange={this.handleTextChange} value={this.state.body}
           />
           {this.state.showSuggestions ?
             (<SuggestionList
