@@ -61,7 +61,7 @@
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      flex-direction: column;      
+      flex-direction: column;
       margin-bottom: 1em;
       width: 100%;
       .profile-editor-section-title{
@@ -77,31 +77,65 @@
         text-align: left;
       }
     }
-    .profile-foto-actions-container{
+    .profile-photo-actions-container{
       display: flex;
       justify-content: flex-start;
       align-items: flex-start;
       flex-direction: row;
       align-self: flex-start;
-      .profile-photo-editor-figure{
-        width: 100%;
-        max-width: 200px;
-        margin-right: 1em;
-        img{
+      .dropzone-settings-page{
+        display: flex;
+        .profile-photo-editor-figure{
           width: 100%;
-          border-radius: 5px;
+          max-width: 200px;
+          margin-right: 1em;
+          img{
+            width: 100%;
+            border-radius: 5px;
+          }
+        }
+        .profile-photo-upload-btn{
+          background-color: rgb(0, 66, 214);
+          border: 1px solid rgb(0, 66, 214);
+          color: rgb(255, 255, 255);
+          border-radius: 25px;
+          font-size: 16px;
+          padding: 15px 30px;
+          height: 55px;
+        }
+        .background-photo-editor-figure{
+          max-width: 400px;
+          margin-right: 1em;
+          img{
+            width: 100%;
+            border-radius: 5px;
+          }
         }
       }
-      .background-photo-editor-figure{
-        max-width: 400px;
-        margin-right: 1em;
-        img{
-          width: 100%;
-          border-radius: 5px;
+    }
+    .profile-editor-genres-container{
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      width: 100%;
+      flex-direction: column;
+      .profile-editor-mapped-genres-container{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+        max-width: 600px;
+        .profile-editor-single-genre{
+          display: flex;
+          border: solid 1px $blue;
+          border-radius: 35px;
+          padding: 1em 1.5em;
+          margin: .25em;
         }
       }
-      .action-button{
-        margin-left: 1em;
+      .profile-editor-add-genres{
+        margin-top: 1em;
+        display: block;
       }
     }
     .profile-edidor-quote-container{
@@ -120,7 +154,6 @@
       }
       .profile-editor-favorite-quote-textarea{
         width: 100%;
-        height: 200px;
         padding: 1em;
         resize: none;
         overflow: scroll;
@@ -173,5 +206,6 @@
 
 .profile-editor-form-input{
   border-radius: 5px;
-  padding: .5em;
+  height: auto;
+  padding: 1em;
 }

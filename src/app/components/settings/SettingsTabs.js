@@ -1,11 +1,16 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { Images } from '../../redux/actions'
 import PrimaryButton from '../common/PrimaryButton'
 import Toggle from 'material-ui/Toggle'
 import { Colors } from '../../constants/style'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import FileDownloadIcon from 'material-ui/svg-icons/file/file-download'
+import Dropzone from 'react-dropzone'
+import Promise from 'bluebird'
+
+const { uploadImage } = Images
 
 const styles = {
   lableStyle: {
@@ -22,7 +27,7 @@ const styles = {
   },
   selectStyles: {
     width: '100%'
-  }
+  },
 }
 
 class SettingsTabs extends PureComponent {
@@ -33,8 +38,11 @@ class SettingsTabs extends PureComponent {
       tabOneOpen: true,
       tabTwoOpen: false,
       tabThreeOpen: false,
+      profileImageUpload: null,
+      hasProfileImage: false,
+      backgroundImageUpload: null,
+      hasBackgroundImage: false,
     }
-
     this.handleButtonClick = this.handleButtonClick.bind(this)
   }
 
@@ -67,8 +75,104 @@ class SettingsTabs extends PureComponent {
     console.log('Click on ImageUpload')
   }
 
+  profileUpload = (file) => {
+    this.setState({
+      hasProfileImage: false,
+      profileImageUpload: file
+    })
+    this.getBase64AndUpdate(file[0], 'profileImage')
+  }
+
+  backgroundUpload = (file) => {
+    this.setState({
+      backgroundImageUpload: file,
+      hasBackgroundImage: false
+    })
+    this.getBase64AndUpdate(file[0], 'backgroundImage')
+  }
+
+  getBase64AndUpdate = (file, imageType) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = () => resolve(reader.result)
+      reader.onerror = (error) => reject(`Error in getBase64: ${error}`)
+    }).then(res => this.props.uploadImage({ imageType, file: res }))
+  }
+
+  renderImage = (image, upload) => {
+    return (
+      <figure className='profile-photo-editor-figure'>
+        <img
+          src={upload ? upload[0].preview : image}
+          key='profile-image'
+        />
+      </figure>
+    )
+  }
+
+  renderBackground = (image, upload) => {
+    return (
+      <figure className='background-photo-editor-figure'>
+        <img
+          src={upload ? upload[0].preview : image}
+          key='background-image'
+        />
+      </figure>
+    )
+  }
+
+  mapAddedGenres = () => {
+    const { currentReader } = this.props
+    if (currentReader.genreIds) {
+      return currentReader.genreIds.map((genre, index) => {
+        return (
+          <a
+            key={`${genre.id}_${genre.name}`}
+            className='profile-editor-single-genre'
+          >
+            {genre.name}
+          </a>
+        )
+      })
+    }
+    return null
+  }
+
+  mapFavoriteQuotes = () => {
+    const { currentReader } = this.props
+    if (currentReader.favoriteQuotes) {
+      return currentReader.favoriteQuotes.map((quote, index) => {
+        if (quote) {
+          return (
+            <div
+              key={`${quote}_${index}`}
+              className='profile-edidor-quote-container'
+            >
+              <h5 className='profile-editor-favorite-quotes-num'>
+                Favorite Quoute #{index + 1}
+              </h5>
+              <textarea
+                className='profile-editor-favorite-quote-textarea'
+                defaultValue={quote}
+              />
+            </div>
+          )
+        }
+        return null
+      })
+    }
+    return null
+  }
+
   renderTabOne = () => {
     const { currentReader } = this.props
+    const { profileImageUpload, backgroundImageUpload } = this.state
+    const getImage = currentReader.profileImage || profileImageUpload ?
+      this.renderImage(currentReader.profileImage, profileImageUpload) : null
+    const getBackgroundImage = currentReader.backgroundImage || backgroundImageUpload ?
+      this.renderBackground(currentReader.backgroundImage, backgroundImageUpload) : null
+
     return (
       <article className='settings-single-tab-content small-12 columns small-centered'>
         <div className='settings-section-title-container'>
@@ -76,54 +180,59 @@ class SettingsTabs extends PureComponent {
         </div>
         <div className='profile-editor-section-container'>
           <h4 className='profile-editor-section-title' >Profile Photo</h4>
-          <div className='profile-foto-actions-container'>
-            <figure className='profile-photo-editor-figure'>
-              <img src={currentReader.profileImage}/>
-            </figure>
-            <PrimaryButton
-              label='+ Upload'
-              onClick={this.handleButtonClick}
-            />
+          <div className='profile-photo-actions-container'>
+            <Dropzone
+              onDrop={this.profileUpload}
+              className='dropzone-settings-page'
+            >
+              {getImage}
+              <a
+                className='profile-photo-upload-btn'
+                onClick={this.profileUpload}
+              >
+                + Upload
+              </a>
+            </Dropzone>
           </div>
         </div>
         <div className='profile-editor-section-container'>
           <h4 className='profile-editor-section-title' >Cover Photo</h4>
-          <div className='profile-foto-actions-container'>
-            <figure className='background-photo-editor-figure'>
-              <img src={currentReader.backgroundImage}/>
-            </figure>
-            <PrimaryButton
-              label='+ Upload'
-              onClick={this.handleButtonClick}
-            />
+          <div className='profile-photo-actions-container'>
+            <Dropzone
+              onDrop={this.backgroundUpload}
+              className='dropzone-settings-page'
+            >
+              {getBackgroundImage}
+              <a
+                className='profile-photo-upload-btn'
+                onClick={this.backgroundUpload}
+              >
+                + Upload
+              </a>
+            </Dropzone>
           </div>
         </div>
         <div className='profile-editor-section-container'>
           <h4 className='profile-editor-section-title'>
             Favorite genres
           </h4>
-          <a onClick={this.handleButtonClick}>
-            + Add or edit genres
-          </a>
+          <div className='profile-editor-genres-container'>
+            <div className='profile-editor-mapped-genres-container'>
+              {this.mapAddedGenres()}
+            </div>
+            <a
+              className='profile-editor-add-genres'
+              onClick={this.handleButtonClick}
+            >
+              + Add or edit genres
+            </a>
+          </div>
         </div>
         <div className='profile-editor-section-container'>
           <h4 className='profile-editor-section-title'>
             Favorite Quoutes
           </h4>
-          <div className='profile-edidor-quote-container'>
-            <h5 className='profile-editor-favorite-quotes-num'>
-              Favorite Quoute #1
-            </h5>
-            <textarea className='profile-editor-favorite-quote-textarea'>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat null
-              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-              culpa qui officia deserunt mollit anim id est laborum.
-            </textarea>
-          </div>
+          {this.mapFavoriteQuotes()}
           <a
             onClick={this.handleButtonClick}
           >
@@ -326,6 +435,7 @@ class SettingsTabs extends PureComponent {
   }
 
   renderTabThree = () => {
+    const { currentReader } = this.props
     return (
       <article className='settings-single-tab-content small-8 columns small-centered'>
         <div className='settings-section-title-container'>
@@ -344,6 +454,7 @@ class SettingsTabs extends PureComponent {
             <Toggle
               label='Facebook'
               labelPosition='left'
+              defaultToggled={currentReader.autopostFacebook}
               labelStyle={styles.lableStyle}
               style={styles.elementStyle}
               thumbSwitchedStyle={styles.thumbSwitched}
@@ -352,6 +463,7 @@ class SettingsTabs extends PureComponent {
             <Toggle
               label='Twitter'
               labelPosition='left'
+              defaultToggled={currentReader.autopostTwitter}
               labelStyle={styles.lableStyle}
               style={styles.elementStyle}
               thumbSwitchedStyle={styles.thumbSwitched}
@@ -370,6 +482,7 @@ class SettingsTabs extends PureComponent {
             <Toggle
               label='I receive a new follower'
               labelPosition='left'
+              defaultToggled={currentReader.notifyFollow}
               labelStyle={styles.lableStyle}
               style={styles.elementStyle}
               thumbSwitchedStyle={styles.thumbSwitched}
@@ -378,6 +491,7 @@ class SettingsTabs extends PureComponent {
             <Toggle
               label='Someone writes on my wall'
               labelPosition='left'
+              defaultToggled={currentReader.notifyWall}
               labelStyle={styles.lableStyle}
               style={styles.elementStyle}
               thumbSwitchedStyle={styles.thumbSwitched}
@@ -386,6 +500,7 @@ class SettingsTabs extends PureComponent {
             <Toggle
               label='Someone mentions me in a post'
               labelPosition='left'
+              defaultToggled={currentReader.notifyMention}
               labelStyle={styles.lableStyle}
               style={styles.elementStyle}
               thumbSwitchedStyle={styles.thumbSwitched}
@@ -394,6 +509,7 @@ class SettingsTabs extends PureComponent {
             <Toggle
               label='Someone shares my Personal Library'
               labelPosition='left'
+              defaultToggled={currentReader.notifyShared}
               labelStyle={styles.lableStyle}
               style={styles.elementStyle}
               thumbSwitchedStyle={styles.thumbSwitched}
@@ -402,6 +518,7 @@ class SettingsTabs extends PureComponent {
             <Toggle
               label='Receive emails from authors i follow'
               labelPosition='left'
+              defaultToggled={currentReader.receiveAuthorEmail}
               labelStyle={styles.lableStyle}
               style={styles.elementStyle}
               thumbSwitchedStyle={styles.thumbSwitched}
@@ -532,4 +649,4 @@ const mapStateToProps = (state) => {
     currentReader: state.currentReader
   }
 }
-export default connect(mapStateToProps, null)(SettingsTabs)
+export default connect(mapStateToProps, { uploadImage })(SettingsTabs)
