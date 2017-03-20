@@ -5,6 +5,7 @@ import Toggle from 'material-ui/Toggle'
 import { Colors } from '../../constants/style'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
+import FileDownloadIcon from 'material-ui/svg-icons/file/file-download'
 
 const styles = {
   lableStyle: {
@@ -192,21 +193,21 @@ class SettingsTabs extends PureComponent {
                   <span className='form-label'> First Name</span>
                   <input
                     type='text'
-                    className='form-input'
+                    className='form-input profile-editor-form-input'
                   />
                 </div>
                 <div className='small-12 columns'>
                   <span className='form-label'> Last Name</span>
                   <input
                     type='text'
-                    className='form-input'
+                    className='form-input profile-editor-form-input'
                   />
                 </div>
                 <div className='small-12 columns'>
                   <span className='form-label'>Email</span>
                   <input
                     type='email'
-                    className='form-input'
+                    className='form-input profile-editor-form-input'
                   />
                 </div>
               </div>
@@ -339,6 +340,24 @@ class SettingsTabs extends PureComponent {
           <p className='settings-section-subtitle'>
             Post my activity to my connected
           </p>
+          <div className='settings-setion-toggle-container'>
+            <Toggle
+              label='Facebook'
+              labelPosition='left'
+              labelStyle={styles.lableStyle}
+              style={styles.elementStyle}
+              thumbSwitchedStyle={styles.thumbSwitched}
+              trackSwitchedStyle={styles.trackSwitched}
+            />
+            <Toggle
+              label='Twitter'
+              labelPosition='left'
+              labelStyle={styles.lableStyle}
+              style={styles.elementStyle}
+              thumbSwitchedStyle={styles.thumbSwitched}
+              trackSwitchedStyle={styles.trackSwitched}
+            />
+          </div>
         </div>
         <div className='profile-editor-section-container'>
           <h4 className='profile-editor-section-title' >
@@ -347,6 +366,48 @@ class SettingsTabs extends PureComponent {
           <p className='settings-section-subtitle'>
             Notify me by email when:
           </p>
+          <div className='settings-setion-toggle-container'>
+            <Toggle
+              label='I receive a new follower'
+              labelPosition='left'
+              labelStyle={styles.lableStyle}
+              style={styles.elementStyle}
+              thumbSwitchedStyle={styles.thumbSwitched}
+              trackSwitchedStyle={styles.trackSwitched}
+            />
+            <Toggle
+              label='Someone writes on my wall'
+              labelPosition='left'
+              labelStyle={styles.lableStyle}
+              style={styles.elementStyle}
+              thumbSwitchedStyle={styles.thumbSwitched}
+              trackSwitchedStyle={styles.trackSwitched}
+            />
+            <Toggle
+              label='Someone mentions me in a post'
+              labelPosition='left'
+              labelStyle={styles.lableStyle}
+              style={styles.elementStyle}
+              thumbSwitchedStyle={styles.thumbSwitched}
+              trackSwitchedStyle={styles.trackSwitched}
+            />
+            <Toggle
+              label='Someone shares my Personal Library'
+              labelPosition='left'
+              labelStyle={styles.lableStyle}
+              style={styles.elementStyle}
+              thumbSwitchedStyle={styles.thumbSwitched}
+              trackSwitchedStyle={styles.trackSwitched}
+            />
+            <Toggle
+              label='Receive emails from authors i follow'
+              labelPosition='left'
+              labelStyle={styles.lableStyle}
+              style={styles.elementStyle}
+              thumbSwitchedStyle={styles.thumbSwitched}
+              trackSwitchedStyle={styles.trackSwitched}
+            />
+          </div>
         </div>
         <div className='profile-editor-section-container'>
           <h4 className='profile-editor-section-title' >
@@ -356,16 +417,62 @@ class SettingsTabs extends PureComponent {
             Unlock express logins and showcase your online presense
             by connecting your other social media accouns
           </p>
+          <div className='settings-setion-toggle-container'>
+            <Toggle
+              label='Facebook'
+              labelPosition='left'
+              labelStyle={styles.lableStyle}
+              style={styles.elementStyle}
+              thumbSwitchedStyle={styles.thumbSwitched}
+              trackSwitchedStyle={styles.trackSwitched}
+            />
+            <Toggle
+              label='Twitter'
+              labelPosition='left'
+              labelStyle={styles.lableStyle}
+              style={styles.elementStyle}
+              thumbSwitchedStyle={styles.thumbSwitched}
+              trackSwitchedStyle={styles.trackSwitched}
+            />
+            <Toggle
+              label='Linkedin'
+              labelPosition='left'
+              labelStyle={styles.lableStyle}
+              style={styles.elementStyle}
+              thumbSwitchedStyle={styles.thumbSwitched}
+              trackSwitchedStyle={styles.trackSwitched}
+            />
+            <Toggle
+              label='Google +'
+              labelPosition='left'
+              labelStyle={styles.lableStyle}
+              style={styles.elementStyle}
+              thumbSwitchedStyle={styles.thumbSwitched}
+              trackSwitchedStyle={styles.trackSwitched}
+            />
+          </div>
         </div>
         <div className='profile-editor-section-container'>
           <h4 className='profile-editor-section-title' >
             Import Books to Library
           </h4>
+          <div className='profile-editor-action-container'>
+            <a className='profile-editor-section-main-action'>
+              <FileDownloadIcon />
+              Import from Goodreads
+            </a>
+          </div>
         </div>
         <div className='profile-editor-section-container'>
           <h4 className='profile-editor-section-title' >
             Scan Books To Library
           </h4>
+          <div className='profile-editor-action-container'>
+            <a className='profile-editor-section-main-action'>
+              <FileDownloadIcon />
+              Import from Goodreads
+            </a>
+          </div>
         </div>
 
       </article>
