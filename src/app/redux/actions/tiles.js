@@ -4,9 +4,9 @@ import ReaderTiles from '../../services/api/tiles'
 //import { Promise } from '../../services'
 import R from 'ramda'
 
-export function getReadFeedTiles(page) {
+export function getReadFeedTiles({ adsense, lastAd, timestamp }) {
   return dispatch => {
-    CurrentReaderTiles.getReadFeedTiles({ page })
+    CurrentReaderTiles.getReadFeedTiles({ adsense, lastAd, timestamp })
     .then(res => dispatch({ type: A.GET_READFEED_TILES, payload: res.data.results }))
     .catch(err => console.error(`Error in getReadFeedTiles: ${err}`))
   }
