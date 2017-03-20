@@ -12,7 +12,7 @@ const {
 
 const Tiles = () => {
   return {
-    getReadFeedTiles: (body) => authenticated().get(getReadFeedTiles(), body),
+    getReadFeedTiles: (body) => authenticated().get(getReadFeedTiles(body)),
     getAnnouncements: () => authenticated().get(getLatestAnnouncement()),
     dismissAnnouncement: (body) => authenticated().post(dismissAnnouncement(), body),
   }
