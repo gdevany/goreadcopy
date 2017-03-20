@@ -29,7 +29,7 @@ const Endpoints = () => {
       deleteSocialAccount: (id) => apiUrl(`socialaccounts/${id}`),
       getLatestAnnouncement: () => apiUrl('current_reader/latest_announcement'),
       dismissAnnouncement: (params) => apiUrl('current_reader/dismiss_announcement', params),
-      getReadFeedTiles: () => apiUrl('current_reader/activities'),
+      getReadFeedTiles: (params) => apiUrl('current_reader/activities', params),
       likedGenres: (params) => apiUrl('current_reader/liked_genres', params),
       likedReaders: (params) => apiUrl('current_reader/liked_readers', params),
       likedAuthors: (params) => apiUrl('current_reader/liked_authors', params),

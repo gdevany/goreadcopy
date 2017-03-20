@@ -7,7 +7,7 @@ export default (state = initialState.tiles, { type, payload, errors }) => {
     case A.GET_READFEED_TILES:
       return {
         ...state,
-        readFeed: payload
+        readFeed: R.concat(state.readFeed || [], payload)
       }
     case B.GET_PROFILE_TILES:
       return {
