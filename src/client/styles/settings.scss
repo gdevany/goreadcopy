@@ -42,32 +42,41 @@
   }
 }
 
-.settings-single-tab-content{
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  flex-direction: column;
-  padding: 1em;
-  .settings-section-title-container{
-    padding: 1em;
-    .settings-section-title{
-      font-size: 26px;
-      font-weight: 600;
-    }
-  }
-  .profile-photo-editor-container{
+.settings-main-content{
+  min-width: 600px;
+  .settings-single-tab-content{
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: column;
     padding: 1em;
-    margin-bottom: 1em;
-    width: 100%;
-    .profile-photo-title{
-      font-size: 22px;
-      font-weight: 600;
-      text-align: left;
+    .settings-section-title-container{
+      .settings-section-title{
+        font-size: 28px;
+        font-weight: 600;
+        text-align: left;
+      }
+    }
+    .profile-editor-section-container{
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: column;
+      padding: 1em 0;
+      margin-bottom: 1em;
       width: 100%;
+      .profile-editor-section-title{
+        font-size: 22px;
+        font-weight: 600;
+        text-align: left;
+        width: 100%;
+      }
+      .settings-section-subtitle{
+        font-size: 18px;
+        width: 100%;
+        color: $light-med-grey;
+        text-align: left;
+      }
     }
     .profile-foto-actions-container{
       display: flex;
@@ -85,7 +94,7 @@
         }
       }
       .background-photo-editor-figure{
-        width: 400px;                
+        max-width: 400px;
         margin-right: 1em;
         img{
           width: 100%;
@@ -95,26 +104,6 @@
       .action-button{
         margin-left: 1em;
       }
-    }
-  }
-  .profile-editor-favorite-genres{
-    width: 100%;
-    margin-bottom: 2em;
-    .profile-editor-favorite-genres-title{
-      font-size: 22px;
-      font-weight: 600;
-      text-align: left;
-      width: 100%;
-    }
-  }
-  .profile-editor-favorite-quotes{
-    width: 100%;
-    margin-bottom: 2em;
-    .profile-editor-favorite-quotes-title{
-      font-size: 22px;
-      font-weight: 600;
-      text-align: left;
-      width: 100%;
     }
     .profile-edidor-quote-container{
       display: flex;
@@ -140,15 +129,32 @@
         line-height: inherit;
       }
     }
-  }
-  .profile-editor-socialmedia-accounts{
-    width: 100%;
-    margin-bottom: 2em;
-    .profile-editor-favorite-socialmedia-title{
-      font-size: 22px;
-      font-weight: 600;
-      text-align: left;
+    .editor-favorite-socialmedia-container{
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
       width: 100%;
+      .profile-editor-save-btn-container{
+        align-self: center;
+        text-align: center;
+      }
+    }
+    .profile-editor-form-container{
+      width: 100%;
+      .profile-editor-form{
+        width: 100%;
+      }
+    }
+    .shipping-form-container{
+      width: 100%;
+      margin-bottom: 2em;
+      padding: 1em 0;
     }
   }
+}
+
+.profile-editor-form-input{
+  border-radius: 5px;
+  padding: .5em;
 }

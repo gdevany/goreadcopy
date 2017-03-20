@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import PrimaryButton from '../common/PrimaryButton'
 import Toggle from 'material-ui/Toggle'
 import { Colors } from '../../constants/style'
+import SelectField from 'material-ui/SelectField'
+import MenuItem from 'material-ui/MenuItem'
 
 const styles = {
   lableStyle: {
@@ -17,6 +19,9 @@ const styles = {
   trackSwitched: {
     backgroundColor: '#d3ebfb',
   },
+  selectStyles: {
+    width: '100%'
+  }
 }
 
 class SettingsTabs extends PureComponent {
@@ -68,8 +73,8 @@ class SettingsTabs extends PureComponent {
         <div className='settings-section-title-container'>
           <h3 className='settings-section-title'>Edit my Profile</h3>
         </div>
-        <div className='profile-photo-editor-container'>
-          <h4 className='profile-photo-title' >Profile Photo</h4>
+        <div className='profile-editor-section-container'>
+          <h4 className='profile-editor-section-title' >Profile Photo</h4>
           <div className='profile-foto-actions-container'>
             <figure className='profile-photo-editor-figure'>
               <img src={currentReader.profileImage}/>
@@ -80,8 +85,8 @@ class SettingsTabs extends PureComponent {
             />
           </div>
         </div>
-        <div className='profile-photo-editor-container'>
-          <h4 className='profile-photo-title' >Cover Photo</h4>
+        <div className='profile-editor-section-container'>
+          <h4 className='profile-editor-section-title' >Cover Photo</h4>
           <div className='profile-foto-actions-container'>
             <figure className='background-photo-editor-figure'>
               <img src={currentReader.backgroundImage}/>
@@ -92,16 +97,16 @@ class SettingsTabs extends PureComponent {
             />
           </div>
         </div>
-        <div className='profile-editor-favorite-genres'>
-          <h4 className='profile-editor-favorite-genres-title'>
+        <div className='profile-editor-section-container'>
+          <h4 className='profile-editor-section-title'>
             Favorite genres
           </h4>
           <a onClick={this.handleButtonClick}>
             + Add or edit genres
           </a>
         </div>
-        <div className='profile-editor-favorite-quotes'>
-          <h4 className='profile-editor-favorite-quotes-title'>
+        <div className='profile-editor-section-container'>
+          <h4 className='profile-editor-section-title'>
             Favorite Quoutes
           </h4>
           <div className='profile-edidor-quote-container'>
@@ -124,8 +129,8 @@ class SettingsTabs extends PureComponent {
             + Add favorite quoute
           </a>
         </div>
-        <div className='profile-editor-socialmedia-accounts'>
-          <h4 className='profile-editor-favorite-socialmedia-title'>
+        <div className='profile-editor-section-container'>
+          <h4 className='profile-editor-section-title'>
             Show my social media accounts
           </h4>
           <div className='editor-favorite-socialmedia-container'>
@@ -162,10 +167,12 @@ class SettingsTabs extends PureComponent {
               trackSwitchedStyle={styles.trackSwitched}
             />
           </div>
-          <PrimaryButton
-            label='Save'
-            onClick={this.handleButtonClick}
-          />
+          <div className='profile-editor-save-btn-container'>
+            <PrimaryButton
+              label='Save'
+              onClick={this.handleButtonClick}
+            />
+          </div>
         </div>
       </article>
     )
@@ -173,16 +180,194 @@ class SettingsTabs extends PureComponent {
 
   renderTabTwo = () => {
     return (
-      <article className='settings-single-tab-content small-12 columns small-centered'>
-        Tab 2
+      <article className='settings-single-tab-content small-10 columns small-centered'>
+        <div className='settings-section-title-container'>
+          <h3 className='settings-section-title'>Edit personal info</h3>
+        </div>
+        <div className='profile-editor-section-container'>
+          <div className='profile-editor-form-container'>
+            <form className='profile-editor-form'>
+              <div className='row'>
+                <div className='small-12 columns'>
+                  <span className='form-label'> First Name</span>
+                  <input
+                    type='text'
+                    className='form-input'
+                  />
+                </div>
+                <div className='small-12 columns'>
+                  <span className='form-label'> Last Name</span>
+                  <input
+                    type='text'
+                    className='form-input'
+                  />
+                </div>
+                <div className='small-12 columns'>
+                  <span className='form-label'>Email</span>
+                  <input
+                    type='email'
+                    className='form-input'
+                  />
+                </div>
+              </div>
+              <div className='row'>
+                <div className='small-6 columns'>
+                  <span className='form-label'>Gender</span>
+                  <SelectField
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                    style={styles.selectStyles}
+                  >
+                    <MenuItem value={false} primaryText='Male' />
+                    <MenuItem value={true} primaryText='Female' />
+                  </SelectField>
+                </div>
+              </div>
+              <div className='row'>
+                <div className='small-12 columns'>
+                  <span className='form-label'>Your Birthday</span>
+                </div>
+                <div className='small-4 columns'>
+                  <SelectField
+                    floatingLabelText='Month'
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                    style={styles.selectStyles}
+                  >
+                    <MenuItem value={false} primaryText='Male' />
+                    <MenuItem value={true} primaryText='Female' />
+                  </SelectField>
+                </div>
+                <div className='small-4 columns'>
+                  <SelectField
+                    floatingLabelText='Day'
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                    style={styles.selectStyles}
+                  >
+                    <MenuItem value={false} primaryText='Male' />
+                    <MenuItem value={true} primaryText='Female' />
+                  </SelectField>
+                </div>
+                <div className='small-4 columns'>
+                  <SelectField
+                    floatingLabelText='Year'
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                    style={styles.selectStyles}
+                  >
+                    <MenuItem value={false} primaryText='Male' />
+                    <MenuItem value={true} primaryText='Female' />
+                  </SelectField>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div className='profile-editor-section-container'>
+          <h4 className='profile-editor-section-title' >Shipping Address</h4>
+          <div className='shipping-form-container'>
+            <form className='shipping-form' action=''>
+              <div className='row'>
+                <div className='small-12 columns'>
+                  <span className='form-label'>Address</span>
+                  <input
+                    type='text'
+                    className='form-input profile-editor-form-input'
+                  />
+                </div>
+                <div className='small-12 columns'>
+                  <span className='form-label'>Address Line 2 *optional</span>
+                  <input
+                    type='text'
+                    className='form-input profile-editor-form-input'
+                  />
+                </div>
+              </div>
+              <div className='row'>
+                <div className='small-5 columns'>
+                  <span className='form-label'>City</span>
+                  <input
+                    type='text'
+                    className='form-input profile-editor-form-input'
+                  />
+                </div>
+                <div className='small-3 columns'>
+                  <SelectField
+                    floatingLabelText='State'
+                    onChange={this.handleChange}
+                    style={styles.selectStyles}
+                  >
+                    <MenuItem value={false} primaryText='Male' />
+                    <MenuItem value={true} primaryText='Female' />
+                  </SelectField>
+                </div>
+                <div className='small-4 columns'>
+                  <span className='form-label'>Zip code</span>
+                  <input
+                    type='text'
+                    className='form-input profile-editor-form-input'
+                  />
+                </div>
+              </div>
+              <div className='profile-editor-save-btn-container'>
+                <PrimaryButton
+                  label='Save'
+                  onClick={this.handleButtonClick}
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+
       </article>
     )
   }
 
   renderTabThree = () => {
     return (
-      <article className='settings-single-tab-content small-12 columns small-centered'>
-        Tab 3
+      <article className='settings-single-tab-content small-8 columns small-centered'>
+        <div className='settings-section-title-container'>
+          <h3 className='settings-section-title'>
+            Account Settings
+          </h3>
+        </div>
+        <div className='profile-editor-section-container'>
+          <h4 className='profile-editor-section-title'>
+            Sharing
+          </h4>
+          <p className='settings-section-subtitle'>
+            Post my activity to my connected
+          </p>
+        </div>
+        <div className='profile-editor-section-container'>
+          <h4 className='profile-editor-section-title' >
+            Notifications
+          </h4>
+          <p className='settings-section-subtitle'>
+            Notify me by email when:
+          </p>
+        </div>
+        <div className='profile-editor-section-container'>
+          <h4 className='profile-editor-section-title' >
+            Connected Social Media Accounts
+          </h4>
+          <p className='settings-section-subtitle'>
+            Unlock express logins and showcase your online presense
+            by connecting your other social media accouns
+          </p>
+        </div>
+        <div className='profile-editor-section-container'>
+          <h4 className='profile-editor-section-title' >
+            Import Books to Library
+          </h4>
+        </div>
+        <div className='profile-editor-section-container'>
+          <h4 className='profile-editor-section-title' >
+            Scan Books To Library
+          </h4>
+        </div>
+
       </article>
     )
   }
