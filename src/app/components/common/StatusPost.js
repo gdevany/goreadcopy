@@ -205,8 +205,7 @@ class StatusPost extends PureComponent {
       return (
         <iframe
           frameBorder='0'
-          width='400'
-          height='190'
+          className='video-embed-iframe'
           src={embedUrl}
           allowFullScreen
         />
