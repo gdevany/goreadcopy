@@ -1,18 +1,30 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import CameraIcon from 'material-ui/svg-icons/action/camera-enhance'
-import { Posts } from '../../services/api/currentReader'
-import SuggestionList from './SuggestionList'
+import { Posts, Images } from '../../services/api/currentReader'
 import { Search } from '../../services/api'
+import SuggestionList from './SuggestionList'
 import { debounce } from 'lodash'
 import Dropzone from 'react-dropzone'
 import urlParser from 'js-video-url-parser'
 import R from 'ramda'
+import Promise from 'bluebird'
 
+const { uploadImage } = Images
 const { search } = Search
 const { postNewMessage } = Posts
 const mentionPattern = /\B@(?!Reader|Author|Publisher|Book)\w+\s?\w+/gi
 const videoPattern = /((https?:\/\/)?(?:www\.)?(?:vimeo|youtu|dailymotion)[:=#\w\.\/\?\-]+)/gi
+const styles = {
+  shownPreview: {
+    display: 'block',
+    height: 100,
+    width: 100
+  },
+  hiddenPreview: {
+    display: 'none'
+  }
+}
 
 class StatusPost extends PureComponent {
   constructor(props) {
@@ -26,6 +38,7 @@ class StatusPost extends PureComponent {
       onProcessMentions: [],
       processedMentions: [],
       videoInfo: null,
+      imageInfo: null,
       suggestions: [],
       showSuggestions: false,
       showImagePreview: false,
@@ -42,6 +55,7 @@ class StatusPost extends PureComponent {
     this.onUploadButtonClick = this.onUploadButtonClick.bind(this)
     this.refreshMentions = this.refreshMentions.bind(this)
     this.getMentions = debounce(this.getMentions, 250)
+    this.onImageDrop = this.onImageDrop.bind(this)
   }
 
   onUploadButtonClick(event) {
@@ -215,6 +229,25 @@ class StatusPost extends PureComponent {
     return null
   }
 
+  onImageDrop(acceptedFiles, rejectedFiles, e) {
+    this.getBase64AndUpdate(acceptedFiles[0], 'postImage')
+      .then(res => this.setState({ imageInfo: {
+        data: res.data,
+        file: acceptedFiles[0]
+      },
+        image: res.data.imageId }))
+      .catch(err => console.log('Error on image drop ', err))
+  }
+
+  getBase64AndUpdate = (file, imageType) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = () => resolve(reader.result)
+      reader.onerror = (error) => reject(`Error in getBase64: ${error}`)
+    }).then(res => uploadImage({ imageType, file: res }))
+  }
+
   render() {
     const { currentReader } = this.props
     return (
@@ -246,13 +279,9 @@ class StatusPost extends PureComponent {
           <figure className='current-reader-badge'>
             <img className='current-reader-image'
               src={currentReader.profileImage}
-              alt=''
+              alt='Profile Image'
             />
           </figure>
-          <Dropzone
-            ref={(node) => { this.dropzone = node }}
-            style={{ display: 'none' }}
-          />
           <textarea
             cols='30'
             rows='4'
@@ -272,6 +301,24 @@ class StatusPost extends PureComponent {
           }
         </div>
         { this.renderVideoPreview() }
+        <div className='statuspost-image-preview'>
+          <Dropzone
+            ref={(node) => { this.dropzone = node }}
+            style={styles.hiddenPreview}
+            onDrop={this.onImageDrop}
+            multiple={false}
+            maxSize={10485760}
+          />
+          {
+            this.state.imageInfo ? (
+              <div className='row'>
+                <div className='columns small-6 centered'>
+                  <img src={this.state.imageInfo.file.preview} alt='Preview Image'/>
+                </div>
+              </div>
+            ) : null
+          }
+        </div>
       </div>
     )
   }

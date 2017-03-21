@@ -135,6 +135,17 @@ input[type="checkbox"]:focus{
   max-height: none !important;
 }
 
+.logo-anon-anchor{
+  width: 150px;
+}
+
+.logo-logged-anchor{
+  width: 200px;
+}
+
+.logo-share-img{
+  width: 35px;
+}
 @import 'variables.scss';
 @import 'general.scss';
 @import 'errors.scss';
@@ -153,3 +164,4 @@ input[type="checkbox"]:focus{
 @import 'search-modal.scss';
 @import 'tiles.scss';
 @import 'statuspost.scss';
+@import 'settings.scss';
