@@ -94,6 +94,11 @@ const styles = {
     borderTop: `2px solid ${Colors.lightGrey}`,
     padding: 0,
   },
+  commentActions: {
+    borderBottom: `2px solid ${Colors.lightGrey}`,
+    fontSize: 14,
+    padding: '10px 20px',
+  },
   likesContainer: {
     textAlign: 'left',
     padding: 0,
@@ -139,6 +144,17 @@ const styles = {
     marginLeft: 85,
     maxWidth: 450,
   },
+  childCommentContainer: {
+    marginLeft: 40,
+  },
+  childCommentActionContainer: {
+    textAlign: 'right',
+    padding: '0px 10px',
+  },
+  childCommentHeaderContainer: {
+    padding: '20px 20px 15px',
+    textAlign: 'left',
+  },
 }
 
 /*
@@ -168,6 +184,7 @@ class TileDefault extends PureComponent {
       shareInput: '',
       sharedOpen: false,
       sharePostOpen: false,
+      commentParentId: false,
     }
   }
 
@@ -208,7 +225,7 @@ class TileDefault extends PureComponent {
     const {
       commentsOpen,
       sharePostOpen,
-      calledCommentEndpoint
+      calledCommentEndpoint,
     } = this.state
     const {
       feedComments,
@@ -220,12 +237,13 @@ class TileDefault extends PureComponent {
       if (sharePostOpen) {
         this.setState({
           sharePostOpen: false,
-          commentPostOpen: true
+          commentPostOpen: true,
         })
       } else {
         this.setState({
           commentsOpen: false,
-          commentPostOpen: false
+          commentPostOpen: false,
+          commentParentId: false,
         })
       }
     } else {
@@ -237,7 +255,7 @@ class TileDefault extends PureComponent {
       }
       this.setState({
         commentsOpen: true,
-        commentPostOpen: true
+        commentPostOpen: true,
       })
     }
   }
@@ -247,13 +265,50 @@ class TileDefault extends PureComponent {
     return R.prop(tileId, comments)
   }
 
+  handleRenderChildComments = (childComments) => {
+    return childComments ? childComments.map(comment => {
+      return (
+        <Card
+          key={`${comment.id}`}
+          style={styles.commentCard}
+        >
+          <CardHeader
+            title={comment.profile.fullname}
+            titleStyle={styles.nameText}
+            style={styles.childCommentHeaderContainer}
+            avatar={comment.profile.imageUrl}
+            textStyle={styles.textContainer}
+          >
+            <p style={styles.timeStamp}>
+              {this.renderTime(comment.datetime)}
+            </p>
+          </CardHeader>
+
+          <CardText style={styles.commentContent}>
+            {comment.comment}
+          </CardText>
+          <CardActions style={styles.commentActions}>
+            <div style={styles.socialContainer} className='row'>
+              <div style={styles.childCommentActionContainer}>
+                  <a
+                    onClick={() => { this.handleReplyComment(comment.id) }}
+                    className='reply'
+                  />
+              </div>
+            </div>
+          </CardActions>
+        </Card>
+      )
+    }) : null
+  }
+
   handleRenderComments = (allComments) => {
     const { feedComments } = this.props
     const foundComments = this.findCommentsForThisTile(feedComments)
     return foundComments ? foundComments.comments.map(comment => {
       return (
         <Card
-          key={`${comment.profile.fullname}-${comment.id}`}
+          key={`${comment.id}`}
           style={styles.commentCard}
         >
           <CardHeader
@@ -271,16 +326,37 @@ class TileDefault extends PureComponent {
           <CardText style={styles.commentContent}>
             {comment.comment}
           </CardText>
+          <CardActions style={styles.commentActions}>
+            <div style={styles.socialContainer} className='row'>
+              <div style={styles.childCommentActionContainer}>
+                  <a
+                    onClick={() => { this.handleReplyComment(comment.id) }}
+                    className='reply'
+                  />
+              </div>
+            </div>
+          </CardActions>
+          <div className='child-comments' style={styles.childCommentContainer}>
+            {comment.children ? this.handleRenderChildComments(comment.children) : null}
+          </div>
         </Card>
       )
     }) : null
+  }
+
+  handleReplyComment = (tileId) => {
+    this.setState({
+      commentParentId: tileId,
+    })
+    this.handleCommentsOpen
   }
 
   handleCommentSubmit = () => {
     const {
       commented,
       commentedCount,
-      commentInput
+      commentInput,
+      commentParentId
     } = this.state
     const {
       tileId,
@@ -301,7 +377,7 @@ class TileDefault extends PureComponent {
       commentedCount: commentedCount + 1,
       commentInput: ''
     })
-    updateComments(tileId, commentInput, datetime, profile)
+    updateComments(tileId, commentInput, commentParentId, datetime, profile)
   }
 
   handleShareSubmit = (shareType) => {
@@ -350,7 +426,7 @@ class TileDefault extends PureComponent {
   })
 
   renderPostBox = (buttonType) => {
-    const { commentInput, shareInput } = this.state
+    const { commentInput, shareInput, commentParentId } = this.state
     const { profileImage } = this.props
     const isComment = buttonType === 'comment'
     const inputType = isComment ? 'commentInput' : 'shareInput'
@@ -358,6 +434,15 @@ class TileDefault extends PureComponent {
       <div className='input-post-box comments-tile-container'>
         <div className='comments-elelemnts'>
           <img className='comments-image' src={profileImage} />
+          {
+            isComment && commentParentId ?
+              <input
+                type='hidden'
+                value={commentParentId}
+                name='parentId'
+              /> :
+              null
+          }
           <textarea
             type='text'
             className='search-input comments-textarea'

@@ -47,19 +47,32 @@ export function getComments(tileId, page, isProfilePage) {
   }
 }
 
-export function updateComments(tileId, comment, datetime, profile) {
+export function updateComments(tileId, comment, parentId, datetime, profile) {
   return (dispatch, getState) => {
-    ReaderTiles.updateComments(tileId, { comment })
+    ReaderTiles.updateComments(tileId, { comment, parentId })
       .then(() => {
         const existingTilesComments = getState().tiles.feedComments || {}
         const tileInfo = R.prop(tileId, existingTilesComments) || {}
         const commentsForTile = tileInfo.comments || []
-        const newComments = R.concat(commentsForTile, [{
+        const newComment = {
           id: tileId,
           comment,
           datetime,
           profile
-        }])
+        }
+        let newComments
+        if (parentId) {
+          newComments = commentsForTile.map(comment => {
+            if (comment.id === parentId) {
+              comment.children = R.concat(comment.children, [newComment])
+            }
+            return comment
+          })
+        } else {
+          newComments = R.concat(commentsForTile, [
+            newComment
+          ])
+        }
         const newTileComments = { [tileId]: { comments: newComments } }
         dispatch({
           type: B.UPDATE_COMMENTS,
