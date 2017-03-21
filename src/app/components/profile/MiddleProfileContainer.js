@@ -24,10 +24,10 @@ class RightProfileContainer extends PureComponent {
   }
 
   render() {
-    const { profile, isUserLoggedIn } = this.props
+    const { profile, isUserLoggedIn, id } = this.props
     return (
       <div className='right-container small-6 columns'>
-        {isUserLoggedIn ? <StatusPost /> : null}
+        {isUserLoggedIn ? <StatusPost targetId={id} /> : null}
         {profile ? <TilesWrapper feed={profile} /> : null}
       </div>
     )
@@ -37,7 +37,10 @@ class RightProfileContainer extends PureComponent {
 const mapStateToProps = ({
   tiles: {
     profile
+  },
+  profilePage: {
+    id
   }
-}) => { return { profile } }
+}) => { return { profile, id } }
 
 export default connect(mapStateToProps, { getProfileTiles })(RightProfileContainer)

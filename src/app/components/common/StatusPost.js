@@ -30,11 +30,11 @@ class StatusPost extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      body: '',           // Plain text string
-      mentions: '',       // String with mentions
-      image: '',          // ID of the image
-      targetId: '',       // ID of the profile
-      activeContent: '',  // Filled by liveUrl
+      body: '',              // Plain text string
+      mentions: '',          // String with mentions
+      image: '',             // ID of the image
+      targetId: null,        // ID of the profile
+      activeContent: '',     // Filled by liveUrl
       onProcessMentions: [],
       processedMentions: [],
       videoInfo: null,
@@ -56,6 +56,12 @@ class StatusPost extends PureComponent {
     this.refreshMentions = this.refreshMentions.bind(this)
     this.getMentions = debounce(this.getMentions, 250)
     this.onImageDrop = this.onImageDrop.bind(this)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.state.targetId && !this.props.targetId && nextProps.targetId) {
+      this.setState({ targetId: nextProps.targetId })
+    }
   }
 
   onUploadButtonClick(event) {
@@ -112,8 +118,11 @@ class StatusPost extends PureComponent {
   }
 
   checkVideoUrl(latestBody) {
+    if (this.state.imageInfo) {
+      return null
+    }
     const videoUrls = latestBody.match(videoPattern)
-    let activeContent = '', videoInfo = {}, showVideoPreview = false
+    let activeContent = '', videoInfo = null, showVideoPreview = false
     if (videoUrls && videoUrls.length > 0) {
       activeContent = R.last(videoUrls)
       videoInfo = urlParser.parse(activeContent)
@@ -195,6 +204,14 @@ class StatusPost extends PureComponent {
     })
   }
 
+  handleImagePreviewDiscard = (event) => {
+    event.preventDefault()
+    this.setState({
+      image: '',
+      imageInfo: null
+    })
+  }
+
   renderVideoPreview() {
     let embedUrl = ''
 
@@ -230,13 +247,17 @@ class StatusPost extends PureComponent {
   }
 
   onImageDrop(acceptedFiles, rejectedFiles, e) {
+    this.setState({ imageInfo: true })
     this.getBase64AndUpdate(acceptedFiles[0], 'postImage')
       .then(res => this.setState({ imageInfo: {
         data: res.data,
         file: acceptedFiles[0]
       },
         image: res.data.imageId }))
-      .catch(err => console.log('Error on image drop ', err))
+      .catch(err => {
+        console.log('Error on image drop ', err)
+        this.setState({ imageInfo: null })
+      })
   }
 
   getBase64AndUpdate = (file, imageType) => {
@@ -253,13 +274,17 @@ class StatusPost extends PureComponent {
     return (
       <div className='statuspost'>
         <div className='status-post-text-container'>
-          <a
-            className='status-post-upload-icon-container'
-            href='javascript:void(0)'
-            onClick={this.onUploadButtonClick}
-          >
-            <CameraIcon />
-          </a>
+          {
+            !this.state.showVideoPreview && !this.state.imageInfo ? (
+              <a
+                className='status-post-upload-icon-container'
+                href='javascript:void(0)'
+                onClick={this.onUploadButtonClick}
+              >
+                <CameraIcon />
+              </a>
+            ) : null
+          }
           { this.state.textareaOpen ? (
             <div>
               <a
@@ -310,11 +335,18 @@ class StatusPost extends PureComponent {
             maxSize={10485760}
           />
           {
-            this.state.imageInfo ? (
+            this.state.image ? (
               <div className='row'>
                 <div className='columns small-6 centered'>
                   <img src={this.state.imageInfo.file.preview} alt='Preview Image'/>
                 </div>
+                <a
+                  className='statuspost-image-preview-discard-btn'
+                  href='javascript:void(0)'
+                  onClick={this.handleImagePreviewDiscard}
+                >
+                  x
+                </a>
               </div>
             ) : null
           }
@@ -324,9 +356,11 @@ class StatusPost extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({
+  currentReader
+}) => {
   return {
-    currentReader: state.currentReader
+    currentReader
   }
 }
 
