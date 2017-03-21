@@ -297,6 +297,9 @@ class TileDefault extends PureComponent {
               </div>
             </div>
           </CardActions>
+          <div className='child-comments' style={styles.childCommentContainer}>
+            {comment.children ? this.handleRenderChildComments(comment.children) : null}
+          </div>
         </Card>
       )
     }) : null
