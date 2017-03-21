@@ -572,7 +572,10 @@ class TileDefault extends PureComponent {
                   style={styles.shareGoReadLink}
                   onClick={this.handleShareOpenGoRead}
                 >
-                GoRead
+                <img
+                  className='logo-share-img'
+                  src='/image/logo_share.png'
+                />
                 </li>
               ) : null
             }

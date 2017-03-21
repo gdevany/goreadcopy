@@ -632,7 +632,7 @@ class NavMenu extends PureComponent {
             <div className='top-bar-left'>
               <ul style={styles.navUl} className='menu'>
                 <li className='align-middle'>
-                  <Link to='/'>
+                  <Link to='/' className='logo-logged-anchor'>
                     <img src='/image/logo.png' />
                   </Link>
                 </li>
@@ -744,7 +744,7 @@ class NavMenu extends PureComponent {
           <div className='top-bar-left'>
             <ul style={styles.navUl} className='dropdown menu' data-dropdown-menu>
               <li className='menu-text'>
-                <Link to='/'>
+                <Link to='/' className='logo-anon-anchor'>
                   <img src='/image/logo.png' />
                 </Link>
               </li>
