@@ -1,0 +1,211 @@
+@import 'variables.scss';
+
+.settings-tabs-container{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 60px;
+  @media all and (min-width:1200px){
+    padding-top: 0;
+  }
+  .settings-main-tabs{
+    display: flex;
+    width: 100%;
+    background-color: #FFF;
+    box-shadow: rgba(0, 0, 0, 0.0784314) 0px 2px 30px 0px;
+    .settings-tabs-menu{
+      width: 100%;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .settings-tabs-menu-element{
+        .settings-tabs-menu-anchor{
+          display: block;
+          padding: 1em 1.5em;
+          font-size: 18px;
+          border-bottom: 1px solid transparent;
+          transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+          &:hover{
+            color: $black;
+            border-bottom: 1px solid $black;
+          }
+        }
+        .active{
+          border-bottom: 1px solid $black;
+        }
+      }
+    }
+  }
+}
+
+.settings-main-content{
+  min-width: 600px;
+  .settings-single-tab-content{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 1em;
+    .settings-section-title-container{
+      .settings-section-title{
+        font-size: 28px;
+        font-weight: 600;
+        text-align: left;
+      }
+    }
+    .profile-editor-section-container{
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: column;
+      margin-bottom: 1em;
+      width: 100%;
+      .profile-editor-section-title{
+        font-size: 22px;
+        font-weight: 600;
+        text-align: left;
+        width: 100%;
+      }
+      .settings-section-subtitle{
+        font-size: 18px;
+        width: 100%;
+        color: $light-med-grey;
+        text-align: left;
+      }
+    }
+    .profile-photo-actions-container{
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: row;
+      align-self: flex-start;
+      .dropzone-settings-page{
+        display: flex;
+        .profile-photo-editor-figure{
+          width: 100%;
+          max-width: 200px;
+          margin-right: 1em;
+          img{
+            width: 100%;
+            border-radius: 5px;
+          }
+        }
+        .profile-photo-upload-btn{
+          background-color: rgb(0, 66, 214);
+          border: 1px solid rgb(0, 66, 214);
+          color: rgb(255, 255, 255);
+          border-radius: 25px;
+          font-size: 16px;
+          padding: 15px 30px;
+          height: 55px;
+        }
+        .background-photo-editor-figure{
+          max-width: 400px;
+          margin-right: 1em;
+          img{
+            width: 100%;
+            border-radius: 5px;
+          }
+        }
+      }
+    }
+    .profile-editor-genres-container{
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      width: 100%;
+      flex-direction: column;
+      .profile-editor-mapped-genres-container{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+        max-width: 600px;
+        .profile-editor-single-genre{
+          display: flex;
+          border: solid 1px $blue;
+          border-radius: 35px;
+          padding: 1em 1.5em;
+          margin: .25em;
+        }
+      }
+      .profile-editor-add-genres{
+        margin-top: 1em;
+        display: block;
+      }
+    }
+    .profile-edidor-quote-container{
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+      width: 100%;
+      .profile-editor-favorite-quotes-num{
+        font-size: 18px;
+        font-weight: 600;
+        color: $black;
+        text-align: left;
+        width: 100%;
+        text-transform: capitalize;
+      }
+      .profile-editor-favorite-quote-textarea{
+        width: 100%;
+        padding: 1em;
+        resize: none;
+        overflow: scroll;
+        font-size: 16px;
+        line-height: inherit;
+      }
+    }
+    .editor-favorite-socialmedia-container{
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+      width: 100%;
+      .profile-editor-save-btn-container{
+        align-self: center;
+        text-align: center;
+      }
+    }
+    .profile-editor-form-container{
+      width: 100%;
+      .profile-editor-form{
+        width: 100%;
+      }
+    }
+    .shipping-form-container{
+      width: 100%;
+      margin-bottom: 2em;
+      padding: 1em 0;
+    }
+    .settings-setion-toggle-container{
+      width: 100%;
+      margin-bottom: 2em;
+      padding: 1em 0;
+    }
+    .profile-editor-action-container{
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+      margin-top: 1em;
+      .profile-editor-section-main-action{
+        display: flex;
+        padding: 1em 1.5em;
+        border: solid 1px $blue;
+        border-radius: 35px;
+      }
+    }
+  }
+}
+
+.profile-editor-form-input{
+  border-radius: 5px;
+  height: auto;
+  padding: 1em;
+}

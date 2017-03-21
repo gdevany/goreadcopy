@@ -5,6 +5,7 @@ import { SignUpFlow } from './components/readerOnboarding'
 import IncomingRedirect from './components/incomingRedirect/IncomingRedirect'
 import { HomeWrapper } from './components/home'
 import { Profile } from './components/profile'
+import { Settings } from './components/settings'
 import { Auth } from './services'
 
 const isUserLoggedIn = Auth.currentUserExists()
@@ -12,6 +13,7 @@ const isUserLoggedIn = Auth.currentUserExists()
 const Routes = (
   <Route path='/' component={App}>
     <IndexRoute isUserLoggedIn={isUserLoggedIn} component={HomeWrapper} />
+    <Route path='/profile/settings' component={Settings} />
     <Route path='/profile/:slug' component={Profile} />
     <Route path='/signup' component={SignUpFlow} />
     <Route path='/redirect' component={IncomingRedirect} />
