@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import NavMenu from '../common/NavMenu'
-import Home from '../home//Home'
+import Home from '../home/Home'
 import SettingsTabs from './SettingsTabs'
 import { CurrentReader } from '../../redux/actions'
 import { Auth } from '../../services'
