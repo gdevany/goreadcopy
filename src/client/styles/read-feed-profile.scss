@@ -292,14 +292,12 @@
 }
 
 .reply {
-  color: $blue;
-
-  &:before {
-    content: '';
-    display: inline-block;
-    background: url(../image/reply.png) no-repeat;
-    margin: 0px 7px -4px 0px;
-    width: 20px;
-    height: 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  &:hover{
+    svg{
+      fill: $blue !important;
+    }
   }
 }

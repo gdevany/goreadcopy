@@ -12,6 +12,7 @@ import {
   Popover,
 } from 'material-ui'
 import R from 'ramda'
+import ReplyIcon from 'material-ui/svg-icons/content/reply'
 import {
   ShareButtons,
   generateShareIcon
@@ -130,7 +131,7 @@ const styles = {
   commentContent: {
     padding: '0 30px',
     marginLeft: 54,
-    textAlign: 'left',
+    textAlign: 'justify',
   },
   postButton: {
     float: 'right',
@@ -188,6 +189,8 @@ class TileDefault extends PureComponent {
       sharedOpen: false,
       sharePostOpen: false,
       commentParentId: false,
+      replyPlaceholder: false,
+      isAutofocus: false
     }
   }
 
@@ -241,12 +244,14 @@ class TileDefault extends PureComponent {
         this.setState({
           sharePostOpen: false,
           commentPostOpen: true,
+          isAutofocus: true,
         })
       } else {
         this.setState({
           commentsOpen: false,
           commentPostOpen: false,
           commentParentId: false,
+          isAutofocus: true,
         })
       }
     } else {
@@ -259,6 +264,7 @@ class TileDefault extends PureComponent {
       this.setState({
         commentsOpen: true,
         commentPostOpen: true,
+        isAutofocus: true,
       })
     }
   }
@@ -296,7 +302,10 @@ class TileDefault extends PureComponent {
                   <a
                     onClick={() => { this.handleReplyComment(comment.id) }}
                     className='reply'
-                  />
+                  >
+                    <ReplyIcon />
+                    Reply
+                  </a>
               </div>
             </div>
           </CardActions>
@@ -338,7 +347,10 @@ class TileDefault extends PureComponent {
                   <a
                     onClick={() => { this.handleReplyComment(comment.id) }}
                     className='reply'
-                  />
+                  >
+                    <ReplyIcon />
+                    Reply
+                  </a>
               </div>
             </div>
           </CardActions>
@@ -353,6 +365,8 @@ class TileDefault extends PureComponent {
   handleReplyComment = (tileId) => {
     this.setState({
       commentParentId: tileId,
+      replyPlaceholder: 'Post your Reply here'
+
     })
     this.handleCommentsOpen
   }
@@ -381,7 +395,8 @@ class TileDefault extends PureComponent {
     if (!commented) this.setState({ commented: true })
     this.setState({
       commentedCount: commentedCount + 1,
-      commentInput: ''
+      commentInput: '',
+      replyPlaceholder: false
     })
     updateComments(tileId, commentInput, commentParentId, datetime, profile)
   }
@@ -432,7 +447,13 @@ class TileDefault extends PureComponent {
   })
 
   renderPostBox = (buttonType) => {
-    const { commentInput, shareInput, commentParentId } = this.state
+    const {
+      commentInput,
+      shareInput,
+      commentParentId,
+      replyPlaceholder,
+      isAutofocus,
+    } = this.state
     const { profileImage } = this.props
     const isComment = buttonType === 'comment'
     const inputType = isComment ? 'commentInput' : 'shareInput'
@@ -452,10 +473,11 @@ class TileDefault extends PureComponent {
           <textarea
             type='text'
             className='search-input comments-textarea'
-            placeholder='Share your thoughts'
+            placeholder={replyPlaceholder ? replyPlaceholder : 'Share your thoughts'}
             onChange={this.handleInputOnChange(`${inputType}`)}
             value={isComment ? commentInput : shareInput}
             rows='3'
+            autoFocus={isAutofocus}
           />
         </div>
         <div>
