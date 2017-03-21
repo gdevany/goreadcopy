@@ -55,12 +55,12 @@ class LitcoinStatus extends PureComponent {
       <div>
         <a className='rf-nav-link'>
           <span>{currentBalance ? currentBalance : null}</span>
-          <img className='litcoin-img' src='./image/litcoin.png' />
+          <img className='litcoin-img' src='/image/litcoin.png' />
         </a>
         <div style={styles.container} className={this.state.litcoinClass}>
           <a className='litcoin-balance-anchor'>
             + {litcoinDifference}
-            <img className='litcoin-img' src='./image/litcoin.png' />
+            <img className='litcoin-img' src='/image/litcoin.png' />
           </a>
         </div>
       </div>

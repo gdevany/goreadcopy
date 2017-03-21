@@ -557,7 +557,7 @@ class NavMenu extends PureComponent {
                       backgroundColor: Colors.red,
                     }}
                   >
-                    <img src='./image/notifications-icon.svg' />
+                    <img src='/image/notifications-icon.svg' />
                   </Badge>
                 </a>
               </li>
@@ -633,7 +633,7 @@ class NavMenu extends PureComponent {
               <ul style={styles.navUl} className='menu'>
                 <li className='align-middle'>
                   <Link to='/'>
-                    <img src='./image/logo.png' />
+                    <img src='/image/logo.png' />
                   </Link>
                 </li>
               </ul>
@@ -694,7 +694,7 @@ class NavMenu extends PureComponent {
                         backgroundColor: Colors.red,
                       }}
                     >
-                      <img src='./image/notifications-icon.svg' />
+                      <img src='/image/notifications-icon.svg' />
                     </Badge>
                   </a>
                 </li>
@@ -745,7 +745,7 @@ class NavMenu extends PureComponent {
             <ul style={styles.navUl} className='dropdown menu' data-dropdown-menu>
               <li className='menu-text'>
                 <Link to='/'>
-                  <img src='./image/logo.png' />
+                  <img src='/image/logo.png' />
                 </Link>
               </li>
               {this.handleMapNavItems(R.values(CATEGORIES), R.values(GENRES))}

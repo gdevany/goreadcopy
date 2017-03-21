@@ -24,10 +24,10 @@ class RightProfileContainer extends PureComponent {
   }
 
   render() {
-    const { profile } = this.props
+    const { profile, isUserLoggedIn } = this.props
     return (
       <div className='right-container small-6 columns'>
-        <StatusPost />
+        {isUserLoggedIn ? <StatusPost /> : null}
         {profile ? <TilesWrapper feed={profile} /> : null}
       </div>
     )

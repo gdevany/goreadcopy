@@ -69,7 +69,10 @@ class MyImageProfileUpload extends PureComponent {
                 src='../image/upload-photo-icon.svg'
               />
           </Dropzone> :
-          getImage
+          <div className='not-my-profile-image-container'>
+            {getImage}
+          </div>
+
         }
       </div>
     )
