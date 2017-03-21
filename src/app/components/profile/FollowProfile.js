@@ -6,7 +6,11 @@ import { FollowModal } from '../common'
 import { ExternalRoutes } from '../../constants'
 import { Chip } from 'material-ui'
 import { Colors } from '../../constants/style'
+import { Auth } from '../../services'
+
 import R from 'ramda'
+
+const isUserLoggedIn = Auth.currentUserExists()
 
 const { editProfile } = ExternalRoutes
 
@@ -164,7 +168,7 @@ class FollowProfile extends PureComponent {
             <div className='followers small-4 columns'>
               <div
                 className='profile-link'
-                onClick={() => this.handleOpen('followers')}
+                onClick={isUserLoggedIn ? () => this.handleOpen('followers') : null}
               >
                 <span className='small-title'>
                   Followers
@@ -176,15 +180,13 @@ class FollowProfile extends PureComponent {
             <div className='following small-4 columns'>
               <div
                 className='profile-link'
-                onClick={() => this.handleOpen('following')}
+                onClick={isUserLoggedIn ? () => this.handleOpen('following') : null}
               >
-                <div className='profile-link' onClick={() => this.handleOpen('following')}>
-                  <span className='small-title'>
-                    Following
-                  </span>
-                  <br />
-                  <span className='profile-large-text'> {followedCount} </span>
-                </div>
+                <span className='small-title'>
+                  Following
+                </span>
+                <br />
+                <span className='profile-large-text'> {followedCount} </span>
               </div>
             </div>
             <div className='small-4 columns'>

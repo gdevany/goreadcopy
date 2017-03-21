@@ -25,7 +25,19 @@ class ProfileWrapper extends PureComponent {
   }
 
   componentWillMount = () => {
-    this.props.getCurrentReader()
+    if (isUserLoggedIn) {
+      this.props.getCurrentReader()
+    } else {
+      if (!this.state.profileFetched) {
+        const profileSlug = this.props.params.slug
+        this.props.getProfilePage(profileSlug)
+        this.state = {
+          isMyProfile: false,
+          slug: profileSlug,
+          profileFetched: true,
+        }
+      }
+    }
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -92,6 +104,7 @@ class ProfileWrapper extends PureComponent {
           <MiddleProfileContainer
             id={profile.id}
             isProfilePage={true}
+            isUserLoggedIn={isUserLoggedIn}
           />
           <RightProfileContainer />
         </div>
