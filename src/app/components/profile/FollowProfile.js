@@ -118,7 +118,7 @@ class FollowProfile extends PureComponent {
             <a href={editProfile()}>Edit</a> :
             <a onClick={isViewMyProfile ? this.cantFollow : this.handleFollow}>
               {
-                followingUser ? '(checkmark) Following' : 'Follow'
+                followingUser ? 'Following' : 'Follow'
               }
             </a>
         }
@@ -158,7 +158,7 @@ class FollowProfile extends PureComponent {
       <div className='follow-profile-card-container'>
         <div className='follow-wrapper row center-text'>
           <div className='follow-profile-card-name-cont small-12 columns'>
-            <h4 className='follow-profile-card-name'>Carlos Sampol</h4>
+            <h4 className='follow-profile-card-name'>{this.props.fullname}</h4>
           </div>
           <div className='follows-profile-actions-container small-12 columns'>
             <div className='followers small-4 columns'>

@@ -556,7 +556,7 @@ class NavMenu extends PureComponent {
                       backgroundColor: Colors.red,
                     }}
                   >
-                    <img src='./image/notifications-icon.svg' />
+                    <img src='/image/notifications-icon.svg' />
                   </Badge>
                 </a>
               </li>
@@ -601,7 +601,7 @@ class NavMenu extends PureComponent {
               <div className='third-row-elements'>
                 <a href='' className='litcoin-balance-anchor'>
                   <span>{currentReader.litcoinBalance}</span>
-                  <img className='litcoin-img' src='./image/litcoin.png' />
+                  <img className='litcoin-img' src='/image/litcoin.png' />
                 </a>
               </div>
             </div>
@@ -635,7 +635,7 @@ class NavMenu extends PureComponent {
               <ul style={styles.navUl} className='menu'>
                 <li className='align-middle'>
                   <Link to='/'>
-                    <img src='./image/logo.png' />
+                    <img src='/image/logo.png' />
                   </Link>
                 </li>
               </ul>
@@ -677,7 +677,7 @@ class NavMenu extends PureComponent {
                 <li style={styles.loggedInRightNavLi}>
                   <a href='' style={styles.rightNavLinks} className='rf-nav-link'>
                     <span>{currentReader.litcoinBalance}</span>
-                    <img className='litcoin-nav-img' src='./image/litcoin.png' />
+                    <img className='litcoin-nav-img' src='/image/litcoin.png' />
                   </a>
                 </li>
 
@@ -700,7 +700,7 @@ class NavMenu extends PureComponent {
                         backgroundColor: Colors.red,
                       }}
                     >
-                      <img src='./image/notifications-icon.svg' />
+                      <img src='/image/notifications-icon.svg' />
                     </Badge>
                   </a>
                 </li>
@@ -751,7 +751,7 @@ class NavMenu extends PureComponent {
             <ul style={styles.navUl} className='dropdown menu' data-dropdown-menu>
               <li className='menu-text'>
                 <Link to='/'>
-                  <img src='./image/logo.png' />
+                  <img src='/image/logo.png' />
                 </Link>
               </li>
               {this.handleMapNavItems(R.values(CATEGORIES), R.values(GENRES))}
