@@ -15,6 +15,16 @@ const { search } = Search
 const { postNewMessage } = Posts
 const mentionPattern = /\B@(?!Reader|Author|Publisher|Book)\w+\s?\w+/gi
 const videoPattern = /((https?:\/\/)?(?:www\.)?(?:vimeo|youtu|dailymotion)[:=#\w\.\/\?\-]+)/gi
+const styles = {
+  shownPreview: {
+    display: 'block',
+    height: 100,
+    width: 100
+  },
+  hiddenPreview: {
+    display: 'none'
+  }
+}
 
 class StatusPost extends PureComponent {
   constructor(props) {
@@ -28,6 +38,7 @@ class StatusPost extends PureComponent {
       onProcessMentions: [],
       processedMentions: [],
       videoInfo: null,
+      imageInfo: null,
       suggestions: [],
       showSuggestions: false,
       showImagePreview: false,
@@ -220,6 +231,12 @@ class StatusPost extends PureComponent {
 
   onImageDrop(acceptedFiles, rejectedFiles, e) {
     this.getBase64AndUpdate(acceptedFiles[0], 'postImage')
+      .then(res => this.setState({ imageInfo: {
+        data: res.data,
+        file: acceptedFiles[0]
+      },
+        image: res.data.imageId }))
+      .catch(err => console.log('Error on image drop ', err))
   }
 
   getBase64AndUpdate = (file, imageType) => {
@@ -262,16 +279,9 @@ class StatusPost extends PureComponent {
           <figure className='current-reader-badge'>
             <img className='current-reader-image'
               src={currentReader.profileImage}
-              alt=''
+              alt='Profile Image'
             />
           </figure>
-          <Dropzone
-            ref={(node) => { this.dropzone = node }}
-            style={{ display: 'none' }}
-            onDrop={this.onImageDrop}
-            multiple={false}
-            maxSize={10485760}
-          />
           <textarea
             cols='30'
             rows='4'
@@ -291,6 +301,24 @@ class StatusPost extends PureComponent {
           }
         </div>
         { this.renderVideoPreview() }
+        <div className='statuspost-image-preview'>
+          <Dropzone
+            ref={(node) => { this.dropzone = node }}
+            style={styles.hiddenPreview}
+            onDrop={this.onImageDrop}
+            multiple={false}
+            maxSize={10485760}
+          />
+          {
+            this.state.imageInfo ? (
+              <div className='row'>
+                <div className='columns small-6 centered'>
+                  <img src={this.state.imageInfo.file.preview} alt='Preview Image'/>
+                </div>
+              </div>
+            ) : null
+          }
+        </div>
       </div>
     )
   }
