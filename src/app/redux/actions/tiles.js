@@ -64,12 +64,14 @@ function addNewComment(comments, newComment, parentId) {
 export function updateComments(tileId, comment, parentId, datetime, profile) {
   return (dispatch, getState) => {
     ReaderTiles.updateComments(tileId, { comment, parentId })
-      .then(() => {
+      .then((resp) => {
+        const data = resp ? resp.data : false
+        const commentId = data ? data.commentId : tileId
         const existingTilesComments = getState().tiles.feedComments || {}
         const tileInfo = R.prop(tileId, existingTilesComments) || {}
         const commentsForTile = tileInfo.comments || []
         const newComment = {
-          id: tileId,
+          id: commentId,
           comment,
           datetime,
           profile
