@@ -27,6 +27,8 @@ const LeftProfileContainer = ({
         id ?
           <FollowProfile
             id={id}
+            profileImage={profileImage}
+            fullname={fullname}
             isCurrentReader={isMyProfile}
             profileFollowed={profileFollowed}
             isViewMyProfile={isViewMyProfile}

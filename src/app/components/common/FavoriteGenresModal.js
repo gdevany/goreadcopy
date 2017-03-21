@@ -270,8 +270,8 @@ class FavoriteGenresModal extends PureComponent {
         >
         {
           isChosen ?
-          <img style={styles.checkmark} src='./image/checkmark.png' /> :
-          <img style={styles.checkmark} src='./image/plus.png' />
+          <img style={styles.checkmark} src='/image/checkmark.png' /> :
+          <img style={styles.checkmark} src='/image/plus.png' />
         }
           {S.titleize(genre.name)}
         </Chip>

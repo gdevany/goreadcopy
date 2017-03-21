@@ -131,8 +131,8 @@ class AvatarSummary extends Component {
                 onClick={this.handleChipClick}
               >
                 {isChosen ?
-                  <img style={styles.checkmark} src='./image/checkmark.png' /> :
-                  <img style={styles.checkmark} src='./image/plus.png' />
+                  <img style={styles.checkmark} src='/image/checkmark.png' /> :
+                  <img style={styles.checkmark} src='/image/plus.png' />
                 }
                   {isChosen ? 'Following' : 'Follow'}
               </Chip>
