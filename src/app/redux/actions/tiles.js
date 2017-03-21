@@ -47,6 +47,20 @@ export function getComments(tileId, page, isProfilePage) {
   }
 }
 
+function addNewComment(comments, newComment, parentId) {
+  let found = false
+  return comments.map(comment => {
+    if (comment.id === parentId) {
+      comment.children = R.concat(comment.children, [newComment])
+      found = true
+    }
+    if (!found) {
+      comment.children = addNewComment(comment.children, newComment, parentId)
+    }
+    return comment
+  })
+}
+
 export function updateComments(tileId, comment, parentId, datetime, profile) {
   return (dispatch, getState) => {
     ReaderTiles.updateComments(tileId, { comment, parentId })
@@ -62,9 +76,14 @@ export function updateComments(tileId, comment, parentId, datetime, profile) {
         }
         let newComments
         if (parentId) {
+          let found = false
           newComments = commentsForTile.map(comment => {
             if (comment.id === parentId) {
               comment.children = R.concat(comment.children, [newComment])
+              found = true
+            }
+            if (!found) {
+              comment.children = addNewComment(comment.children, newComment, parentId)
             }
             return comment
           })
