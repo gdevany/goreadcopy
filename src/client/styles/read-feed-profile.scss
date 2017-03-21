@@ -49,12 +49,11 @@
   }
 }
 
-.dropzone-profile-profilepage {
+.dropzone-profile-profilepage, .not-my-profile-image-container {
   height: 120px;
   margin-left: 15px;
   width: 120px;
-
-  img {
+  .profile-image-profilepage{
     height: 100%;
     border-radius: 3%;
   }

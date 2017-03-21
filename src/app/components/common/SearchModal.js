@@ -227,14 +227,14 @@ class SearchModal extends Component {
           autoScrollBodyContent={true}
         >
           <img
-            src='./image/close.png'
+            src='/image/close.png'
             className='general-font center-text search-modal-x'
             onClick={handleClose}
           />
           <div className='search-modal-container'>
             <img
               className='search-modal-logo'
-              src='./image/logo.png'
+              src='/image/logo.png'
             />
             <div style={styles.formContainer}>
               <form className='form-wrapper general-font'>

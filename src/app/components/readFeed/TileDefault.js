@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Tiles } from '../../redux/actions'
 import { PrimaryButton } from '../common'
 import { Colors } from '../../constants/style'
+import { Auth } from '../../services'
 import {
   Card,
   CardActions,
@@ -22,6 +23,8 @@ const {
   LinkedinShareButton,
   TwitterShareButton,
 } = ShareButtons
+
+const isUserLoggedIn = Auth.currentUserExists()
 
 const FacebookIcon = generateShareIcon('facebook')
 const TwitterIcon = generateShareIcon('twitter')
@@ -512,7 +515,7 @@ class TileDefault extends PureComponent {
               <div className='small-4 columns' style={styles.likesContainer}>
                 <div className='likes-count'>
                   <a
-                    onClick={this.handleLiked}
+                    onClick={isUserLoggedIn ? this.handleLiked : null}
                     className={liked ? 'liked' : 'not-liked'}
                   />
 
@@ -530,7 +533,7 @@ class TileDefault extends PureComponent {
                   className='comments-count'
                 >
                   <a
-                    onClick={this.handleCommentsOpen}
+                    onClick={isUserLoggedIn ? this.handleCommentsOpen : null}
                     className={commented ? 'commented' : 'not-commented'}
                   />
 
@@ -651,12 +654,16 @@ class TileDefault extends PureComponent {
               </GooglePlusShareButton>
             </li>
 
-            <li
-              style={styles.shareGoReadLink}
-              onClick={this.handleShareOpenGoRead}
-            >
-            GoRead
-            </li>
+            {isUserLoggedIn ?
+              (
+                <li
+                  style={styles.shareGoReadLink}
+                  onClick={this.handleShareOpenGoRead}
+                >
+                GoRead
+                </li>
+              ) : null
+            }
           </ul>
         </Popover>
       </div>
