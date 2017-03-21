@@ -2,6 +2,7 @@ import React from 'react'
 import FollowProfile from './FollowProfile'
 import Achievements from './Achievements'
 import FavoriteQuotes from './FavoriteQuotes'
+import BooksSection from './BooksSection'
 import { FavoriteGenres } from '../common'
 import MyImageProfileUpload from './MyImageProfileUpload'
 
@@ -34,11 +35,14 @@ const LeftProfileContainer = ({
             isViewMyProfile={isViewMyProfile}
           /> : null
       }
+    <BooksSection />
+    <div className='sidebar-element-container sidebar-favorite-genres-container box '>
       <FavoriteGenres
         genreIds={genreIds}
         isCurrentReader={isMyProfile}
         fullname={fullname}
       />
+    </div>
     <FavoriteQuotes quotes={favoriteQuotes} />
     <Achievements achievements={achievements} />
     </div>

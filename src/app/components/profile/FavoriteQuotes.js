@@ -18,7 +18,20 @@ class FavoriteQuotes extends PureComponent {
 
   renderQuotes = (quotes) => {
     return quotes.map((quote, index) => {
-      return <div key={index}> {quote} </div>
+      if (quote) {
+        return (
+          <li key={index} className='quoutes-list-element'>
+            <img
+              className='quotes-image'
+              src='/image/quotes.png'
+            />
+            <p className='quoutes-text'>
+              {quote}
+            </p>
+          </li>
+        )
+      }
+      return null
     })
   }
 
@@ -27,10 +40,12 @@ class FavoriteQuotes extends PureComponent {
     const { isCollapsed } = this.state
 
     return (
-      <div>
-        <h3> Favorite Quotes </h3>
+      <div className='sidebar-element-container box'>
+        <h3 className='sidebar-element-title'> Favorite Quotes </h3>
         <div>
-          {quotes ? this.renderQuotes(R.take(3, quotes)) : null}
+          <ul className='sidear-quoutes-container'>
+            {quotes ? this.renderQuotes(R.take(3, quotes)) : null}
+          </ul>
           { !isCollapsed && quotes.length > 3 ? this.renderQuotes(quotes.slice(3)) : null}
           <span
             className='left-hand-action-more'

@@ -27,8 +27,8 @@ class Achievements extends PureComponent {
     const { isCollapsed } = this.state
 
     return (
-      <div>
-        <h3> Achievements </h3>
+      <div className='sidebar-element-container box'>
+        <h3 className='sidebar-element-title'> Achievements </h3>
         <div className='sidebar-archivements-container'>
           {achievements ? this.renderAchievements(R.take(10, achievements)) : null}
           {
