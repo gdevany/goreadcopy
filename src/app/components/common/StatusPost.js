@@ -29,22 +29,7 @@ const styles = {
 class StatusPost extends PureComponent {
   constructor(props) {
     super(props)
-    this.state = {
-      body: '',              // Plain text string
-      mentions: '',          // String with mentions
-      image: '',             // ID of the image
-      targetId: null,        // ID of the profile
-      activeContent: '',     // Filled by liveUrl
-      onProcessMentions: [],
-      processedMentions: [],
-      videoInfo: null,
-      imageInfo: null,
-      suggestions: [],
-      showSuggestions: false,
-      showImagePreview: false,
-      showVideoPreview: false,
-      textareaOpen: false,
-    }
+    this.state = this.initialState()
     this.handleTextChange = this.handleTextChange.bind(this)
     this.checkMentions = this.checkMentions.bind(this)
     this.replaceMention = this.replaceMention.bind(this)
@@ -84,6 +69,37 @@ class StatusPost extends PureComponent {
       targetId,
       activeContent
     })
+      // Pending to render created tile 
+      // and handle error exceptions
+      .then(res => console.log(res.data))
+      .then(() => this.cleanStatusPost())
+      .catch(err => {
+        console.log(err)
+        this.cleanStatusPost()
+      })
+  }
+
+  initialState() {
+    return {
+      body: '',
+      mentions: '',
+      image: '',
+      targetId: null,
+      activeContent: '',
+      onProcessMentions: [],
+      processedMentions: [],
+      videoInfo: null,
+      imageInfo: null,
+      suggestions: [],
+      showSuggestions: false,
+      showImagePreview: false,
+      showVideoPreview: false,
+      textareaOpen: false,
+    }
+  }
+
+  cleanStatusPost() {
+    this.setState(this.initialState())
   }
 
   handleTextChange(event) {
