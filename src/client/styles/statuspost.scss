@@ -1,0 +1,154 @@
+@import 'variables.scss';
+
+.statuspost{
+  margin-bottom: 1em;
+  .status-post-text-container{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    .status-post-upload-icon-container{
+      position: absolute;
+      right: 10px;
+      bottom: 8px;
+      svg{
+        fill: $light-med-grey !important;
+      }
+    }
+    .statuspost-action-btn{
+      position: absolute;
+      left: 75px;
+      border: solid 1px $blue;
+      bottom: 8px;
+      display: block;
+      padding: .25em 1em;
+      font-size: 14px;
+      border-radius: 5px;
+    }
+    .statuspost-close-btn{
+      position: absolute;
+      top: 8px;
+      font-size: 18px;
+      right: 18px;
+      color:$light-med-grey;
+      display: block;
+    }
+    .current-reader-badge{
+      display: none;
+      @media all and (min-width: 768px){
+        display: flex;
+      }
+    }
+    .status-post-textarea{
+      width: 100%;
+      height: 50px;
+      margin-bottom: 0;
+      border-radius: 5px;
+      padding: .9em;
+      resize: none;
+      transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+      box-sizing: border-box;
+      font-family: Roboto, sans-serif;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      box-shadow: rgba(222, 222, 222, 0.498039) 0px 4px 20px 0px;
+      @media all and (min-width: 768px){
+        width: 85%;
+      }
+      @media all and (min-width: 1024px){
+        width: 89%;
+      }
+    }
+    .status-post-textarea-open{
+      width: 100%;
+      height: 200px;
+      margin-bottom: 0;
+      border-radius: 5px;
+      padding: .9em;
+      resize: none;
+      transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+      box-sizing: border-box;
+      font-family: Roboto, sans-serif;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      box-shadow: rgba(222, 222, 222, 0.498039) 0px 4px 20px 0px;
+      &:focus{
+        border: 1px solid #cacaca;
+      }
+      @media all and (min-width: 768px){
+        width: 85%;
+      }
+      @media all and (min-width: 1024px){
+        width: 89%;
+      }
+    }
+  }
+}
+
+.current-reader-badge{
+  width: 50px;
+  height: 50px;
+  .current-reader-image{
+    width: 100%;
+    border-radius: 5px;
+  }
+}
+
+.suggestion-list{
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  margin: 0;
+  list-style: none;
+  position: absolute;
+  top: 50px;
+  left: 80px;
+  max-width: 300px;
+  background-color: $white;
+  padding: 1em;
+  border: solid 1px $light-med-grey;
+  border-radius: 5px;
+  z-index: 99;
+  transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  box-sizing: border-box;
+  font-family: Roboto, sans-serif;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  box-shadow: rgba(222, 222, 222, 0.498039) 0px 4px 20px 0px;
+  max-height: 300px;
+  overflow: scroll;
+  .suggestion-list-element{
+    align-self: flex-start;
+    margin-bottom: .5em;
+    &:hover{
+      cursor: pointer;
+    }
+     .sugestion-list-image{
+       width: 50px;
+       border-radius: 5px;
+     }
+     .suggestion-list-name{
+       margin-left: .5em;
+     }
+  }
+}
+
+.video-embed-iframe{
+  width: 100%;
+  height: 180px;
+  border-radius: 5px;
+  @media all and (min-width: 600px){
+    width: 80%;
+    height: 275px;
+  }
+  @media all and (min-width: 768px){
+    width: 100%;
+    height: 400px;
+  }
+  @media all and (min-width: 1024px){
+    width: 100%;
+    height: 254px;
+  }
+  @media all and (min-width: 1200px){
+    width: 89%;
+    height: 300px;
+    float: right;
+  }
+}

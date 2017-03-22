@@ -2,26 +2,28 @@ import React, { PureComponent } from 'react'
 import Radium from 'radium'
 import { connect } from 'react-redux'
 import { Follow } from '../../redux/actions'
+import { Link } from 'react-router'
 import { FollowModal } from '../common'
-import { ExternalRoutes } from '../../constants'
 import { Chip } from 'material-ui'
 import { Colors } from '../../constants/style'
+import { Auth } from '../../services'
+
 import R from 'ramda'
 
-const { editProfile } = ExternalRoutes
+const isUserLoggedIn = Auth.currentUserExists()
 
 const { getFollowers, getFollowed, updateFollowed } = Follow
 
 const styles = {
   chip: {
     backgroundColor: Colors.white,
-    border: `1px solid ${Colors.blue}`,
+    border: `1px solid ${Colors.lightMedGrey}`,
     borderRadius: 25,
-    color: Colors.blue,
+    color: Colors.lightMedGrey,
     cursor: 'pointer',
-    display: 'inline-block',
-    margin: '15px 15px 0px 20px',
-    padding: 5,
+    alignSelf: 'center',
+    padding: '3px 8px',
+    marginTop: 5,
 
     ':hover': {
       backgroundColor: Colors.blue,
@@ -110,16 +112,15 @@ class FollowProfile extends PureComponent {
     const { followingUser } = this.state
     return (
       <Chip
-        className={'chosenFollow'}
         labelStyle={styles.chipText}
         style={styles.chip}
       >
         {
           isCurrentReader ?
-            <a href={editProfile()}> + Edit Profile </a> :
+            <Link to='/profile/settings'>Edit</Link> :
             <a onClick={isViewMyProfile ? this.cantFollow : this.handleFollow}>
               {
-                followingUser ? '(checkmark) Following' : 'Follow'
+                followingUser ? 'Following' : 'Follow'
               }
             </a>
         }
@@ -156,34 +157,34 @@ class FollowProfile extends PureComponent {
       'followed'
 
     return (
-      <div>
-        <div>
-            <div className='follow-wrapper row center-text'>
-              <div className='followers small-4 columns'>
-                <div
-                  className='profile-link'
-                  onClick={() => this.handleOpen('followers')}
-                >
-                  <span className='small-title'>
-                    Followers
-                  </span>
-                  <br />
-                  <span className='profile-large-text'> {followersCount} </span>
-                </div>
+      <div className='follow-profile-card-container'>
+        <div className='follow-wrapper row center-text'>
+          <div className='follow-profile-card-name-cont small-12 columns'>
+            <h4 className='follow-profile-card-name'>{this.props.fullname}</h4>
+          </div>
+          <div className='follows-profile-actions-container small-12 columns'>
+            <div className='followers small-4 columns'>
+              <div
+                className='profile-link'
+                onClick={isUserLoggedIn ? () => this.handleOpen('followers') : null}
+              >
+                <span className='small-title'>
+                  Followers
+                </span>
+                <br />
+                <span className='profile-large-text'> {followersCount} </span>
               </div>
-
-              <div className='following small-4 columns'>
-                <div
-                  className='profile-link'
-                  onClick={() => this.handleOpen('following')}
-                >
-                <div className='profile-link' onClick={() => this.handleOpen('following')}>
-                  <span className='small-title'>
-                    Following
-                  </span>
-                  <br />
-                  <span className='profile-large-text'> {followedCount} </span>
-                </div>
+            </div>
+            <div className='following small-4 columns'>
+              <div
+                className='profile-link'
+                onClick={isUserLoggedIn ? () => this.handleOpen('following') : null}
+              >
+                <span className='small-title'>
+                  Following
+                </span>
+                <br />
+                <span className='profile-large-text'> {followedCount} </span>
               </div>
             </div>
             <div className='small-4 columns'>
