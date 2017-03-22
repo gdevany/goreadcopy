@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import { stack as MobileMenu } from 'react-burger-menu'
 import { Link } from 'react-router'
 import { Auth, CurrentReader } from '../../redux/actions'
-import { Auth as CurrentToken } from '../../services'
 import { connect } from 'react-redux'
 import R from 'ramda'
 import SecondaryButton from './SecondaryButton'
@@ -126,21 +125,6 @@ class NavMenu extends PureComponent {
     this.handleProfileMenuHide = this.handleProfileMenuHide.bind(this)
     this.handleLogoutClick = this.handleLogoutClick.bind(this)
     this.handleClickSearch = this.handleClickSearch.bind(this)
-  }
-
-  componentWillMount = () => {
-
-    const token = CurrentToken.token()
-    if (token) {
-      this.props.verifyUserToken({
-        token,
-      })
-    }
-
-    if (CurrentToken.currentUserExists()) {
-      this.props.getCurrentReader()
-    }
-
   }
 
   componentWillReceiveProps = (nextProps) => {
