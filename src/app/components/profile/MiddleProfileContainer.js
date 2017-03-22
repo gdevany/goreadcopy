@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { StatusPost } from '../common'
 import TilesWrapper from '../readFeed/TilesWrapper'
 
-const { getProfileTiles } = Tiles
+const { getProfileTiles, prependProfileTile } = Tiles
 
 class RightProfileContainer extends PureComponent {
   constructor(props) {
@@ -27,7 +27,11 @@ class RightProfileContainer extends PureComponent {
     const { profile, isUserLoggedIn, id } = this.props
     return (
       <div className='right-container small-6 columns'>
-        {isUserLoggedIn ? <StatusPost targetId={id} /> : null}
+        {isUserLoggedIn ?
+          <StatusPost
+            targetId={id}
+            addPostedTile={prependProfileTile}
+          /> : null}
         {profile ? <TilesWrapper feed={profile} /> : null}
       </div>
     )
@@ -43,4 +47,7 @@ const mapStateToProps = ({
   }
 }) => { return { profile, id } }
 
-export default connect(mapStateToProps, { getProfileTiles })(RightProfileContainer)
+export default connect(mapStateToProps, {
+  getProfileTiles,
+  prependProfileTile
+})(RightProfileContainer)

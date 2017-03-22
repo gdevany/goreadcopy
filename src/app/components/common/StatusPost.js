@@ -30,6 +30,7 @@ class StatusPost extends PureComponent {
   constructor(props) {
     super(props)
     this.state = this.initialState()
+    this.state['targetId'] = null
     this.handleTextChange = this.handleTextChange.bind(this)
     this.checkMentions = this.checkMentions.bind(this)
     this.replaceMention = this.replaceMention.bind(this)
@@ -71,7 +72,11 @@ class StatusPost extends PureComponent {
     })
       // Pending to render created tile
       // and handle error exceptions
-      .then(res => console.log(res.data))
+      .then(res => {
+        console.log(res.data)
+        debugger
+        this.props.addPostedTile(res.data)
+      })
       .then(() => this.cleanStatusPost())
       .catch(err => {
         console.log(err)
@@ -84,7 +89,6 @@ class StatusPost extends PureComponent {
       body: '',
       mentions: '',
       image: '',
-      targetId: null,
       activeContent: '',
       onProcessMentions: [],
       processedMentions: [],

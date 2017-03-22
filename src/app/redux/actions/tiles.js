@@ -19,6 +19,14 @@ export function getProfileTiles(id, page) {
   }
 }
 
+export function prependProfileTile(tile) {
+  debugger
+  return {
+    type: B.PREPEND_PROFILE_TILE,
+    payload: tile
+  }
+}
+
 export function shareTile(id, shareType, comment) {
   if (comment) {
     return dispatch => {
@@ -118,5 +126,6 @@ export default {
   getComments,
   updateLikes,
   updateComments,
-  shareTile
+  shareTile,
+  prependProfileTile
 }

@@ -1,5 +1,6 @@
 import { CURRENT_READER as A, READERS as B } from '../const/actionTypes'
 import initialState from '../../initialState'
+import R from 'ramda'
 
 export default (state = initialState.tiles, { type, payload, errors }) => {
   switch (type) {
@@ -12,6 +13,12 @@ export default (state = initialState.tiles, { type, payload, errors }) => {
       return {
         ...state,
         profile: payload
+      }
+    case B.PREPEND_PROFILE_TILE:
+      debugger
+      return {
+        ...state,
+        profile: R.concat([payload], state.profile)
       }
     case B.GET_COMMENTS:
       const isFeedComments = state.feedComments || {}
