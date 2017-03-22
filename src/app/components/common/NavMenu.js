@@ -184,23 +184,34 @@ class NavMenu extends PureComponent {
   }
 
   handleMapProfileMenuItems = () => {
-    const { orders, referrals, settings, help } = routes
+    const { orders, referrals, help } = routes
 
     const nonMenuRoutes = [
       ['Orders', orders],
       ['Referrals', referrals],
-      ['Settings', settings],
+      ['Settings', '/profile/settings', true],
       ['Help', help],
     ]
 
-    const NonMenuItem = ([title, routeFn], index) => (
+    const NonMenuItem = ([title, routeFn, routeType], index) => (
       <li className='profile-menu-element' key={title + index}>
-        <a
-          className='profile-menu-anchor'
-          href={routeFn()}
-        >
-          {title}
-        </a>
+        { routeType ?
+          (
+            <Link
+              className='profile-menu-anchor'
+              to={routeFn}
+            >
+              {title}
+            </Link>
+          ) : (
+            <a
+              className='profile-menu-anchor'
+              href={routeFn()}
+            >
+              {title}
+            </a>
+          )
+        }
       </li>
     )
 
@@ -277,9 +288,12 @@ class NavMenu extends PureComponent {
         </li>
         <hr className='profile-menu-divider' />
         <li className='profile-menu-element'>
-          <a href={currentReader.url} className='profile-menu-anchor'>
-            View Profile
-          </a>
+          <Link
+            to={`/profile/${currentReader.slug}`}
+            className='profile-menu-anchor'
+          >
+              View Profile
+          </Link>
         </li>
         <hr className='profile-menu-divider' />
         { this.handleMapProfileMenuItems() }
@@ -412,14 +426,25 @@ class NavMenu extends PureComponent {
 
   }
   mapElementsHandler = (liClass, anchorClass) => {
-    return ([title, routeFn], index) => (
+    return ([title, routeFn, routeType], index) => (
       <li className={liClass} key={title + index}>
-        <a
-          className={anchorClass}
-          href={routeFn()}
-        >
-          {title}
-        </a>
+        { routeType ?
+          (
+            <Link
+              className={anchorClass}
+              to={routeFn}
+            >
+              {title}
+            </Link>
+          ) : (
+            <a
+              className={anchorClass}
+              href={routeFn()}
+            >
+              {title}
+            </a>
+          )
+        }
       </li>
     )
   }
@@ -427,11 +452,11 @@ class NavMenu extends PureComponent {
   handleMapProfileMenuItems = () => {
     const liClass = 'profile-menu-element'
     const anchorClass = 'profile-menu-anchor'
-    const { orders, referrals, settings, help } = routes
+    const { orders, referrals, help } = routes
     const nonMenuRoutes = [
       ['Orders', orders],
       ['Referrals', referrals],
-      ['Settings', settings],
+      ['Settings', '/profile/settings', true],
       ['Help', help],
     ]
     const NonMenuItem = this.mapElementsHandler(liClass, anchorClass)
@@ -454,7 +479,6 @@ class NavMenu extends PureComponent {
       videoTutorials,
       referrals,
       games,
-      settings,
       help
     } = routes
     let nonMenuRoutes
@@ -475,7 +499,7 @@ class NavMenu extends PureComponent {
     }
     if (type === 'Help') {
       nonMenuRoutes = [
-        ['Settings', settings],
+        ['Settings', 'profile/settings', true],
         ['Help', help],
       ]
     }

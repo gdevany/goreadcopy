@@ -23,7 +23,6 @@ const ExternalRoutes = () => {
     terms: () => backendUrl('terms'),
     orders: () => backendUrl('store/orders'),
     referrals: () => backendUrl('profile/referrals'),
-    settings: () => backendUrl('settings'),
     help: () => backendUrl('help'),
     readFeed: () => backendUrl(''),
     myBookClubs: () => backendUrl('bookclubs'),
