@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react'
 import Radium from 'radium'
 import { connect } from 'react-redux'
 import { Follow } from '../../redux/actions'
+import { Link } from 'react-router'
 import { FollowModal } from '../common'
-import { ExternalRoutes } from '../../constants'
 import { Chip } from 'material-ui'
 import { Colors } from '../../constants/style'
 import { Auth } from '../../services'
@@ -11,8 +11,6 @@ import { Auth } from '../../services'
 import R from 'ramda'
 
 const isUserLoggedIn = Auth.currentUserExists()
-
-const { editProfile } = ExternalRoutes
 
 const { getFollowers, getFollowed, updateFollowed } = Follow
 
@@ -119,7 +117,7 @@ class FollowProfile extends PureComponent {
       >
         {
           isCurrentReader ?
-            <a href={editProfile()}>Edit</a> :
+            <Link to='/profile/settings'>Edit</Link> :
             <a onClick={isViewMyProfile ? this.cantFollow : this.handleFollow}>
               {
                 followingUser ? 'Following' : 'Follow'
