@@ -290,3 +290,14 @@
     width: 50px;
   }
 }
+
+.reply {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  &:hover{
+    svg{
+      fill: $blue !important;
+    }
+  }
+}

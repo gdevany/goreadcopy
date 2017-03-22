@@ -47,19 +47,53 @@ export function getComments(tileId, page, isProfilePage) {
   }
 }
 
-export function updateComments(tileId, comment, datetime, profile) {
+function addNewComment(comments, newComment, parentId) {
+  let found = false
+  return comments.map(comment => {
+    if (comment.id === parentId) {
+      comment.children = R.concat(comment.children, [newComment])
+      found = true
+    }
+    if (!found) {
+      comment.children = addNewComment(comment.children, newComment, parentId)
+    }
+    return comment
+  })
+}
+
+export function updateComments(tileId, comment, parentId, datetime, profile) {
   return (dispatch, getState) => {
-    ReaderTiles.updateComments(tileId, { comment })
-      .then(() => {
+    ReaderTiles.updateComments(tileId, { comment, parentId })
+      .then((resp) => {
+        const data = resp ? resp.data : false
+        const commentId = data ? data.commentId : tileId
         const existingTilesComments = getState().tiles.feedComments || {}
         const tileInfo = R.prop(tileId, existingTilesComments) || {}
         const commentsForTile = tileInfo.comments || []
-        const newComments = R.concat(commentsForTile, [{
-          id: tileId,
+        const newComment = {
+          id: commentId,
           comment,
           datetime,
           profile
-        }])
+        }
+        let newComments
+        if (parentId) {
+          let found = false
+          newComments = commentsForTile.map(comment => {
+            if (comment.id === parentId) {
+              comment.children = R.concat(comment.children, [newComment])
+              found = true
+            }
+            if (!found) {
+              comment.children = addNewComment(comment.children, newComment, parentId)
+            }
+            return comment
+          })
+        } else {
+          newComments = R.concat(commentsForTile, [
+            newComment
+          ])
+        }
         const newTileComments = { [tileId]: { comments: newComments } }
         dispatch({
           type: B.UPDATE_COMMENTS,
