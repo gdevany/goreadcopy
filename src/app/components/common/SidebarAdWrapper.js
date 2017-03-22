@@ -14,8 +14,8 @@ class SidebarAdWrapper extends PureComponent {
   mapSidebarAds = () => {
     const { sidebarAds } = this.props
     if (sidebarAds.results) {
-      return sidebarAds.results.map((ad) => {
-        return <SidebarAd key={ad.author.id} content={ad}/>
+      return sidebarAds.results.map((ad, idx) => {
+        return <SidebarAd key={idx} content={ad}/>
       })
     }
     return null
