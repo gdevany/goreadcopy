@@ -306,7 +306,6 @@ const TilesWrapper = ({ feed }) => {
                 commentedByReader,
                 likes,
                 likedByReader,
-
               } = tile.advertiser.buzzAd
               const adContent = {
                 promoted: true,
