@@ -69,7 +69,7 @@ class StatusPost extends PureComponent {
       targetId,
       activeContent
     })
-      // Pending to render created tile 
+      // Pending to render created tile
       // and handle error exceptions
       .then(res => console.log(res.data))
       .then(() => this.cleanStatusPost())
