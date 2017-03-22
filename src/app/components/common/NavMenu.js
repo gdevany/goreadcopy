@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { stack as MobileMenu } from 'react-burger-menu'
 import { Link } from 'react-router'
 import { Auth, CurrentReader } from '../../redux/actions'
+import { Auth as CurrentToken } from '../../services'
 import { connect } from 'react-redux'
 import R from 'ramda'
 import SecondaryButton from './SecondaryButton'
@@ -19,8 +20,8 @@ import LitcoinStatus from './LitcoinStatus'
 import './styles/mobile-menu.scss'
 
 const { CATEGORIES, GENRES } = PopularTopics
-const { processUserLogout } = Auth
-const { usePlatformAs } = CurrentReader
+const { usePlatformAs, getCurrentReader } = CurrentReader
+const { verifyUserToken, processUserLogout } = Auth
 
 const styles = {
   navContainer: {
@@ -116,6 +117,7 @@ class NavMenu extends PureComponent {
       profileMenuOpen: false,
       searchModalOpen: false,
       usePlatformAs: false,
+      readerFetched: false,
     }
 
     this.handleModalClose = this.handleModalClose.bind(this)
@@ -126,7 +128,30 @@ class NavMenu extends PureComponent {
     this.handleClickSearch = this.handleClickSearch.bind(this)
   }
 
+  componentWillMount = () => {
+
+    const token = CurrentToken.token()
+    if (token) {
+      this.props.verifyUserToken({
+        token,
+      })
+    }
+
+    if (CurrentToken.currentUserExists()) {
+      this.props.getCurrentReader()
+    }
+
+  }
+
   componentWillReceiveProps = (nextProps) => {
+
+    if (nextProps.currentReader.token && !this.state.readerFetched) {
+      this.props.getCurrentReader()
+      this.setState({
+        readerFetched: true
+      })
+    }
+
     if (!this.state.usePlatformAs && nextProps.currentReader.publishingAs) {
       this.setState({ usePlatformAs: nextProps.currentReader.publishingAs })
     }
@@ -327,7 +352,7 @@ class NavMenu extends PureComponent {
           <div className='side-by-side-wrapper' onMouseLeave={this.handleRequestClose}>
             <div className='side-left'>
 
-              <Menu styles={styles}>
+              <Menu style={styles}>
                 <MenuItem
                   className='nav-popover-menu-title'
                   primaryText='BROWSE CATEGORIES:'
@@ -815,4 +840,11 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { processUserLogout, usePlatformAs })(NavMenu)
+const mapDispatchToProps = {
+  processUserLogout,
+  usePlatformAs,
+  getCurrentReader,
+  verifyUserToken
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavMenu)
