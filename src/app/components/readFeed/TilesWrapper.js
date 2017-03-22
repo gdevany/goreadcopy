@@ -296,11 +296,16 @@ const TilesWrapper = ({ feed }) => {
           switch (tile.advertiser.name) {
             case 'readerslegacy':
               const {
+                id,
                 imageUrl,
                 heading,
                 description,
                 url,
                 author,
+                comments,
+                commentedByReader,
+                likes,
+                likedByReader,
               } = tile.advertiser.buzzAd
               const adContent = {
                 promoted: true,
@@ -311,18 +316,19 @@ const TilesWrapper = ({ feed }) => {
                 socialComment: (tile.socialPostComment || null)
               }
               tileDefaultProps = {
+                id: id,
                 author: {
                   name: (author.fullname),
                   image: (author.imageUrl),
                   link: (author.url)
                 },
                 likes: {
-                  count: 0,
-                  likedByReader: true
+                  count: likes.count,
+                  likedByReader: likedByReader
                 },
                 comments: {
-                  count: 0,
-                  commentedByReader: false,
+                  count: comments.count,
+                  commentedByReader: commentedByReader,
                 },
                 shareInfo: {
                   title: tile.advertiser.buzzAd.heading,
