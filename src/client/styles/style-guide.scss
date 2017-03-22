@@ -146,6 +146,65 @@ input[type="checkbox"]:focus{
 .logo-share-img{
   width: 35px;
 }
+
+.sidear-quoutes-container{
+  list-style: none;
+}
+
+.quoutes-list-element{
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: row;
+  margin-bottom: 1em;
+  .quotes-image{
+    width: 15px;
+    margin: 0 20px 0 -20px;
+  }
+  .quoutes-text{
+    margin: 0;
+  }
+}
+
+.sidebar-element-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 1em;
+  padding: 30px;
+  background-color: $white;
+  .sidebar-element-title{
+    width: 100%;
+    font-weight: 400;
+    font-size: 17px;
+    margin-bottom: 1em;
+  }
+}
+
+.sidebar-element-container > div.text-left{
+  margin-top: 0 !important;
+}
+
+.sidebar-favorite-genres-container{
+  margin-top: 1em;
+}
+
+.sidebar-books-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  margin: 1em 0;
+  padding: 0;
+  background-color: $white;
+}
+.sidebar-books-tab-container{
+  padding: 1em;
+}
+
 @import 'variables.scss';
 @import 'general.scss';
 @import 'errors.scss';
