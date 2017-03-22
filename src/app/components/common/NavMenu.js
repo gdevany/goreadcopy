@@ -15,6 +15,7 @@ import AuthedRedirect from './AuthedRedirect'
 import MenuIcon from 'material-ui/svg-icons/navigation/menu'
 import Badge from 'material-ui/Badge'
 import LitcoinStatus from './LitcoinStatus'
+import ChatFrame from './ChatFrame'
 
 import './styles/mobile-menu.scss'
 
@@ -117,6 +118,7 @@ class NavMenu extends PureComponent {
       searchModalOpen: false,
       usePlatformAs: false,
       readerFetched: false,
+      chatModalOpen: false,
     }
 
     this.handleModalClose = this.handleModalClose.bind(this)
@@ -125,6 +127,7 @@ class NavMenu extends PureComponent {
     this.handleProfileMenuHide = this.handleProfileMenuHide.bind(this)
     this.handleLogoutClick = this.handleLogoutClick.bind(this)
     this.handleClickSearch = this.handleClickSearch.bind(this)
+    this.handleClickChat = this.handleClickChat.bind(this)
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -190,6 +193,15 @@ class NavMenu extends PureComponent {
 
   handleSearchClose = () => {
     this.setState({ searchModalOpen: false })
+  }
+
+  handleClickChat = (event) => {
+    event.preventDefault()
+    this.setState({ chatModalOpen: true })
+  }
+
+  handleChatClose = () => {
+    this.setState({ chatModalOpen: false })
   }
 
   handleMapProfileMenuItems = () => {
@@ -684,8 +696,12 @@ class NavMenu extends PureComponent {
                   </Link>
                 </li>
 
-                <li className='logged-menu-item'>
-                  <a href='' style={styles.navItemLinks} className='messages-link rf-nav-link'>
+                <li style={styles.loggedInNavLi} className='loged-menu-item'>
+                  <a
+                    style={styles.navItemLinks}
+                    className='messages-link rf-nav-link'
+                    onClick={this.handleClickChat}
+                  >
                     Messages
                   </a>
                 </li>
@@ -753,6 +769,10 @@ class NavMenu extends PureComponent {
         <SearchModal
           modalOpen={this.state.searchModalOpen}
           handleClose={this.handleSearchClose}
+        />
+        <ChatFrame
+          modalOpen={this.state.chatModalOpen}
+          handleClose={this.handleChatClose}
         />
       </div>
     )
