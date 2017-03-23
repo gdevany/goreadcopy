@@ -9,7 +9,9 @@ import Dropzone from 'react-dropzone'
 import urlParser from 'js-video-url-parser'
 import R from 'ramda'
 import Promise from 'bluebird'
+import { Tiles } from '../../redux/actions'
 
+const { prependProfileTile } = Tiles
 const { uploadImage } = Images
 const { search } = Search
 const { postNewMessage } = Posts
@@ -42,6 +44,7 @@ class StatusPost extends PureComponent {
     this.refreshMentions = this.refreshMentions.bind(this)
     this.getMentions = debounce(this.getMentions, 250)
     this.onImageDrop = this.onImageDrop.bind(this)
+    this.createPostTile = this.createPostTile.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -73,9 +76,7 @@ class StatusPost extends PureComponent {
       // Pending to render created tile
       // and handle error exceptions
       .then(res => {
-        console.log(res.data)
-        debugger
-        this.props.addPostedTile(res.data)
+        this.createPostTile(this.props.postTileTarget, res.data)
       })
       .then(() => this.cleanStatusPost())
       .catch(err => {
@@ -104,6 +105,15 @@ class StatusPost extends PureComponent {
 
   cleanStatusPost() {
     this.setState(this.initialState())
+  }
+
+  createPostTile(target, tile) {
+    switch (target) {
+      case 'profile':
+        this.props.prependProfileTile(tile)
+        break
+      default:
+    }
   }
 
   handleTextChange(event) {
@@ -384,4 +394,10 @@ const mapStateToProps = ({
   }
 }
 
-export default connect(mapStateToProps, null)(StatusPost)
+const mapDispatchToProps = () => {
+  return {
+    prependProfileTile
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StatusPost)

@@ -1,6 +1,7 @@
 import { CURRENT_READER as A, READERS as B } from '../const/actionTypes'
 import CurrentReaderTiles from '../../services/api/currentReader/tiles'
 import ReaderTiles from '../../services/api/tiles'
+//import { Promise } from '../../services'
 import R from 'ramda'
 
 export function getReadFeedTiles(page) {
@@ -20,10 +21,10 @@ export function getProfileTiles(id, page) {
 }
 
 export function prependProfileTile(tile) {
-  debugger
-  return {
-    type: B.PREPEND_PROFILE_TILE,
-    payload: tile
+  return dispatch => {
+    return Promise.resolve(dispatch({ type: B.PREPEND_PROFILE_TILE, payload: tile }))
+      .then(() => console.log('Promise dispatched'))
+      .catch(err => console.error(err))
   }
 }
 

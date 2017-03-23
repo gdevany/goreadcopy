@@ -15,7 +15,6 @@ export default (state = initialState.tiles, { type, payload, errors }) => {
         profile: payload
       }
     case B.PREPEND_PROFILE_TILE:
-      debugger
       return {
         ...state,
         profile: R.concat([payload], state.profile)
