@@ -5,6 +5,7 @@ import { Follow } from '../../redux/actions'
 import { Link } from 'react-router'
 import { FollowModal } from '../common'
 import { Chip } from 'material-ui'
+import { LogInModal } from '../common'
 import { Colors } from '../../constants/style'
 import { Auth } from '../../services'
 
@@ -52,9 +53,11 @@ class FollowProfile extends PureComponent {
       triggerCantFollow: false,
       followingUser: false,
       followed: [],
+      modalLogInOpen: false,
     }
 
     this.handleClose = this.handleClose.bind(this)
+    this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
   }
 
   componentDidMount = () => {
@@ -118,14 +121,33 @@ class FollowProfile extends PureComponent {
         {
           isCurrentReader ?
             <Link to='/profile/settings'>Edit</Link> :
-            <a onClick={isViewMyProfile ? this.cantFollow : this.handleFollow}>
-              {
-                followingUser ? 'Following' : 'Follow'
+            <div>
+              {isUserLoggedIn ?
+                (
+                  <a onClick={isViewMyProfile ? this.cantFollow : this.handleFollow}>
+                    {
+                      followingUser ? 'Following' : 'Follow'
+                    }
+                  </a>
+                ) : (
+                  <a onClick={this.handleLogInModalOpen}>
+                    Follow
+                  </a>
+                )
               }
-            </a>
+            </div>
         }
       </Chip>
     )
+  }
+
+  handleLogInModalClose = () => {
+    this.setState({ modalLogInOpen: false })
+  }
+
+  handleLogInModalOpen = (event) => {
+    event.preventDefault()
+    this.setState({ modalLogInOpen: true })
   }
 
   render() {
@@ -166,7 +188,9 @@ class FollowProfile extends PureComponent {
             <div className='followers small-4 columns'>
               <div
                 className='profile-link'
-                onClick={isUserLoggedIn ? () => this.handleOpen('followers') : null}
+                onClick={isUserLoggedIn ?
+                  () => this.handleOpen('followers') : this.handleLogInModalOpen
+                }
               >
                 <span className='small-title'>
                   Followers
@@ -178,7 +202,9 @@ class FollowProfile extends PureComponent {
             <div className='following small-4 columns'>
               <div
                 className='profile-link'
-                onClick={isUserLoggedIn ? () => this.handleOpen('following') : null}
+                onClick={isUserLoggedIn ?
+                  () => this.handleOpen('following') : this.handleLogInModalOpen
+                }
               >
                 <span className='small-title'>
                   Following
@@ -199,6 +225,10 @@ class FollowProfile extends PureComponent {
             handleClose={toCloseModal}
             count={modalFollowCount}
             followType={modalFollowType}
+          />
+          <LogInModal
+            modalOpen={this.state.modalLogInOpen}
+            handleClose={this.handleLogInModalClose}
           />
         </div>
       </div>

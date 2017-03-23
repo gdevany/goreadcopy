@@ -44,6 +44,7 @@ class SignInModal extends Component {
     event.preventDefault()
     const credentials = R.pick(['username', 'password'], this.state)
     this.props.processUserLogin(credentials)
+    this.props.handleClose()
   }
 
   handleOnChange = R.curry((field, e) => {

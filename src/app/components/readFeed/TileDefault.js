@@ -2,6 +2,7 @@ import React, { PureComponent, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Tiles } from '../../redux/actions'
 import { PrimaryButton } from '../common'
+import { LogInModal } from '../common'
 import { Colors } from '../../constants/style'
 import { Auth } from '../../services'
 import {
@@ -190,8 +191,12 @@ class TileDefault extends PureComponent {
       sharePostOpen: false,
       commentParentId: false,
       replyPlaceholder: false,
-      isAutofocus: false
+      isAutofocus: false,
+      modalLogInOpen: false,
     }
+
+    this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
+
   }
 
   renderTime = (time) => {
@@ -209,6 +214,15 @@ class TileDefault extends PureComponent {
     const { likedCount } = this.state
     const { tileId, updateLikes } = this.props
     if (prevState.likedCount !== likedCount) updateLikes(tileId, { liked: true })
+  }
+
+  handleLogInModalClose = () => {
+    this.setState({ modalLogInOpen: false })
+  }
+
+  handleLogInModalOpen = (event) => {
+    event.preventDefault()
+    this.setState({ modalLogInOpen: true })
   }
 
   handleLiked = () => {
@@ -537,7 +551,7 @@ class TileDefault extends PureComponent {
               <div className='small-4 columns' style={styles.likesContainer}>
                 <div className='likes-count'>
                   <a
-                    onClick={isUserLoggedIn ? this.handleLiked : null}
+                    onClick={isUserLoggedIn ? this.handleLiked : this.handleLogInModalOpen}
                     className={liked ? 'liked' : 'not-liked'}
                   />
 
@@ -555,7 +569,7 @@ class TileDefault extends PureComponent {
                   className='comments-count'
                 >
                   <a
-                    onClick={isUserLoggedIn ? this.handleCommentsOpen : null}
+                    onClick={isUserLoggedIn ? this.handleCommentsOpen : this.handleLogInModalOpen}
                     className={commented ? 'commented' : 'not-commented'}
                   />
 
@@ -597,6 +611,10 @@ class TileDefault extends PureComponent {
                 </div>
             }
           </CardText>
+          <LogInModal
+            modalOpen={this.state.modalLogInOpen}
+            handleClose={this.handleLogInModalClose}
+          />
         </Card>
         <Popover
           open={this.state.sharedOpen}
