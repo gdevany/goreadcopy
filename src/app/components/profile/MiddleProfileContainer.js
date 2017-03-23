@@ -15,7 +15,8 @@ class RightProfileContainer extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { id, getProfileTiles } = nextProps
+    const { id } = nextProps
+    const { getProfileTiles } = this.props
     const { gotFirstTiles } = this.state
     if (id && getProfileTiles && !gotFirstTiles) {
       getProfileTiles(id)
@@ -41,11 +42,8 @@ class RightProfileContainer extends PureComponent {
 const mapStateToProps = ({
   tiles: {
     profile
-  },
-  profilePage: {
-    id
   }
-}) => { return { profile, id } }
+}) => { return { profile } }
 
 export default connect(mapStateToProps, {
   getProfileTiles,
