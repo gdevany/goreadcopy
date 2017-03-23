@@ -53,6 +53,12 @@ class StatusPost extends PureComponent {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!this.state.targetId && !this.props.targetId && nextProps.targetId) {
+      this.setState({ targetId: nextProps.targetId })
+    }
+  }
+
   onUploadButtonClick(event) {
     event.preventDefault()
     this.dropzone.open()
