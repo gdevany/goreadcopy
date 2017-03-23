@@ -73,11 +73,7 @@ class StatusPost extends PureComponent {
       targetId,
       activeContent
     })
-      // Pending to render created tile
-      // and handle error exceptions
-      .then(res => {
-        this.createPostTile(this.props.postTileTarget, res.data)
-      })
+      .then(res => this.createPostTile(this.props.postTileTarget, res.data))
       .then(() => this.cleanStatusPost())
       .catch(err => {
         console.log(err)
@@ -394,10 +390,4 @@ const mapStateToProps = ({
   }
 }
 
-const mapDispatchToProps = () => {
-  return {
-    prependProfileTile
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(StatusPost)
+export default connect(mapStateToProps, { prependProfileTile })(StatusPost)

@@ -23,7 +23,6 @@ export function getProfileTiles(id, page) {
 export function prependProfileTile(tile) {
   return dispatch => {
     return Promise.resolve(dispatch({ type: B.PREPEND_PROFILE_TILE, payload: tile }))
-      .then(() => console.log('Promise dispatched'))
       .catch(err => console.error(err))
   }
 }
