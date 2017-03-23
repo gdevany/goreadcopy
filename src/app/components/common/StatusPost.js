@@ -44,7 +44,6 @@ class StatusPost extends PureComponent {
     this.refreshMentions = this.refreshMentions.bind(this)
     this.getMentions = debounce(this.getMentions, 250)
     this.onImageDrop = this.onImageDrop.bind(this)
-    this.createPostTile = this.createPostTile.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
