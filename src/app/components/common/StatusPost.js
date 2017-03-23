@@ -79,7 +79,7 @@ class StatusPost extends PureComponent {
       targetId,
       activeContent
     })
-      .then(res => this.createPostTile(this.props.postTileTarget, res.data))
+      .then(res => this.props.postNewTile(res.data))
       .then(() => this.cleanStatusPost())
       .catch(err => {
         console.log(err)
@@ -107,15 +107,6 @@ class StatusPost extends PureComponent {
 
   cleanStatusPost() {
     this.setState(this.initialState())
-  }
-
-  createPostTile(target, tile) {
-    switch (target) {
-      case 'profile':
-        this.props.prependProfileTile(tile)
-        break
-      default:
-    }
   }
 
   handleTextChange(event) {
