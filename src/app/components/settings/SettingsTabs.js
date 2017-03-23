@@ -9,6 +9,7 @@ import MenuItem from 'material-ui/MenuItem'
 import FileDownloadIcon from 'material-ui/svg-icons/file/file-download'
 import Dropzone from 'react-dropzone'
 import Promise from 'bluebird'
+import FavoriteGenresModal from '../common/FavoriteGenresModal'
 
 const { uploadImage } = Images
 
@@ -42,8 +43,18 @@ class SettingsTabs extends PureComponent {
       hasProfileImage: false,
       backgroundImageUpload: null,
       hasBackgroundImage: false,
+      modalOpen: false,
     }
     this.handleButtonClick = this.handleButtonClick.bind(this)
+    this.handleClose = this.handleClose.bind(this)
+  }
+
+  handleOpen = () => {
+    this.setState({ modalOpen: true })
+  }
+
+  handleClose = () => {
+    this.setState({ modalOpen: false })
   }
 
   handleTabClick = (tabIndex) => {
@@ -167,7 +178,7 @@ class SettingsTabs extends PureComponent {
 
   renderTabOne = () => {
     const { currentReader } = this.props
-    const { profileImageUpload, backgroundImageUpload } = this.state
+    const { profileImageUpload, backgroundImageUpload, modalOpen } = this.state
     const getImage = currentReader.profileImage || profileImageUpload ?
       this.renderImage(currentReader.profileImage, profileImageUpload) : null
     const getBackgroundImage = currentReader.backgroundImage || backgroundImageUpload ?
@@ -222,10 +233,15 @@ class SettingsTabs extends PureComponent {
             </div>
             <a
               className='profile-editor-add-genres'
-              onClick={this.handleButtonClick}
+              onClick={this.handleOpen}
             >
               + Add or edit genres
             </a>
+            <FavoriteGenresModal
+              modalOpen={modalOpen}
+              handleClose={this.handleClose}
+              genreIds={currentReader.genreIds}
+            />
           </div>
         </div>
         <div className='profile-editor-section-container'>

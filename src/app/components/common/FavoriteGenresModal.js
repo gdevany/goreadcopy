@@ -323,7 +323,7 @@ class FavoriteGenresModal extends PureComponent {
           autoScrollBodyContent={true}
         >
           <img
-            src='./image/close.png'
+            src='/image/close.png'
             className='general-font center-text signup-modal-x'
             onClick={handleClose}
           /><br />
