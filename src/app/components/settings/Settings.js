@@ -6,7 +6,6 @@ import SettingsTabs from './SettingsTabs'
 import { CurrentReader } from '../../redux/actions'
 import { Auth } from '../../services'
 import { Auth as AuthAction } from '../../redux/actions'
-import { Auth as CurrentToken } from '../../services'
 
 const { getCurrentReader } = CurrentReader
 const { verifyUserToken } = AuthAction
@@ -15,11 +14,14 @@ class Settings extends PureComponent {
 
   constructor(props) {
     super(props)
+    this.state = {
+      readerFetched: false
+    }
   }
 
   componentWillMount = () => {
 
-    const token = CurrentToken.token()
+    const token = Auth.token()
     if (token) {
       this.props.verifyUserToken({
         token,
@@ -30,14 +32,17 @@ class Settings extends PureComponent {
 
   }
   componentWillReceiveProps = (nextProps) => {
-    if (nextProps.currentReader.token) {
+    if (nextProps.currentReader.token && !this.state.readerFetched) {
       this.props.getCurrentReader()
+      this.setState({
+        readerFetched: true
+      })
     }
   }
 
   render() {
     const isUserLoggedIn = Auth.currentUserExists()
-    return CurrentToken.currentUserExists() ?
+    return Auth.currentUserExists() ?
     (
       <div>
         <NavMenu isUserLoggedIn={isUserLoggedIn}/>

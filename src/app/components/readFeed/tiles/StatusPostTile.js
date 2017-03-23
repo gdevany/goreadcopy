@@ -34,9 +34,13 @@ class StatusPostTile extends PureComponent {
               {content.socialComment ? content.socialComment : null}
             </p>
           </div>
-          <figure className='statuspost-figure'>
-            <img className='statuspost-img' src={content.image} alt='status-post'/>
-          </figure>
+          { content.image ?
+            (
+              <figure className='statuspost-figure'>
+                <img className='statuspost-img' src={content.image} alt='status-post'/>
+              </figure>
+            ) : null
+          }
           <div className='statuspost-content'>
             <div className='post-excerpt-container'>
               <p className='post-excerpt-pharagraph'>
