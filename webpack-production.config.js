@@ -25,9 +25,11 @@ module.exports = {
       'process.env': JSON.stringify({
         REDIRECT_BASE_URL: process.env.REDIRECT_BASE_URL,
         API_URL: process.env.API_URL,
+        NODE_ENV: JSON.stringify('production')
       })
     }),
     new webpack.optimize.UglifyJsPlugin({
+      minimize: true,
       compress: {
         warnings: false,
       },
