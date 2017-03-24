@@ -11,7 +11,7 @@ import R from 'ramda'
 
 export function getRecommendation(amount) {
   return (dispatch, getState) => {
-    const currentReaderGenres = getState().currentReader.genreIds
+    const currentReaderGenres = getState().currentReader.genreIds || []
     const readerDataGenres = getState().readerData.genreIds
     const genreData =
       R.isEmpty(currentReaderGenres) ?
