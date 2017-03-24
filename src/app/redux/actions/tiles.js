@@ -27,6 +27,13 @@ export function prependProfileTile(tile) {
   }
 }
 
+export function prependReadFeedTile(tile) {
+  return dispatch => {
+    return Promise.resolve(dispatch({ type: A.PREPEND_READFEED_TILE, payload: tile }))
+      .catch(err => console.error(err))
+  }
+}
+
 export function shareTile(id, shareType, comment) {
   if (comment) {
     return dispatch => {
@@ -127,5 +134,6 @@ export default {
   updateLikes,
   updateComments,
   shareTile,
-  prependProfileTile
+  prependProfileTile,
+  prependReadFeedTile,
 }
