@@ -48,9 +48,9 @@ class SettingsTabs extends PureComponent {
       tabOneOpen: true,
       tabTwoOpen: false,
       tabThreeOpen: false,
-      profileImageUpload: null,
+      profileImageUpload: false,
       hasProfileImage: false,
-      backgroundImageUpload: null,
+      backgroundImageUpload: false,
       hasBackgroundImage: false,
       modalOpen: false,
       readerFetched: false,
@@ -322,7 +322,7 @@ class SettingsTabs extends PureComponent {
     return (
       <figure className='profile-photo-editor-figure'>
         <img
-          src={upload ? upload[0].preview : image}
+          src={upload[0] ? upload[0].preview : image}
           key='profile-image'
         />
       </figure>
@@ -333,7 +333,7 @@ class SettingsTabs extends PureComponent {
     return (
       <figure className='background-photo-editor-figure'>
         <img
-          src={upload ? upload[0].preview : image}
+          src={upload[0] ? upload[0].preview : image}
           key='background-image'
         />
       </figure>
@@ -379,6 +379,7 @@ class SettingsTabs extends PureComponent {
             className='profile-editor-favorite-quote-textarea'
             onChange={this.handleOnChange('favoriteQuote1')}
             value={favoriteQuote1}
+            maxLength={255}
           />
         </div>
         <div className='profile-edidor-quote-container'>
@@ -389,6 +390,7 @@ class SettingsTabs extends PureComponent {
             className='profile-editor-favorite-quote-textarea'
             onChange={this.handleOnChange('favoriteQuote2')}
             value={favoriteQuote2}
+            maxLength={255}
           />
         </div>
         <div className='profile-edidor-quote-container'>
@@ -399,6 +401,7 @@ class SettingsTabs extends PureComponent {
             className='profile-editor-favorite-quote-textarea'
             onChange={this.handleOnChange('favoriteQuote3')}
             value={favoriteQuote3}
+            maxLength={255}
           />
         </div>
         <div className='profile-edidor-quote-container'>
@@ -409,6 +412,7 @@ class SettingsTabs extends PureComponent {
             className='profile-editor-favorite-quote-textarea'
             onChange={this.handleOnChange('favoriteQuote4')}
             value={favoriteQuote4}
+            maxLength={255}
           />
         </div>
         <div className='profile-edidor-quote-container'>
@@ -419,6 +423,7 @@ class SettingsTabs extends PureComponent {
             className='profile-editor-favorite-quote-textarea'
             onChange={this.handleOnChange('favoriteQuote5')}
             value={favoriteQuote5}
+            maxLength={255}
           />
         </div>
       </div>
@@ -589,6 +594,8 @@ class SettingsTabs extends PureComponent {
             <Dropzone
               onDrop={this.profileUpload}
               className='dropzone-settings-page'
+              accept='image/*'
+
             >
               {getImage}
               <a
@@ -606,6 +613,7 @@ class SettingsTabs extends PureComponent {
             <Dropzone
               onDrop={this.backgroundUpload}
               className='dropzone-settings-page'
+              accept='image/*'
             >
               {getBackgroundImage}
               <a
