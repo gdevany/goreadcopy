@@ -1,6 +1,7 @@
 import { CURRENT_READER as A, READERS as B } from '../const/actionTypes'
 import CurrentReaderTiles from '../../services/api/currentReader/tiles'
 import ReaderTiles from '../../services/api/tiles'
+//import { Promise } from '../../services'
 import R from 'ramda'
 
 export function getReadFeedTiles(page) {
@@ -16,6 +17,13 @@ export function getProfileTiles(id, page) {
     ReaderTiles.getProfileTiles(id, { page })
     .then(res => dispatch({ type: B.GET_PROFILE_TILES, payload: res.data.results }))
     .catch(err => console.error(`Error in getProfileTiles: ${err}`))
+  }
+}
+
+export function prependProfileTile(tile) {
+  return dispatch => {
+    return Promise.resolve(dispatch({ type: B.PREPEND_PROFILE_TILE, payload: tile }))
+      .catch(err => console.error(err))
   }
 }
 
@@ -118,5 +126,6 @@ export default {
   getComments,
   updateLikes,
   updateComments,
-  shareTile
+  shareTile,
+  prependProfileTile
 }
