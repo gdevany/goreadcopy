@@ -45,7 +45,10 @@ export const CURRENT_READER = { // for /current_reader
 }
 
 export const PROFILE_PAGE = {
-  GET_PROFILE_PAGE: 'GET_PROFILE_PAGE'
+  GET_PROFILE_PAGE: 'GET_PROFILE_PAGE',
+  GET_CURRENTLY_READING: 'GET_CURRENTLY_READING',
+  GET_LIBRARY: 'GET_LIBRARY',
+
 }
 
 export const SEARCH = {

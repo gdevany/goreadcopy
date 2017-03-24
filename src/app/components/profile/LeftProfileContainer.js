@@ -35,7 +35,7 @@ const LeftProfileContainer = ({
             isViewMyProfile={isViewMyProfile}
           /> : null
       }
-    <BooksSection />
+    <BooksSection id={id}/>
     <div className='sidebar-element-container sidebar-favorite-genres-container box '>
       <FavoriteGenres
         genreIds={genreIds}

@@ -1,6 +1,10 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { Colors } from '../../constants/style'
+import { ProfilePage } from '../../redux/actions'
+
+const { getCurrentlyReading, getLibrary } = ProfilePage
 
 const styles = {
   headline: {
@@ -28,6 +32,17 @@ const styles = {
 }
 
 class BooksSection extends PureComponent {
+  constructor(props) {
+    super(props)
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.id) {
+      this.props.getCurrentlyReading(nextProps.id)
+      this.props.getLibrary(nextProps.id)
+    }
+  }
+
   render() {
     return (
       <div className='sidebar-books-container box'>
@@ -85,5 +100,9 @@ class BooksSection extends PureComponent {
     )
   }
 }
-
-export default BooksSection
+// const mapStateToProps = (state) => {
+//   return {
+//     getCurrentlyReading: state.profilePage.
+//   }
+// }
+export default connect(null, { getCurrentlyReading, getLibrary })(BooksSection)

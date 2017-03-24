@@ -9,6 +9,24 @@ export function getProfilePage(slug) {
   }
 }
 
+export function getCurrentlyReading(id) {
+  return dispatch => {
+    ProfilePage.currentlyReading(id)
+      .then(res => dispatch({ type: A.GET_CURRENTLY_READING, payload: res.data }))
+      .catch(err => console.error(`Error in getCurrentlyReading ${err}`))
+  }
+}
+
+export function getLibrary(id) {
+  return dispatch => {
+    ProfilePage.getLibrary(id)
+      .then(res => dispatch({ type: A.GET_LIBRARY, payload: res.data }))
+      .catch(err => console.error(`Error in getLibrary ${err}`))
+  }
+}
+
 export default {
   getProfilePage,
+  getCurrentlyReading,
+  getLibrary
 }
