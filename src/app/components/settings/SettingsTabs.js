@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Images, CurrentReader } from '../../redux/actions'
 import PrimaryButton from '../common/PrimaryButton'
 import Toggle from 'material-ui/Toggle'
+import Snackbar from 'material-ui/Snackbar'
 import { Colors } from '../../constants/style'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
@@ -51,6 +52,7 @@ class SettingsTabs extends PureComponent {
       hasBackgroundImage: false,
       modalOpen: false,
       readerFetched: false,
+      snackbarOpen: false,
       favoriteQuote1: '',
       favoriteQuote2: '',
       favoriteQuote3: '',
@@ -148,6 +150,18 @@ class SettingsTabs extends PureComponent {
     this.setState({ modalOpen: false })
   }
 
+  handleSnackbarClose = () => {
+    this.setState({
+      snackbarOpen: false,
+    })
+  }
+
+  handleSnackbarOpen = () => {
+    this.setState({
+      snackbarOpen: true,
+    })
+  }
+
   handleSecondTabSubmit = (event) => {
     event.preventDefault()
     const {
@@ -193,11 +207,11 @@ class SettingsTabs extends PureComponent {
         zipcode
       }
     }
-
+    this.props.updateReader(readerData)
     this.setState({
       readerFetched: false,
+      snackbarOpen: true,
     })
-    this.props.updateReader(readerData)
   }
 
   handleThirdTabSubmit = (event) => {
@@ -221,10 +235,11 @@ class SettingsTabs extends PureComponent {
       notifyShared,
       receiveAuthorEmail
     }
+    this.props.updateReader(readerData)
     this.setState({
       readerFetched: false,
+      snackbarOpen: true,
     })
-    this.props.updateReader(readerData)
   }
 
   handleTabClick = (tabIndex) => {
@@ -1026,6 +1041,14 @@ class SettingsTabs extends PureComponent {
           {tabTwoOpen ? this.renderTabTwo() : null}
           {tabThreeOpen ? this.renderTabThree() : null}
         </section>
+        <Snackbar
+          open={this.state.snackbarOpen}
+          message={'Succesfully saved'}
+          action='undo'
+          autoHideDuration={3000}
+          onActionTouchTap={this.handleSnackbarOpen}
+          onRequestClose={this.handleSnackbarClose}
+        />
       </section>
     )
   }
