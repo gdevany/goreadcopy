@@ -1,3 +1,4 @@
+import Env from '../constants/env'
 import Storage from './storage'
 import Basil from 'basil.js'
 
@@ -8,7 +9,7 @@ const Auth = () => {
   const CSRF_TOKEN_FIELD = 'csrftoken'
 
   const setToken = (token) => {
-    return Storage.set(TOKEN_FIELD, token, { secure: true })
+    return Storage.set(TOKEN_FIELD, token, Env.PRODUCTION_ENV ? { secure: true } : { })
   }
 
   const token = () => {
