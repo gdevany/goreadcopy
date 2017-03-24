@@ -35,12 +35,15 @@ const styles = {
 
   chipText: {
     color: Colors.blue,
-    fontSize: 14,
+    fontSize: 12,
   },
 
   checkmark: {
     marginRight: 7,
   },
+  chipContainer: {
+    padding: 0,
+  }
 }
 
 class FollowProfile extends PureComponent {
@@ -213,7 +216,7 @@ class FollowProfile extends PureComponent {
                 <span className='profile-large-text'> {followedCount} </span>
               </div>
             </div>
-            <div className='small-4 columns'>
+            <div className='small-4 columns' style={styles.chipContainer}>
               {this.renderChip()}
               {triggerCantFollow ? <span> You can't follow yourself!</span> : null}
             </div>
