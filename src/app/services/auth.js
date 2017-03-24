@@ -8,7 +8,7 @@ const Auth = () => {
   const CSRF_TOKEN_FIELD = 'csrftoken'
 
   const setToken = (token) => {
-    return Storage.set(TOKEN_FIELD, token)
+    return Storage.set(TOKEN_FIELD, token, { secure: true })
   }
 
   const token = () => {
