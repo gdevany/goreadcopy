@@ -12,7 +12,7 @@ class RightProfileContainer extends PureComponent {
   }
 
   render() {
-    const { profile, isUserLoggedIn, id } = this.props
+    const { profile, isUserLoggedIn, id, isProfileLocked } = this.props
     return (
       <div className='right-container small-6 columns'>
         {isUserLoggedIn ?
@@ -25,6 +25,7 @@ class RightProfileContainer extends PureComponent {
             <TileScroller
               fetchTiles={(params) => this.props.getProfileTiles(id, params)}
               tiles={profile}
+              isLocked={isProfileLocked}
             />
           ) : null
         }
@@ -35,9 +36,15 @@ class RightProfileContainer extends PureComponent {
 
 const mapStateToProps = ({
   tiles: {
-    profile
+    profile,
+    isProfileLocked
   }
-}) => { return { profile } }
+}) => {
+  return {
+    profile,
+    isProfileLocked
+  }
+}
 
 export default connect(mapStateToProps, {
   getProfileTiles,

@@ -24,6 +24,16 @@ export default (state = initialState.tiles, { type, payload, errors }) => {
         ...state,
         readFeed: R.concat([payload], state.readFeed)
       }
+    case A.LOCK_READFEED:
+      return {
+        ...state,
+        isReadFeedLocked: payload
+      }
+    case B.LOCK_PROFILE:
+      return {
+        ...state,
+        isProfileLocked: payload
+      }
     case B.GET_COMMENTS:
       const isFeedComments = state.feedComments || {}
       return {

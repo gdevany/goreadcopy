@@ -13,7 +13,7 @@ class MiddleContainer extends PureComponent {
   }
 
   render() {
-    const { readFeed, userId, prependReadFeedTile } = this.props
+    const { readFeed, userId, prependReadFeedTile, isReadFeedLocked } = this.props
     return (
       <div className='middle-container small-12 large-6 columns'>
         <AnnouncementTile/>
@@ -22,6 +22,7 @@ class MiddleContainer extends PureComponent {
         <TileScroller
           fetchTiles={(params) => this.props.getReadFeedTiles(params)}
           tiles={readFeed}
+          isLocked={isReadFeedLocked}
         />
       </div>
     )
@@ -30,9 +31,15 @@ class MiddleContainer extends PureComponent {
 
 const mapStateToProps = ({
   tiles: {
-    readFeed
+    readFeed,
+    isReadFeedLocked
   }
-}) => { return { readFeed } }
+}) => {
+  return {
+    readFeed,
+    isReadFeedLocked
+  }
+}
 
 export default connect(mapStateToProps, {
   getReadFeedTiles,

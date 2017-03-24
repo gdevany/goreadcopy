@@ -21,12 +21,11 @@ class TileScroller extends PureComponent {
   }
 
   onScroll(e) {
-    const { fetchTiles, tiles } = this.props
+    const { fetchTiles, tiles, isLocked } = this.props
     const clientHeight = document.body.clientHeight
     const windowHeight = window.innerHeight
     const scrollOffset = window.scrollY || window.pageYOffset
-
-    if (scrollOffset > (clientHeight - windowHeight) * 0.90) {
+    if (scrollOffset > (clientHeight - windowHeight) * 0.90 && !isLocked) {
       fetchTiles(this.getUpdatedParams(tiles))
     }
   }
@@ -66,11 +65,13 @@ class TileScroller extends PureComponent {
 TileScroller.proptypes = {
   tiles: React.PropTypes.array,
   fetchTiles: React.PropTypes.func,
+  isLocked: React.PropTypes.bool
 }
 
 TileScroller.defaultProps = {
   tiles: [],
   fetchTiles: null,
+  isLocked: false
 }
 
 export default TileScroller
