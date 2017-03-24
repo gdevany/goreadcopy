@@ -1,7 +1,6 @@
 import { CURRENT_READER as A, READERS as B } from '../const/actionTypes'
 import CurrentReaderTiles from '../../services/api/currentReader/tiles'
 import ReaderTiles from '../../services/api/tiles'
-//import { Promise } from '../../services'
 import R from 'ramda'
 
 export function getReadFeedTiles({ adsense, lastAd, timestamp }) {
@@ -12,9 +11,9 @@ export function getReadFeedTiles({ adsense, lastAd, timestamp }) {
   }
 }
 
-export function getProfileTiles(id, page) {
+export function getProfileTiles(id, { timestamp }) {
   return dispatch => {
-    ReaderTiles.getProfileTiles(id, { page })
+    ReaderTiles.getProfileTiles(id, { timestamp })
     .then(res => dispatch({ type: B.GET_PROFILE_TILES, payload: res.data.results }))
     .catch(err => console.error(`Error in getProfileTiles: ${err}`))
   }

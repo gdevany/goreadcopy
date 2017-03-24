@@ -10,7 +10,7 @@ const Endpoints = () => {
     getBooks: (params) => apiUrl('onboarding/books', params),
     searchData: (params) => apiUrl('search', params),
     getProfilePage: (slug, params) => apiUrl(`social/reader/${slug}`, params),
-    getProfileTiles: (id) => apiUrl(`social/reader/${id}/profile_activities`),
+    getProfileTiles: (id, params) => apiUrl(`social/reader/${id}/profile_activities`, params),
     getComments: (id) => apiUrl(`activities/${id}/comments`),
     updateComments: (id) => apiUrl(`social/posts/${id}/comments`),
     updateLikes: (id) => apiUrl(`social/posts/${id}/likes`),

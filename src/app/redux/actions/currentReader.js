@@ -29,9 +29,7 @@ export function getCurrentReader() {
 export function refreshCurrentReader({ token } = {}) {
   return (dispatch) => {
     token = token || Auth.token()
-
     dispatch({ type: A.REFRESH_CURRENT_READER })
-
     return Jwt.refreshJwt({ token })
       .then(res => dispatch(setCurrentReader(tokenFrom(res))))
       // TODO: handle errors
