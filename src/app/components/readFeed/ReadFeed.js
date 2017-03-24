@@ -13,14 +13,14 @@ class ReadFeed extends PureComponent {
   componentWillMount = () => this.props.getCurrentReader()
 
   render() {
-    const { isMyReadFeed } = this.props
+    const { isMyReadFeed, id } = this.props
     const isUserLoggedIn = Auth.currentUserExists()
     return (
       <div className=''>
         <NavMenu isUserLoggedIn={isUserLoggedIn} />
         <div className='row center-text read-feed'>
           <LeftContainer isMyReadFeed={isMyReadFeed}/>
-          <MiddleContainer />
+          <MiddleContainer userId={id} />
           <RightContainer />
         </div>
       </div>
@@ -28,4 +28,14 @@ class ReadFeed extends PureComponent {
   }
 }
 
-export default connect(null, { getCurrentReader })(ReadFeed)
+const mapStateToProps = ({
+  currentReader: {
+    id
+  }
+}) => {
+  return {
+    id
+  }
+}
+
+export default connect(mapStateToProps, { getCurrentReader })(ReadFeed)

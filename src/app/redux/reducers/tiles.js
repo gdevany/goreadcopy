@@ -19,6 +19,11 @@ export default (state = initialState.tiles, { type, payload, errors }) => {
         ...state,
         profile: R.concat([payload], state.profile)
       }
+    case A.PREPEND_READFEED_TILE:
+      return {
+        ...state,
+        readFeed: R.concat([payload], state.readFeed)
+      }
     case B.GET_COMMENTS:
       const isFeedComments = state.feedComments || {}
       return {
