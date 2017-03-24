@@ -1,21 +1,24 @@
 import { CURRENT_READER as A, READERS as B } from '../const/actionTypes'
 import CurrentReaderTiles from '../../services/api/currentReader/tiles'
 import ReaderTiles from '../../services/api/tiles'
-//import { Promise } from '../../services'
 import R from 'ramda'
 
-export function getReadFeedTiles(page) {
+export function getReadFeedTiles({ adsense, lastAd, timestamp }) {
   return dispatch => {
-    CurrentReaderTiles.getReadFeedTiles({ page })
+    dispatch({ type: A.LOCK_READFEED, payload: true })
+    CurrentReaderTiles.getReadFeedTiles({ adsense, lastAd, timestamp })
     .then(res => dispatch({ type: A.GET_READFEED_TILES, payload: res.data.results }))
+    .then(() => dispatch({ type: A.LOCK_READFEED, payload: false }))
     .catch(err => console.error(`Error in getReadFeedTiles: ${err}`))
   }
 }
 
-export function getProfileTiles(id, page) {
+export function getProfileTiles(id, { timestamp }) {
   return dispatch => {
-    ReaderTiles.getProfileTiles(id, { page })
+    dispatch({ type: B.LOCK_PROFILE, payload: true })
+    ReaderTiles.getProfileTiles(id, { timestamp })
     .then(res => dispatch({ type: B.GET_PROFILE_TILES, payload: res.data.results }))
+    .then(() => dispatch({ type: B.LOCK_PROFILE, payload: false }))
     .catch(err => console.error(`Error in getProfileTiles: ${err}`))
   }
 }
