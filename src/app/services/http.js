@@ -3,9 +3,18 @@ import Auth from './auth'
 
 const Http = () => {
   const authHeaders = (token) => {
-    return {
+
+    const csrftoken = Auth.csrftoken()
+
+    const headers = {
       'Authorization': `Bearer ${token}`,
     }
+
+    if (csrftoken) {
+      headers['X-CSRFToken'] = csrftoken
+    }
+
+    return headers
   }
 
   const authenticated = () => {
