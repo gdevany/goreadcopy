@@ -21,9 +21,8 @@ const ExternalRoutes = () => {
     authorEnrollment: () => backendUrl('landing'),
     support: () => 'https://support.readerslegacy.com/', // TODO: until further notice
     terms: () => backendUrl('terms'),
-    orders: () => backendUrl('orders'),
-    referrals: () => backendUrl('referrals'),
-    settings: () => backendUrl('settings'),
+    orders: () => backendUrl('store/orders'),
+    referrals: () => backendUrl('profile/referrals'),
     help: () => backendUrl('help'),
     readFeed: () => backendUrl(''),
     myBookClubs: () => backendUrl('bookclubs'),

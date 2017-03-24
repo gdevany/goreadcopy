@@ -1,50 +1,65 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Auth } from '../../services'
-import { browserHistory } from 'react-router'
+import { ProfilePage, CurrentReader } from '../../redux/actions'
+import { NavMenu } from '../common'
 import LeftProfileContainer from './LeftProfileContainer'
+import MiddleProfileContainer from './MiddleProfileContainer'
 import RightProfileContainer from './RightProfileContainer'
 import BackgroundImageProfileUpload from './BackgroundImageProfileUpload'
-import MyImageProfileUpload from './MyImageProfileUpload'
-import { CurrentReader, ProfilePage } from '../../redux/actions'
 import R from 'ramda'
 
-const { getCurrentReader } = CurrentReader
 const { getProfilePage } = ProfilePage
+const { getCurrentReader } = CurrentReader
 const isUserLoggedIn = Auth.currentUserExists()
 
-class Profile extends PureComponent {
+class ProfileWrapper extends PureComponent {
   constructor(props) {
     super(props)
 
     this.state = {
       isMyProfile: false,
       slug: null,
+      profileFetched: false,
     }
-  }
-
-  staticTypes = {
-    router: React.PropTypes.object,
-    location: React.PropTypes.object
   }
 
   componentWillMount = () => {
-    const { getCurrentReader, getProfilePage, router } = this.props
-    const slug = router.params.slug
-
-    if (slug) {
-      getProfilePage(slug)
-      this.setState({
-        slug,
-        isMyProfile: false
-      })
-    } else if (isUserLoggedIn) {
-      this.setState({ isMyProfile: true })
+    if (isUserLoggedIn) {
+      this.props.getCurrentReader()
     } else {
-      browserHistory.push('/')
+      if (!this.state.profileFetched) {
+        const profileSlug = this.props.params.slug
+        this.props.getProfilePage(profileSlug)
+        this.state = {
+          isMyProfile: false,
+          slug: profileSlug,
+          profileFetched: true,
+        }
+      }
     }
+  }
 
-    getCurrentReader()
+  componentWillReceiveProps = (nextProps) => {
+    const profileSlug = this.props.params.slug
+    if (nextProps.currentReader) {
+      const currentSlug = nextProps.currentReader.slug
+      if (currentSlug === profileSlug) {
+        this.setState({
+          isMyProfile: true,
+          slug: currentSlug,
+        })
+      } else {
+        if (!this.state.profileFetched) {
+          this.props.getProfilePage(profileSlug)
+          this.state = {
+            isMyProfile: false,
+            slug: profileSlug,
+            profileFetched: true,
+          }
+        }
+      }
+    }
   }
 
   getGenreIds = (genres) => R.map(R.prop('id'), genres)
@@ -52,28 +67,9 @@ class Profile extends PureComponent {
   isViewMyProfile = (profilePageId, id) => profilePageId === id
 
   render() {
-    const {
-      id,
-      profileImage,
-      backgroundImage,
-      genreIds,
-      fullname,
-      favoriteQuotes,
-      achievements,
-      profilePage
-    } = this.props
-
     const { isMyProfile } = this.state
-
-    const myProfile = {
-      profileImage,
-      backgroundImage,
-      fullname,
-      genreIds,
-      favoriteQuotes,
-      achievements,
-      id
-    }
+    const { currentReader, profilePage } = this.props
+    const profile = (isMyProfile ? currentReader : profilePage)
 
     const notMyProfile = profilePage.id ? {
       profileImage: profilePage.profileImage,
@@ -86,63 +82,42 @@ class Profile extends PureComponent {
       id: profilePage.id
     } : {}
 
-    const profile = isMyProfile ? myProfile : notMyProfile
-
     return (
-      <div className='row'>
-        <BackgroundImageProfileUpload
-          backgroundImage={profile.backgroundImage}
-          isMyProfile={isMyProfile}
-        />
-        <MyImageProfileUpload
-          profileImage={profile.profileImage}
-          isMyProfile={isMyProfile}
-        />
-        <LeftProfileContainer
-          id={profile.id}
-          genreIds={profile.genreIds}
-          isMyProfile={isMyProfile}
-          fullname={profile.fullname}
-          profileFollowed={notMyProfile.followed}
-          achievements={profile.achievements}
-          isViewMyProfile={this.isViewMyProfile(profilePage.id, id)}
-          favoriteQuotes={profile.favoriteQuotes}
-        />
-        <RightProfileContainer
-          id={profile.id}
-          isProfilePage={true}
-        />
+      <div>
+        <NavMenu isUserLoggedIn={isUserLoggedIn} />
+        <div className='row'>
+          <BackgroundImageProfileUpload
+            backgroundImage={profile.backgroundImage}
+            isMyProfile={isMyProfile}
+          />
+          <LeftProfileContainer
+            isMyProfile={isMyProfile}
+            id={profile.id}
+            genreIds={profile.genreIds}
+            fullname={profile.fullname}
+            profileFollowed={notMyProfile.followed}
+            achievements={profile.achievements}
+            isViewMyProfile={this.isViewMyProfile(profile.id, currentReader.id)}
+            favoriteQuotes={profile.favoriteQuotes}
+            profileImage={profile.profileImage}
+          />
+          <MiddleProfileContainer
+            id={profile.id}
+            isProfilePage={true}
+            isUserLoggedIn={isUserLoggedIn}
+          />
+          <RightProfileContainer />
+        </div>
       </div>
     )
   }
 }
 
-const mapStateToProps = ({
-  currentReader: {
-    id,
-    fullname = '',
-    backgroundImage = '',
-    profileImage = '',
-    genreIds = [],
-    favoriteQuotes = [],
-    achievements = [],
-  },
-  profilePage
-}) => {
+const mapStateToProps = (state) => {
   return {
-    id,
-    fullname,
-    backgroundImage,
-    profileImage,
-    genreIds,
-    achievements,
-    profilePage,
+    currentReader: state.currentReader,
+    profilePage: state.profilePage,
   }
 }
 
-const mapDispatchToProps = {
-  getCurrentReader,
-  getProfilePage
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Profile)
+export default connect(mapStateToProps, { getProfilePage, getCurrentReader })(ProfileWrapper)

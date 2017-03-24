@@ -1,6 +1,9 @@
+require('dotenv').config({path: './.env'});
+
 const webpack = require('webpack')
 const path = require('path')
 const nodeModulesPath = path.resolve(__dirname, 'node_modules')
+const testPath = path.resolve(__dirname, 'test');
 const TransferWebpackPlugin = require('transfer-webpack-plugin')
 
 module.exports = {
@@ -13,7 +16,9 @@ module.exports = {
       'foundation': path.join(nodeModulesPath, 'foundation-sites/dist/css')
     }
   },
-  entry: path.join(__dirname, '/src/app/index.js'),
+  entry: [
+    path.join(__dirname, '/src/app/index.js'),
+  ],
   devtool: 'source-map',
   output: {
     filename: '[name].js',
@@ -23,29 +28,37 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': JSON.stringify({
-        REDIRECT_BASE_URL: process.env.REDIRECT_BASE_URL,
         API_URL: process.env.API_URL,
+        REDIRECT_BASE_URL: process.env.REDIRECT_BASE_URL,
+        NODE_ENV: process.env.NODE_ENV
       })
     }),
     new webpack.optimize.UglifyJsPlugin({
+      minimize: true,
       compress: {
         warnings: false,
       },
     }),
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new TransferWebpackPlugin([
       {from: 'client'},
     ], path.resolve(__dirname, 'src')),
   ],
   module: {
+    preLoaders: [
+      {
+        test: /\.js$/, // All .js files
+        loaders: ['eslint'],
+        exclude: [nodeModulesPath, testPath],
+      }
+    ],
     loaders: [
       {
-        test: /\.(js|jsx)$/,
-        loader: 'babel',
-        exclude: /(node_modules|server)/,
-        query: {
-          presets: ['es2015', 'react', 'stage-0']
-        }
+        test: /\.js$/,
+        loaders: ['react-hot', 'babel'], // react-hot is like browser sync and babel loads jsx and es6-7
+        exclude: [nodeModulesPath],
       },
       {
         test: /\.(png|jpg|gif)$/,
@@ -53,7 +66,7 @@ module.exports = {
       },
       {
         test: /\.(css|scss)$/,
-        loaders: ['style', 'css', 'sass'],
+        loaders: ['style', 'css', 'sass']
       },
       {
         test: /\.(woff|woff2)$/,
@@ -62,7 +75,7 @@ module.exports = {
       {
         test: /\.ttf$/,
         loader: "url?limit=10000&mimetype=application/octet-stream"
-      },
+       },
       {
         test: /\.eot$/,
         loader: "file"
@@ -70,7 +83,7 @@ module.exports = {
       {
         test: /\.svg$/,
         loader: "url?limit=10000&mimetype=image/svg+xml"
-      },
+      }
     ],
   }
 }

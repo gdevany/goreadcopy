@@ -2,7 +2,9 @@ import React, { PureComponent, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Tiles } from '../../redux/actions'
 import { PrimaryButton } from '../common'
+import { LogInModal } from '../common'
 import { Colors } from '../../constants/style'
+import { Auth } from '../../services'
 import {
   Card,
   CardActions,
@@ -11,16 +13,20 @@ import {
   Popover,
 } from 'material-ui'
 import R from 'ramda'
+import ReplyIcon from 'material-ui/svg-icons/content/reply'
 import {
   ShareButtons,
   generateShareIcon
 } from 'react-share'
+import moment from 'moment'
 const {
   FacebookShareButton,
   GooglePlusShareButton,
   LinkedinShareButton,
   TwitterShareButton,
 } = ShareButtons
+
+const isUserLoggedIn = Auth.currentUserExists()
 
 const FacebookIcon = generateShareIcon('facebook')
 const TwitterIcon = generateShareIcon('twitter')
@@ -31,6 +37,7 @@ const {
   updateLikes,
   updateComments,
   getComments,
+  shareTile,
 } = Tiles
 
 const styles = {
@@ -85,9 +92,17 @@ const styles = {
     fontSize: 14,
     padding: '20px 30px',
   },
+  commentIconContainer: {
+    textAlign: 'center',
+  },
   commentContainer: {
     borderTop: `2px solid ${Colors.lightGrey}`,
     padding: 0,
+  },
+  commentActions: {
+    borderBottom: `2px solid ${Colors.lightGrey}`,
+    fontSize: 14,
+    padding: '10px 20px',
   },
   likesContainer: {
     textAlign: 'left',
@@ -117,7 +132,7 @@ const styles = {
   commentContent: {
     padding: '0 30px',
     marginLeft: 54,
-    textAlign: 'left',
+    textAlign: 'justify',
   },
   postButton: {
     float: 'right',
@@ -133,6 +148,17 @@ const styles = {
     outline: 'none',
     marginLeft: 85,
     maxWidth: 450,
+  },
+  childCommentContainer: {
+    marginLeft: 40,
+  },
+  childCommentActionContainer: {
+    textAlign: 'right',
+    padding: '0px 10px',
+  },
+  childCommentHeaderContainer: {
+    padding: '20px 20px 15px',
+    textAlign: 'left',
   },
 }
 
@@ -159,10 +185,25 @@ class TileDefault extends PureComponent {
       commentPostOpen: false,
       calledCommentEndpoint: false,
       commentInput: '',
+      sharedCount: props.shareInfo.sharesCount,
       shareInput: '',
       sharedOpen: false,
       sharePostOpen: false,
+      commentParentId: false,
+      replyPlaceholder: false,
+      isAutofocus: false,
+      modalLogInOpen: false,
     }
+
+    this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
+
+  }
+
+  renderTime = (time) => {
+    if (moment(moment.unix(time)).isValid()) {
+      return moment(moment.unix(time)).fromNow()
+    }
+    return time
   }
 
   componentDidMount = () => {
@@ -173,6 +214,15 @@ class TileDefault extends PureComponent {
     const { likedCount } = this.state
     const { tileId, updateLikes } = this.props
     if (prevState.likedCount !== likedCount) updateLikes(tileId, { liked: true })
+  }
+
+  handleLogInModalClose = () => {
+    this.setState({ modalLogInOpen: false })
+  }
+
+  handleLogInModalOpen = (event) => {
+    event.preventDefault()
+    this.setState({ modalLogInOpen: true })
   }
 
   handleLiked = () => {
@@ -195,7 +245,7 @@ class TileDefault extends PureComponent {
     const {
       commentsOpen,
       sharePostOpen,
-      calledCommentEndpoint
+      calledCommentEndpoint,
     } = this.state
     const {
       feedComments,
@@ -207,12 +257,15 @@ class TileDefault extends PureComponent {
       if (sharePostOpen) {
         this.setState({
           sharePostOpen: false,
-          commentPostOpen: true
+          commentPostOpen: true,
+          isAutofocus: true,
         })
       } else {
         this.setState({
           commentsOpen: false,
-          commentPostOpen: false
+          commentPostOpen: false,
+          commentParentId: false,
+          isAutofocus: true,
         })
       }
     } else {
@@ -224,7 +277,8 @@ class TileDefault extends PureComponent {
       }
       this.setState({
         commentsOpen: true,
-        commentPostOpen: true
+        commentPostOpen: true,
+        isAutofocus: true,
       })
     }
   }
@@ -234,13 +288,56 @@ class TileDefault extends PureComponent {
     return R.prop(tileId, comments)
   }
 
+  handleRenderChildComments = (childComments) => {
+    return childComments ? childComments.map(comment => {
+      return (
+        <Card
+          key={`${comment.id}`}
+          style={styles.commentCard}
+        >
+          <CardHeader
+            title={comment.profile.fullname}
+            titleStyle={styles.nameText}
+            style={styles.childCommentHeaderContainer}
+            avatar={comment.profile.imageUrl}
+            textStyle={styles.textContainer}
+          >
+            <p style={styles.timeStamp}>
+              {this.renderTime(comment.datetime)}
+            </p>
+          </CardHeader>
+
+          <CardText style={styles.commentContent}>
+            {comment.comment}
+          </CardText>
+          <CardActions style={styles.commentActions}>
+            <div style={styles.socialContainer} className='row'>
+              <div style={styles.childCommentActionContainer}>
+                  <a
+                    onClick={() => { this.handleReplyComment(comment.id) }}
+                    className='reply'
+                  >
+                    <ReplyIcon />
+                    Reply
+                  </a>
+              </div>
+            </div>
+          </CardActions>
+          <div className='child-comments' style={styles.childCommentContainer}>
+            {comment.children ? this.handleRenderChildComments(comment.children) : null}
+          </div>
+        </Card>
+      )
+    }) : null
+  }
+
   handleRenderComments = (allComments) => {
     const { feedComments } = this.props
     const foundComments = this.findCommentsForThisTile(feedComments)
     return foundComments ? foundComments.comments.map(comment => {
       return (
         <Card
-          key={`${comment.profile.fullname}-${comment.id}`}
+          key={`${comment.id}`}
           style={styles.commentCard}
         >
           <CardHeader
@@ -251,24 +348,49 @@ class TileDefault extends PureComponent {
             textStyle={styles.textContainer}
           >
             <p style={styles.timeStamp}>
-              {/** TODO: use renderTime method here **/}
-              {comment.datetime}
+              {this.renderTime(comment.datetime)}
             </p>
           </CardHeader>
 
           <CardText style={styles.commentContent}>
             {comment.comment}
           </CardText>
+          <CardActions style={styles.commentActions}>
+            <div style={styles.socialContainer} className='row'>
+              <div style={styles.childCommentActionContainer}>
+                  <a
+                    onClick={() => { this.handleReplyComment(comment.id) }}
+                    className='reply'
+                  >
+                    <ReplyIcon />
+                    Reply
+                  </a>
+              </div>
+            </div>
+          </CardActions>
+          <div className='child-comments' style={styles.childCommentContainer}>
+            {comment.children ? this.handleRenderChildComments(comment.children) : null}
+          </div>
         </Card>
       )
     }) : null
+  }
+
+  handleReplyComment = (tileId) => {
+    this.setState({
+      commentParentId: tileId,
+      replyPlaceholder: 'Post your Reply here'
+
+    })
+    this.handleCommentsOpen
   }
 
   handleCommentSubmit = () => {
     const {
       commented,
       commentedCount,
-      commentInput
+      commentInput,
+      commentParentId
     } = this.state
     const {
       tileId,
@@ -287,19 +409,32 @@ class TileDefault extends PureComponent {
     if (!commented) this.setState({ commented: true })
     this.setState({
       commentedCount: commentedCount + 1,
-      commentInput: ''
+      commentInput: '',
+      replyPlaceholder: false
     })
-    updateComments(tileId, commentInput, datetime, profile)
+    updateComments(tileId, commentInput, commentParentId, datetime, profile)
   }
 
-  handleShareSubmit = () => {
-    const { sharedCount } = this.state
-    this.setState({
-      sharePostOpen: false,
-      commentPostOpen: true,
-      sharedCount: sharedCount + 1,
-      shareInput: ''
-    })
+  handleShareSubmit = (shareType) => {
+    const { sharedCount, shareInput } = this.state
+    const { tileId, shareTile } = this.props
+    if (shareType === 5) {
+      this.setState({
+        sharePostOpen: false,
+        sharedOpen: false,
+        sharedCount: sharedCount + 1,
+        shareInput: '',
+        commentsOpen: false,
+        commentPostOpen: false,
+      })
+      shareTile(tileId, shareType, shareInput)
+    } else {
+      this.setState({
+        sharedOpen: false,
+        sharedCount: sharedCount + 1,
+      })
+      shareTile(tileId, shareType, null)
+    }
   }
 
   handleShareOpen = () => {
@@ -326,27 +461,43 @@ class TileDefault extends PureComponent {
   })
 
   renderPostBox = (buttonType) => {
-    const { commentInput, shareInput } = this.state
+    const {
+      commentInput,
+      shareInput,
+      commentParentId,
+      replyPlaceholder,
+      isAutofocus,
+    } = this.state
     const { profileImage } = this.props
     const isComment = buttonType === 'comment'
     const inputType = isComment ? 'commentInput' : 'shareInput'
     return (
-      <div className='input-post-box'>
-        <img src={profileImage} />
-        <textarea
-          type='text'
-          className='search-input'
-          placeholder='Share your thoughts'
-          onChange={this.handleInputOnChange(`${inputType}`)}
-          value={isComment ? commentInput : shareInput}
-          rows='3'
-          style={styles.postInput}
-        />
-
-        <div style={styles.postButton}>
+      <div className='input-post-box comments-tile-container'>
+        <div className='comments-elelemnts'>
+          <img className='comments-image' src={profileImage} />
+          {
+            isComment && commentParentId ?
+              <input
+                type='hidden'
+                value={commentParentId}
+                name='parentId'
+              /> :
+              null
+          }
+          <textarea
+            type='text'
+            className='search-input comments-textarea'
+            placeholder={replyPlaceholder ? replyPlaceholder : 'Share your thoughts'}
+            onChange={this.handleInputOnChange(`${inputType}`)}
+            value={isComment ? commentInput : shareInput}
+            rows='3'
+            autoFocus={isAutofocus}
+          />
+        </div>
+        <div>
           <PrimaryButton
             label={isComment ? 'Post' : 'Share'}
-            onClick={isComment ? this.handleCommentSubmit : this.handleShareSubmit}
+            onClick={isComment ? this.handleCommentSubmit : () => this.handleShareSubmit(5)}
           />
         </div>
       </div>
@@ -372,7 +523,6 @@ class TileDefault extends PureComponent {
       action,
       feedComments,
     } = this.props
-
     return (
       <div>
         <Card
@@ -401,7 +551,7 @@ class TileDefault extends PureComponent {
               <div className='small-4 columns' style={styles.likesContainer}>
                 <div className='likes-count'>
                   <a
-                    onClick={this.handleLiked}
+                    onClick={isUserLoggedIn ? this.handleLiked : this.handleLogInModalOpen}
                     className={liked ? 'liked' : 'not-liked'}
                   />
 
@@ -414,12 +564,12 @@ class TileDefault extends PureComponent {
                 </div>
               </div>
 
-              <div className='small-4 columns'>
+              <div className='small-4 columns' style={styles.commentIconContainer}>
                 <div
                   className='comments-count'
                 >
                   <a
-                    onClick={this.handleCommentsOpen}
+                    onClick={isUserLoggedIn ? this.handleCommentsOpen : this.handleLogInModalOpen}
                     className={commented ? 'commented' : 'not-commented'}
                   />
 
@@ -436,9 +586,9 @@ class TileDefault extends PureComponent {
                     onClick={this.handleShareOpen}
                   >
                   <span className='share' ref='share'>
-                    Share
+                    Share {sharedCount}
                   </span>
-                  </a> {sharedCount}
+                  </a>
                 </div>
               </div>
             </div>
@@ -461,6 +611,10 @@ class TileDefault extends PureComponent {
                 </div>
             }
           </CardText>
+          <LogInModal
+            modalOpen={this.state.modalLogInOpen}
+            handleClose={this.handleLogInModalClose}
+          />
         </Card>
         <Popover
           open={this.state.sharedOpen}
@@ -472,10 +626,14 @@ class TileDefault extends PureComponent {
           style={styles.popover}
         >
           <ul style={styles.sharePopover}>
-            <li style={styles.shareLink}>
+            <li
+              style={styles.shareLink}
+              onClick={() => this.handleShareSubmit(1)}
+            >
               <FacebookShareButton
                 url={shareInfo.shareLink}
                 title={shareInfo.title}
+                description={action}
                 className='facebook-share-button'
               >
                 <FacebookIcon
@@ -485,7 +643,10 @@ class TileDefault extends PureComponent {
               </FacebookShareButton>
             </li>
 
-            <li style={styles.shareLink}>
+            <li
+              style={styles.shareLink}
+              onClick={() => this.handleShareSubmit(2)}
+            >
               <TwitterShareButton
                 url={shareInfo.shareLink}
                 title={shareInfo.title}
@@ -499,12 +660,16 @@ class TileDefault extends PureComponent {
               </TwitterShareButton>
             </li>
 
-            <li style={styles.shareLink}>
+            <li
+              style={styles.shareLink}
+              onClick={() => this.handleShareSubmit(4)}
+            >
               <LinkedinShareButton
                 url={shareInfo.shareLink}
                 title={shareInfo.title}
                 windowWidth={750}
                 windowHeight={600}
+                description={action}
                 className='linkedin-share-button'
               >
                   <LinkedinIcon
@@ -514,7 +679,10 @@ class TileDefault extends PureComponent {
               </LinkedinShareButton>
             </li>
 
-            <li style={styles.shareLink}>
+            <li
+              style={styles.shareLink}
+              onClick={() => this.handleShareSubmit(3)}
+            >
               <GooglePlusShareButton
                 url={shareInfo.shareLink}
                 className='google-plus-share-button'
@@ -526,12 +694,19 @@ class TileDefault extends PureComponent {
               </GooglePlusShareButton>
             </li>
 
-            <li
-              style={styles.shareGoReadLink}
-              onClick={this.handleShareOpenGoRead}
-            >
-            GoRead
-            </li>
+            {isUserLoggedIn ?
+              (
+                <li
+                  style={styles.shareGoReadLink}
+                  onClick={this.handleShareOpenGoRead}
+                >
+                <img
+                  className='logo-share-img'
+                  src='/image/logo_share.png'
+                />
+                </li>
+              ) : null
+            }
           </ul>
         </Popover>
       </div>
@@ -570,6 +745,7 @@ const mapStateToProps = ({
 const mapDispatchToProps = {
   updateLikes,
   updateComments,
-  getComments
+  getComments,
+  shareTile
 }
 export default connect(mapStateToProps, mapDispatchToProps)(TileDefault)

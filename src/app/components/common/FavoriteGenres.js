@@ -92,11 +92,15 @@ class FavoriteGenres extends PureComponent {
               </a> : null
           }
         </div>
-        <FavoriteGenresModal
-          modalOpen={modalOpen}
-          handleClose={this.handleClose}
-          genreIds={genreIds}
-        />
+        {isCurrentReader ?
+          (
+            <FavoriteGenresModal
+              modalOpen={modalOpen}
+              handleClose={this.handleClose}
+              genreIds={genreIds}
+            />
+          ) : null}
+
       </div>
     )
   }

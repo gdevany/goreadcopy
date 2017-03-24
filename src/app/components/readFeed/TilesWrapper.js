@@ -33,6 +33,7 @@ const TilesWrapper = ({ feed }) => {
 
   const renderTiles = (tiles) => {
     const result = []
+    let tileType, tileContent
     tiles.forEach((tile, index) => {
       let tileDefaultProps = {}
       if (tile.tileType !== 'advertising' && tile.tileType !== 'merged') {
@@ -56,17 +57,31 @@ const TilesWrapper = ({ feed }) => {
           shareInfo: {
             title: tile.content.title,
             shareLink: tile.link,
+            sharesCount: tile.shares.count
           }
         }
       }
+      if (tile.tileType === 'socialpost') {
+        if (tile.content.tileType) {
+          tileType = tile.content.tileType
+          tileContent = tile.content.content
+        } else {
+          tileType = tile.content.contentType
+          tileContent = tile.content
+        }
+      } else {
+        tileType = tile.tileType
+        tileContent = tile.content
+      }
 
-      switch (tile.tileType) {
+      switch (tileType) {
         case 'article':
           const articleContent = {
-            title: tile.content.title,
-            header: tile.content.header,
-            image: (tile.content.imageUrl || tile.content.image),
-            link: tile.content.link,
+            title: tileContent.title,
+            header: tileContent.header,
+            image: (tileContent.imageUrl || tileContent.image),
+            link: tileContent.link,
+            socialComment: (tile.socialPostComment || null)
           }
           result.push(
             <ArticleTile
@@ -78,11 +93,12 @@ const TilesWrapper = ({ feed }) => {
           break
         case 'author':
           const authorContent = {
-            name: tile.content.fullname,
-            city: tile.content.city,
-            state: tile.content.state,
-            about: (tile.content.shortBio || tile.content.aboutMe),
-            link: tile.content.url,
+            name: tileContent.fullname,
+            city: tileContent.city,
+            state: tileContent.state,
+            about: (tileContent.shortBio || tileContent.aboutMe),
+            link: tileContent.url,
+            socialComment: (tile.socialPostComment || null)
           }
           result.push(
             <AuthorTile
@@ -94,7 +110,8 @@ const TilesWrapper = ({ feed }) => {
           break
         case 'award':
           const awardContent = {
-            image: tile.content.imageUrl
+            image: tileContent.imageUrl,
+            socialComment: (tile.socialPostComment || null)
           }
           result.push(
             <AwardTile
@@ -107,7 +124,8 @@ const TilesWrapper = ({ feed }) => {
         case 'album':
         case 'buzzphoto':
           const albumContent = {
-            image: tile.content.imageUrl
+            image: tileContent.imageUrl,
+            socialComment: (tile.socialPostComment || null)
           }
           result.push(
             <AlbumTile
@@ -120,11 +138,12 @@ const TilesWrapper = ({ feed }) => {
         case 'bookclub_event':
         case 'buzzappearance':
           const eventContent = {
-            title: tile.content.title,
-            description: tile.content.description,
-            url: tile.content.url,
-            start: renderTime(tile.content.start, 'time-date'),
-            end: renderTime(tile.content.end, 'time-date')
+            title: tileContent.title,
+            description: tileContent.description,
+            url: tileContent.url,
+            start: renderTime(tileContent.start, 'time-date'),
+            end: renderTime(tileContent.end, 'time-date'),
+            socialComment: (tile.socialPostComment || null)
           }
           result.push(
             <AppearanceTile
@@ -138,23 +157,24 @@ const TilesWrapper = ({ feed }) => {
         case 'book_review':
         case 'book':
           const getUrl = () => {
-            if (tile.content.product) return tile.content.product.url
-            else if (tile.content.book) return tile.content.book.link
-            else if (tile.content.link) return tile.content.link
+            if (tileContent.product) return tileContent.product.url
+            else if (tileContent.book) return tileContent.book.link
+            else if (tileContent.link) return tileContent.link
             return '#'
           }
           const getName = () => {
-            if (tile.content.reviewer) return tile.content.reviewer.fullname
-            else if (tile.content.authors.length) return tile.content.authors[0].fullname
+            if (tileContent.reviewer) return tileContent.reviewer.fullname
+            else if (tileContent.authors.length) return tileContent.authors[0].fullname
             return `${<i>Unknown</i>}`
           }
           const bookAndProductContent = {
             title: (tile.target.name || tile.target.title),
-            description: (tile.content.body || tile.content.description),
-            image: tile.content.imageUrl,
-            rating: tile.content.rating.average,
+            description: (tileContent.body || tileContent.description),
+            image: tileContent.imageUrl,
+            rating: tileContent.rating.average,
             author: getName(),
             url: getUrl(),
+            socialComment: (tile.socialPostComment || null)
           }
           result.push(
             <BookProductTile
@@ -166,10 +186,11 @@ const TilesWrapper = ({ feed }) => {
           break
         case 'bookclub':
           const bookClubContent = {
-            image: tile.content.image,
-            title: tile.content.name,
-            description: tile.content.description,
-            url: tile.content.link
+            image: tileContent.image,
+            title: tileContent.name,
+            description: tileContent.description,
+            url: tileContent.link,
+            socialComment: (tile.socialPostComment || null)
           }
           result.push(
             <BookClubTile
@@ -181,8 +202,9 @@ const TilesWrapper = ({ feed }) => {
           break
         case 'bookclub_task':
           const bookClubTaskContent = {
-            description: tile.content.description,
-            link: tile.actor.link
+            description: tileContent.description,
+            link: tileContent.link,
+            socialComment: (tile.socialPostComment || null)
           }
           result.push(
             <BookClubTaskTile
@@ -194,12 +216,13 @@ const TilesWrapper = ({ feed }) => {
           break
         case 'publisher':
           const publisherContent = {
-            name: tile.content.fullname,
-            image: tile.content.imageUrl,
-            link: tile.content.url,
-            city: tile.content.city,
-            state: tile.content.state,
-            description: tile.content.description
+            name: tileContent.fullname,
+            image: tileContent.imageUrl,
+            link: tileContent.url,
+            city: tileContent.city,
+            state: tileContent.state,
+            description: tileContent.description,
+            socialComment: (tile.socialPostComment || null)
           }
           result.push(
             <PublisherUpdateTile
@@ -222,13 +245,14 @@ const TilesWrapper = ({ feed }) => {
             }
           }
           const accountContent = {
-            name: tile.content.fullname || tile.actor.fullname,
-            city: tile.content.city,
-            state: tile.content.state,
-            description: tile.content.description,
-            image: tile.content.imageUrl,
+            name: tileContent.fullname || tile.actor.fullname,
+            city: tileContent.city,
+            state: tileContent.state,
+            description: tileContent.description,
+            image: tileContent.imageUrl,
             link: tile.actor.url,
-            userType: findUserType(tile.content.contentType)
+            userType: findUserType(tileContent.contentType),
+            socialComment: (tile.socialPostComment || null)
           }
           result.push(
             <UserProfileTile
@@ -240,9 +264,11 @@ const TilesWrapper = ({ feed }) => {
           break
         case 'buzzvideo':
           const buzzVideoContent = {
-            link: tile.content.link,
-            title: tile.content.title,
-            description: tile.content.summary,
+            link: tileContent.link,
+            originUrl: tileContent.originUrl,
+            title: tileContent.title,
+            description: tileContent.summary,
+            socialComment: (tile.socialPostComment || null)
           }
           result.push(
             <VideoTile
@@ -254,8 +280,9 @@ const TilesWrapper = ({ feed }) => {
           break
         case 'status':
           const statusPostContent = {
-            image: tile.content.imageUrl.url,
-            description: tile.content.body,
+            image: tileContent.imageUrl.url,
+            description: tileContent.body,
+            socialComment: (tile.socialPostComment || null)
           }
           result.push(
             <StatusPostTile
@@ -269,32 +296,39 @@ const TilesWrapper = ({ feed }) => {
           switch (tile.advertiser.name) {
             case 'readerslegacy':
               const {
+                id,
                 imageUrl,
                 heading,
                 description,
                 url,
                 author,
+                comments,
+                commentedByReader,
+                likes,
+                likedByReader,
               } = tile.advertiser.buzzAd
               const adContent = {
                 promoted: true,
                 image: imageUrl,
                 title: heading,
                 description: description,
-                link: url
+                link: url,
+                socialComment: (tile.socialPostComment || null)
               }
               tileDefaultProps = {
+                id: id,
                 author: {
                   name: (author.fullname),
                   image: (author.imageUrl),
                   link: (author.url)
                 },
                 likes: {
-                  count: 0,
-                  likedByReader: true
+                  count: likes.count,
+                  likedByReader: likedByReader
                 },
                 comments: {
-                  count: 0,
-                  commentedByReader: false,
+                  count: comments.count,
+                  commentedByReader: commentedByReader,
                 },
                 shareInfo: {
                   title: tile.advertiser.buzzAd.heading,

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { stack as MobileMenu } from 'react-burger-menu'
 import { Link } from 'react-router'
-import { Auth } from '../../redux/actions'
+import { Auth, CurrentReader } from '../../redux/actions'
 import { connect } from 'react-redux'
 import R from 'ramda'
 import SecondaryButton from './SecondaryButton'
@@ -14,11 +14,13 @@ import LogInModal from './SignInModal'
 import AuthedRedirect from './AuthedRedirect'
 import MenuIcon from 'material-ui/svg-icons/navigation/menu'
 import Badge from 'material-ui/Badge'
+import LitcoinStatus from './LitcoinStatus'
 
 import './styles/mobile-menu.scss'
 
 const { CATEGORIES, GENRES } = PopularTopics
-const { processUserLogout } = Auth
+const { usePlatformAs, getCurrentReader } = CurrentReader
+const { verifyUserToken, processUserLogout } = Auth
 
 const styles = {
   navContainer: {
@@ -93,10 +95,6 @@ const styles = {
     height: 28,
     width: 28,
   },
-
-  loggedInNavLi: {
-    height: 64,
-  },
 }
 
 const {
@@ -117,6 +115,8 @@ class NavMenu extends PureComponent {
       modalLogInOpen: false,
       profileMenuOpen: false,
       searchModalOpen: false,
+      usePlatformAs: false,
+      readerFetched: false,
     }
 
     this.handleModalClose = this.handleModalClose.bind(this)
@@ -125,6 +125,20 @@ class NavMenu extends PureComponent {
     this.handleProfileMenuHide = this.handleProfileMenuHide.bind(this)
     this.handleLogoutClick = this.handleLogoutClick.bind(this)
     this.handleClickSearch = this.handleClickSearch.bind(this)
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+
+    if (nextProps.currentReader.token && !this.state.readerFetched) {
+      this.props.getCurrentReader()
+      this.setState({
+        readerFetched: true
+      })
+    }
+
+    if (!this.state.usePlatformAs && nextProps.currentReader.publishingAs) {
+      this.setState({ usePlatformAs: nextProps.currentReader.publishingAs })
+    }
   }
 
   handleModalOpen = () => {
@@ -179,23 +193,34 @@ class NavMenu extends PureComponent {
   }
 
   handleMapProfileMenuItems = () => {
-    const { orders, referrals, settings, help } = routes
+    const { orders, referrals, help } = routes
 
     const nonMenuRoutes = [
       ['Orders', orders],
       ['Referrals', referrals],
-      ['Settings', settings],
+      ['Settings', '/profile/settings', true],
       ['Help', help],
     ]
 
-    const NonMenuItem = ([title, routeFn], index) => (
+    const NonMenuItem = ([title, routeFn, routeType], index) => (
       <li className='profile-menu-element' key={title + index}>
-        <a
-          className='profile-menu-anchor'
-          href={routeFn()}
-        >
-          {title}
-        </a>
+        { routeType ?
+          (
+            <Link
+              className='profile-menu-anchor'
+              to={routeFn}
+            >
+              {title}
+            </Link>
+          ) : (
+            <a
+              className='profile-menu-anchor'
+              href={routeFn()}
+            >
+              {title}
+            </a>
+          )
+        }
       </li>
     )
 
@@ -208,17 +233,76 @@ class NavMenu extends PureComponent {
     this.props.processUserLogout()
   }
 
+  handlePlatformUse(platformUse) {
+    this.setState({ usePlatformAs: platformUse })
+    this.props.usePlatformAs(platformUse)
+  }
+
   userProfileMenu = () => {
-    const { currenReader } = this.props
+    const { currentReader } = this.props
+    const { usePlatformAs } = this.state
+
     return (
       <ul
         className='profile-menu-container'
         onMouseLeave={this.handleProfileMenuHide}
       >
         <li className='profile-menu-element'>
-          <a href={currenReader.url} className='profile-menu-anchor'>
-            View Profile
-          </a>
+          {currentReader.hasAuthorBuzz ||
+           (currentReader.hasPublisherBuzz && currentReader.isPublisher) ?
+            (
+              <div className='publishing-as-container'>
+                <label className='publishing-as-label'>
+                  Use Platform as
+                </label>
+                <ul className='publishing-as-ul-container'>
+                  <li className='publishing-as-list'>
+                    <a
+                      onClick={() => this.handlePlatformUse('reader')}
+                      className={usePlatformAs === 'reader' ?
+                      ('publishing-as-active') : ('publishing-as-anchor')}
+                    >
+                      Reader
+                    </a>
+                  </li>
+                  {currentReader.hasAuthorBuzz ?
+                    (
+                      <li className='publishing-as-list'>
+                        <a
+                          onClick={() => this.handlePlatformUse('author')}
+                          className={usePlatformAs === 'author' ?
+                          ('publishing-as-active') : ('publishing-as-anchor')}
+                        >
+                          Author
+                        </a>
+                      </li>
+                    ) : null
+                  }
+                  {currentReader.hasPublisherBuzz && currentReader.isPublisher ? (
+                    <li className='publishing-as-list'>
+                      <a
+                        onClick={() => this.handlePlatformUse('publisher')}
+                        className={usePlatformAs === 'publisher' ?
+                        ('publishing-as-active') : ('publishing-as-anchor')}
+                      >
+                        Publisher
+                      </a>
+                    </li>
+                  ) : null}
+                </ul>
+              </div>
+            ) : null
+          }
+
+        </li>
+        <hr className='profile-menu-divider' />
+        <li className='profile-menu-element'>
+          <Link
+            to={`/profile/${currentReader.slug}`}
+            className='profile-menu-anchor'
+          >
+              View Profile
+          </Link>
         </li>
         <hr className='profile-menu-divider' />
         { this.handleMapProfileMenuItems() }
@@ -252,7 +336,7 @@ class NavMenu extends PureComponent {
           <div className='side-by-side-wrapper' onMouseLeave={this.handleRequestClose}>
             <div className='side-left'>
 
-              <Menu styles={styles}>
+              <Menu style={styles}>
                 <MenuItem
                   className='nav-popover-menu-title'
                   primaryText='BROWSE CATEGORIES:'
@@ -351,14 +435,25 @@ class NavMenu extends PureComponent {
 
   }
   mapElementsHandler = (liClass, anchorClass) => {
-    return ([title, routeFn], index) => (
+    return ([title, routeFn, routeType], index) => (
       <li className={liClass} key={title + index}>
-        <a
-          className={anchorClass}
-          href={routeFn()}
-        >
-          {title}
-        </a>
+        { routeType ?
+          (
+            <Link
+              className={anchorClass}
+              to={routeFn}
+            >
+              {title}
+            </Link>
+          ) : (
+            <a
+              className={anchorClass}
+              href={routeFn()}
+            >
+              {title}
+            </a>
+          )
+        }
       </li>
     )
   }
@@ -366,11 +461,11 @@ class NavMenu extends PureComponent {
   handleMapProfileMenuItems = () => {
     const liClass = 'profile-menu-element'
     const anchorClass = 'profile-menu-anchor'
-    const { orders, referrals, settings, help } = routes
+    const { orders, referrals, help } = routes
     const nonMenuRoutes = [
       ['Orders', orders],
       ['Referrals', referrals],
-      ['Settings', settings],
+      ['Settings', '/profile/settings', true],
       ['Help', help],
     ]
     const NonMenuItem = this.mapElementsHandler(liClass, anchorClass)
@@ -393,7 +488,6 @@ class NavMenu extends PureComponent {
       videoTutorials,
       referrals,
       games,
-      settings,
       help
     } = routes
     let nonMenuRoutes
@@ -414,7 +508,7 @@ class NavMenu extends PureComponent {
     }
     if (type === 'Help') {
       nonMenuRoutes = [
-        ['Settings', settings],
+        ['Settings', 'profile/settings', true],
         ['Help', help],
       ]
     }
@@ -452,7 +546,7 @@ class NavMenu extends PureComponent {
   }
 
   renderLogInMenu = () => {
-    const { currenReader } = this.props
+    const { currentReader } = this.props
     return (
       <div className='slide-down'>
         <div style={styles.mobileNavContainer} className='top-bar-mobile'>
@@ -460,13 +554,12 @@ class NavMenu extends PureComponent {
             <ul className='nav-menu-logged-container'>
 
               <li
-                style={styles.loggedInNavLi}
-                className='loged-menu-item loged-menu-item-active home'
+                className='logged-menu-item loged-menu-item-active home'
               >
                 <Link to='/' style={styles.navItemLinks} className='home-link rf-nav-link' />
               </li>
 
-              <li style={styles.loggedInNavLi} className='loged-menu-item'>
+              <li className='logged-menu-item'>
                 <a
                   style={styles.navItemLinks}
                   className='search-link rf-nav-link'
@@ -474,7 +567,7 @@ class NavMenu extends PureComponent {
                 />
               </li>
 
-              <li style={styles.loggedInNavLi} className='loged-menu-item'>
+              <li className='logged-menu-item'>
                 <a href='' style={styles.navItemLinks} className='messages-link rf-nav-link' />
               </li>
 
@@ -497,7 +590,7 @@ class NavMenu extends PureComponent {
                       backgroundColor: Colors.red,
                     }}
                   >
-                    <img src='./image/notifications-icon.svg' />
+                    <img src='/image/notifications-icon.svg' />
                   </Badge>
                 </a>
               </li>
@@ -521,14 +614,14 @@ class NavMenu extends PureComponent {
                 <a href='' className='profile-badge-anchor'>
                   <figure className='profile-badge-container'>
                     <img
-                      src={currenReader.profileImage}
+                      src={currentReader.profileImage}
                       className='profile-badge-img'
                       alt=''
                     />
                   </figure>
                 </a>
                 <a href='' className='profile-name-anchor'>
-                  <span>{currenReader.firstName} {currenReader.lastName}</span>
+                  <span>{currentReader.firstName} {currentReader.lastName}</span>
                 </a>
               </div>
               <div className='second-row-elements'>
@@ -540,10 +633,7 @@ class NavMenu extends PureComponent {
                 </div>
               </div>
               <div className='third-row-elements'>
-                <a href='' className='litcoin-balance-anchor'>
-                  <span>{currenReader.litcoinBalance}</span>
-                  <img className='litcoin-img' src='./image/litcoin.png' />
-                </a>
+                <LitcoinStatus />
               </div>
             </div>
             <div className='explore-links-container'>
@@ -575,8 +665,8 @@ class NavMenu extends PureComponent {
             <div className='top-bar-left'>
               <ul style={styles.navUl} className='menu'>
                 <li className='align-middle'>
-                  <Link to='/'>
-                    <img src='./image/logo.png' />
+                  <Link to='/' className='logo-logged-anchor'>
+                    <img src='/image/logo.png' />
                   </Link>
                 </li>
               </ul>
@@ -586,21 +676,20 @@ class NavMenu extends PureComponent {
               <ul className='menu'>
 
                 <li
-                  style={styles.loggedInNavLi}
-                  className='loged-menu-item loged-menu-item-active home'
+                  className='logged-menu-item loged-menu-item-active home'
                 >
                   <Link to='/' style={styles.navItemLinks} className='home-link rf-nav-link'>
                     Home
                   </Link>
                 </li>
 
-                <li style={styles.loggedInNavLi} className='loged-menu-item'>
+                <li className='logged-menu-item'>
                   <a href='' style={styles.navItemLinks} className='messages-link rf-nav-link'>
                     Messages
                   </a>
                 </li>
 
-                <li style={styles.loggedInNavLi} className='loged-menu-item'>
+                <li className='logged-menu-item'>
                   <a
                     style={styles.navItemLinks}
                     className='search-link rf-nav-link'
@@ -617,12 +706,8 @@ class NavMenu extends PureComponent {
               <ul className='menu'>
 
                 <li style={styles.loggedInRightNavLi}>
-                  <a href='' style={styles.rightNavLinks} className='rf-nav-link'>
-                    <span>{currenReader.litcoinBalance}</span>
-                    <img className='litcoin-nav-img' src='./image/litcoin.png' />
-                  </a>
+                  <LitcoinStatus />
                 </li>
-
                 <li style={styles.loggedInRightNavLi}>
                   <a
                     href=''
@@ -642,7 +727,7 @@ class NavMenu extends PureComponent {
                         backgroundColor: Colors.red,
                       }}
                     >
-                      <img src='./image/notifications-icon.svg' />
+                      <img src='/image/notifications-icon.svg' />
                     </Badge>
                   </a>
                 </li>
@@ -653,7 +738,7 @@ class NavMenu extends PureComponent {
                     onClick={this.handleProfileMenuShow}
                   >
                     <img
-                      src={currenReader.profileImage}
+                      src={currentReader.profileImage}
                       style={styles.profileImageBadge}
                     />
                   </a>
@@ -672,9 +757,9 @@ class NavMenu extends PureComponent {
     )
   }
   render() {
-    const { isUserLoggedIn, currenReader } = this.props
+    const { isUserLoggedIn, currentReader } = this.props
 
-    if (isUserLoggedIn || currenReader.litcoinBalance) {
+    if (isUserLoggedIn || currentReader.litcoinBalance) {
       return (
         this.renderLogInMenu()
       )
@@ -692,8 +777,8 @@ class NavMenu extends PureComponent {
           <div className='top-bar-left'>
             <ul style={styles.navUl} className='dropdown menu' data-dropdown-menu>
               <li className='menu-text'>
-                <Link to='/'>
-                  <img src='./image/logo.png' />
+                <Link to='/' className='logo-anon-anchor'>
+                  <img src='/image/logo.png' />
                 </Link>
               </li>
               {this.handleMapNavItems(R.values(CATEGORIES), R.values(GENRES))}
@@ -735,8 +820,15 @@ class NavMenu extends PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    currenReader: state.currentReader
+    currentReader: state.currentReader
   }
 }
 
-export default connect(mapStateToProps, { processUserLogout })(NavMenu)
+const mapDispatchToProps = {
+  processUserLogout,
+  usePlatformAs,
+  getCurrentReader,
+  verifyUserToken
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavMenu)

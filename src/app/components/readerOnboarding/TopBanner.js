@@ -11,6 +11,9 @@ const styles = {
     minWidth: '100%',
     zIndex: 30,
   },
+  logoStyle: {
+    width: '250px'
+  }
 }
 
 const TopBanner = ({ selectAll }) => {
@@ -19,7 +22,7 @@ const TopBanner = ({ selectAll }) => {
 
       <div className='small-12 columns center-text'>
         <Link to='/'>
-          <img src='./image/logo.png' />
+          <img style={styles.logoStyle} src='./image/logo.png' />
         </Link>
       </div>
       <div className='small-12 columns'>

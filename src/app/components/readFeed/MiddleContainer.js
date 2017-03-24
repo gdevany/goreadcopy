@@ -3,18 +3,20 @@ import { connect } from 'react-redux'
 import { Tiles } from '../../redux/actions'
 import TilesWrapper from './TilesWrapper'
 import { ProfileDetailerTile, AnnouncementTile } from './tiles'
+import { StatusPost } from '../common'
 
-const { getReadFeedTiles } = Tiles
+const { getReadFeedTiles, prependReadFeedTile } = Tiles
 
 class MiddleContainer extends PureComponent {
   componentWillMount = () => this.props.getReadFeedTiles()
 
   render() {
-    const { readFeed } = this.props
+    const { readFeed, userId, prependReadFeedTile } = this.props
     return (
       <div className='middle-container small-12 large-6 columns'>
         <ProfileDetailerTile />
         <AnnouncementTile/>
+        <StatusPost targetId={userId} postNewTile={prependReadFeedTile}/>
         {readFeed ? <TilesWrapper feed={readFeed}/> : null}
       </div>
     )
@@ -27,4 +29,7 @@ const mapStateToProps = ({
   }
 }) => { return { readFeed } }
 
-export default connect(mapStateToProps, { getReadFeedTiles })(MiddleContainer)
+export default connect(mapStateToProps, {
+  getReadFeedTiles,
+  prependReadFeedTile
+})(MiddleContainer)

@@ -1,30 +1,30 @@
 import React, { PureComponent } from 'react'
+import Radium from 'radium'
 import { connect } from 'react-redux'
 import { Follow } from '../../redux/actions'
+import { Link } from 'react-router'
 import { FollowModal } from '../common'
-import { ExternalRoutes } from '../../constants'
 import { Chip } from 'material-ui'
-import { Colors, Breakpoints } from '../../constants/style'
+import { LogInModal } from '../common'
+import { Colors } from '../../constants/style'
+import { Auth } from '../../services'
+
 import R from 'ramda'
 
-const { editProfile } = ExternalRoutes
+const isUserLoggedIn = Auth.currentUserExists()
 
 const { getFollowers, getFollowed, updateFollowed } = Follow
 
 const styles = {
   chip: {
     backgroundColor: Colors.white,
-    border: `1px solid ${Colors.blue}`,
+    border: `1px solid ${Colors.lightMedGrey}`,
     borderRadius: 25,
-    color: Colors.blue,
+    color: Colors.lightMedGrey,
     cursor: 'pointer',
-    display: 'inline-block',
-    margin: '15px 15px 0px 20px',
-    padding: 5,
-
-    [Breakpoints.tablet]: {
-      marginRight: 0,
-    },
+    alignSelf: 'center',
+    padding: '3px 8px',
+    marginTop: 5,
 
     ':hover': {
       backgroundColor: Colors.blue,
@@ -35,12 +35,15 @@ const styles = {
 
   chipText: {
     color: Colors.blue,
-    fontSize: 14,
+    fontSize: 12,
   },
 
   checkmark: {
     marginRight: 7,
   },
+  chipContainer: {
+    padding: 0,
+  }
 }
 
 class FollowProfile extends PureComponent {
@@ -53,9 +56,11 @@ class FollowProfile extends PureComponent {
       triggerCantFollow: false,
       followingUser: false,
       followed: [],
+      modalLogInOpen: false,
     }
 
     this.handleClose = this.handleClose.bind(this)
+    this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
   }
 
   componentDidMount = () => {
@@ -104,7 +109,7 @@ class FollowProfile extends PureComponent {
     }
   }
 
-  isChosen = (id) => R.contains(id, this.state.followed)
+  isChosen = (id) => R.contains(id, this.state.followed || [])
 
   cantFollow = () => this.setState({ triggerCantFollow: true })
 
@@ -113,21 +118,39 @@ class FollowProfile extends PureComponent {
     const { followingUser } = this.state
     return (
       <Chip
-        className={'chosenFollow'}
         labelStyle={styles.chipText}
         style={styles.chip}
       >
         {
           isCurrentReader ?
-            <a href={editProfile()}> + Edit Profile </a> :
-            <a onClick={isViewMyProfile ? this.cantFollow : this.handleFollow}>
-              {
-                followingUser ? '(checkmark) Following' : 'Follow'
+            <Link to='/profile/settings'>Edit</Link> :
+            <div>
+              {isUserLoggedIn ?
+                (
+                  <a onClick={isViewMyProfile ? this.cantFollow : this.handleFollow}>
+                    {
+                      followingUser ? 'Following' : 'Follow'
+                    }
+                  </a>
+                ) : (
+                  <a onClick={this.handleLogInModalOpen}>
+                    Follow
+                  </a>
+                )
               }
-            </a>
+            </div>
         }
       </Chip>
     )
+  }
+
+  handleLogInModalClose = () => {
+    this.setState({ modalLogInOpen: false })
+  }
+
+  handleLogInModalOpen = (event) => {
+    event.preventDefault()
+    this.setState({ modalLogInOpen: true })
   }
 
   render() {
@@ -159,37 +182,41 @@ class FollowProfile extends PureComponent {
       'followed'
 
     return (
-      <div>
-        <div>
-            <div className='follow-wrapper row center-text'>
-              <div className='followers small-4 columns'>
-                <div
-                  className='profile-link'
-                  onClick={() => this.handleOpen('followers')}
-                >
-                  <span className='small-title'>
-                    Followers
-                  </span>
-                  <br />
-                  <span className='profile-large-text'> {followersCount} </span>
-                </div>
-              </div>
-
-              <div className='following small-4 columns'>
-                <div
-                  className='profile-link'
-                  onClick={() => this.handleOpen('following')}
-                >
-                <div className='profile-link' onClick={() => this.handleOpen('following')}>
-                  <span className='small-title'>
-                    Following
-                  </span>
-                  <br />
-                  <span className='profile-large-text'> {followedCount} </span>
-                </div>
+      <div className='follow-profile-card-container'>
+        <div className='follow-wrapper row center-text'>
+          <div className='follow-profile-card-name-cont small-12 columns'>
+            <h4 className='follow-profile-card-name'>{this.props.fullname}</h4>
+          </div>
+          <div className='follows-profile-actions-container small-12 columns'>
+            <div className='followers small-4 columns'>
+              <div
+                className='profile-link'
+                onClick={isUserLoggedIn ?
+                  () => this.handleOpen('followers') : this.handleLogInModalOpen
+                }
+              >
+                <span className='small-title'>
+                  Followers
+                </span>
+                <br />
+                <span className='profile-large-text'> {followersCount} </span>
               </div>
             </div>
-            <div className='small-4 columns'>
+            <div className='following small-4 columns'>
+              <div
+                className='profile-link'
+                onClick={isUserLoggedIn ?
+                  () => this.handleOpen('following') : this.handleLogInModalOpen
+                }
+              >
+                <span className='small-title'>
+                  Following
+                </span>
+                <br />
+                <span className='profile-large-text'> {followedCount} </span>
+              </div>
+            </div>
+            <div className='small-4 columns' style={styles.chipContainer}>
               {this.renderChip()}
               {triggerCantFollow ? <span> You can't follow yourself!</span> : null}
             </div>
@@ -201,6 +228,10 @@ class FollowProfile extends PureComponent {
             handleClose={toCloseModal}
             count={modalFollowCount}
             followType={modalFollowType}
+          />
+          <LogInModal
+            modalOpen={this.state.modalLogInOpen}
+            handleClose={this.handleLogInModalClose}
           />
         </div>
       </div>
@@ -226,4 +257,4 @@ const mapDispatchToProps = {
   updateFollowed
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FollowProfile)
+export default connect(mapStateToProps, mapDispatchToProps)(Radium(FollowProfile))

@@ -44,6 +44,7 @@ class SignInModal extends Component {
     event.preventDefault()
     const credentials = R.pick(['username', 'password'], this.state)
     this.props.processUserLogin(credentials)
+    this.props.handleClose()
   }
 
   handleOnChange = R.curry((field, e) => {
@@ -77,7 +78,7 @@ class SignInModal extends Component {
           autoScrollBodyContent={true}
         >
           <img
-            src='./image/close.png'
+            src='/image/close.png'
             className='general-font center-text signup-modal-x'
             onClick={handleClose}
           />
@@ -92,21 +93,21 @@ class SignInModal extends Component {
               href={routes.providerLogin({ provider: 'facebook' })}
               text={'Continue with Facebook'}
               backgroundColor={'#3B5998'}
-              icon={'./image/facebook.png'}
+              icon={'/image/facebook.png'}
             />
 
             <SocialButton
               href={routes.providerLogin({ provider: 'google' })}
               text={'Continue with Google'}
               backgroundColor={'#EA4235'}
-              icon={'./image/google.png'}
+              icon={'/image/google.png'}
             />
 
             <SocialButton
               href={routes.providerLogin({ provider: 'linkedin' })}
               text={'Continue with Linkedin'}
               backgroundColor={'#0077B5'}
-              icon={'./image/linkedin.png'}
+              icon={'/image/linkedin.png'}
             />
 
           </div>

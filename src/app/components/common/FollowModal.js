@@ -201,7 +201,7 @@ class FollowModal extends PureComponent {
           autoScrollBodyContent={true}
         >
           <img
-            src='./image/close.png'
+            src='/image/close.png'
             className='general-font center-text signup-modal-x'
             onClick={handleClose}
           /><br />
@@ -213,7 +213,7 @@ class FollowModal extends PureComponent {
             </h4>
           </div>
           {R.isEmpty(data) ? null : this.renderModal(followType, data)}
-        </ Dialog>
+        </Dialog>
       </div>
     )
   }

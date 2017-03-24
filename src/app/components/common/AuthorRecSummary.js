@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Radium from 'radium'
 import { CardHeader, Chip } from 'material-ui'
-import { Colors, Breakpoints } from '../../constants/style'
+import { Colors } from '../../constants/style'
 import { Follow } from '../../redux/actions'
 const {
   removeFollowedAuthors,
@@ -40,10 +40,6 @@ const styles = {
     display: 'inline-block',
     margin: '15px 15px 0px 20px',
     padding: 5,
-
-    [Breakpoints.tablet]: {
-      marginRight: 0,
-    },
 
     ':hover': {
       backgroundColor: Colors.blue,
@@ -121,8 +117,8 @@ class AuthorRecSummary extends Component {
             onClick={this.handleChipClick}
           >
             {isChosen ?
-              <img style={styles.checkmark} src='./image/checkmark.png' /> :
-              <img style={styles.checkmark} src='./image/plus.png' />
+              <img style={styles.checkmark} src='/image/checkmark.png' /> :
+              <img style={styles.checkmark} src='/image/plus.png' />
             }
               {isChosen ? 'Following' : 'Follow'}
           </Chip>

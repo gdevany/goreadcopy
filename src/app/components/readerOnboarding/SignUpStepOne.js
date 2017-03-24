@@ -46,6 +46,7 @@ class SignUpStepOne extends Component {
 
     this.handleOnChange = this.handleOnChange.bind(this)
     this.handleOnBlur = this.handleOnBlur.bind(this)
+    this.handleFormSubmit = this.handleFormSubmit.bind(this)
   }
 
   componentWillReceiveProps({ submitSuccessful }) {
@@ -54,7 +55,7 @@ class SignUpStepOne extends Component {
 
   handleFormSubmit = (event) => {
     event.preventDefault()
-    const buttonText = document.activeElement.getAttribute('value')
+    const buttonText = event.target.value
     const fields = R.pick(['username', 'password', 'passwordConfirmation'], this.props)
     const {
       updateReaderData,
@@ -107,7 +108,6 @@ class SignUpStepOne extends Component {
       <div>
         <div style={styles.container} className='card front-card'>
           <form
-            onSubmit={this.handleFormSubmit}
             style={styles.formContainer}
           >
             <h1 className='center-text step-header'>Create your account</h1>
@@ -157,6 +157,7 @@ class SignUpStepOne extends Component {
               <SignUpButtons
                 stepIndex={this.props.stepIndex}
                 buttonType='form'
+                handleButtonClick={this.handleFormSubmit}
               />
             </div>
 

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Images } from '../../redux/actions'
 import Dropzone from 'react-dropzone'
 import R from 'ramda'
+import Promise from 'bluebird'
 
 const { uploadImage } = Images
 
@@ -44,7 +45,7 @@ class MyImageProfileUpload extends PureComponent {
   }
 
   render() {
-    const { profileImage, isMyProfile } = this.props
+    const { profileImage, isMyProfile, isProfilePage } = this.props
     const { profileImageUpload } = this.state
     const hasProfileImage = !R.isEmpty(profileImage)
     const cameraBackgroundClass = (profileImageUpload || hasProfileImage) ?
@@ -54,24 +55,25 @@ class MyImageProfileUpload extends PureComponent {
       this.renderImage(profileImage, profileImageUpload) : null
 
     return (
-      <div className='profile-bottom'>
-        <div>
-          {
-            isMyProfile ?
-              <Dropzone
-                onDrop={this.profileUpload}
-                className='dropzone-profile-profilepage'
-              >
-                {getImage}
+      <div className={isProfilePage ? 'profile-badge-bottom' : 'profile-bottom'}>
+        {
+          isMyProfile ?
+            <Dropzone
+              onDrop={this.profileUpload}
+              className='dropzone-profile-profilepage'
+            >
+              {getImage}
 
-                <img
-                  className={R.concat('camera-profile-profilepage ', cameraBackgroundClass)}
-                  src='../image/upload-photo-icon.svg'
-                />
-            </Dropzone> :
-            getImage
-          }
-        </div>
+              <img
+                className={R.concat('camera-profile-profilepage ', cameraBackgroundClass)}
+                src='../image/upload-photo-icon.svg'
+              />
+          </Dropzone> :
+          <div className='not-my-profile-image-container'>
+            {getImage}
+          </div>
+
+        }
       </div>
     )
   }

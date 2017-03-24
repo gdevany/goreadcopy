@@ -37,6 +37,17 @@ export function refreshCurrentReader({ token } = {}) {
   }
 }
 
+export function usePlatformAs(platformUse) {
+  const platform = {
+    publishingAs: platformUse,
+  }
+  return dispatch => {
+    CurrentReader.usePlatformAs(platform)
+      .then(res => dispatch(updateCurrentReader(res.data)))
+      .catch(err => console.log(`Error in getPlatformUse ${err}`))
+  }
+}
+
 export function updateCurrentReader(payload) {
   return dispatch => {
     return dispatch({
@@ -59,4 +70,5 @@ export default {
   getCurrentReader,
   updateCurrentReader,
   updateCurrentReaderRecommendation,
+  usePlatformAs,
 }

@@ -83,7 +83,7 @@ class SignUpStepTwo extends PureComponent {
 
   handleButtonClick = (event) => {
     event.preventDefault()
-    const buttonText = document.activeElement.getAttribute('value')
+    const buttonText = event.target.value
 
     if (buttonText === 'Next') {
       if (this.state.chosenGenres.length > 0) {
@@ -136,8 +136,8 @@ class SignUpStepTwo extends PureComponent {
         >
           {
             isChosen ?
-            <img style={styles.checkmark} src='./image/checkmark.png' /> :
-            <img style={styles.checkmark} src='./image/plus.png' />
+            <img style={styles.checkmark} src='/image/checkmark.png' /> :
+            <img style={styles.checkmark} src='/image/plus.png' />
           }
             {S.titleize(genre.name)}
         </Chip>

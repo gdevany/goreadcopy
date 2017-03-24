@@ -28,6 +28,11 @@ class BookClubTile extends PureComponent {
         shareInfo={shareInfo}
         action={action}
       >
+        <div className='post-excerpt-container'>
+          <p className='post-excerpt-pharagraph'>
+            {content.socialComment ? content.socialComment : null}
+          </p>
+        </div>
         <div className='bookclub-tile-container'>
           <figure className='bookclub-figure'>
             <a href={content.url}>

@@ -3,7 +3,7 @@ import Basil from 'basil.js'
 const Storage = () => {
   const config = {
     namespace: 'goread',
-    storages: ['session', 'local', 'cookie'],
+    storages: ['local', 'session', 'cookie'],
   }
 
   return new Basil(config)

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Images } from '../../redux/actions'
 import Dropzone from 'react-dropzone'
 import R from 'ramda'
+import Promise from 'bluebird'
 
 const { uploadImage } = Images
 
