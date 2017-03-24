@@ -7,12 +7,12 @@ export default (state = initialState.tiles, { type, payload, errors }) => {
     case A.GET_READFEED_TILES:
       return {
         ...state,
-        readFeed: payload
+        readFeed: R.concat(state.readFeed || [], payload)
       }
     case B.GET_PROFILE_TILES:
       return {
         ...state,
-        profile: payload
+        profile: R.concat(state.profile || [], payload)
       }
     case B.PREPEND_PROFILE_TILE:
       return {
@@ -23,6 +23,16 @@ export default (state = initialState.tiles, { type, payload, errors }) => {
       return {
         ...state,
         readFeed: R.concat([payload], state.readFeed)
+      }
+    case A.LOCK_READFEED:
+      return {
+        ...state,
+        isReadFeedLocked: payload
+      }
+    case B.LOCK_PROFILE:
+      return {
+        ...state,
+        isProfileLocked: payload
       }
     case B.GET_COMMENTS:
       const isFeedComments = state.feedComments || {}
