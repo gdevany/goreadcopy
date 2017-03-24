@@ -1,9 +1,11 @@
 import Storage from './storage'
+import Basil from 'basil.js'
 
 // For managing user sessions in sessionstorage;
 // does NOT handle redux state for currentReader
 const Auth = () => {
   const TOKEN_FIELD = 'authToken'
+  const CSRF_TOKEN_FIELD = 'csrftoken'
 
   const setToken = (token) => {
     return Storage.set(TOKEN_FIELD, token)
@@ -13,8 +15,13 @@ const Auth = () => {
     return Storage.get(TOKEN_FIELD)
   }
 
+  const csrftoken = () => {
+    return Basil.cookie.get(CSRF_TOKEN_FIELD)
+  }
+
   const deleteToken = () => {
     Storage.remove(TOKEN_FIELD)
+    Basil.cookie.remove(CSRF_TOKEN_FIELD)
   }
 
   const currentUserExists = () => !!token()
@@ -22,6 +29,7 @@ const Auth = () => {
   return {
     currentUserExists,
     token,
+    csrftoken,
     setToken,
     deleteToken,
   }
