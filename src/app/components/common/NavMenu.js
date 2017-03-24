@@ -19,7 +19,7 @@ import LitcoinStatus from './LitcoinStatus'
 import './styles/mobile-menu.scss'
 
 const { CATEGORIES, GENRES } = PopularTopics
-const { usePlatformAs, getCurrentReader } = CurrentReader
+const { usePlatformAs, getCurrentReader, logoutCurrentReader } = CurrentReader
 const { verifyUserToken, processUserLogout } = Auth
 
 const styles = {
@@ -230,6 +230,7 @@ class NavMenu extends PureComponent {
 
   handleLogoutClick(event) {
     event.preventDefault()
+    this.props.logoutCurrentReader()
     this.props.processUserLogout()
   }
 
@@ -825,6 +826,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
+  logoutCurrentReader,
   processUserLogout,
   usePlatformAs,
   getCurrentReader,
