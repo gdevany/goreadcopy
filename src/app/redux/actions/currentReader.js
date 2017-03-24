@@ -1,5 +1,6 @@
 import { CURRENT_READER as A } from '../const/actionTypes'
 import CurrentReader from '../../services/api/currentReader/general'
+import SocialReader from '../../services/api/currentReader/social'
 import { Auth } from '../../services'
 import { Jwt } from '../../services/api'
 import { getRecommendation } from './recommended'
@@ -48,6 +49,22 @@ export function usePlatformAs(platformUse) {
   }
 }
 
+export function updateReader(payload) {
+  return dispatch => {
+    CurrentReader.updateReader(payload)
+      .then(res => dispatch(getCurrentReader()))
+      .catch(err => console.log(`Error in updateReader ${err}`))
+  }
+}
+
+export function deleteSocialAccount(payload) {
+  return dispatch => {
+    SocialReader.deleteSocialAccount(payload)
+      .then(res => dispatch(getCurrentReader()))
+      .catch(err => console.log(`Error in deleteSocialAccount ${err}`))
+  }
+}
+
 export function updateCurrentReader(payload) {
   return dispatch => {
     return dispatch({
@@ -79,5 +96,7 @@ export default {
   updateCurrentReader,
   updateCurrentReaderRecommendation,
   usePlatformAs,
+  updateReader,
+  deleteSocialAccount,
   logoutCurrentReader,
 }
