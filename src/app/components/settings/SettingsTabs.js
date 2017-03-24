@@ -82,6 +82,7 @@ class SettingsTabs extends PureComponent {
     this.handleButtonClick = this.handleButtonClick.bind(this)
     this.handleClose = this.handleClose.bind(this)
     this.handleOnChange = this.handleOnChange.bind(this)
+    this.handleFirstTabSubmit = this.handleFirstTabSubmit.bind(this)
     this.handleSecondTabSubmit = this.handleSecondTabSubmit.bind(this)
     this.handleThirdTabSubmit = this.handleThirdTabSubmit.bind(this)
     this.handleOnToggle = this.handleOnToggle.bind(this)
@@ -161,7 +162,29 @@ class SettingsTabs extends PureComponent {
       snackbarOpen: true,
     })
   }
+  handleFirstTabSubmit = (event) => {
+    event.preventDefault()
+    const {
+      favoriteQuote1,
+      favoriteQuote2,
+      favoriteQuote3,
+      favoriteQuote4,
+      favoriteQuote5
+    } = this.state
 
+    const readerData = {
+      favoriteQuote1,
+      favoriteQuote2,
+      favoriteQuote3,
+      favoriteQuote4,
+      favoriteQuote5
+    }
+    this.props.updateReader(readerData)
+    this.setState({
+      readerFetched: false,
+      snackbarOpen: true,
+    })
+  }
   handleSecondTabSubmit = (event) => {
     event.preventDefault()
     const {
@@ -335,27 +358,72 @@ class SettingsTabs extends PureComponent {
     return null
   }
 
-  mapFavoriteQuotes = () => {
-    const { currentReader } = this.props
-    if (currentReader.favoriteQuotes) {
-      return currentReader.favoriteQuotes.map((quote, index) => {
-        return (
-          <div
-            key={`${quote}_${index}`}
-            className='profile-edidor-quote-container'
-          >
-            <h5 className='profile-editor-favorite-quotes-num'>
-              Favorite Quoute #{index + 1}
-            </h5>
-            <textarea
-              className='profile-editor-favorite-quote-textarea'
-              defaultValue={quote}
-            />
-          </div>
-        )
-      })
-    }
-    return null
+  renderFavoriteQuotes = () => {
+    const {
+      favoriteQuote1,
+      favoriteQuote2,
+      favoriteQuote3,
+      favoriteQuote4,
+      favoriteQuote5
+    } = this.state
+
+    return (
+      <div className='profile-editor-section-container'>
+        <h4 className='profile-editor-section-title'>
+          Favorite Quoutes
+        </h4>
+        <div className='profile-edidor-quote-container'>
+          <h5 className='profile-editor-favorite-quotes-num'>
+            Favorite Quoute #1
+          </h5>
+          <textarea
+            className='profile-editor-favorite-quote-textarea'
+            onChange={this.handleOnChange('favoriteQuote1')}
+            value={favoriteQuote1}
+          />
+        </div>
+        <div className='profile-edidor-quote-container'>
+          <h5 className='profile-editor-favorite-quotes-num'>
+            Favorite Quoute #2
+          </h5>
+          <textarea
+            className='profile-editor-favorite-quote-textarea'
+            onChange={this.handleOnChange('favoriteQuote2')}
+            value={favoriteQuote2}
+          />
+        </div>
+        <div className='profile-edidor-quote-container'>
+          <h5 className='profile-editor-favorite-quotes-num'>
+            Favorite Quoute #3
+          </h5>
+          <textarea
+            className='profile-editor-favorite-quote-textarea'
+            onChange={this.handleOnChange('favoriteQuote3')}
+            value={favoriteQuote3}
+          />
+        </div>
+        <div className='profile-edidor-quote-container'>
+          <h5 className='profile-editor-favorite-quotes-num'>
+            Favorite Quoute #4
+          </h5>
+          <textarea
+            className='profile-editor-favorite-quote-textarea'
+            onChange={this.handleOnChange('favoriteQuote4')}
+            value={favoriteQuote4}
+          />
+        </div>
+        <div className='profile-edidor-quote-container'>
+          <h5 className='profile-editor-favorite-quotes-num'>
+            Favorite Quoute #5
+          </h5>
+          <textarea
+            className='profile-editor-favorite-quote-textarea'
+            onChange={this.handleOnChange('favoriteQuote5')}
+            value={favoriteQuote5}
+          />
+        </div>
+      </div>
+    )
   }
 
   renderTabOne = () => {
@@ -431,12 +499,7 @@ class SettingsTabs extends PureComponent {
             }
           </div>
         </div>
-        <div className='profile-editor-section-container'>
-          <h4 className='profile-editor-section-title'>
-            Favorite Quoutes
-          </h4>
-          {this.mapFavoriteQuotes()}
-        </div>
+        {this.renderFavoriteQuotes()}
         <div className='profile-editor-section-container'>
           <h4 className='profile-editor-section-title'>
             Show my social media accounts
@@ -478,7 +541,7 @@ class SettingsTabs extends PureComponent {
           <div className='profile-editor-save-btn-container'>
             <PrimaryButton
               label='Save'
-              onClick={this.handleButtonClick}
+              onClick={this.handleFirstTabSubmit}
             />
           </div>
         </div>
