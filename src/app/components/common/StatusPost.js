@@ -326,6 +326,7 @@ class StatusPost extends PureComponent {
           <textarea
             cols='30'
             rows='4'
+            maxLength='10000'
             ref='statuspost'
             className={this.state.textareaOpen ?
               'status-post-textarea-open' : 'status-post-textarea'}
