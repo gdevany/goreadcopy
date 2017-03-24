@@ -64,6 +64,14 @@ export function updateCurrentReaderRecommendation(recommendation) {
   }
 }
 
+export function logoutCurrentReader() {
+  return dispatch => {
+    CurrentReader.logoutCurrentReader()
+      .then(res => dispatch(res.data))
+      .catch(err => console.log(`Error in getCurrentReader ${err}`))
+  }
+}
+
 export default {
   setCurrentReader,
   refreshCurrentReader,
@@ -71,4 +79,5 @@ export default {
   updateCurrentReader,
   updateCurrentReaderRecommendation,
   usePlatformAs,
+  logoutCurrentReader,
 }

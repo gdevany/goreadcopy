@@ -21,6 +21,7 @@ const Auth = () => {
 
   const deleteToken = () => {
     Storage.remove(TOKEN_FIELD)
+    Basil.cookie.remove(CSRF_TOKEN_FIELD)
   }
 
   const currentUserExists = () => !!token()
