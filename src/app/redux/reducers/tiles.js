@@ -12,7 +12,7 @@ export default (state = initialState.tiles, { type, payload, errors }) => {
     case B.GET_PROFILE_TILES:
       return {
         ...state,
-        profile: payload
+        profile: R.concat(state.profile || [], payload)
       }
     case B.PREPEND_PROFILE_TILE:
       return {

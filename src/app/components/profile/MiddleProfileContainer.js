@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Tiles } from '../../redux/actions'
 import { connect } from 'react-redux'
-import { StatusPost } from '../common'
+import { StatusPost, TileScroller } from '../common'
 import TilesWrapper from '../readFeed/TilesWrapper'
 
 const { getProfileTiles, prependProfileTile } = Tiles
@@ -9,19 +9,6 @@ const { getProfileTiles, prependProfileTile } = Tiles
 class RightProfileContainer extends PureComponent {
   constructor(props) {
     super(props)
-    this.state = {
-      gotFirstTiles: false
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { id } = nextProps
-    const { getProfileTiles } = this.props
-    const { gotFirstTiles } = this.state
-    if (id && getProfileTiles && !gotFirstTiles) {
-      getProfileTiles(id)
-      this.setState({ gotFirstTiles: true })
-    }
   }
 
   render() {
@@ -34,6 +21,13 @@ class RightProfileContainer extends PureComponent {
             postNewTile={this.props.prependProfileTile}
           /> : null}
         {profile ? <TilesWrapper feed={profile} /> : null}
+        { id ? (
+            <TileScroller
+              fetchTiles={(params) => this.props.getProfileTiles(id, params)}
+              tiles={profile}
+            />
+          ) : null
+        }
       </div>
     )
   }
