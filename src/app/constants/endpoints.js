@@ -26,6 +26,7 @@ const Endpoints = () => {
       getCurrentReader: () => apiUrl('current_reader'),
       usePlatformAs: () => apiUrl('current_reader/publishing_as'),
       updateReader: () => apiUrl('current_reader/profile/update'),
+      deleteSocialAccount: (id) => apiUrl(`socialaccounts/${id}`),
       getLatestAnnouncement: () => apiUrl('current_reader/latest_announcement'),
       dismissAnnouncement: (params) => apiUrl('current_reader/dismiss_announcement', params),
       getReadFeedTiles: () => apiUrl('current_reader/activities'),

@@ -32,6 +32,10 @@ const ExternalRoutes = () => {
     games: () => backendUrl('games'),
     advancedSearch: () => backendUrl('search'),
     editProfile: () => backendUrl('profile/settings'),
+    facebookSocialAccount: () => backendUrl('accounts/facebook/login/?process=connect'),
+    twitterSocialAccount: () => backendUrl('accounts/twitter/login/?process=connect'),
+    googleSocialAccount: () => backendUrl('accounts/google/login/?process=connect'),
+    linkedinSocialAccount: () => backendUrl('accounts/linkedin/login/?process=connect'),
   }
   return routes
 }

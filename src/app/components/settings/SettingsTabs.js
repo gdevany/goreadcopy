@@ -11,11 +11,13 @@ import FileDownloadIcon from 'material-ui/svg-icons/file/file-download'
 import Dropzone from 'react-dropzone'
 import Promise from 'bluebird'
 import FavoriteGenresModal from '../common/FavoriteGenresModal'
+import CloseIcon from 'material-ui/svg-icons/navigation/close'
+import { ExternalRoutes as routes } from '../../constants'
 import R from 'ramda'
 import moment from 'moment'
 
 const { uploadImage } = Images
-const { updateReader } = CurrentReader
+const { updateReader, deleteSocialAccount } = CurrentReader
 const styles = {
   lableStyle: {
     fontSize: 18,
@@ -78,8 +80,9 @@ class SettingsTabs extends PureComponent {
       notifyShared: '',
       notifyMention: '',
       receiveAuthorEmail: '',
+      socialaccounts: '',
     }
-    this.handleButtonClick = this.handleButtonClick.bind(this)
+
     this.handleClose = this.handleClose.bind(this)
     this.handleOnChange = this.handleOnChange.bind(this)
     this.handleFirstTabSubmit = this.handleFirstTabSubmit.bind(this)
@@ -119,6 +122,7 @@ class SettingsTabs extends PureComponent {
         notifyWall: nextProps.currentReader.notifyWall,
         notifyShared: nextProps.currentReader.notifyShared,
         receiveAuthorEmail: nextProps.currentReader.receiveAuthorEmail,
+        socialaccounts: nextProps.currentReader.socialaccounts,
       })
     }
   }
@@ -289,11 +293,6 @@ class SettingsTabs extends PureComponent {
     }
   }
 
-  handleButtonClick = (event) => {
-    event.preventDefault()
-    console.log('Click on ImageUpload')
-  }
-
   profileUpload = (file) => {
     this.setState({
       hasProfileImage: false,
@@ -426,6 +425,151 @@ class SettingsTabs extends PureComponent {
     )
   }
 
+  handleDeleteSocialAccount = (accountId) => {
+    this.props.deleteSocialAccount(accountId)
+    this.setState({
+      readerFetched: false
+    })
+  }
+
+  handleMapSocialAccounts = () => {
+    const { socialaccounts } = this.state
+    const {
+      facebookSocialAccount,
+      twitterSocialAccount,
+      googleSocialAccount,
+      linkedinSocialAccount
+    } = routes
+    let facebookAccounts, linkedinAccounts, twitterAccounts, googleAccounts = null
+    if (socialaccounts.facebook) {
+      facebookAccounts = socialaccounts.facebook.map((account, index) => {
+        return (
+          <div key={`${account.id}`} className='social-account-container'>
+            <figure className='social-account-figure'>
+              <img className='social-account-img' src={account.avatarUrl}/>
+            </figure>
+            <div className='social-account-details'>
+              <span>{account.extraData.firstName} {account.extraData.lastName}</span>
+            </div>
+            <CloseIcon onClick={() => this.handleDeleteSocialAccount(account.id)}/>
+          </div>
+        )
+      })
+    }
+
+    if (socialaccounts.linkedin) {
+      linkedinAccounts = socialaccounts.linkedin.map((account, index) => {
+        return (
+          <div key={`${account.id}`} className='social-account-container'>
+            <figure className='social-account-figure'>
+              <img className='social-account-img' src={account.avatarUrl}/>
+            </figure>
+            <div className='social-account-details'>
+              {/* <span>{account.extraData.first-name} {account.extraData.last-name}</span>*/}
+            </div>
+            <CloseIcon onClick={() => this.handleDeleteSocialAccount(account.id)}/>
+          </div>
+        )
+      })
+    }
+
+    if (socialaccounts.twitter) {
+      twitterAccounts = socialaccounts.twitter.map((account, index) => {
+        return (
+          <div key={`${account.id}`} className='social-account-container'>
+            <figure className='social-account-figure'>
+              <img className='social-account-img' src={account.avatarUrl}/>
+            </figure>
+            <div className='social-account-details'>
+              {/* <span>{account.extraData.firstName} {account.extraData.lastName}</span> */}
+            </div>
+            <CloseIcon onClick={() => this.handleDeleteSocialAccount(account.id)}/>
+          </div>
+        )
+      })
+    }
+
+    if (socialaccounts.google) {
+      googleAccounts = socialaccounts.google.map((account, index) => {
+        return (
+          <div key={`${account.id}`} className='social-account-container'>
+            <figure className='social-account-figure'>
+              <img className='social-account-img' src={account.avatarUrl}/>
+            </figure>
+            <div className='social-account-details'>
+              {/* <span>{account.extraData.firstName} {account.extraData.lastName}</span> */}
+            </div>
+            <CloseIcon onClick={() => this.handleDeleteSocialAccount(account.id)}/>
+          </div>
+        )
+      })
+    }
+
+    return (
+      <div className='social-accounts-container'>
+        <div className='social-accounts-single-container'>
+          <h4>Facebook Social Accounts</h4>
+          <div>
+            {facebookAccounts ? facebookAccounts : null}
+          </div>
+          <div>
+            <a
+              className='social-accounts-reg-anchor'
+              href={facebookSocialAccount()}
+              target='_blank'
+            >
+              Add a new Facebook Account
+            </a>
+          </div>
+        </div>
+        <div className='social-accounts-single-container'>
+          <h4>Linkedin Social Accounts</h4>
+          <div>
+            {linkedinAccounts ? linkedinAccounts : null}
+          </div>
+          <div>
+            <a
+              className='social-accounts-reg-anchor'
+              href={linkedinSocialAccount()}
+              target='_blank'
+            >
+              Add a new Linkedin Account
+            </a>
+          </div>
+        </div>
+        <div className='social-accounts-single-container'>
+          <h4>Twitter Social Accounts</h4>
+          <div>
+            {twitterAccounts ? twitterAccounts : null}
+          </div>
+          <div>
+            <a
+              className='social-accounts-reg-anchor'
+              href={twitterSocialAccount()}
+              target='_blank'
+            >
+              Add a new Twitter Account
+            </a>
+          </div>
+        </div>
+        <div className='social-accounts-single-container'>
+          <h4>Google Social Accounts</h4>
+          <div>
+            {googleAccounts ? googleAccounts : null}
+          </div>
+          <div>
+            <a
+              className='social-accounts-reg-anchor'
+              href={googleSocialAccount()}
+              target='_blank'
+            >
+              Add a new Google Account
+            </a>
+          </div>
+        </div>
+      </div>
+    )
+  }
   renderTabOne = () => {
     const { currentReader } = this.props
     const { profileImageUpload, backgroundImageUpload, modalOpen } = this.state
@@ -982,49 +1126,6 @@ class SettingsTabs extends PureComponent {
             />
           </div>
         </div>
-        <div className='profile-editor-section-container'>
-          <h4 className='profile-editor-section-title' >
-            Connected Social Media Accounts
-          </h4>
-          <p className='settings-section-subtitle'>
-            Unlock express logins and showcase your online presense
-            by connecting your other social media accouns
-          </p>
-          <div className='settings-setion-toggle-container'>
-            <Toggle
-              label='Facebook'
-              labelPosition='left'
-              labelStyle={styles.lableStyle}
-              style={styles.elementStyle}
-              thumbSwitchedStyle={styles.thumbSwitched}
-              trackSwitchedStyle={styles.trackSwitched}
-            />
-            <Toggle
-              label='Twitter'
-              labelPosition='left'
-              labelStyle={styles.lableStyle}
-              style={styles.elementStyle}
-              thumbSwitchedStyle={styles.thumbSwitched}
-              trackSwitchedStyle={styles.trackSwitched}
-            />
-            <Toggle
-              label='Linkedin'
-              labelPosition='left'
-              labelStyle={styles.lableStyle}
-              style={styles.elementStyle}
-              thumbSwitchedStyle={styles.thumbSwitched}
-              trackSwitchedStyle={styles.trackSwitched}
-            />
-            <Toggle
-              label='Google +'
-              labelPosition='left'
-              labelStyle={styles.lableStyle}
-              style={styles.elementStyle}
-              thumbSwitchedStyle={styles.thumbSwitched}
-              trackSwitchedStyle={styles.trackSwitched}
-            />
-          </div>
-        </div>
         <div
           className='profile-editor-save-btn-container'
           style={styles.submitButton}
@@ -1033,6 +1134,16 @@ class SettingsTabs extends PureComponent {
             label='Save'
             onClick={this.handleThirdTabSubmit}
           />
+        </div>
+        <div className='profile-editor-section-container'>
+          <h4 className='profile-editor-section-title' >
+            Connected Social Media Accounts
+          </h4>
+          <p className='settings-section-subtitle'>
+            Unlock express logins and showcase your online presense
+            by connecting your other social media accouns
+          </p>
+          {this.handleMapSocialAccounts()}
         </div>
         <div className='profile-editor-section-container'>
           <h4 className='profile-editor-section-title' >
@@ -1052,7 +1163,7 @@ class SettingsTabs extends PureComponent {
           <div className='profile-editor-action-container'>
             <a className='profile-editor-section-main-action'>
               <FileDownloadIcon />
-              Import from Goodreads
+              Scan Books To Library
             </a>
           </div>
         </div>
@@ -1122,4 +1233,11 @@ const mapStateToProps = (state) => {
     currentReader: state.currentReader
   }
 }
-export default connect(mapStateToProps, { uploadImage, updateReader })(SettingsTabs)
+
+const mapDispatchToProps = {
+  uploadImage,
+  updateReader,
+  deleteSocialAccount
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsTabs)

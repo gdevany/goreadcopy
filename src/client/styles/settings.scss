@@ -154,9 +154,10 @@
       }
       .profile-editor-favorite-quote-textarea{
         width: 100%;
-        padding: 1em;
-        resize: none;
+        padding: .8em;
+        resize: vertical;
         overflow: scroll;
+        max-height: 100px;
         font-size: 16px;
         line-height: inherit;
       }
@@ -209,4 +210,37 @@
   border-radius: 5px;
   height: auto;
   padding: 1em;
+}
+
+.social-accounts-container{
+  width: 100%;
+  .social-accounts-single-container{
+    padding: 1em 0;
+  }
+}
+
+.social-account-container{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  padding: .5em;
+  .social-account-figure{
+    width: 50px;
+    .social-account-img{
+      width: 100%;
+      border-radius: 3px;
+    }
+  }
+  .social-account-details{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    margin: 0 1em;
+  }
+}
+
+.social-accounts-reg-anchor{
+  font-size: 14px;
 }
