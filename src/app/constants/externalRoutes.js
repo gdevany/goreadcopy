@@ -1,7 +1,7 @@
 import { Paths } from '../services'
 
 const ExternalRoutes = () => {
-  const { backendUrl } = Paths
+  const { backendUrl, backendUrltrimSlash } = Paths
 
   const routes = {
     about: () => backendUrl('about'),
@@ -32,10 +32,10 @@ const ExternalRoutes = () => {
     games: () => backendUrl('games'),
     advancedSearch: () => backendUrl('search'),
     editProfile: () => backendUrl('profile/settings'),
-    facebookSocialAccount: () => backendUrl('accounts/facebook/login/?process=connect'),
-    twitterSocialAccount: () => backendUrl('accounts/twitter/login/?process=connect'),
-    googleSocialAccount: () => backendUrl('accounts/google/login/?process=connect'),
-    linkedinSocialAccount: () => backendUrl('accounts/linkedin/login/?process=connect'),
+    facebookSocialAccount: () => backendUrltrimSlash('accounts/facebook/login/?process=connect'),
+    twitterSocialAccount: () => backendUrltrimSlash('accounts/twitter/login/?process=connect'),
+    googleSocialAccount: () => backendUrltrimSlash('accounts/google/login/?process=connect'),
+    linkedinSocialAccount: () => backendUrltrimSlash('accounts/linkedin/login/?process=connect'),
   }
   return routes
 }
