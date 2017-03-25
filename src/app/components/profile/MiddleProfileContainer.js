@@ -14,6 +14,10 @@ class RightProfileContainer extends PureComponent {
     }
   }
 
+  componentWillMount = () => {
+    this.props.emptyTiles()
+  }
+
   componentWillReceiveProps = (nextProps) => {
     const { id } = this.props
     if (id !== nextProps.id) {

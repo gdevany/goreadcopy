@@ -72,10 +72,18 @@ class ProfileWrapper extends PureComponent {
     if (profileSlug !== nextSlug) {
       if (currentReader.slug === nextSlug) {
         this.props.getCurrentReader()
+        this.setReaderData(nextSlug)
       } else {
         this.props.getProfilePage(nextSlug)
       }
     }
+  }
+
+  setReaderData = (nextSlug) => {
+    this.setState({
+      isMyProfile: true,
+      slug: nextSlug,
+    })
   }
 
   getGenreIds = (genres) => R.map(R.prop('id'), genres)
@@ -90,7 +98,7 @@ class ProfileWrapper extends PureComponent {
     const notMyProfile = profilePage.id ? {
       profileImage: profilePage.profileImage,
       backgroundImage: profilePage.backgroundImage,
-      followed: this.getGenreIds(profilePage.genreIds),
+      followed: this.getGenreIds(profile.genreIds),
       fullname: profilePage.fullname,
       genreIds: profilePage.genreIds,
       favoriteQuotes: profilePage.favoriteQuotes,
