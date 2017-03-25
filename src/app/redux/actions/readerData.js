@@ -5,6 +5,7 @@ import { Readers } from '../../services/api'
 import { Auth, Errors, Promise } from '../../services'
 import { SignupModalValidator } from '../../services/validators'
 import { updateLitcoinBalance } from './litcoins'
+import Env from '../../constants/env'
 
 const { hasErrors } = Errors
 const { validate } = SignupModalValidator
@@ -32,6 +33,8 @@ export function createReaderSuccess({ data }) {
 
     // TODO: refactor to use currentReader.setCurrentReader
     Auth.setToken(payload.token)
+    Auth.setSessionToken(payload[Env.SESSION_ID_FIELD])
+    Auth.setCsrfToken(payload[Env.CSRF_TOKEN_FIELD])
 
     dispatch({
       type: CURRENT_READER.SET_CURRENT_READER,
