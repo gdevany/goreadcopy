@@ -50,6 +50,7 @@
     "basil.js": "^0.4.4",
     "bluebird": "^3.4.7",
     "body-parser": "^1.16.0",
+    "compression": "^1.6.2",
     "concurrently": "^3.1.0",
     "core-js": "^2.4.1",
     "css-loader": "^0.26.1",
@@ -100,6 +101,7 @@
     "webpack": "^1.14.0",
     "webpack-dev-middleware": "^1.9.0",
     "webpack-hot-middleware": "^2.15.0",
-    "webpack-isomorphic-tools": "^2.6.6"
+    "webpack-isomorphic-tools": "^2.6.6",
+    "compression-webpack-plugin": "^0.3.1"
   }
 }

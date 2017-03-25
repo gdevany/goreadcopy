@@ -4,6 +4,7 @@ const nodeModulesPath = path.resolve(__dirname, 'node_modules')
 const testPath = path.resolve(__dirname, 'test');
 const TransferWebpackPlugin = require('transfer-webpack-plugin')
 const dotenv = require('dotenv');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 dotenv.config() // pull .env into process.env if it exists
 
@@ -30,6 +31,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env' : JSON.stringify(process.env)
     }),
+    new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
       minimize: true,
       compress: {
@@ -38,6 +40,14 @@ module.exports = {
     }),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.optimize.AggressiveMergingPlugin(),
+    new CompressionPlugin({
+      asset: "[path].gz[query]",
+      algorithm: "gzip",
+      test: /\.js$|\.(css|scss)$|\.html$/,
+      threshold: 10240,
+      minRatio: 0.8
+    }),
     new webpack.NoErrorsPlugin(),
     new TransferWebpackPlugin([
       {from: 'client'},

@@ -61,6 +61,12 @@ if (ENV.isDevelopment()) {
   app.use(express.static('build'));
   app.get('*', (req, res) => res.sendFile(path.join(__dirname + '/../client/index.html')))
 } else {
+  app.get('*.js', function (req, res, next) {
+    req.url = req.url + '.gz';
+    res.set('Content-Encoding', 'gzip');
+    next();
+  });
+
   app.use(express.static('public'));
 
   app.get('*', (req, res) => res.sendFile(path.join(__dirname + '/../../public/index.html')))
