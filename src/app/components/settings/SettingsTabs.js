@@ -81,6 +81,10 @@ class SettingsTabs extends PureComponent {
       notifyMention: '',
       receiveAuthorEmail: '',
       socialaccounts: '',
+      socialFacebook: '',
+      socialTwitter: '',
+      socialLinkedin: '',
+      socialGoogle: '',
     }
 
     this.handleClose = this.handleClose.bind(this)
@@ -123,6 +127,10 @@ class SettingsTabs extends PureComponent {
         notifyShared: nextProps.currentReader.notifyShared,
         receiveAuthorEmail: nextProps.currentReader.receiveAuthorEmail,
         socialaccounts: nextProps.currentReader.socialaccounts,
+        socialFacebook: nextProps.currentReader.socialFacebook,
+        socialTwitter: nextProps.currentReader.socialTwitter,
+        socialLinkedin: nextProps.currentReader.socialLinkedin,
+        socialGoogle: nextProps.currentReader.socialGoogle,
       })
     }
   }
@@ -470,7 +478,7 @@ class SettingsTabs extends PureComponent {
               <img className='social-account-img' src={account.avatarUrl}/>
             </figure>
             <div className='social-account-details'>
-              {/* <span>{account.extraData.first-name} {account.extraData.last-name}</span>*/}
+              <span>{account.extraData.firstName} {account.extraData.lastName}</span>
             </div>
             <CloseIcon onClick={() => this.handleDeleteSocialAccount(account.id)}/>
           </div>
@@ -486,7 +494,7 @@ class SettingsTabs extends PureComponent {
               <img className='social-account-img' src={account.avatarUrl}/>
             </figure>
             <div className='social-account-details'>
-              {/* <span>{account.extraData.firstName} {account.extraData.lastName}</span> */}
+              <span>{account.extraData.name}</span>
             </div>
             <CloseIcon onClick={() => this.handleDeleteSocialAccount(account.id)}/>
           </div>
@@ -575,6 +583,125 @@ class SettingsTabs extends PureComponent {
       </div>
     )
   }
+
+  handleRenderShowSocial = () => {
+    const {
+      socialaccounts,
+      socialFacebook,
+      socialTwitter,
+      socialLinkedin,
+      socialGoogle
+    } = this.state
+
+    let facebookAccounts, linkedinAccounts, twitterAccounts, googleAccounts = null
+    if (socialaccounts.facebook) {
+      facebookAccounts = socialaccounts.facebook.map((account, index) => {
+        return (
+          <MenuItem
+            value={account.id}
+            primaryText={`${account.extraData.firstName} ${account.extraData.lastName}`}
+            key={`${account.id}`}
+          />
+        )
+      })
+    }
+
+    if (socialaccounts.linkedin) {
+      linkedinAccounts = socialaccounts.linkedin.map((account, index) => {
+        return (
+          <MenuItem
+            value={account.id}
+            primaryText={`${account.extraData.firstName} ${account.extraData.lastName}`}
+            key={`${account.id}`}
+          />
+        )
+      })
+    }
+
+    if (socialaccounts.twitter) {
+      twitterAccounts = socialaccounts.twitter.map((account, index) => {
+        return (
+          <MenuItem
+            value={account.id}
+            primaryText={account.extraData.name}
+            key={`${account.id}`}
+          />
+        )
+      })
+    }
+
+    if (socialaccounts.google) {
+      googleAccounts = socialaccounts.google.map((account, index) => {
+        return (
+          <MenuItem
+            value={account.id}
+            primaryText={account.extraData.familyName}
+            key={`${account.id}`}
+          />
+        )
+      })
+    }
+    return (
+      <div>
+        <div className='profile-editor-section-container'>
+          <h4 className='profile-editor-section-title'>
+            Show my social media accounts
+          </h4>
+        </div>
+        <div className='social-accounts-container'>
+          <div className='social-accounts-single-container'>
+            <h4>Facebook Social Accounts</h4>
+            <div>
+              <SelectField
+                onChange={this.handleOnChange('gender')}
+                value={socialFacebook}
+                style={styles.selectStyles}
+              >
+                {facebookAccounts ? facebookAccounts : null}
+              </SelectField>
+            </div>
+          </div>
+          <div className='social-accounts-single-container'>
+            <h4>Linkedin Social Accounts</h4>
+            <div>
+              <SelectField
+                onChange={this.handleOnChange('gender')}
+                value={socialLinkedin}
+                style={styles.selectStyles}
+              >
+                {linkedinAccounts ? linkedinAccounts : null}
+              </SelectField>
+            </div>
+          </div>
+          <div className='social-accounts-single-container'>
+            <h4>Twitter Social Accounts</h4>
+            <div>
+              <SelectField
+                onChange={this.handleOnChange('gender')}
+                value={socialTwitter}
+                style={styles.selectStyles}
+              >
+                {twitterAccounts ? twitterAccounts : null}
+              </SelectField>
+            </div>
+          </div>
+          <div className='social-accounts-single-container'>
+            <h4>Google Social Accounts</h4>
+            <div>
+              <SelectField
+                onChange={this.handleOnChange('gender')}
+                value={socialGoogle}
+                style={styles.selectStyles}
+              >
+                {googleAccounts ? googleAccounts : null}
+              </SelectField>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   renderTabOne = () => {
     const { currentReader } = this.props
     const { profileImageUpload, backgroundImageUpload, modalOpen } = this.state
@@ -652,50 +779,12 @@ class SettingsTabs extends PureComponent {
           </div>
         </div>
         {this.renderFavoriteQuotes()}
-        <div className='profile-editor-section-container'>
-          <h4 className='profile-editor-section-title'>
-            Show my social media accounts
-          </h4>
-          <div className='editor-favorite-socialmedia-container'>
-            <Toggle
-              label='Facebook'
-              labelPosition='left'
-              labelStyle={styles.lableStyle}
-              style={styles.elementStyle}
-              thumbSwitchedStyle={styles.thumbSwitched}
-              trackSwitchedStyle={styles.trackSwitched}
-            />
-            <Toggle
-              label='Twitter'
-              labelPosition='left'
-              labelStyle={styles.lableStyle}
-              style={styles.elementStyle}
-              thumbSwitchedStyle={styles.thumbSwitched}
-              trackSwitchedStyle={styles.trackSwitched}
-            />
-            <Toggle
-              label='Linkedin'
-              labelPosition='left'
-              labelStyle={styles.lableStyle}
-              style={styles.elementStyle}
-              thumbSwitchedStyle={styles.thumbSwitched}
-              trackSwitchedStyle={styles.trackSwitched}
-            />
-            <Toggle
-              label='Google +'
-              labelPosition='left'
-              labelStyle={styles.lableStyle}
-              style={styles.elementStyle}
-              thumbSwitchedStyle={styles.thumbSwitched}
-              trackSwitchedStyle={styles.trackSwitched}
-            />
-          </div>
-          <div className='profile-editor-save-btn-container'>
-            <PrimaryButton
-              label='Save'
-              onClick={this.handleFirstTabSubmit}
-            />
-          </div>
+        {this.handleRenderShowSocial()}
+        <div className='profile-editor-save-btn-container'>
+          <PrimaryButton
+            label='Save'
+            onClick={this.handleFirstTabSubmit}
+          />
         </div>
       </article>
     )
