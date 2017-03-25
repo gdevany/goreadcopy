@@ -116,9 +116,9 @@ class NavMenu extends PureComponent {
       modalLogInOpen: false,
       profileMenuOpen: false,
       searchModalOpen: false,
-      usePlatformAs: false,
-      readerFetched: false,
       chatModalOpen: false,
+      usePlatformAs: false,
+      readerFetched: false
     }
 
     this.handleModalClose = this.handleModalClose.bind(this)
