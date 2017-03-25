@@ -93,17 +93,6 @@ class ProfileWrapper extends PureComponent {
     const { currentReader, profilePage } = this.props
     const profile = (isMyProfile ? currentReader : profilePage)
 
-    // const notMyProfile = profilePage.id ? {
-    //   profileImage: profilePage.profileImage,
-    //   backgroundImage: profilePage.backgroundImage,
-    //   followed: this.getGenreIds(profile.genreIds),
-    //   fullname: profilePage.fullname,
-    //   genreIds: profilePage.genreIds,
-    //   favoriteQuotes: profilePage.favoriteQuotes,
-    //   achievements: profilePage.achievements,
-    //   id: profilePage.id
-    // } : {}
-
     return (
       <div>
         <NavMenu isUserLoggedIn={isUserLoggedIn} />
