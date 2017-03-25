@@ -13,7 +13,8 @@ const Auth = () => {
   }
 
   const token = () => {
-    return Storage.get(TOKEN_FIELD)
+    return Storage.get(TOKEN_FIELD) ?
+        Storage.get(TOKEN_FIELD) : Basil.cookie.get('goread.' + TOKEN_FIELD)
   }
 
   const csrftoken = () => {
