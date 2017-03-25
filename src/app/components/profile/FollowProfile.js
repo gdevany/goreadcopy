@@ -13,7 +13,7 @@ import R from 'ramda'
 
 const isUserLoggedIn = Auth.currentUserExists()
 
-const { getFollowers, getFollowed, updateFollowed } = Follow
+const { getFollowers, getFollowed, updateFollowed, followOrUnfollow } = Follow
 
 const styles = {
   chip: {
@@ -53,14 +53,22 @@ class FollowProfile extends PureComponent {
     this.state = {
       modalFollowingOpen: false,
       modalFollowersOpen: false,
-      triggerCantFollow: false,
       followingUser: false,
-      followed: [],
+      followed: false,
       modalLogInOpen: false,
+      profileFollowed: false,
+      profileFetched: false,
     }
 
     this.handleClose = this.handleClose.bind(this)
     this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
+  }
+
+  componentWillMount = () => {
+    this.setState({
+      profileFetched: false,
+      fetchedFollows: false,
+    })
   }
 
   componentDidMount = () => {
@@ -68,13 +76,15 @@ class FollowProfile extends PureComponent {
     id ? this.getFollow(id) : null
   }
 
-  componentDidUpdate = () => {
-    const { followed } = this.state
-    const { profileFollowed, id } = this.props
-    if (this.isChosen(id)) this.setState({ followingUser: true })
+  componentWillReceiveProps = (nextProps) => {
 
-    if (followed && followed.length) this.props.updateFollowed(followed)
-    else this.setState({ followed: profileFollowed })
+    if (!this.state.profileFetched && nextProps.profileFollowed !== null) {
+      this.setState({
+        profileFollowed: nextProps.profileFollowed,
+        profileFetched: true
+      })
+    }
+    if (this.props.fullname !== nextProps.fullname) this.getFollow(nextProps.id)
   }
 
   getFollow = (id) => {
@@ -93,29 +103,20 @@ class FollowProfile extends PureComponent {
   }
 
   handleFollow = () => {
-    const { followed } = this.state
-    const { id } = this.props
-    if (this.isChosen(id)) {
-      const collectionWithoutMember = R.reject(R.equals(id), followed)
-      this.setState({
-        followed: [...collectionWithoutMember],
-        followingUser: false
-      })
-    } else {
-      this.setState({
-        followed: [...followed, id],
-        followingUser: true
-      })
-    }
+    this.props.followOrUnfollow({
+      follow: !this.state.profileFollowed,
+      context: '',
+      userType: 'READER',
+      ids: [this.props.id],
+    })
+    this.setState({
+      profileFollowed: !this.state.profileFollowed
+    })
   }
 
-  isChosen = (id) => R.contains(id, this.state.followed || [])
-
-  cantFollow = () => this.setState({ triggerCantFollow: true })
-
   renderChip = () => {
-    const { isCurrentReader, isViewMyProfile } = this.props
-    const { followingUser } = this.state
+    const { isCurrentReader } = this.props
+    const { profileFollowed } = this.state
     return (
       <Chip
         labelStyle={styles.chipText}
@@ -127,9 +128,9 @@ class FollowProfile extends PureComponent {
             <div>
               {isUserLoggedIn ?
                 (
-                  <a onClick={isViewMyProfile ? this.cantFollow : this.handleFollow}>
+                  <a onClick={this.handleFollow}>
                     {
-                      followingUser ? 'Following' : 'Follow'
+                      profileFollowed ? 'Following' : 'Follow'
                     }
                   </a>
                 ) : (
@@ -157,7 +158,6 @@ class FollowProfile extends PureComponent {
     const {
       modalFollowersOpen,
       modalFollowingOpen,
-      triggerCantFollow
     } = this.state
 
     const {
@@ -218,7 +218,6 @@ class FollowProfile extends PureComponent {
             </div>
             <div className='small-4 columns' style={styles.chipContainer}>
               {this.renderChip()}
-              {triggerCantFollow ? <span> You can't follow yourself!</span> : null}
             </div>
           </div>
         </div>
@@ -254,7 +253,8 @@ const mapStateToProps = ({
 const mapDispatchToProps = {
   getFollowers,
   getFollowed,
-  updateFollowed
+  updateFollowed,
+  followOrUnfollow
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(FollowProfile))

@@ -13,7 +13,6 @@ class LeftProfileContainer extends PureComponent {
       id: '',
       genreIds: [],
       isMyProfile: false,
-      isViewMyProfile: false,
       fullname: '',
       profileFollowed: '',
       favoriteQuotes: '',
@@ -27,7 +26,6 @@ class LeftProfileContainer extends PureComponent {
       id: nextProps.id,
       genreIds: nextProps.genreIds,
       isMyProfile: nextProps.isMyProfile,
-      isViewMyProfile: nextProps.isViewMyProfile,
       fullname: nextProps.fullname,
       profileFollowed: nextProps.profileFollowed,
       favoriteQuotes: nextProps.favoriteQuotes,
@@ -41,7 +39,6 @@ class LeftProfileContainer extends PureComponent {
       id,
       genreIds,
       isMyProfile,
-      isViewMyProfile,
       fullname,
       profileFollowed,
       favoriteQuotes,
@@ -63,7 +60,6 @@ class LeftProfileContainer extends PureComponent {
               fullname={fullname}
               isCurrentReader={isMyProfile}
               profileFollowed={profileFollowed}
-              isViewMyProfile={isViewMyProfile}
             /> : null
         }
       <BooksSection id={id}/>
