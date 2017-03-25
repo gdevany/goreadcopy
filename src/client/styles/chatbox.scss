@@ -1,0 +1,16 @@
+.chatbox{
+  position: fixed;
+  top: 0px; // To fix this hardcode
+  height: 100vh;
+  width: 285px;
+  right: -285px;
+  transition: all 0.2s ease-in-out;
+  z-index: 100;
+  &.open{
+    right: 0;
+  }
+  iframe{
+    width: 285px;
+    height: 100vh;
+  }
+}
