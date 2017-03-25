@@ -4,9 +4,7 @@ import { Litcoins } from '../../redux/actions'
 import { ExternalRoutes as routes } from '../../constants'
 
 const { litcoins } = routes
-
 const { updateLitcoinBalance } = Litcoins
-
 const styles = {
   container: {
     position: 'absolute',
