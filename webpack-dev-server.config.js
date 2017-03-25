@@ -1,11 +1,14 @@
 // Webpack builds/instantiates the app locally, so we must add CICD config support to both webpack config files
-require('dotenv').config({path: './.env'});
+//require('dotenv').config({path: './.env'});
 
 const webpack = require('webpack');
 const path = require('path');
 const nodeModulesPath = path.resolve(__dirname, 'node_modules');
 const testPath = path.resolve(__dirname, 'test');
 const TransferWebpackPlugin = require('transfer-webpack-plugin');
+const dotenv = require('dotenv');
+
+dotenv.config() // pull .env into process.env if it exists
 
 module.exports = {
   // resolves webpack + dotenv issue
@@ -37,10 +40,7 @@ module.exports = {
   plugins: [
     // CICD support for dynamically setting process variables to represent the env config
     new webpack.DefinePlugin({
-      'process.env' : JSON.stringify({ // EXAMPLES:
-      API_URL: process.env.API_URL,
-      REDIRECT_BASE_URL: process.env.REDIRECT_BASE_URL,
-      })
+      'process.env' : JSON.stringify(process.env)
     }),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
