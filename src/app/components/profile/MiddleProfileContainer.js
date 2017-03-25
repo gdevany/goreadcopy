@@ -4,11 +4,22 @@ import { connect } from 'react-redux'
 import { StatusPost, TileScroller } from '../common'
 import TilesWrapper from '../readFeed/TilesWrapper'
 
-const { getProfileTiles, prependProfileTile } = Tiles
+const { getProfileTiles, prependProfileTile, emptyTiles } = Tiles
 
 class RightProfileContainer extends PureComponent {
   constructor(props) {
     super(props)
+    this.state = {
+      tilesData: {},
+    }
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    const { id } = this.props
+    if (id !== nextProps.id) {
+      this.props.emptyTiles()
+      this.props.getProfileTiles(nextProps.id, {})
+    }
   }
 
   render() {
@@ -48,5 +59,6 @@ const mapStateToProps = ({
 
 export default connect(mapStateToProps, {
   getProfileTiles,
-  prependProfileTile
+  prependProfileTile,
+  emptyTiles,
 })(RightProfileContainer)

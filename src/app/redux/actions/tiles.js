@@ -37,6 +37,13 @@ export function prependReadFeedTile(tile) {
   }
 }
 
+export function emptyTiles() {
+  return {
+    type: B.EMPTY_TILES,
+    payload: []
+  }
+}
+
 export function shareTile(id, shareType, comment) {
   if (comment) {
     return dispatch => {
@@ -139,4 +146,5 @@ export default {
   shareTile,
   prependProfileTile,
   prependReadFeedTile,
+  emptyTiles,
 }

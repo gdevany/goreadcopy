@@ -25,12 +25,14 @@ class ProfileWrapper extends PureComponent {
   }
 
   componentWillMount = () => {
+
     if (isUserLoggedIn) {
       this.props.getCurrentReader()
     } else {
       if (!this.state.profileFetched) {
         const profileSlug = this.props.params.slug
         this.props.getProfilePage(profileSlug)
+        debugger
         this.state = {
           isMyProfile: false,
           slug: profileSlug,
@@ -49,6 +51,7 @@ class ProfileWrapper extends PureComponent {
           isMyProfile: true,
           slug: currentSlug,
         })
+        this.forceUpdate()
       } else {
         if (!this.state.profileFetched) {
           this.props.getProfilePage(profileSlug)
@@ -58,6 +61,19 @@ class ProfileWrapper extends PureComponent {
             profileFetched: true,
           }
         }
+      }
+    }
+  }
+
+  componentWillUpdate = (nextProps, nextState) => {
+    const profileSlug = this.props.params.slug
+    const nextSlug = nextProps.params.slug
+    const { currentReader } = this.props
+    if (profileSlug !== nextSlug) {
+      if (currentReader.slug === nextSlug) {
+        this.props.getCurrentReader()
+      } else {
+        this.props.getProfilePage(nextSlug)
       }
     }
   }

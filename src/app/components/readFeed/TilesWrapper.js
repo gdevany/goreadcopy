@@ -246,11 +246,11 @@ const TilesWrapper = ({ feed }) => {
           }
           const accountContent = {
             name: tileContent.fullname || tile.actor.fullname,
-            city: tileContent.city,
+            city: tileContent.city || tileContent.poster.city,
             state: tileContent.state,
             description: tileContent.description,
-            image: tileContent.imageUrl,
-            link: tile.actor.url,
+            image: tileContent.imageUrl || tileContent.poster.imageUrl,
+            link: tile.actor.link,
             userType: findUserType(tileContent.contentType),
             socialComment: (tile.socialPostComment || null)
           }
