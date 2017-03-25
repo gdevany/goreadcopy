@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import LeftContainer from './LeftContainer'
 import MiddleContainer from './MiddleContainer'
 import RightContainer from './RightContainer'
-import NavMenu from '../common/NavMenu'
+import { NavMenu } from '../common'
 import { Auth } from '../../services'
 import { CurrentReader } from '../../redux/actions'
 

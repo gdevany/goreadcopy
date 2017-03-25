@@ -197,7 +197,8 @@ class NavMenu extends PureComponent {
 
   handleClickChat = (event) => {
     event.preventDefault()
-    this.setState({ chatModalOpen: true })
+    const { chatModalOpen } = this.state
+    this.setState({ chatModalOpen: !chatModalOpen })
   }
 
   handleChatClose = () => {
