@@ -13,4 +13,14 @@
     width: 285px;
     height: 100vh;
   }
+  .chatbox-btn-close{
+    position: absolute;
+    top: 5px;
+    z-index: 110;
+    font-size: 18px;
+    font-weight: bold;
+    right: 26px;
+    color: #808389;
+    display: block;
+  }
 }

@@ -2,11 +2,17 @@ import React, { Component } from 'react'
 
 class ChatFrame extends Component {
   render() {
-    const { modalOpen } = this.props
+    const { modalOpen, handleClose } = this.props
     const classString = 'chatbox ' + (modalOpen ? 'open' : '')
     return (
       <div className={classString}>
-        <iframe src='http://127.0.0.1:8000/chat' />
+        <a
+          className='chatbox-btn-close'
+          onClick={handleClose}
+        >
+          x
+        </a>
+        <iframe src='https://staging2.readerslegacy.com/chat' />
       </div>
     )
   }
