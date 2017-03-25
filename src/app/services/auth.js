@@ -9,7 +9,14 @@ const Auth = () => {
   const CSRF_TOKEN_FIELD = 'csrftoken'
 
   const setToken = (token) => {
-    return Storage.set(TOKEN_FIELD, token, Env.PRODUCTION_ENV ? { secure: true } : { })
+    const cookieSettings = {
+      'domain': Env.SESSION_COOKIE_DOMAIN
+    }
+
+    if (Env.PRODUCTION_ENV) {
+      cookieSettings.secure = true
+    }
+    return Storage.set(TOKEN_FIELD, token, cookieSettings)
   }
 
   const token = () => {
