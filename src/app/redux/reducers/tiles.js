@@ -34,6 +34,10 @@ export default (state = initialState.tiles, { type, payload, errors }) => {
         ...state,
         isProfileLocked: payload
       }
+
+    case B.EMPTY_TILES:
+      return R.empty(state)
+
     case B.GET_COMMENTS:
       const isFeedComments = state.feedComments || {}
       return {

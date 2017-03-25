@@ -6,6 +6,10 @@ export default (state = initialState.profilePage, { type, payload }) => {
   switch (type) {
     case A.GET_PROFILE_PAGE:
       return R.merge(state, payload)
+    case A.GET_CURRENTLY_READING:
+      return R.merge(state, payload)
+    case A.GET_LIBRARY:
+      return R.merge(state, payload)
     default:
       return state
   }
