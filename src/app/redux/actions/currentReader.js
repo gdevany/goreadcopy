@@ -50,6 +50,27 @@ export function usePlatformAs(platformUse) {
   }
 }
 
+export function addToLibrary(payload) {
+  const terms = {
+    ean: payload,
+  }
+  return dispatch => {
+    CurrentReader.updateLibrary(terms)
+      .catch(err => console.log(`Error in addToLibrary ${err}`))
+  }
+}
+
+export function removeFromLibrary(payload) {
+  const terms = {
+    id: payload,
+    ean: 'null'
+  }
+  return dispatch => {
+    CurrentReader.deleteBookLibrary(terms)
+      .catch(err => console.log(`Error in removeFromLibrary ${err}`))
+  }
+}
+
 export function updateReader(payload) {
   return dispatch => {
     CurrentReader.updateReader(payload)
@@ -100,4 +121,6 @@ export default {
   updateReader,
   deleteSocialAccount,
   logoutCurrentReader,
+  addToLibrary,
+  removeFromLibrary,
 }

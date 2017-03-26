@@ -55,7 +55,8 @@ export const PROFILE_PAGE = {
 }
 
 export const SEARCH = {
-  GET_SEARCH: 'GET_SEARCH'
+  GET_SEARCH: 'GET_SEARCH',
+  SEARCH_BOOKS: 'SEARCH_BOOKS',
 }
 
 export default {

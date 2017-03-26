@@ -4,6 +4,7 @@ import { Tabs, Tab } from 'material-ui/Tabs'
 import { Colors } from '../../constants/style'
 import { ProfilePage } from '../../redux/actions'
 import Editcon from 'material-ui/svg-icons/image/edit'
+import EditLibraryModal from './EditLibraryModal'
 // import Rating from 'react-rating'
 
 const { getCurrentlyReading, getLibrary } = ProfilePage
@@ -41,7 +42,9 @@ class BooksSection extends PureComponent {
       libraryFetched: false,
       userId: null,
       isMyProfile: false,
+      addLibraryModal: false,
     }
+    this.handleEditLibraryModal = this.handleEditLibraryModal.bind(this)
   }
 
   componentWillMount = () => {
@@ -61,6 +64,14 @@ class BooksSection extends PureComponent {
         isMyProfile: nextProps.isCurrentReader,
       })
     }
+  }
+
+  handleEditLibraryModal = (event) => {
+    event.preventDefault()
+    this.setState({ addLibraryModal: true })
+  }
+  handleEditLibraryModalClose = () => {
+    this.setState({ addLibraryModal: false })
   }
 
   truncInfo = (text, limit) => {
@@ -119,10 +130,18 @@ class BooksSection extends PureComponent {
           {isMyProfile ?
             (
               <div className='library-edit-heading'>
-                <a className='edit-library-anchor'>
+                <a
+                  className='edit-library-anchor'
+                  onClick={this.handleEditLibraryModal}
+                >
                   <Editcon/>
                   <span className='edit-library-text'> Edit your Library</span>
                 </a>
+                <EditLibraryModal
+                  modalOpen={this.state.addLibraryModal}
+                  handleClose={this.handleEditLibraryModalClose}
+                  myLibrary={profilePage.myLibrary.results.library}
+                />
               </div>
             ) : null
           }
@@ -147,7 +166,7 @@ class BooksSection extends PureComponent {
               <div className='library-edit-heading'>
                 <a className='edit-library-anchor'>
                   <Editcon/>
-                  <span className='edit-library-text'> Edit your Library</span>
+                  <span className='edit-library-text'> Add a Favorite Book</span>
                 </a>
               </div>
             ) : null
