@@ -1,6 +1,6 @@
 import React from 'react'
 import { Colors } from '../../constants/style'
-import Rating from 'react-rating'
+// import Rating from 'react-rating'
 
 const styles = {
   bookImage: {
@@ -31,22 +31,22 @@ const Book = ({ book }) => {
     return text.length >= limit ? `${text.slice(0, limit)}...` : text
   }
 
-  const renderRating = (rating) => {
-    {
-      /** TODO:
-      Derrick replace full with a full star icon
-      and empty with an empty star icon
-      **/
-    }
-    return (
-      <Rating
-        readonly={true}
-        initialRate={rating}
-        full={<img className='rating-icon' src='./image/star.svg' />}
-        empty={<img className='rating-icon' src='./image/star-empty.svg' />}
-      />
-    )
-  }
+  // const renderRating = (rating) => {
+  //   {
+  //     /** TODO:
+  //     Derrick replace full with a full star icon
+  //     and empty with an empty star icon
+  //     **/
+  //   }
+  //   return (
+  //     <Rating
+  //       readonly={true}
+  //       initialRate={rating}
+  //       full={<img className='rating-icon' src='/image/star.svg' />}
+  //       empty={<img className='rating-icon' src='/image/star-empty.svg' />}
+  //     />
+  //   )
+  // }
   const author = book.authors.length ? book.authors[0].fullname : null
 
   return (
@@ -69,9 +69,9 @@ const Book = ({ book }) => {
           <span className='link subheader' style={styles.tooltipAuthor}>
             by { author ? truncInfo(author, 15) : <i> unknown </i>}
           </span> <br />
-          <span className='rating' >
+          {/* <span className='rating' >
             {renderRating(Math.round(book.rating.average))}
-          </span>
+          </span> */}
         </a>
       </div>
     </div>

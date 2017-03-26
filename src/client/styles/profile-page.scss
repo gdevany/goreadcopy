@@ -1,0 +1,64 @@
+@import 'variables.scss';
+
+.sidebar-books-tab-container{
+  padding: .5em;
+  .library-edit-heading{
+    margin-bottom: .5em;
+    .edit-library-anchor{
+      display: flex;
+      svg{
+        width: 20px !important;
+        height: 20px !important;
+        path{
+          fill: $light-med-grey;
+        }
+      }
+      .edit-library-text{
+        font-size: 14px;
+        margin-left: .5em;
+        color: $light-med-grey;
+      }
+    }
+  }
+  .library-books-main-container{
+    width: 100%;
+    max-height: 315px;
+    overflow: scroll;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding-top: .5em;
+    .library-book-container{
+      width: 30%;
+      .library-book-details-container{
+        .library-book-details-anchor{
+          font-size: 14px;
+          color: $light-med-grey;
+          .library-book-details-element{
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.library-rating-icon{
+  height: 12px !important;
+}
+
+.not-currently-reading {
+  padding: 1em;
+}
+
+.currently-reading-book {
+  padding: 1em;
+  .book-container{
+    a{
+      display: block;
+      width: 110px;
+      margin: 0 auto;
+    }
+  }
+}
