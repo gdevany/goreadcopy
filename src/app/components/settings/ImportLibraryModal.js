@@ -209,21 +209,6 @@ class ImportLibraryModal extends Component {
     )
   }
   resultSection = () => {
-    /*let alert
-    if (this.state.importSucessCount > 0) {
-      alert = (
-        <div className='alert'>
-          <strong>
-            Congratulations
-          </strong>
-          <br />
-          <a>
-            {this.state.importSucessCount + ' books'}
-          </a>
-          succesfully imported to your Library
-        </div>
-      )
-    }*/
     return (
       <div className='results'>
         <h3>
@@ -241,10 +226,6 @@ class ImportLibraryModal extends Component {
       handleImportLibraryClose,
       openImportLibraryModal,
     } = this.props
-    /*const actions =[
-      //1,
-      //2
-    ]*/
     return (
       <div>
         <Dialog
@@ -253,7 +234,6 @@ class ImportLibraryModal extends Component {
           titleClassName='import-library-title'
           title='Import Library'
           titleStyle={styles.modalTitle}
-          //actions={actions}
           modal={false}
           open={openImportLibraryModal}
           onRequestClose={handleImportLibraryClose}
