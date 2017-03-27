@@ -32,7 +32,6 @@ class ProfileWrapper extends PureComponent {
       if (!this.state.profileFetched) {
         const profileSlug = this.props.params.slug
         this.props.getProfilePage(profileSlug, isUserLoggedIn)
-        debugger
         this.state = {
           isMyProfile: false,
           slug: profileSlug,
