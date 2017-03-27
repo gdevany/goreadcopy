@@ -1,17 +1,21 @@
 import React, { PureComponent } from 'react'
 import TileDefault from '../TileDefault'
-import Rating from 'react-rating'
+// import Rating from 'react-rating'
 
 class BookProductTile extends PureComponent {
-  renderRating = (rating) => {
-    return (
-      <Rating
-        readonly={true}
-        initialRate={rating}
-        full={<img className='rating-icon' src='./image/star.svg' />}
-        empty={<img className='rating-icon' src='./image/star-empty.svg' />}
-      />
-    )
+  // renderRating = (rating) => {
+  //   return (
+  //     <Rating
+  //       readonly={true}
+  //       initialRate={rating}
+  //       full={<img className='rating-icon' src='./image/star.svg' />}
+  //       empty={<img className='rating-icon' src='./image/star-empty.svg' />}
+  //     />
+  //   )
+  // }
+
+  truncInfo = (text, limit) => {
+    return text.length >= limit ? `${text.slice(0, limit)}...` : text
   }
 
   render() {
@@ -50,16 +54,18 @@ class BookProductTile extends PureComponent {
             <img className='book-img' src={content.image} alt=''/>
           </figure>
           <div className='book-content'>
-            <h2 className='book-title'>{content.title}</h2>
+            <h2 className='book-title'>{content.title ?
+              this.truncInfo(content.title, 75) : null}
+            </h2>
             <h4 className='book-author'>by {content.author}</h4>
-            <div className='book-rating-container'>
+            {/* <div className='book-rating-container'>
               {this.renderRating(Math.round(content.rating))}
-            </div>
+            </div> */}
           </div>
         </div>
         <div className='post-excerpt-container'>
           <p className='post-excerpt-pharagraph'>
-            {content.description}
+            {content.description ? this.truncInfo(content.description, 225) : null}
             <a href={content.url} className='post-readmore-anchor'>
               Read more
             </a>
