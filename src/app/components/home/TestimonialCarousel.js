@@ -10,6 +10,7 @@ const styles = {
     position: 'relative',
     width: '80%',
     zIndex: 10,
+    boxShadow: 'none',
   },
 
   portraitRow: {
