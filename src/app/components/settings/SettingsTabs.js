@@ -82,14 +82,11 @@ class SettingsTabs extends PureComponent {
       notifyMention: '',
       receiveAuthorEmail: '',
       socialaccounts: '',
-<<<<<<< HEAD
       socialFacebook: '',
       socialTwitter: '',
       socialLinkedin: '',
       socialGoogle: '',
-=======
       openImportLibraryModal: false,
->>>>>>> master
     }
 
     this.handleClose = this.handleClose.bind(this)
