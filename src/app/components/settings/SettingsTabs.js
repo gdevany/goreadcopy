@@ -15,6 +15,7 @@ import CloseIcon from 'material-ui/svg-icons/navigation/close'
 import { ExternalRoutes as routes } from '../../constants'
 import R from 'ramda'
 import moment from 'moment'
+import ImportLibraryModal from './ImportLibraryModal'
 
 const { uploadImage } = Images
 const { updateReader, deleteSocialAccount } = CurrentReader
@@ -81,10 +82,14 @@ class SettingsTabs extends PureComponent {
       notifyMention: '',
       receiveAuthorEmail: '',
       socialaccounts: '',
+<<<<<<< HEAD
       socialFacebook: '',
       socialTwitter: '',
       socialLinkedin: '',
       socialGoogle: '',
+=======
+      openImportLibraryModal: false,
+>>>>>>> master
     }
 
     this.handleClose = this.handleClose.bind(this)
@@ -93,6 +98,7 @@ class SettingsTabs extends PureComponent {
     this.handleSecondTabSubmit = this.handleSecondTabSubmit.bind(this)
     this.handleThirdTabSubmit = this.handleThirdTabSubmit.bind(this)
     this.handleOnToggle = this.handleOnToggle.bind(this)
+    this.handleImportLibraryClose = this.handleImportLibraryClose.bind(this)
   }
   componentWillReceiveProps = (nextProps) => {
     const { readerFetched } = this.state
@@ -133,6 +139,14 @@ class SettingsTabs extends PureComponent {
         socialGoogle: nextProps.currentReader.socialGoogle,
       })
     }
+  }
+
+  handleImportLibraryOpen = (event) => {
+    this.setState({ openImportLibraryModal: true })
+  }
+
+  handleImportLibraryClose = () => {
+    this.setState({ openImportLibraryModal: false })
   }
 
   handleOnChange = R.curry((field, e) => {
@@ -1247,7 +1261,10 @@ class SettingsTabs extends PureComponent {
             Import Books to Library
           </h4>
           <div className='profile-editor-action-container'>
-            <a className='profile-editor-section-main-action'>
+            <a
+              className='profile-editor-section-main-action'
+              onClick={this.handleImportLibraryOpen}
+            >
               <FileDownloadIcon />
               Import from Goodreads
             </a>
@@ -1319,6 +1336,10 @@ class SettingsTabs extends PureComponent {
           autoHideDuration={3000}
           onActionTouchTap={this.handleSnackbarOpen}
           onRequestClose={this.handleSnackbarClose}
+        />
+        <ImportLibraryModal
+          openImportLibraryModal={this.state.openImportLibraryModal}
+          handleImportLibraryClose={this.handleImportLibraryClose}
         />
       </section>
     )
