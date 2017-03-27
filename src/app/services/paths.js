@@ -28,6 +28,10 @@ const Paths = () => {
     return makeUrl(Env.REDIRECT_BASE_URL, path, query)
   }
 
+  const backendUrltrimSlash = (path, query) => {
+    return makeUrl(Env.REDIRECT_BASE_URL, path, query).replace(/\/$/, '')
+  }
+
   const apiUrl = (path, query) => {
     // NOTE: API endpoints require an explicit '/' before query params
     const base = `${Env.API_URL}/api`
@@ -37,6 +41,7 @@ const Paths = () => {
   return {
     apiUrl,
     backendUrl,
+    backendUrltrimSlash,
   }
 }
 

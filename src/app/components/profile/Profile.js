@@ -25,12 +25,13 @@ class ProfileWrapper extends PureComponent {
   }
 
   componentWillMount = () => {
+
     if (isUserLoggedIn) {
       this.props.getCurrentReader()
     } else {
       if (!this.state.profileFetched) {
         const profileSlug = this.props.params.slug
-        this.props.getProfilePage(profileSlug)
+        this.props.getProfilePage(profileSlug, isUserLoggedIn)
         this.state = {
           isMyProfile: false,
           slug: profileSlug,
@@ -49,9 +50,10 @@ class ProfileWrapper extends PureComponent {
           isMyProfile: true,
           slug: currentSlug,
         })
+        this.forceUpdate()
       } else {
         if (!this.state.profileFetched) {
-          this.props.getProfilePage(profileSlug)
+          this.props.getProfilePage(profileSlug, isUserLoggedIn)
           this.state = {
             isMyProfile: false,
             slug: profileSlug,
@@ -62,25 +64,33 @@ class ProfileWrapper extends PureComponent {
     }
   }
 
-  getGenreIds = (genres) => R.map(R.prop('id'), genres)
+  componentWillUpdate = (nextProps, nextState) => {
+    const profileSlug = this.props.params.slug
+    const nextSlug = nextProps.params.slug
+    const { currentReader } = this.props
+    if (profileSlug !== nextSlug) {
+      if (currentReader.slug === nextSlug) {
+        this.props.getCurrentReader()
+        this.setReaderData(nextSlug)
+      } else {
+        this.props.getProfilePage(nextSlug, isUserLoggedIn)
+      }
+    }
+  }
 
-  isViewMyProfile = (profilePageId, id) => profilePageId === id
+  setReaderData = (nextSlug) => {
+    this.setState({
+      isMyProfile: true,
+      slug: nextSlug,
+    })
+  }
+
+  getGenreIds = (genres) => R.map(R.prop('id'), genres)
 
   render() {
     const { isMyProfile } = this.state
     const { currentReader, profilePage } = this.props
     const profile = (isMyProfile ? currentReader : profilePage)
-
-    const notMyProfile = profilePage.id ? {
-      profileImage: profilePage.profileImage,
-      backgroundImage: profilePage.backgroundImage,
-      followed: this.getGenreIds(profilePage.genreIds),
-      fullname: profilePage.fullname,
-      genreIds: profilePage.genreIds,
-      favoriteQuotes: profilePage.favoriteQuotes,
-      achievements: profilePage.achievements,
-      id: profilePage.id
-    } : {}
 
     return (
       <div>
@@ -95,9 +105,8 @@ class ProfileWrapper extends PureComponent {
             id={profile.id}
             genreIds={profile.genreIds}
             fullname={profile.fullname}
-            profileFollowed={notMyProfile.followed}
+            profileFollowed={isMyProfile ? false : profilePage.isFollower}
             achievements={profile.achievements}
-            isViewMyProfile={this.isViewMyProfile(profile.id, currentReader.id)}
             favoriteQuotes={profile.favoriteQuotes}
             profileImage={profile.profileImage}
           />

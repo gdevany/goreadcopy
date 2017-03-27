@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router'
 import { Dialog, } from 'material-ui'
 import R from 'ramda'
 import { ExternalRoutes as routes } from '../../constants'
@@ -55,7 +56,7 @@ class SearchModal extends Component {
         return (
           <div key={reader.id} className='result-container'>
             <div className='image-container'>
-              <a href={reader.url}>
+              <Link to={`profile/${reader.slug}`}>
                 <figure className='search-result-figure'>
                   <img
                     src={reader.image}
@@ -63,16 +64,16 @@ class SearchModal extends Component {
                     alt={reader.slug}
                   />
                 </figure>
-              </a>
+              </Link>
             </div>
             <div className='search-result-info-container'>
-              <a href={reader.url}>
+              <Link to={`profile/${reader.slug}`}>
                 {reader.firstName} {reader.lastName}
-              </a>
+              </Link>
               <br/>
-              <a className='search-type-anchor' href={reader.url}>
+              <Link className='search-type-anchor' to={`profile/${reader.slug}`}>
                 Personal Library
-              </a>
+              </Link>
             </div>
           </div>
         )

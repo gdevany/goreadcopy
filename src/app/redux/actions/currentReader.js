@@ -4,6 +4,7 @@ import SocialReader from '../../services/api/currentReader/social'
 import { Auth } from '../../services'
 import { Jwt } from '../../services/api'
 import { getRecommendation } from './recommended'
+import Env from '../../constants/env'
 
 const tokenFrom = ({ data: { token } }) => {
   return { token }
@@ -11,6 +12,8 @@ const tokenFrom = ({ data: { token } }) => {
 
 export function setCurrentReader(payload) {
   Auth.setToken(payload.token)
+  Auth.setSessionToken(payload[Env.SESSION_ID_FIELD])
+  Auth.setCsrfToken(payload[Env.CSRF_TOKEN_FIELD])
   return {
     type: A.SET_CURRENT_READER,
     payload,
@@ -29,9 +32,7 @@ export function getCurrentReader() {
 export function refreshCurrentReader({ token } = {}) {
   return (dispatch) => {
     token = token || Auth.token()
-
     dispatch({ type: A.REFRESH_CURRENT_READER })
-
     return Jwt.refreshJwt({ token })
       .then(res => dispatch(setCurrentReader(tokenFrom(res))))
       // TODO: handle errors
