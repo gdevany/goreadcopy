@@ -40,9 +40,55 @@ export function getTopBooks(id) {
   }
 }
 
+export function getProfileBookInfo(id) {
+  return dispatch => {
+    ProfilePage.getLibrary(id)
+      .then(res => dispatch({ type: A.GET_LIBRARY, payload: res.data }))
+      .then(() => ProfilePage.currentlyReading(id))
+      .then(res => dispatch({ type: A.GET_CURRENTLY_READING, payload: res.data }))
+      .then(() => ProfilePage.getTopBooks(id))
+      .then(res => dispatch({ type: A.GET_TOP_BOOKS, payload: res.data }))
+      .catch(err => console.error(`Error in getBookSection ${err}`))
+  }
+}
+
+export function addToLibrary(payload) {
+  const terms = {
+    ean: payload,
+  }
+  return dispatch => {
+    ProfilePage.updateLibrary(terms)
+      .catch(err => console.log(`Error in addToLibrary ${err}`))
+  }
+}
+
+export function removeFromLibrary(payload) {
+  const terms = {
+    id: payload
+  }
+  return dispatch => {
+    ProfilePage.deleteBookLibrary(terms)
+      .catch(err => console.log(`Error in removeFromLibrary ${err}`))
+  }
+}
+
+export function setCurrentlyReading(payload) {
+  const terms = {
+    id: payload,
+  }
+  return dispatch => {
+    ProfilePage.setCurrentlyReading(terms)
+      .catch(err => console.log(`Error in currentlyReading ${err}`))
+  }
+}
+
 export default {
   getProfilePage,
   getCurrentlyReading,
   getLibrary,
-  getTopBooks
+  getTopBooks,
+  addToLibrary,
+  removeFromLibrary,
+  setCurrentlyReading,
+  getProfileBookInfo
 }

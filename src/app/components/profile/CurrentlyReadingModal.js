@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Dialog } from 'material-ui'
-import { CurrentReader } from '../../redux/actions'
+import { ProfilePage } from '../../redux/actions'
 
-const { currentlyReading } = CurrentReader
+const { setCurrentlyReading } = ProfilePage
 
 const styles = {
   modalBody: {
@@ -34,7 +34,7 @@ class CurrentlyReadingModal extends Component {
   }
 
   handleCurrentlyReading = (bookId) => {
-    this.props.currentlyReading(bookId)
+    this.props.setCurrentlyReading(bookId)
     this.props.handleClose()
   }
 
@@ -121,4 +121,4 @@ class CurrentlyReadingModal extends Component {
   }
 }
 
-export default connect(null, { currentlyReading })(CurrentlyReadingModal)
+export default connect(null, { setCurrentlyReading })(CurrentlyReadingModal)

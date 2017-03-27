@@ -2,7 +2,16 @@ import http from '../http'
 import { Endpoints } from '../../constants'
 
 const { authenticated } = http
-const { getProfilePage, currentlyReading, getLibrary, getTopBooks } = Endpoints
+const {
+  getProfilePage,
+  currentlyReading,
+  getLibrary,
+  getTopBooks,
+  currentReader: {
+    updateLibrary,
+    setCurrentlyReading,
+  }
+} = Endpoints
 
 const General = () => {
   return {
@@ -11,6 +20,9 @@ const General = () => {
     currentlyReading: (id) => http.get(currentlyReading(id)),
     getLibrary: (id) => http.get(getLibrary(id)),
     getTopBooks: (id) => http.get(getTopBooks(id)),
+    updateLibrary: (body) => authenticated().post(updateLibrary(), body),
+    setCurrentlyReading: (body) => authenticated().post(setCurrentlyReading(), body),
+    deleteBookLibrary: (data) => authenticated().delete(updateLibrary(), { data }),
   }
 }
 

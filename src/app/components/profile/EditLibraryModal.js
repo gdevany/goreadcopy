@@ -2,14 +2,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Dialog } from 'material-ui'
 import { Search } from '../../redux/actions'
-import { CurrentReader } from '../../redux/actions'
+import { ProfilePage } from '../../redux/actions'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { Colors } from '../../constants/style'
 import { debounce } from 'lodash'
 import R from 'ramda'
 
 const { bookSearch, updateBookSearch } = Search
-const { addToLibrary, removeFromLibrary } = CurrentReader
+const { addToLibrary, removeFromLibrary } = ProfilePage
 
 const styles = {
   modalBody: {

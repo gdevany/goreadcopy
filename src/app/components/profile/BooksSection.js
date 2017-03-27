@@ -10,7 +10,7 @@ import CurrentlyReadingModal from './CurrentlyReadingModal'
 
 // import Rating from 'react-rating'
 
-const { getCurrentlyReading, getLibrary, getTopBooks } = ProfilePage
+const { getProfileBookInfo } = ProfilePage
 
 const styles = {
   headline: {
@@ -61,9 +61,7 @@ class BooksSection extends PureComponent {
   componentWillReceiveProps = (nextProps) => {
 
     if (nextProps.id && nextProps.id !== this.state.userId) {
-      this.props.getLibrary(nextProps.id)
-      this.props.getCurrentlyReading(nextProps.id)
-      this.props.getTopBooks(nextProps.id)
+      this.props.getProfileBookInfo(nextProps.id)
       this.setState({
         userId: nextProps.id,
         libraryFetched: true,
@@ -272,9 +270,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDistpachToProps = {
-  getCurrentlyReading,
-  getLibrary,
-  getTopBooks,
+  getProfileBookInfo,
 }
 
 export default connect(mapStateToProps, mapDistpachToProps)(BooksSection)

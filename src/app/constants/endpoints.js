@@ -19,7 +19,7 @@ const Endpoints = () => {
     shareTile: (id) => apiUrl(`social/posts/${id}/shares`),
     currentlyReading: (id) => apiUrl(`social/reader/${id}/currently_reading`),
     getLibrary: (id) => apiUrl(`social/reader/${id}/library`),
-    getTopBooks: (id) => apiUrl(`social/reader/${id}/top_books/`),
+    getTopBooks: (id) => apiUrl(`social/reader/${id}/top_books`),
     libraryUpload: (params) => apiUrl('current_reader/import_library'),
     currentReader: {
       getRecommendation: (params) => apiUrl('genres/top_users', params),
@@ -32,7 +32,7 @@ const Endpoints = () => {
       usePlatformAs: () => apiUrl('current_reader/publishing_as'),
       updateReader: () => apiUrl('current_reader/profile/update'),
       updateLibrary: (params) => apiUrl('current_reader/update_library', params),
-      currentlyReading: () => apiUrl('current_reader/currently_reading'),
+      setCurrentlyReading: () => apiUrl('current_reader/currently_reading'),
       deleteSocialAccount: (id) => apiUrl(`socialaccounts/${id}`),
       getLatestAnnouncement: () => apiUrl('current_reader/latest_announcement'),
       dismissAnnouncement: (params) => apiUrl('current_reader/dismiss_announcement', params),
