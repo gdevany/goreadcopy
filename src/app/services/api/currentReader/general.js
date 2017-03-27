@@ -8,7 +8,8 @@ const {
     usePlatformAs,
     updateReader,
     logoutCurrentReader,
-    updateLibrary
+    updateLibrary,
+    currentlyReading
   }
 } = Endpoints
 
@@ -19,7 +20,8 @@ const General = () => {
     usePlatformAs: (body) => authenticated().post(usePlatformAs(), body),
     updateReader: (body) => authenticated().post(updateReader(), body),
     updateLibrary: (body) => authenticated().post(updateLibrary(), body),
-    deleteBookLibrary: (body) => authenticated().delete(updateLibrary(), body),
+    currentlyReading: (body) => authenticated().post(currentlyReading(), body),
+    deleteBookLibrary: (data) => authenticated().delete(updateLibrary(), { data }),
   }
 }
 
