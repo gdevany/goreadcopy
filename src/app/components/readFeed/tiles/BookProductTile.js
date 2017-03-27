@@ -40,12 +40,12 @@ class BookProductTile extends PureComponent {
         shareInfo={shareInfo}
         action={action}
       >
+        <div className='post-excerpt-container'>
+          <p className='post-excerpt-pharagraph'>
+            {content.socialComment ? content.socialComment : null}
+          </p>
+        </div>
         <div className='book-tile-container'>
-          <div className='post-excerpt-container'>
-            <p className='post-excerpt-pharagraph'>
-              {content.socialComment ? content.socialComment : null}
-            </p>
-          </div>
           <figure className='book-figure'>
             <img className='book-img' src={content.image} alt=''/>
           </figure>
