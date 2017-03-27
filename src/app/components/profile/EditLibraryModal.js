@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { Dialog } from 'material-ui'
 import { Search } from '../../redux/actions'
 import { CurrentReader } from '../../redux/actions'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
+import { Colors } from '../../constants/style'
 import { debounce } from 'lodash'
 import R from 'ramda'
 
@@ -17,6 +19,10 @@ const styles = {
     maxWidth: '100%',
     width: '80%',
     height: '80vh',
+  },
+  refresh: {
+    display: 'inline-block',
+    position: 'relative',
   },
 }
 
@@ -109,7 +115,21 @@ class EditLibraryModal extends Component {
         </div>
       )
     }
-    return null
+    return (
+      <div>
+        {this.state.searchTerm !== '' ?
+        (
+          <RefreshIndicator
+            size={50}
+            left={70}
+            top={0}
+            loadingColor={Colors.blue}
+            status='loading'
+            style={styles.refresh}
+          />
+        ) : null}
+      </div>
+    )
   }
 
   renderCurrentLibrary = () => {

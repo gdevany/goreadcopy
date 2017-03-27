@@ -72,7 +72,7 @@ export function removeFromLibrary(payload) {
 
 export function currentlyReading(payload) {
   const terms = {
-    bookId: payload,
+    id: payload,
   }
   return dispatch => {
     CurrentReader.currentlyReading(terms)

@@ -19,6 +19,7 @@ const Endpoints = () => {
     shareTile: (id) => apiUrl(`social/posts/${id}/shares`),
     currentlyReading: (id) => apiUrl(`social/reader/${id}/currently_reading`),
     getLibrary: (id) => apiUrl(`social/reader/${id}/library`),
+    getTopBooks: (id) => apiUrl(`social/reader/${id}/top_books/`),
     libraryUpload: (params) => apiUrl('current_reader/import_library'),
     currentReader: {
       getRecommendation: (params) => apiUrl('genres/top_users', params),

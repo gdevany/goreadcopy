@@ -9,7 +9,13 @@ export default (state = initialState.profilePage, { type, payload }) => {
     case A.GET_CURRENTLY_READING:
       return R.merge(state, payload)
     case A.GET_LIBRARY:
-      return R.merge(state, payload)
+      return R.merge(state, {
+        library: payload
+      })
+    case A.GET_TOP_BOOKS:
+      return R.merge(state, {
+        topBooks: payload
+      })
     default:
       return state
   }

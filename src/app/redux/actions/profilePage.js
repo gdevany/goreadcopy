@@ -32,8 +32,17 @@ export function getLibrary(id) {
   }
 }
 
+export function getTopBooks(id) {
+  return dispatch => {
+    ProfilePage.getTopBooks(id)
+      .then(res => dispatch({ type: A.GET_TOP_BOOKS, payload: res.data }))
+      .catch(err => console.error(`Error in getTopBooks ${err}`))
+  }
+}
+
 export default {
   getProfilePage,
   getCurrentlyReading,
-  getLibrary
+  getLibrary,
+  getTopBooks
 }

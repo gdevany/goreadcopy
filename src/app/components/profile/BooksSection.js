@@ -8,7 +8,7 @@ import EditLibraryModal from './EditLibraryModal'
 import CurrentlyReadingModal from './CurrentlyReadingModal'
 // import Rating from 'react-rating'
 
-const { getCurrentlyReading, getLibrary } = ProfilePage
+const { getCurrentlyReading, getLibrary, getTopBooks } = ProfilePage
 
 const styles = {
   headline: {
@@ -61,6 +61,7 @@ class BooksSection extends PureComponent {
     if (nextProps.id && nextProps.id !== this.state.userId) {
       this.props.getLibrary(nextProps.id)
       this.props.getCurrentlyReading(nextProps.id)
+      this.props.getTopBooks(nextProps.id)
       this.setState({
         userId: nextProps.id,
         libraryFetched: true,
@@ -107,7 +108,7 @@ class BooksSection extends PureComponent {
     const { profilePage } = this.props
     const { isMyProfile } = this.state
 
-    if (profilePage.myLibrary.count !== undefined) {
+    if (profilePage.myLibrary !== undefined) {
       const libraryPage = profilePage.myLibrary.results.library.map((book, index) => {
 
         const author = book.authors.length ? book.authors[0].fullname : null
@@ -255,13 +256,15 @@ const mapStateToProps = (state) => {
   return {
     profilePage: {
       currentlyReading: state.profilePage.currentlyReading,
-      myLibrary: {
-        count: state.profilePage.count,
-        perPage: state.profilePage.perPage,
-        page: state.profilePage.page,
-        results: state.profilePage.results
-      }
+      myLibrary: state.profilePage.library,
     }
   }
 }
-export default connect(mapStateToProps, { getCurrentlyReading, getLibrary })(BooksSection)
+
+const mapDistpachToProps = {
+  getCurrentlyReading,
+  getLibrary,
+  getTopBooks,
+}
+
+export default connect(mapStateToProps, mapDistpachToProps)(BooksSection)
