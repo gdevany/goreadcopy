@@ -62,12 +62,21 @@ export function addToLibrary(payload) {
 
 export function removeFromLibrary(payload) {
   const terms = {
-    id: payload,
-    ean: 'null'
+    id: payload
   }
   return dispatch => {
     CurrentReader.deleteBookLibrary(terms)
       .catch(err => console.log(`Error in removeFromLibrary ${err}`))
+  }
+}
+
+export function currentlyReading(payload) {
+  const terms = {
+    bookId: payload,
+  }
+  return dispatch => {
+    CurrentReader.currentlyReading(terms)
+      .catch(err => console.log(`Error in currentlyReading ${err}`))
   }
 }
 
@@ -123,4 +132,5 @@ export default {
   logoutCurrentReader,
   addToLibrary,
   removeFromLibrary,
+  currentlyReading,
 }

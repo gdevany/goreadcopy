@@ -5,6 +5,7 @@ import { Colors } from '../../constants/style'
 import { ProfilePage } from '../../redux/actions'
 import Editcon from 'material-ui/svg-icons/image/edit'
 import EditLibraryModal from './EditLibraryModal'
+import CurrentlyReadingModal from './CurrentlyReadingModal'
 // import Rating from 'react-rating'
 
 const { getCurrentlyReading, getLibrary } = ProfilePage
@@ -43,8 +44,10 @@ class BooksSection extends PureComponent {
       userId: null,
       isMyProfile: false,
       addLibraryModal: false,
+      addCurrentlyModal: false,
     }
     this.handleEditLibraryModal = this.handleEditLibraryModal.bind(this)
+    this.handleCurrentlyModal = this.handleCurrentlyModal.bind(this)
   }
 
   componentWillMount = () => {
@@ -56,8 +59,8 @@ class BooksSection extends PureComponent {
   componentWillReceiveProps = (nextProps) => {
 
     if (nextProps.id && nextProps.id !== this.state.userId && !this.state.libraryFetched) {
-      this.props.getCurrentlyReading(nextProps.id)
       this.props.getLibrary(nextProps.id)
+      this.props.getCurrentlyReading(nextProps.id)
       this.setState({
         userId: nextProps.id,
         libraryFetched: true,
@@ -72,6 +75,15 @@ class BooksSection extends PureComponent {
   }
   handleEditLibraryModalClose = () => {
     this.setState({ addLibraryModal: false })
+  }
+
+  handleCurrentlyModal = (event) => {
+    event.preventDefault()
+    this.setState({ addCurrentlyModal: true })
+  }
+
+  handleCurrentlyModalClose = () => {
+    this.setState({ addCurrentlyModal: false })
   }
 
   truncInfo = (text, limit) => {
@@ -164,10 +176,20 @@ class BooksSection extends PureComponent {
           {isMyProfile ?
             (
               <div className='library-edit-heading'>
-                <a className='edit-library-anchor'>
+                <a
+                  className='edit-library-anchor'
+                  onClick={this.handleCurrentlyModal}
+                >
                   <Editcon/>
                   <span className='edit-library-text'> Add a Favorite Book</span>
                 </a>
+                <CurrentlyReadingModal
+                  modalOpen={this.state.addCurrentlyModal}
+                  handleClose={this.handleCurrentlyModalClose}
+                  myLibrary={profilePage.myLibrary.results.library ?
+                    profilePage.myLibrary.results.library : null
+                  }
+                />
               </div>
             ) : null
           }
