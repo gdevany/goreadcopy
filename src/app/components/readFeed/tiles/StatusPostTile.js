@@ -1,7 +1,29 @@
 import React, { PureComponent } from 'react'
 import TileDefault from '../TileDefault'
 
+const mentionRegex = /(\@\[\d+\:\d+\])/gi
+
 class StatusPostTile extends PureComponent {
+
+  splitContent(content) {
+    return content.split(mentionRegex)
+  }
+
+  renderContentWithMentions(entry, index, mentionList) {
+    if (mentionRegex.test(entry)) {
+      for (let i = 0; i < mentionList.length; i++) {
+        if (mentionList[i].mention === entry) {
+          return (
+            <a key={index} href={mentionList[i].url}>
+              {mentionList[i].name}
+            </a>
+          )
+        }
+      }
+    }
+    return (<span key={index}>{entry}</span>)
+  }
+
   render() {
     const {
       tileDefaultProps: {
@@ -16,7 +38,7 @@ class StatusPostTile extends PureComponent {
       },
       content
     } = this.props
-
+    const splittedContent = this.splitContent(content.description)
     return (
       <TileDefault
         tileId={id}
@@ -44,10 +66,11 @@ class StatusPostTile extends PureComponent {
           <div className='statuspost-content'>
             <div className='post-excerpt-container'>
               <p className='post-excerpt-pharagraph'>
-                {content.description}
-                {/** TODO: Do we need this?
-                  <a href='#' className='post-readmore-anchor'>Read more</a>
-                **/}
+                {
+                  splittedContent.map((entry, index) => {
+                    return this.renderContentWithMentions(entry, index, content.mentionsList)
+                  })
+                }
               </p>
             </div>
           </div>
