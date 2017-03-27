@@ -58,7 +58,7 @@ class BooksSection extends PureComponent {
 
   componentWillReceiveProps = (nextProps) => {
 
-    if (nextProps.id && nextProps.id !== this.state.userId && !this.state.libraryFetched) {
+    if (nextProps.id && nextProps.id !== this.state.userId) {
       this.props.getLibrary(nextProps.id)
       this.props.getCurrentlyReading(nextProps.id)
       this.setState({
@@ -73,6 +73,7 @@ class BooksSection extends PureComponent {
     event.preventDefault()
     this.setState({ addLibraryModal: true })
   }
+
   handleEditLibraryModalClose = () => {
     this.setState({ addLibraryModal: false })
   }
