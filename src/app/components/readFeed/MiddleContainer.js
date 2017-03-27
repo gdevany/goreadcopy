@@ -2,13 +2,8 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Tiles } from '../../redux/actions'
 import TilesWrapper from './TilesWrapper'
-<<<<<<< HEAD
 import { ProfileDetailerTile, AnnouncementTile } from './tiles'
-import { StatusPost } from '../common'
-=======
-import { AnnouncementTile } from './tiles'
 import { StatusPost, TileScroller } from '../common'
->>>>>>> master
 
 const { getReadFeedTiles, prependReadFeedTile } = Tiles
 
