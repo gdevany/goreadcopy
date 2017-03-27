@@ -155,6 +155,7 @@ class BooksSection extends PureComponent {
                   modalOpen={this.state.addLibraryModal}
                   handleClose={this.handleEditLibraryModalClose}
                   myLibrary={profilePage.myLibrary.results.library}
+                  userId={this.state.userId}
                 />
               </div>
             ) : null
@@ -199,6 +200,7 @@ class BooksSection extends PureComponent {
                   myLibrary={profilePage.myLibrary.results.library ?
                     profilePage.myLibrary.results.library : null
                   }
+                  userId={this.state.userId}
                 />
               </div>
             ) : null

@@ -18,7 +18,7 @@ const styles = {
   modalContent: {
     maxWidth: '100%',
     width: '80%',
-    height: '80vh',
+    height: '100vh',
   },
   refresh: {
     display: 'inline-block',
@@ -33,6 +33,8 @@ class EditLibraryModal extends Component {
     this.state = {
       searchTerm: '',
       myLibrary: '',
+      userId: '',
+      shouldSpin: '',
     }
     this.handleSeach = this.handleSeach.bind(this)
     this.debouncedSearch = this.debouncedSearch.bind(this)
@@ -41,7 +43,8 @@ class EditLibraryModal extends Component {
   componentWillReceiveProps = (nextProps) => {
     if (this.state.myLibrary !== nextProps.myLibrary) {
       this.setState({
-        myLibrary: nextProps.myLibrary
+        myLibrary: nextProps.myLibrary,
+        userId: nextProps.userId,
       })
     }
   }
@@ -55,6 +58,10 @@ class EditLibraryModal extends Component {
   debouncedSearch = debounce((event) => {
     if (event.target.value.length > 3) {
       this.props.bookSearch(event.target.value)
+    } else {
+      this.setState({
+        shouldSpin: true,
+      })
     }
   }, 300)
 
@@ -63,16 +70,18 @@ class EditLibraryModal extends Component {
   }
 
   handleAddToLibrary = (bookEan) => {
-    this.props.addToLibrary(bookEan)
+    const { userId } = this.state
+    this.props.addToLibrary(bookEan, userId)
   }
 
   handleRemoveFromLibrary = (bookId) => {
-    this.props.removeFromLibrary(bookId)
+    const { userId } = this.state
+    this.props.removeFromLibrary(bookId, userId)
   }
 
   renderSearchResults = () => {
     const searchTerms = this.props.searchResults
-    if (searchTerms) {
+    if (searchTerms && searchTerms.count) {
       const bookResults = searchTerms.results.map((book, index) => {
         const author = book.authors[0] ? book.authors[0].fullname : null
         return (
@@ -115,21 +124,7 @@ class EditLibraryModal extends Component {
         </div>
       )
     }
-    return (
-      <div>
-        {this.state.searchTerm !== '' ?
-        (
-          <RefreshIndicator
-            size={50}
-            left={70}
-            top={0}
-            loadingColor={Colors.blue}
-            status='loading'
-            style={styles.refresh}
-          />
-        ) : null}
-      </div>
-    )
+    return null
   }
 
   renderCurrentLibrary = () => {
@@ -198,7 +193,7 @@ class EditLibraryModal extends Component {
               <input
                 type='text'
                 className='form-input edit-library-form-input'
-                placeholder='Search books'
+                placeholder='Search for Book Names or Book Authors'
                 onChange={this.handleSeach('searchTerm')}
                 value={this.state.searchTerm}
                 autoFocus
@@ -214,6 +209,20 @@ class EditLibraryModal extends Component {
                 </div>
                 <div className='library-book-results'>
                   { this.renderSearchResults() }
+                  {this.state.shouldSpin ?
+                    (
+                      <div>
+                        <RefreshIndicator
+                          size={50}
+                          left={70}
+                          top={0}
+                          loadingColor={Colors.blue}
+                          status='loading'
+                          style={styles.refresh}
+                        />
+                      </div>
+                    ) : null
+                  }
                 </div>
               </div>
               <div className='current-library-container'>

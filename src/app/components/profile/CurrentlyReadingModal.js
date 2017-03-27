@@ -22,19 +22,23 @@ class CurrentlyReadingModal extends Component {
     super(props)
     this.state = {
       myLibrary: '',
+      userId: '',
     }
   }
 
   componentWillReceiveProps = (nextProps) => {
     if (this.state.myLibrary !== nextProps.myLibrary) {
       this.setState({
-        myLibrary: nextProps.myLibrary
+        myLibrary: nextProps.myLibrary,
+        userId: nextProps.userId,
+
       })
     }
   }
 
   handleCurrentlyReading = (bookId) => {
-    this.props.setCurrentlyReading(bookId)
+    const { userId } = this.state
+    this.props.setCurrentlyReading(bookId, userId)
     this.props.handleClose()
   }
 

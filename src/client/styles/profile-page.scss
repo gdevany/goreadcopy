@@ -64,7 +64,7 @@
 }
 
 .edit-library-modal{
-  height: 90vh !important;
+  height: 100vh !important;
   max-height: none !important;
 }
 
@@ -123,8 +123,8 @@
         }
       }
       .library-book-results, .current-library-elements-container{
-        min-height: 200px;
-        max-height: 400px;
+        min-height: 350px;
+        max-height: 350px;
         overflow: scroll;
         overflow-x: none;
         display: flex;

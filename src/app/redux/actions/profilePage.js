@@ -52,32 +52,38 @@ export function getProfileBookInfo(id) {
   }
 }
 
-export function addToLibrary(payload) {
+export function addToLibrary(payload, id) {
   const terms = {
     ean: payload,
   }
   return dispatch => {
     ProfilePage.updateLibrary(terms)
+      .then(() => ProfilePage.getLibrary(id))
+      .then(res => dispatch({ type: A.GET_LIBRARY, payload: res.data }))
       .catch(err => console.log(`Error in addToLibrary ${err}`))
   }
 }
 
-export function removeFromLibrary(payload) {
+export function removeFromLibrary(payload, id) {
   const terms = {
     id: payload
   }
   return dispatch => {
     ProfilePage.deleteBookLibrary(terms)
+      .then(() => ProfilePage.getLibrary(id))
+      .then(res => dispatch({ type: A.GET_LIBRARY, payload: res.data }))
       .catch(err => console.log(`Error in removeFromLibrary ${err}`))
   }
 }
 
-export function setCurrentlyReading(payload) {
+export function setCurrentlyReading(payload, id) {
   const terms = {
     id: payload,
   }
   return dispatch => {
     ProfilePage.setCurrentlyReading(terms)
+      .then(() => ProfilePage.currentlyReading(id))
+      .then(res => dispatch({ type: A.GET_CURRENTLY_READING, payload: res.data }))
       .catch(err => console.log(`Error in currentlyReading ${err}`))
   }
 }
