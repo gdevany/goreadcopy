@@ -281,8 +281,9 @@ const TilesWrapper = ({ feed }) => {
         case 'status':
           const statusPostContent = {
             image: tileContent.imageUrl.url,
-            description: tileContent.body,
-            socialComment: (tile.socialPostComment || null)
+            description: tileContent.mentions,
+            socialComment: (tile.socialPostComment || null),
+            mentionsList: tileContent.mentionArray,
           }
           result.push(
             <StatusPostTile
