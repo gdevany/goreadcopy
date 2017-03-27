@@ -592,7 +592,7 @@ class NavMenu extends PureComponent {
                   className='menu-badge-container rf-nav-link'
                 >
                   <Badge
-                    badgeContent={10}
+                    badgeContent={currentReader.notificationsCount}
                     primary={true}
                     badgeStyle={{
                       top: -5,
@@ -733,7 +733,7 @@ class NavMenu extends PureComponent {
                     className='menu-badge-container rf-nav-link'
                   >
                     <Badge
-                      badgeContent={10}
+                      badgeContent={currentReader.notificationsCount}
                       primary={true}
                       badgeStyle={{
                         top: -4,
