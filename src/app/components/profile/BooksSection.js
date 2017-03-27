@@ -3,10 +3,12 @@ import { connect } from 'react-redux'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { Colors } from '../../constants/style'
 import { ProfilePage } from '../../redux/actions'
-import Editcon from 'material-ui/svg-icons/image/edit'
-import EditLibraryModal from './EditLibraryModal'
 import { PageScroller } from '../common'
+import Editcon from 'material-ui/svg-icons/image/edit'
+import StartIcon from 'material-ui/svg-icons/toggle/star'
+import EditLibraryModal from './EditLibraryModal'
 import CurrentlyReadingModal from './CurrentlyReadingModal'
+import TopBooksModal from './TopBooksModal'
 
 // import Rating from 'react-rating'
 
@@ -47,9 +49,11 @@ class BooksSection extends PureComponent {
       isMyProfile: false,
       addLibraryModal: false,
       addCurrentlyModal: false,
+      topBooksModal: false,
     }
     this.handleEditLibraryModal = this.handleEditLibraryModal.bind(this)
     this.handleCurrentlyModal = this.handleCurrentlyModal.bind(this)
+    this.handleTopBooksModal = this.handleTopBooksModal.bind(this)
   }
 
   componentWillMount = () => {
@@ -88,6 +92,15 @@ class BooksSection extends PureComponent {
     this.setState({ addCurrentlyModal: false })
   }
 
+  handleTopBooksModal = (event) => {
+    event.preventDefault()
+    this.setState({ topBooksModal: true })
+  }
+
+  handleTopBooksModalClose = () => {
+    this.setState({ topBooksModal: false })
+  }
+
   truncInfo = (text, limit) => {
     return text.length >= limit ? `${text.slice(0, limit)}...` : text
   }
@@ -104,11 +117,104 @@ class BooksSection extends PureComponent {
   //   )
   // }
 
+  renderTopBooks = () => {
+    const { profilePage } = this.props
+    if (profilePage.topBooks !== undefined) {
+      const { topBooks } = this.props.profilePage
+      return (
+        <div className='top-books-wrapper'>
+          {topBooks.topBook1 ?
+            (
+              <div className='library-book-container' key={`${topBooks.topBook1.id}_1`}>
+                <div className='favorite-badge'>
+                  <StartIcon/>
+                </div>
+                <div
+                  className='book-container'
+                >
+                  <a href={topBooks.topBook1.link || topBooks.topBook1.slug}>
+                    <img className='book' src={topBooks.topBook1.imageUrl} />
+                  </a>
+                </div>
+              </div>
+            ) : null
+          }
+          {topBooks.topBook2 ?
+            (
+              <div className='library-book-container' key={`${topBooks.topBook2.id}_2`}>
+                <div className='favorite-badge'>
+                  <StartIcon/>
+                </div>
+                <div
+                  className='book-container'
+                >
+                  <a href={topBooks.topBook2.link || topBooks.topBook2.slug}>
+                    <img className='book' src={topBooks.topBook2.imageUrl} />
+                  </a>
+                </div>
+              </div>
+            ) : null
+          }
+          {topBooks.topBook3 ?
+            (
+              <div className='library-book-container' key={`${topBooks.topBook3.id}_3`}>
+                <div className='favorite-badge'>
+                  <StartIcon/>
+                </div>
+                <div
+                  className='book-container'
+                >
+                  <a href={topBooks.topBook3.link || topBooks.topBook3.slug}>
+                    <img className='book' src={topBooks.topBook3.imageUrl} />
+                  </a>
+                </div>
+              </div>
+            ) : null
+          }
+          {topBooks.topBook4 ?
+            (
+              <div className='library-book-container' key={`${topBooks.topBook4.id}_4`}>
+                <div className='favorite-badge'>
+                  <StartIcon/>
+                </div>
+                <div
+                  className='book-container'
+                >
+                  <a href={topBooks.topBook4.link || topBooks.topBook4.slug}>
+                    <img className='book' src={topBooks.topBook4.imageUrl} />
+                  </a>
+                </div>
+              </div>
+            ) : null
+          }
+          {topBooks.topBook5 ?
+            (
+              <div className='library-book-container' key={`${topBooks.topBook5.id}_5`}>
+                <div className='favorite-badge'>
+                  <StartIcon/>
+                </div>
+                <div
+                  className='book-container'
+                >
+                  <a href={topBooks.topBook5.link || topBooks.topBook5.slug}>
+                    <img className='book' src={topBooks.topBook5.imageUrl} />
+                  </a>
+                </div>
+              </div>
+            ) : null
+          }
+        </div>
+      )
+    }
+    return null
+  }
+
   renderLibrary = () => {
     const { profilePage } = this.props
     const { isMyProfile } = this.state
 
     if (profilePage.myLibrary !== undefined) {
+
       const libraryPage = profilePage.myLibrary.results.library.map((book, index) => {
 
         const author = book.authors.length ? book.authors[0].fullname : null
@@ -149,12 +255,26 @@ class BooksSection extends PureComponent {
                   onClick={this.handleEditLibraryModal}
                 >
                   <Editcon/>
-                  <span className='edit-library-text'> Edit your Library</span>
+                  <span className='edit-library-text'> Edit Library</span>
                 </a>
                 <EditLibraryModal
                   modalOpen={this.state.addLibraryModal}
                   handleClose={this.handleEditLibraryModalClose}
                   myLibrary={profilePage.myLibrary.results.library}
+                  userId={this.state.userId}
+                />
+                <a
+                  className='edit-library-anchor'
+                  onClick={this.handleTopBooksModal}
+                >
+                  <Editcon/>
+                  <span className='edit-library-text'>Top Books</span>
+                </a>
+                <TopBooksModal
+                  modalOpen={this.state.topBooksModal}
+                  handleClose={this.handleTopBooksModalClose}
+                  myLibrary={profilePage.myLibrary.results.library}
+                  topBooks={profilePage.topBooks}
                   userId={this.state.userId}
                 />
               </div>
@@ -164,6 +284,7 @@ class BooksSection extends PureComponent {
             ref={(ref) => { this.bookContainer = ref }}
             className='library-books-main-container'
           >
+            {this.renderTopBooks() !== null ? this.renderTopBooks() : null}
             {libraryPage ? libraryPage : null}
           </div>
           <PageScroller
@@ -267,6 +388,7 @@ const mapStateToProps = (state) => {
     profilePage: {
       currentlyReading: state.profilePage.currentlyReading,
       myLibrary: state.profilePage.library,
+      topBooks: state.profilePage.topBooks,
     }
   }
 }

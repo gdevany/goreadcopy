@@ -88,6 +88,30 @@ export function setCurrentlyReading(payload, id) {
   }
 }
 
+export function deleteTopBooks(payload, id) {
+  const terms = {
+    id: payload
+  }
+  return dispatch => {
+    ProfilePage.deleteTopBooks(terms)
+      .then(() => ProfilePage.getTopBooks(id))
+      .then(res => dispatch({ type: A.GET_TOP_BOOKS, payload: res.data }))
+      .catch(err => console.log(`Error in deleteTopBooks ${err}`))
+  }
+}
+
+export function updateTopBooks(payload, id) {
+  const terms = {
+    id: payload
+  }
+  return dispatch => {
+    ProfilePage.updateTopBooks(terms)
+      .then(() => ProfilePage.getTopBooks(id))
+      .then(res => dispatch({ type: A.GET_TOP_BOOKS, payload: res.data }))
+      .catch(err => console.log(`Error in updateTopBooks ${err}`))
+  }
+}
+
 export default {
   getProfilePage,
   getCurrentlyReading,
@@ -96,5 +120,7 @@ export default {
   addToLibrary,
   removeFromLibrary,
   setCurrentlyReading,
-  getProfileBookInfo
+  getProfileBookInfo,
+  deleteTopBooks,
+  updateTopBooks
 }

@@ -211,16 +211,14 @@ class EditLibraryModal extends Component {
                   { this.renderSearchResults() }
                   {this.state.shouldSpin ?
                     (
-                      <div>
-                        <RefreshIndicator
-                          size={50}
-                          left={70}
-                          top={0}
-                          loadingColor={Colors.blue}
-                          status='loading'
-                          style={styles.refresh}
-                        />
-                      </div>
+                      <RefreshIndicator
+                        size={50}
+                        left={70}
+                        top={0}
+                        loadingColor={Colors.blue}
+                        status='loading'
+                        style={styles.refresh}
+                      />
                     ) : null
                   }
                 </div>

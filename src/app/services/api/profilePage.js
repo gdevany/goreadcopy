@@ -10,6 +10,8 @@ const {
   currentReader: {
     updateLibrary,
     setCurrentlyReading,
+    deleteTopBooks,
+    updateTopBooks,
   }
 } = Endpoints
 
@@ -23,6 +25,8 @@ const General = () => {
     updateLibrary: (body) => authenticated().post(updateLibrary(), body),
     setCurrentlyReading: (body) => authenticated().post(setCurrentlyReading(), body),
     deleteBookLibrary: (data) => authenticated().delete(updateLibrary(), { data }),
+    deleteTopBooks: (data) => authenticated().delete(deleteTopBooks(), { data }),
+    updateTopBooks: (body) => authenticated().post(updateTopBooks(), body),
   }
 }
 

@@ -3,6 +3,8 @@
 .sidebar-books-tab-container{
   padding: .5em;
   .library-edit-heading{
+    display: flex;
+    justify-content: space-between;
     margin-bottom: .5em;
     .edit-library-anchor{
       display: flex;
@@ -37,6 +39,48 @@
           color: $light-med-grey;
           .library-book-details-element{
             font-size: 14px;
+          }
+        }
+      }
+    }
+    .top-books-wrapper{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      margin-bottom: .5em;
+      .library-book-container{
+        width: 30%;
+        position: relative;
+        margin-bottom: .5em;
+        .favorite-badge{
+          width: 18px;
+          height: 18px;
+          background-color:$blue;
+          border-radius: 50%;
+          position: absolute;
+          top: -5px;
+          right: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 999;
+          svg{
+            width: 14px !important;
+            height: 14px !important;
+            path{
+              fill: $white;
+            }
+          }
+        }
+        .library-book-details-container{
+          .library-book-details-anchor{
+            font-size: 14px;
+            color: $light-med-grey;
+            .library-book-details-element{
+              font-size: 14px;
+            }
           }
         }
       }
@@ -99,12 +143,6 @@
     .border-right-divider{
       border-right: solid 1px $light-med-grey;
     }
-    .currently-reading-container{
-      width: 100% !important;
-      .library-book-container{
-        width: 15% !important;
-      }
-    }
     .current-library-container, .search-results-contianer{
       width: 50%;
       padding: .5em;
@@ -123,14 +161,17 @@
         }
       }
       .library-book-results, .current-library-elements-container{
-        min-height: 350px;
-        max-height: 350px;
-        overflow: scroll;
+        min-height: 59vh;
+        max-height: 59vh;
         overflow-x: none;
+        overflow-y: scroll;
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
         flex-wrap: wrap;
+        width: 100%;
+        position: relative;
+        text-align: center;
         .search-results{
           .book-search-results-container{
             .search-book-results{
@@ -140,6 +181,11 @@
               flex-wrap: wrap;
             }
           }
+        }
+        .library-search-spinner{
+          display: flex;
+          justify-content: flex-start;
+          width: 100%;
         }
         .library-book-container, .result-container{
           width: 28%;
@@ -153,6 +199,26 @@
               }
             }
           }
+        }
+      }
+    }
+    .currently-reading-container{
+      width: 100% !important;
+      .library-book-container{
+        width: 15% !important;
+      }
+    }
+  }
+  .top-books-bottom-wrapper{
+    flex-direction: column;
+    .top-books-container{
+      width: 100%;
+      .current-library-elements-container{
+        max-height: 30vh;
+        min-height: 30vh;
+        overflow: scroll;
+        .library-book-container{
+          width: 15%;
         }
       }
     }
@@ -176,5 +242,20 @@
     border: solid 1px $blue;
     color: blue;
     border-radius: 24px;
+  }
+}
+
+.top-books-modal-wrapper{
+  width: 100%;
+  .top-books-wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .library-book-container{
+      width: 20%;
+      .book-container{
+        margin-bottom: .5em;
+      }
+    }
   }
 }
