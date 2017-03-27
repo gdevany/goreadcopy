@@ -5,6 +5,7 @@ import { Colors } from '../../constants/style'
 import { ProfilePage } from '../../redux/actions'
 import Editcon from 'material-ui/svg-icons/image/edit'
 import EditLibraryModal from './EditLibraryModal'
+import { PageScroller } from '../common'
 // import Rating from 'react-rating'
 
 const { getCurrentlyReading, getLibrary } = ProfilePage
@@ -145,9 +146,17 @@ class BooksSection extends PureComponent {
               </div>
             ) : null
           }
-          <div className='library-books-main-container'>
+          <div
+            ref={(ref) => { this.bookContainer = ref }}
+            className='library-books-main-container'
+          >
             {libraryPage ? libraryPage : null}
           </div>
+          <PageScroller
+            scrollParent={this.bookContainer}
+            //fetchHandler={}
+            isLocked={false}
+          />
         </div>
       )
     }
