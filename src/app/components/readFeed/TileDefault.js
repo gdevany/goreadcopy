@@ -634,7 +634,7 @@ class TileDefault extends PureComponent {
                 url={shareInfo.shareLink}
                 title={shareInfo.title}
                 description={action}
-                className='facebook-share-button'
+                className='facebook-share-button pointer-hand'
               >
                 <FacebookIcon
                   size={32}
@@ -650,7 +650,7 @@ class TileDefault extends PureComponent {
               <TwitterShareButton
                 url={shareInfo.shareLink}
                 title={shareInfo.title}
-                className='twitter-share-button'
+                className='twitter-share-button pointer-hand'
               >
                 <TwitterIcon
                   size={32}
@@ -670,7 +670,7 @@ class TileDefault extends PureComponent {
                 windowWidth={750}
                 windowHeight={600}
                 description={action}
-                className='linkedin-share-button'
+                className='linkedin-share-button pointer-hand'
               >
                   <LinkedinIcon
                     size={32}
@@ -685,7 +685,7 @@ class TileDefault extends PureComponent {
             >
               <GooglePlusShareButton
                 url={shareInfo.shareLink}
-                className='google-plus-share-button'
+                className='google-plus-share-button pointer-hand'
               >
                 <GooglePlusIcon
                   size={32}
@@ -701,7 +701,7 @@ class TileDefault extends PureComponent {
                   onClick={this.handleShareOpenGoRead}
                 >
                 <img
-                  className='logo-share-img'
+                  className='logo-share-img pointer-hand'
                   src='/image/logo_share.png'
                 />
                 </li>
