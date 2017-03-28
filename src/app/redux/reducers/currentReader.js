@@ -13,6 +13,10 @@ export default (state = initialState.currentReader, { type, payload }) => {
       return R.merge(state, payload)
     case A.UPDATE_CURRENT_READER_DATA:
       return R.merge(state, payload)
+    case A.UPDATE_SOCIAL_ACCOUNTS:
+      return R.merge(state, {
+        socialaccounts: payload
+      })
     case A.UPDATE_CURRENT_READER_RECOMMENDATION:
       return R.mergeWith(Collections.mergesAll, state, { recommended: payload })
     default:
