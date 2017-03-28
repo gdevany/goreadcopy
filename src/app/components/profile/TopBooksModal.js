@@ -238,7 +238,7 @@ class TopBooksModal extends Component {
                   </h5>
                   <hr/>
                 </div>
-                <div className='current-library-elements-container'>
+                <div className='current-library-elements-container top-books-elements-container'>
                   {this.state.topBooks ? this.renderTopBooks() : null}
                 </div>
               </div>
@@ -249,7 +249,7 @@ class TopBooksModal extends Component {
                   </h5>
                   <hr/>
                 </div>
-                <div className='current-library-elements-container'>
+                <div className='current-library-elements-container top-books-library-elements'>
                   {this.state.myLibrary ? this.renderCurrentLibrary() : null}
                 </div>
               </div>

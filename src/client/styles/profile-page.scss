@@ -25,7 +25,8 @@
   .library-books-main-container{
     width: 100%;
     max-height: 315px;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -117,7 +118,7 @@
   justify-content: space-around;
   align-items: center;
   flex-direction: column;
-  padding: 2em 2em 0 2em;
+  padding: 0;
   .edit-library-heading-container{
     width: 100%;
     text-align: center;
@@ -161,10 +162,10 @@
         }
       }
       .library-book-results, .current-library-elements-container{
-        min-height: 59vh;
-        max-height: 59vh;
-        overflow-x: none;
+        min-height: 63vh;
+        max-height: 63vh;
         overflow-y: scroll;
+        overflow-x: hidden;
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
@@ -172,6 +173,10 @@
         width: 100%;
         position: relative;
         text-align: center;
+        @media all and (min-height: 900px){
+          min-height: 72vh;
+          max-height: 72vh;
+        }
         .search-results{
           .book-search-results-container{
             .search-book-results{
@@ -201,6 +206,18 @@
           }
         }
       }
+      .top-books-elements-container{
+        @media all and (min-height: 900px) {
+          min-height: 18vh !important;
+          max-height: 18vh !important;
+        }
+      }
+      .top-books-library-elements{
+        @media all and (min-height: 900px) {
+          min-height: 48vh !important;
+          max-height: 48vh !important;
+        }
+      }
     }
     .currently-reading-container{
       width: 100% !important;
@@ -216,7 +233,8 @@
       .current-library-elements-container{
         max-height: 30vh;
         min-height: 30vh;
-        overflow: scroll;
+        overflow-y: scroll;
+        overflow-x: hidden;
         .library-book-container{
           width: 15%;
         }
