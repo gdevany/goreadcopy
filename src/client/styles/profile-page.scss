@@ -167,7 +167,7 @@
         overflow-y: scroll;
         overflow-x: hidden;
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: flex-start;
         flex-wrap: wrap;
         width: 100%;
@@ -181,7 +181,7 @@
           .book-search-results-container{
             .search-book-results{
               display: flex;
-              justify-content: space-between;
+              justify-content: flex-start;
               align-items: flex-start;
               flex-wrap: wrap;
             }
@@ -193,8 +193,9 @@
           width: 100%;
         }
         .library-book-container, .result-container{
-          width: 28%;
+          width: 29%;
           margin-bottom: .5em;
+          margin-right: 1em;
           .book-container{
             a{
               display: block;
@@ -236,7 +237,7 @@
         overflow-y: scroll;
         overflow-x: hidden;
         .library-book-container{
-          width: 15%;
+          width: 16%;
         }
       }
     }
@@ -267,10 +268,10 @@
   width: 100%;
   .top-books-wrapper{
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     .library-book-container{
-      width: 20%;
+      width: 21%;
       .book-container{
         margin-bottom: .5em;
       }
