@@ -251,6 +251,7 @@ const TilesWrapper = ({ feed }) => {
             description: tileContent.description,
             image: tileContent.imageUrl || tileContent.poster.imageUrl,
             link: tile.actor.link,
+            slug: tileContent.slug,
             userType: findUserType(tileContent.contentType),
             socialComment: (tile.socialPostComment || null)
           }
