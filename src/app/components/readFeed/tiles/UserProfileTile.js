@@ -53,7 +53,6 @@ class UserProfileTile extends PureComponent {
                 </Link>
               ) : (
                 <a href={link}>
-                  asd
                   <img className='userprofile-img' src={image} alt='profile-update'/>
                 </a>
               )
