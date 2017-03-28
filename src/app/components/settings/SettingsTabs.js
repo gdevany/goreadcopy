@@ -18,7 +18,11 @@ import moment from 'moment'
 import ImportLibraryModal from './ImportLibraryModal'
 
 const { uploadImage } = Images
-const { updateReader, deleteSocialAccount } = CurrentReader
+const { updateReader,
+  deleteSocialAccount,
+  selectSocialAccount,
+  unSelectSocialAccount,
+  } = CurrentReader
 const styles = {
   lableStyle: {
     fontSize: 18,
@@ -82,6 +86,10 @@ class SettingsTabs extends PureComponent {
       notifyMention: '',
       receiveAuthorEmail: '',
       socialaccounts: '',
+      socialFacebook: '',
+      socialTwitter: '',
+      socialLinkedin: '',
+      socialGoogle: '',
       openImportLibraryModal: false,
     }
 
@@ -94,12 +102,10 @@ class SettingsTabs extends PureComponent {
     this.handleImportLibraryClose = this.handleImportLibraryClose.bind(this)
   }
   componentWillReceiveProps = (nextProps) => {
-    const { readerFetched } = this.state
-    if (nextProps.currentReader.firstName && !readerFetched) {
+    if (nextProps.currentReader.firstName || nextProps.currentReader.socialaccounts) {
       const momentDate = moment(nextProps.currentReader.birthdate, 'YYYY-MM-DD')
 
       this.setState({
-        readerFetched: true,
         favoriteQuote1: nextProps.currentReader.favoriteQuote1,
         favoriteQuote2: nextProps.currentReader.favoriteQuote2,
         favoriteQuote3: nextProps.currentReader.favoriteQuote3,
@@ -126,6 +132,10 @@ class SettingsTabs extends PureComponent {
         notifyShared: nextProps.currentReader.notifyShared,
         receiveAuthorEmail: nextProps.currentReader.receiveAuthorEmail,
         socialaccounts: nextProps.currentReader.socialaccounts,
+        socialFacebook: nextProps.currentReader.socialFacebook,
+        socialTwitter: nextProps.currentReader.socialTwitter,
+        socialLinkedin: nextProps.currentReader.socialLinkedin,
+        socialGoogle: nextProps.currentReader.socialGoogle,
       })
     }
   }
@@ -138,11 +148,11 @@ class SettingsTabs extends PureComponent {
     this.setState({ openImportLibraryModal: false })
   }
 
-  handleOnChange = R.curry((field, e) => {
+  handleOnChange = R.curry((field, e, index, value) => {
+    const { socialFacebook, socialTwitter, socialLinkedin, socialGoogle } = this.state
     e.preventDefault()
     if (field === 'gender') {
       this.setState({ gender: (e.target.innerText === 'Male' ? 'M' : 'F') })
-
     }
 
     if (field === 'birthdateDay' || field === 'birthdateMonth' ||
@@ -150,10 +160,36 @@ class SettingsTabs extends PureComponent {
       this.setState({ [field]: e.target.innerText })
     }
 
-    if (field !== 'gender' &&
-      field !== 'birthdateDay' &&
-      field !== 'birthdateMonth' &&
-      field !== 'birthdateYear') {
+    if (field === 'socialFacebook' || field === 'socialTwitter' ||
+      field === 'socialLinkedin' || field === 'socialGoogle') {
+      if (value === 0) {
+        if (field === 'socialFacebook' && socialFacebook !== undefined &&
+        socialFacebook !== null) {
+          this.props.unSelectSocialAccount(socialFacebook.id)
+        }
+        if (field === 'socialTwitter' && socialTwitter !== undefined &&
+        socialTwitter !== null) {
+          this.props.unSelectSocialAccount(socialTwitter.id)
+        }
+        if (field === 'socialLinkedin' && socialLinkedin !== undefined &&
+        socialLinkedin !== null) {
+          this.props.unSelectSocialAccount(socialLinkedin.id)
+        }
+        if (field === 'socialGoogle' && socialGoogle !== undefined &&
+        socialGoogle !== null) {
+          this.props.unSelectSocialAccount(socialGoogle.id)
+        }
+      } else {
+        this.props.selectSocialAccount(value)
+      }
+      this.setState({ [field]: value })
+
+    }
+
+    if (field !== 'gender' && field !== 'birthdateDay' &&
+      field !== 'birthdateMonth' && field !== 'birthdateYear' &&
+      field !== 'socialFacebook' && field !== 'socialTwitter' &&
+      field !== 'socialLinkedin' && field !== 'socialGoogle') {
       this.setState({ [field]: e.target.value })
     }
   })
@@ -380,11 +416,11 @@ class SettingsTabs extends PureComponent {
     return (
       <div className='profile-editor-section-container'>
         <h4 className='profile-editor-section-title'>
-          Favorite Quoutes
+          Favorite Quotes
         </h4>
         <div className='profile-edidor-quote-container'>
           <h5 className='profile-editor-favorite-quotes-num'>
-            Favorite Quoute #1
+            Favorite Quote #1
           </h5>
           <textarea
             className='profile-editor-favorite-quote-textarea'
@@ -395,7 +431,7 @@ class SettingsTabs extends PureComponent {
         </div>
         <div className='profile-edidor-quote-container'>
           <h5 className='profile-editor-favorite-quotes-num'>
-            Favorite Quoute #2
+            Favorite Quote #2
           </h5>
           <textarea
             className='profile-editor-favorite-quote-textarea'
@@ -406,7 +442,7 @@ class SettingsTabs extends PureComponent {
         </div>
         <div className='profile-edidor-quote-container'>
           <h5 className='profile-editor-favorite-quotes-num'>
-            Favorite Quoute #3
+            Favorite Quote #3
           </h5>
           <textarea
             className='profile-editor-favorite-quote-textarea'
@@ -417,7 +453,7 @@ class SettingsTabs extends PureComponent {
         </div>
         <div className='profile-edidor-quote-container'>
           <h5 className='profile-editor-favorite-quotes-num'>
-            Favorite Quoute #4
+            Favorite Quote #4
           </h5>
           <textarea
             className='profile-editor-favorite-quote-textarea'
@@ -428,7 +464,7 @@ class SettingsTabs extends PureComponent {
         </div>
         <div className='profile-edidor-quote-container'>
           <h5 className='profile-editor-favorite-quotes-num'>
-            Favorite Quoute #5
+            Favorite Quote #5
           </h5>
           <textarea
             className='profile-editor-favorite-quote-textarea'
@@ -481,7 +517,7 @@ class SettingsTabs extends PureComponent {
               <img className='social-account-img' src={account.avatarUrl}/>
             </figure>
             <div className='social-account-details'>
-              {/* <span>{account.extraData.first-name} {account.extraData.last-name}</span>*/}
+              <span>{account.extraData.firstName} {account.extraData.lastName}</span>
             </div>
             <CloseIcon onClick={() => this.handleDeleteSocialAccount(account.id)}/>
           </div>
@@ -497,7 +533,7 @@ class SettingsTabs extends PureComponent {
               <img className='social-account-img' src={account.avatarUrl}/>
             </figure>
             <div className='social-account-details'>
-              {/* <span>{account.extraData.firstName} {account.extraData.lastName}</span> */}
+              <span>{account.extraData.name}</span>
             </div>
             <CloseIcon onClick={() => this.handleDeleteSocialAccount(account.id)}/>
           </div>
@@ -586,6 +622,141 @@ class SettingsTabs extends PureComponent {
       </div>
     )
   }
+
+  handleRenderShowSocial = () => {
+    const {
+      socialaccounts,
+      socialFacebook,
+      socialTwitter,
+      socialLinkedin,
+      socialGoogle
+    } = this.state
+
+    let facebookAccounts, linkedinAccounts, twitterAccounts, googleAccounts = null
+    if (socialaccounts.facebook) {
+      facebookAccounts = socialaccounts.facebook.map((account, index) => {
+        return (
+          <MenuItem
+            value={account.id}
+            primaryText={`${account.extraData.firstName} ${account.extraData.lastName}`}
+            key={`${account.id}`}
+          />
+        )
+      })
+    }
+
+    if (socialaccounts.linkedin) {
+      linkedinAccounts = socialaccounts.linkedin.map((account, index) => {
+        return (
+          <MenuItem
+            value={account.id}
+            primaryText={`${account.extraData.firstName} ${account.extraData.lastName}`}
+            key={`${account.id}`}
+          />
+        )
+      })
+    }
+
+    if (socialaccounts.twitter) {
+      twitterAccounts = socialaccounts.twitter.map((account, index) => {
+        return (
+          <MenuItem
+            value={account.id}
+            primaryText={account.extraData.name}
+            key={`${account.id}`}
+          />
+        )
+      })
+    }
+
+    if (socialaccounts.google) {
+      googleAccounts = socialaccounts.google.map((account, index) => {
+        return (
+          <MenuItem
+            value={account.id}
+            primaryText={account.extraData.familyName}
+            key={`${account.id}`}
+          />
+        )
+      })
+    }
+    return (
+      <div>
+        <div className='profile-editor-section-container'>
+          <h4 className='profile-editor-section-title'>
+            Show my social media accounts
+          </h4>
+        </div>
+        <div className='social-accounts-container'>
+          <div className='social-accounts-single-container'>
+            <h4>Facebook Social Accounts</h4>
+            <div>
+              <SelectField
+                onChange={this.handleOnChange('socialFacebook')}
+                value={socialFacebook ? socialFacebook.id : 0}
+                style={styles.selectStyles}
+              >
+                <MenuItem
+                  value={0}
+                  primaryText='Not show any account'
+                />
+                {facebookAccounts ? facebookAccounts : ''}
+              </SelectField>
+            </div>
+          </div>
+          <div className='social-accounts-single-container'>
+            <h4>Linkedin Social Accounts</h4>
+            <div>
+              <SelectField
+                onChange={this.handleOnChange('socialLinkedin')}
+                value={socialLinkedin ? socialLinkedin.id : 0}
+                style={styles.selectStyles}
+              >
+                <MenuItem
+                  value={0}
+                  primaryText='Not show any account'
+                />
+                {linkedinAccounts ? linkedinAccounts : ''}
+              </SelectField>
+            </div>
+          </div>
+          <div className='social-accounts-single-container'>
+            <h4>Twitter Social Accounts</h4>
+            <div>
+              <SelectField
+                onChange={this.handleOnChange('socialTwitter')}
+                value={socialTwitter ? socialTwitter.id : 0}
+                style={styles.selectStyles}
+              >
+                <MenuItem
+                  value={0}
+                  primaryText='Not show any account'
+                />
+                {twitterAccounts ? twitterAccounts : ''}
+              </SelectField>
+            </div>
+          </div>
+          <div className='social-accounts-single-container'>
+            <h4>Google Social Accounts</h4>
+            <div>
+              <SelectField
+                onChange={this.handleOnChange('socialGoogle')}
+                value={socialGoogle ? socialGoogle.id : 0}
+                style={styles.selectStyles}
+              >
+                <MenuItem
+                  value={0}
+                  primaryText='Not show any account'
+                />
+                {googleAccounts ? googleAccounts : ''}
+              </SelectField>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   renderTabOne = () => {
     const { currentReader } = this.props
     const { profileImageUpload, backgroundImageUpload, modalOpen } = this.state
@@ -663,50 +834,12 @@ class SettingsTabs extends PureComponent {
           </div>
         </div>
         {this.renderFavoriteQuotes()}
-        <div className='profile-editor-section-container'>
-          <h4 className='profile-editor-section-title'>
-            Show my social media accounts
-          </h4>
-          <div className='editor-favorite-socialmedia-container'>
-            <Toggle
-              label='Facebook'
-              labelPosition='left'
-              labelStyle={styles.lableStyle}
-              style={styles.elementStyle}
-              thumbSwitchedStyle={styles.thumbSwitched}
-              trackSwitchedStyle={styles.trackSwitched}
-            />
-            <Toggle
-              label='Twitter'
-              labelPosition='left'
-              labelStyle={styles.lableStyle}
-              style={styles.elementStyle}
-              thumbSwitchedStyle={styles.thumbSwitched}
-              trackSwitchedStyle={styles.trackSwitched}
-            />
-            <Toggle
-              label='Linkedin'
-              labelPosition='left'
-              labelStyle={styles.lableStyle}
-              style={styles.elementStyle}
-              thumbSwitchedStyle={styles.thumbSwitched}
-              trackSwitchedStyle={styles.trackSwitched}
-            />
-            <Toggle
-              label='Google +'
-              labelPosition='left'
-              labelStyle={styles.lableStyle}
-              style={styles.elementStyle}
-              thumbSwitchedStyle={styles.thumbSwitched}
-              trackSwitchedStyle={styles.trackSwitched}
-            />
-          </div>
-          <div className='profile-editor-save-btn-container'>
-            <PrimaryButton
-              label='Save'
-              onClick={this.handleFirstTabSubmit}
-            />
-          </div>
+        {this.handleRenderShowSocial()}
+        <div className='profile-editor-save-btn-container'>
+          <PrimaryButton
+            label='Save'
+            onClick={this.handleFirstTabSubmit}
+          />
         </div>
       </article>
     )
@@ -1263,7 +1396,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   uploadImage,
   updateReader,
-  deleteSocialAccount
+  deleteSocialAccount,
+  selectSocialAccount,
+  unSelectSocialAccount
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsTabs)

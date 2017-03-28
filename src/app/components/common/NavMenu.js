@@ -591,21 +591,25 @@ class NavMenu extends PureComponent {
                   style={styles.navItemLinks}
                   className='menu-badge-container rf-nav-link'
                 >
-                  <Badge
-                    badgeContent={currentReader.notificationsCount}
-                    primary={true}
-                    badgeStyle={{
-                      top: -5,
-                      right: -7,
-                      width: '20px',
-                      height: '20px',
-                      paddingTop: 1,
-                      fontWeight: 700,
-                      backgroundColor: Colors.red,
-                    }}
-                  >
-                    <img src='/image/notifications-icon.svg' />
-                  </Badge>
+                  {currentReader.notificationsCount ?
+                    (
+                      <Badge
+                        badgeContent={currentReader.notificationsCount}
+                        primary={true}
+                        badgeStyle={{
+                          top: -5,
+                          right: -7,
+                          width: '20px',
+                          height: '20px',
+                          paddingTop: 1,
+                          fontWeight: 700,
+                          backgroundColor: Colors.red,
+                        }}
+                      >
+                        <img src='/image/notifications-icon.svg' />
+                      </Badge>
+                    ) : null
+                  }
                 </a>
               </li>
 
@@ -732,21 +736,25 @@ class NavMenu extends PureComponent {
                     style={styles.navItemLinks}
                     className='menu-badge-container rf-nav-link'
                   >
-                    <Badge
-                      badgeContent={currentReader.notificationsCount}
-                      primary={true}
-                      badgeStyle={{
-                        top: -4,
-                        right: -4,
-                        width: '20px',
-                        height: '20px',
-                        paddingTop: 1,
-                        fontWeight: 700,
-                        backgroundColor: Colors.red,
-                      }}
-                    >
-                      <img src='/image/notifications-icon.svg' />
-                    </Badge>
+                    {currentReader.notificationsCount ?
+                      (
+                        <Badge
+                          badgeContent={currentReader.notificationsCount}
+                          primary={true}
+                          badgeStyle={{
+                            top: -5,
+                            right: -7,
+                            width: '20px',
+                            height: '20px',
+                            paddingTop: 1,
+                            fontWeight: 700,
+                            backgroundColor: Colors.red,
+                          }}
+                        >
+                          <img src='/image/notifications-icon.svg' />
+                        </Badge>
+                      ) : null
+                    }
                   </a>
                 </li>
 

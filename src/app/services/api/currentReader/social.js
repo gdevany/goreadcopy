@@ -3,6 +3,9 @@ import { Endpoints } from '../../../constants'
 
 const { authenticated } = http
 const {
+  selectSocialAccount,
+  unSelectSocialAccount,
+  getSocialAccounts,
   currentReader: {
     getFollowers,
     getFollowed,
@@ -15,6 +18,9 @@ const Social = () => {
     getFollowers: (id, body) => http.get(getFollowers(id), body),
     getFollowed: (id, body) => http.get(getFollowed(id), body),
     deleteSocialAccount: (id) => authenticated().delete(deleteSocialAccount(id)),
+    getSocialAccounts: (body) => authenticated().get(getSocialAccounts(), body),
+    selectSocialAccount: (body) => authenticated().post(selectSocialAccount(), body),
+    unSelectSocialAccount: (data) => authenticated().delete(unSelectSocialAccount(), { data }),
   }
 }
 
