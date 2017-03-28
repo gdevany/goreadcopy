@@ -21,6 +21,9 @@ const Endpoints = () => {
     getTopBooks: (id) => apiUrl(`social/reader/${id}/top_books`),
     getLibrary: (id, params) => apiUrl(`social/reader/${id}/library`, params),
     libraryUpload: (params) => apiUrl('current_reader/import_library'),
+    getSocialAccounts: () => apiUrl('socialaccounts'),
+    selectSocialAccount: () => apiUrl('socialaccounts/select_account'),
+    unSelectSocialAccount: (params) => apiUrl('socialaccounts/unselect_account', params),
     currentReader: {
       getRecommendation: (params) => apiUrl('genres/top_users', params),
       getRecommendedAuthors: (params) => apiUrl('current_reader/recommended/authors', params),
