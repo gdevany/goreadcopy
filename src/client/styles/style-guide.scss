@@ -205,6 +205,10 @@ input[type="checkbox"]:focus{
   padding: 1em;
 }
 
+.pointer-hand{
+  cursor: pointer;
+}
+
 @import 'variables.scss';
 @import 'general.scss';
 @import 'errors.scss';
