@@ -18,8 +18,8 @@ const Endpoints = () => {
     getSidebarAds: (slug, params) => apiUrl('advertising/get_sidebar_ads'),
     shareTile: (id) => apiUrl(`social/posts/${id}/shares`),
     currentlyReading: (id) => apiUrl(`social/reader/${id}/currently_reading`),
-    getLibrary: (id) => apiUrl(`social/reader/${id}/library`),
     getTopBooks: (id) => apiUrl(`social/reader/${id}/top_books`),
+    getLibrary: (id, params) => apiUrl(`social/reader/${id}/library`, params),
     libraryUpload: (params) => apiUrl('current_reader/import_library'),
     currentReader: {
       getRecommendation: (params) => apiUrl('genres/top_users', params),

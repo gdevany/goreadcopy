@@ -9,10 +9,11 @@ import StartIcon from 'material-ui/svg-icons/toggle/star'
 import EditLibraryModal from './EditLibraryModal'
 import CurrentlyReadingModal from './CurrentlyReadingModal'
 import TopBooksModal from './TopBooksModal'
+import R from 'ramda'
 
 // import Rating from 'react-rating'
 
-const { getProfileBookInfo } = ProfilePage
+const { getProfileBookInfo, fetchLibrary } = ProfilePage
 
 const styles = {
   headline: {
@@ -209,13 +210,17 @@ class BooksSection extends PureComponent {
     return null
   }
 
+  fetchHandler = R.curry((id, params) => {
+    this.props.fetchLibrary(id, params)
+  })
+
   renderLibrary = () => {
     const { profilePage } = this.props
     const { isMyProfile } = this.state
 
-    if (profilePage.myLibrary !== undefined) {
+    if (profilePage.myLibrary && profilePage.myLibrary.results) {
 
-      const libraryPage = profilePage.myLibrary.results.library.map((book, index) => {
+      const libraryPage = profilePage.myLibrary.results.map((book, index) => {
 
         const author = book.authors.length ? book.authors[0].fullname : null
 
@@ -260,7 +265,7 @@ class BooksSection extends PureComponent {
                 <EditLibraryModal
                   modalOpen={this.state.addLibraryModal}
                   handleClose={this.handleEditLibraryModalClose}
-                  myLibrary={profilePage.myLibrary.results.library}
+                  myLibrary={profilePage.myLibrary.results}
                   userId={this.state.userId}
                 />
                 <a
@@ -273,7 +278,7 @@ class BooksSection extends PureComponent {
                 <TopBooksModal
                   modalOpen={this.state.topBooksModal}
                   handleClose={this.handleTopBooksModalClose}
-                  myLibrary={profilePage.myLibrary.results.library}
+                  myLibrary={profilePage.myLibrary.results}
                   topBooks={profilePage.topBooks}
                   userId={this.state.userId}
                 />
@@ -287,11 +292,6 @@ class BooksSection extends PureComponent {
             {this.renderTopBooks() !== null ? this.renderTopBooks() : null}
             {libraryPage ? libraryPage : null}
           </div>
-          <PageScroller
-            scrollParent={this.bookContainer}
-            //fetchHandler={}
-            isLocked={false}
-          />
         </div>
       )
     }
@@ -318,8 +318,8 @@ class BooksSection extends PureComponent {
                 <CurrentlyReadingModal
                   modalOpen={this.state.addCurrentlyModal}
                   handleClose={this.handleCurrentlyModalClose}
-                  myLibrary={profilePage.myLibrary.results.library ?
-                    profilePage.myLibrary.results.library : null
+                  myLibrary={profilePage.myLibrary.results ?
+                    profilePage.myLibrary.results : null
                   }
                   userId={this.state.userId}
                 />
@@ -353,6 +353,8 @@ class BooksSection extends PureComponent {
 
   render() {
     const { userId, libraryFetched } = this.state
+    const { profilePage: { myLibrary } } = this.props
+
     if (userId && libraryFetched) {
       return (
         <div className='sidebar-books-container box'>
@@ -367,6 +369,11 @@ class BooksSection extends PureComponent {
               <div className='sidebar-books-tab-container'>
                 {this.renderLibrary()}
               </div>
+              <PageScroller
+                scrollParent={this.bookContainer}
+                fetchHandler={this.fetchHandler(userId)}
+                isLocked={myLibrary ? myLibrary.locked : false}
+              />
             </Tab>
             <Tab
               label='Now Reading'
@@ -383,18 +390,19 @@ class BooksSection extends PureComponent {
     return null
   }
 }
-const mapStateToProps = (state) => {
+const mapStateToProps = ({ profilePage }) => {
   return {
     profilePage: {
-      currentlyReading: state.profilePage.currentlyReading,
-      myLibrary: state.profilePage.library,
-      topBooks: state.profilePage.topBooks,
+      currentlyReading: profilePage.currentlyReading,
+      myLibrary: profilePage.library,
+      topBooks: profilePage.topBooks,
     }
   }
 }
 
 const mapDistpachToProps = {
   getProfileBookInfo,
+  fetchLibrary
 }
 
 export default connect(mapStateToProps, mapDistpachToProps)(BooksSection)

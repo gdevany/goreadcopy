@@ -24,9 +24,9 @@ export function getCurrentlyReading(id) {
   }
 }
 
-export function getLibrary(id) {
+export function getLibrary({ id, page }) {
   return dispatch => {
-    ProfilePage.getLibrary(id)
+    ProfilePage.getLibrary(id, { page })
       .then(res => dispatch({ type: A.GET_LIBRARY, payload: res.data }))
       .catch(err => console.error(`Error in getLibrary ${err}`))
   }
@@ -42,13 +42,25 @@ export function getTopBooks(id) {
 
 export function getProfileBookInfo(id) {
   return dispatch => {
-    ProfilePage.getLibrary(id)
-      .then(res => dispatch({ type: A.GET_LIBRARY, payload: res.data }))
-      .then(() => ProfilePage.currentlyReading(id))
+    ProfilePage.currentlyReading(id)
       .then(res => dispatch({ type: A.GET_CURRENTLY_READING, payload: res.data }))
-      .then(() => ProfilePage.getTopBooks(id))
+      .catch(err => console.error(`Error in getBookSection ${err}`))
+    ProfilePage.getTopBooks(id)
       .then(res => dispatch({ type: A.GET_TOP_BOOKS, payload: res.data }))
       .catch(err => console.error(`Error in getBookSection ${err}`))
+  }
+}
+
+export function fetchLibrary(id, params) {
+  return dispatch => {
+    dispatch({ type: A.FETCH_LIBRARY })
+    ProfilePage.getLibrary(id, params)
+      .then(res => dispatch({ type: A.GET_LIBRARY, payload: res.data }))
+      .catch(err => {
+        if (err.response.status !== 404) {
+          dispatch({ type: A.GET_LIBRARY, payload: [] })
+        }
+      })
   }
 }
 
@@ -113,6 +125,7 @@ export function updateTopBooks(payload, id) {
 }
 
 export default {
+  fetchLibrary,
   getProfilePage,
   getCurrentlyReading,
   getLibrary,

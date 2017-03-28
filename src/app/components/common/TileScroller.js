@@ -21,7 +21,6 @@ class TileScroller extends PureComponent {
   }
 
   onScroll(e) {
-    console.log('Fired on TileScroller')
     const { fetchTiles, tiles, isLocked } = this.props
     const clientHeight = document.body.clientHeight
     const windowHeight = window.innerHeight

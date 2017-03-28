@@ -8,31 +8,36 @@ class PageScroller extends PureComponent {
       page: 1
     }
     this.onScroll = this.onScroll.bind(this)
+    this.fetchAndIncrement = this.fetchAndIncrement.bind(this)
+  }
+
+  fetchAndIncrement() {
+    const { fetchHandler } = this.props
+    const { page } = this.state
+    fetchHandler({ page })
+    this.setState({
+      page: page + 1
+    })
   }
 
   componentWillMount() {
-    const { fetchHandler } = this.props
-    fetchHandler(/* Pasar solo el page de la peticion */)
+    this.fetchAndIncrement()
   }
 
   onScroll(e) {
-    console.log('Fired on PageScroller')
     e.stopPropagation()
-    const { fetchHandler, isLocked, scrollParent } = this.props
+    const { isLocked, scrollParent } = this.props
     if (scrollParent === window) {
       const clientHeight = document.body.clientHeight
       const windowHeight = window.innerHeight
       const scrollOffset = window.scrollY || window.pageYOffset
       if (scrollOffset > (clientHeight - windowHeight) * 0.90 && !isLocked) {
-        /* Pasar solo el page de la peticion */
-        fetchHandler()
+        this.fetchAndIncrement()
       }
     } else {
       const { offsetHeight, scrollTop, scrollHeight } = scrollParent
-      if (offsetHeight + scrollTop > scrollHeight * 0.9) {
-        console.log('Reached end of PageScroller!!!')
-        /* Pasar solo el page de la peticion */
-        fetchHandler()
+      if (offsetHeight + scrollTop > scrollHeight * 0.9 && !isLocked) {
+        this.fetchAndIncrement()
       }
     }
 
