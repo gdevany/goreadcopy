@@ -66,6 +66,45 @@ export function deleteSocialAccount(payload) {
   }
 }
 
+export function getSocialAccounts() {
+  return dispatch => {
+    SocialReader.getSocialAccounts()
+      .then(res => dispatch(updateSocialAccounts(res.data)))
+      .catch(err => console.log(`Error in updateSocialAccounts ${err}`))
+  }
+}
+
+export function updateSocialAccounts(payload) {
+  return dispatch => {
+    return dispatch({
+      type: A.UPDATE_SOCIAL_ACCOUNTS,
+      payload,
+    })
+  }
+}
+
+export function selectSocialAccount(payload) {
+  const data = {
+    socialAccountId: payload,
+  }
+  return dispatch => {
+    SocialReader.selectSocialAccount(data)
+      .then(res => dispatch(getCurrentReader()))
+      .catch(err => console.log(`Error in selectSocialAccount ${err}`))
+  }
+}
+
+export function unSelectSocialAccount(payload) {
+  const data = {
+    socialAccountId: payload,
+  }
+  return dispatch => {
+    SocialReader.unSelectSocialAccount(data)
+      .then(res => dispatch(getCurrentReader()))
+      .catch(err => console.log(`Error in unSelectSocialAccount ${err}`))
+  }
+}
+
 export function updateCurrentReader(payload) {
   return dispatch => {
     return dispatch({
@@ -100,4 +139,6 @@ export default {
   updateReader,
   deleteSocialAccount,
   logoutCurrentReader,
+  selectSocialAccount,
+  unSelectSocialAccount,
 }
