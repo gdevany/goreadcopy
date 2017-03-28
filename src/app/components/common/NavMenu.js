@@ -737,24 +737,24 @@ class NavMenu extends PureComponent {
                     className='menu-badge-container rf-nav-link'
                   >
                     {currentReader.notificationsCount ?
-                    (
-                      <Badge
-                        badgeContent={currentReader.notificationsCount}
-                        primary={true}
-                        badgeStyle={{
-                          top: -5,
-                          right: -7,
-                          width: '20px',
-                          height: '20px',
-                          paddingTop: 1,
-                          fontWeight: 700,
-                          backgroundColor: Colors.red,
-                        }}
-                      >
-                        <img src='/image/notifications-icon.svg' />
-                      </Badge>
-                    ) : null
-                  }
+                      (
+                        <Badge
+                          badgeContent={currentReader.notificationsCount}
+                          primary={true}
+                          badgeStyle={{
+                            top: -5,
+                            right: -7,
+                            width: '20px',
+                            height: '20px',
+                            paddingTop: 1,
+                            fontWeight: 700,
+                            backgroundColor: Colors.red,
+                          }}
+                        >
+                          <img src='/image/notifications-icon.svg' />
+                        </Badge>
+                      ) : null
+                    }
                   </a>
                 </li>
 
