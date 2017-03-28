@@ -45,7 +45,7 @@ class SearchModal extends Component {
 
   debouncedSearch = debounce((event) => {
     if (event.target.value.length > 3) {
-      this.props.mainSearch(event.target.value)
+      this.props.mainSearch(event.target.value, 'main-search')
     }
   }, 300)
 

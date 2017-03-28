@@ -7,7 +7,7 @@ const {
     getCurrentReader,
     usePlatformAs,
     updateReader,
-    logoutCurrentReader
+    logoutCurrentReader,
   }
 } = Endpoints
 

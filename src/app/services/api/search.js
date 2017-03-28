@@ -3,11 +3,12 @@ import { Endpoints } from '../../constants'
 
 const { authenticated } = http
 
-const { searchData } = Endpoints
+const { searchData, searchBooksData } = Endpoints
 
 const Search = () => {
   return {
     search: (body) => authenticated().get(searchData(body)),
+    searchBooks: (body) => authenticated().get(searchBooksData(body)),
   }
 }
 

@@ -1,0 +1,280 @@
+@import 'variables.scss';
+
+.sidebar-books-tab-container{
+  padding: .5em;
+  .library-edit-heading{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: .5em;
+    .edit-library-anchor{
+      display: flex;
+      svg{
+        width: 20px !important;
+        height: 20px !important;
+        path{
+          fill: $light-med-grey;
+        }
+      }
+      .edit-library-text{
+        font-size: 14px;
+        margin-left: .5em;
+        color: $light-med-grey;
+      }
+    }
+  }
+  .library-books-main-container{
+    width: 100%;
+    max-height: 315px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding-top: .5em;
+    .library-book-container{
+      width: 30%;
+      .library-book-details-container{
+        .library-book-details-anchor{
+          font-size: 14px;
+          color: $light-med-grey;
+          .library-book-details-element{
+            font-size: 14px;
+          }
+        }
+      }
+    }
+    .top-books-wrapper{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      margin-bottom: .5em;
+      .library-book-container{
+        width: 30%;
+        position: relative;
+        margin-bottom: .5em;
+        .favorite-badge{
+          width: 18px;
+          height: 18px;
+          background-color:$blue;
+          border-radius: 50%;
+          position: absolute;
+          top: -5px;
+          right: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 999;
+          svg{
+            width: 14px !important;
+            height: 14px !important;
+            path{
+              fill: $white;
+            }
+          }
+        }
+        .library-book-details-container{
+          .library-book-details-anchor{
+            font-size: 14px;
+            color: $light-med-grey;
+            .library-book-details-element{
+              font-size: 14px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.library-rating-icon{
+  height: 12px !important;
+}
+
+.not-currently-reading {
+  padding: 1em;
+}
+
+.currently-reading-book {
+  padding: 1em;
+  .book-container{
+    a{
+      display: block;
+      width: 110px;
+      margin: 0 auto;
+    }
+  }
+}
+
+.edit-library-modal{
+  height: 100vh !important;
+  max-height: none !important;
+}
+
+.edit-library-modal-container{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  padding: 0;
+  .edit-library-heading-container{
+    width: 100%;
+    text-align: center;
+    h4{
+      font-size: 20px;
+      font-weight: 600;
+      width: 100%;
+    }
+  }
+  .edit-library-form{
+    width: 100%;
+    .edit-library-form-input{
+      width: 100%;
+      border-radius: 16px;
+    }
+  }
+  .current-library-bottom-wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: row;
+    width: 100%;
+    .border-right-divider{
+      border-right: solid 1px $light-med-grey;
+    }
+    .current-library-container, .search-results-contianer{
+      width: 50%;
+      padding: .5em;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      .current-library-heading-container, .search-results-heading-container{
+        width: 100%;
+        text-align: left;
+        h5{
+          font-size: 18px;
+          width: 100%;
+          font-weight: 400;
+          text-align: left;
+        }
+      }
+      .library-book-results, .current-library-elements-container{
+        min-height: 63vh;
+        max-height: 63vh;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        width: 100%;
+        position: relative;
+        text-align: center;
+        @media all and (min-height: 900px){
+          min-height: 72vh;
+          max-height: 72vh;
+        }
+        .search-results{
+          .book-search-results-container{
+            .search-book-results{
+              display: flex;
+              justify-content: flex-start;
+              align-items: flex-start;
+              flex-wrap: wrap;
+            }
+          }
+        }
+        .library-search-spinner{
+          display: flex;
+          justify-content: flex-start;
+          width: 100%;
+        }
+        .library-book-container, .result-container{
+          width: 29%;
+          margin-bottom: .5em;
+          margin-right: 1em;
+          .book-container{
+            a{
+              display: block;
+              text-align: center;
+              .book{
+                height: 140px;
+              }
+            }
+          }
+        }
+      }
+      .top-books-elements-container{
+        @media all and (min-height: 900px) {
+          min-height: 18vh !important;
+          max-height: 18vh !important;
+        }
+      }
+      .top-books-library-elements{
+        @media all and (min-height: 900px) {
+          min-height: 48vh !important;
+          max-height: 48vh !important;
+        }
+      }
+    }
+    .currently-reading-container{
+      width: 100% !important;
+      .library-book-container{
+        width: 15% !important;
+      }
+    }
+  }
+  .top-books-bottom-wrapper{
+    flex-direction: column;
+    .top-books-container{
+      width: 100%;
+      .current-library-elements-container{
+        max-height: 30vh;
+        min-height: 30vh;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        .library-book-container{
+          width: 16%;
+        }
+      }
+    }
+  }
+}
+
+.search-add-to-library-container{
+  width: 100%;
+  text-align: center;
+  .search-add-to-library-anchor{
+    display: block;
+    padding: 3.5px 7px;
+    border: solid 1px $blue;
+    color: blue;
+    border-radius: 24px;
+  }
+  .search-remove-from-library-anchor{
+    display: block;
+    font-size: 12px;
+    padding: 3.5px 7px;
+    border: solid 1px $blue;
+    color: blue;
+    border-radius: 24px;
+  }
+}
+
+.top-books-modal-wrapper{
+  width: 100%;
+  .top-books-wrapper{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    .library-book-container{
+      width: 21%;
+      .book-container{
+        margin-bottom: .5em;
+      }
+    }
+  }
+}
