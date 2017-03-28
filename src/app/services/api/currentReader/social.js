@@ -18,7 +18,7 @@ const Social = () => {
     getFollowers: (id, body) => http.get(getFollowers(id), body),
     getFollowed: (id, body) => http.get(getFollowed(id), body),
     deleteSocialAccount: (id) => authenticated().delete(deleteSocialAccount(id)),
-    getSocialAccounts: (body) => authenticated().post(getSocialAccounts(), body),
+    getSocialAccounts: (body) => authenticated().get(getSocialAccounts(), body),
     selectSocialAccount: (body) => authenticated().post(selectSocialAccount(), body),
     unSelectSocialAccount: (data) => authenticated().delete(unSelectSocialAccount(), { data }),
   }
