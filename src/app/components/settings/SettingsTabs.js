@@ -18,7 +18,11 @@ import moment from 'moment'
 import ImportLibraryModal from './ImportLibraryModal'
 
 const { uploadImage } = Images
-const { updateReader, deleteSocialAccount } = CurrentReader
+const { updateReader,
+  deleteSocialAccount,
+  selectSocialAccount,
+  unSelectSocialAccount,
+  } = CurrentReader
 const styles = {
   lableStyle: {
     fontSize: 18,
@@ -98,12 +102,10 @@ class SettingsTabs extends PureComponent {
     this.handleImportLibraryClose = this.handleImportLibraryClose.bind(this)
   }
   componentWillReceiveProps = (nextProps) => {
-    const { readerFetched } = this.state
-    if (nextProps.currentReader.firstName && !readerFetched) {
+    if (nextProps.currentReader.firstName || nextProps.currentReader.socialaccounts) {
       const momentDate = moment(nextProps.currentReader.birthdate, 'YYYY-MM-DD')
 
       this.setState({
-        readerFetched: true,
         favoriteQuote1: nextProps.currentReader.favoriteQuote1,
         favoriteQuote2: nextProps.currentReader.favoriteQuote2,
         favoriteQuote3: nextProps.currentReader.favoriteQuote3,
@@ -146,11 +148,11 @@ class SettingsTabs extends PureComponent {
     this.setState({ openImportLibraryModal: false })
   }
 
-  handleOnChange = R.curry((field, e) => {
+  handleOnChange = R.curry((field, e, index, value) => {
+    const { socialFacebook, socialTwitter, socialLinkedin, socialGoogle } = this.state
     e.preventDefault()
     if (field === 'gender') {
       this.setState({ gender: (e.target.innerText === 'Male' ? 'M' : 'F') })
-
     }
 
     if (field === 'birthdateDay' || field === 'birthdateMonth' ||
@@ -158,10 +160,36 @@ class SettingsTabs extends PureComponent {
       this.setState({ [field]: e.target.innerText })
     }
 
-    if (field !== 'gender' &&
-      field !== 'birthdateDay' &&
-      field !== 'birthdateMonth' &&
-      field !== 'birthdateYear') {
+    if (field === 'socialFacebook' || field === 'socialTwitter' ||
+      field === 'socialLinkedin' || field === 'socialGoogle') {
+      if (value === 0) {
+        if (field === 'socialFacebook' && socialFacebook !== undefined &&
+        socialFacebook !== null) {
+          this.props.unSelectSocialAccount(socialFacebook.id)
+        }
+        if (field === 'socialTwitter' && socialTwitter !== undefined &&
+        socialTwitter !== null) {
+          this.props.unSelectSocialAccount(socialTwitter.id)
+        }
+        if (field === 'socialLinkedin' && socialLinkedin !== undefined &&
+        socialLinkedin !== null) {
+          this.props.unSelectSocialAccount(socialLinkedin.id)
+        }
+        if (field === 'socialGoogle' && socialGoogle !== undefined &&
+        socialGoogle !== null) {
+          this.props.unSelectSocialAccount(socialGoogle.id)
+        }
+      } else {
+        this.props.selectSocialAccount(value)
+      }
+      this.setState({ [field]: value })
+
+    }
+
+    if (field !== 'gender' && field !== 'birthdateDay' &&
+      field !== 'birthdateMonth' && field !== 'birthdateYear' &&
+      field !== 'socialFacebook' && field !== 'socialTwitter' &&
+      field !== 'socialLinkedin' && field !== 'socialGoogle') {
       this.setState({ [field]: e.target.value })
     }
   })
@@ -388,11 +416,11 @@ class SettingsTabs extends PureComponent {
     return (
       <div className='profile-editor-section-container'>
         <h4 className='profile-editor-section-title'>
-          Favorite Quoutes
+          Favorite Quotes
         </h4>
         <div className='profile-edidor-quote-container'>
           <h5 className='profile-editor-favorite-quotes-num'>
-            Favorite Quoute #1
+            Favorite Quote #1
           </h5>
           <textarea
             className='profile-editor-favorite-quote-textarea'
@@ -403,7 +431,7 @@ class SettingsTabs extends PureComponent {
         </div>
         <div className='profile-edidor-quote-container'>
           <h5 className='profile-editor-favorite-quotes-num'>
-            Favorite Quoute #2
+            Favorite Quote #2
           </h5>
           <textarea
             className='profile-editor-favorite-quote-textarea'
@@ -414,7 +442,7 @@ class SettingsTabs extends PureComponent {
         </div>
         <div className='profile-edidor-quote-container'>
           <h5 className='profile-editor-favorite-quotes-num'>
-            Favorite Quoute #3
+            Favorite Quote #3
           </h5>
           <textarea
             className='profile-editor-favorite-quote-textarea'
@@ -425,7 +453,7 @@ class SettingsTabs extends PureComponent {
         </div>
         <div className='profile-edidor-quote-container'>
           <h5 className='profile-editor-favorite-quotes-num'>
-            Favorite Quoute #4
+            Favorite Quote #4
           </h5>
           <textarea
             className='profile-editor-favorite-quote-textarea'
@@ -436,7 +464,7 @@ class SettingsTabs extends PureComponent {
         </div>
         <div className='profile-edidor-quote-container'>
           <h5 className='profile-editor-favorite-quotes-num'>
-            Favorite Quoute #5
+            Favorite Quote #5
           </h5>
           <textarea
             className='profile-editor-favorite-quote-textarea'
@@ -664,11 +692,15 @@ class SettingsTabs extends PureComponent {
             <h4>Facebook Social Accounts</h4>
             <div>
               <SelectField
-                onChange={this.handleOnChange('gender')}
-                value={socialFacebook}
+                onChange={this.handleOnChange('socialFacebook')}
+                value={socialFacebook ? socialFacebook.id : 0}
                 style={styles.selectStyles}
               >
-                {facebookAccounts ? facebookAccounts : null}
+                <MenuItem
+                  value={0}
+                  primaryText='Not show any account'
+                />
+                {facebookAccounts ? facebookAccounts : ''}
               </SelectField>
             </div>
           </div>
@@ -676,11 +708,15 @@ class SettingsTabs extends PureComponent {
             <h4>Linkedin Social Accounts</h4>
             <div>
               <SelectField
-                onChange={this.handleOnChange('gender')}
-                value={socialLinkedin}
+                onChange={this.handleOnChange('socialLinkedin')}
+                value={socialLinkedin ? socialLinkedin.id : 0}
                 style={styles.selectStyles}
               >
-                {linkedinAccounts ? linkedinAccounts : null}
+                <MenuItem
+                  value={0}
+                  primaryText='Not show any account'
+                />
+                {linkedinAccounts ? linkedinAccounts : ''}
               </SelectField>
             </div>
           </div>
@@ -688,11 +724,15 @@ class SettingsTabs extends PureComponent {
             <h4>Twitter Social Accounts</h4>
             <div>
               <SelectField
-                onChange={this.handleOnChange('gender')}
-                value={socialTwitter}
+                onChange={this.handleOnChange('socialTwitter')}
+                value={socialTwitter ? socialTwitter.id : 0}
                 style={styles.selectStyles}
               >
-                {twitterAccounts ? twitterAccounts : null}
+                <MenuItem
+                  value={0}
+                  primaryText='Not show any account'
+                />
+                {twitterAccounts ? twitterAccounts : ''}
               </SelectField>
             </div>
           </div>
@@ -700,11 +740,15 @@ class SettingsTabs extends PureComponent {
             <h4>Google Social Accounts</h4>
             <div>
               <SelectField
-                onChange={this.handleOnChange('gender')}
-                value={socialGoogle}
+                onChange={this.handleOnChange('socialGoogle')}
+                value={socialGoogle ? socialGoogle.id : 0}
                 style={styles.selectStyles}
               >
-                {googleAccounts ? googleAccounts : null}
+                <MenuItem
+                  value={0}
+                  primaryText='Not show any account'
+                />
+                {googleAccounts ? googleAccounts : ''}
               </SelectField>
             </div>
           </div>
@@ -1352,7 +1396,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   uploadImage,
   updateReader,
-  deleteSocialAccount
+  deleteSocialAccount,
+  selectSocialAccount,
+  unSelectSocialAccount
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsTabs)
