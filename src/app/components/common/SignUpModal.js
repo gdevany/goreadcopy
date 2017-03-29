@@ -7,7 +7,9 @@ import { ExternalRoutes as routes } from '../../constants'
 import PrimaryButton from './PrimaryButton'
 import SocialButton from './SocialButton'
 import WrappedField from './WrappedField'
+import { Auth } from '../../redux/actions'
 
+const { cleanUserLoginErrors } = Auth
 const { getInitialReaderData, checkFields, updateReaderData } = ReaderData
 
 const styles = {
@@ -53,6 +55,15 @@ class SignUpModal extends Component {
     this.props.updateReaderData({ [field]: e.target.value })
   })
 
+  handleCleanInputs = () => {
+    this.setState({
+      firstName: '',
+      lastName: '',
+      email: '',
+    })
+    this.props.cleanUserLoginErrors()
+  }
+
   render() {
     const {
       errors,
@@ -85,7 +96,7 @@ class SignUpModal extends Component {
           <img
             src='/image/close.png'
             className='general-font center-text signup-modal-x'
-            onClick={handleClose}
+            onClick={() => {handleClose(); this.handleCleanInputs()}}
           />
 
           <h1 className='center-text large-header'>
@@ -191,6 +202,7 @@ const mapDispatchToProps = {
   getInitialReaderData,
   updateReaderData,
   checkFields,
+  cleanUserLoginErrors,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpModal)
