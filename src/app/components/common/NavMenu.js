@@ -628,29 +628,27 @@ class NavMenu extends PureComponent {
 
               <li style={styles.loggedInRightNavLi}>
                 <a
-                  href=''
                   style={styles.navItemLinks}
                   className='menu-badge-container rf-nav-link'
                 >
-                  {currentReader.notificationsCount ?
-                    (
-                      <Badge
-                        badgeContent={currentReader.notificationsCount}
-                        primary={true}
-                        badgeStyle={{
-                          top: -5,
-                          right: -7,
-                          width: '20px',
-                          height: '20px',
-                          paddingTop: 1,
-                          fontWeight: 700,
-                          backgroundColor: Colors.red,
-                        }}
-                      >
-                        <img src='/image/notifications-icon.svg' />
-                      </Badge>
-                    ) : null
-                  }
+                  <Badge
+                    badgeContent={
+                      currentReader.notificationsCount ?
+                        currentReader.notificationsCount : 0
+                      }
+                    primary={true}
+                    badgeStyle={{
+                      top: -5,
+                      right: -7,
+                      width: '20px',
+                      height: '20px',
+                      paddingTop: 1,
+                      fontWeight: 700,
+                      backgroundColor: Colors.red,
+                    }}
+                  >
+                    <img src='/image/notifications-icon.svg' />
+                  </Badge>
                 </a>
               </li>
 
@@ -777,29 +775,27 @@ class NavMenu extends PureComponent {
                 </li>
                 <li style={styles.loggedInRightNavLi}>
                   <a
-                    href=''
                     style={styles.navItemLinks}
                     className='menu-badge-container rf-nav-link'
                   >
-                    {currentReader.notificationsCount ?
-                      (
-                        <Badge
-                          badgeContent={currentReader.notificationsCount}
-                          primary={true}
-                          badgeStyle={{
-                            top: -5,
-                            right: -7,
-                            width: '20px',
-                            height: '20px',
-                            paddingTop: 1,
-                            fontWeight: 700,
-                            backgroundColor: Colors.red,
-                          }}
-                        >
-                          <img src='/image/notifications-icon.svg' />
-                        </Badge>
-                      ) : null
-                    }
+                    <Badge
+                      badgeContent={
+                        currentReader.notificationsCount ?
+                          currentReader.notificationsCount : 0
+                        }
+                      primary={true}
+                      badgeStyle={{
+                        top: -5,
+                        right: -7,
+                        width: '20px',
+                        height: '20px',
+                        paddingTop: 1,
+                        fontWeight: 700,
+                        backgroundColor: Colors.red,
+                      }}
+                    >
+                      <img src='/image/notifications-icon.svg' />
+                    </Badge>
                   </a>
                 </li>
 
