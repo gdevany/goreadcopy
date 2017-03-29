@@ -36,6 +36,10 @@ const ExternalRoutes = () => {
     twitterSocialAccount: () => backendUrltrimSlash('accounts/twitter/login/?process=connect'),
     googleSocialAccount: () => backendUrltrimSlash('accounts/google/login/?process=connect'),
     linkedinSocialAccount: () => backendUrltrimSlash('accounts/linkedin/login/?process=connect'),
+    authorBuzz: ({ slug }) => backendUrl(`author/${slug}`),
+    authorBuzzSettings: () => backendUrl('author/buzz/settings'),
+    publisherBuzz: ({ slug }) => backendUrl(`publisher/${slug}`),
+    publisherBuzzSettings: ({ slug }) => backendUrl(`publisher/${slug}/buzz/settings`),
   }
   return routes
 }
