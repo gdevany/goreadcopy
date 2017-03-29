@@ -285,6 +285,7 @@ const TilesWrapper = ({ feed }) => {
             description: tileContent.mentions,
             socialComment: (tile.socialPostComment || null),
             mentionsList: tileContent.mentionArray,
+            activeContent: (tileContent.activeUrl || null),
           }
           result.push(
             <StatusPostTile

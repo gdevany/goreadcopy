@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import TileDefault from '../TileDefault'
+import ReactPlayer from 'react-player'
 
 const mentionRegex = /(\@\[\d+\:\d+\])/gi
 
@@ -61,6 +62,28 @@ class StatusPostTile extends PureComponent {
               <figure className='statuspost-figure'>
                 <img className='statuspost-img' src={content.image} alt='status-post'/>
               </figure>
+            ) : null
+          }
+          {
+            content.activeContent ?
+            (
+              <div className='video-iframe-container'>
+                {content.activeContent.providerName === 'Dailymotion' ?
+                  (
+                    <figure className='video-player'>
+                      <a href={content.activeContent.url} target='_blank'>
+                        <img src={content.activeContent.thumbnailUrl}/>
+                      </a>
+                    </figure>
+                  ) : (
+                    <ReactPlayer
+                      className='video-player'
+                      controls={true}
+                      url={content.activeContent.url}
+                    />
+                  )
+                }
+              </div>
             ) : null
           }
           <div className='statuspost-content'>

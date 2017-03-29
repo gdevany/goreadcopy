@@ -463,7 +463,7 @@ class NavMenu extends PureComponent {
 
   }
   mapElementsHandler = (liClass, anchorClass) => {
-    return ([title, routeFn, routeType], index) => (
+    return ([title, routeFn, routeType, isFunc], index) => (
       <li className={liClass} key={title + index}>
         { routeType ?
           (
@@ -476,7 +476,7 @@ class NavMenu extends PureComponent {
           ) : (
             <a
               className={anchorClass}
-              href={routeFn()}
+              href={isFunc ? routeFn : routeFn()}
             >
               {title}
             </a>
@@ -507,16 +507,16 @@ class NavMenu extends PureComponent {
 
     {currentReader.hasAuthorBuzz ?
       nonMenuRoutes.push(
-        ['GoRead Buzz', authorBuzz({ slug: currentReader.author.slug }), true],
+        ['GoRead Buzz', authorBuzz({ slug: currentReader.author.slug }), false, true],
         ['GoRead Buzz Settings', authorBuzzSettings],
     ) : null }
 
     {currentReader.hasPublisherBuzz && currentReader.isPublisher ?
       nonMenuRoutes.push(
-        ['GoRead Publisher Buzz', publisherBuzz({ slug: currentReader.publisher.slug }), true],
+        ['GoRead Publisher Buzz', publisherBuzz({ slug: currentReader.publisher.slug }),
+          false, true],
         ['GoRead Publisher Buzz Settings',
-          publisherBuzzSettings({ slug: currentReader.publisher.slug }),
-          true],
+          publisherBuzzSettings({ slug: currentReader.publisher.slug }), false, true],
     ) : null }
 
     nonMenuRoutes.push(
