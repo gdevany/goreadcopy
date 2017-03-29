@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Dialog } from 'material-ui'
 import { ProfilePage } from '../../redux/actions'
+import { PageScroller } from '../common'
+import R from 'ramda'
 
-const { setCurrentlyReading } = ProfilePage
+const { setCurrentlyReading, fetchLibrary } = ProfilePage
 
 const styles = {
   modalBody: {
@@ -48,7 +50,7 @@ class CurrentlyReadingModal extends Component {
 
   renderCurrentLibrary = () => {
     const { myLibrary } = this.state
-    return myLibrary.map((book, index) => {
+    return myLibrary.results.map((book, index) => {
       const author = book.authors.length ? book.authors[0].fullname : null
       return (
         <div className='library-book-container' key={book.id}>
@@ -79,11 +81,16 @@ class CurrentlyReadingModal extends Component {
     })
   }
 
+  fetchHandler = R.curry((id, params) => {
+    this.props.fetchLibrary(id, params)
+  })
+
   render() {
     const {
       modalOpen,
       handleClose,
     } = this.props
+    const { userId, myLibrary } = this.state
     return (
       <div>
         <Dialog
@@ -113,8 +120,22 @@ class CurrentlyReadingModal extends Component {
                   </h5>
                   <hr/>
                 </div>
-                <div className='current-library-elements-container'>
-                  {this.state.myLibrary ? this.renderCurrentLibrary() : null}
+                <div
+                  ref={(ref)=>{this.libraryContainer = ref}}
+                  className='current-library-elements-container'
+                >
+                  {myLibrary ? this.renderCurrentLibrary() : null}
+                  {
+                    myLibrary ? (
+                      <PageScroller
+                        fetchOnLoad={false}
+                        scrollParent={this.libraryContainer}
+                        fetchHandler={this.fetchHandler(userId)}
+                        isLocked={myLibrary ? myLibrary.locked : false}
+                        currentPage={myLibrary && myLibrary.page ? myLibrary.page : 0}
+                      />
+                    ) : null
+                  }
                 </div>
               </div>
             </div>
@@ -125,4 +146,4 @@ class CurrentlyReadingModal extends Component {
   }
 }
 
-export default connect(null, { setCurrentlyReading })(CurrentlyReadingModal)
+export default connect(null, { setCurrentlyReading, fetchLibrary })(CurrentlyReadingModal)

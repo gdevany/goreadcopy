@@ -22,6 +22,7 @@ export default (state = initialState.profilePage, { type, payload }) => {
       diff = {
         library: {
           ...state.library || {},
+          ...payload || {},
           results: R.concat(state.library.results || [], payload.results.library),
           locked: false
         }

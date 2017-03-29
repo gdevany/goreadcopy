@@ -5,11 +5,12 @@ import { Search } from '../../redux/actions'
 import { ProfilePage } from '../../redux/actions'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { Colors } from '../../constants/style'
+import { PageScroller } from '../common'
 import { debounce } from 'lodash'
 import R from 'ramda'
 
 const { bookSearch, updateBookSearch } = Search
-const { addToLibrary, removeFromLibrary } = ProfilePage
+const { addToLibrary, removeFromLibrary, fetchLibrary } = ProfilePage
 
 const styles = {
   modalBody: {
@@ -129,7 +130,7 @@ class EditLibraryModal extends Component {
 
   renderCurrentLibrary = () => {
     const { myLibrary } = this.state
-    return myLibrary.map((book, index) => {
+    return myLibrary.results.map((book, index) => {
       const author = book.authors.length ? book.authors[0].fullname : null
       return (
         <div className='library-book-container' key={book.id}>
@@ -163,7 +164,12 @@ class EditLibraryModal extends Component {
     })
   }
 
+  fetchHandler = R.curry((id, params) => {
+    this.props.fetchLibrary(id, params)
+  })
+
   render() {
+    const { userId, myLibrary } = this.state
     const {
       modalOpen,
       handleClose,
@@ -230,9 +236,19 @@ class EditLibraryModal extends Component {
                   </h5>
                   <hr/>
                 </div>
-                <div className='current-library-elements-container'>
-                  {this.state.myLibrary ? this.renderCurrentLibrary() : null}
+                <div
+                  ref={(ref)=>{this.libraryContainer = ref}}
+                  className='current-library-elements-container'
+                >
+                  {myLibrary.results ? this.renderCurrentLibrary() : null}
                 </div>
+                <PageScroller
+                  fetchOnLoad={false}
+                  scrollParent={this.libraryContainer}
+                  fetchHandler={this.fetchHandler(userId)}
+                  isLocked={myLibrary ? myLibrary.locked : false}
+                  currentPage={myLibrary && myLibrary.page ? myLibrary.page : 0}
+                />
               </div>
             </div>
           </div>
@@ -253,6 +269,7 @@ const mapDistpachToProps = {
   updateBookSearch,
   addToLibrary,
   removeFromLibrary,
+  fetchLibrary
 }
 
 export default connect(mapStateToProps, mapDistpachToProps)(EditLibraryModal)

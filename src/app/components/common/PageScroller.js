@@ -4,24 +4,20 @@ import { Scroller } from './'
 class PageScroller extends PureComponent {
   constructor(props) {
     super(props)
-    this.state = {
-      page: 1
-    }
     this.onScroll = this.onScroll.bind(this)
     this.fetchAndIncrement = this.fetchAndIncrement.bind(this)
   }
 
   fetchAndIncrement() {
-    const { fetchHandler } = this.props
-    const { page } = this.state
-    fetchHandler({ page })
-    this.setState({
-      page: page + 1
-    })
+    const { fetchHandler, currentPage } = this.props
+    fetchHandler({ page: currentPage + 1 })
   }
 
   componentWillMount() {
-    this.fetchAndIncrement()
+    const { fetchOnLoad } = this.props
+    if (fetchOnLoad) {
+      this.fetchAndIncrement()
+    }
   }
 
   onScroll(e) {
@@ -60,13 +56,17 @@ class PageScroller extends PureComponent {
 PageScroller.propTypes = {
   scrollParent: React.PropTypes.object,
   fetchHandler: React.PropTypes.func,
+  fetchOnLoad: React.PropTypes.bool,
   isLocked: React.PropTypes.bool,
+  currentPage: React.PropTypes.number,
 }
 
 PageScroller.defaultProps = {
   scrollParent: window,
   fetchHandler: ()=>{return},
+  fetchOnLoad: false,
   isLocked: false,
+  currentPage: 1,
 }
 
 export default PageScroller
