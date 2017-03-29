@@ -64,7 +64,9 @@ class ProfileWrapper extends PureComponent {
         }
       }
       if (nextProps.currentReader.token) {
-        this.setState({ isLogged: true })
+        this.setState({
+          isLogged: true,
+        })
       }
     }
   }
