@@ -119,6 +119,8 @@ class NavMenu extends PureComponent {
       usePlatformAs: false,
       readerFetched: false,
       chatModalOpen: false,
+      socialFollowers: 0,
+      socialFollowed: 0,
     }
 
     this.handleModalClose = this.handleModalClose.bind(this)
@@ -131,6 +133,18 @@ class NavMenu extends PureComponent {
   }
 
   componentWillReceiveProps = (nextProps) => {
+
+    if (nextProps.social.followers) {
+      this.setState({
+        socialFollowers: nextProps.social.followers.count
+      })
+    }
+
+    if (nextProps.social.followed) {
+      this.setState({
+        socialFollowed: nextProps.social.followed.count
+      })
+    }
 
     if (nextProps.currentReader.token && !this.state.readerFetched) {
       this.props.getCurrentReader()
@@ -587,6 +601,7 @@ class NavMenu extends PureComponent {
 
   renderLogInMenu = () => {
     const { currentReader } = this.props
+    const { socialFollowers, socialFollowed } = this.state
     return (
       <div className='slide-down'>
         <div style={styles.mobileNavContainer} className='top-bar-mobile'>
@@ -670,10 +685,14 @@ class NavMenu extends PureComponent {
               </div>
               <div className='second-row-elements'>
                 <div className='follows-container'>
-                  <span>0 Followers</span>
+                  <span>
+                    {socialFollowers ? socialFollowers : null} Followers
+                  </span>
                 </div>
                 <div className='follows-container'>
-                  <span>10 Following</span>
+                  <span>
+                    {socialFollowed ? socialFollowed : null} Following
+                  </span>
                 </div>
               </div>
               <div className='third-row-elements'>
@@ -881,7 +900,8 @@ class NavMenu extends PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    currentReader: state.currentReader
+    currentReader: state.currentReader,
+    social: state.social
   }
 }
 
