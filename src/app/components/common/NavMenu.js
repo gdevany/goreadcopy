@@ -475,13 +475,37 @@ class NavMenu extends PureComponent {
   handleMapProfileMenuItems = () => {
     const liClass = 'profile-menu-element'
     const anchorClass = 'profile-menu-anchor'
-    const { orders, referrals, help } = routes
+    const { currentReader } = this.props
+    const { orders,
+            referrals,
+            help,
+            authorBuzz,
+            authorBuzzSettings,
+            publisherBuzz,
+            publisherBuzzSettings } = routes
     const nonMenuRoutes = [
       ['Orders', orders],
       ['Referrals', referrals],
       ['Settings', '/profile/settings', true],
-      ['Help', help],
     ]
+
+    {currentReader.hasAuthorBuzz ?
+      nonMenuRoutes.push(
+        ['GoRead Buzz', authorBuzz({ slug: currentReader.author.slug }), true],
+        ['GoRead Buzz Settings', authorBuzzSettings],
+    ) : null }
+
+    {currentReader.hasPublisherBuzz && currentReader.isPublisher ?
+      nonMenuRoutes.push(
+        ['GoRead Publisher Buzz', publisherBuzz({ slug: currentReader.publisher.slug }), true],
+        ['GoRead Publisher Buzz Settings',
+          publisherBuzzSettings({ slug: currentReader.publisher.slug }),
+          true],
+    ) : null }
+
+    nonMenuRoutes.push(
+      ['Help', help],
+    )
     const NonMenuItem = this.mapElementsHandler(liClass, anchorClass)
 
     return R.map(NonMenuItem, nonMenuRoutes)
