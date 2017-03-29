@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import TileDefault from '../TileDefault'
 import LocationIcon from 'material-ui/svg-icons/communication/location-on'
+import { Link } from 'react-router'
 
 class UserProfileTile extends PureComponent {
   render() {
@@ -24,6 +25,7 @@ class UserProfileTile extends PureComponent {
       link,
       image,
       name,
+      slug,
       userType,
     } = content
     return (
@@ -44,14 +46,30 @@ class UserProfileTile extends PureComponent {
         </div>
         <div className='userprofile-tile-container'>
           <figure className='userprofile-figure'>
-            <a href={link}>
-              <img className='userprofile-img' src={image} alt='profile-update'/>
-            </a>
+            { userType === 'Reader' || userType === '' ?
+              (
+                <Link to={`profile/${slug}`}>
+                  <img className='userprofile-img' src={image} alt='profile-update'/>
+                </Link>
+              ) : (
+                <a href={link}>
+                  <img className='userprofile-img' src={image} alt='profile-update'/>
+                </a>
+              )
+            }
           </figure>
           <div className='userprofile-content'>
-            <a href={link}>
-              <h2 className='userprofile-name'>{name}</h2>
-            </a>
+            {userType === 'Reader' || userType === '' ?
+              (
+                <Link to={`profile/${slug}`}>
+                  <h2 className='userprofile-name'>{name}</h2>
+                </Link>
+              ) : (
+                <a href={link}>
+                  <h2 className='userprofile-name'>{name}</h2>
+                </a>
+              )
+            }
             <h4 className='userprofile-title'>{userType}</h4>
             {
               city || state ?
@@ -67,9 +85,17 @@ class UserProfileTile extends PureComponent {
         <div className='post-excerpt-container'>
           <p className='post-excerpt-pharagraph'>
             {content.description ? content.description : null}
-            <a href={link} className='post-readmore-anchor'>
-              Read more
-            </a>
+            {userType === 'Reader' || userType === '' ?
+              (
+                <Link to={`profile/${slug}`}>
+                  Read more
+                </Link>
+              ) : (
+                <a href={link}>
+                  Read more
+                </a>
+              )
+            }
           </p>
         </div>
       </TileDefault>
