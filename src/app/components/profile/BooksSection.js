@@ -269,7 +269,7 @@ class BooksSection extends PureComponent {
                 <EditLibraryModal
                   modalOpen={this.state.addLibraryModal}
                   handleClose={this.handleEditLibraryModalClose}
-                  myLibrary={profilePage.myLibrary.results}
+                  myLibrary={profilePage.myLibrary}
                   userId={this.state.userId}
                 />
                 <a
@@ -282,7 +282,7 @@ class BooksSection extends PureComponent {
                 <TopBooksModal
                   modalOpen={this.state.topBooksModal}
                   handleClose={this.handleTopBooksModalClose}
-                  myLibrary={profilePage.myLibrary.results}
+                  myLibrary={profilePage.myLibrary}
                   topBooks={profilePage.topBooks}
                   userId={this.state.userId}
                 />
@@ -322,8 +322,8 @@ class BooksSection extends PureComponent {
                 <CurrentlyReadingModal
                   modalOpen={this.state.addCurrentlyModal}
                   handleClose={this.handleCurrentlyModalClose}
-                  myLibrary={profilePage.myLibrary.results ?
-                    profilePage.myLibrary.results : null
+                  myLibrary={profilePage.myLibrary ?
+                    profilePage.myLibrary : null
                   }
                   userId={this.state.userId}
                 />
@@ -374,9 +374,11 @@ class BooksSection extends PureComponent {
                 {this.renderLibrary()}
               </div>
               <PageScroller
+                fetchOnLoad={true}
                 scrollParent={this.bookContainer}
                 fetchHandler={this.fetchHandler(userId)}
                 isLocked={myLibrary ? myLibrary.locked : false}
+                currentPage={myLibrary && myLibrary.page ? myLibrary.page : 0}
               />
             </Tab>
             <Tab
