@@ -2,7 +2,7 @@ import React, { PureComponent, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Tiles } from '../../redux/actions'
 import { PrimaryButton } from '../common'
-import { LogInModal } from '../common'
+import { RegisterSignInModal } from '../common'
 import { Colors } from '../../constants/style'
 import { Auth } from '../../services'
 import {
@@ -611,7 +611,7 @@ class TileDefault extends PureComponent {
                 </div>
             }
           </CardText>
-          <LogInModal
+          <RegisterSignInModal
             modalOpen={this.state.modalLogInOpen}
             handleClose={this.handleLogInModalClose}
           />

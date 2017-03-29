@@ -15,6 +15,7 @@ const Routes = (
     <IndexRoute isUserLoggedIn={isUserLoggedIn} component={HomeWrapper} />
     <Route path='/profile/settings' component={Settings} />
     <Route path='/profile/:slug' component={Profile} />
+    <Route path='/me/:slug' component={Profile} />
     <Route path='/signup' component={SignUpFlow} />
     <Route path='/redirect' component={IncomingRedirect} />
   </Route>
