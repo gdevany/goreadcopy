@@ -5,9 +5,10 @@ import { Follow } from '../../redux/actions'
 import { Link } from 'react-router'
 import { FollowModal } from '../common'
 import { Chip } from 'material-ui'
-import { LogInModal } from '../common'
+import { RegisterSignInModal } from '../common'
 import { Colors } from '../../constants/style'
 import { Auth } from '../../services'
+import { ExternalRoutes as routes } from '../../constants'
 
 import R from 'ramda'
 
@@ -163,6 +164,7 @@ class FollowProfile extends PureComponent {
     const {
       followed,
       followers,
+      isCurrentReader,
     } = this.props
 
     const followersCount = R.prop('count', followers)
@@ -220,6 +222,18 @@ class FollowProfile extends PureComponent {
               {this.renderChip()}
             </div>
           </div>
+          <div className='small-12 columns'>
+            {isCurrentReader ?
+              (
+                <a
+                  className='referral-link-on-profile'
+                  href={routes.referrals()}
+                >
+                  Earn LitCoins Referring Your Friends, Click Here!
+                </a>
+              ) : null
+            }
+          </div>
         </div>
         <div>
           <FollowModal
@@ -228,7 +242,7 @@ class FollowProfile extends PureComponent {
             count={modalFollowCount}
             followType={modalFollowType}
           />
-          <LogInModal
+          <RegisterSignInModal
             modalOpen={this.state.modalLogInOpen}
             handleClose={this.handleLogInModalClose}
           />

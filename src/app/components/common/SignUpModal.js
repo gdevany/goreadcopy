@@ -1,12 +1,15 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import R from 'ramda'
 import { Dialog, } from 'material-ui'
 import { connect } from 'react-redux'
 import { ReaderData } from '../../redux/actions'
 import { ExternalRoutes as routes } from '../../constants'
+import { Auth } from '../../services'
 import PrimaryButton from './PrimaryButton'
 import SocialButton from './SocialButton'
 import WrappedField from './WrappedField'
+
+const isUserLoggedIn = Auth.currentUserExists()
 
 const { getInitialReaderData, checkFields, updateReaderData } = ReaderData
 
@@ -36,15 +39,34 @@ class SignUpModal extends Component {
       firstName: '',
       lastName: '',
       email: '',
+      referrer: '',
     }
 
     this.handleOnChange = this.handleOnChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
+  static contextTypes = {
+    router: PropTypes.object
+  }
+
+  componentWillMount = () => {
+    if (!isUserLoggedIn) {
+      const profileSlug = this.context.router.params.slug
+      if (profileSlug && this.state.referrer !== profileSlug) {
+        this.setState({
+          referrer: profileSlug,
+        })
+        this.props.updateReaderData({
+          referrer: profileSlug,
+        })
+      }
+    }
+  }
+
   handleSubmit = (event) => {
     event.preventDefault()
-    const fields = R.pick(['firstName', 'lastName', 'email'], this.props)
+    const fields = R.pick(['firstName', 'lastName', 'email', 'referrer'], this.props)
     this.props.checkFields(fields)
   }
 
