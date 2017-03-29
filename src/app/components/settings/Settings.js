@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import NavMenu from '../common/NavMenu'
 import Home from '../home/Home'
@@ -45,6 +46,9 @@ class Settings extends PureComponent {
     return Auth.currentUserExists() ?
     (
       <div>
+        <Helmet>
+          <title>GoRead | Settings</title>
+        </Helmet>
         <NavMenu isUserLoggedIn={isUserLoggedIn}/>
         <div className='settings-page'>
           <SettingsTabs/>

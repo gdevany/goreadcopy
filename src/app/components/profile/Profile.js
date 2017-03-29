@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import { Auth } from '../../services'
 import { ProfilePage, CurrentReader } from '../../redux/actions'
@@ -94,6 +95,9 @@ class ProfileWrapper extends PureComponent {
 
     return (
       <div>
+        <Helmet>
+          <title>{`GoRead | Profile | Library of ${profile.fullname}`}</title>
+        </Helmet>
         <NavMenu isUserLoggedIn={isUserLoggedIn} />
         <div className='row'>
           <BackgroundImageProfileUpload

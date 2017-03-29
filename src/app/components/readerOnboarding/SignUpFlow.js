@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { Helmet } from 'react-helmet'
 import SignUpStepper from './SignUpStepper'
 import { Colors } from '../../constants/style'
 import TopBanner from './TopBanner'
@@ -30,6 +31,9 @@ class SignUpFlow extends PureComponent {
   render() {
     return (
       <div style={styles.signUpContainer}>
+        <Helmet>
+          <title>GoRead | Onboarding</title>
+        </Helmet>
         <TopBanner selectAll={this.state.selectAll}/>
         <SignUpStepper clickedSelectAll={this.clickedSelectAll}/>
       </div>
