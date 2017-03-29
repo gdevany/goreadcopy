@@ -94,11 +94,11 @@ class RegisterSignInModal extends Component {
             </div>
           </div>
         </Dialog>
-        <SignUpModal
+        <LogInModal
           modalOpen={this.state.modalLogInOpen}
           handleClose={this.handleLogInModalClose}
         />
-        <LogInModal
+        <SignUpModal
           modalOpen={this.state.modalRegisterOpen}
           handleClose={this.handleRegisterModalClose}
         />
