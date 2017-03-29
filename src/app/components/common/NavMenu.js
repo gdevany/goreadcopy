@@ -476,13 +476,15 @@ class NavMenu extends PureComponent {
     const liClass = 'profile-menu-element'
     const anchorClass = 'profile-menu-anchor'
     const { currentReader } = this.props
-    const { orders,
-            referrals,
-            help,
-            authorBuzz,
-            authorBuzzSettings,
-            publisherBuzz,
-            publisherBuzzSettings } = routes
+    const {
+      orders,
+      referrals,
+      help,
+      authorBuzz,
+      authorBuzzSettings,
+      publisherBuzz,
+      publisherBuzzSettings
+    } = routes
     const nonMenuRoutes = [
       ['Orders', orders],
       ['Referrals', referrals],
@@ -826,6 +828,11 @@ class NavMenu extends PureComponent {
               {this.handleMapNavItemsMobile()}
             </ul>
           </MobileMenu>
+          <div className='sign-in-btn-on-momile'>
+            <a onClick={this.handleLogInModalOpen}>
+              Log In
+            </a>
+          </div>
         </div>
         <div style={styles.navContainer} className='top-bar'>
           <div className='top-bar-left'>
