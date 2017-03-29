@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router'
 import { Images } from '../../../redux/actions'
 import Dropzone from 'react-dropzone'
 import {
@@ -22,9 +23,18 @@ class ProfileDetailerTile extends Component {
       hasProfileImage: false,
       completeProfileModalOpen: false,
       addBooksModal: false,
+      profilePage: '',
     }
     this.handleClickProfileComplete = this.handleClickProfileComplete.bind(this)
     this.handleClickaddBooksModal = this.handleClickaddBooksModal.bind(this)
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.profilePage.fullname) {
+      this.setState({
+        profilePage: nextProps.profilePage
+      })
+    }
   }
 
   handleClickProfileComplete = (event) => {
@@ -142,9 +152,16 @@ class ProfileDetailerTile extends Component {
                 />
               </a>
             </div>
-            <a href='' className='profile-detailer-goto'>
-              See your profile >
-            </a>
+            { this.state.profilePage ?
+              (
+                <Link
+                  top={`profile/${this.state.profilePage.slug}`}
+                  className='profile-detailer-goto'
+                >
+                  See your profile >
+                </Link>
+              ) : null
+            }
           </CardText>
         </Card>
       )
