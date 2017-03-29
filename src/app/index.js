@@ -11,7 +11,9 @@ import Routes from './routes'
 const display = document.querySelector('.container')
 const history = syncHistoryWithStore(browserHistory, store)
 
-Raven.config('http://4a0dde6c013a4eb38cf974920fdbf184@logserv.readerslegacy.com/3').install()
+if (process.env.NODE_ENV === 'production') {
+  Raven.config('http://4a0dde6c013a4eb38cf974920fdbf184@logserv.readerslegacy.com/3').install()
+}
 
 injectTapEventPlugin()
 
