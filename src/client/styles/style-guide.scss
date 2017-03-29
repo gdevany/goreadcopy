@@ -247,6 +247,17 @@ input[type="checkbox"]:focus{
   }
 }
 
+.image-preview-statuspost{
+  margin-top: 1.25em;
+  position: relative;
+  .statuspost-image-preview-discard-btn{
+    position: absolute;
+    top: -25px;
+    right: 25px;
+    font-size: 20px;
+  }
+}
+
 @import 'variables.scss';
 @import 'general.scss';
 @import 'errors.scss';
