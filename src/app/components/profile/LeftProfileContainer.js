@@ -62,7 +62,10 @@ class LeftProfileContainer extends PureComponent {
               profileFollowed={profileFollowed}
             /> : null
         }
-      <BooksSection id={id}/>
+      <BooksSection
+        id={id}
+        isCurrentReader={isMyProfile}
+      />
       <div className='sidebar-element-container sidebar-favorite-genres-container box '>
         <FavoriteGenres
           genreIds={genreIds}

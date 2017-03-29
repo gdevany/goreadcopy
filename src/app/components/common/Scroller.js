@@ -5,11 +5,20 @@ class Scroller extends PureComponent {
   constructor(props) {
     super(props)
     this.handleScroll = this.handleScroll.bind(this)
+    this.debouncedHandleScroll = debounce(this.handleScroll, this.props.delay)
+    this.getScrollHandler = this.getScrollHandler.bind(this)
   }
 
   componentDidMount() {
     const { scrollParent } = this.props
     scrollParent.addEventListener('scroll', this.getScrollHandler())
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const currentParent = this.props.scrollParent
+    const newParent = nextProps.scrollParent
+    currentParent.removeEventListener('scroll', this.getScrollHandler())
+    newParent.addEventListener('scroll', this.getScrollHandler())
   }
 
   componentWillUnmount() {
@@ -25,8 +34,8 @@ class Scroller extends PureComponent {
   }
 
   getScrollHandler() {
-    const { debounced, delay } = this.props
-    return debounced ? debounce(this.handleScroll, delay) : this.handleScroll
+    const { debounced } = this.props
+    return debounced ? this.debouncedHandleScroll : this.handleScroll
   }
 
   render() {

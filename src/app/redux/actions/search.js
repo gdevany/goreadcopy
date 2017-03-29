@@ -31,6 +31,28 @@ export function mainSearch(searchTerm, searchType) {
   return debounceSearch()
 }
 
+export function bookSearch(searchTerm) {
+  const terms = {
+    query: searchTerm,
+  }
+
+  const debounceSearch = () => {
+    return debounce(dispatch => {
+      Search.searchBooks(terms)
+        .then(res => { dispatch(updateBookSearch(res.data))})
+        .catch(err => console.error(`Error in book search ${err}`))
+    }, 300)
+  }
+  return debounceSearch()
+}
+
+export function updateBookSearch(payload) {
+  return {
+    type: A.SEARCH_BOOKS,
+    payload,
+  }
+}
+
 export function updateSearch(payload) {
   return {
     type: A.GET_SEARCH,
@@ -41,4 +63,6 @@ export function updateSearch(payload) {
 export default {
   mainSearch,
   updateSearch,
+  bookSearch,
+  updateBookSearch,
 }
