@@ -22,6 +22,7 @@ class ProfileWrapper extends PureComponent {
       isMyProfile: false,
       slug: null,
       profileFetched: false,
+      isLogged: false,
     }
   }
 
@@ -61,6 +62,9 @@ class ProfileWrapper extends PureComponent {
             profileFetched: true,
           }
         }
+      }
+      if (nextProps.currentReader.token) {
+        this.setState({ isLogged: true })
       }
     }
   }
@@ -117,7 +121,7 @@ class ProfileWrapper extends PureComponent {
           <MiddleProfileContainer
             id={profile.id}
             isProfilePage={true}
-            isUserLoggedIn={isUserLoggedIn}
+            isUserLoggedIn={this.state.isLogged}
           />
           <RightProfileContainer />
         </div>
