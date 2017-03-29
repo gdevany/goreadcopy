@@ -206,6 +206,28 @@
     flex-direction: column;
     margin-top: 1em;
   }
+  .video-iframe-container{
+    .video-player{
+      width: 100% !important;
+      height: 180px  !important;
+      @media all and (min-width: 600px){
+        width: 80% !important;
+        height: 275px !important;
+      }
+      @media all and (min-width: 768px){
+        width: 100% !important;
+        height: 400px !important;
+      }
+      @media all and (min-width: 1024px){
+        width: 100% !important;
+        height: 254px !important;
+      }
+      @media all and (min-width: 1200px){
+        width: 100% !important;
+        height: 300px !important;
+      }
+    }
+  }
 }
 
 

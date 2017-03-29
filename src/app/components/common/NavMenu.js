@@ -119,6 +119,8 @@ class NavMenu extends PureComponent {
       usePlatformAs: false,
       readerFetched: false,
       chatModalOpen: false,
+      socialFollowers: 0,
+      socialFollowed: 0,
     }
 
     this.handleModalClose = this.handleModalClose.bind(this)
@@ -131,6 +133,18 @@ class NavMenu extends PureComponent {
   }
 
   componentWillReceiveProps = (nextProps) => {
+
+    if (nextProps.social.followers) {
+      this.setState({
+        socialFollowers: nextProps.social.followers.count
+      })
+    }
+
+    if (nextProps.social.followed) {
+      this.setState({
+        socialFollowed: nextProps.social.followed.count
+      })
+    }
 
     if (nextProps.currentReader.token && !this.state.readerFetched) {
       this.props.getCurrentReader()
@@ -449,7 +463,7 @@ class NavMenu extends PureComponent {
 
   }
   mapElementsHandler = (liClass, anchorClass) => {
-    return ([title, routeFn, routeType], index) => (
+    return ([title, routeFn, routeType, isFunc], index) => (
       <li className={liClass} key={title + index}>
         { routeType ?
           (
@@ -462,7 +476,7 @@ class NavMenu extends PureComponent {
           ) : (
             <a
               className={anchorClass}
-              href={routeFn()}
+              href={isFunc ? routeFn : routeFn()}
             >
               {title}
             </a>
@@ -493,16 +507,16 @@ class NavMenu extends PureComponent {
 
     {currentReader.hasAuthorBuzz ?
       nonMenuRoutes.push(
-        ['GoRead Buzz', authorBuzz({ slug: currentReader.author.slug }), true],
+        ['GoRead Buzz', authorBuzz({ slug: currentReader.author.slug }), false, true],
         ['GoRead Buzz Settings', authorBuzzSettings],
     ) : null }
 
     {currentReader.hasPublisherBuzz && currentReader.isPublisher ?
       nonMenuRoutes.push(
-        ['GoRead Publisher Buzz', publisherBuzz({ slug: currentReader.publisher.slug }), true],
+        ['GoRead Publisher Buzz', publisherBuzz({ slug: currentReader.publisher.slug }),
+          false, true],
         ['GoRead Publisher Buzz Settings',
-          publisherBuzzSettings({ slug: currentReader.publisher.slug }),
-          true],
+          publisherBuzzSettings({ slug: currentReader.publisher.slug }), false, true],
     ) : null }
 
     nonMenuRoutes.push(
@@ -587,6 +601,7 @@ class NavMenu extends PureComponent {
 
   renderLogInMenu = () => {
     const { currentReader } = this.props
+    const { socialFollowers, socialFollowed } = this.state
     return (
       <div className='slide-down'>
         <div style={styles.mobileNavContainer} className='top-bar-mobile'>
@@ -613,29 +628,27 @@ class NavMenu extends PureComponent {
 
               <li style={styles.loggedInRightNavLi}>
                 <a
-                  href=''
                   style={styles.navItemLinks}
                   className='menu-badge-container rf-nav-link'
                 >
-                  {currentReader.notificationsCount ?
-                    (
-                      <Badge
-                        badgeContent={currentReader.notificationsCount}
-                        primary={true}
-                        badgeStyle={{
-                          top: -5,
-                          right: -7,
-                          width: '20px',
-                          height: '20px',
-                          paddingTop: 1,
-                          fontWeight: 700,
-                          backgroundColor: Colors.red,
-                        }}
-                      >
-                        <img src='/image/notifications-icon.svg' />
-                      </Badge>
-                    ) : null
-                  }
+                  <Badge
+                    badgeContent={
+                      currentReader.notificationsCount ?
+                        currentReader.notificationsCount : 0
+                      }
+                    primary={true}
+                    badgeStyle={{
+                      top: -5,
+                      right: -7,
+                      width: '20px',
+                      height: '20px',
+                      paddingTop: 1,
+                      fontWeight: 700,
+                      backgroundColor: Colors.red,
+                    }}
+                  >
+                    <img src='/image/notifications-icon.svg' />
+                  </Badge>
                 </a>
               </li>
 
@@ -670,10 +683,14 @@ class NavMenu extends PureComponent {
               </div>
               <div className='second-row-elements'>
                 <div className='follows-container'>
-                  <span>0 Followers</span>
+                  <span>
+                    {socialFollowers ? socialFollowers : null} Followers
+                  </span>
                 </div>
                 <div className='follows-container'>
-                  <span>10 Following</span>
+                  <span>
+                    {socialFollowed ? socialFollowed : null} Following
+                  </span>
                 </div>
               </div>
               <div className='third-row-elements'>
@@ -758,29 +775,27 @@ class NavMenu extends PureComponent {
                 </li>
                 <li style={styles.loggedInRightNavLi}>
                   <a
-                    href=''
                     style={styles.navItemLinks}
                     className='menu-badge-container rf-nav-link'
                   >
-                    {currentReader.notificationsCount ?
-                      (
-                        <Badge
-                          badgeContent={currentReader.notificationsCount}
-                          primary={true}
-                          badgeStyle={{
-                            top: -5,
-                            right: -7,
-                            width: '20px',
-                            height: '20px',
-                            paddingTop: 1,
-                            fontWeight: 700,
-                            backgroundColor: Colors.red,
-                          }}
-                        >
-                          <img src='/image/notifications-icon.svg' />
-                        </Badge>
-                      ) : null
-                    }
+                    <Badge
+                      badgeContent={
+                        currentReader.notificationsCount ?
+                          currentReader.notificationsCount : 0
+                        }
+                      primary={true}
+                      badgeStyle={{
+                        top: -5,
+                        right: -7,
+                        width: '20px',
+                        height: '20px',
+                        paddingTop: 1,
+                        fontWeight: 700,
+                        backgroundColor: Colors.red,
+                      }}
+                    >
+                      <img src='/image/notifications-icon.svg' />
+                    </Badge>
                   </a>
                 </li>
 
@@ -881,7 +896,8 @@ class NavMenu extends PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    currentReader: state.currentReader
+    currentReader: state.currentReader,
+    social: state.social
   }
 }
 
