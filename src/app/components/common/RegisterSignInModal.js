@@ -8,8 +8,6 @@ const styles = {
   },
   modalContent: {
     maxWidth: '100%',
-    width: '50%',
-    height: '50vh',
   },
 }
 

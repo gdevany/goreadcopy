@@ -677,9 +677,9 @@ class NavMenu extends PureComponent {
                     />
                   </figure>
                 </a>
-                <a href='' className='profile-name-anchor'>
+                <Link to={`profile/${currentReader.slug}`} className='profile-name-anchor'>
                   <span>{currentReader.firstName} {currentReader.lastName}</span>
-                </a>
+                </Link>
               </div>
               <div className='second-row-elements'>
                 <div className='follows-container'>
@@ -710,7 +710,7 @@ class NavMenu extends PureComponent {
                 </span>
                 {this.mapMobileMenuItems('Help')}
                 <li className='links-list'>
-                  <a href='#' className='links-anchor'>
+                  <a onClick={this.handleLogoutClick} className='links-anchor'>
                     Logout
                   </a>
                 </li>
