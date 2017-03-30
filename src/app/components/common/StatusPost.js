@@ -356,7 +356,7 @@ class StatusPost extends PureComponent {
           {
             this.state.image ? (
               <div className='row'>
-                <div className='columns small-12 image-preview-statuspost'>
+                <div className='columns small-4 image-preview-statuspost'>
                   <img src={this.state.imageInfo.file.preview} alt='Preview Image'/>
                   <a
                     className='statuspost-image-preview-discard-btn'

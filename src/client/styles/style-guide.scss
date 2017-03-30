@@ -147,11 +147,11 @@ input[type="checkbox"]:focus{
   width: 35px;
 }
 
-.sidear-quoutes-container{
+.sidebar-quotes-container{
   list-style: none;
 }
 
-.quoutes-list-element{
+.quotes-list-element{
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
@@ -161,8 +161,9 @@ input[type="checkbox"]:focus{
     width: 15px;
     margin: 0 20px 0 -20px;
   }
-  .quoutes-text{
+  .quotes-text{
     margin: 0;
+    word-break: break-all;
   }
 }
 
@@ -268,10 +269,15 @@ input[type="checkbox"]:focus{
   margin-top: 1.25em;
   position: relative;
   .statuspost-image-preview-discard-btn{
+    padding: 0px 7px;
+    background-color: $white;
+    color: #717171;
+    border-radius: 26px;
+    border: solid 1px $light-med-grey;
     position: absolute;
-    top: -25px;
-    right: 25px;
-    font-size: 20px;
+    top: -10px;
+    left: 10px;
+    font-size: 15px;
   }
 }
 

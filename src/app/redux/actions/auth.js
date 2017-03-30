@@ -42,8 +42,15 @@ export function verifyUserToken(token) {
   }
 }
 
+export function cleanUserLoginErrors() {
+  return (dispatch) => {
+    return Promise.resolve(dispatch(updateReaderErrors(' ')))
+  }
+}
+
 export default {
   processUserLogin,
   processUserLogout,
   verifyUserToken,
+  cleanUserLoginErrors,
 }
