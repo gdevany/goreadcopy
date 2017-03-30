@@ -218,88 +218,87 @@ class BooksSection extends PureComponent {
     this.props.fetchLibrary(id, params)
   })
 
-  renderLibrary = () => {
-    const { profilePage } = this.props
-    const { isMyProfile } = this.state
-
-    if (profilePage.myLibrary && profilePage.myLibrary.results) {
-
-      const libraryPage = profilePage.myLibrary.results.map((book, index) => {
-
-        const author = book.authors.length ? book.authors[0].fullname : null
-
-        return (
-          <div className='library-book-container' key={`${book.id}`}>
-            <div
-              className='book-container'
-            >
-              <a href={book.link || book.slug}>
-                <img className='book' src={book.imageUrl} />
-              </a>
-            </div>
-            <div className='library-book-details-container'>
-              <a href={book.slug} className='library-book-details-anchor'>
-                <span className='link'>
-                  {book.title ? this.truncInfo(book.title, 30) : null}
-                </span>
-                <p className='link subheader library-book-details-element'>
-                  by: { author ? this.truncInfo(author, 15) : <i> unknown </i>}
-                </p>
-                {/* <span className='rating' >
-                  {this.renderRating(Math.round(book.rating.average))}
-                </span> */}
-              </a>
-            </div>
-          </div>
-        )
-      })
-
+  renderBookList = (myLibrary) => {
+    const libraryPage = myLibrary.results.map((book, index) => {
+      const author = book.authors.length ? book.authors[0].fullname : null
       return (
-        <div>
-          {isMyProfile ?
-            (
-              <div className='library-edit-heading'>
-                <a
-                  className='edit-library-anchor'
-                  onClick={this.handleEditLibraryModal}
-                >
-                  <Editcon/>
-                  <span className='edit-library-text'> Edit Library</span>
-                </a>
-                <EditLibraryModal
-                  modalOpen={this.state.addLibraryModal}
-                  handleClose={this.handleEditLibraryModalClose}
-                  myLibrary={profilePage.myLibrary}
-                  userId={this.state.userId}
-                />
-                <a
-                  className='edit-library-anchor'
-                  onClick={this.handleTopBooksModal}
-                >
-                  <Editcon/>
-                  <span className='edit-library-text'>Top Books</span>
-                </a>
-                <TopBooksModal
-                  modalOpen={this.state.topBooksModal}
-                  handleClose={this.handleTopBooksModalClose}
-                  myLibrary={profilePage.myLibrary}
-                  topBooks={profilePage.topBooks}
-                  userId={this.state.userId}
-                />
-              </div>
-            ) : null
-          }
+        <div className='library-book-container' key={book.id}>
           <div
-            ref={(ref) => { this.bookContainer = ref }}
-            className='library-books-main-container'
+            className='book-container'
           >
-            {this.renderTopBooks() !== null ? this.renderTopBooks() : null}
-            {libraryPage ? libraryPage : null}
+            <a href={book.link || book.slug}>
+              <img className='book' src={book.imageUrl} />
+            </a>
+          </div>
+          <div className='library-book-details-container'>
+            <a href={book.slug} className='library-book-details-anchor'>
+              <span className='link'>
+                {book.title ? this.truncInfo(book.title, 30) : null}
+              </span>
+              <p className='link subheader library-book-details-element'>
+                by: { author ? this.truncInfo(author, 15) : <i> unknown </i>}
+              </p>
+              {/* <span className='rating' >
+                {this.renderRating(Math.round(book.rating.average))}
+              </span> */}
+            </a>
           </div>
         </div>
       )
-    }
-    return null
+    })
+    return libraryPage
+  }
+
+  renderLibrary = () => {
+    const { profilePage: { myLibrary, topBooks } } = this.props
+    const { isMyProfile, userId } = this.state
+    return (
+      <div>
+        {isMyProfile && userId ?
+          (
+            <div className='library-edit-heading'>
+              <a
+                className='edit-library-anchor'
+                onClick={this.handleEditLibraryModal}
+              >
+                <Editcon/>
+                <span className='edit-library-text'> Edit Library</span>
+              </a>
+              <EditLibraryModal
+                modalOpen={this.state.addLibraryModal}
+                handleClose={this.handleEditLibraryModalClose}
+                myLibrary={myLibrary}
+                userId={userId}
+              />
+              <a
+                className='edit-library-anchor'
+                onClick={this.handleTopBooksModal}
+              >
+                <Editcon/>
+                <span className='edit-library-text'>Top Books</span>
+              </a>
+              <TopBooksModal
+                modalOpen={this.state.topBooksModal}
+                handleClose={this.handleTopBooksModalClose}
+                myLibrary={myLibrary}
+                topBooks={topBooks}
+                userId={userId}
+              />
+            </div>
+          ) : null
+        }
+        <PageScroller
+          clsName='library-books-main-container'
+          fetchOnLoad={true}
+          fetchHandler={this.fetchHandler(userId)}
+          isLocked={myLibrary ? myLibrary.locked : false}
+          currentPage={myLibrary && myLibrary.page ? myLibrary.page : 0}
+        >
+          {this.renderTopBooks() !== null ? this.renderTopBooks() : null}
+          {myLibrary && myLibrary.results ? this.renderBookList(myLibrary) : null}
+        </PageScroller>
+      </div>
+    )
   }
 
   renderCurrentlyReading = () => {
@@ -357,7 +356,6 @@ class BooksSection extends PureComponent {
 
   render() {
     const { userId, libraryFetched } = this.state
-    const { profilePage: { myLibrary } } = this.props
 
     if (userId && libraryFetched) {
       return (
@@ -373,13 +371,6 @@ class BooksSection extends PureComponent {
               <div className='sidebar-books-tab-container'>
                 {this.renderLibrary()}
               </div>
-              <PageScroller
-                fetchOnLoad={true}
-                scrollParent={this.bookContainer}
-                fetchHandler={this.fetchHandler(userId)}
-                isLocked={myLibrary ? myLibrary.locked : false}
-                currentPage={myLibrary && myLibrary.page ? myLibrary.page : 0}
-              />
             </Tab>
             <Tab
               label='Now Reading'

@@ -128,7 +128,7 @@ class EditLibraryModal extends Component {
 
   renderCurrentLibrary = () => {
     const { myLibrary } = this.state
-    return myLibrary.results.map((book, index) => {
+    return myLibrary && myLibrary.results ? myLibrary.results.map((book, index) => {
       const author = book.authors.length ? book.authors[0].fullname : null
       return (
         <div className='library-book-container' key={book.id}>
@@ -159,7 +159,7 @@ class EditLibraryModal extends Component {
           </div>
         </div>
       )
-    })
+    }) : null
   }
 
   fetchHandler = R.curry((id, params) => {
@@ -172,7 +172,7 @@ class EditLibraryModal extends Component {
       modalOpen,
       handleClose,
     } = this.props
-    return (
+    return userId !== null && userId !== '' ? (
       <div>
         <Dialog
           bodyClassName='edit-library-modal'
@@ -234,25 +234,21 @@ class EditLibraryModal extends Component {
                   </h5>
                   <hr/>
                 </div>
-                <div
-                  ref={(ref)=>{this.libraryContainer = ref}}
-                  className='current-library-elements-container'
-                >
-                  {myLibrary.results ? this.renderCurrentLibrary() : null}
-                </div>
                 <PageScroller
+                  clsName='current-library-elements-container'
                   fetchOnLoad={false}
-                  scrollParent={this.libraryContainer}
                   fetchHandler={this.fetchHandler(userId)}
                   isLocked={myLibrary ? myLibrary.locked : false}
                   currentPage={myLibrary && myLibrary.page ? myLibrary.page : 0}
-                />
+                >
+                  {myLibrary.results ? this.renderCurrentLibrary() : null}
+                </PageScroller>
               </div>
             </div>
           </div>
         </Dialog>
       </div>
-    )
+    ) : null
   }
 }
 

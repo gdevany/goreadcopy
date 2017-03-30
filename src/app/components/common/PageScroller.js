@@ -4,6 +4,9 @@ import { Scroller } from './'
 class PageScroller extends PureComponent {
   constructor(props) {
     super(props)
+    this.state = {
+      ref: null
+    }
     this.onScroll = this.onScroll.bind(this)
     this.fetchAndIncrement = this.fetchAndIncrement.bind(this)
   }
@@ -23,6 +26,7 @@ class PageScroller extends PureComponent {
   onScroll(e) {
     e.stopPropagation()
     const { isLocked, scrollParent } = this.props
+    const { ref } = this.state
     if (scrollParent === window) {
       const clientHeight = document.body.clientHeight
       const windowHeight = window.innerHeight
@@ -31,7 +35,7 @@ class PageScroller extends PureComponent {
         this.fetchAndIncrement()
       }
     } else {
-      const { offsetHeight, scrollTop, scrollHeight } = scrollParent
+      const { offsetHeight, scrollTop, scrollHeight } = ref
       if (offsetHeight + scrollTop > scrollHeight * 0.9 && !isLocked) {
         this.fetchAndIncrement()
       }
@@ -40,21 +44,25 @@ class PageScroller extends PureComponent {
   }
 
   render() {
-    const { scrollParent } = this.props
+    const { clsName } = this.props
     return (
       <Scroller
         onScroll={this.onScroll}
         debounced
         delay={250}
         enabled
-        scrollParent={scrollParent}
-      />
+        scrollParent={this.state.ref}
+      >
+        <div className={clsName} ref={(e)=>{!this.state.ref && this.setState({ ref: e })}}>
+          {this.props.children}
+        </div>
+      </Scroller>
     )
   }
 }
 
 PageScroller.propTypes = {
-  scrollParent: React.PropTypes.object,
+  clsName: React.PropTypes.string,
   fetchHandler: React.PropTypes.func,
   fetchOnLoad: React.PropTypes.bool,
   isLocked: React.PropTypes.bool,
@@ -62,7 +70,7 @@ PageScroller.propTypes = {
 }
 
 PageScroller.defaultProps = {
-  scrollParent: window,
+  clsName: '',
   fetchHandler: ()=>{return},
   fetchOnLoad: false,
   isLocked: false,
