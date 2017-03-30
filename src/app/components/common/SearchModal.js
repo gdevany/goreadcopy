@@ -202,6 +202,12 @@ class SearchModal extends Component {
       </div>
     )
   }
+
+  handleEnterButton = (event) => {
+    if (event.which === 13) {
+      event.preventDefault()
+    }
+  }
   render() {
     const {
       modalOpen,
@@ -237,7 +243,7 @@ class SearchModal extends Component {
               className='search-modal-logo'
               src='/image/logo.png'
             />
-            <div style={styles.formContainer}>
+            <div style={styles.formContainer} onKeyPress={this.handleEnterButton}>
               <form className='form-wrapper general-font'>
                 <div className='search-input-container'>
                   <input
