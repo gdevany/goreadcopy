@@ -6,6 +6,10 @@ const mentionRegex = /(\@\[\d+\:\d+\])/gi
 
 class StatusPostTile extends PureComponent {
 
+  truncInfo = (text, limit) => {
+    return text.length >= limit ? `${text.slice(0, limit)}...` : text
+  }
+
   splitContent(content) {
     return content.split(mentionRegex)
   }
@@ -67,21 +71,52 @@ class StatusPostTile extends PureComponent {
           {
             content.activeContent ?
             (
-              <div className='video-iframe-container'>
-                {content.activeContent.providerName === 'Dailymotion' ?
+              <div>
+                {content.activeContent.type === 'video' ?
                   (
-                    <figure className='video-player'>
-                      <a href={content.activeContent.url} target='_blank'>
+                    <div className='video-iframe-container'>
+                      {content.activeContent.providerName === 'Dailymotion' ?
+                        (
+                          <figure className='video-player'>
+                            <a href={content.activeContent.url} target='_blank'>
+                              <img src={content.activeContent.thumbnailUrl}/>
+                            </a>
+                          </figure>
+                        ) : (
+                          <ReactPlayer
+                            className='video-player'
+                            controls={true}
+                            url={content.activeContent.url}
+                          />
+                        )
+                      }
+                    </div>
+                  ) : null
+                }
+                { content.activeContent.type === 'link' ?
+                  (
+                    <div className='active-content-link-container'>
+                      <figure className='active-content-link-figure'>
                         <img src={content.activeContent.thumbnailUrl}/>
-                      </a>
-                    </figure>
-                  ) : (
-                    <ReactPlayer
-                      className='video-player'
-                      controls={true}
-                      url={content.activeContent.url}
-                    />
-                  )
+                      </figure>
+                      <div className='active-content-description'>
+                        <h5>
+                          {content.activeContent.title}
+                        </h5>
+                        <div className='post-excerpt-container'>
+                          <p className='post-excerpt-pharagraph'>
+                            {this.truncInfo(content.activeContent.description, 120)}
+                            <a
+                              href={content.activeContent.link}
+                              className='post-readmore-anchor'
+                            >
+                              Read more
+                            </a>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null
                 }
               </div>
             ) : null

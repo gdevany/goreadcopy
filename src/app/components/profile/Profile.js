@@ -43,6 +43,8 @@ class ProfileWrapper extends PureComponent {
     }
   }
 
+  componentDidMount = () => window.scrollTo(0, 0)
+
   componentWillReceiveProps = (nextProps) => {
     const profileSlug = this.props.params.slug
     if (nextProps.currentReader) {
