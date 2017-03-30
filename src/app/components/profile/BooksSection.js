@@ -225,7 +225,7 @@ class BooksSection extends PureComponent {
         const author = book.authors.length ? book.authors[0].fullname : null
 
         return (
-          <div className='library-book-container' key={book.id}>
+          <div className='library-book-container' key={`${book.id}`}>
             <div
               className='book-container'
             >
