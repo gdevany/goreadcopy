@@ -51,6 +51,7 @@ class ProfileWrapper extends PureComponent {
         this.setState({
           isMyProfile: true,
           slug: currentSlug,
+          isLogged: true,
         })
         this.forceUpdate()
       } else {
@@ -63,10 +64,21 @@ class ProfileWrapper extends PureComponent {
           }
         }
       }
-      if (nextProps.currentReader.token) {
-        this.setState({
-          isLogged: true,
-        })
+      if (nextProps.currentReader.token && nextProps.currentReader.slug) {
+        const currentSlug = nextProps.currentReader.slug
+        if (currentSlug === profileSlug) {
+          this.setState({
+            isLogged: true,
+            isMyProfile: true,
+            slug: currentSlug,
+          })
+        } else {
+          this.setState({
+            isLogged: true,
+            isMyProfile: false,
+            slug: profileSlug,
+          })
+        }
       }
     }
   }

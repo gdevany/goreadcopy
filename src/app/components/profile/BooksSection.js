@@ -64,13 +64,17 @@ class BooksSection extends PureComponent {
   }
 
   componentWillReceiveProps = (nextProps) => {
-
     if (nextProps.id && nextProps.id !== this.state.userId) {
       this.props.getProfileBookInfo(nextProps.id)
       this.setState({
         userId: nextProps.id,
         libraryFetched: true,
         isMyProfile: nextProps.isCurrentReader,
+      })
+    }
+    if (nextProps.isCurrentReader) {
+      this.setState({
+        isMyProfile: nextProps.isCurrentReader
       })
     }
   }

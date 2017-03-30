@@ -12,8 +12,6 @@ import { ExternalRoutes as routes } from '../../constants'
 
 import R from 'ramda'
 
-const isUserLoggedIn = Auth.currentUserExists()
-
 const { getFollowers, getFollowed, updateFollowed, followOrUnfollow } = Follow
 
 const styles = {
@@ -86,6 +84,12 @@ class FollowProfile extends PureComponent {
       })
     }
     if (this.props.fullname !== nextProps.fullname) this.getFollow(nextProps.id)
+
+    if (nextProps.isCurrentReader) {
+      this.setState({
+        isMyProfile: nextProps.isCurrentReader,
+      })
+    }
   }
 
   getFollow = (id) => {
@@ -127,7 +131,7 @@ class FollowProfile extends PureComponent {
           isCurrentReader ?
             <Link to='/profile/settings'>Edit</Link> :
             <div>
-              {isUserLoggedIn ?
+              {Auth.currentUserExists() ?
                 (
                   <a onClick={this.handleFollow}>
                     {
@@ -193,7 +197,7 @@ class FollowProfile extends PureComponent {
             <div className='followers small-4 columns'>
               <div
                 className='profile-link'
-                onClick={isUserLoggedIn ?
+                onClick={Auth.currentUserExists() ?
                   () => this.handleOpen('followers') : this.handleLogInModalOpen
                 }
               >
@@ -207,7 +211,7 @@ class FollowProfile extends PureComponent {
             <div className='following small-4 columns'>
               <div
                 className='profile-link'
-                onClick={isUserLoggedIn ?
+                onClick={Auth.currentUserExists() ?
                   () => this.handleOpen('following') : this.handleLogInModalOpen
                 }
               >
