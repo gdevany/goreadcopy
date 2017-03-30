@@ -710,7 +710,7 @@ class NavMenu extends PureComponent {
                 </span>
                 {this.mapMobileMenuItems('Help')}
                 <li className='links-list'>
-                  <a href='#' className='links-anchor'>
+                  <a onClick={this.handleLogoutClick} className='links-anchor'>
                     Logout
                   </a>
                 </li>

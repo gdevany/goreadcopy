@@ -207,7 +207,13 @@ input[type="checkbox"]:focus{
 }
 
 .register-sign-in-modal{
-  height: 50vh !important;
+  width: 100%;
+  height: 70vh;
+  @media all and (min-width: 768px){
+    width: 50%;
+    margin: 0 auto;
+    height: 50vh;
+  }
 }
 
 .register-sign-in-modal-container{
@@ -216,6 +222,9 @@ input[type="checkbox"]:focus{
   align-items: center;
   flex-direction: column;
   padding: 1em;
+  p{
+    text-align: center;
+  }
   .logo-container-figure{
     width: 250px;
     margin-top: 1em;
@@ -227,6 +236,10 @@ input[type="checkbox"]:focus{
     justify-content: space-around;
     align-items: center;
     margin-top: 1.5em;
+    flex-direction: column;
+    @media all and (min-width: 768px){
+      flex-direction: row;
+    }
     .register-sign-in-buttons-container{
       .sign-in-button, .register-button{
         display: block;
@@ -242,6 +255,10 @@ input[type="checkbox"]:focus{
       .register-button{
         background-color: $blue;
         color: $white;
+        margin-top: 1em;
+        @media all and (min-width: 768px){
+          margin-top: 0;
+        }
       }
     }
   }

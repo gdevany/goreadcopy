@@ -17,8 +17,6 @@ const styles = {
   },
   modalContent: {
     maxWidth: '100%',
-    width: '80%',
-    height: '100vh',
   },
   refresh: {
     display: 'inline-block',
