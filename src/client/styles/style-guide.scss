@@ -207,6 +207,58 @@ input[type="checkbox"]:focus{
   cursor: pointer;
 }
 
+.register-sign-in-modal{
+  height: 50vh !important;
+}
+
+.register-sign-in-modal-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 1em;
+  .logo-container-figure{
+    width: 250px;
+    margin-top: 1em;
+  }
+  .register-sign-btns-container{
+    display: flex;
+    width: 75%;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 1.5em;
+    .register-sign-in-buttons-container{
+      .sign-in-button, .register-button{
+        display: block;
+        padding: .5em 1em;
+        border-radius: 39px;
+        border: solid 1px $blue;
+        font-size: 18px;
+      }
+      .sign-in-button{
+        color: $blue;
+        background-color: $white;
+      }
+      .register-button{
+        background-color: $blue;
+        color: $white;
+      }
+    }
+  }
+}
+
+.image-preview-statuspost{
+  margin-top: 1.25em;
+  position: relative;
+  .statuspost-image-preview-discard-btn{
+    position: absolute;
+    top: -25px;
+    right: 25px;
+    font-size: 20px;
+  }
+}
+
 @import 'variables.scss';
 @import 'general.scss';
 @import 'errors.scss';
