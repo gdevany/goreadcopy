@@ -46,7 +46,7 @@ class LeftProfileContainer extends PureComponent {
       profileImage,
     } = this.state
     return (
-      <div className='small-3 columns'>
+      <div className='small-12 medium-5 large-3 columns'>
         <MyImageProfileUpload
           profileImage={profileImage}
           isMyProfile={isMyProfile}
