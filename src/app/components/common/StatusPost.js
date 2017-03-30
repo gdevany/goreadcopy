@@ -240,10 +240,10 @@ class StatusPost extends PureComponent {
           embedUrl = `https://player.vimeo.com/video/${id}`
           break
         case 'youtube':
-          embedUrl = `http://www.youtube.com/embed/${id}`
+          embedUrl = `https://www.youtube.com/embed/${id}`
           break
         case 'dailymotion':
-          embedUrl = `http://www.dailymotion.com/embed/video/${id}`
+          embedUrl = `https://www.dailymotion.com/embed/video/${id}`
           break
         default:
           embedUrl = ''

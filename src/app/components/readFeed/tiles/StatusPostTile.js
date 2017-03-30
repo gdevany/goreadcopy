@@ -84,7 +84,7 @@ class StatusPostTile extends PureComponent {
                         (
                           <iframe
                             className='video-player'
-                            src={`http://www.dailymotion.com/embed/video/${videoInfo.id}`}
+                            src={`https://www.dailymotion.com/embed/video/${videoInfo.id}`}
                           />
                         ) : (
                           <ReactPlayer
