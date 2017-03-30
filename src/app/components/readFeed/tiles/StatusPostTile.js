@@ -107,7 +107,8 @@ class StatusPostTile extends PureComponent {
                           <p className='post-excerpt-pharagraph'>
                             {this.truncInfo(content.activeContent.description, 120)}
                             <a
-                              href={content.activeContent.link}
+                              href={content.activeContent.url}
+                              target='_blank'
                               className='post-readmore-anchor'
                             >
                               Read more
