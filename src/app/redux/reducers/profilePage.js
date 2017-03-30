@@ -38,6 +38,27 @@ export default (state = initialState.profilePage, { type, payload }) => {
       return R.merge(state, {
         topBooks: payload
       })
+    case A.ADD_TO_LIBRARY:
+      debugger
+      diff = {
+        library: {
+          ...state.library || {},
+          results: R.concat(
+            payload.results,
+            state.library.results.slice(0, state.library.results.length - 1)
+          ),
+        }
+      }
+      debugger
+      return R.merge(state, diff)
+    case A.REMOVE_FROM_LIBRARY:
+      diff = {
+        library: {
+          ...state.library || {},
+          results: R.filter((n)=>n.id !== payload, state.library.results)
+        }
+      }
+      return R.merge(state, diff)
     default:
       return state
   }
