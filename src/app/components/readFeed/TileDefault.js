@@ -193,6 +193,7 @@ class TileDefault extends PureComponent {
       replyPlaceholder: false,
       isAutofocus: false,
       modalLogInOpen: false,
+      userLogged: false
     }
 
     this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
@@ -207,7 +208,18 @@ class TileDefault extends PureComponent {
   }
 
   componentDidMount = () => {
-    this.setState({ anchorEl: this.refs.share })
+    this.setState({
+      anchorEl: this.refs.share,
+      userLogged: isUserLoggedIn,
+    })
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.token) {
+      this.setState({
+        userLogged: true,
+      })
+    }
   }
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -551,7 +563,7 @@ class TileDefault extends PureComponent {
               <div className='small-4 columns' style={styles.likesContainer}>
                 <div className='likes-count'>
                   <a
-                    onClick={isUserLoggedIn ? this.handleLiked : this.handleLogInModalOpen}
+                    onClick={this.state.userLogged ? this.handleLiked : this.handleLogInModalOpen}
                     className={liked ? 'liked' : 'not-liked'}
                   />
 
@@ -569,7 +581,10 @@ class TileDefault extends PureComponent {
                   className='comments-count'
                 >
                   <a
-                    onClick={isUserLoggedIn ? this.handleCommentsOpen : this.handleLogInModalOpen}
+                    onClick={
+                      this.state.userLogged ?
+                        this.handleCommentsOpen : this.handleLogInModalOpen
+                      }
                     className={commented ? 'commented' : 'not-commented'}
                   />
 
@@ -694,7 +709,7 @@ class TileDefault extends PureComponent {
               </GooglePlusShareButton>
             </li>
 
-            {isUserLoggedIn ?
+            {this.state.userLogged ?
               (
                 <li
                   style={styles.shareGoReadLink}
@@ -728,7 +743,8 @@ const mapStateToProps = ({
   currentReader: {
     fullname,
     url,
-    profileImage
+    profileImage,
+    token,
   },
   tiles: {
     feedComments
@@ -738,7 +754,8 @@ const mapStateToProps = ({
     feedComments,
     fullname,
     url,
-    profileImage
+    profileImage,
+    token
   }
 }
 
