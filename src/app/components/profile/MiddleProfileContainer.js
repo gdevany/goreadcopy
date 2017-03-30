@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import { Tiles } from '../../redux/actions'
 import { connect } from 'react-redux'
 import { StatusPost, TileScroller } from '../common'
-import TilesWrapper from '../readFeed/TilesWrapper'
 
 const { getProfileTiles, prependProfileTile, emptyTiles } = Tiles
 
@@ -30,19 +29,18 @@ class RightProfileContainer extends PureComponent {
     const { profile, isUserLoggedIn, id, isProfileLocked } = this.props
     return (
       <div className='right-container small-6 columns'>
-        {isUserLoggedIn ?
+        { isUserLoggedIn ?
           <StatusPost
             targetId={id}
             postNewTile={this.props.prependProfileTile}
           /> : null}
-        {profile ? <TilesWrapper feed={profile} /> : null}
-        { id ? (
-            <TileScroller
-              fetchTiles={(params) => this.props.getProfileTiles(id, params)}
-              tiles={profile}
-              isLocked={isProfileLocked}
-            />
-          ) : null
+        { profile && id ?
+          <TileScroller
+            fetchTiles={(params) => this.props.getProfileTiles(id, params)}
+            tiles={profile}
+            isLocked={isProfileLocked}
+            fetchOnMount={false}
+          /> : null
         }
       </div>
     )

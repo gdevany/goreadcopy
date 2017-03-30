@@ -176,7 +176,7 @@ class TopBooksModal extends Component {
 
   renderCurrentLibrary = () => {
     const { myLibrary } = this.state
-    return myLibrary.results.map((book, index) => {
+    return myLibrary && myLibrary.results ? myLibrary.results.map((book, index) => {
       const author = book.authors.length ? book.authors[0].fullname : null
       return (
         <div className='library-book-container' key={book.id}>
@@ -204,7 +204,7 @@ class TopBooksModal extends Component {
           </div>
         </div>
       )
-    })
+    }) : null
   }
 
   fetchHandler = R.curry((id, params) => {
@@ -255,25 +255,16 @@ class TopBooksModal extends Component {
                   </h5>
                   <hr/>
                 </div>
-                <div
-                  ref={(ref)=>{this.libraryContainer = ref}}
-                  className='current-library-elements-container top-books-library-elements'
+
+                <PageScroller
+                  clsName='current-library-elements-container top-books-library-elements'
+                  fetchOnLoad={false}
+                  fetchHandler={this.fetchHandler(userId)}
+                  isLocked={myLibrary ? myLibrary.locked : false}
+                  currentPage={myLibrary && myLibrary.page ? myLibrary.page : 0}
                 >
-                  {
-                    myLibrary ? this.renderCurrentLibrary() : null
-                  }
-                  {
-                    myLibrary ? (
-                      <PageScroller
-                        fetchOnLoad={false}
-                        scrollParent={this.libraryContainer}
-                        fetchHandler={this.fetchHandler(userId)}
-                        isLocked={myLibrary ? myLibrary.locked : false}
-                        currentPage={myLibrary && myLibrary.page ? myLibrary.page : 0}
-                      />
-                    ) : null
-                  }
-                </div>
+                  { myLibrary ? this.renderCurrentLibrary() : null }
+                </PageScroller>
 
               </div>
             </div>

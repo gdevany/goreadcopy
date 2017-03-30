@@ -120,23 +120,17 @@ class CurrentlyReadingModal extends Component {
                   </h5>
                   <hr/>
                 </div>
-                <div
-                  ref={(ref)=>{this.libraryContainer = ref}}
-                  className='current-library-elements-container'
+
+                <PageScroller
+                  clsName='current-library-elements-container'
+                  fetchOnLoad={false}
+                  fetchHandler={this.fetchHandler(userId)}
+                  isLocked={myLibrary ? myLibrary.locked : false}
+                  currentPage={myLibrary && myLibrary.page ? myLibrary.page : 0}
                 >
-                  {myLibrary ? this.renderCurrentLibrary() : null}
-                  {
-                    myLibrary ? (
-                      <PageScroller
-                        fetchOnLoad={false}
-                        scrollParent={this.libraryContainer}
-                        fetchHandler={this.fetchHandler(userId)}
-                        isLocked={myLibrary ? myLibrary.locked : false}
-                        currentPage={myLibrary && myLibrary.page ? myLibrary.page : 0}
-                      />
-                    ) : null
-                  }
-                </div>
+                  { myLibrary ? this.renderCurrentLibrary() : null }
+                </PageScroller>
+
               </div>
             </div>
           </div>
