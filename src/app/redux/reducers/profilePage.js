@@ -27,6 +27,12 @@ export default (state = initialState.profilePage, { type, payload }) => {
         }
       }
       return R.merge(state, diff)
+    case A.UPDATE_LIBRARY:
+      return R.merge(state, {
+        library: {
+          results: payload.results.library
+        }
+      })
     case A.GET_TOP_BOOKS:
       return R.merge(state, {
         topBooks: payload

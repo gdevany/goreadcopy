@@ -71,7 +71,7 @@ export function addToLibrary(payload, id) {
   return dispatch => {
     ProfilePage.updateLibrary(terms)
       .then(() => ProfilePage.getLibrary(id))
-      .then(res => dispatch({ type: A.GET_LIBRARY, payload: res.data }))
+      .then(res => dispatch({ type: A.UPDATE_LIBRARY, payload: res.data }))
       .catch(err => console.log(`Error in addToLibrary ${err}`))
   }
 }
@@ -83,7 +83,7 @@ export function removeFromLibrary(payload, id) {
   return dispatch => {
     ProfilePage.deleteBookLibrary(terms)
       .then(() => ProfilePage.getLibrary(id))
-      .then(res => dispatch({ type: A.GET_LIBRARY, payload: res.data }))
+      .then(res => dispatch({ type: A.UPDATE_LIBRARY, payload: res.data }))
       .catch(err => console.log(`Error in removeFromLibrary ${err}`))
   }
 }
