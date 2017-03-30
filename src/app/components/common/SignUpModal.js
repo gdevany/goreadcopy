@@ -4,12 +4,14 @@ import { Dialog, } from 'material-ui'
 import { connect } from 'react-redux'
 import { ReaderData } from '../../redux/actions'
 import { ExternalRoutes as routes } from '../../constants'
-import { Auth } from '../../services'
+import { Auth as AuthServ } from '../../services'
 import PrimaryButton from './PrimaryButton'
 import SocialButton from './SocialButton'
 import WrappedField from './WrappedField'
+import { Auth as AuthAct } from '../../redux/actions'
 
-const isUserLoggedIn = Auth.currentUserExists()
+const { cleanUserLoginErrors } = AuthAct
+const isUserLoggedIn = AuthServ.currentUserExists()
 
 const { getInitialReaderData, checkFields, updateReaderData } = ReaderData
 
@@ -75,6 +77,15 @@ class SignUpModal extends Component {
     this.props.updateReaderData({ [field]: e.target.value })
   })
 
+  handleCleanInputs = () => {
+    this.setState({
+      firstName: '',
+      lastName: '',
+      email: '',
+    })
+    this.props.cleanUserLoginErrors()
+  }
+
   render() {
     const {
       errors,
@@ -107,7 +118,7 @@ class SignUpModal extends Component {
           <img
             src='/image/close.png'
             className='general-font center-text signup-modal-x'
-            onClick={handleClose}
+            onClick={() => {handleClose(); this.handleCleanInputs()}}
           />
 
           <h1 className='center-text large-header'>
@@ -213,6 +224,7 @@ const mapDispatchToProps = {
   getInitialReaderData,
   updateReaderData,
   checkFields,
+  cleanUserLoginErrors,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpModal)
