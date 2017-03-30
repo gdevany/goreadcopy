@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import TileDefault from '../TileDefault'
 import ReactPlayer from 'react-player'
+import urlParser from 'js-video-url-parser'
 
 const mentionRegex = /(\@\[\d+\:\d+\])/gi
 
@@ -40,6 +41,10 @@ class StatusPostTile extends PureComponent {
       content
     } = this.props
     const splittedContent = this.splitContent(content.description)
+    let videoInfo = ''
+    if (content.activeContent && content.activeContent.providerName === 'Dailymotion') {
+      videoInfo = urlParser.parse(content.activeContent.url)
+    }
     return (
       <TileDefault
         tileId={id}
@@ -70,11 +75,10 @@ class StatusPostTile extends PureComponent {
               <div className='video-iframe-container'>
                 {content.activeContent.providerName === 'Dailymotion' ?
                   (
-                    <figure className='video-player'>
-                      <a href={content.activeContent.url} target='_blank'>
-                        <img src={content.activeContent.thumbnailUrl}/>
-                      </a>
-                    </figure>
+                    <iframe
+                      className='video-player'
+                      src={`http://www.dailymotion.com/embed/video/${videoInfo.id}`}
+                    />
                   ) : (
                     <ReactPlayer
                       className='video-player'
