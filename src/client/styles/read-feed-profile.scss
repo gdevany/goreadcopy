@@ -89,7 +89,8 @@
 
 .background-image-wrapper:hover + .dropzone-background,
 .profile-top:hover .overlay,
-.profile-top:hover .dropzone-background {
+.profile-top:hover .dropzone-background,
+.profile-bottom .bottom-overlay:hover {
   opacity: 1;
   transition: .3s ease;
 }
@@ -151,6 +152,16 @@
   opacity: 0;
   transition: .3s ease;
   background-color: rgba(0,0,0,0.25);
+}
+
+.bottom-overlay {
+  position: absolute;
+  height: inherit;
+  width: inherit;
+  opacity: 0;
+  transition: .3s ease;
+  background-color: rgba(0,0,0,0.25);
+  background: rgba(0,0,0,0.75);
 }
 
 .rf-modal {

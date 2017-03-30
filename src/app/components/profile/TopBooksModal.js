@@ -13,6 +13,7 @@ const styles = {
   },
   modalContent: {
     maxWidth: '100%',
+    width: '100%',
   },
 }
 

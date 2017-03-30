@@ -8,7 +8,7 @@ import SocialButton from './SocialButton'
 import WrappedField from './WrappedField'
 import { Auth } from '../../redux/actions'
 
-const { processUserLogin } = Auth
+const { processUserLogin, cleanUserLoginErrors } = Auth
 
 const styles = {
   modalBody: {
@@ -44,12 +44,20 @@ class SignInModal extends Component {
     event.preventDefault()
     const credentials = R.pick(['username', 'password'], this.state)
     this.props.processUserLogin(credentials)
-    this.props.handleClose()
+    .then(() => { this.props.handleClose })
   }
 
   handleOnChange = R.curry((field, e) => {
     this.setState({ [field]: e.target.value })
   })
+
+  handleCleanInputs = () => {
+    this.setState({
+      username: '',
+      password: '',
+    })
+    this.props.cleanUserLoginErrors()
+  }
 
   render() {
     const {
@@ -80,7 +88,7 @@ class SignInModal extends Component {
           <img
             src='/image/close.png'
             className='general-font center-text signup-modal-x'
-            onClick={handleClose}
+            onClick={() => {handleClose(); this.handleCleanInputs()}}
           />
 
           <h1 className='center-text large-header'>
@@ -164,4 +172,4 @@ class SignInModal extends Component {
 
 const mapStateToProps = R.prop('readerData')
 
-export default connect(mapStateToProps, { processUserLogin })(SignInModal)
+export default connect(mapStateToProps, { processUserLogin, cleanUserLoginErrors })(SignInModal)

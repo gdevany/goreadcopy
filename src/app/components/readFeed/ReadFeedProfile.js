@@ -217,6 +217,15 @@ class ReadFeedProfile extends PureComponent {
           <div className='profile-bottom'>
             <div style={styles.profileImageWrapper}>
               <Dropzone onDrop={this.profileUpload} className='dropzone-profile'>
+                <div className='bottom-overlay'>
+                  {
+                    isUserLoggedIn ?
+                      <img
+                        className={R.concat('camera-background ', cameraBackgroundClass)}
+                        src='./image/upload-photo-icon.svg'
+                      /> : null
+                  }
+                </div>
                 {
                   profileImage || profileImageUpload ?
                     this.renderImage(hasProfileImage, profileImageUpload, 'profile') : null
