@@ -4,6 +4,11 @@ import LocationIcon from 'material-ui/svg-icons/communication/location-on'
 import { Link } from 'react-router'
 
 class UserProfileTile extends PureComponent {
+
+  truncInfo = (text, limit) => {
+    return text.length >= limit ? `${text.slice(0, limit)}...` : text
+  }
+
   render() {
     const {
       tileDefaultProps: {
@@ -84,7 +89,7 @@ class UserProfileTile extends PureComponent {
         </div>
         <div className='post-excerpt-container'>
           <p className='post-excerpt-pharagraph'>
-            {content.description ? content.description : null}
+            {content.description ? this.truncInfo(content.description, 150) : null}
             {userType === 'Reader' || userType === '' ?
               (
                 <Link to={`profile/${slug}`}>

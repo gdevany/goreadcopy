@@ -87,7 +87,12 @@ class AnnouncementTile extends Component {
             style={styles.close}
           />
           <CardText>
-            <h2>{announcement.title}</h2>
+            <div className='announcement-title-container'>
+              <h2>{announcement.title}</h2>
+              <figure>
+                <img src='/image/smiling-sun.svg'/>
+              </figure>
+            </div>
             <p style={styles.subText}>{announcement.body}</p>
           </CardText>
         </Card>
