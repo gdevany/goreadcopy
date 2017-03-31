@@ -9,20 +9,14 @@ import Promise from 'bluebird'
 
 const styles = {
   nameText: {
-    margin: '22px 0 0 -47px',
-    display: 'inline-block',
+    margin: '22px 0 0 0',
+    width: '100%',
   },
 
   followContainer: {
     marginTop: 20,
     paddingBottom: 20,
   },
-
-  profileImageWrapper: {
-    display: 'inline-block',
-    float: 'left',
-  },
-
   followersSection: {
     marginLeft: 32,
   },
@@ -215,31 +209,32 @@ class ReadFeedProfile extends PureComponent {
           </div>
 
           <div className='profile-bottom'>
-            <div style={styles.profileImageWrapper}>
-              <Dropzone onDrop={this.profileUpload} className='dropzone-profile'>
-                <div className='bottom-overlay'>
+            <div className='profile-readfeed-container'>
+              <div>
+                <Dropzone onDrop={this.profileUpload} className='dropzone-profile'>
+                  <div className='bottom-overlay'>
+                    {
+                      isUserLoggedIn ?
+                        <img
+                          className={R.concat('camera-background ', cameraBackgroundClass)}
+                          src='./image/upload-photo-icon.svg'
+                        /> : null
+                    }
+                  </div>
                   {
-                    isUserLoggedIn ?
-                      <img
-                        className={R.concat('camera-background ', cameraBackgroundClass)}
-                        src='./image/upload-photo-icon.svg'
-                      /> : null
+                    profileImage || profileImageUpload ?
+                      this.renderImage(hasProfileImage, profileImageUpload, 'profile') : null
                   }
-                </div>
-                {
-                  profileImage || profileImageUpload ?
-                    this.renderImage(hasProfileImage, profileImageUpload, 'profile') : null
-                }
-              </Dropzone>
+                </Dropzone>
+              </div>
+
+              <h4
+                style={styles.nameText}
+                className='profile-large-text profile-link'
+              >
+                {fullname}
+              </h4>
             </div>
-
-            <h4
-              style={styles.nameText}
-              className='profile-large-text profile-link'
-            >
-              {fullname}
-            </h4>
-
             <div style={styles.followContainer} className='follow-wrapper row center-text'>
               <div className='small-12 columns'>
                 <div className='follow-wrapper row center-text'>
