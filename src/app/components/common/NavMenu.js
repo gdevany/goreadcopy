@@ -794,7 +794,10 @@ class NavMenu extends PureComponent {
                         backgroundColor: Colors.red,
                       }}
                     >
-                      <img src='/image/notifications-icon.svg' />
+                      <img
+                        src='/image/notifications-icon.svg'
+                        onClick={this.handleClickChat}
+                      />
                     </Badge>
                   </a>
                 </li>
