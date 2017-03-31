@@ -132,20 +132,18 @@ class SignUpStepThree extends PureComponent {
 
   handleButtonClick = (event) => {
     event.preventDefault()
-    this.setState({
-      showLoader: true,
-    })
+    this.setState({ showLoader: true })
     const { chosenReaders, chosenAuthors } = this.state
     const buttonText = event.target.value
     if (buttonText === 'Finish & go explore books') {
       this.setState({ shouldSubmit: true })
       this.props.choseRecommendation(chosenReaders, 'readers')
       this.props.choseRecommendation(chosenAuthors, 'authors')
-      .then(() => {
-        this.setState({
-          showLoader: false,
-        })
-      })
+      .then(
+        () => {
+          this.setState({ showLoader: false })
+        }
+      )
     } else if (buttonText === 'Back') {
       this.props.handlePrev()
     }

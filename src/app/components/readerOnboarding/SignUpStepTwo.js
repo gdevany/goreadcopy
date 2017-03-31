@@ -90,9 +90,7 @@ class SignUpStepTwo extends PureComponent {
 
   handleButtonClick = (event) => {
     event.preventDefault()
-    this.setState({
-      showLoader: true,
-    })
+    this.setState({ showLoader: true })
     const buttonText = event.target.value
 
     if (buttonText === 'Next') {
@@ -103,11 +101,11 @@ class SignUpStepTwo extends PureComponent {
         this.setState({ showDisabled: true })
       }
       this.props.handleNext()
-      .then(() => {
-        this.setState({
-          showLoader: false,
-        })
-      })
+      .then(
+        () => {
+          this.setState({ showLoader: false })
+        }
+      )
     } else if (buttonText === 'Back') {
       this.props.handlePrev()
     }

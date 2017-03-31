@@ -81,11 +81,11 @@ class SignUpModal extends Component {
     })
     const fields = R.pick(['firstName', 'lastName', 'email', 'referrer'], this.props)
     this.props.checkFields(fields)
-    .then(() => {
-      this.setState({
-        showLoader: false,
-      })
-    })
+    .then(
+      () => {
+        this.setState({ showLoader: false })
+      }
+    )
   }
 
   handleOnChange = R.curry((field, e) => {

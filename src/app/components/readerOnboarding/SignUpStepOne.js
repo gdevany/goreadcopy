@@ -77,18 +77,18 @@ class SignUpStepOne extends Component {
     if (buttonText === 'Next') {
       updateReaderData(fields)
       createReader()
-      .then(() => {
-        this.setState({
-          showLoader: false,
-        })
-      })
+      .then(
+        () => {
+          this.setState({ showLoader: false })
+        }
+      )
     } else if (buttonText === 'Back') {
       handlePrev()
-      .then(() => {
-        this.setState({
-          showLoader: false,
-        })
-      })
+      .then(
+        () => {
+          this.setState({ showLoader: false })
+        }
+      )
     }
   }
 
