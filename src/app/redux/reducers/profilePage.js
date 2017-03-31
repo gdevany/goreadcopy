@@ -39,7 +39,6 @@ export default (state = initialState.profilePage, { type, payload }) => {
         topBooks: payload
       })
     case A.ADD_TO_LIBRARY:
-      debugger
       diff = {
         library: {
           ...state.library || {},
@@ -49,7 +48,6 @@ export default (state = initialState.profilePage, { type, payload }) => {
           ),
         }
       }
-      debugger
       return R.merge(state, diff)
     case A.REMOVE_FROM_LIBRARY:
       diff = {
