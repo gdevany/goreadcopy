@@ -3,6 +3,11 @@ import TileDefault from '../TileDefault'
 import LocationIcon from 'material-ui/svg-icons/communication/location-on'
 
 class AuthorTile extends PureComponent {
+
+  truncInfo = (text, limit) => {
+    return text.length >= limit ? `${text.slice(0, limit)}...` : text
+  }
+
   render() {
     const {
       tileDefaultProps: {
@@ -61,7 +66,7 @@ class AuthorTile extends PureComponent {
           <div className='author-content'>
             <div className='post-excerpt-container'>
               <p className='post-excerpt-pharagraph'>
-                {about ? about : null}
+                {about ? this.truncInfo(about, 150) : null}
                 <a href={link} className='post-readmore-anchor'>
                   Read more
                 </a>

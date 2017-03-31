@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router'
 import { Follow, Images } from '../../redux/actions'
 import { FollowModal } from '../common'
 import Dropzone from 'react-dropzone'
@@ -11,6 +12,8 @@ const styles = {
   nameText: {
     margin: '22px 0 0 0',
     width: '100%',
+    textAlign: 'left',
+    paddingLeft: '1em',
   },
 
   followContainer: {
@@ -157,6 +160,7 @@ class ReadFeedProfile extends PureComponent {
       profileImage,
       backgroundImage,
       fullname,
+      slug,
     } = this.props
 
     const hasProfileImage = profileImage !== '' ? profileImage : null
@@ -232,7 +236,9 @@ class ReadFeedProfile extends PureComponent {
                 style={styles.nameText}
                 className='profile-large-text profile-link'
               >
-                {fullname}
+                <Link to={`profile/${slug}`}>
+                  {fullname}
+                </Link>
               </h4>
             </div>
             <div style={styles.followContainer} className='follow-wrapper row center-text'>
@@ -298,6 +304,7 @@ const mapStateToProps = ({
     backgroundImage = '',
     profileImage = '',
     fullname = '',
+    slug = '',
   }
 }) => {
   return {
@@ -306,6 +313,7 @@ const mapStateToProps = ({
     backgroundImage,
     profileImage,
     fullname,
+    slug,
   }
 }
 

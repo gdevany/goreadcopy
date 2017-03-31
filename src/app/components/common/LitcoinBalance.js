@@ -10,7 +10,7 @@ const styles = {
   container: {
     position: 'absolute',
     right: '5%',
-    top: 25,
+    top: 35,
   },
 
   litcoinText: {

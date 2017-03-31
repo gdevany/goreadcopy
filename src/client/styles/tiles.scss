@@ -667,3 +667,11 @@
     }
   }
 }
+
+.announcement-title-container{
+  display: flex;
+  justify-content: center;
+  figure {
+    padding-left: .5em;
+  }
+}
