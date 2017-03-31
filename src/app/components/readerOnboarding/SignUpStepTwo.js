@@ -7,6 +7,7 @@ import { Chip } from 'material-ui'
 import { Genres } from '../../redux/actions'
 import SignUpButtons from './SignUpButtons'
 import { Colors, Breakpoints } from '../../constants/style'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
 
 const { getGenres, createChosenReaderGenres, updateGenreLitcoins } = Genres
 
@@ -57,6 +58,11 @@ const styles = {
     marginRight: 7,
     marginBottom: 3,
   },
+
+  refresh: {
+    display: 'inline-block',
+    position: 'relative',
+  },
 }
 
 class SignUpStepTwo extends PureComponent {
@@ -65,7 +71,8 @@ class SignUpStepTwo extends PureComponent {
 
     this.state = {
       chosenGenres: [],
-      showDisabled: true
+      showDisabled: true,
+      showLoader: false,
     }
 
     this.handleButtonClick = this.handleButtonClick.bind(this)
@@ -83,6 +90,9 @@ class SignUpStepTwo extends PureComponent {
 
   handleButtonClick = (event) => {
     event.preventDefault()
+    this.setState({
+      showLoader: true,
+    })
     const buttonText = event.target.value
 
     if (buttonText === 'Next') {
@@ -93,6 +103,11 @@ class SignUpStepTwo extends PureComponent {
         this.setState({ showDisabled: true })
       }
       this.props.handleNext()
+      .then(() => {
+        this.setState({
+          showLoader: false,
+        })
+      })
     } else if (buttonText === 'Back') {
       this.props.handlePrev()
     }
@@ -146,6 +161,10 @@ class SignUpStepTwo extends PureComponent {
   }
 
   render() {
+    const {
+      showLoader
+    } = this.state
+
     const { genres, stepIndex } = this.props
 
     return (
@@ -181,7 +200,20 @@ class SignUpStepTwo extends PureComponent {
               />
             </div>
           </div>
-
+          {
+            showLoader ? (
+              <div className='form-input-wrapper center-text'>
+                <RefreshIndicator
+                  size={50}
+                  left={0}
+                  top={0}
+                  loadingColor={Colors.blue}
+                  status='loading'
+                  style={styles.refresh}
+                />
+              </div>
+            ) : null
+          }
         </div>
 
         <div className='behind-card-container'>

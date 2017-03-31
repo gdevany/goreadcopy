@@ -9,6 +9,8 @@ import PrimaryButton from './PrimaryButton'
 import SocialButton from './SocialButton'
 import WrappedField from './WrappedField'
 import { Auth as AuthAct } from '../../redux/actions'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
+import { Colors } from '../../constants/style'
 
 const { cleanUserLoginErrors } = AuthAct
 const isUserLoggedIn = AuthServ.currentUserExists()
@@ -31,6 +33,11 @@ const styles = {
     margin: '0 auto',
     maxWidth: 400,
   },
+
+  refresh: {
+    display: 'inline-block',
+    position: 'relative',
+  },
 }
 
 class SignUpModal extends Component {
@@ -42,6 +49,7 @@ class SignUpModal extends Component {
       lastName: '',
       email: '',
       referrer: '',
+      showLoader: false,
     }
 
     this.handleOnChange = this.handleOnChange.bind(this)
@@ -68,8 +76,16 @@ class SignUpModal extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
+    this.setState({
+      showLoader: true,
+    })
     const fields = R.pick(['firstName', 'lastName', 'email', 'referrer'], this.props)
     this.props.checkFields(fields)
+    .then(() => {
+      this.setState({
+        showLoader: false,
+      })
+    })
   }
 
   handleOnChange = R.curry((field, e) => {
@@ -98,6 +114,7 @@ class SignUpModal extends Component {
       firstName,
       lastName,
       email,
+      showLoader,
     } = this.state
 
     const isFinished = (firstName !== '' && lastName !== '' && email !== '')
@@ -209,7 +226,20 @@ class SignUpModal extends Component {
                   type={'submit'}
                 />
               </div>
-
+              {
+                showLoader ? (
+                  <div className='form-input-wrapper center-text'>
+                    <RefreshIndicator
+                      size={50}
+                      left={0}
+                      top={0}
+                      loadingColor={Colors.blue}
+                      status='loading'
+                      style={styles.refresh}
+                    />
+                  </div>
+                ) : null
+              }
             </form>
           </div>
         </Dialog>

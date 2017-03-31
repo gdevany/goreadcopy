@@ -7,6 +7,7 @@ import Checkbox from './Checkbox'
 import { Recommended } from '../../redux/actions'
 import { Collections, Genres } from '../../services'
 import { Colors, Breakpoints } from '../../constants/style'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
 
 const styles = {
   container: {
@@ -59,6 +60,11 @@ const styles = {
   formWrapper: {
     position: 'relative',
   },
+
+  refresh: {
+    display: 'inline-block',
+    position: 'relative',
+  },
 }
 
 const { pairs } = Collections
@@ -100,6 +106,7 @@ class SignUpStepThree extends PureComponent {
       oldSearchInput: '',
       newSearchInput: '',
       shouldSubmit: false,
+      showLoader: false,
     }
 
     this.handleButtonClick = this.handleButtonClick.bind(this)
@@ -125,12 +132,20 @@ class SignUpStepThree extends PureComponent {
 
   handleButtonClick = (event) => {
     event.preventDefault()
+    this.setState({
+      showLoader: true,
+    })
     const { chosenReaders, chosenAuthors } = this.state
     const buttonText = event.target.value
     if (buttonText === 'Finish & go explore books') {
       this.setState({ shouldSubmit: true })
       this.props.choseRecommendation(chosenReaders, 'readers')
       this.props.choseRecommendation(chosenAuthors, 'authors')
+      .then(() => {
+        this.setState({
+          showLoader: false,
+        })
+      })
     } else if (buttonText === 'Back') {
       this.props.handlePrev()
     }
@@ -227,7 +242,12 @@ class SignUpStepThree extends PureComponent {
 
   render() {
     const { stepIndex, recommended } = this.props
-    const { newSearchInput, selectAll, shouldSubmit } = this.state
+    const {
+      newSearchInput,
+      selectAll,
+      shouldSubmit,
+      showLoader,
+    } = this.state
     const readers = this.checkBoxesFor('readers', displayable(allReaders(recommended)))
     const authors = this.checkBoxesFor('authors', displayable(allAuthors(recommended)))
 
@@ -305,6 +325,20 @@ class SignUpStepThree extends PureComponent {
           stepIndex={stepIndex}
           shouldSubmit={shouldSubmit}
         />
+        {
+          showLoader ? (
+            <div className='form-input-wrapper center-text'>
+              <RefreshIndicator
+                size={50}
+                left={0}
+                top={0}
+                loadingColor={Colors.blue}
+                status='loading'
+                style={styles.refresh}
+              />
+            </div>
+          ) : null
+        }
       </div>
     )
   }

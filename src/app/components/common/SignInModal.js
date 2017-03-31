@@ -7,6 +7,8 @@ import PrimaryButton from './PrimaryButton'
 import SocialButton from './SocialButton'
 import WrappedField from './WrappedField'
 import { Auth } from '../../redux/actions'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
+import { Colors } from '../../constants/style'
 
 const { processUserLogin, cleanUserLoginErrors } = Auth
 
@@ -26,6 +28,11 @@ const styles = {
     margin: '0 auto',
     maxWidth: 400,
   },
+
+  refresh: {
+    display: 'inline-block',
+    position: 'relative',
+  },
 }
 
 class SignInModal extends Component {
@@ -35,6 +42,7 @@ class SignInModal extends Component {
     this.state = {
       username: '',
       password: '',
+      showLoader: false,
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -42,9 +50,13 @@ class SignInModal extends Component {
   }
   handleSubmit = (event) => {
     event.preventDefault()
+    this.setState({ showLoader: true })
     const credentials = R.pick(['username', 'password'], this.state)
     this.props.processUserLogin(credentials)
-    .then(() => { this.props.handleClose })
+    .then(() => {
+      this.setState({ showLoader: false })
+      this.props.handleClose
+    })
   }
 
   handleOnChange = R.curry((field, e) => {
@@ -70,6 +82,7 @@ class SignInModal extends Component {
     const {
       username,
       password,
+      showLoader,
     } = this.state
 
     return (
@@ -162,6 +175,20 @@ class SignInModal extends Component {
                   type={'submit'}
                 />
               </div>
+              {
+                showLoader ? (
+                  <div className='form-input-wrapper center-text'>
+                    <RefreshIndicator
+                      size={50}
+                      left={0}
+                      top={0}
+                      loadingColor={Colors.blue}
+                      status='loading'
+                      style={styles.refresh}
+                    />
+                  </div>
+                ) : null
+              }
             </form>
           </div>
         </Dialog>

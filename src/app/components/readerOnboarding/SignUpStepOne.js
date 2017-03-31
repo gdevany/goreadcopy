@@ -7,6 +7,7 @@ import SignUpButtons from './SignUpButtons'
 import R from 'ramda'
 import { Colors, Breakpoints } from '../../constants/style'
 import { WrappedField } from '../common'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
 
 const { updateReaderData, createReader } = ReaderData
 const { updateLitcoinBalance } = Litcoins
@@ -17,6 +18,7 @@ const styles = {
     marginTop: 10,
     marginBottom: 30,
     maxWidth: 900,
+    overflow: 'hidden',
 
     [Breakpoints.mobile]: {
       marginTop: 0,
@@ -32,6 +34,11 @@ const styles = {
       padding: '50px 15px',
     },
   },
+
+  refresh: {
+    display: 'inline-block',
+    position: 'relative',
+  },
 }
 
 class SignUpStepOne extends Component {
@@ -42,6 +49,7 @@ class SignUpStepOne extends Component {
       username: '',
       password: '',
       passwordConfirmation: '',
+      showLoader: false,
     }
 
     this.handleOnChange = this.handleOnChange.bind(this)
@@ -55,6 +63,9 @@ class SignUpStepOne extends Component {
 
   handleFormSubmit = (event) => {
     event.preventDefault()
+    this.setState({
+      showLoader: true,
+    })
     const buttonText = event.target.value
     const fields = R.pick(['username', 'password', 'passwordConfirmation'], this.props)
     const {
@@ -66,8 +77,18 @@ class SignUpStepOne extends Component {
     if (buttonText === 'Next') {
       updateReaderData(fields)
       createReader()
+      .then(() => {
+        this.setState({
+          showLoader: false,
+        })
+      })
     } else if (buttonText === 'Back') {
       handlePrev()
+      .then(() => {
+        this.setState({
+          showLoader: false,
+        })
+      })
     }
   }
 
@@ -101,7 +122,8 @@ class SignUpStepOne extends Component {
     const {
       username,
       password,
-      passwordConfirmation
+      passwordConfirmation,
+      showLoader,
     } = this.state
 
     return (
@@ -160,7 +182,20 @@ class SignUpStepOne extends Component {
                 handleButtonClick={this.handleFormSubmit}
               />
             </div>
-
+            {
+              showLoader ? (
+                <div className='form-input-wrapper center-text'>
+                  <RefreshIndicator
+                    size={50}
+                    left={0}
+                    top={0}
+                    loadingColor={Colors.blue}
+                    status='loading'
+                    style={styles.refresh}
+                  />
+                </div>
+              ) : null
+            }
           </form>
         </div>
 
