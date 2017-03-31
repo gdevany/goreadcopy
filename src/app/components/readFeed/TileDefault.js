@@ -66,6 +66,7 @@ const styles = {
     color: Colors.black,
     display: 'inline',
     marginLeft: 6,
+    marginRight: 0,
   },
   commentTimeStamp: {
     display: 'inline',
@@ -80,6 +81,7 @@ const styles = {
   },
   textContainer: {
     marginTop: -5,
+    paddingRight: 0,
   },
   contentContainer: {
     padding: '0 30px 30px 30px',
