@@ -281,6 +281,24 @@ input[type="checkbox"]:focus{
   }
 }
 
+.logo-onboarding-container{
+  .logo-onboarding-anchor{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    @media all and (min-width: 768px){
+      justify-content: center;
+    }
+    .logo-onboarding-img{
+      width: 150px;
+      @media all and (min-width: 768px){
+        width: 250px;
+      }
+    }
+  }
+}
+
 @import 'variables.scss';
 @import 'general.scss';
 @import 'errors.scss';
