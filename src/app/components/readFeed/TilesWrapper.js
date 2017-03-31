@@ -389,7 +389,7 @@ const TilesWrapper = ({ feed }) => {
   }
 
   return (
-    <div>
+    <div className='tile-wrapper'>
       {feed ? renderTiles(feed) : null}
     </div>
   )

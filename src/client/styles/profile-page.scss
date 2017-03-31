@@ -54,7 +54,7 @@
     .top-books-wrapper{
       width: 100%;
       display: flex;
-      justify-content: center;
+      justify-content: space-around;
       align-items: flex-start;
       flex-wrap: wrap;
       margin-bottom: .5em;
@@ -118,6 +118,10 @@
 .edit-library-modal{
   height: 100vh !important;
   max-height: none !important;
+  width: 100vw;
+  @media all and (min-width: 768) {
+    width: auto;
+  }
 }
 
 .edit-library-modal-container{
@@ -146,18 +150,29 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    flex-direction: row;
+    flex-direction: column;
     width: 100%;
+    @media all and (min-width: 768px){
+      flex-direction: row;
+    }
     .border-right-divider{
-      border-right: solid 1px $light-med-grey;
+      border-bottom: solid 1px $light-med-grey;
+      border-right: solid 1px transparent;
+      @media all and (min-width: 768px){
+        border-right: solid 1px $light-med-grey;
+        border-bottom: solid 1px transparent;
+      }
     }
     .current-library-container, .search-results-contianer{
-      width: 50%;
       padding: .5em;
       display: flex;
       justify-content: center;
       align-items: flex-start;
       flex-wrap: wrap;
+      width: 100%;
+      @media all and (min-width: 768px){
+        width: 50%;
+      }
       .current-library-heading-container, .search-results-heading-container{
         width: 100%;
         text-align: left;
@@ -170,8 +185,8 @@
         }
       }
       .library-book-results, .current-library-elements-container{
-        min-height: 63vh;
-        max-height: 63vh;
+        min-height: 40vh;
+        max-height: 40vh;
         overflow-y: scroll;
         overflow-x: hidden;
         display: flex;
@@ -181,7 +196,11 @@
         width: 100%;
         position: relative;
         text-align: center;
-        @media all and (min-height: 900px){
+        @media all and (min-width: 768px){
+          min-height: 63vh;
+          max-height: 63vh;
+        }
+        @media all and (min-width: 900px){
           min-height: 72vh;
           max-height: 72vh;
         }
@@ -231,7 +250,10 @@
     .currently-reading-container{
       width: 100% !important;
       .library-book-container{
-        width: 15% !important;
+        width: 30% !important;
+        @media all and (min-width: 768px){
+          width: 15% !important;
+        }
       }
     }
   }
@@ -243,9 +265,18 @@
         max-height: 30vh;
         min-height: 30vh;
         overflow-y: scroll;
-        overflow-x: hidden;
+        overflow-x: scroll;
+        @media all and (min-width: 768px){
+          overflow-x: hidden;
+        }
         .library-book-container{
-          width: 16%;
+          width: 30% !important;
+          .book-container{
+            width: 100%;
+          }
+          @media all and (min-width: 768px){
+            width: 15% !important;
+          }
         }
       }
     }

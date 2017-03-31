@@ -1,4 +1,4 @@
-import { PROFILE_PAGE as A } from '../const/actionTypes'
+import { PROFILE_PAGE as A, SEARCH as B } from '../const/actionTypes'
 import ProfilePage from '../../services/api/profilePage'
 
 export function getProfilePage(slug, isUserLoggedIn) {
@@ -70,8 +70,12 @@ export function addToLibrary(payload, id) {
   }
   return dispatch => {
     ProfilePage.updateLibrary(terms)
-      .then(() => ProfilePage.getLibrary(id))
-      .then(res => dispatch({ type: A.UPDATE_LIBRARY, payload: res.data }))
+      .then(res => {
+        if (res.data.results && res.data.results.length) {
+          dispatch({ type: B.REMOVE_FROM_BOOK_SEARCH, payload: res.data })
+          dispatch({ type: A.ADD_TO_LIBRARY, payload: res.data })
+        }
+      })
       .catch(err => console.log(`Error in addToLibrary ${err}`))
   }
 }
@@ -82,8 +86,7 @@ export function removeFromLibrary(payload, id) {
   }
   return dispatch => {
     ProfilePage.deleteBookLibrary(terms)
-      .then(() => ProfilePage.getLibrary(id))
-      .then(res => dispatch({ type: A.UPDATE_LIBRARY, payload: res.data }))
+      .then(res => dispatch({ type: A.REMOVE_FROM_LIBRARY, payload: payload }))
       .catch(err => console.log(`Error in removeFromLibrary ${err}`))
   }
 }

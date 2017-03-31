@@ -1,9 +1,13 @@
 import React, { PureComponent } from 'react'
 import { debounce } from 'lodash'
+import R from 'ramda'
 
 class Scroller extends PureComponent {
   constructor(props) {
     super(props)
+    this.state = {
+      ref: null
+    }
     this.handleScroll = this.handleScroll.bind(this)
     this.debouncedHandleScroll = debounce(this.handleScroll, this.props.delay)
     this.getScrollHandler = this.getScrollHandler.bind(this)
@@ -11,19 +15,29 @@ class Scroller extends PureComponent {
 
   componentDidMount() {
     const { scrollParent } = this.props
-    scrollParent.addEventListener('scroll', this.getScrollHandler())
+    if (scrollParent !== null) {
+      scrollParent.addEventListener('scroll', this.getScrollHandler())
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     const currentParent = this.props.scrollParent
     const newParent = nextProps.scrollParent
-    currentParent.removeEventListener('scroll', this.getScrollHandler())
-    newParent.addEventListener('scroll', this.getScrollHandler())
+    if (!R.equals(currentParent, newParent)) {
+      if (currentParent !== null) {
+        currentParent.removeEventListener('scroll', this.getScrollHandler())
+      }
+      if (newParent !== null) {
+        newParent.addEventListener('scroll', this.getScrollHandler())
+      }
+    }
   }
 
   componentWillUnmount() {
     const { scrollParent } = this.props
-    scrollParent.removeEventListener('scroll', this.getScrollHandler())
+    if (scrollParent !== null) {
+      scrollParent.removeEventListener('scroll', this.getScrollHandler())
+    }
   }
 
   handleScroll(e) {
@@ -39,7 +53,7 @@ class Scroller extends PureComponent {
   }
 
   render() {
-    return null
+    return this.props.children
   }
 }
 
