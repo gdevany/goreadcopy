@@ -18,6 +18,7 @@ class LeftProfileContainer extends PureComponent {
       favoriteQuotes: '',
       achivements: '',
       profileImage: '',
+      authorProfile: '',
     }
   }
 
@@ -31,6 +32,7 @@ class LeftProfileContainer extends PureComponent {
       favoriteQuotes: nextProps.favoriteQuotes,
       achievements: nextProps.achievements,
       profileImage: nextProps.profileImage,
+      authorProfile: nextProps.authorProfile,
     })
   }
 
@@ -44,6 +46,7 @@ class LeftProfileContainer extends PureComponent {
       favoriteQuotes,
       achievements,
       profileImage,
+      authorProfile,
     } = this.state
     return (
       <div className='small-12 medium-5 large-3 columns'>
@@ -60,6 +63,7 @@ class LeftProfileContainer extends PureComponent {
               fullname={fullname}
               isCurrentReader={isMyProfile}
               profileFollowed={profileFollowed}
+              authorProfile={authorProfile}
             /> : null
         }
       <BooksSection

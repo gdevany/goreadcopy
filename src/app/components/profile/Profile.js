@@ -130,6 +130,7 @@ class ProfileWrapper extends PureComponent {
             genreIds={profile.genreIds}
             fullname={profile.fullname}
             profileFollowed={isMyProfile ? false : profilePage.isFollower}
+            authorProfile={profile.author ? profile.author : null}
             achievements={profile.achievements}
             favoriteQuotes={profile.favoriteQuotes}
             profileImage={profile.profileImage}

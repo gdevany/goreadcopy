@@ -57,6 +57,7 @@ class FollowProfile extends PureComponent {
       modalLogInOpen: false,
       profileFollowed: false,
       profileFetched: false,
+      authorProfile: '',
     }
 
     this.handleClose = this.handleClose.bind(this)
@@ -88,6 +89,12 @@ class FollowProfile extends PureComponent {
     if (nextProps.isCurrentReader) {
       this.setState({
         isMyProfile: nextProps.isCurrentReader,
+      })
+    }
+
+    if (nextProps.authorProfile) {
+      this.setState({
+        authorProfile: nextProps.authorProfile,
       })
     }
   }
@@ -163,6 +170,7 @@ class FollowProfile extends PureComponent {
     const {
       modalFollowersOpen,
       modalFollowingOpen,
+      authorProfile,
     } = this.state
 
     const {
@@ -225,6 +233,18 @@ class FollowProfile extends PureComponent {
             <div className='small-4 columns' style={styles.chipContainer}>
               {this.renderChip()}
             </div>
+          </div>
+          <div className='small-12 columns'>
+            {authorProfile ?
+              (
+                <a
+                  className='author-profile-link-button'
+                  href={authorProfile.url}
+                >
+                  Author Page
+                </a>
+              ) : null
+            }
           </div>
           <div className='small-12 columns'>
             {isCurrentReader ?
