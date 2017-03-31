@@ -168,7 +168,7 @@ const TilesWrapper = ({ feed }) => {
             return `${<i>Unknown</i>}`
           }
           const bookAndProductContent = {
-            title: (tile.target.name || tile.target.title),
+            title: (tile.target.name || tile.target.title || tileContent.title),
             description: (tileContent.body || tileContent.description),
             image: tileContent.imageUrl,
             rating: tileContent.rating.average,

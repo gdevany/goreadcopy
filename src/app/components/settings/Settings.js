@@ -32,6 +32,9 @@ class Settings extends PureComponent {
     this.props.getCurrentReader()
 
   }
+
+  componentDidMount = () => window.scrollTo(0, 0)
+
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.currentReader.token && !this.state.readerFetched) {
       this.props.getCurrentReader()

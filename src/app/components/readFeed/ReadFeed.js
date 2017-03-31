@@ -12,6 +12,8 @@ const { getCurrentReader } = CurrentReader
 class ReadFeed extends PureComponent {
   componentWillMount = () => this.props.getCurrentReader()
 
+  componentDidMount = () => window.scrollTo(0, 0)
+
   render() {
     const { isMyReadFeed, id } = this.props
     const isUserLoggedIn = Auth.currentUserExists()

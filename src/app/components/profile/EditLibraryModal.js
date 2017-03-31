@@ -79,6 +79,12 @@ class EditLibraryModal extends Component {
     this.props.removeFromLibrary(bookId, userId)
   }
 
+  handleEnterButton = (event) => {
+    if (event.which === 13) {
+      event.preventDefault()
+    }
+  }
+
   renderSearchResults = () => {
     const searchTerms = this.props.searchResults
     if (searchTerms && searchTerms.count) {
@@ -194,7 +200,7 @@ class EditLibraryModal extends Component {
             <div className='edit-library-heading-container'>
               <h4>Edit your Personal Library</h4>
             </div>
-            <form className='edit-library-form'>
+            <form className='edit-library-form' onKeyPress={this.handleEnterButton}>
               <input
                 type='text'
                 className='form-input edit-library-form-input'

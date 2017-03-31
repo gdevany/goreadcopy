@@ -317,3 +317,26 @@
     }
   }
 }
+
+.author-profile-link-button{
+  box-sizing: border-box;
+  display: flex;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  cursor: pointer;
+  text-decoration: none;
+  margin: 1em auto 0;
+  padding: .5em 1em;
+  outline: none;
+  font-size: 14px;
+  font-weight: 200;
+  position: relative;
+  background-color: $blue;
+  border-radius: 25px;
+  white-space: nowrap;
+  width: fit-content;
+  color: $white;
+  align-self: center;
+  &:hover{
+    color: $white;
+  }
+}
