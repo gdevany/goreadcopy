@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { Link } from 'react-router'
 import TileDefault from '../TileDefault'
 import ReactPlayer from 'react-player'
 import urlParser from 'js-video-url-parser'
@@ -15,10 +16,22 @@ class StatusPostTile extends PureComponent {
     return content.split(mentionRegex)
   }
 
+  splitMention(content) {
+    return content.split('/')
+  }
+
   renderContentWithMentions(entry, index, mentionList) {
     if (mentionRegex.test(entry)) {
       for (let i = 0; i < mentionList.length; i++) {
         if (mentionList[i].mention === entry) {
+          const splitResult = this.splitMention(mentionList[i].url)
+          if (splitResult[splitResult.length - 3] === 'profile') {
+            return (
+              <Link key={index} to={`profile/${splitResult[splitResult.length - 2]}`}>
+                {mentionList[i].name}
+              </Link>
+            )
+          }
           return (
             <a key={index} href={mentionList[i].url}>
               {mentionList[i].name}
