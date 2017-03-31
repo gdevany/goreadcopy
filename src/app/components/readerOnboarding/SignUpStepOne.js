@@ -63,9 +63,7 @@ class SignUpStepOne extends Component {
 
   handleFormSubmit = (event) => {
     event.preventDefault()
-    this.setState({
-      showLoader: true,
-    })
+    this.setState({ showLoader: true })
     const buttonText = event.target.value
     const fields = R.pick(['username', 'password', 'passwordConfirmation'], this.props)
     const {
@@ -77,18 +75,14 @@ class SignUpStepOne extends Component {
     if (buttonText === 'Next') {
       updateReaderData(fields)
       createReader()
-      .then(
-        () => {
+        .then(() => {
           this.setState({ showLoader: false })
-        }
-      )
+        })
     } else if (buttonText === 'Back') {
       handlePrev()
-      .then(
-        () => {
+        .then(() => {
           this.setState({ showLoader: false })
-        }
-      )
+        })
     }
   }
 

@@ -53,12 +53,10 @@ class SignInModal extends Component {
     this.setState({ showLoader: true })
     const credentials = R.pick(['username', 'password'], this.state)
     this.props.processUserLogin(credentials)
-    .then(
-      () => {
+      .then(() => {
         this.setState({ showLoader: false })
         this.props.handleClose
-      }
-    )
+      })
   }
 
   handleOnChange = R.curry((field, e) => {

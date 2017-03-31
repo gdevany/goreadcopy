@@ -101,11 +101,9 @@ class SignUpStepTwo extends PureComponent {
         this.setState({ showDisabled: true })
       }
       this.props.handleNext()
-      .then(
-        () => {
+        .then(() => {
           this.setState({ showLoader: false })
-        }
-      )
+        })
     } else if (buttonText === 'Back') {
       this.props.handlePrev()
     }

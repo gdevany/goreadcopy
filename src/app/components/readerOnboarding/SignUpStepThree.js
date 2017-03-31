@@ -139,11 +139,9 @@ class SignUpStepThree extends PureComponent {
       this.setState({ shouldSubmit: true })
       this.props.choseRecommendation(chosenReaders, 'readers')
       this.props.choseRecommendation(chosenAuthors, 'authors')
-      .then(
-        () => {
+        .then(() => {
           this.setState({ showLoader: false })
-        }
-      )
+        })
     } else if (buttonText === 'Back') {
       this.props.handlePrev()
     }
