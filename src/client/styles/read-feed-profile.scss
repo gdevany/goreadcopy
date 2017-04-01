@@ -9,8 +9,6 @@
 .dropzone-background {
   opacity: 0;
   position: absolute;
-  top: 35%;
-  right: 39%;
   width: 50px;
 
   &:hover {
@@ -19,8 +17,8 @@
   color: red;
   opacity: 0;
   position: absolute;
-  top: 35%;
-  right: 39%;
+  top: 50%;
+  right: 45%;
   width: 50px;
 }
 
@@ -96,7 +94,7 @@
 }
 
 .background-image-wrapper {
-  max-height: 220px;
+  max-height: 320px;
   overflow: hidden;
 }
 

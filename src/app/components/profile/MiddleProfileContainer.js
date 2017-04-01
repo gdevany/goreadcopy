@@ -28,7 +28,7 @@ class RightProfileContainer extends PureComponent {
   render() {
     const { profile, isUserLoggedIn, id, isProfileLocked } = this.props
     return (
-      <div className='right-container small-12 medium-7 large-6 columns'>
+      <div className='center-profile-container small-12 medium-7 large-6 columns'>
         {isUserLoggedIn ?
           <StatusPost
             targetId={id}
