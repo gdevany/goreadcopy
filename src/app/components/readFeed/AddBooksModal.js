@@ -58,8 +58,8 @@ class AddBooksModal extends Component {
 
   renderSearchResults = () => {
     const searchTerms = this.props.searchResults
-    if (searchTerms.counts) {
-      const bookResults = searchTerms.books.map((book, index) => {
+    if (searchTerms) {
+      const bookResults = searchTerms.results.map((book, index) => {
         const author = book.authors[0] ? book.authors[0].fullname : null
         return (
           <div key={`${book.ean}_${index}`} className='result-container'>
@@ -115,7 +115,7 @@ class AddBooksModal extends Component {
       <div>
         <Dialog
           bodyClassName='complete-profile-books-modal'
-          modal={true}
+          modal={false}
           open={modalOpen}
           onRequestClose={handleClose}
           autoScrollBodyContent={true}
@@ -129,13 +129,15 @@ class AddBooksModal extends Component {
             <div className='small-12 columns'>
               <div className='row'>
                 <div className='center-text small-8 collumns small-centered'>
-                  <h2>Search Books</h2>
-                  <h4>Add them to your library and earn Litcoins</h4>
+                  <h2 className='searchbooks-readfeeed-title'>Search Books</h2>
+                  <h4 className='searchbooks-readfeeed-subtitle'>
+                    Add them to your library and earn Litcoins
+                  </h4>
                 </div>
-                <div className='form-wrapper general-font small-8 collumns small-centered'>
+                <div className='form-wrapper general-font small-10 collumns small-centered'>
                   <div className='row'>
-                    <div className='small-12 columns'>
-                      <form onKeyPress={this.handleEnterButton}>
+                    <div className='small-12 columns search-books-on-readfeed'>
+                      <form onKeyPress={this.handleEnterButton} className='search-books-form'>
                         <input
                           type='text'
                           className='form-input'
@@ -144,7 +146,7 @@ class AddBooksModal extends Component {
                           value={this.state.searchTerm}
                         />
                       </form>
-                      <div className='search-results-contianer'>
+                      <div className='search-results-container'>
                         { this.renderSearchResults() }
                       </div>
                     </div>
@@ -161,7 +163,7 @@ class AddBooksModal extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    searchResults: state.search
+    searchResults: state.search.bookSearch
   }
 }
 
