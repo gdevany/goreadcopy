@@ -31,7 +31,7 @@
   }
   .library-books-main-container{
     width: 100%;
-    max-height: 315px;
+    max-height: 440px;
     overflow-y: scroll;
     overflow-x: hidden;
     display: flex;
@@ -355,4 +355,25 @@
 
 .background-image-profile{
   width: 100%;
+}
+
+.library-book-container{
+  .book-container{
+    transition: none;
+    transform: none;
+    .book-info-container{
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: column;
+      .book-info-title{
+        font-size: 14px;
+        color: $black;
+      }
+      .book-info-author{
+        font-size: 12px;
+        color: #949494;
+      }
+    }
+  }
 }
