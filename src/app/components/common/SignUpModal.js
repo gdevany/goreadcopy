@@ -1,12 +1,19 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import R from 'ramda'
 import { Dialog, } from 'material-ui'
 import { connect } from 'react-redux'
 import { ReaderData } from '../../redux/actions'
 import { ExternalRoutes as routes } from '../../constants'
+import { Auth as AuthServ } from '../../services'
 import PrimaryButton from './PrimaryButton'
 import SocialButton from './SocialButton'
 import WrappedField from './WrappedField'
+import { Auth as AuthAct } from '../../redux/actions'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
+import { Colors } from '../../constants/style'
+
+const { cleanUserLoginErrors } = AuthAct
+const isUserLoggedIn = AuthServ.currentUserExists()
 
 const { getInitialReaderData, checkFields, updateReaderData } = ReaderData
 
@@ -26,6 +33,11 @@ const styles = {
     margin: '0 auto',
     maxWidth: 400,
   },
+
+  refresh: {
+    display: 'inline-block',
+    position: 'relative',
+  },
 }
 
 class SignUpModal extends Component {
@@ -36,22 +48,57 @@ class SignUpModal extends Component {
       firstName: '',
       lastName: '',
       email: '',
+      referrer: '',
+      showLoader: false,
     }
 
     this.handleOnChange = this.handleOnChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
+  static contextTypes = {
+    router: PropTypes.object
+  }
+
+  componentWillMount = () => {
+    if (!isUserLoggedIn) {
+      const profileSlug = this.context.router.params.slug
+      if (profileSlug && this.state.referrer !== profileSlug) {
+        this.setState({
+          referrer: profileSlug,
+        })
+        this.props.updateReaderData({
+          referrer: profileSlug,
+        })
+      }
+    }
+  }
+
   handleSubmit = (event) => {
     event.preventDefault()
-    const fields = R.pick(['firstName', 'lastName', 'email'], this.props)
+    this.setState({
+      showLoader: true,
+    })
+    const fields = R.pick(['firstName', 'lastName', 'email', 'referrer'], this.props)
     this.props.checkFields(fields)
+      .then(() => {
+        this.setState({ showLoader: false })
+      })
   }
 
   handleOnChange = R.curry((field, e) => {
     this.setState({ [field]: e.target.value })
     this.props.updateReaderData({ [field]: e.target.value })
   })
+
+  handleCleanInputs = () => {
+    this.setState({
+      firstName: '',
+      lastName: '',
+      email: '',
+    })
+    this.props.cleanUserLoginErrors()
+  }
 
   render() {
     const {
@@ -65,6 +112,7 @@ class SignUpModal extends Component {
       firstName,
       lastName,
       email,
+      showLoader,
     } = this.state
 
     const isFinished = (firstName !== '' && lastName !== '' && email !== '')
@@ -85,7 +133,7 @@ class SignUpModal extends Component {
           <img
             src='/image/close.png'
             className='general-font center-text signup-modal-x'
-            onClick={handleClose}
+            onClick={() => {handleClose(); this.handleCleanInputs()}}
           />
 
           <h1 className='center-text large-header'>
@@ -176,7 +224,20 @@ class SignUpModal extends Component {
                   type={'submit'}
                 />
               </div>
-
+              {
+                showLoader ? (
+                  <div className='form-input-wrapper center-text'>
+                    <RefreshIndicator
+                      size={50}
+                      left={0}
+                      top={0}
+                      loadingColor={Colors.blue}
+                      status='loading'
+                      style={styles.refresh}
+                    />
+                  </div>
+                ) : null
+              }
             </form>
           </div>
         </Dialog>
@@ -191,6 +252,7 @@ const mapDispatchToProps = {
   getInitialReaderData,
   updateReaderData,
   checkFields,
+  cleanUserLoginErrors,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpModal)

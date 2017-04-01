@@ -132,7 +132,7 @@
   padding: 0 1rem;
   .profile-menu-container{
     position: absolute;
-    right: 5px;
+    right: 10px;
     top: 70px;
     background: white;
     border: 1px solid #e6e6e6;
@@ -169,7 +169,7 @@
     .profile-menu-element{
       .profile-menu-anchor{
         display: block;
-        padding: 1em 2em;
+        padding: .5em 2em;
         font-weight: 200;
       }
     }
@@ -446,7 +446,7 @@
     .publishing-as-list{
       a{
         display: block;
-        padding: .7rem 2rem;
+        padding: .5em 2em;
 
       }
       .publishing-as-active{
@@ -462,5 +462,19 @@
         }
       }
     }
+  }
+}
+
+.sign-in-btn-on-momile{
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  align-items: center;
+  a{
+    margin-right: 1em;
+    padding: .5em 1em;
+    border-radius: 20px;
+    border: solid 1px $blue;
+    color: $blue;
   }
 }

@@ -65,19 +65,21 @@ class StatusPost extends PureComponent {
       targetId,
       activeContent,
     } = this.state
-    postNewMessage({
-      body,
-      mentions,
-      image,
-      targetId,
-      activeContent
-    })
-      .then(res => this.props.postNewTile(res.data))
-      .then(() => this.cleanStatusPost())
-      .catch(err => {
-        console.log(err)
-        this.cleanStatusPost()
+    if (body !== '' || image || activeContent) {
+      postNewMessage({
+        body,
+        mentions,
+        image,
+        targetId,
+        activeContent
       })
+        .then(res => this.props.postNewTile(res.data))
+        .then(() => this.cleanStatusPost())
+        .catch(err => {
+          console.log(err)
+          this.cleanStatusPost()
+        })
+    }
   }
 
   initialState() {
@@ -238,10 +240,10 @@ class StatusPost extends PureComponent {
           embedUrl = `https://player.vimeo.com/video/${id}`
           break
         case 'youtube':
-          embedUrl = `http://www.youtube.com/embed/${id}`
+          embedUrl = `https://www.youtube.com/embed/${id}`
           break
         case 'dailymotion':
-          embedUrl = `http://www.dailymotion.com/embed/video/${id}`
+          embedUrl = `https://www.dailymotion.com/embed/video/${id}`
           break
         default:
           embedUrl = ''
@@ -354,16 +356,16 @@ class StatusPost extends PureComponent {
           {
             this.state.image ? (
               <div className='row'>
-                <div className='columns small-6 centered'>
+                <div className='columns small-4 image-preview-statuspost'>
                   <img src={this.state.imageInfo.file.preview} alt='Preview Image'/>
+                  <a
+                    className='statuspost-image-preview-discard-btn'
+                    href='javascript:void(0)'
+                    onClick={this.handleImagePreviewDiscard}
+                  >
+                    x
+                  </a>
                 </div>
-                <a
-                  className='statuspost-image-preview-discard-btn'
-                  href='javascript:void(0)'
-                  onClick={this.handleImagePreviewDiscard}
-                >
-                  x
-                </a>
               </div>
             ) : null
           }

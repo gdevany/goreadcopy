@@ -147,11 +147,11 @@ input[type="checkbox"]:focus{
   width: 35px;
 }
 
-.sidear-quoutes-container{
+.sidebar-quotes-container{
   list-style: none;
 }
 
-.quoutes-list-element{
+.quotes-list-element{
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
@@ -161,8 +161,9 @@ input[type="checkbox"]:focus{
     width: 15px;
     margin: 0 20px 0 -20px;
   }
-  .quoutes-text{
+  .quotes-text{
     margin: 0;
+    word-break: break-all;
   }
 }
 
@@ -200,6 +201,102 @@ input[type="checkbox"]:focus{
   margin: 1em 0;
   padding: 0;
   background-color: $white;
+}
+
+.pointer-hand{
+  cursor: pointer;
+}
+
+.register-sign-in-modal{
+  width: 100%;
+  height: 70vh;
+  @media all and (min-width: 768px){
+    width: 50%;
+    margin: 0 auto;
+    height: 50vh;
+  }
+}
+
+.register-sign-in-modal-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 1em;
+  p{
+    text-align: center;
+  }
+  .logo-container-figure{
+    width: 250px;
+    margin-top: 1em;
+  }
+  .register-sign-btns-container{
+    display: flex;
+    width: 75%;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 1.5em;
+    flex-direction: column;
+    @media all and (min-width: 768px){
+      flex-direction: row;
+    }
+    .register-sign-in-buttons-container{
+      .sign-in-button, .register-button{
+        display: block;
+        padding: .5em 1em;
+        border-radius: 39px;
+        border: solid 1px $blue;
+        font-size: 18px;
+      }
+      .sign-in-button{
+        color: $blue;
+        background-color: $white;
+      }
+      .register-button{
+        background-color: $blue;
+        color: $white;
+        margin-top: 1em;
+        @media all and (min-width: 768px){
+          margin-top: 0;
+        }
+      }
+    }
+  }
+}
+
+.image-preview-statuspost{
+  margin-top: 1.25em;
+  position: relative;
+  .statuspost-image-preview-discard-btn{
+    padding: 0px 7px;
+    background-color: $white;
+    color: #717171;
+    border-radius: 26px;
+    border: solid 1px $light-med-grey;
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    font-size: 15px;
+  }
+}
+
+.logo-onboarding-container{
+  .logo-onboarding-anchor{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    @media all and (min-width: 768px){
+      justify-content: center;
+    }
+    .logo-onboarding-img{
+      width: 150px;
+      @media all and (min-width: 768px){
+        width: 250px;
+      }
+    }
+  }
 }
 
 @import 'variables.scss';

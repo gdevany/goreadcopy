@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Dialog } from 'material-ui'
 import { ProfilePage } from '../../redux/actions'
+import { PageScroller } from '../common'
+import R from 'ramda'
 
-const { deleteTopBooks, updateTopBooks } = ProfilePage
+const { deleteTopBooks, updateTopBooks, fetchLibrary } = ProfilePage
 
 const styles = {
   modalBody: {
@@ -11,8 +13,7 @@ const styles = {
   },
   modalContent: {
     maxWidth: '100%',
-    width: '80%',
-    height: '80vh',
+    width: '100%',
   },
 }
 
@@ -32,7 +33,6 @@ class TopBooksModal extends Component {
       this.setState({
         myLibrary: nextProps.myLibrary,
         userId: nextProps.userId,
-
       })
     }
 
@@ -40,7 +40,6 @@ class TopBooksModal extends Component {
       this.setState({
         topBooks: nextProps.topBooks,
         userId: nextProps.userId,
-
       })
     }
   }
@@ -176,7 +175,7 @@ class TopBooksModal extends Component {
 
   renderCurrentLibrary = () => {
     const { myLibrary } = this.state
-    return myLibrary.map((book, index) => {
+    return myLibrary && myLibrary.results ? myLibrary.results.map((book, index) => {
       const author = book.authors.length ? book.authors[0].fullname : null
       return (
         <div className='library-book-container' key={book.id}>
@@ -204,14 +203,20 @@ class TopBooksModal extends Component {
           </div>
         </div>
       )
-    })
+    }) : null
   }
+
+  fetchHandler = R.curry((id, params) => {
+    this.props.fetchLibrary(id, params)
+  })
 
   render() {
     const {
       modalOpen,
       handleClose,
     } = this.props
+    const { userId, myLibrary } = this.state
+
     return (
       <div>
         <Dialog
@@ -249,9 +254,17 @@ class TopBooksModal extends Component {
                   </h5>
                   <hr/>
                 </div>
-                <div className='current-library-elements-container top-books-library-elements'>
-                  {this.state.myLibrary ? this.renderCurrentLibrary() : null}
-                </div>
+
+                <PageScroller
+                  clsName='current-library-elements-container top-books-library-elements'
+                  fetchOnLoad={false}
+                  fetchHandler={this.fetchHandler(userId)}
+                  isLocked={myLibrary ? myLibrary.locked : false}
+                  currentPage={myLibrary && myLibrary.page ? myLibrary.page : 0}
+                >
+                  { myLibrary ? this.renderCurrentLibrary() : null }
+                </PageScroller>
+
               </div>
             </div>
           </div>
@@ -261,4 +274,4 @@ class TopBooksModal extends Component {
   }
 }
 
-export default connect(null, { deleteTopBooks, updateTopBooks })(TopBooksModal)
+export default connect(null, { deleteTopBooks, updateTopBooks, fetchLibrary })(TopBooksModal)

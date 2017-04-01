@@ -1,10 +1,9 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { ExternalRoutes, Litcoins } from '../../constants'
+import { Litcoins } from '../../constants'
 import { AuthorRecSummary } from '../common'
 import { Recommended, Follow } from '../../redux/actions'
 
-const { findAuthors } = ExternalRoutes
 const { getRecommendedAuthors } = Recommended
 const { getFollowersAndFollowed } = Follow
 const { CONTEXTS: { READ_FEED } } = Litcoins
@@ -69,11 +68,11 @@ class AuthorRecommendations extends PureComponent {
         <div className='row small-up-1'>
           { authors ? this.renderAuthors(authors) : null }
         </div>
-        <div className='sub-link'>
+        {/* <div className='sub-link'>
           <a href={findAuthors()}>
             See more authors
           </a>
-        </div>
+        </div> */}
       </div>
     )
   }

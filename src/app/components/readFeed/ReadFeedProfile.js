@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router'
 import { Follow, Images } from '../../redux/actions'
 import { FollowModal } from '../common'
 import Dropzone from 'react-dropzone'
@@ -9,20 +10,16 @@ import Promise from 'bluebird'
 
 const styles = {
   nameText: {
-    margin: '22px 0 0 -47px',
-    display: 'inline-block',
+    margin: '22px 0 0 0',
+    width: '100%',
+    textAlign: 'left',
+    paddingLeft: '1em',
   },
 
   followContainer: {
     marginTop: 20,
     paddingBottom: 20,
   },
-
-  profileImageWrapper: {
-    display: 'inline-block',
-    float: 'left',
-  },
-
   followersSection: {
     marginLeft: 32,
   },
@@ -163,6 +160,7 @@ class ReadFeedProfile extends PureComponent {
       profileImage,
       backgroundImage,
       fullname,
+      slug,
     } = this.props
 
     const hasProfileImage = profileImage !== '' ? profileImage : null
@@ -215,22 +213,34 @@ class ReadFeedProfile extends PureComponent {
           </div>
 
           <div className='profile-bottom'>
-            <div style={styles.profileImageWrapper}>
-              <Dropzone onDrop={this.profileUpload} className='dropzone-profile'>
-                {
-                  profileImage || profileImageUpload ?
-                    this.renderImage(hasProfileImage, profileImageUpload, 'profile') : null
-                }
-              </Dropzone>
+            <div className='profile-readfeed-container'>
+              <div>
+                <Dropzone onDrop={this.profileUpload} className='dropzone-profile'>
+                  <div className='bottom-overlay'>
+                    {
+                      isUserLoggedIn ?
+                        <img
+                          className={R.concat('camera-background ', cameraBackgroundClass)}
+                          src='./image/upload-photo-icon.svg'
+                        /> : null
+                    }
+                  </div>
+                  {
+                    profileImage || profileImageUpload ?
+                      this.renderImage(hasProfileImage, profileImageUpload, 'profile') : null
+                  }
+                </Dropzone>
+              </div>
+
+              <h4
+                style={styles.nameText}
+                className='profile-large-text profile-link'
+              >
+                <Link to={`profile/${slug}`}>
+                  {fullname}
+                </Link>
+              </h4>
             </div>
-
-            <h4
-              style={styles.nameText}
-              className='profile-large-text profile-link'
-            >
-              {fullname}
-            </h4>
-
             <div style={styles.followContainer} className='follow-wrapper row center-text'>
               <div className='small-12 columns'>
                 <div className='follow-wrapper row center-text'>
@@ -294,6 +304,7 @@ const mapStateToProps = ({
     backgroundImage = '',
     profileImage = '',
     fullname = '',
+    slug = '',
   }
 }) => {
   return {
@@ -302,6 +313,7 @@ const mapStateToProps = ({
     backgroundImage,
     profileImage,
     fullname,
+    slug,
   }
 }
 

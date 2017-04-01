@@ -5,11 +5,12 @@ import { Search } from '../../redux/actions'
 import { ProfilePage } from '../../redux/actions'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { Colors } from '../../constants/style'
+import { PageScroller } from '../common'
 import { debounce } from 'lodash'
 import R from 'ramda'
 
 const { bookSearch, updateBookSearch } = Search
-const { addToLibrary, removeFromLibrary } = ProfilePage
+const { addToLibrary, removeFromLibrary, fetchLibrary } = ProfilePage
 
 const styles = {
   modalBody: {
@@ -17,8 +18,7 @@ const styles = {
   },
   modalContent: {
     maxWidth: '100%',
-    width: '80%',
-    height: '100vh',
+    width: '100%',
   },
   refresh: {
     display: 'inline-block',
@@ -79,6 +79,12 @@ class EditLibraryModal extends Component {
     this.props.removeFromLibrary(bookId, userId)
   }
 
+  handleEnterButton = (event) => {
+    if (event.which === 13) {
+      event.preventDefault()
+    }
+  }
+
   renderSearchResults = () => {
     const searchTerms = this.props.searchResults
     if (searchTerms && searchTerms.count) {
@@ -129,7 +135,7 @@ class EditLibraryModal extends Component {
 
   renderCurrentLibrary = () => {
     const { myLibrary } = this.state
-    return myLibrary.map((book, index) => {
+    return myLibrary && myLibrary.results ? myLibrary.results.map((book, index) => {
       const author = book.authors.length ? book.authors[0].fullname : null
       return (
         <div className='library-book-container' key={book.id}>
@@ -160,15 +166,20 @@ class EditLibraryModal extends Component {
           </div>
         </div>
       )
-    })
+    }) : null
   }
 
+  fetchHandler = R.curry((id, params) => {
+    this.props.fetchLibrary(id, params)
+  })
+
   render() {
+    const { userId, myLibrary } = this.state
     const {
       modalOpen,
       handleClose,
     } = this.props
-    return (
+    return userId !== null && userId !== '' ? (
       <div>
         <Dialog
           bodyClassName='edit-library-modal'
@@ -189,7 +200,7 @@ class EditLibraryModal extends Component {
             <div className='edit-library-heading-container'>
               <h4>Edit your Personal Library</h4>
             </div>
-            <form className='edit-library-form'>
+            <form className='edit-library-form' onKeyPress={this.handleEnterButton}>
               <input
                 type='text'
                 className='form-input edit-library-form-input'
@@ -230,15 +241,21 @@ class EditLibraryModal extends Component {
                   </h5>
                   <hr/>
                 </div>
-                <div className='current-library-elements-container'>
-                  {this.state.myLibrary ? this.renderCurrentLibrary() : null}
-                </div>
+                <PageScroller
+                  clsName='current-library-elements-container'
+                  fetchOnLoad={false}
+                  fetchHandler={this.fetchHandler(userId)}
+                  isLocked={myLibrary ? myLibrary.locked : false}
+                  currentPage={myLibrary && myLibrary.page ? myLibrary.page : 0}
+                >
+                  {myLibrary.results ? this.renderCurrentLibrary() : null}
+                </PageScroller>
               </div>
             </div>
           </div>
         </Dialog>
       </div>
-    )
+    ) : null
   }
 }
 
@@ -253,6 +270,7 @@ const mapDistpachToProps = {
   updateBookSearch,
   addToLibrary,
   removeFromLibrary,
+  fetchLibrary
 }
 
 export default connect(mapStateToProps, mapDistpachToProps)(EditLibraryModal)

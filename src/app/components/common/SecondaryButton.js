@@ -56,7 +56,7 @@ const SecondaryButton = ({ label, onClick, type, disabled, value }) => (
     value={value}
     className='secondary-button'
   >
-    <span style={disabled ? styles.disabledText : styles.labelText}> {label} </span>
+    {label}
   </button>
 )
 

@@ -57,7 +57,7 @@ const PrimaryButton = ({ label, onClick, type, disabled, value }) => (
     value={value}
     className='button'
   >
-    <span style={disabled ? styles.disabledText : styles.labelText}> {label} </span>
+    {label}
   </button>
 )
 

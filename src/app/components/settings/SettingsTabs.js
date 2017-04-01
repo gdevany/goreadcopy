@@ -95,6 +95,7 @@ class SettingsTabs extends PureComponent {
 
     this.handleClose = this.handleClose.bind(this)
     this.handleOnChange = this.handleOnChange.bind(this)
+    this.handleOnChangesSocial = this.handleOnChangesSocial.bind(this)
     this.handleFirstTabSubmit = this.handleFirstTabSubmit.bind(this)
     this.handleSecondTabSubmit = this.handleSecondTabSubmit.bind(this)
     this.handleThirdTabSubmit = this.handleThirdTabSubmit.bind(this)
@@ -148,8 +149,8 @@ class SettingsTabs extends PureComponent {
     this.setState({ openImportLibraryModal: false })
   }
 
-  handleOnChange = R.curry((field, e, index, value) => {
-    const { socialFacebook, socialTwitter, socialLinkedin, socialGoogle } = this.state
+  handleOnChange = R.curry((field, e) => {
+
     e.preventDefault()
     if (field === 'gender') {
       this.setState({ gender: (e.target.innerText === 'Male' ? 'M' : 'F') })
@@ -159,6 +160,18 @@ class SettingsTabs extends PureComponent {
       field === 'birthdateYear') {
       this.setState({ [field]: e.target.innerText })
     }
+
+    if (field !== 'gender' && field !== 'birthdateDay' &&
+      field !== 'birthdateMonth' && field !== 'birthdateYear') {
+
+      this.setState({ [field]: e.target.value })
+
+    }
+  })
+
+  handleOnChangesSocial = R.curry((field, e, index, value) => {
+
+    const { socialFacebook, socialTwitter, socialLinkedin, socialGoogle } = this.state
 
     if (field === 'socialFacebook' || field === 'socialTwitter' ||
       field === 'socialLinkedin' || field === 'socialGoogle') {
@@ -184,13 +197,6 @@ class SettingsTabs extends PureComponent {
       }
       this.setState({ [field]: value })
 
-    }
-
-    if (field !== 'gender' && field !== 'birthdateDay' &&
-      field !== 'birthdateMonth' && field !== 'birthdateYear' &&
-      field !== 'socialFacebook' && field !== 'socialTwitter' &&
-      field !== 'socialLinkedin' && field !== 'socialGoogle') {
-      this.setState({ [field]: e.target.value })
     }
   })
 
@@ -692,7 +698,7 @@ class SettingsTabs extends PureComponent {
             <h4>Facebook Social Accounts</h4>
             <div>
               <SelectField
-                onChange={this.handleOnChange('socialFacebook')}
+                onChange={this.handleOnChangesSocial('socialFacebook')}
                 value={socialFacebook ? socialFacebook.id : 0}
                 style={styles.selectStyles}
               >
@@ -708,7 +714,7 @@ class SettingsTabs extends PureComponent {
             <h4>Linkedin Social Accounts</h4>
             <div>
               <SelectField
-                onChange={this.handleOnChange('socialLinkedin')}
+                onChange={this.handleOnChangesSocial('socialLinkedin')}
                 value={socialLinkedin ? socialLinkedin.id : 0}
                 style={styles.selectStyles}
               >
@@ -724,7 +730,7 @@ class SettingsTabs extends PureComponent {
             <h4>Twitter Social Accounts</h4>
             <div>
               <SelectField
-                onChange={this.handleOnChange('socialTwitter')}
+                onChange={this.handleOnChangesSocial('socialTwitter')}
                 value={socialTwitter ? socialTwitter.id : 0}
                 style={styles.selectStyles}
               >
@@ -740,7 +746,7 @@ class SettingsTabs extends PureComponent {
             <h4>Google Social Accounts</h4>
             <div>
               <SelectField
-                onChange={this.handleOnChange('socialGoogle')}
+                onChange={this.handleOnChangesSocial('socialGoogle')}
                 value={socialGoogle ? socialGoogle.id : 0}
                 style={styles.selectStyles}
               >

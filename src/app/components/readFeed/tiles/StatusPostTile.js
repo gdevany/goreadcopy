@@ -1,18 +1,37 @@
 import React, { PureComponent } from 'react'
+import { Link } from 'react-router'
 import TileDefault from '../TileDefault'
+import ReactPlayer from 'react-player'
+import urlParser from 'js-video-url-parser'
 
 const mentionRegex = /(\@\[\d+\:\d+\])/gi
 
 class StatusPostTile extends PureComponent {
 
+  truncInfo = (text, limit) => {
+    return text.length >= limit ? `${text.slice(0, limit)}...` : text
+  }
+
   splitContent(content) {
     return content.split(mentionRegex)
+  }
+
+  splitMention(content) {
+    return content.split('/')
   }
 
   renderContentWithMentions(entry, index, mentionList) {
     if (mentionRegex.test(entry)) {
       for (let i = 0; i < mentionList.length; i++) {
         if (mentionList[i].mention === entry) {
+          const splitResult = this.splitMention(mentionList[i].url)
+          if (splitResult[splitResult.length - 3] === 'profile') {
+            return (
+              <Link key={index} to={`profile/${splitResult[splitResult.length - 2]}`}>
+                {mentionList[i].name}
+              </Link>
+            )
+          }
           return (
             <a key={index} href={mentionList[i].url}>
               {mentionList[i].name}
@@ -39,6 +58,10 @@ class StatusPostTile extends PureComponent {
       content
     } = this.props
     const splittedContent = this.splitContent(content.description)
+    let videoInfo = ''
+    if (content.activeContent && content.activeContent.providerName === 'Dailymotion') {
+      videoInfo = urlParser.parse(content.activeContent.url)
+    }
     return (
       <TileDefault
         tileId={id}
@@ -61,6 +84,59 @@ class StatusPostTile extends PureComponent {
               <figure className='statuspost-figure'>
                 <img className='statuspost-img' src={content.image} alt='status-post'/>
               </figure>
+            ) : null
+          }
+          {
+            content.activeContent ?
+            (
+              <div>
+                {content.activeContent.type === 'video' ?
+                  (
+                    <div className='video-iframe-container'>
+                      {content.activeContent.providerName === 'Dailymotion' ?
+                        (
+                          <iframe
+                            className='video-player'
+                            src={`https://www.dailymotion.com/embed/video/${videoInfo.id}`}
+                          />
+                        ) : (
+                          <ReactPlayer
+                            className='video-player'
+                            controls={true}
+                            url={content.activeContent.url}
+                          />
+                        )
+                      }
+                    </div>
+                  ) : null
+                }
+                { content.activeContent.type === 'link' ?
+                  (
+                    <div className='active-content-link-container'>
+                      <figure className='active-content-link-figure'>
+                        <img src={content.activeContent.thumbnailUrl}/>
+                      </figure>
+                      <div className='active-content-description'>
+                        <h5>
+                          {content.activeContent.title}
+                        </h5>
+                        <div className='post-excerpt-container'>
+                          <p className='post-excerpt-pharagraph'>
+                            {this.truncInfo(content.activeContent.description, 120)}
+                            <a
+                              href={content.activeContent.url}
+                              target='_blank'
+                              className='post-readmore-anchor'
+                            >
+                              Read more
+                            </a>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null
+                }
+              </div>
             ) : null
           }
           <div className='statuspost-content'>

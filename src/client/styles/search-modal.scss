@@ -8,7 +8,7 @@
 
 .search-modal-x{
   position: absolute;
-  right: 25px;
+  left: 25px;
   &:hover {
     cursor: pointer;
   }
@@ -16,6 +16,8 @@
 
 .search-modal-logo{
   width: 150px;
+  margin-left: 2em;
+  margin-top: -.3em;
 }
 
 .search-input-container{

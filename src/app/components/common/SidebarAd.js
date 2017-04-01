@@ -2,9 +2,11 @@ import React, { PureComponent } from 'react'
 
 class SidebarAd extends PureComponent {
   render() {
-    const { content } = this.props
+    const { content, isProfileAd } = this.props
     return (
-      <div className='base-tile-sidebar-container box'>
+      <div className={isProfileAd ?
+        'base-tile-sidebar-container' : 'base-tile-sidebar-container box'}
+      >
         <div className='adv-sidebar-container'>
           <figure className='heading-overflow-figure'>
             <img className='heading-img' src={content.imageUrl} alt=''/>

@@ -2,7 +2,7 @@ import React, { PureComponent, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Tiles } from '../../redux/actions'
 import { PrimaryButton } from '../common'
-import { LogInModal } from '../common'
+import { RegisterSignInModal } from '../common'
 import { Colors } from '../../constants/style'
 import { Auth } from '../../services'
 import {
@@ -66,6 +66,7 @@ const styles = {
     color: Colors.black,
     display: 'inline',
     marginLeft: 6,
+    marginRight: 0,
   },
   commentTimeStamp: {
     display: 'inline',
@@ -80,6 +81,7 @@ const styles = {
   },
   textContainer: {
     marginTop: -5,
+    paddingRight: 0,
   },
   contentContainer: {
     padding: '0 30px 30px 30px',
@@ -193,6 +195,7 @@ class TileDefault extends PureComponent {
       replyPlaceholder: false,
       isAutofocus: false,
       modalLogInOpen: false,
+      userLogged: false
     }
 
     this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
@@ -207,7 +210,18 @@ class TileDefault extends PureComponent {
   }
 
   componentDidMount = () => {
-    this.setState({ anchorEl: this.refs.share })
+    this.setState({
+      anchorEl: this.refs.share,
+      userLogged: isUserLoggedIn,
+    })
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.token) {
+      this.setState({
+        userLogged: true,
+      })
+    }
   }
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -551,7 +565,7 @@ class TileDefault extends PureComponent {
               <div className='small-4 columns' style={styles.likesContainer}>
                 <div className='likes-count'>
                   <a
-                    onClick={isUserLoggedIn ? this.handleLiked : this.handleLogInModalOpen}
+                    onClick={this.state.userLogged ? this.handleLiked : this.handleLogInModalOpen}
                     className={liked ? 'liked' : 'not-liked'}
                   />
 
@@ -569,7 +583,10 @@ class TileDefault extends PureComponent {
                   className='comments-count'
                 >
                   <a
-                    onClick={isUserLoggedIn ? this.handleCommentsOpen : this.handleLogInModalOpen}
+                    onClick={
+                      this.state.userLogged ?
+                        this.handleCommentsOpen : this.handleLogInModalOpen
+                      }
                     className={commented ? 'commented' : 'not-commented'}
                   />
 
@@ -611,7 +628,7 @@ class TileDefault extends PureComponent {
                 </div>
             }
           </CardText>
-          <LogInModal
+          <RegisterSignInModal
             modalOpen={this.state.modalLogInOpen}
             handleClose={this.handleLogInModalClose}
           />
@@ -634,7 +651,7 @@ class TileDefault extends PureComponent {
                 url={shareInfo.shareLink}
                 title={shareInfo.title}
                 description={action}
-                className='facebook-share-button'
+                className='facebook-share-button pointer-hand'
               >
                 <FacebookIcon
                   size={32}
@@ -650,7 +667,7 @@ class TileDefault extends PureComponent {
               <TwitterShareButton
                 url={shareInfo.shareLink}
                 title={shareInfo.title}
-                className='twitter-share-button'
+                className='twitter-share-button pointer-hand'
               >
                 <TwitterIcon
                   size={32}
@@ -670,7 +687,7 @@ class TileDefault extends PureComponent {
                 windowWidth={750}
                 windowHeight={600}
                 description={action}
-                className='linkedin-share-button'
+                className='linkedin-share-button pointer-hand'
               >
                   <LinkedinIcon
                     size={32}
@@ -685,7 +702,7 @@ class TileDefault extends PureComponent {
             >
               <GooglePlusShareButton
                 url={shareInfo.shareLink}
-                className='google-plus-share-button'
+                className='google-plus-share-button pointer-hand'
               >
                 <GooglePlusIcon
                   size={32}
@@ -694,14 +711,14 @@ class TileDefault extends PureComponent {
               </GooglePlusShareButton>
             </li>
 
-            {isUserLoggedIn ?
+            {this.state.userLogged ?
               (
                 <li
                   style={styles.shareGoReadLink}
                   onClick={this.handleShareOpenGoRead}
                 >
                 <img
-                  className='logo-share-img'
+                  className='logo-share-img pointer-hand'
                   src='/image/logo_share.png'
                 />
                 </li>
@@ -728,7 +745,8 @@ const mapStateToProps = ({
   currentReader: {
     fullname,
     url,
-    profileImage
+    profileImage,
+    token,
   },
   tiles: {
     feedComments
@@ -738,7 +756,8 @@ const mapStateToProps = ({
     feedComments,
     fullname,
     url,
-    profileImage
+    profileImage,
+    token
   }
 }
 

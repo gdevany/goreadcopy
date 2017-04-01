@@ -11,18 +11,15 @@ const styles = {
     minWidth: '100%',
     zIndex: 30,
   },
-  logoStyle: {
-    width: '250px'
-  }
 }
 
 const TopBanner = ({ selectAll }) => {
   return (
     <div className='row text-right nav-container' style={styles.topNavContainer}>
 
-      <div className='small-12 columns center-text'>
-        <Link to='/'>
-          <img style={styles.logoStyle} src='./image/logo.png' />
+      <div className='logo-onboarding-container'>
+        <Link to='/'className='logo-onboarding-anchor'>
+          <img className='logo-onboarding-img' src='./image/logo.png' />
         </Link>
       </div>
       <div className='small-12 columns'>

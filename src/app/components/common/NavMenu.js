@@ -119,6 +119,8 @@ class NavMenu extends PureComponent {
       usePlatformAs: false,
       readerFetched: false,
       chatModalOpen: false,
+      socialFollowers: 0,
+      socialFollowed: 0,
     }
 
     this.handleModalClose = this.handleModalClose.bind(this)
@@ -131,6 +133,18 @@ class NavMenu extends PureComponent {
   }
 
   componentWillReceiveProps = (nextProps) => {
+
+    if (nextProps.social.followers) {
+      this.setState({
+        socialFollowers: nextProps.social.followers.count
+      })
+    }
+
+    if (nextProps.social.followed) {
+      this.setState({
+        socialFollowed: nextProps.social.followed.count
+      })
+    }
 
     if (nextProps.currentReader.token && !this.state.readerFetched) {
       this.props.getCurrentReader()
@@ -449,7 +463,7 @@ class NavMenu extends PureComponent {
 
   }
   mapElementsHandler = (liClass, anchorClass) => {
-    return ([title, routeFn, routeType], index) => (
+    return ([title, routeFn, routeType, isFunc], index) => (
       <li className={liClass} key={title + index}>
         { routeType ?
           (
@@ -462,7 +476,7 @@ class NavMenu extends PureComponent {
           ) : (
             <a
               className={anchorClass}
-              href={routeFn()}
+              href={isFunc ? routeFn : routeFn()}
             >
               {title}
             </a>
@@ -475,13 +489,39 @@ class NavMenu extends PureComponent {
   handleMapProfileMenuItems = () => {
     const liClass = 'profile-menu-element'
     const anchorClass = 'profile-menu-anchor'
-    const { orders, referrals, help } = routes
+    const { currentReader } = this.props
+    const {
+      orders,
+      referrals,
+      help,
+      authorBuzz,
+      authorBuzzSettings,
+      publisherBuzz,
+      publisherBuzzSettings
+    } = routes
     const nonMenuRoutes = [
       ['Orders', orders],
       ['Referrals', referrals],
       ['Settings', '/profile/settings', true],
-      ['Help', help],
     ]
+
+    {currentReader.hasAuthorBuzz ?
+      nonMenuRoutes.push(
+        ['GoRead Buzz', authorBuzz({ slug: currentReader.author.slug }), false, true],
+        ['GoRead Buzz Settings', authorBuzzSettings],
+    ) : null }
+
+    {currentReader.hasPublisherBuzz && currentReader.isPublisher ?
+      nonMenuRoutes.push(
+        ['GoRead Publisher Buzz', publisherBuzz({ slug: currentReader.publisher.slug }),
+          false, true],
+        ['GoRead Publisher Buzz Settings',
+          publisherBuzzSettings({ slug: currentReader.publisher.slug }), false, true],
+    ) : null }
+
+    nonMenuRoutes.push(
+      ['Help', help],
+    )
     const NonMenuItem = this.mapElementsHandler(liClass, anchorClass)
 
     return R.map(NonMenuItem, nonMenuRoutes)
@@ -561,6 +601,7 @@ class NavMenu extends PureComponent {
 
   renderLogInMenu = () => {
     const { currentReader } = this.props
+    const { socialFollowers, socialFollowed } = this.state
     return (
       <div className='slide-down'>
         <div style={styles.mobileNavContainer} className='top-bar-mobile'>
@@ -587,29 +628,27 @@ class NavMenu extends PureComponent {
 
               <li style={styles.loggedInRightNavLi}>
                 <a
-                  href=''
                   style={styles.navItemLinks}
                   className='menu-badge-container rf-nav-link'
                 >
-                  {currentReader.notificationsCount ?
-                    (
-                      <Badge
-                        badgeContent={currentReader.notificationsCount}
-                        primary={true}
-                        badgeStyle={{
-                          top: -5,
-                          right: -7,
-                          width: '20px',
-                          height: '20px',
-                          paddingTop: 1,
-                          fontWeight: 700,
-                          backgroundColor: Colors.red,
-                        }}
-                      >
-                        <img src='/image/notifications-icon.svg' />
-                      </Badge>
-                    ) : null
-                  }
+                  <Badge
+                    badgeContent={
+                      currentReader.notificationsCount ?
+                        currentReader.notificationsCount : 0
+                      }
+                    primary={true}
+                    badgeStyle={{
+                      top: -5,
+                      right: -7,
+                      width: '20px',
+                      height: '20px',
+                      paddingTop: 1,
+                      fontWeight: 700,
+                      backgroundColor: Colors.red,
+                    }}
+                  >
+                    <img src='/image/notifications-icon.svg' />
+                  </Badge>
                 </a>
               </li>
 
@@ -638,16 +677,20 @@ class NavMenu extends PureComponent {
                     />
                   </figure>
                 </a>
-                <a href='' className='profile-name-anchor'>
+                <Link to={`profile/${currentReader.slug}`} className='profile-name-anchor'>
                   <span>{currentReader.firstName} {currentReader.lastName}</span>
-                </a>
+                </Link>
               </div>
               <div className='second-row-elements'>
                 <div className='follows-container'>
-                  <span>0 Followers</span>
+                  <span>
+                    {socialFollowers ? socialFollowers : null} Followers
+                  </span>
                 </div>
                 <div className='follows-container'>
-                  <span>10 Following</span>
+                  <span>
+                    {socialFollowed ? socialFollowed : null} Following
+                  </span>
                 </div>
               </div>
               <div className='third-row-elements'>
@@ -667,7 +710,7 @@ class NavMenu extends PureComponent {
                 </span>
                 {this.mapMobileMenuItems('Help')}
                 <li className='links-list'>
-                  <a href='#' className='links-anchor'>
+                  <a onClick={this.handleLogoutClick} className='links-anchor'>
                     Logout
                   </a>
                 </li>
@@ -732,29 +775,30 @@ class NavMenu extends PureComponent {
                 </li>
                 <li style={styles.loggedInRightNavLi}>
                   <a
-                    href=''
                     style={styles.navItemLinks}
                     className='menu-badge-container rf-nav-link'
                   >
-                    {currentReader.notificationsCount ?
-                      (
-                        <Badge
-                          badgeContent={currentReader.notificationsCount}
-                          primary={true}
-                          badgeStyle={{
-                            top: -5,
-                            right: -7,
-                            width: '20px',
-                            height: '20px',
-                            paddingTop: 1,
-                            fontWeight: 700,
-                            backgroundColor: Colors.red,
-                          }}
-                        >
-                          <img src='/image/notifications-icon.svg' />
-                        </Badge>
-                      ) : null
-                    }
+                    <Badge
+                      badgeContent={
+                        currentReader.notificationsCount ?
+                          currentReader.notificationsCount : 0
+                        }
+                      primary={true}
+                      badgeStyle={{
+                        top: -5,
+                        right: -7,
+                        width: '20px',
+                        height: '20px',
+                        paddingTop: 1,
+                        fontWeight: 700,
+                        backgroundColor: Colors.red,
+                      }}
+                    >
+                      <img
+                        src='/image/notifications-icon.svg'
+                        onClick={this.handleClickChat}
+                      />
+                    </Badge>
                   </a>
                 </li>
 
@@ -802,6 +846,11 @@ class NavMenu extends PureComponent {
               {this.handleMapNavItemsMobile()}
             </ul>
           </MobileMenu>
+          <div className='sign-in-btn-on-momile'>
+            <a onClick={this.handleLogInModalOpen}>
+              Log In
+            </a>
+          </div>
         </div>
         <div style={styles.navContainer} className='top-bar'>
           <div className='top-bar-left'>
@@ -850,7 +899,8 @@ class NavMenu extends PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    currentReader: state.currentReader
+    currentReader: state.currentReader,
+    social: state.social
   }
 }
 

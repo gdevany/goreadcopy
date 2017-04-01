@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { Scroller } from './'
+import TilesWrapper from '../readFeed/TilesWrapper'
 import R from 'ramda'
 
 class TileScroller extends PureComponent {
@@ -9,7 +10,9 @@ class TileScroller extends PureComponent {
   }
 
   componentWillMount() {
-    this.props.fetchTiles(this.initialTileParams())
+    if (this.props.fetchOnMount) {
+      this.props.fetchTiles(this.initialTileParams())
+    }
   }
 
   initialTileParams() {
@@ -50,6 +53,7 @@ class TileScroller extends PureComponent {
   }
 
   render() {
+    const { tiles } = this.props
     return (
       <Scroller
         onScroll={this.onScroll}
@@ -57,7 +61,9 @@ class TileScroller extends PureComponent {
         delay={250}
         enabled
         scrollParent={window}
-      />
+      >
+        <TilesWrapper feed={tiles} />
+      </Scroller>
     )
   }
 }
@@ -65,13 +71,15 @@ class TileScroller extends PureComponent {
 TileScroller.proptypes = {
   tiles: React.PropTypes.array,
   fetchTiles: React.PropTypes.func,
-  isLocked: React.PropTypes.bool
+  isLocked: React.PropTypes.bool,
+  fetchOnMount: React.PropTypes.bool,
 }
 
 TileScroller.defaultProps = {
   tiles: [],
   fetchTiles: null,
-  isLocked: false
+  isLocked: false,
+  fetchOnMount: false,
 }
 
 export default TileScroller

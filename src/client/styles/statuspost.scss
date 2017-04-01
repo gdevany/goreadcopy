@@ -18,6 +18,7 @@
       position: absolute;
       left: 75px;
       border: solid 1px $blue;
+      background-color: $white;
       bottom: 8px;
       display: block;
       padding: .25em 1em;
@@ -59,10 +60,10 @@
     }
     .status-post-textarea-open{
       width: 100%;
-      height: 200px;
+      height: 100px;
       margin-bottom: 0;
       border-radius: 5px;
-      padding: .9em;
+      padding: .9em .9em 3em .9em;
       resize: none;
       transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
       box-sizing: border-box;
@@ -74,6 +75,7 @@
       }
       @media all and (min-width: 768px){
         width: 85%;
+        height: 200px;
       }
       @media all and (min-width: 1024px){
         width: 89%;
@@ -151,4 +153,13 @@
     height: 300px;
     float: right;
   }
+}
+
+.SocialMediaShareButton{
+  .social-icon{
+    cursor: pointer;
+  }
+}
+.logo-share-img{
+  cursor: pointer;
 }

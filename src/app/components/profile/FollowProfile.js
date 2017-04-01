@@ -5,13 +5,12 @@ import { Follow } from '../../redux/actions'
 import { Link } from 'react-router'
 import { FollowModal } from '../common'
 import { Chip } from 'material-ui'
-import { LogInModal } from '../common'
+import { RegisterSignInModal } from '../common'
 import { Colors } from '../../constants/style'
 import { Auth } from '../../services'
+import { ExternalRoutes as routes } from '../../constants'
 
 import R from 'ramda'
-
-const isUserLoggedIn = Auth.currentUserExists()
 
 const { getFollowers, getFollowed, updateFollowed, followOrUnfollow } = Follow
 
@@ -58,6 +57,7 @@ class FollowProfile extends PureComponent {
       modalLogInOpen: false,
       profileFollowed: false,
       profileFetched: false,
+      authorProfile: '',
     }
 
     this.handleClose = this.handleClose.bind(this)
@@ -85,6 +85,18 @@ class FollowProfile extends PureComponent {
       })
     }
     if (this.props.fullname !== nextProps.fullname) this.getFollow(nextProps.id)
+
+    if (nextProps.isCurrentReader) {
+      this.setState({
+        isMyProfile: nextProps.isCurrentReader,
+      })
+    }
+
+    if (nextProps.authorProfile) {
+      this.setState({
+        authorProfile: nextProps.authorProfile,
+      })
+    }
   }
 
   getFollow = (id) => {
@@ -126,7 +138,7 @@ class FollowProfile extends PureComponent {
           isCurrentReader ?
             <Link to='/profile/settings'>Edit</Link> :
             <div>
-              {isUserLoggedIn ?
+              {Auth.currentUserExists() ?
                 (
                   <a onClick={this.handleFollow}>
                     {
@@ -158,11 +170,13 @@ class FollowProfile extends PureComponent {
     const {
       modalFollowersOpen,
       modalFollowingOpen,
+      authorProfile,
     } = this.state
 
     const {
       followed,
       followers,
+      isCurrentReader,
     } = this.props
 
     const followersCount = R.prop('count', followers)
@@ -191,7 +205,7 @@ class FollowProfile extends PureComponent {
             <div className='followers small-4 columns'>
               <div
                 className='profile-link'
-                onClick={isUserLoggedIn ?
+                onClick={Auth.currentUserExists() ?
                   () => this.handleOpen('followers') : this.handleLogInModalOpen
                 }
               >
@@ -205,7 +219,7 @@ class FollowProfile extends PureComponent {
             <div className='following small-4 columns'>
               <div
                 className='profile-link'
-                onClick={isUserLoggedIn ?
+                onClick={Auth.currentUserExists() ?
                   () => this.handleOpen('following') : this.handleLogInModalOpen
                 }
               >
@@ -220,6 +234,30 @@ class FollowProfile extends PureComponent {
               {this.renderChip()}
             </div>
           </div>
+          <div className='small-12 columns'>
+            {authorProfile ?
+              (
+                <a
+                  className='author-profile-link-button'
+                  href={authorProfile.url}
+                >
+                  Author Page
+                </a>
+              ) : null
+            }
+          </div>
+          <div className='small-12 columns'>
+            {isCurrentReader ?
+              (
+                <a
+                  className='referral-link-on-profile'
+                  href={routes.referrals()}
+                >
+                  Earn LitCoins Referring Your Friends, Click Here!
+                </a>
+              ) : null
+            }
+          </div>
         </div>
         <div>
           <FollowModal
@@ -228,7 +266,7 @@ class FollowProfile extends PureComponent {
             count={modalFollowCount}
             followType={modalFollowType}
           />
-          <LogInModal
+          <RegisterSignInModal
             modalOpen={this.state.modalLogInOpen}
             handleClose={this.handleLogInModalClose}
           />

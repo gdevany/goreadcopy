@@ -10,8 +10,7 @@ import EditLibraryModal from './EditLibraryModal'
 import CurrentlyReadingModal from './CurrentlyReadingModal'
 import TopBooksModal from './TopBooksModal'
 import R from 'ramda'
-
-// import Rating from 'react-rating'
+import Rating from 'react-rating'
 
 const { getProfileBookInfo, fetchLibrary } = ProfilePage
 
@@ -64,13 +63,17 @@ class BooksSection extends PureComponent {
   }
 
   componentWillReceiveProps = (nextProps) => {
-
     if (nextProps.id && nextProps.id !== this.state.userId) {
       this.props.getProfileBookInfo(nextProps.id)
       this.setState({
         userId: nextProps.id,
         libraryFetched: true,
         isMyProfile: nextProps.isCurrentReader,
+      })
+    }
+    if (nextProps.isCurrentReader) {
+      this.setState({
+        isMyProfile: nextProps.isCurrentReader
       })
     }
   }
@@ -107,16 +110,16 @@ class BooksSection extends PureComponent {
   }
   // TODO: Uncomment when we implement Ratings
 
-  // renderRating = (rating) => {
-  //   return (
-  //     <Rating
-  //       readonly={true}
-  //       initialRate={rating}
-  //       full={<img className='rating-icon library-rating-icon' src='/image/star.svg' />}
-  //       empty={<img className='rating-icon library-rating-icon' src='/image/star-empty.svg' />}
-  //     />
-  //   )
-  // }
+  renderRating = (rating) => {
+    return (
+      <Rating
+        readonly={true}
+        initialRate={rating}
+        full={<img className='rating-icon library-rating-icon' src='/image/star.svg' />}
+        empty={<img className='rating-icon library-rating-icon' src='/image/star-empty.svg' />}
+      />
+    )
+  }
 
   renderTopBooks = () => {
     const { profilePage } = this.props
@@ -136,6 +139,21 @@ class BooksSection extends PureComponent {
                   <a href={topBooks.topBook1.link || topBooks.topBook1.slug}>
                     <img className='book' src={topBooks.topBook1.imageUrl} />
                   </a>
+                  <span className='rating' >
+                    {this.renderRating(Math.round(topBooks.topBook1.rating.average))}
+                  </span>
+                  <div className='book-info-container'>
+                    <span className='book-info-title'>
+                      {this.truncInfo(topBooks.topBook1.title, 15)}
+                    </span>
+                    <span className='book-info-author'>
+                      {topBooks.topBook1.authors[0] ?
+                        (
+                          `by ${topBooks.topBook1.authors[0].fullname}`
+                        ) : null
+                      }
+                    </span>
+                  </div>
                 </div>
               </div>
             ) : null
@@ -152,6 +170,21 @@ class BooksSection extends PureComponent {
                   <a href={topBooks.topBook2.link || topBooks.topBook2.slug}>
                     <img className='book' src={topBooks.topBook2.imageUrl} />
                   </a>
+                  <span className='rating' >
+                    {this.renderRating(Math.round(topBooks.topBook2.rating.average))}
+                  </span>
+                  <div className='book-info-container'>
+                    <span className='book-info-title'>
+                      {this.truncInfo(topBooks.topBook2.title, 15)}
+                    </span>
+                    <span className='book-info-author'>
+                      {topBooks.topBook2.authors[0] ?
+                        (
+                          `by ${topBooks.topBook2.authors[0].fullname}`
+                        ) : null
+                      }
+                    </span>
+                  </div>
                 </div>
               </div>
             ) : null
@@ -168,6 +201,21 @@ class BooksSection extends PureComponent {
                   <a href={topBooks.topBook3.link || topBooks.topBook3.slug}>
                     <img className='book' src={topBooks.topBook3.imageUrl} />
                   </a>
+                  <span className='rating' >
+                    {this.renderRating(Math.round(topBooks.topBook3.rating.average))}
+                  </span>
+                  <div className='book-info-container'>
+                    <span className='book-info-title'>
+                      {this.truncInfo(topBooks.topBook3.title, 15)}
+                    </span>
+                    <span className='book-info-author'>
+                      {topBooks.topBook3.authors[0] ?
+                        (
+                          `by ${topBooks.topBook3.authors[0].fullname}`
+                        ) : null
+                      }
+                    </span>
+                  </div>
                 </div>
               </div>
             ) : null
@@ -184,6 +232,21 @@ class BooksSection extends PureComponent {
                   <a href={topBooks.topBook4.link || topBooks.topBook4.slug}>
                     <img className='book' src={topBooks.topBook4.imageUrl} />
                   </a>
+                  <span className='rating' >
+                    {this.renderRating(Math.round(topBooks.topBook4.rating.average))}
+                  </span>
+                  <div className='book-info-container'>
+                    <span className='book-info-title'>
+                      {this.truncInfo(topBooks.topBook4.title, 15)}
+                    </span>
+                    <span className='book-info-author'>
+                      {topBooks.topBook4.authors[0] ?
+                        (
+                          `by ${topBooks.topBook4.authors[0].fullname}`
+                        ) : null
+                      }
+                    </span>
+                  </div>
                 </div>
               </div>
             ) : null
@@ -200,6 +263,21 @@ class BooksSection extends PureComponent {
                   <a href={topBooks.topBook5.link || topBooks.topBook5.slug}>
                     <img className='book' src={topBooks.topBook5.imageUrl} />
                   </a>
+                  <span className='rating' >
+                    {this.renderRating(Math.round(topBooks.topBook5.rating.average))}
+                  </span>
+                  <div className='book-info-container'>
+                    <span className='book-info-title'>
+                      {this.truncInfo(topBooks.topBook5.title, 15)}
+                    </span>
+                    <span className='book-info-author'>
+                      {topBooks.topBook5.authors[0] ?
+                        (
+                          `by ${topBooks.topBook5.authors[0].fullname}`
+                        ) : null
+                      }
+                    </span>
+                  </div>
                 </div>
               </div>
             ) : null
@@ -214,88 +292,89 @@ class BooksSection extends PureComponent {
     this.props.fetchLibrary(id, params)
   })
 
-  renderLibrary = () => {
-    const { profilePage } = this.props
-    const { isMyProfile } = this.state
-
-    if (profilePage.myLibrary && profilePage.myLibrary.results) {
-
-      const libraryPage = profilePage.myLibrary.results.map((book, index) => {
-
-        const author = book.authors.length ? book.authors[0].fullname : null
-
-        return (
-          <div className='library-book-container' key={book.id}>
-            <div
-              className='book-container'
-            >
-              <a href={book.link || book.slug}>
-                <img className='book' src={book.imageUrl} />
-              </a>
-            </div>
-            <div className='library-book-details-container'>
-              <a href={book.slug} className='library-book-details-anchor'>
-                <span className='link'>
-                  {book.title ? this.truncInfo(book.title, 30) : null}
-                </span>
-                <p className='link subheader library-book-details-element'>
-                  by: { author ? this.truncInfo(author, 15) : <i> unknown </i>}
-                </p>
-                {/* <span className='rating' >
-                  {this.renderRating(Math.round(book.rating.average))}
-                </span> */}
-              </a>
-            </div>
-          </div>
-        )
-      })
-
+  renderBookList = (myLibrary) => {
+    const libraryPage = myLibrary.results.map((book, index) => {
+      const author = book.authors.length ? book.authors[0].fullname : null
       return (
-        <div>
-          {isMyProfile ?
-            (
-              <div className='library-edit-heading'>
-                <a
-                  className='edit-library-anchor'
-                  onClick={this.handleEditLibraryModal}
-                >
-                  <Editcon/>
-                  <span className='edit-library-text'> Edit Library</span>
-                </a>
-                <EditLibraryModal
-                  modalOpen={this.state.addLibraryModal}
-                  handleClose={this.handleEditLibraryModalClose}
-                  myLibrary={profilePage.myLibrary.results}
-                  userId={this.state.userId}
-                />
-                <a
-                  className='edit-library-anchor'
-                  onClick={this.handleTopBooksModal}
-                >
-                  <Editcon/>
-                  <span className='edit-library-text'>Top Books</span>
-                </a>
-                <TopBooksModal
-                  modalOpen={this.state.topBooksModal}
-                  handleClose={this.handleTopBooksModalClose}
-                  myLibrary={profilePage.myLibrary.results}
-                  topBooks={profilePage.topBooks}
-                  userId={this.state.userId}
-                />
-              </div>
-            ) : null
-          }
+        <div className='library-book-container' key={book.id}>
           <div
-            ref={(ref) => { this.bookContainer = ref }}
-            className='library-books-main-container'
+            className='book-container'
           >
-            {this.renderTopBooks() !== null ? this.renderTopBooks() : null}
-            {libraryPage ? libraryPage : null}
+            <a href={book.link || book.slug}>
+              <img className='book' src={book.imageUrl} />
+            </a>
+            <span className='rating'>
+              {this.renderRating(Math.round(book.rating.average))}
+            </span>
+            <div className='book-info-container'>
+              <span className='book-info-title'>
+                {book.title ? this.truncInfo(book.title, 15) : <i> unknown </i>}
+              </span>
+              <span className='book-info-author'>
+                {book.authors[0] ?
+                  (
+                    `by ${author}`
+                  ) : <i> unknown </i>
+                }
+              </span>
+            </div>
           </div>
         </div>
       )
-    }
-    return null
+    })
+    return libraryPage
+  }
+
+  renderLibrary = () => {
+    const { profilePage: { myLibrary, topBooks } } = this.props
+    const { isMyProfile, userId } = this.state
+    return (
+      <div>
+        {isMyProfile && userId ?
+          (
+            <div className='library-edit-heading'>
+              <a
+                className='edit-library-anchor'
+                onClick={this.handleEditLibraryModal}
+              >
+                <Editcon/>
+                <span className='edit-library-text'> Edit Library</span>
+              </a>
+              <EditLibraryModal
+                modalOpen={this.state.addLibraryModal}
+                handleClose={this.handleEditLibraryModalClose}
+                myLibrary={myLibrary}
+                userId={userId}
+              />
+              <a
+                className='edit-library-anchor'
+                onClick={this.handleTopBooksModal}
+              >
+                <Editcon/>
+                <span className='edit-library-text'>Top Books</span>
+              </a>
+              <TopBooksModal
+                modalOpen={this.state.topBooksModal}
+                handleClose={this.handleTopBooksModalClose}
+                myLibrary={myLibrary}
+                topBooks={topBooks}
+                userId={userId}
+              />
+            </div>
+          ) : null
+        }
+        <PageScroller
+          clsName='library-books-main-container'
+          fetchOnLoad={true}
+          fetchHandler={this.fetchHandler(userId)}
+          isLocked={myLibrary ? myLibrary.locked : false}
+          currentPage={myLibrary && myLibrary.page ? myLibrary.page : 0}
+        >
+          {this.renderTopBooks() !== null ? this.renderTopBooks() : null}
+          {myLibrary && myLibrary.results ? this.renderBookList(myLibrary) : null}
+        </PageScroller>
+      </div>
+    )
   }
 
   renderCurrentlyReading = () => {
@@ -318,8 +397,8 @@ class BooksSection extends PureComponent {
                 <CurrentlyReadingModal
                   modalOpen={this.state.addCurrentlyModal}
                   handleClose={this.handleCurrentlyModalClose}
-                  myLibrary={profilePage.myLibrary.results ?
-                    profilePage.myLibrary.results : null
+                  myLibrary={profilePage.myLibrary ?
+                    profilePage.myLibrary : null
                   }
                   userId={this.state.userId}
                 />
@@ -353,7 +432,6 @@ class BooksSection extends PureComponent {
 
   render() {
     const { userId, libraryFetched } = this.state
-    const { profilePage: { myLibrary } } = this.props
 
     if (userId && libraryFetched) {
       return (
@@ -369,11 +447,6 @@ class BooksSection extends PureComponent {
               <div className='sidebar-books-tab-container'>
                 {this.renderLibrary()}
               </div>
-              <PageScroller
-                scrollParent={this.bookContainer}
-                fetchHandler={this.fetchHandler(userId)}
-                isLocked={myLibrary ? myLibrary.locked : false}
-              />
             </Tab>
             <Tab
               label='Now Reading'

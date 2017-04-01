@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import { Auth } from '../../services'
 import { ProfilePage, CurrentReader } from '../../redux/actions'
@@ -21,6 +22,7 @@ class ProfileWrapper extends PureComponent {
       isMyProfile: false,
       slug: null,
       profileFetched: false,
+      isLogged: false,
     }
   }
 
@@ -41,6 +43,8 @@ class ProfileWrapper extends PureComponent {
     }
   }
 
+  componentDidMount = () => window.scrollTo(0, 0)
+
   componentWillReceiveProps = (nextProps) => {
     const profileSlug = this.props.params.slug
     if (nextProps.currentReader) {
@@ -49,6 +53,7 @@ class ProfileWrapper extends PureComponent {
         this.setState({
           isMyProfile: true,
           slug: currentSlug,
+          isLogged: true,
         })
         this.forceUpdate()
       } else {
@@ -59,6 +64,22 @@ class ProfileWrapper extends PureComponent {
             slug: profileSlug,
             profileFetched: true,
           }
+        }
+      }
+      if (nextProps.currentReader.token && nextProps.currentReader.slug) {
+        const currentSlug = nextProps.currentReader.slug
+        if (currentSlug === profileSlug) {
+          this.setState({
+            isLogged: true,
+            isMyProfile: true,
+            slug: currentSlug,
+          })
+        } else {
+          this.setState({
+            isLogged: true,
+            isMyProfile: false,
+            slug: profileSlug,
+          })
         }
       }
     }
@@ -94,18 +115,22 @@ class ProfileWrapper extends PureComponent {
 
     return (
       <div>
+        <Helmet>
+          <title>{`GoRead | Profile | Library of ${profile.fullname}`}</title>
+        </Helmet>
         <NavMenu isUserLoggedIn={isUserLoggedIn} />
+        <BackgroundImageProfileUpload
+          backgroundImage={profile.backgroundImage}
+          isMyProfile={isMyProfile}
+        />
         <div className='row'>
-          <BackgroundImageProfileUpload
-            backgroundImage={profile.backgroundImage}
-            isMyProfile={isMyProfile}
-          />
           <LeftProfileContainer
             isMyProfile={isMyProfile}
             id={profile.id}
             genreIds={profile.genreIds}
             fullname={profile.fullname}
             profileFollowed={isMyProfile ? false : profilePage.isFollower}
+            authorProfile={profile.author ? profile.author : null}
             achievements={profile.achievements}
             favoriteQuotes={profile.favoriteQuotes}
             profileImage={profile.profileImage}
@@ -113,7 +138,7 @@ class ProfileWrapper extends PureComponent {
           <MiddleProfileContainer
             id={profile.id}
             isProfilePage={true}
-            isUserLoggedIn={isUserLoggedIn}
+            isUserLoggedIn={this.state.isLogged}
           />
           <RightProfileContainer />
         </div>

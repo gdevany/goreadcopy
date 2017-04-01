@@ -1,18 +1,21 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
-import { Images } from '../../../redux/actions'
+import { Images, ProfilePage } from '../../../redux/actions'
+import CompleteProfileModal from '../CompleteProfileModal'
+import EditLibraryModal from '../../profile/EditLibraryModal'
+import { PageScroller } from '../../common'
 import Dropzone from 'react-dropzone'
+import { Colors } from '../../../constants/style'
 import {
   Card,
   CardText,
   LinearProgress,
 } from 'material-ui'
-import { Colors } from '../../../constants/style'
-import CompleteProfileModal from '../CompleteProfileModal'
-import AddBooksModal from '../AddBooksModal'
+import R from 'ramda'
 
 const { uploadImage } = Images
+
+const { fetchLibrary } = ProfilePage
 
 class ProfileDetailerTile extends Component {
   constructor(props) {
@@ -23,19 +26,15 @@ class ProfileDetailerTile extends Component {
       hasProfileImage: false,
       completeProfileModalOpen: false,
       addBooksModal: false,
-      profilePage: '',
     }
+
     this.handleClickProfileComplete = this.handleClickProfileComplete.bind(this)
     this.handleClickaddBooksModal = this.handleClickaddBooksModal.bind(this)
   }
 
-  componentWillReceiveProps = (nextProps) => {
-    if (nextProps.profilePage.fullname) {
-      this.setState({
-        profilePage: nextProps.profilePage
-      })
-    }
-  }
+  fetchHandler = R.curry((id, params) => {
+    this.props.fetchLibrary(id, params)
+  })
 
   handleClickProfileComplete = (event) => {
     event.preventDefault()
@@ -72,11 +71,17 @@ class ProfileDetailerTile extends Component {
   }
 
   render() {
-    const { loginCount } = this.props
-
-    if (loginCount) {
+    const { userId, myLibrary } = this.props
+    if (userId) {
       return (
         <Card className='profile-detailer-container'>
+          <PageScroller
+            clsName='library-books-main-container'
+            fetchOnLoad={true}
+            fetchHandler={this.fetchHandler(userId)}
+            isLocked={myLibrary ? myLibrary.locked : false}
+            currentPage={myLibrary && myLibrary.page ? myLibrary.page : 0}
+          />
           <div className='profile-detailer-header'>
             <h3 className='profile-detailer-title'>
               Complete your Profile
@@ -95,17 +100,19 @@ class ProfileDetailerTile extends Component {
                 className='dropzone-profile-detailer'
               >
                 <a href='#' className='profile-detailer-single-action'>
-                  <div className='action-icon'>
-                    <span>+</span>
-                  </div>
-                  <div className='action-content'>
-                    <spam className='action-name'>Add Profile Photo</spam>
-                    <div className='litcoin-earn-container'>
-                      <span className='litcoin-amount'>
-                        3,500
-                      </span>
-                      <img className='litcoin-image' src='./image/litcoin.png' />
+                  <div className='profile-detailer-left-elements'>
+                    <div className='action-icon'>
+                      <span>+</span>
                     </div>
+                    <div className='action-content'>
+                      <spam className='action-name'>Add Profile Photo</spam>
+                    </div>
+                  </div>
+                  <div className='litcoin-earn-container'>
+                    <span className='litcoin-amount'>
+                      2,500
+                    </span>
+                    <img className='litcoin-image' src='./image/litcoin.png' />
                   </div>
                 </a>
               </Dropzone>
@@ -113,17 +120,19 @@ class ProfileDetailerTile extends Component {
                 onClick={this.handleClickProfileComplete}
                 className='profile-detailer-single-action'
               >
-                <div className='action-icon'>
-                  <span>+</span>
-                </div>
-                <div className='action-content'>
-                  <spam className='action-name'>Tell us more about your self</spam>
-                  <div className='litcoin-earn-container'>
-                    <span className='litcoin-amount'>
-                      3,500
-                    </span>
-                    <img className='litcoin-image' src='./image/litcoin.png' />
+                <div className='profile-detailer-left-elements'>
+                  <div className='action-icon'>
+                    <span>+</span>
                   </div>
+                  <div className='action-content'>
+                    <spam className='action-name'>Tell us more about your self</spam>
+                  </div>
+                </div>
+                <div className='litcoin-earn-container'>
+                  <span className='litcoin-amount'>
+                    5,000
+                  </span>
+                  <img className='litcoin-image' src='./image/litcoin.png' />
                 </div>
                 <CompleteProfileModal
                   modalOpen={this.state.completeProfileModalOpen}
@@ -134,46 +143,43 @@ class ProfileDetailerTile extends Component {
                 onClick={this.handleClickaddBooksModal}
                 className='profile-detailer-single-action'
               >
-                <div className='action-icon'>
-                  <span>+</span>
-                </div>
-                <div className='action-content'>
-                  <spam className='action-name'>Add Books to Library</spam>
-                  <div className='litcoin-earn-container'>
-                    <span className='litcoin-amount'>
-                      3,500
-                    </span>
-                    <img className='litcoin-image' src='./image/litcoin.png' />
+                <div className='profile-detailer-left-elements'>
+                  <div className='action-icon'>
+                    <span>+</span>
+                  </div>
+                  <div className='action-content'>
+                    <spam className='action-name'>Add Books to Library</spam>
                   </div>
                 </div>
-                <AddBooksModal
+                <div className='litcoin-earn-container'>
+                  <span className='litcoin-amount'>
+                    500/ea
+                  </span>
+                  <img className='litcoin-image' src='./image/litcoin.png' />
+                </div>
+                <EditLibraryModal
                   modalOpen={this.state.addBooksModal}
                   handleClose={this.handleClickaddBooksModalClose}
+                  myLibrary={myLibrary}
+                  userId={userId.id}
                 />
               </a>
             </div>
-            { this.state.profilePage ?
-              (
-                <Link
-                  top={`profile/${this.state.profilePage.slug}`}
-                  className='profile-detailer-goto'
-                >
-                  See your profile >
-                </Link>
-              ) : null
-            }
           </CardText>
         </Card>
       )
     }
-    return null
+    return (
+      <div>Loading</div>
+    )
   }
 }
 const mapStateToProps = (state) => {
   return {
-    loginCount: state.currentReader.loginCount,
-    profileImage: state.currentReader.profileImage
+    profileImage: state.currentReader.profileImage,
+    myLibrary: state.profilePage.library,
+    userId: state.currentReader.id
   }
 }
 
-export default connect(mapStateToProps, { uploadImage })(ProfileDetailerTile)
+export default connect(mapStateToProps, { uploadImage, fetchLibrary })(ProfileDetailerTile)

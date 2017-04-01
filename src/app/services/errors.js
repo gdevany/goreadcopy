@@ -33,7 +33,19 @@ const Errors = () => {
 
   const none = R.always({})
 
-  const expectedErrors = R.compose(R.prop('errors'), R.propOr({}, 'data'), R.propOr({}, 'response'))
+  const expectedNonFieldErrors = (error) => {
+    const hasAnError = R.prop('nonFieldErrors', error)
+    if (hasAnError) {
+      return { nonFieldErrors: message(hasAnError) }
+    }
+    return null
+  }
+
+  const expectedErrors = R.compose(
+    R.prop('errors'),
+    R.propOr({}, 'data'),
+    R.propOr({}, 'response')
+  )
 
   const unexpectedErrors = (error) => {
     const hasAnError = R.prop('message', error)
@@ -45,13 +57,16 @@ const Errors = () => {
   }
 
   const errorsFrom = (error) => {
+    // for signin & signup field errors
+    const expectedNonField = expectedNonFieldErrors(
+      (error.response) ? error.response.data : error
+    )
     // for expected error messages from the API
     const expected = expectedErrors(error)
-
     // for unexpected error messages, i.e. network, syntax, etc
     const unexpected = unexpectedErrors(error)
 
-    return expected || unexpected || {}
+    return expectedNonField || expected || unexpected || {}
   }
 
   const messageFrom = R.propOr('', 'message')

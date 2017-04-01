@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Tiles } from '../../redux/actions'
-import TilesWrapper from './TilesWrapper'
 import { ProfileDetailerTile, AnnouncementTile } from './tiles'
 import { StatusPost, TileScroller } from '../common'
 
@@ -19,11 +18,11 @@ class MiddleContainer extends PureComponent {
         <ProfileDetailerTile />
         <AnnouncementTile/>
         <StatusPost targetId={userId} postNewTile={prependReadFeedTile}/>
-        {readFeed ? <TilesWrapper feed={readFeed}/> : null}
         <TileScroller
           fetchTiles={(params) => this.props.getReadFeedTiles(params)}
           tiles={readFeed}
           isLocked={isReadFeedLocked}
+          fetchOnMount={true}
         />
       </div>
     )

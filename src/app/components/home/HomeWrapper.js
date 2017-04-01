@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import Home from './Home'
 import { ReadFeed } from '../readFeed'
@@ -21,7 +22,12 @@ class HomeWrapper extends PureComponent {
   }
   render() {
     return CurrentToken.currentUserExists() ? (
-      <ReadFeed isMyReadFeed={true}/>
+      <div>
+        <Helmet>
+          <title>{`GoRead | Home | Welcome back ${this.props.currentReader.fullname}`}</title>
+        </Helmet>
+        <ReadFeed isMyReadFeed={true}/>
+      </div>
     ) : (
       <Home />
     )

@@ -168,7 +168,7 @@ const TilesWrapper = ({ feed }) => {
             return `${<i>Unknown</i>}`
           }
           const bookAndProductContent = {
-            title: (tile.target.name || tile.target.title),
+            title: (tile.target.name || tile.target.title || tileContent.title),
             description: (tileContent.body || tileContent.description),
             image: tileContent.imageUrl,
             rating: tileContent.rating.average,
@@ -251,6 +251,7 @@ const TilesWrapper = ({ feed }) => {
             description: tileContent.description,
             image: tileContent.imageUrl || tileContent.poster.imageUrl,
             link: tile.actor.link,
+            slug: tileContent.slug,
             userType: findUserType(tileContent.contentType),
             socialComment: (tile.socialPostComment || null)
           }
@@ -284,6 +285,7 @@ const TilesWrapper = ({ feed }) => {
             description: tileContent.mentions,
             socialComment: (tile.socialPostComment || null),
             mentionsList: tileContent.mentionArray,
+            activeContent: (tileContent.activeUrl || null),
           }
           result.push(
             <StatusPostTile
@@ -387,7 +389,7 @@ const TilesWrapper = ({ feed }) => {
   }
 
   return (
-    <div>
+    <div className='tile-wrapper'>
       {feed ? renderTiles(feed) : null}
     </div>
   )
