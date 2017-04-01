@@ -119,11 +119,11 @@ class ProfileWrapper extends PureComponent {
           <title>{`GoRead | Profile | Library of ${profile.fullname}`}</title>
         </Helmet>
         <NavMenu isUserLoggedIn={isUserLoggedIn} />
+        <BackgroundImageProfileUpload
+          backgroundImage={profile.backgroundImage}
+          isMyProfile={isMyProfile}
+        />
         <div className='row'>
-          <BackgroundImageProfileUpload
-            backgroundImage={profile.backgroundImage}
-            isMyProfile={isMyProfile}
-          />
           <LeftProfileContainer
             isMyProfile={isMyProfile}
             id={profile.id}
