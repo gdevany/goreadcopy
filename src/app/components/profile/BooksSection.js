@@ -10,8 +10,7 @@ import EditLibraryModal from './EditLibraryModal'
 import CurrentlyReadingModal from './CurrentlyReadingModal'
 import TopBooksModal from './TopBooksModal'
 import R from 'ramda'
-
-// import Rating from 'react-rating'
+import Rating from 'react-rating'
 
 const { getProfileBookInfo, fetchLibrary } = ProfilePage
 
@@ -111,16 +110,16 @@ class BooksSection extends PureComponent {
   }
   // TODO: Uncomment when we implement Ratings
 
-  // renderRating = (rating) => {
-  //   return (
-  //     <Rating
-  //       readonly={true}
-  //       initialRate={rating}
-  //       full={<img className='rating-icon library-rating-icon' src='/image/star.svg' />}
-  //       empty={<img className='rating-icon library-rating-icon' src='/image/star-empty.svg' />}
-  //     />
-  //   )
-  // }
+  renderRating = (rating) => {
+    return (
+      <Rating
+        readonly={true}
+        initialRate={rating}
+        full={<img className='rating-icon library-rating-icon' src='/image/star.svg' />}
+        empty={<img className='rating-icon library-rating-icon' src='/image/star-empty.svg' />}
+      />
+    )
+  }
 
   renderTopBooks = () => {
     const { profilePage } = this.props
@@ -140,6 +139,21 @@ class BooksSection extends PureComponent {
                   <a href={topBooks.topBook1.link || topBooks.topBook1.slug}>
                     <img className='book' src={topBooks.topBook1.imageUrl} />
                   </a>
+                  <span className='rating' >
+                    {this.renderRating(Math.round(topBooks.topBook1.rating.average))}
+                  </span>
+                  <div className='book-info-container'>
+                    <span className='book-info-title'>
+                      {this.truncInfo(topBooks.topBook1.title, 15)}
+                    </span>
+                    <span className='book-info-author'>
+                      {topBooks.topBook1.authors[0] ?
+                        (
+                          `by ${topBooks.topBook1.authors[0].fullname}`
+                        ) : null
+                      }
+                    </span>
+                  </div>
                 </div>
               </div>
             ) : null
@@ -156,6 +170,21 @@ class BooksSection extends PureComponent {
                   <a href={topBooks.topBook2.link || topBooks.topBook2.slug}>
                     <img className='book' src={topBooks.topBook2.imageUrl} />
                   </a>
+                  <span className='rating' >
+                    {this.renderRating(Math.round(topBooks.topBook2.rating.average))}
+                  </span>
+                  <div className='book-info-container'>
+                    <span className='book-info-title'>
+                      {this.truncInfo(topBooks.topBook2.title, 15)}
+                    </span>
+                    <span className='book-info-author'>
+                      {topBooks.topBook2.authors[0] ?
+                        (
+                          `by ${topBooks.topBook2.authors[0].fullname}`
+                        ) : null
+                      }
+                    </span>
+                  </div>
                 </div>
               </div>
             ) : null
@@ -172,6 +201,21 @@ class BooksSection extends PureComponent {
                   <a href={topBooks.topBook3.link || topBooks.topBook3.slug}>
                     <img className='book' src={topBooks.topBook3.imageUrl} />
                   </a>
+                  <span className='rating' >
+                    {this.renderRating(Math.round(topBooks.topBook3.rating.average))}
+                  </span>
+                  <div className='book-info-container'>
+                    <span className='book-info-title'>
+                      {this.truncInfo(topBooks.topBook3.title, 15)}
+                    </span>
+                    <span className='book-info-author'>
+                      {topBooks.topBook3.authors[0] ?
+                        (
+                          `by ${topBooks.topBook3.authors[0].fullname}`
+                        ) : null
+                      }
+                    </span>
+                  </div>
                 </div>
               </div>
             ) : null
@@ -188,6 +232,21 @@ class BooksSection extends PureComponent {
                   <a href={topBooks.topBook4.link || topBooks.topBook4.slug}>
                     <img className='book' src={topBooks.topBook4.imageUrl} />
                   </a>
+                  <span className='rating' >
+                    {this.renderRating(Math.round(topBooks.topBook4.rating.average))}
+                  </span>
+                  <div className='book-info-container'>
+                    <span className='book-info-title'>
+                      {this.truncInfo(topBooks.topBook4.title, 15)}
+                    </span>
+                    <span className='book-info-author'>
+                      {topBooks.topBook4.authors[0] ?
+                        (
+                          `by ${topBooks.topBook4.authors[0].fullname}`
+                        ) : null
+                      }
+                    </span>
+                  </div>
                 </div>
               </div>
             ) : null
@@ -204,6 +263,21 @@ class BooksSection extends PureComponent {
                   <a href={topBooks.topBook5.link || topBooks.topBook5.slug}>
                     <img className='book' src={topBooks.topBook5.imageUrl} />
                   </a>
+                  <span className='rating' >
+                    {this.renderRating(Math.round(topBooks.topBook5.rating.average))}
+                  </span>
+                  <div className='book-info-container'>
+                    <span className='book-info-title'>
+                      {this.truncInfo(topBooks.topBook5.title, 15)}
+                    </span>
+                    <span className='book-info-author'>
+                      {topBooks.topBook5.authors[0] ?
+                        (
+                          `by ${topBooks.topBook5.authors[0].fullname}`
+                        ) : null
+                      }
+                    </span>
+                  </div>
                 </div>
               </div>
             ) : null
@@ -229,19 +303,21 @@ class BooksSection extends PureComponent {
             <a href={book.link || book.slug}>
               <img className='book' src={book.imageUrl} />
             </a>
-          </div>
-          <div className='library-book-details-container'>
-            <a href={book.slug} className='library-book-details-anchor'>
-              <span className='link'>
-                {book.title ? this.truncInfo(book.title, 30) : null}
+            <span className='rating'>
+              {this.renderRating(Math.round(book.rating.average))}
+            </span>
+            <div className='book-info-container'>
+              <span className='book-info-title'>
+                {book.title ? this.truncInfo(book.title, 15) : <i> unknown </i>}
               </span>
-              <p className='link subheader library-book-details-element'>
-                by: { author ? this.truncInfo(author, 15) : <i> unknown </i>}
-              </p>
-              {/* <span className='rating' >
-                {this.renderRating(Math.round(book.rating.average))}
-              </span> */}
-            </a>
+              <span className='book-info-author'>
+                {book.authors[0] ?
+                  (
+                    `by ${author}`
+                  ) : <i> unknown </i>
+                }
+              </span>
+            </div>
           </div>
         </div>
       )
