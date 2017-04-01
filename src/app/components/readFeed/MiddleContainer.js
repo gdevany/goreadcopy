@@ -15,8 +15,8 @@ class MiddleContainer extends PureComponent {
     const { readFeed, userId, prependReadFeedTile, isReadFeedLocked } = this.props
     return (
       <div className='middle-container small-12 large-6 columns'>
-        <ProfileDetailerTile />
         <AnnouncementTile/>
+        <ProfileDetailerTile />
         <StatusPost targetId={userId} postNewTile={prependReadFeedTile}/>
         <TileScroller
           fetchTiles={(params) => this.props.getReadFeedTiles(params)}

@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Images, ProfilePage } from '../../../redux/actions'
+import { Images } from '../../../redux/actions'
 import CompleteProfileModal from '../CompleteProfileModal'
-import EditLibraryModal from '../../profile/EditLibraryModal'
-import { PageScroller } from '../../common'
+import AddBooksModal from '../AddBooksModal'
 import Dropzone from 'react-dropzone'
 import { Colors } from '../../../constants/style'
 import {
@@ -11,11 +10,8 @@ import {
   CardText,
   LinearProgress,
 } from 'material-ui'
-import R from 'ramda'
 
 const { uploadImage } = Images
-
-const { fetchLibrary } = ProfilePage
 
 class ProfileDetailerTile extends Component {
   constructor(props) {
@@ -31,10 +27,6 @@ class ProfileDetailerTile extends Component {
     this.handleClickProfileComplete = this.handleClickProfileComplete.bind(this)
     this.handleClickaddBooksModal = this.handleClickaddBooksModal.bind(this)
   }
-
-  fetchHandler = R.curry((id, params) => {
-    this.props.fetchLibrary(id, params)
-  })
 
   handleClickProfileComplete = (event) => {
     event.preventDefault()
@@ -71,17 +63,10 @@ class ProfileDetailerTile extends Component {
   }
 
   render() {
-    const { userId, myLibrary } = this.props
+    const { userId } = this.props
     if (userId) {
       return (
         <Card className='profile-detailer-container'>
-          <PageScroller
-            clsName='library-books-main-container'
-            fetchOnLoad={true}
-            fetchHandler={this.fetchHandler(userId)}
-            isLocked={myLibrary ? myLibrary.locked : false}
-            currentPage={myLibrary && myLibrary.page ? myLibrary.page : 0}
-          />
           <div className='profile-detailer-header'>
             <h3 className='profile-detailer-title'>
               Complete your Profile
@@ -157,10 +142,9 @@ class ProfileDetailerTile extends Component {
                   </span>
                   <img className='litcoin-image' src='./image/litcoin.png' />
                 </div>
-                <EditLibraryModal
+                <AddBooksModal
                   modalOpen={this.state.addBooksModal}
                   handleClose={this.handleClickaddBooksModalClose}
-                  myLibrary={myLibrary}
                   userId={userId.id}
                 />
               </a>
@@ -169,17 +153,14 @@ class ProfileDetailerTile extends Component {
         </Card>
       )
     }
-    return (
-      <div>Loading</div>
-    )
+    return null
   }
 }
 const mapStateToProps = (state) => {
   return {
     profileImage: state.currentReader.profileImage,
-    myLibrary: state.profilePage.library,
     userId: state.currentReader.id
   }
 }
 
-export default connect(mapStateToProps, { uploadImage, fetchLibrary })(ProfileDetailerTile)
+export default connect(mapStateToProps, { uploadImage })(ProfileDetailerTile)

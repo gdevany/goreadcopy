@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { Dialog, } from 'material-ui'
 import { connect } from 'react-redux'
-import { Search } from '../../redux/actions'
-import R from 'ramda'
+import { Search, ProfilePage } from '../../redux/actions'
 import { debounce } from 'lodash'
+import R from 'ramda'
 
-const { mainSearch, updateSearch } = Search
+const { bookSearch, updateBookSearch } = Search
+const { addToLibrary } = ProfilePage
 
 class AddBooksModal extends Component {
 
@@ -13,10 +14,34 @@ class AddBooksModal extends Component {
     super(props)
 
     this.state = {
-      searchTerm: ''
+      searchTerm: '',
+      userId: '',
     }
     this.handleSeach = this.handleSeach.bind(this)
     this.debouncedSearch = this.debouncedSearch.bind(this)
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    if (this.state.userId !== nextProps.userId) {
+      this.setState({
+        userId: nextProps.userId,
+      })
+    }
+  }
+
+  truncInfo = (text, limit) => {
+    return text.length >= limit ? `${text.slice(0, limit)}...` : text
+  }
+
+  handleAddToLibrary = (bookEan) => {
+    const { userId } = this.state
+    this.props.addToLibrary(bookEan, userId)
+  }
+
+  handleEnterButton = (event) => {
+    if (event.which === 13) {
+      event.preventDefault()
+    }
   }
 
   handleSeach = R.curry((field, e) => {
@@ -27,7 +52,7 @@ class AddBooksModal extends Component {
 
   debouncedSearch = debounce((event) => {
     if (event.target.value.length > 3) {
-      this.props.mainSearch(event.target.value, 'book-search')
+      this.props.bookSearch(event.target.value)
     }
   }, 300)
 
@@ -35,25 +60,33 @@ class AddBooksModal extends Component {
     const searchTerms = this.props.searchResults
     if (searchTerms.counts) {
       const bookResults = searchTerms.books.map((book, index) => {
+        const author = book.authors[0] ? book.authors[0].fullname : null
         return (
-          <div key={book.id} className='result-container'>
-            <div className='image-container'>
-              <a href={book.url}>
-                <figure className='search-result-figure'>
-                  <img
-                    src={book.image}
-                    className='search-result-image'
-                    alt={book.slug}
-                  />
-                </figure>
+          <div key={`${book.ean}_${index}`} className='result-container'>
+            <div
+              className='book-container'
+            >
+              <a href={book.link || book.slug}>
+                <img className='book' src={book.imageUrl} />
               </a>
             </div>
-            <div className='search-result-info-container'>
-              <a href={book.url}>
-                {book.title} by {book.writtenBy}
+            <div className='library-book-details-container'>
+              <a href={book.slug} className='library-book-details-anchor'>
+                <span className='link'>
+                  {book.title ? this.truncInfo(book.title, 30) : null}
+                </span>
+                <p className='link subheader library-book-details-element'>
+                  by: { author ? this.truncInfo(author, 15) : <i> unknown </i>}
+                </p>
               </a>
-              <br/>
-              <a href='' className='search-result-add-to'>Add to Library</a>
+            </div>
+            <div className='search-add-to-library-container'>
+              <a
+                className='search-add-to-library-anchor'
+                onClick={() => this.handleAddToLibrary(book.ean)}
+              >
+                Add to Library
+              </a>
             </div>
           </div>
         )
@@ -102,7 +135,7 @@ class AddBooksModal extends Component {
                 <div className='form-wrapper general-font small-8 collumns small-centered'>
                   <div className='row'>
                     <div className='small-12 columns'>
-                      <form>
+                      <form onKeyPress={this.handleEnterButton}>
                         <input
                           type='text'
                           className='form-input'
@@ -132,4 +165,10 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { mainSearch, updateSearch })(AddBooksModal)
+const mapDistpachToProps = {
+  bookSearch,
+  updateBookSearch,
+  addToLibrary,
+}
+
+export default connect(mapStateToProps, mapDistpachToProps)(AddBooksModal)
