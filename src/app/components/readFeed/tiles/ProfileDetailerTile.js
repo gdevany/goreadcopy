@@ -59,7 +59,7 @@ class ProfileDetailerTile extends Component {
       reader.readAsDataURL(file)
       reader.onload = () => resolve(reader.result)
       reader.onerror = (error) => reject(`Error in getBase64: ${error}`)
-    }).then(res => this.props.uploadImage({ imageType, file: res }))
+    }).then(res => this.props.uploadImage({ imageType, file: res, context: 'readfeed' }))
   }
 
   render() {
@@ -138,7 +138,7 @@ class ProfileDetailerTile extends Component {
                 </div>
                 <div className='litcoin-earn-container'>
                   <span className='litcoin-amount'>
-                    1/ea
+                    500/ea
                   </span>
                   <img className='litcoin-image' src='./image/litcoin.png' />
                 </div>

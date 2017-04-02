@@ -117,7 +117,8 @@ class CompleteProfileModal extends PureComponent {
         city,
         state,
         zipcode,
-        profession
+        profession,
+        context: 'readfeed',
       }
     } else {
       readerData = {
@@ -126,7 +127,8 @@ class CompleteProfileModal extends PureComponent {
         city,
         state,
         zipcode,
-        profession
+        profession,
+        context: 'readfeed'
       }
     }
     this.props.updateReader(readerData)

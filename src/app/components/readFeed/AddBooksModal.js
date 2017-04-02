@@ -53,7 +53,7 @@ class AddBooksModal extends Component {
 
   handleAddToLibrary = (bookEan) => {
     const { userId } = this.state
-    this.props.addToLibrary(bookEan, userId)
+    this.props.addToLibrary(bookEan, userId, 'readfeed')
   }
 
   handleEnterButton = (event) => {

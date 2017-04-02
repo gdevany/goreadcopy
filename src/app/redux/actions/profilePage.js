@@ -64,9 +64,17 @@ export function fetchLibrary(id, params) {
   }
 }
 
-export function addToLibrary(payload, id) {
-  const terms = {
-    ean: payload,
+export function addToLibrary(payload, id, context) {
+  let terms
+  if (context) {
+    terms = {
+      ean: payload,
+      context: context
+    }
+  } else {
+    terms = {
+      ean: payload
+    }
   }
   return dispatch => {
     ProfilePage.updateLibrary(terms)
