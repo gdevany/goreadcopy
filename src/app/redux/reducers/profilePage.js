@@ -38,6 +38,10 @@ export default (state = initialState.profilePage, { type, payload }) => {
       return R.merge(state, {
         topBooks: payload
       })
+    case A.GET_WISH_LIST:
+      return R.merge(state, {
+        wishList: payload.wishList
+      })
     case A.ADD_TO_LIBRARY:
       diff = {
         library: {

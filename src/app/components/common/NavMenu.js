@@ -651,7 +651,32 @@ class NavMenu extends PureComponent {
                   </Badge>
                 </a>
               </li>
-
+              <li style={styles.loggedInRightNavLi}>
+                <a
+                  href={routes.shopCart()}
+                  style={styles.navItemLinks}
+                  className='menu-badge-container rf-nav-link'
+                >
+                  <Badge
+                    badgeContent={
+                      currentReader.cartItems ?
+                        currentReader.cartItems : 0
+                      }
+                    primary={true}
+                    badgeStyle={{
+                      top: -5,
+                      right: -7,
+                      width: '20px',
+                      height: '20px',
+                      paddingTop: 1,
+                      fontWeight: 700,
+                      backgroundColor: Colors.red,
+                    }}
+                  >
+                    <img src='/image/cart.svg' />
+                  </Badge>
+                </a>
+              </li>
               <li className='nav-menu-logged-list'>
                 <a href='' className='nav-menu-logged-anchor'>
                   <MenuIcon style={styles.menuIcon} onClick={this.handleMenuClick}/>
@@ -798,6 +823,32 @@ class NavMenu extends PureComponent {
                         src='/image/notifications-icon.svg'
                         onClick={this.handleClickChat}
                       />
+                    </Badge>
+                  </a>
+                </li>
+                <li style={styles.loggedInRightNavLi}>
+                  <a
+                    href={routes.shopCart()}
+                    style={styles.navItemLinks}
+                    className='menu-badge-container rf-nav-link'
+                  >
+                    <Badge
+                      badgeContent={
+                        currentReader.cartItems ?
+                          currentReader.cartItems : 0
+                        }
+                      primary={true}
+                      badgeStyle={{
+                        top: -5,
+                        right: -7,
+                        width: '20px',
+                        height: '20px',
+                        paddingTop: 1,
+                        fontWeight: 700,
+                        backgroundColor: Colors.red,
+                      }}
+                    >
+                      <img src='/image/cart.svg' />
                     </Badge>
                   </a>
                 </li>

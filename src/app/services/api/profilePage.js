@@ -7,11 +7,13 @@ const {
   currentlyReading,
   getLibrary,
   getTopBooks,
+  getCurrentWishList,
   currentReader: {
     updateLibrary,
     setCurrentlyReading,
     deleteTopBooks,
     updateTopBooks,
+    updateCurrentWishList,
   }
 } = Endpoints
 
@@ -27,6 +29,9 @@ const General = () => {
     deleteBookLibrary: (data) => authenticated().delete(updateLibrary(), { data }),
     deleteTopBooks: (data) => authenticated().delete(deleteTopBooks(), { data }),
     updateTopBooks: (body) => authenticated().post(updateTopBooks(), body),
+    getWishList: (id) => http.get(getCurrentWishList(id)),
+    updateWishList: (body) => authenticated().post(updateCurrentWishList(), body),
+    deleteFromWishList: (data) => authenticated().delete(updateCurrentWishList(), { data }),
   }
 }
 

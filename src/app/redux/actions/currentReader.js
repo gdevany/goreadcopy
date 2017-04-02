@@ -58,6 +58,14 @@ export function updateReader(payload) {
   }
 }
 
+export function updateShippingAddress(payload) {
+  return dispatch => {
+    CurrentReader.updateShippingAddress(payload)
+      .then(res => dispatch(getCurrentReader()))
+      .catch(err => console.log(`Error in updateShippingAddress ${err}`))
+  }
+}
+
 export function deleteSocialAccount(payload) {
   return dispatch => {
     SocialReader.deleteSocialAccount(payload)
@@ -141,4 +149,5 @@ export default {
   logoutCurrentReader,
   selectSocialAccount,
   unSelectSocialAccount,
+  updateShippingAddress,
 }
