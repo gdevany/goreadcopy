@@ -105,14 +105,10 @@
     flex-wrap: wrap;
     padding-top: .5em;
     .wishlist-book-container{
-      width: 50%;
+      width: 30%;
       position: relative;
       margin-bottom: .5em;
-      @media all and (min-width: 768px){
-        width: 30%;
-        position: relative;
-        margin-bottom: .5em;
-      }
+      text-align: center;
       .remove-wishlist-badge{
         width: 18px;
         height: 18px;
