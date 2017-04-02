@@ -5,14 +5,16 @@ import { Colors } from '../../constants/style'
 import { ProfilePage } from '../../redux/actions'
 import { PageScroller } from '../common'
 import Editcon from 'material-ui/svg-icons/image/edit'
-import StartIcon from 'material-ui/svg-icons/toggle/star'
+import StarIcon from 'material-ui/svg-icons/toggle/star'
+import DeleteIcon from 'material-ui/svg-icons/action/delete'
+import FavoriteIcon from 'material-ui/svg-icons/action/redeem'
 import EditLibraryModal from './EditLibraryModal'
 import CurrentlyReadingModal from './CurrentlyReadingModal'
 import TopBooksModal from './TopBooksModal'
 import R from 'ramda'
 import Rating from 'react-rating'
 
-const { getProfileBookInfo, fetchLibrary } = ProfilePage
+const { getProfileBookInfo, fetchLibrary, addToWishList, removeFromWishList } = ProfilePage
 
 const styles = {
   headline: {
@@ -54,6 +56,8 @@ class BooksSection extends PureComponent {
     this.handleEditLibraryModal = this.handleEditLibraryModal.bind(this)
     this.handleCurrentlyModal = this.handleCurrentlyModal.bind(this)
     this.handleTopBooksModal = this.handleTopBooksModal.bind(this)
+    this.handleAddToWishList = this.handleAddToWishList.bind(this)
+    this.handleRemoveFromWishList = this.handleRemoveFromWishList.bind(this)
   }
 
   componentWillMount = () => {
@@ -105,6 +109,16 @@ class BooksSection extends PureComponent {
     this.setState({ topBooksModal: false })
   }
 
+  handleAddToWishList = (bookEan) => {
+    const { userId } = this.state
+    this.props.addToWishList(bookEan, userId)
+  }
+
+  handleRemoveFromWishList = (bookEan) => {
+    const { userId } = this.state
+    this.props.removeFromWishList(bookEan, userId)
+  }
+
   truncInfo = (text, limit) => {
     return text.length >= limit ? `${text.slice(0, limit)}...` : text
   }
@@ -131,7 +145,7 @@ class BooksSection extends PureComponent {
             (
               <div className='library-book-container' key={`${topBooks.topBook1.id}_1`}>
                 <div className='favorite-badge'>
-                  <StartIcon/>
+                  <StarIcon/>
                 </div>
                 <div
                   className='book-container'
@@ -162,7 +176,7 @@ class BooksSection extends PureComponent {
             (
               <div className='library-book-container' key={`${topBooks.topBook2.id}_2`}>
                 <div className='favorite-badge'>
-                  <StartIcon/>
+                  <StarIcon/>
                 </div>
                 <div
                   className='book-container'
@@ -193,7 +207,7 @@ class BooksSection extends PureComponent {
             (
               <div className='library-book-container' key={`${topBooks.topBook3.id}_3`}>
                 <div className='favorite-badge'>
-                  <StartIcon/>
+                  <StarIcon/>
                 </div>
                 <div
                   className='book-container'
@@ -224,7 +238,7 @@ class BooksSection extends PureComponent {
             (
               <div className='library-book-container' key={`${topBooks.topBook4.id}_4`}>
                 <div className='favorite-badge'>
-                  <StartIcon/>
+                  <StarIcon/>
                 </div>
                 <div
                   className='book-container'
@@ -255,7 +269,7 @@ class BooksSection extends PureComponent {
             (
               <div className='library-book-container' key={`${topBooks.topBook5.id}_5`}>
                 <div className='favorite-badge'>
-                  <StartIcon/>
+                  <StarIcon/>
                 </div>
                 <div
                   className='book-container'
@@ -288,6 +302,61 @@ class BooksSection extends PureComponent {
     return null
   }
 
+  renderWishList = () => {
+    const { profilePage } = this.props
+    if (profilePage.wishList !== undefined) {
+      const { wishList } = this.props.profilePage
+      if (wishList === 'User has no books in the wish list') {
+        return (
+          <div>
+            User has no books in the wish list
+          </div>
+        )
+      }
+      return wishList.map((book, index) => {
+        const author = book.authors.length ? book.authors[0].fullname : null
+        return (
+          <div className='wishlist-book-container' key={book.id}>
+            {this.state.isMyProfile ?
+              (
+                <div
+                  className='remove-wishlist-badge'
+                >
+                  <a onClick={() => this.handleRemoveFromWishList(book.id)}>
+                    <DeleteIcon/>
+                  </a>
+                </div>
+              ) : null
+            }
+            <div
+              className='book-container'
+            >
+              <a href={book.link || book.slug}>
+                <img className='book' src={book.imageUrl} />
+              </a>
+              <span className='rating'>
+                {this.renderRating(Math.round(book.rating.average))}
+              </span>
+              <div className='book-info-container'>
+                <span className='book-info-title'>
+                  {book.title ? this.truncInfo(book.title, 15) : <i> unknown </i>}
+                </span>
+                <span className='book-info-author'>
+                  {book.authors[0] ?
+                    (
+                      `by ${author}`
+                    ) : <i> unknown </i>
+                  }
+                </span>
+              </div>
+            </div>
+          </div>
+        )
+      })
+    }
+    return null
+  }
+
   fetchHandler = R.curry((id, params) => {
     this.props.fetchLibrary(id, params)
   })
@@ -297,6 +366,17 @@ class BooksSection extends PureComponent {
       const author = book.authors.length ? book.authors[0].fullname : null
       return (
         <div className='library-book-container' key={book.id}>
+          {this.state.isMyProfile ?
+            (
+              <div
+                className='add-wishlist-badge'
+              >
+                <a onClick={() => this.handleAddToWishList(book.id)}>
+                  <FavoriteIcon/>
+                </a>
+              </div>
+            ) : null
+          }
           <div
             className='book-container'
           >
@@ -456,6 +536,16 @@ class BooksSection extends PureComponent {
                 {this.renderCurrentlyReading()}
               </div>
             </Tab>
+            <Tab
+              label='Wish List'
+              style={styles.tab}
+            >
+              <div className='sidebar-books-tab-container'>
+                <div className='wishlist-container'>
+                  {this.renderWishList()}
+                </div>
+              </div>
+            </Tab>
           </Tabs>
         </div>
       )
@@ -469,13 +559,16 @@ const mapStateToProps = ({ profilePage }) => {
       currentlyReading: profilePage.currentlyReading,
       myLibrary: profilePage.library,
       topBooks: profilePage.topBooks,
+      wishList: profilePage.wishList,
     }
   }
 }
 
 const mapDistpachToProps = {
   getProfileBookInfo,
-  fetchLibrary
+  fetchLibrary,
+  addToWishList,
+  removeFromWishList,
 }
 
 export default connect(mapStateToProps, mapDistpachToProps)(BooksSection)

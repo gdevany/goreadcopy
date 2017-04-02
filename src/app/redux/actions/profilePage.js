@@ -40,6 +40,38 @@ export function getTopBooks(id) {
   }
 }
 
+export function getWishList(id) {
+  return dispatch => {
+    ProfilePage.getWishList(id)
+      .then(res => dispatch({ type: A.GET_WISH_LIST, payload: res.data }))
+      .catch(err => console.error(`Error in getWishList ${err}`))
+  }
+}
+
+export function addToWishList(payload, id) {
+  const terms = {
+    id: payload
+  }
+  return dispatch => {
+    ProfilePage.updateWishList(terms)
+      .then(() => ProfilePage.getWishList(id))
+      .then(res => dispatch({ type: A.GET_WISH_LIST, payload: res.data }))
+      .catch(err => console.log(`Error in getWishList ${err}`))
+  }
+}
+
+export function removeFromWishList(payload, id) {
+  const terms = {
+    id: payload
+  }
+  return dispatch => {
+    ProfilePage.deleteFromWishList(terms)
+      .then(() => ProfilePage.getWishList(id))
+      .then(res => dispatch({ type: A.GET_WISH_LIST, payload: res.data }))
+      .catch(err => console.log(`Error in getWishList ${err}`))
+  }
+}
+
 export function getProfileBookInfo(id) {
   return dispatch => {
     ProfilePage.currentlyReading(id)
@@ -48,6 +80,9 @@ export function getProfileBookInfo(id) {
     ProfilePage.getTopBooks(id)
       .then(res => dispatch({ type: A.GET_TOP_BOOKS, payload: res.data }))
       .catch(err => console.error(`Error in getBookSection ${err}`))
+    ProfilePage.getWishList(id)
+      .then(res => dispatch({ type: A.GET_WISH_LIST, payload: res.data }))
+      .catch(err => console.error(`Error in getWishList ${err}`))
   }
 }
 
@@ -133,10 +168,13 @@ export default {
   getCurrentlyReading,
   getLibrary,
   getTopBooks,
+  getWishList,
   addToLibrary,
   removeFromLibrary,
   setCurrentlyReading,
   getProfileBookInfo,
   deleteTopBooks,
-  updateTopBooks
+  updateTopBooks,
+  addToWishList,
+  removeFromWishList,
 }
