@@ -138,7 +138,7 @@ class ProfileDetailerTile extends Component {
                 </div>
                 <div className='litcoin-earn-container'>
                   <span className='litcoin-amount'>
-                    500/ea
+                    1/ea
                   </span>
                   <img className='litcoin-image' src='./image/litcoin.png' />
                 </div>

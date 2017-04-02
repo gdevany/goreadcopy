@@ -3,10 +3,28 @@ import { Dialog, } from 'material-ui'
 import { connect } from 'react-redux'
 import { Search, ProfilePage } from '../../redux/actions'
 import { debounce } from 'lodash'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
+import { Colors } from '../../constants/style'
 import R from 'ramda'
 
 const { bookSearch, updateBookSearch } = Search
 const { addToLibrary } = ProfilePage
+const styles = {
+  modalBody: {
+    marginTop: -80,
+  },
+  modalContent: {
+    maxWidth: '100%',
+    width: '100%',
+    opacity: 0.93,
+  },
+  refresh: {
+    position: 'absolute',
+    left: '45%',
+    top: '10px',
+    transform: 'none',
+  },
+}
 
 class AddBooksModal extends Component {
 
@@ -102,7 +120,21 @@ class AddBooksModal extends Component {
         </div>
       )
     }
-    return null
+    return (
+      <div className='refresh-indicator-container'>
+        {this.state.searchTerm !== '' && this.state.searchTerm.length > 3 ?
+        (
+          <RefreshIndicator
+            size={50}
+            left={70}
+            top={0}
+            loadingColor={Colors.blue}
+            status='loading'
+            style={styles.refresh}
+          />
+        ) : null}
+      </div>
+    )
   }
 
   render() {

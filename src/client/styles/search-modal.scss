@@ -126,6 +126,7 @@
     }
   }
   .search-results-container{
+    position: relative;
     .search-results{
       .book-search-results-container{
         width: 100%;
@@ -137,6 +138,7 @@
           flex-wrap: wrap;
           overflow-y: scroll;
           overflow-x: hidden;
+          min-height: 150px;
           max-height: 200px;
           @media all and (min-width: 768px) {
             max-height: 300px;
@@ -180,5 +182,13 @@
         }
       }
     }
+  }
+}
+
+.refresh-indicator-container{
+  min-height: 50px;
+  position: relative;
+  @media all and (min-width: 768px){
+    min-height: 100px;
   }
 }

@@ -81,7 +81,7 @@ const styles = {
   },
   textContainer: {
     marginTop: -5,
-    paddingRight: 0,
+    paddingRight: 40,
   },
   contentContainer: {
     padding: '0 30px 30px 30px',
