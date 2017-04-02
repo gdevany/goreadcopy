@@ -331,7 +331,7 @@ class BooksSection extends PureComponent {
             <div
               className='book-container'
             >
-              <a href={book.link || book.slug}>
+              <a href={this.state.isMyProfile ? book.link : book.wishListUrl}>
                 <img className='book' src={book.imageUrl} />
               </a>
               <span className='rating'>
