@@ -9,6 +9,7 @@ import StarIcon from 'material-ui/svg-icons/toggle/star'
 import DeleteIcon from 'material-ui/svg-icons/action/delete'
 import FavoriteIcon from 'material-ui/svg-icons/action/redeem'
 import EditLibraryModal from './EditLibraryModal'
+import ShippingAddressModal from './shippingAddressModal'
 import CurrentlyReadingModal from './CurrentlyReadingModal'
 import TopBooksModal from './TopBooksModal'
 import R from 'ramda'
@@ -52,6 +53,7 @@ class BooksSection extends PureComponent {
       addLibraryModal: false,
       addCurrentlyModal: false,
       topBooksModal: false,
+      shippingAddressModal: false,
     }
     this.handleEditLibraryModal = this.handleEditLibraryModal.bind(this)
     this.handleCurrentlyModal = this.handleCurrentlyModal.bind(this)
@@ -109,9 +111,18 @@ class BooksSection extends PureComponent {
     this.setState({ topBooksModal: false })
   }
 
+  handleShippingAddressModalClose = () => {
+    this.setState({ shippingAddressModal: false })
+  }
+
   handleAddToWishList = (bookEan) => {
     const { userId } = this.state
-    this.props.addToWishList(bookEan, userId)
+    const { shippingAddress } = this.props.currentReader
+    if (shippingAddress === null) {
+      this.setState({ shippingAddressModal: true })
+    } else {
+      this.props.addToWishList(bookEan, userId)
+    }
   }
 
   handleRemoveFromWishList = (bookEan) => {
@@ -122,7 +133,6 @@ class BooksSection extends PureComponent {
   truncInfo = (text, limit) => {
     return text.length >= limit ? `${text.slice(0, limit)}...` : text
   }
-  // TODO: Uncomment when we implement Ratings
 
   renderRating = (rating) => {
     return (
@@ -366,17 +376,13 @@ class BooksSection extends PureComponent {
       const author = book.authors.length ? book.authors[0].fullname : null
       return (
         <div className='library-book-container' key={book.id}>
-          {this.state.isMyProfile ?
-            (
-              <div
-                className='add-wishlist-badge'
-              >
-                <a onClick={() => this.handleAddToWishList(book.id)}>
-                  <FavoriteIcon/>
-                </a>
-              </div>
-            ) : null
-          }
+            <div
+              className='add-wishlist-badge'
+            >
+              <a onClick={() => this.handleAddToWishList(book.id)}>
+                <FavoriteIcon/>
+              </a>
+            </div>
           <div
             className='book-container'
           >
@@ -545,6 +551,10 @@ class BooksSection extends PureComponent {
                   {this.renderWishList()}
                 </div>
               </div>
+              <ShippingAddressModal
+                modalOpen={this.state.shippingAddressModal}
+                handleClose={this.handleShippingAddressModalClose}
+              />
             </Tab>
           </Tabs>
         </div>
@@ -553,8 +563,11 @@ class BooksSection extends PureComponent {
     return null
   }
 }
-const mapStateToProps = ({ profilePage }) => {
+const mapStateToProps = ({ currentReader, profilePage }) => {
   return {
+    currentReader: {
+      shippingAddress: currentReader.shippingAddress,
+    },
     profilePage: {
       currentlyReading: profilePage.currentlyReading,
       myLibrary: profilePage.library,

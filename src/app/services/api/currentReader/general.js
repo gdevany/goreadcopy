@@ -8,6 +8,7 @@ const {
     usePlatformAs,
     updateReader,
     logoutCurrentReader,
+    updateShippingAddress,
   }
 } = Endpoints
 
@@ -17,6 +18,7 @@ const General = () => {
     logoutCurrentReader: () => authenticated().post(logoutCurrentReader()),
     usePlatformAs: (body) => authenticated().post(usePlatformAs(), body),
     updateReader: (body) => authenticated().post(updateReader(), body),
+    updateShippingAddress: (body) => authenticated().post(updateShippingAddress(), body),
   }
 }
 

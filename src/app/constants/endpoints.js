@@ -35,6 +35,7 @@ const Endpoints = () => {
       getCurrentReader: () => apiUrl('current_reader'),
       usePlatformAs: () => apiUrl('current_reader/publishing_as'),
       updateReader: () => apiUrl('current_reader/profile/update'),
+      updateShippingAddress: () => apiUrl('current_reader/shipping_address/change'),
       updateLibrary: (params) => apiUrl('current_reader/update_library', params),
       deleteTopBooks: (params) => apiUrl('current_reader/top_books', params),
       updateTopBooks: () => apiUrl('current_reader/top_books'),
