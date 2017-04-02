@@ -34,9 +34,8 @@ const styles = {
 // TODO: rename? `Checkbox` is a little generic for something talking about authors/readers
 const Checkbox = ({
   id,
-  firstName,
-  lastName,
-  image,
+  fullname,
+  imageUrl,
   booksWritten,
   inspiredBy,
   dataType,
@@ -61,12 +60,12 @@ const Checkbox = ({
 
       <div className='small-10 columns checkbox-info-wrapper'>
         <CardHeader
-          title={`${firstName} ${lastName}`}
+          title={`${fullname}`}
           titleStyle={styles.nameText}
           textStyle={styles.textContainer}
           subtitle={subtitle}
           subtitleStyle={styles.subTitleText}
-          avatar={image}
+          avatar={imageUrl}
           style={styles.infoContainer}
         />
       </div>

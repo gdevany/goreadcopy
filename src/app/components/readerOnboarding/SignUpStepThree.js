@@ -207,9 +207,8 @@ class SignUpStepThree extends PureComponent {
     return users.map(user => {
       const {
         id,
-        firstName,
-        lastName,
-        image,
+        fullname,
+        imageUrl,
         booksWritten,
         inspiredBy,
       } = user
@@ -218,9 +217,8 @@ class SignUpStepThree extends PureComponent {
         <Checkbox
           key={id}
           id={id}
-          firstName={firstName}
-          lastName={lastName}
-          image={image}
+          fullname={fullname}
+          imageUrl={imageUrl}
           booksWritten={booksWritten}
           inspiredBy={inspiredBy}
           onClick={this.handleCheckBoxClick(dataType)}
