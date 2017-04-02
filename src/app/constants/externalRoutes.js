@@ -40,6 +40,7 @@ const ExternalRoutes = () => {
     authorBuzzSettings: () => backendUrl('author/buzz/settings'),
     publisherBuzz: ({ slug }) => backendUrl(`publisher/${slug}`),
     publisherBuzzSettings: ({ slug }) => backendUrl(`publisher/${slug}/buzz/settings`),
+    shopCart: () => backendUrl('shop/cart'),
   }
   return routes
 }
