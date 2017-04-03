@@ -40,9 +40,6 @@ const styles = {
   checkmark: {
     marginRight: 7,
   },
-  chipContainer: {
-    padding: 0,
-  }
 }
 
 class FollowProfile extends PureComponent {
@@ -230,7 +227,7 @@ class FollowProfile extends PureComponent {
                 <span className='profile-large-text'> {followedCount} </span>
               </div>
             </div>
-            <div className='small-4 columns' style={styles.chipContainer}>
+            <div className='small-4 columns'>
               {this.renderChip()}
             </div>
           </div>

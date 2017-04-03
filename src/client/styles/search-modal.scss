@@ -88,3 +88,94 @@
     }
   }
 }
+
+.search-books-on-readfeed{
+  .search-books-form{
+    input{
+      border-radius: 30px;
+    }
+  }
+  .search-results-container{
+    position: relative;
+    .search-results{
+      .book-search-results-container{
+        width: 100%;
+        .search-book-results{
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          flex-direction: row;
+          flex-wrap: wrap;
+          overflow-y: scroll;
+          overflow-x: hidden;
+          min-height: 150px;
+          max-height: 200px;
+          @media all and (min-width: 768px) {
+            max-height: 300px;
+          }
+          @media all and (min-width: 1200px) {
+            max-height: 400px;
+          }
+          @media all and (min-width: 1400px) {
+            max-height: 600px;
+          }
+          .book-container{
+            transition: none;
+            transform: none;
+            width: 17%;
+            position: relative;
+            margin-bottom: .5em;
+            .book-info-container{
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+              flex-direction: column;
+              .book-info-title{
+                font-size: 14px;
+                color: $black;
+              }
+              .book-info-author{
+                font-size: 12px;
+                color: #949494;
+                width: 100%;
+                text-align: left;
+              }
+            }
+            .book-action{
+              .book-action-anchor{
+                display: block;
+                text-decoration: underline;
+                color: $light-med-grey;
+                font-size: 14px;
+              }
+            }
+          }
+          .library-book-details-container{
+            margin-top: .25em;
+            .library-book-details-anchor{
+              display: block;
+              width: 100%;
+              .link{
+                font-size: 14px;
+                font-weight: 200;
+                color: $black
+              }
+              .library-book-details-element{
+                font-size: 14px;
+                font-weight: 200;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.refresh-indicator-container{
+  min-height: 50px;
+  position: relative;
+  @media all and (min-width: 768px){
+    min-height: 100px;
+  }
+}

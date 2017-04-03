@@ -8,7 +8,7 @@ import Editcon from 'material-ui/svg-icons/image/edit'
 import StarIcon from 'material-ui/svg-icons/toggle/star'
 import DeleteIcon from 'material-ui/svg-icons/action/delete'
 import FavoriteIcon from 'material-ui/svg-icons/action/redeem'
-import EditLibraryModal from './EditLibraryModal'
+import LibraryEditModal from './LibraryEditModal'
 import ShippingAddressModal from './shippingAddressModal'
 import CurrentlyReadingModal from './CurrentlyReadingModal'
 import TopBooksModal from './TopBooksModal'
@@ -375,7 +375,7 @@ class BooksSection extends PureComponent {
     const libraryPage = myLibrary.results.map((book, index) => {
       const author = book.authors.length ? book.authors[0].fullname : null
       return (
-        <div className='library-book-container' key={book.id}>
+        <div className='library-book-container' key={`${book.id}_bookSection${index}`}>
             <div
               className='add-wishlist-badge'
             >
@@ -424,21 +424,20 @@ class BooksSection extends PureComponent {
                 onClick={this.handleEditLibraryModal}
               >
                 <Editcon/>
-                <span className='edit-library-text'> Edit Library</span>
+                <span className='edit-library-text'>Add Books</span>
               </a>
-              <EditLibraryModal
+              <LibraryEditModal
                 modalOpen={this.state.addLibraryModal}
                 handleClose={this.handleEditLibraryModalClose}
-                myLibrary={myLibrary}
                 userId={userId}
               />
-              <a
+              {/* <a
                 className='edit-library-anchor'
                 onClick={this.handleTopBooksModal}
               >
                 <Editcon/>
                 <span className='edit-library-text'>Top Books</span>
-              </a>
+              </a> */}
               <TopBooksModal
                 modalOpen={this.state.topBooksModal}
                 handleClose={this.handleTopBooksModalClose}
@@ -473,13 +472,13 @@ class BooksSection extends PureComponent {
           {isMyProfile ?
             (
               <div className='library-edit-heading'>
-                <a
+                {/* <a
                   className='edit-library-anchor'
                   onClick={this.handleCurrentlyModal}
                 >
                   <Editcon/>
                   <span className='edit-library-text'> Add a Favorite Book</span>
-                </a>
+                </a> */}
                 <CurrentlyReadingModal
                   modalOpen={this.state.addCurrentlyModal}
                   handleClose={this.handleCurrentlyModalClose}
@@ -535,7 +534,7 @@ class BooksSection extends PureComponent {
               </div>
             </Tab>
             <Tab
-              label='Now Reading'
+              label='Currently Reading'
               style={styles.tab}
             >
               <div className='sidebar-books-tab-container'>
