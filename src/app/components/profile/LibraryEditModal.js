@@ -6,6 +6,7 @@ import { PageScroller } from '../common'
 import PlusIcon from 'material-ui/svg-icons/content/add-circle-outline'
 import Book from './Book'
 import SearchBookModal from './SearchBookModal'
+import LibraryModal from './LibraryModal'
 import R from 'ramda'
 
 const {
@@ -43,9 +44,11 @@ class LibraryEditModal extends PureComponent {
       tabThreeOpen: false,
       userId: '',
       searchBooksModal: false,
+      libraryModal: false,
     }
 
     this.handleClickAddBooksModal = this.handleClickAddBooksModal.bind(this)
+    this.handleClickLibraryModal = this.handleClickLibraryModal.bind(this)
 
   }
 
@@ -68,6 +71,15 @@ class LibraryEditModal extends PureComponent {
 
   handleClickAddBooksModalClose = () => {
     this.setState({ searchBooksModal: false })
+  }
+
+  handleClickLibraryModal = (event) => {
+    event.preventDefault()
+    this.setState({ libraryModal: true })
+  }
+
+  handleClickLibraryModalClose = () => {
+    this.setState({ libraryModal: false })
   }
 
   handleTabClick = (tabIndex) => {
@@ -157,7 +169,10 @@ class LibraryEditModal extends PureComponent {
 
   renderEmptyBook = () => {
     return (
-      <div className='empty-book-container'>
+      <div
+        onClick={this.handleClickLibraryModal}
+        className='empty-book-container'
+      >
         <PlusIcon />
       </div>
     )
@@ -181,7 +196,7 @@ class LibraryEditModal extends PureComponent {
                   rating={topBooks.topBook1.rating}
                   authors={topBooks.topBook1.authors}
                   bookType='topBook'
-                  removeAction={() => this.handleDeleteTopBook(book.id)}
+                  removeAction={() => this.handleDeleteTopBook(topBooks.topBook1.id)}
                 />
               ) : this.renderEmptyBook()
             }
@@ -196,7 +211,7 @@ class LibraryEditModal extends PureComponent {
                   rating={topBooks.topBook2.rating}
                   authors={topBooks.topBook2.authors}
                   bookType='topBook'
-                  removeAction={() => this.handleDeleteTopBook(book.id)}
+                  removeAction={() => this.handleDeleteTopBook(topBooks.topBook2.id)}
                 />
               ) : this.renderEmptyBook()
             }
@@ -211,7 +226,7 @@ class LibraryEditModal extends PureComponent {
                   rating={topBooks.topBook3.rating}
                   authors={topBooks.topBook3.authors}
                   bookType='topBook'
-                  removeAction={() => this.handleDeleteTopBook(book.id)}
+                  removeAction={() => this.handleDeleteTopBook(topBooks.topBook3.id)}
                 />
               ) : this.renderEmptyBook()
             }
@@ -226,7 +241,7 @@ class LibraryEditModal extends PureComponent {
                   authors={topBooks.topBook4.authors}
                   rating={topBooks.topBook4.rating}
                   bookType='topBook'
-                  removeAction={() => this.handleDeleteTopBook(book.id)}
+                  removeAction={() => this.handleDeleteTopBook(topBooks.topBook4.id)}
                 />
               ) : this.renderEmptyBook()
             }
@@ -235,13 +250,13 @@ class LibraryEditModal extends PureComponent {
                 <Book
                   key={`${topBooks.topBook5.id}_5`}
                   url={topBooks.topBook5.link}
-                  image={topBooks.topBook1.imageUrl}
+                  image={topBooks.topBook5.imageUrl}
                   id={topBooks.topBook5.id}
                   title={topBooks.topBook5.title}
                   rating={topBooks.topBook5.rating}
                   authors={topBooks.topBook5.authors}
                   bookType='topBook'
-                  removeAction={() => this.handleDeleteTopBook(book.id)}
+                  removeAction={() => this.handleDeleteTopBook(topBooks.topBook5.id)}
                 />
               ) : this.renderEmptyBook()
             }
@@ -291,6 +306,7 @@ class LibraryEditModal extends PureComponent {
     const {
       modalOpen,
       handleClose,
+      profilePage,
     } = this.props
 
     const { tabOneOpen, tabTwoOpen, tabThreeOpen } = this.state
@@ -355,6 +371,12 @@ class LibraryEditModal extends PureComponent {
             modalOpen={this.state.searchBooksModal}
             handleClose={this.handleClickAddBooksModalClose}
             userId={this.state.userId}
+          />
+          <LibraryModal
+            modalOpen={this.state.libraryModal}
+            handleClose={this.handleClickLibraryModalClose}
+            userId={this.state.userId}
+            myLibrary={profilePage ? profilePage.myLibrary : null}
           />
         </Dialog>
       </div>

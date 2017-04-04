@@ -74,14 +74,27 @@ class Book extends PureComponent {
               >
                 Add to Library
               </a>
-            ) : (
+            ) : null
+          }
+          {bookType === 'topBooksModal' ?
+            (
+              <a
+                onClick={this.props.addAction}
+                className='book-action-anchor'
+              >
+                Add as Favorite
+              </a>
+            ) : null
+          }
+          {bookType === 'libraryList' || bookType === 'topBook' ?
+            (
               <a
                 onClick={this.props.removeAction}
                 className='book-action-anchor'
               >
                 Remove
               </a>
-            )
+            ) : null
           }
         </div>
       </div>
