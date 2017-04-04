@@ -5,17 +5,12 @@ import { Colors } from '../../constants/style'
 import { ProfilePage } from '../../redux/actions'
 import { PageScroller } from '../common'
 import Editcon from 'material-ui/svg-icons/image/edit'
-import StarIcon from 'material-ui/svg-icons/toggle/star'
-import DeleteIcon from 'material-ui/svg-icons/action/delete'
-import FavoriteIcon from 'material-ui/svg-icons/action/redeem'
-import EditLibraryModal from './EditLibraryModal'
-import ShippingAddressModal from './shippingAddressModal'
-import CurrentlyReadingModal from './CurrentlyReadingModal'
-import TopBooksModal from './TopBooksModal'
+import LibraryEditModal from './LibraryEditModal'
+import Book from './Book'
 import R from 'ramda'
 import Rating from 'react-rating'
 
-const { getProfileBookInfo, fetchLibrary, addToWishList, removeFromWishList } = ProfilePage
+const { getProfileBookInfo, fetchLibrary } = ProfilePage
 
 const styles = {
   headline: {
@@ -51,15 +46,8 @@ class BooksSection extends PureComponent {
       userId: null,
       isMyProfile: false,
       addLibraryModal: false,
-      addCurrentlyModal: false,
-      topBooksModal: false,
-      shippingAddressModal: false,
     }
     this.handleEditLibraryModal = this.handleEditLibraryModal.bind(this)
-    this.handleCurrentlyModal = this.handleCurrentlyModal.bind(this)
-    this.handleTopBooksModal = this.handleTopBooksModal.bind(this)
-    this.handleAddToWishList = this.handleAddToWishList.bind(this)
-    this.handleRemoveFromWishList = this.handleRemoveFromWishList.bind(this)
   }
 
   componentWillMount = () => {
@@ -93,43 +81,6 @@ class BooksSection extends PureComponent {
     this.setState({ addLibraryModal: false })
   }
 
-  handleCurrentlyModal = (event) => {
-    event.preventDefault()
-    this.setState({ addCurrentlyModal: true })
-  }
-
-  handleCurrentlyModalClose = () => {
-    this.setState({ addCurrentlyModal: false })
-  }
-
-  handleTopBooksModal = (event) => {
-    event.preventDefault()
-    this.setState({ topBooksModal: true })
-  }
-
-  handleTopBooksModalClose = () => {
-    this.setState({ topBooksModal: false })
-  }
-
-  handleShippingAddressModalClose = () => {
-    this.setState({ shippingAddressModal: false })
-  }
-
-  handleAddToWishList = (bookEan) => {
-    const { userId } = this.state
-    const { shippingAddress } = this.props.currentReader
-    if (shippingAddress === null) {
-      this.setState({ shippingAddressModal: true })
-    } else {
-      this.props.addToWishList(bookEan, userId)
-    }
-  }
-
-  handleRemoveFromWishList = (bookEan) => {
-    const { userId } = this.state
-    this.props.removeFromWishList(bookEan, userId)
-  }
-
   truncInfo = (text, limit) => {
     return text.length >= limit ? `${text.slice(0, limit)}...` : text
   }
@@ -153,157 +104,72 @@ class BooksSection extends PureComponent {
         <div className='top-books-wrapper'>
           {topBooks.topBook1 ?
             (
-              <div className='library-book-container' key={`${topBooks.topBook1.id}_1`}>
-                <div className='favorite-badge'>
-                  <StarIcon/>
-                </div>
-                <div
-                  className='book-container'
-                >
-                  <a href={topBooks.topBook1.link || topBooks.topBook1.slug}>
-                    <img className='book' src={topBooks.topBook1.imageUrl} />
-                  </a>
-                  <span className='rating' >
-                    {this.renderRating(Math.round(topBooks.topBook1.rating.average))}
-                  </span>
-                  <div className='book-info-container'>
-                    <span className='book-info-title'>
-                      {this.truncInfo(topBooks.topBook1.title, 15)}
-                    </span>
-                    <span className='book-info-author'>
-                      {topBooks.topBook1.authors[0] ?
-                        (
-                          `by ${topBooks.topBook1.authors[0].fullname}`
-                        ) : null
-                      }
-                    </span>
-                  </div>
-                </div>
-              </div>
+              <Book
+                key={`${topBooks.topBook1.id}_1`}
+                url={topBooks.topBook1.link}
+                image={topBooks.topBook1.imageUrl}
+                id={topBooks.topBook1.id}
+                title={topBooks.topBook1.title}
+                rating={topBooks.topBook1.rating}
+                authors={topBooks.topBook1.authors}
+                bookType='topBookProfile'
+              />
             ) : null
           }
           {topBooks.topBook2 ?
             (
-              <div className='library-book-container' key={`${topBooks.topBook2.id}_2`}>
-                <div className='favorite-badge'>
-                  <StarIcon/>
-                </div>
-                <div
-                  className='book-container'
-                >
-                  <a href={topBooks.topBook2.link || topBooks.topBook2.slug}>
-                    <img className='book' src={topBooks.topBook2.imageUrl} />
-                  </a>
-                  <span className='rating' >
-                    {this.renderRating(Math.round(topBooks.topBook2.rating.average))}
-                  </span>
-                  <div className='book-info-container'>
-                    <span className='book-info-title'>
-                      {this.truncInfo(topBooks.topBook2.title, 15)}
-                    </span>
-                    <span className='book-info-author'>
-                      {topBooks.topBook2.authors[0] ?
-                        (
-                          `by ${topBooks.topBook2.authors[0].fullname}`
-                        ) : null
-                      }
-                    </span>
-                  </div>
-                </div>
-              </div>
+              <Book
+                key={`${topBooks.topBook2.id}_2`}
+                url={topBooks.topBook2.link}
+                image={topBooks.topBook2.imageUrl}
+                id={topBooks.topBook2.id}
+                title={topBooks.topBook2.title}
+                rating={topBooks.topBook2.rating}
+                authors={topBooks.topBook2.authors}
+                bookType='topBookProfile'
+              />
             ) : null
           }
           {topBooks.topBook3 ?
             (
-              <div className='library-book-container' key={`${topBooks.topBook3.id}_3`}>
-                <div className='favorite-badge'>
-                  <StarIcon/>
-                </div>
-                <div
-                  className='book-container'
-                >
-                  <a href={topBooks.topBook3.link || topBooks.topBook3.slug}>
-                    <img className='book' src={topBooks.topBook3.imageUrl} />
-                  </a>
-                  <span className='rating' >
-                    {this.renderRating(Math.round(topBooks.topBook3.rating.average))}
-                  </span>
-                  <div className='book-info-container'>
-                    <span className='book-info-title'>
-                      {this.truncInfo(topBooks.topBook3.title, 15)}
-                    </span>
-                    <span className='book-info-author'>
-                      {topBooks.topBook3.authors[0] ?
-                        (
-                          `by ${topBooks.topBook3.authors[0].fullname}`
-                        ) : null
-                      }
-                    </span>
-                  </div>
-                </div>
-              </div>
+              <Book
+                key={`${topBooks.topBook3.id}_3`}
+                url={topBooks.topBook3.link}
+                image={topBooks.topBook3.imageUrl}
+                id={topBooks.topBook3.id}
+                title={topBooks.topBook3.title}
+                rating={topBooks.topBook3.rating}
+                authors={topBooks.topBook3.authors}
+                bookType='topBookProfile'
+              />
             ) : null
           }
           {topBooks.topBook4 ?
             (
-              <div className='library-book-container' key={`${topBooks.topBook4.id}_4`}>
-                <div className='favorite-badge'>
-                  <StarIcon/>
-                </div>
-                <div
-                  className='book-container'
-                >
-                  <a href={topBooks.topBook4.link || topBooks.topBook4.slug}>
-                    <img className='book' src={topBooks.topBook4.imageUrl} />
-                  </a>
-                  <span className='rating' >
-                    {this.renderRating(Math.round(topBooks.topBook4.rating.average))}
-                  </span>
-                  <div className='book-info-container'>
-                    <span className='book-info-title'>
-                      {this.truncInfo(topBooks.topBook4.title, 15)}
-                    </span>
-                    <span className='book-info-author'>
-                      {topBooks.topBook4.authors[0] ?
-                        (
-                          `by ${topBooks.topBook4.authors[0].fullname}`
-                        ) : null
-                      }
-                    </span>
-                  </div>
-                </div>
-              </div>
+              <Book
+                key={`${topBooks.topBook4.id}_4`}
+                url={topBooks.topBook4.link}
+                image={topBooks.topBook4.imageUrl}
+                id={topBooks.topBook4.id}
+                title={topBooks.topBook4.title}
+                authors={topBooks.topBook4.authors}
+                rating={topBooks.topBook4.rating}
+                bookType='topBookProfile'
+              />
             ) : null
           }
           {topBooks.topBook5 ?
             (
-              <div className='library-book-container' key={`${topBooks.topBook5.id}_5`}>
-                <div className='favorite-badge'>
-                  <StarIcon/>
-                </div>
-                <div
-                  className='book-container'
-                >
-                  <a href={topBooks.topBook5.link || topBooks.topBook5.slug}>
-                    <img className='book' src={topBooks.topBook5.imageUrl} />
-                  </a>
-                  <span className='rating' >
-                    {this.renderRating(Math.round(topBooks.topBook5.rating.average))}
-                  </span>
-                  <div className='book-info-container'>
-                    <span className='book-info-title'>
-                      {this.truncInfo(topBooks.topBook5.title, 15)}
-                    </span>
-                    <span className='book-info-author'>
-                      {topBooks.topBook5.authors[0] ?
-                        (
-                          `by ${topBooks.topBook5.authors[0].fullname}`
-                        ) : null
-                      }
-                    </span>
-                  </div>
-                </div>
-              </div>
+              <Book
+                key={`${topBooks.topBook5.id}_5`}
+                url={topBooks.topBook5.link}
+                image={topBooks.topBook5.imageUrl}
+                id={topBooks.topBook5.id}
+                title={topBooks.topBook5.title}
+                rating={topBooks.topBook5.rating}
+                authors={topBooks.topBook5.authors}
+                bookType='topBookProfile'
+              />
             ) : null
           }
         </div>
@@ -324,42 +190,16 @@ class BooksSection extends PureComponent {
         )
       }
       return wishList.map((book, index) => {
-        const author = book.authors.length ? book.authors[0].fullname : null
         return (
           <div className='wishlist-book-container' key={book.id}>
-            {this.state.isMyProfile ?
-              (
-                <div
-                  className='remove-wishlist-badge'
-                >
-                  <a onClick={() => this.handleRemoveFromWishList(book.id)}>
-                    <DeleteIcon/>
-                  </a>
-                </div>
-              ) : null
-            }
-            <div
-              className='book-container'
-            >
-              <a href={this.state.isMyProfile ? book.link : book.wishListUrl}>
-                <img className='book' src={book.imageUrl} />
-              </a>
-              <span className='rating'>
-                {this.renderRating(Math.round(book.rating.average))}
-              </span>
-              <div className='book-info-container'>
-                <span className='book-info-title'>
-                  {book.title ? this.truncInfo(book.title, 15) : <i> unknown </i>}
-                </span>
-                <span className='book-info-author'>
-                  {book.authors[0] ?
-                    (
-                      `by ${author}`
-                    ) : <i> unknown </i>
-                  }
-                </span>
-              </div>
-            </div>
+            <Book
+              url={book.link}
+              image={book.imageUrl}
+              id={book.id}
+              title={book.title}
+              authors={book.authors}
+              rating={book.rating}
+            />
           </div>
         )
       })
@@ -373,38 +213,16 @@ class BooksSection extends PureComponent {
 
   renderBookList = (myLibrary) => {
     const libraryPage = myLibrary.results.map((book, index) => {
-      const author = book.authors.length ? book.authors[0].fullname : null
       return (
-        <div className='library-book-container' key={book.id}>
-            <div
-              className='add-wishlist-badge'
-            >
-              <a onClick={() => this.handleAddToWishList(book.id)}>
-                <FavoriteIcon/>
-              </a>
-            </div>
-          <div
-            className='book-container'
-          >
-            <a href={book.link || book.slug}>
-              <img className='book' src={book.imageUrl} />
-            </a>
-            <span className='rating'>
-              {this.renderRating(Math.round(book.rating.average))}
-            </span>
-            <div className='book-info-container'>
-              <span className='book-info-title'>
-                {book.title ? this.truncInfo(book.title, 15) : <i> unknown </i>}
-              </span>
-              <span className='book-info-author'>
-                {book.authors[0] ?
-                  (
-                    `by ${author}`
-                  ) : <i> unknown </i>
-                }
-              </span>
-            </div>
-          </div>
+        <div className='library-book-container' key={`${book.id}_bookSection${index}`}>
+          <Book
+            url={book.link}
+            image={book.imageUrl}
+            id={book.id}
+            title={book.title}
+            authors={book.authors}
+            rating={book.rating}
+          />
         </div>
       )
     })
@@ -412,7 +230,7 @@ class BooksSection extends PureComponent {
   }
 
   renderLibrary = () => {
-    const { profilePage: { myLibrary, topBooks } } = this.props
+    const { profilePage: { myLibrary } } = this.props
     const { isMyProfile, userId } = this.state
     return (
       <div>
@@ -424,26 +242,11 @@ class BooksSection extends PureComponent {
                 onClick={this.handleEditLibraryModal}
               >
                 <Editcon/>
-                <span className='edit-library-text'> Edit Library</span>
+                <span className='edit-library-text'>Add Books</span>
               </a>
-              <EditLibraryModal
+              <LibraryEditModal
                 modalOpen={this.state.addLibraryModal}
                 handleClose={this.handleEditLibraryModalClose}
-                myLibrary={myLibrary}
-                userId={userId}
-              />
-              <a
-                className='edit-library-anchor'
-                onClick={this.handleTopBooksModal}
-              >
-                <Editcon/>
-                <span className='edit-library-text'>Top Books</span>
-              </a>
-              <TopBooksModal
-                modalOpen={this.state.topBooksModal}
-                handleClose={this.handleTopBooksModalClose}
-                myLibrary={myLibrary}
-                topBooks={topBooks}
                 userId={userId}
               />
             </div>
@@ -465,32 +268,10 @@ class BooksSection extends PureComponent {
 
   renderCurrentlyReading = () => {
     const { profilePage } = this.props
-    const { isMyProfile } = this.state
 
     if (profilePage.currentlyReading) {
       return (
         <div>
-          {isMyProfile ?
-            (
-              <div className='library-edit-heading'>
-                <a
-                  className='edit-library-anchor'
-                  onClick={this.handleCurrentlyModal}
-                >
-                  <Editcon/>
-                  <span className='edit-library-text'> Add a Favorite Book</span>
-                </a>
-                <CurrentlyReadingModal
-                  modalOpen={this.state.addCurrentlyModal}
-                  handleClose={this.handleCurrentlyModalClose}
-                  myLibrary={profilePage.myLibrary ?
-                    profilePage.myLibrary : null
-                  }
-                  userId={this.state.userId}
-                />
-              </div>
-            ) : null
-          }
           {profilePage.currentlyReading.link === '' ?
             (
               <div className='not-currently-reading'>
@@ -498,15 +279,14 @@ class BooksSection extends PureComponent {
               </div>
             ) : (
               <div className='currently-reading-book'>
-                <div
-                  className='book-container'
-                >
-                  <a href={profilePage.currentlyReading.link ||
-                    profilePage.currentlyReading.slug}
-                  >
-                    <img className='book' src={profilePage.currentlyReading.imageUrl} />
-                  </a>
-                </div>
+                <Book
+                  url={profilePage.currentlyReading.link}
+                  image={profilePage.currentlyReading.imageUrl}
+                  id={profilePage.currentlyReading.id}
+                  title={profilePage.currentlyReading.title}
+                  authors={profilePage.currentlyReading.authors}
+                  rating={profilePage.currentlyReading.rating}
+                />
               </div>
             )
           }
@@ -535,7 +315,7 @@ class BooksSection extends PureComponent {
               </div>
             </Tab>
             <Tab
-              label='Now Reading'
+              label='Currently Reading'
               style={styles.tab}
             >
               <div className='sidebar-books-tab-container'>
@@ -551,10 +331,6 @@ class BooksSection extends PureComponent {
                   {this.renderWishList()}
                 </div>
               </div>
-              <ShippingAddressModal
-                modalOpen={this.state.shippingAddressModal}
-                handleClose={this.handleShippingAddressModalClose}
-              />
             </Tab>
           </Tabs>
         </div>
@@ -565,9 +341,6 @@ class BooksSection extends PureComponent {
 }
 const mapStateToProps = ({ currentReader, profilePage }) => {
   return {
-    currentReader: {
-      shippingAddress: currentReader.shippingAddress,
-    },
     profilePage: {
       currentlyReading: profilePage.currentlyReading,
       myLibrary: profilePage.library,
@@ -580,8 +353,6 @@ const mapStateToProps = ({ currentReader, profilePage }) => {
 const mapDistpachToProps = {
   getProfileBookInfo,
   fetchLibrary,
-  addToWishList,
-  removeFromWishList,
 }
 
 export default connect(mapStateToProps, mapDistpachToProps)(BooksSection)

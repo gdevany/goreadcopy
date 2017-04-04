@@ -33,8 +33,7 @@ class AuthorRecommendations extends PureComponent {
     return authors.map(author => {
       const {
         id,
-        firstName,
-        lastName,
+        fullname,
         imageUrl,
         booksWritten,
       } = author
@@ -43,7 +42,7 @@ class AuthorRecommendations extends PureComponent {
           <AuthorRecSummary
             id={id}
             key={id}
-            title={`${firstName} ${lastName}`}
+            title={fullname}
             image={imageUrl}
             description={'Nothing about me yet'}
             booksWritten={booksWritten}
@@ -58,7 +57,6 @@ class AuthorRecommendations extends PureComponent {
   render() {
     const { recommended } = this.props
     const authors = recommended ? recommended.authors : null
-
     return (
       <div style={styles.recContainer} className='left-container small-12 columns box'>
         <div className='rec-header'>
@@ -66,10 +64,10 @@ class AuthorRecommendations extends PureComponent {
         </div>
         {/** Derrick, feel free to change how it's rendered in different views: **/}
         <div className='row small-up-1'>
-          { authors ? this.renderAuthors(authors) : null }
+          { authors ? this.renderAuthors(authors.buzz.results) : null }
         </div>
         {/* <div className='sub-link'>
-          <a href={findAuthors()}>
+          <a>
             See more authors
           </a>
         </div> */}

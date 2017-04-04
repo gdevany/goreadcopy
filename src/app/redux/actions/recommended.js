@@ -82,7 +82,7 @@ export function updateRecommendedLitcoins(data, type) {
 export function getRecommendedAuthors(amount) {
   return dispatch => {
     CurrentReaderRecommendation.getRecommendedAuthors({ perPage: amount })
-      .then(res => dispatch(updateCurrentReaderRecommendation({ authors: res.data.results })))
+      .then(res => dispatch(updateCurrentReaderRecommendation({ authors: res.data })))
       .catch(err => console.log(`Error in getRecommendedAuthors: ${err}`))
   }
 }
