@@ -325,17 +325,28 @@ class LibraryEditModal extends PureComponent {
         <div className='edit-library-tab'>
           <div className='tab-heading'>
             <h4>Edit Your Currently Reading Book</h4>
+            <a
+              onClick={() => this.handleClickAddBooksModal('librarySearch')}
+              className='add-book-btn'
+            >
+              + Add book
+            </a>
           </div>
           <div className='edit-library-top-books'>
             <div className='currently-reading-wrapper'>
-              <Book
-                url={profilePage.currentlyReading.link}
-                image={profilePage.currentlyReading.imageUrl}
-                id={profilePage.currentlyReading.id}
-                title={profilePage.currentlyReading.title}
-                authors={profilePage.currentlyReading.authors}
-                rating={profilePage.currentlyReading.rating}
-              />
+              {profilePage.currentlyReading.url !== '' ?
+                (
+                  <Book
+                    url={profilePage.currentlyReading.link}
+                    image={profilePage.currentlyReading.imageUrl}
+                    id={profilePage.currentlyReading.id}
+                    title={profilePage.currentlyReading.title}
+                    authors={profilePage.currentlyReading.authors}
+                    rating={profilePage.currentlyReading.rating}
+                  />
+                ) : null
+              }
+
             </div>
           </div>
           <div className='edit-library-library-list'>

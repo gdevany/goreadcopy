@@ -4,6 +4,35 @@ import StarIcon from 'material-ui/svg-icons/toggle/star'
 
 class Book extends PureComponent {
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      addedVerb: 'Add',
+      removeVerb: 'Remove',
+    }
+    this.handleClick = this.handleClick.bind(this)
+  }
+
+  handleClick = (event) => {
+    event.preventDefault()
+    const { bookType } = this.props
+    if (bookType === 'librarySearch' || bookType === 'wishListSearch' ||
+    bookType === 'topBooksModal' || bookType === 'currentlyReading') {
+      this.props.addAction()
+      this.setState({
+        addedVerb: 'Added',
+      })
+    }
+
+    if (bookType === 'libraryList' || bookType === 'topBook' ||
+    bookType === 'wishList') {
+      this.props.removeAction()
+      this.setState({
+        removeVerb: 'Removed',
+      })
+    }
+  }
+
   truncInfo = (text, limit) => {
     return text.length >= limit ? `${text.slice(0, limit)}...` : text
   }
@@ -69,30 +98,30 @@ class Book extends PureComponent {
           {bookType === 'librarySearch' ?
             (
               <a
-                onClick={this.props.addAction}
+                onClick={this.handleClick}
                 className='book-action-anchor'
               >
-                Add to Library
+                {this.state.addedVerb} to Library
               </a>
             ) : null
           }
           {bookType === 'wishListSearch' ?
             (
               <a
-                onClick={this.props.addAction}
+                onClick={this.handleClick}
                 className='book-action-anchor'
               >
-                Add to WishList
+                {this.state.addedVerb} to WishList
               </a>
             ) : null
           }
           {bookType === 'topBooksModal' ?
             (
               <a
-                onClick={this.props.addAction}
+                onClick={this.handleClick}
                 className='book-action-anchor'
               >
-                Add as Favorite
+                {this.state.addedVerb} as Favorite
               </a>
             ) : null
           }
@@ -100,10 +129,10 @@ class Book extends PureComponent {
           {bookType === 'currentlyReading' ?
             (
               <a
-                onClick={this.props.addAction}
+                onClick={this.handleClick}
                 className='book-action-anchor'
               >
-                Add as Currently Reading
+                {this.state.addedVerb} as Currently Reading
               </a>
             ) : null
           }
@@ -111,10 +140,10 @@ class Book extends PureComponent {
           {bookType === 'libraryList' || bookType === 'topBook' || bookType === 'wishList' ?
             (
               <a
-                onClick={this.props.removeAction}
+                onClick={this.handleClick}
                 className='book-action-anchor'
               >
-                Remove
+                {this.state.removeVerb}
               </a>
             ) : null
           }
