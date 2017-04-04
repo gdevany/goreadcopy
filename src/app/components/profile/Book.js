@@ -96,6 +96,18 @@ class Book extends PureComponent {
               </a>
             ) : null
           }
+
+          {bookType === 'currentlyReading' ?
+            (
+              <a
+                onClick={this.props.addAction}
+                className='book-action-anchor'
+              >
+                Add as Currently Reading
+              </a>
+            ) : null
+          }
+
           {bookType === 'libraryList' || bookType === 'topBook' || bookType === 'wishList' ?
             (
               <a

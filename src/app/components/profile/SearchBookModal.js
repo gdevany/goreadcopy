@@ -163,7 +163,13 @@ class SearchBookModal extends Component {
                 <div className='center-text small-8 collumns small-centered'>
                   <h2 className='searchbooks-readfeeed-title'>Search Books</h2>
                   <h4 className='searchbooks-readfeeed-subtitle'>
-                    Add them to your library and earn Litcoins
+                    {this.state.context === 'librarySearch' ?
+                      (
+                        'Add them to your library and earn Litcoins'
+                      ) : (
+                        'Add them to your wishlist'
+                      )
+                    }
                   </h4>
                 </div>
                 <div className='form-wrapper general-font small-10 collumns small-centered'>

@@ -33,6 +33,7 @@ class SearchBookModal extends PureComponent {
   handleUpdateTopBook = (bookId) => {
     const { userId } = this.state
     this.props.updateTopBooks(bookId, userId)
+    this.props.handleClose()
   }
 
   renderCurrentLibrary = () => {

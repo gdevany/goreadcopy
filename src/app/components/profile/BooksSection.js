@@ -7,11 +7,10 @@ import { PageScroller } from '../common'
 import Editcon from 'material-ui/svg-icons/image/edit'
 import StarIcon from 'material-ui/svg-icons/toggle/star'
 import LibraryEditModal from './LibraryEditModal'
-import ShippingAddressModal from './shippingAddressModal'
 import R from 'ramda'
 import Rating from 'react-rating'
 
-const { getProfileBookInfo, fetchLibrary, addToWishList, removeFromWishList } = ProfilePage
+const { getProfileBookInfo, fetchLibrary } = ProfilePage
 
 const styles = {
   headline: {
@@ -47,11 +46,8 @@ class BooksSection extends PureComponent {
       userId: null,
       isMyProfile: false,
       addLibraryModal: false,
-      shippingAddressModal: false,
     }
     this.handleEditLibraryModal = this.handleEditLibraryModal.bind(this)
-    this.handleAddToWishList = this.handleAddToWishList.bind(this)
-    this.handleRemoveFromWishList = this.handleRemoveFromWishList.bind(this)
   }
 
   componentWillMount = () => {
@@ -83,25 +79,6 @@ class BooksSection extends PureComponent {
 
   handleEditLibraryModalClose = () => {
     this.setState({ addLibraryModal: false })
-  }
-
-  handleShippingAddressModalClose = () => {
-    this.setState({ shippingAddressModal: false })
-  }
-
-  handleAddToWishList = (bookEan) => {
-    const { userId } = this.state
-    const { shippingAddress } = this.props.currentReader
-    if (shippingAddress === null) {
-      this.setState({ shippingAddressModal: true })
-    } else {
-      this.props.addToWishList(bookEan, userId)
-    }
-  }
-
-  handleRemoveFromWishList = (bookEan) => {
-    const { userId } = this.state
-    this.props.removeFromWishList(bookEan, userId)
   }
 
   truncInfo = (text, limit) => {
@@ -470,10 +447,6 @@ class BooksSection extends PureComponent {
                   {this.renderWishList()}
                 </div>
               </div>
-              <ShippingAddressModal
-                modalOpen={this.state.shippingAddressModal}
-                handleClose={this.handleShippingAddressModalClose}
-              />
             </Tab>
           </Tabs>
         </div>
@@ -484,9 +457,6 @@ class BooksSection extends PureComponent {
 }
 const mapStateToProps = ({ currentReader, profilePage }) => {
   return {
-    currentReader: {
-      shippingAddress: currentReader.shippingAddress,
-    },
     profilePage: {
       currentlyReading: profilePage.currentlyReading,
       myLibrary: profilePage.library,
@@ -499,8 +469,6 @@ const mapStateToProps = ({ currentReader, profilePage }) => {
 const mapDistpachToProps = {
   getProfileBookInfo,
   fetchLibrary,
-  addToWishList,
-  removeFromWishList,
 }
 
 export default connect(mapStateToProps, mapDistpachToProps)(BooksSection)

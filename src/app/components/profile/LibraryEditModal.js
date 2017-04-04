@@ -17,6 +17,7 @@ const {
   removeFromLibrary,
   deleteTopBooks,
   updateTopBooks,
+  setCurrentlyReading
 } = ProfilePage
 
 const styles = {
@@ -126,6 +127,11 @@ class LibraryEditModal extends PureComponent {
   handleRemoveFromLibrary = (bookId) => {
     const { userId } = this.state
     this.props.removeFromLibrary(bookId, userId)
+  }
+
+  handleCurrentlyReading = (bookId) => {
+    const { userId } = this.state
+    this.props.setCurrentlyReading(bookId, userId)
   }
 
   handleRemoveFromWishList = (bookEan) => {
@@ -293,12 +299,65 @@ class LibraryEditModal extends PureComponent {
     return libraryPage
   }
 
+  renderLibraryList = (myLibrary) => {
+    const libraryPage = myLibrary.results.map((book, index) => {
+      return (
+        <Book
+          key={`${book.id}_edit_library_${index}`}
+          url={book.link}
+          image={book.imageUrl}
+          id={book.id}
+          title={book.title}
+          authors={book.authors}
+          rating={book.rating}
+          bookType='currentlyReading'
+          addAction={() => this.handleCurrentlyReading(book.id)}
+        />
+      )
+    })
+    return libraryPage
+  }
+
   renderTabTwo = () => {
-    return (
-      <div className='edit-library-tab'>
-        Tab Two
-      </div>
-    )
+    const { profilePage } = this.props
+    if (profilePage.currentlyReading) {
+      return (
+        <div className='edit-library-tab'>
+          <div className='tab-heading'>
+            <h4>Edit Your Currently Reading Book</h4>
+          </div>
+          <div className='edit-library-top-books'>
+            <div className='currently-reading-wrapper'>
+              <Book
+                url={profilePage.currentlyReading.link}
+                image={profilePage.currentlyReading.imageUrl}
+                id={profilePage.currentlyReading.id}
+                title={profilePage.currentlyReading.title}
+                authors={profilePage.currentlyReading.authors}
+                rating={profilePage.currentlyReading.rating}
+              />
+            </div>
+          </div>
+          <div className='edit-library-library-list'>
+            <PageScroller
+              clsName='edit-library-library-scroller'
+              fetchOnLoad={true}
+              fetchHandler={this.fetchHandler(this.state.userId)}
+              isLocked={profilePage.myLibrary ?
+                profilePage.myLibrary.locked : false
+              }
+              currentPage={profilePage.myLibrary && profilePage.myLibrary.page ?
+                profilePage.myLibrary.page : 0
+              }
+            >
+              {profilePage.myLibrary && profilePage.myLibrary.results ?
+                this.renderLibraryList(profilePage.myLibrary) : null}
+            </PageScroller>
+          </div>
+        </div>
+      )
+    }
+    return null
   }
 
   renderWishList = () => {
@@ -460,6 +519,7 @@ const mapDistpachToProps = {
   removeFromLibrary,
   deleteTopBooks,
   updateTopBooks,
+  setCurrentlyReading,
 }
 
 export default connect(mapStateToProps, mapDistpachToProps)(LibraryEditModal)
