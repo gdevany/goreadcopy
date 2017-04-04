@@ -542,14 +542,22 @@
       align-items: center;
       flex-direction: row;
       width: 100%;
+      margin-top: 4em;
+      @media all and (min-width: 768px) {
+        margin-top: 0;
+      }
       .edit-library-single-tab{
         a{
           display: block;
           padding: 1em 1.5em;
-          font-size: 16px;
+          font-size: 14px;
           border-bottom: 3px solid transparent;
-          font-weight: 400;
+          font-weight: 200;
           transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+          @media all and (min-width: 768px) {
+            font-weight: 400;
+            font-size: 16px;
+          }
           &:hover{
             color: $black;
             border-bottom: 3px solid $blue;
@@ -581,7 +589,7 @@
             }
             .add-book-btn{
               position: absolute;
-              right: 0;
+              right: -25px;
               top: 2px;
               margin-left: 1em;
               display: flex;
@@ -589,6 +597,19 @@
               background: $blue;
               color:$white;
               border-radius: 45px;
+              margin-top: 2em;
+              @media all and (min-width: 768px) {
+                margin-top: 0;
+                right: 0;
+              }
+            }
+          }
+          .wish-list-heading{
+            margin-top: 3em;
+            h5{
+              @media all and (min-width: 768px) {
+                margin-top: 0;
+              }
             }
           }
           .edit-library-top-books{
@@ -604,10 +625,13 @@
               .book-container{
                 transition: none;
                 transform: none;
-                width: 16%;
+                width: 50%;
                 position: relative;
                 margin-bottom: .5em;
                 margin: 0 auto;
+                @media all and (min-width: 768px) {
+                  width: 16%;
+                }
                 .favorite-badge{
                   width: 18px;
                   height: 18px;
@@ -667,12 +691,19 @@
                 justify-content: space-between;
                 align-items: flex-start;
                 flex-direction: row;
+                flex-wrap: wrap;
+                // @media all and (min-width: 768px){
+                //
+                // }
                 .empty-book-container{
-                  width: 17%;
+                  width: 44%;
                   height: 185px;
                   position: relative;
                   border: solid 1px $light-med-grey;
                   position: relative;
+                  @media all and (min-width: 768px){
+                    width: 17%;
+                  }
                   &:hover{
                     cursor: pointer;
                   }
@@ -681,7 +712,10 @@
                     height: 75px !important;
                     position: absolute;
                     top: 30%;
-                    left: 20%;
+                    left: 11%;
+                    @media all and (min-width: 768px){
+                      left: 20%;
+                    }
                     path{
                       fill: $light-med-grey;
                     }
@@ -690,9 +724,12 @@
                 .book-container{
                   transition: none;
                   transform: none;
-                  width: 17%;
+                  width: 44%;
                   position: relative;
                   margin-bottom: .5em;
+                  @media all and (min-width: 768px){
+                    width: 17%;
+                  }
                   .favorite-badge{
                     width: 18px;
                     height: 18px;
@@ -757,12 +794,16 @@
               max-height: 450px;
               overflow-y: scroll;
               overflow-x: hidden;
+              flex-wrap: wrap;
               .book-container{
                 transition: none;
                 transform: none;
-                width: 17%;
+                width: 44%;
                 position: relative;
                 margin-bottom: .5em;
+                @media all and (min-width: 768px) {
+                  width: 17%;
+                }
                 .book-info-container{
                   display: flex;
                   justify-content: flex-start;
@@ -802,12 +843,16 @@
               max-height: 400px;
               overflow-y: scroll;
               overflow-x: hidden;
+              flex-wrap: wrap;
               .book-container{
                 transition: none;
                 transform: none;
-                width: 17%;
+                width: 44%;
                 position: relative;
                 margin-bottom: .5em;
+                @media all and (min-width: 768px){
+                  width: 17%;
+                }
                 .book-info-container{
                   display: flex;
                   justify-content: flex-start;
@@ -857,9 +902,12 @@
   .book-container{
     transition: none;
     transform: none;
-    width: 17%;
+    width: 44%;
     position: relative;
     margin-bottom: .5em;
+    @media all and (min-width: 768px) {
+      width: 17%;
+    }
     .favorite-badge{
       width: 18px;
       height: 18px;
@@ -907,5 +955,12 @@
         font-size: 14px;
       }
     }
+  }
+}
+
+.searchbooks-readfeeed-title{
+  margin-top: 1em;
+  @media all and (min-width: 768px){
+    margin-top: 0;
   }
 }

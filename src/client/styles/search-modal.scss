@@ -110,6 +110,7 @@
           overflow-x: hidden;
           min-height: 150px;
           max-height: 200px;
+          flex-wrap: wrap;
           @media all and (min-width: 768px) {
             max-height: 300px;
           }
@@ -122,9 +123,12 @@
           .book-container{
             transition: none;
             transform: none;
-            width: 17%;
+            width: 44%;
             position: relative;
             margin-bottom: .5em;
+            @media all and (min-width: 768px) {
+              width: 17%;
+            }
             .book-info-container{
               display: flex;
               justify-content: flex-start;

@@ -402,7 +402,7 @@ class LibraryEditModal extends PureComponent {
             + Add book
           </a>
         </div>
-        <div className='edit-library-top-books'>
+        <div className='edit-library-top-books wish-list-heading'>
           <h5>Your Wish List</h5>
         </div>
         <div className='edit-library-library-list'>

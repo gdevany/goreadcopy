@@ -160,7 +160,7 @@ class SearchBookModal extends Component {
           <div className='complete-profile-modal-container row'>
             <div className='small-12 columns'>
               <div className='row'>
-                <div className='center-text small-8 collumns small-centered'>
+                <div className='center-text small-12 large-12 collumns small-centered'>
                   <h2 className='searchbooks-readfeeed-title'>Search Books</h2>
                   <h4 className='searchbooks-readfeeed-subtitle'>
                     {this.state.context === 'librarySearch' ?
@@ -172,7 +172,9 @@ class SearchBookModal extends Component {
                     }
                   </h4>
                 </div>
-                <div className='form-wrapper general-font small-10 collumns small-centered'>
+                <div
+                  className='form-wrapper general-font small-12 large-10 collumns small-centered'
+                >
                   <div className='row'>
                     <div className='small-12 columns search-books-on-readfeed'>
                       <form onKeyPress={this.handleEnterButton} className='search-books-form'>
