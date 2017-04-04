@@ -3,10 +3,15 @@ import { connect } from 'react-redux'
 import { Dialog } from 'material-ui'
 import { Colors } from '../../constants/style'
 import { CurrentReader } from '../../redux/actions'
+import { ProfilePage } from '../../services/api'
 import PrimaryButton from '../common/PrimaryButton'
+import SelectField from 'material-ui/SelectField'
+import MenuItem from 'material-ui/MenuItem'
 import R from 'ramda'
 
+let countryList, stateList
 const { updateShippingAddress } = CurrentReader
+const { getCountries, getStates } = ProfilePage
 const styles = {
   lableStyle: {
     fontSize: 18,
@@ -37,9 +42,18 @@ class shippingAddressModal extends PureComponent {
       address2: '',
       city: '',
       state: '',
-      country: '',
+      country: 0,
       phone: '',
       zipcode: '',
+      nameError: '',
+      addressError: '',
+      cityError: '',
+      stateError: '',
+      countryError: '',
+      phoneError: '',
+      zipcodeError: '',
+      isContentRenderInput: true,
+      isContentRenderList: false,
     }
     this.handleOnChange = this.handleOnChange.bind(this)
     this.handleCompleteSubmit = this.handleCompleteSubmit.bind(this)
@@ -63,6 +77,185 @@ class shippingAddressModal extends PureComponent {
     e.preventDefault()
     this.setState({ [field]: e.target.value })
   })
+
+  handleOnChangeCountry = R.curry((e, index, value) => {
+    e.preventDefault()
+    if (value) {
+      this.setState({ country: value })
+      getStates(value)
+        .then(res => this.displayStateList(res))
+    }
+  })
+
+  handleOnChangeState = R.curry((e, index, value) => {
+    e.preventDefault()
+    this.setState({ state: value })
+  })
+
+  /*handleCleanModal = () => {
+    this.setState({
+      name: '',
+      address: '',
+      address2: '',
+      city: '',
+      state: '',
+      country: 0,
+      phone: '',
+      zipcode: '',
+      nameError: '',
+      addressError: '',
+      cityError: '',
+      stateError: '',
+      countryError: '',
+      phoneError: '',
+      zipcodeError: '',
+      isContentRenderInput: true,
+      isContentRenderList: false,
+    })
+  }*/
+
+  handleRenderCountry = () => {
+    getCountries()
+      .then(res => this.displayCountryList(res))
+
+    return (
+      <div className={'small-12 large-8 columns ' + this.state.countryError}>
+        <span className='form-label'>Country</span>
+        <SelectField
+          onChange={this.handleOnChangeCountry()}
+          value={this.state.country}
+          style={styles.selectStyles}
+        >
+          <MenuItem
+            value={0}
+            primaryText='Select your country'
+          />
+          { countryList ? countryList : null }
+        </SelectField>
+      </div>
+    )
+  }
+
+  displayCountryList = (res) => {
+    if (res) {
+      countryList = res.data.result.map((data, index) => {
+        return (
+          <MenuItem
+            value={data.pk}
+            primaryText={data.name}
+            key={data.pk}
+          />
+        )
+      })
+    }
+  }
+
+  handleRenderState = () => {
+    return (
+      <div className={'small-12 large-8 columns ' + this.state.stateError}>
+        <span className='form-label'>State</span>
+        <SelectField
+          onChange={this.handleOnChangeState()}
+          value={this.state.state}
+          style={styles.selectStyles}
+        >
+          <MenuItem
+            value={0}
+            primaryText='Select a State'
+          />
+          { stateList ? stateList : null }
+        </SelectField>
+      </div>
+    )
+  }
+
+  handleRenderInput = () => {
+    return (
+      <div className={'small-12 large-3 columns ' + this.state.stateError}>
+        <span className='form-label'>State</span>
+        <input
+          type='text'
+          className='form-input profile-editor-form-input'
+          onChange={this.handleOnChange('state')}
+          value={this.state.state}
+        />
+      </div>
+    )
+  }
+
+  displayStateList = (res) => {
+    if (res) {
+      stateList = res.data.result.map((data, index) => {
+        return (
+          <MenuItem
+            value={data.pk}
+            primaryText={data.name}
+            key={data.pk}
+          />
+        )
+      })
+      this.setState({
+        state: 0,
+        isContentRenderList: true,
+        isContentRenderInput: false,
+      })
+    } else {
+      stateList = false
+      this.setState({
+        state: '',
+        isContentRenderList: false,
+        isContentRenderInput: true,
+      })
+    }
+  }
+
+  handleValidation = (data) => {
+    let val = true
+    if (data.name === '') {
+      this.setState({ nameError: 'shipping-address-error' })
+      val = false
+    } else {
+      this.setState({ nameError: '' })
+    }
+    if (data.address === '') {
+      this.setState({ addressError: 'shipping-address-error' })
+      val = false
+    } else {
+      this.setState({ addressError: '' })
+    }
+    if (data.state === '' || data.state === 0) {
+      this.setState({ stateError: 'shipping-address-error' })
+      val = false
+    } else {
+      this.setState({ stateError: '' })
+    }
+    if (data.city === '') {
+      this.setState({ cityError: 'shipping-address-error' })
+      val = false
+    } else {
+      this.setState({ cityError: '' })
+    }
+    if (data.country === 0) {
+      this.setState({ countryError: 'shipping-address-error' })
+      val = false
+    } else {
+      this.setState({ countryError: '' })
+    }
+    if (data.phone === '' && typeof data.phone === 'number') {
+      this.setState({ phoneError: 'shipping-address-error' })
+      val = false
+    } else {
+      this.setState({ phoneError: '' })
+    }
+    if (data.zipcode === '') {
+      this.setState({ zipcodeError: 'shipping-address-error' })
+      val = false
+    } else {
+      this.setState({ zipcodeError: '' })
+    }
+    return val
+  }
+
   handleCompleteSubmit = (event) => {
     event.preventDefault()
     const {
@@ -86,8 +279,10 @@ class shippingAddressModal extends PureComponent {
       phone,
       zipcode,
     }
-    this.props.updateShippingAddress(readerData)
-    this.props.handleClose()
+    if (this.handleValidation(readerData) === true) {
+      this.props.updateShippingAddress(readerData)
+      this.props.handleClose()
+    }
   }
 
   renderShippingAddress = () => {
@@ -96,10 +291,15 @@ class shippingAddressModal extends PureComponent {
       address,
       address2,
       city,
-      state,
-      country,
       phone,
       zipcode,
+      nameError,
+      addressError,
+      cityError,
+      phoneError,
+      zipcodeError,
+      isContentRenderInput,
+      isContentRenderList,
     } = this.state
     return (
       <article className='settings-single-tab-content small-10 columns small-centered'>
@@ -107,7 +307,7 @@ class shippingAddressModal extends PureComponent {
           <div className='shipping-form-container'>
             <form className='shipping-form' action=''>
               <div className='row'>
-                <div className='small-12 large-6 columns'>
+                <div className={'small-12 large-6 columns ' + nameError}>
                   <span className='form-label'>Full Name</span>
                   <input
                     type='text'
@@ -116,7 +316,7 @@ class shippingAddressModal extends PureComponent {
                     value={name}
                   />
                 </div>
-                <div className='small-12 large-6 columns'>
+                <div className={'small-12 large-6 columns ' + phoneError}>
                   <span className='form-label'>Phone</span>
                   <input
                     type='text'
@@ -127,7 +327,7 @@ class shippingAddressModal extends PureComponent {
                 </div>
               </div>
               <div className='row'>
-                <div className='small-12 columns'>
+                <div className={'small-12 columns ' + addressError}>
                   <span className='form-label'>Address Line 1</span>
                   <input
                     type='text'
@@ -149,42 +349,27 @@ class shippingAddressModal extends PureComponent {
                 </div>
               </div>
               <div className='row'>
-                <div className='small-12 large-5 columns'>
-                  <span className='form-label'>City</span>
-                  <input
-                    type='text'
-                    className='form-input profile-editor-form-input'
-                    onChange={this.handleOnChange('city')}
-                    value={city}
-                  />
-                </div>
-                <div className='small-12 large-3 columns'>
-                  <span className='form-label'>State</span>
-                  <input
-                    type='text'
-                    className='form-input profile-editor-form-input'
-                    onChange={this.handleOnChange('state')}
-                    value={state}
-                  />
-                </div>
-                <div className='small-12 large-4 columns'>
-                  <span className='form-label'>Country</span>
-                  <input
-                    type='text'
-                    className='form-input profile-editor-form-input'
-                    onChange={this.handleOnChange('country')}
-                    value={country}
-                  />
-                </div>
-              </div>
-              <div className='row'>
-                <div className='small-12 large-4 columns'>
+                {this.handleRenderCountry()}
+                <div className={'small-12 large-4 columns ' + zipcodeError}>
                   <span className='form-label'>Zip code</span>
                   <input
                     type='text'
                     className='form-input profile-editor-form-input'
                     onChange={this.handleOnChange('zipcode')}
                     value={zipcode}
+                  />
+                </div>
+              </div>
+              {isContentRenderList ? this.handleRenderState() : null}
+              {isContentRenderInput ? this.handleRenderInput() : null}
+              <div className='row'>
+                <div className={'small-12 large-4 columns ' + cityError}>
+                  <span className='form-label'>City</span>
+                  <input
+                    type='text'
+                    className='form-input profile-editor-form-input'
+                    onChange={this.handleOnChange('city')}
+                    value={city}
                   />
                 </div>
               </div>

@@ -327,3 +327,10 @@
     margin: 0 6px 0 0;
   }
 }
+
+.shipping-address-error{
+  color: #ff0000;
+  input{
+    border-color: #ff0000;
+  }
+}
