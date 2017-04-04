@@ -36,7 +36,7 @@ class Book extends PureComponent {
       <div
         className='book-container'
       >
-        {bookType === 'topBook' ?
+        {bookType === 'topBook' || bookType === 'topBookProfile' ?
           (
             <div className='favorite-badge'>
               <StarIcon/>
