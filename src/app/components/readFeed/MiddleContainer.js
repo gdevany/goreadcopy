@@ -12,11 +12,19 @@ class MiddleContainer extends PureComponent {
   }
 
   render() {
-    const { readFeed, userId, prependReadFeedTile, isReadFeedLocked } = this.props
+    const {
+      readFeed,
+      userId,
+      prependReadFeedTile,
+      isReadFeedLocked,
+      isProfileCompleted
+    } = this.props
+
     return (
       <div className='middle-container small-12 large-6 columns'>
         <AnnouncementTile/>
-        <ProfileDetailerTile />
+        {isProfileCompleted ? null : <ProfileDetailerTile />}
+
         <StatusPost targetId={userId} postNewTile={prependReadFeedTile}/>
         <TileScroller
           fetchTiles={(params) => this.props.getReadFeedTiles(params)}
@@ -30,6 +38,9 @@ class MiddleContainer extends PureComponent {
 }
 
 const mapStateToProps = ({
+  currentReader: {
+    isProfileCompleted,
+  },
   tiles: {
     readFeed,
     isReadFeedLocked
@@ -37,7 +48,8 @@ const mapStateToProps = ({
 }) => {
   return {
     readFeed,
-    isReadFeedLocked
+    isReadFeedLocked,
+    isProfileCompleted,
   }
 }
 
