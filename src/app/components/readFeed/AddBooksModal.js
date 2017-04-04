@@ -7,9 +7,12 @@ import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { Colors } from '../../constants/style'
 import Book from '../profile/Book'
 import R from 'ramda'
+import { CurrentReader } from '../../redux/actions'
 
 const { bookSearch, updateBookSearch } = Search
 const { addToLibrary } = ProfilePage
+const { getCurrentReader } = CurrentReader
+
 const styles = {
   modalBody: {
     marginTop: -80,
@@ -55,6 +58,7 @@ class AddBooksModal extends Component {
   handleAddToLibrary = (bookEan) => {
     const { userId } = this.state
     this.props.addToLibrary(bookEan, userId, 'readfeed')
+    this.props.getCurrentReader()
   }
 
   handleEnterButton = (event) => {
@@ -188,6 +192,7 @@ const mapDistpachToProps = {
   bookSearch,
   updateBookSearch,
   addToLibrary,
+  getCurrentReader,
 }
 
 export default connect(mapStateToProps, mapDistpachToProps)(AddBooksModal)

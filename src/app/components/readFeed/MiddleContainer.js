@@ -11,6 +11,19 @@ class MiddleContainer extends PureComponent {
     super(props)
   }
 
+  checkReaderAwards = () => {
+    const { achievements } = this.props
+    let hasAward = false
+    if (achievements) {
+      for (let i = 0; i < achievements.length; i++) {
+        if (achievements[i].id === 3) {
+          hasAward = true
+        }
+      }
+    }
+    return hasAward
+  }
+
   render() {
     const {
       readFeed,
@@ -23,7 +36,7 @@ class MiddleContainer extends PureComponent {
     return (
       <div className='middle-container small-12 large-6 columns'>
         <AnnouncementTile/>
-        {isProfileCompleted ? null : <ProfileDetailerTile />}
+        {isProfileCompleted && this.checkReaderAwards() ? null : <ProfileDetailerTile />}
 
         <StatusPost targetId={userId} postNewTile={prependReadFeedTile}/>
         <TileScroller
@@ -40,6 +53,7 @@ class MiddleContainer extends PureComponent {
 const mapStateToProps = ({
   currentReader: {
     isProfileCompleted,
+    achievements,
   },
   tiles: {
     readFeed,
@@ -50,6 +64,7 @@ const mapStateToProps = ({
     readFeed,
     isReadFeedLocked,
     isProfileCompleted,
+    achievements,
   }
 }
 

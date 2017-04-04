@@ -67,6 +67,7 @@ class CompleteProfileModal extends PureComponent {
         address1: (nextProps.currentReader.address1 || ''),
         city: (nextProps.currentReader.city || ''),
         state: (nextProps.currentReader.state || ''),
+        country: (nextProps.currentReader.country || ''),
         zipcode: (nextProps.currentReader.zipcode || ''),
         profession: (nextProps.currentReader.profession || ''),
       })
@@ -103,6 +104,7 @@ class CompleteProfileModal extends PureComponent {
       address1,
       city,
       state,
+      country,
       zipcode,
       profession
     } = this.state
@@ -116,6 +118,7 @@ class CompleteProfileModal extends PureComponent {
         address1,
         city,
         state,
+        country,
         zipcode,
         profession,
         context: 'readfeed',
@@ -126,6 +129,7 @@ class CompleteProfileModal extends PureComponent {
         address1,
         city,
         state,
+        country,
         zipcode,
         profession,
         context: 'readfeed'
@@ -144,6 +148,7 @@ class CompleteProfileModal extends PureComponent {
       address1,
       city,
       state,
+      country,
       zipcode,
       profession
     } = this.state
@@ -392,6 +397,15 @@ class CompleteProfileModal extends PureComponent {
                     className='form-input profile-editor-form-input'
                     onChange={this.handleOnChange('state')}
                     value={state}
+                  />
+                </div>
+                <div className='small-12 large-3 columns'>
+                  <span className='form-label'>Country</span>
+                  <input
+                    type='text'
+                    className='form-input profile-editor-form-input'
+                    onChange={this.handleOnChange('country')}
+                    value={country}
                   />
                 </div>
                 <div className='small-12 large-4 columns'>
