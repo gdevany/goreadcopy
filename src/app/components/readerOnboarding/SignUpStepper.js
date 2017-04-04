@@ -13,6 +13,7 @@ import SignUpStepOne from './SignUpStepOne'
 import SignUpStepTwo from './SignUpStepTwo'
 import SignUpStepThree from './SignUpStepThree'
 import Steps from './services/steps'
+import Promise from 'bluebird'
 
 const styles = {
   stepperContainer: {
@@ -59,24 +60,36 @@ class SignUpStepper extends PureComponent {
   }
 
   handleNext = () => {
-    const { stepIndex } = this.state
-    if (!this.state.loading) {
-      this.dummyAsync(() => this.setState({
-        loading: false,
-        stepIndex: Steps.next(stepIndex),
-        finished: Steps.finished(stepIndex),
-      }))
-    }
+    return new Promise((resolve, reject) => {
+      const { stepIndex } = this.state
+      if (!this.state.loading) {
+        resolve(
+          this.dummyAsync(() => this.setState({
+            loading: false,
+            stepIndex: Steps.next(stepIndex),
+            finished: Steps.finished(stepIndex),
+          }))
+        )
+      } else {
+        reject('still is loading')
+      }
+    })
   }
 
   handlePrev = () => {
-    const { stepIndex } = this.state
-    if (!this.state.loading) {
-      this.dummyAsync(() => this.setState({
-        loading: false,
-        stepIndex: Steps.previous(stepIndex),
-      }))
-    }
+    return new Promise((resolve, reject) => {
+      const { stepIndex } = this.state
+      if (!this.state.loading) {
+        resolve(
+            this.dummyAsync(() => this.setState({
+              loading: false,
+              stepIndex: Steps.previous(stepIndex),
+            }))
+        )
+      } else {
+        reject('still is loading')
+      }
+    })
   }
 
   handleReset = (event) => {
