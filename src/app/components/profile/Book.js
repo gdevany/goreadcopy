@@ -86,7 +86,7 @@ class Book extends PureComponent {
               </a>
             ) : null
           }
-          {bookType === 'libraryList' || bookType === 'topBook' ?
+          {bookType === 'libraryList' || bookType === 'topBook' || bookType === 'wishList' ?
             (
               <a
                 onClick={this.props.removeAction}

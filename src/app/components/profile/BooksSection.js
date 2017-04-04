@@ -10,8 +10,6 @@ import DeleteIcon from 'material-ui/svg-icons/action/delete'
 import FavoriteIcon from 'material-ui/svg-icons/action/redeem'
 import LibraryEditModal from './LibraryEditModal'
 import ShippingAddressModal from './shippingAddressModal'
-import CurrentlyReadingModal from './CurrentlyReadingModal'
-import TopBooksModal from './TopBooksModal'
 import R from 'ramda'
 import Rating from 'react-rating'
 
@@ -51,13 +49,9 @@ class BooksSection extends PureComponent {
       userId: null,
       isMyProfile: false,
       addLibraryModal: false,
-      addCurrentlyModal: false,
-      topBooksModal: false,
       shippingAddressModal: false,
     }
     this.handleEditLibraryModal = this.handleEditLibraryModal.bind(this)
-    this.handleCurrentlyModal = this.handleCurrentlyModal.bind(this)
-    this.handleTopBooksModal = this.handleTopBooksModal.bind(this)
     this.handleAddToWishList = this.handleAddToWishList.bind(this)
     this.handleRemoveFromWishList = this.handleRemoveFromWishList.bind(this)
   }
@@ -91,24 +85,6 @@ class BooksSection extends PureComponent {
 
   handleEditLibraryModalClose = () => {
     this.setState({ addLibraryModal: false })
-  }
-
-  handleCurrentlyModal = (event) => {
-    event.preventDefault()
-    this.setState({ addCurrentlyModal: true })
-  }
-
-  handleCurrentlyModalClose = () => {
-    this.setState({ addCurrentlyModal: false })
-  }
-
-  handleTopBooksModal = (event) => {
-    event.preventDefault()
-    this.setState({ topBooksModal: true })
-  }
-
-  handleTopBooksModalClose = () => {
-    this.setState({ topBooksModal: false })
   }
 
   handleShippingAddressModalClose = () => {
@@ -412,7 +388,7 @@ class BooksSection extends PureComponent {
   }
 
   renderLibrary = () => {
-    const { profilePage: { myLibrary, topBooks } } = this.props
+    const { profilePage: { myLibrary } } = this.props
     const { isMyProfile, userId } = this.state
     return (
       <div>
@@ -429,20 +405,6 @@ class BooksSection extends PureComponent {
               <LibraryEditModal
                 modalOpen={this.state.addLibraryModal}
                 handleClose={this.handleEditLibraryModalClose}
-                userId={userId}
-              />
-              {/* <a
-                className='edit-library-anchor'
-                onClick={this.handleTopBooksModal}
-              >
-                <Editcon/>
-                <span className='edit-library-text'>Top Books</span>
-              </a> */}
-              <TopBooksModal
-                modalOpen={this.state.topBooksModal}
-                handleClose={this.handleTopBooksModalClose}
-                myLibrary={myLibrary}
-                topBooks={topBooks}
                 userId={userId}
               />
             </div>
@@ -464,32 +426,10 @@ class BooksSection extends PureComponent {
 
   renderCurrentlyReading = () => {
     const { profilePage } = this.props
-    const { isMyProfile } = this.state
 
     if (profilePage.currentlyReading) {
       return (
         <div>
-          {isMyProfile ?
-            (
-              <div className='library-edit-heading'>
-                {/* <a
-                  className='edit-library-anchor'
-                  onClick={this.handleCurrentlyModal}
-                >
-                  <Editcon/>
-                  <span className='edit-library-text'> Add a Favorite Book</span>
-                </a> */}
-                <CurrentlyReadingModal
-                  modalOpen={this.state.addCurrentlyModal}
-                  handleClose={this.handleCurrentlyModalClose}
-                  myLibrary={profilePage.myLibrary ?
-                    profilePage.myLibrary : null
-                  }
-                  userId={this.state.userId}
-                />
-              </div>
-            ) : null
-          }
           {profilePage.currentlyReading.link === '' ?
             (
               <div className='not-currently-reading'>

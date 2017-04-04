@@ -126,6 +126,11 @@ class LibraryEditModal extends PureComponent {
     this.props.removeFromLibrary(bookId, userId)
   }
 
+  handleRemoveFromWishList = (bookEan) => {
+    const { userId } = this.state
+    this.props.removeFromWishList(bookEan, userId)
+  }
+
   truncInfo = (text, limit) => {
     return text.length >= limit ? `${text.slice(0, limit)}...` : text
   }
@@ -294,10 +299,56 @@ class LibraryEditModal extends PureComponent {
     )
   }
 
+  renderWishList = () => {
+    const { profilePage } = this.props
+    if (profilePage.wishList !== undefined) {
+      const { wishList } = this.props.profilePage
+      if (wishList === 'User has no books in the wish list') {
+        return (
+          <div>
+            You don't have any book on your wish list
+          </div>
+        )
+      }
+      return wishList.map((book, index) => {
+        return (
+          <Book
+            key={`${book.id}_edit_wish_list_${index}`}
+            url={book.link}
+            image={book.imageUrl}
+            id={book.id}
+            title={book.title}
+            authors={book.authors}
+            rating={book.rating}
+            bookType='wishList'
+            removeAction={() => this.handleRemoveFromWishList(book.id)}
+          />
+        )
+      })
+    }
+    return null
+  }
+
   renderTabThree = () => {
     return (
       <div className='edit-library-tab'>
-        Tab Three
+        <div className='tab-heading'>
+          <h4>Edit Your Wish List</h4>
+          <a
+            onClick={this.handleClickAddBooksModal}
+            className='add-book-btn'
+          >
+            + Add book
+          </a>
+        </div>
+        <div className='edit-library-top-books'>
+          <h5>Your Wish List</h5>
+        </div>
+        <div className='edit-library-library-list'>
+          <div className='edit-wishlist-container'>
+            {this.renderWishList()}
+          </div>
+        </div>
       </div>
     )
   }
