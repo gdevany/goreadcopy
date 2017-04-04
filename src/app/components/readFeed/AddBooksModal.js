@@ -5,6 +5,7 @@ import { Search, ProfilePage } from '../../redux/actions'
 import { debounce } from 'lodash'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { Colors } from '../../constants/style'
+import Book from '../profile/Book'
 import R from 'ramda'
 
 const { bookSearch, updateBookSearch } = Search
@@ -78,35 +79,19 @@ class AddBooksModal extends Component {
     const searchTerms = this.props.searchResults
     if (searchTerms) {
       const bookResults = searchTerms.results.map((book, index) => {
-        const author = book.authors[0] ? book.authors[0].fullname : null
         return (
-          <div key={`${book.ean}_${index}`} className='result-container'>
-            <div
-              className='book-container'
-            >
-              <a href={book.link || book.slug}>
-                <img className='book' src={book.imageUrl} />
-              </a>
-            </div>
-            <div className='library-book-details-container'>
-              <a href={book.slug} className='library-book-details-anchor'>
-                <span className='link'>
-                  {book.title ? this.truncInfo(book.title, 30) : null}
-                </span>
-                <p className='link subheader library-book-details-element'>
-                  by: { author ? this.truncInfo(author, 15) : <i> unknown </i>}
-                </p>
-              </a>
-            </div>
-            <div className='search-add-to-library-container'>
-              <a
-                className='search-add-to-library-anchor'
-                onClick={() => this.handleAddToLibrary(book.ean)}
-              >
-                Add to Library
-              </a>
-            </div>
-          </div>
+          <Book
+            key={`${book.ean}_${index}`}
+            url={book.link}
+            image={book.imageUrl}
+            id={book.ean}
+            title={book.title}
+            rating={book.rating}
+            authors={book.authors}
+            bookType='librarySearch'
+            addAction={() => this.handleAddToLibrary(book.ean)}
+
+          />
         )
       })
 
