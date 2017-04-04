@@ -66,13 +66,23 @@ class Book extends PureComponent {
           ) : null
         }
         <div className='book-action'>
-          {bookType === 'searchBooks' ?
+          {bookType === 'librarySearch' ?
             (
               <a
                 onClick={this.props.addAction}
                 className='book-action-anchor'
               >
                 Add to Library
+              </a>
+            ) : null
+          }
+          {bookType === 'wishListSearch' ?
+            (
+              <a
+                onClick={this.props.addAction}
+                className='book-action-anchor'
+              >
+                Add to WishList
               </a>
             ) : null
           }

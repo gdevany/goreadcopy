@@ -50,7 +50,7 @@ export function getWishList(id) {
 
 export function addToWishList(payload, id) {
   const terms = {
-    id: payload
+    ean: payload
   }
   return dispatch => {
     ProfilePage.updateWishList(terms)

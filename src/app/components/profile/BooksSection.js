@@ -6,8 +6,6 @@ import { ProfilePage } from '../../redux/actions'
 import { PageScroller } from '../common'
 import Editcon from 'material-ui/svg-icons/image/edit'
 import StarIcon from 'material-ui/svg-icons/toggle/star'
-import DeleteIcon from 'material-ui/svg-icons/action/delete'
-import FavoriteIcon from 'material-ui/svg-icons/action/redeem'
 import LibraryEditModal from './LibraryEditModal'
 import ShippingAddressModal from './shippingAddressModal'
 import R from 'ramda'
@@ -303,17 +301,6 @@ class BooksSection extends PureComponent {
         const author = book.authors.length ? book.authors[0].fullname : null
         return (
           <div className='wishlist-book-container' key={book.id}>
-            {this.state.isMyProfile ?
-              (
-                <div
-                  className='remove-wishlist-badge'
-                >
-                  <a onClick={() => this.handleRemoveFromWishList(book.id)}>
-                    <DeleteIcon/>
-                  </a>
-                </div>
-              ) : null
-            }
             <div
               className='book-container'
             >
@@ -352,13 +339,6 @@ class BooksSection extends PureComponent {
       const author = book.authors.length ? book.authors[0].fullname : null
       return (
         <div className='library-book-container' key={`${book.id}_bookSection${index}`}>
-            <div
-              className='add-wishlist-badge'
-            >
-              <a onClick={() => this.handleAddToWishList(book.id)}>
-                <FavoriteIcon/>
-              </a>
-            </div>
           <div
             className='book-container'
           >

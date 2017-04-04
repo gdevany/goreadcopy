@@ -44,10 +44,10 @@ class LibraryEditModal extends PureComponent {
       tabThreeOpen: false,
       userId: '',
       searchBooksModal: false,
+      searchBooksModalContext: '',
       libraryModal: false,
     }
 
-    this.handleClickAddBooksModal = this.handleClickAddBooksModal.bind(this)
     this.handleClickLibraryModal = this.handleClickLibraryModal.bind(this)
 
   }
@@ -64,9 +64,11 @@ class LibraryEditModal extends PureComponent {
     this.props.fetchLibrary(id, params)
   })
 
-  handleClickAddBooksModal = (event) => {
-    event.preventDefault()
-    this.setState({ searchBooksModal: true })
+  handleClickAddBooksModal = (context) => {
+    this.setState({
+      searchBooksModalContext: context,
+      searchBooksModal: true,
+    })
   }
 
   handleClickAddBooksModalClose = () => {
@@ -142,7 +144,7 @@ class LibraryEditModal extends PureComponent {
         <div className='tab-heading'>
           <h4>Edit Your Library</h4>
           <a
-            onClick={this.handleClickAddBooksModal}
+            onClick={() => this.handleClickAddBooksModal('librarySearch')}
             className='add-book-btn'
           >
             + Add book
@@ -335,7 +337,7 @@ class LibraryEditModal extends PureComponent {
         <div className='tab-heading'>
           <h4>Edit Your Wish List</h4>
           <a
-            onClick={this.handleClickAddBooksModal}
+            onClick={() => this.handleClickAddBooksModal('wishListSearch')}
             className='add-book-btn'
           >
             + Add book
@@ -422,6 +424,7 @@ class LibraryEditModal extends PureComponent {
             modalOpen={this.state.searchBooksModal}
             handleClose={this.handleClickAddBooksModalClose}
             userId={this.state.userId}
+            context={this.state.searchBooksModalContext}
           />
           <LibraryModal
             modalOpen={this.state.libraryModal}

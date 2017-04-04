@@ -7,10 +7,11 @@ import RefreshIndicator from 'material-ui/RefreshIndicator'
 import Book from './Book'
 import { Colors } from '../../constants/style'
 import R from 'ramda'
+import ShippingAddressModal from './shippingAddressModal'
 
 const { bookSearch, updateBookSearch } = Search
 
-const { addToLibrary } = ProfilePage
+const { addToLibrary, addToWishList } = ProfilePage
 
 const styles = {
   modalBody: {
@@ -35,16 +36,18 @@ class SearchBookModal extends Component {
     this.state = {
       searchTerm: '',
       userId: '',
+      context: '',
+      shippingAddressModal: false,
     }
     this.handleSeach = this.handleSeach.bind(this)
     this.debouncedSearch = this.debouncedSearch.bind(this)
   }
+
   componentWillReceiveProps = (nextProps) => {
-    if (this.state.userId !== nextProps.userId) {
-      this.setState({
-        userId: nextProps.userId,
-      })
-    }
+    this.setState({
+      userId: nextProps.userId,
+      context: nextProps.context,
+    })
   }
 
   handleAddToLibrary = (bookEan) => {
@@ -52,16 +55,32 @@ class SearchBookModal extends Component {
     this.props.addToLibrary(bookEan, userId, 'readfeed')
   }
 
+  handleAddToWishList = (bookEan) => {
+    const { userId } = this.state
+    const { shippingAddress } = this.props.currentReader
+    if (shippingAddress === null) {
+      this.setState({ shippingAddressModal: true })
+    } else {
+      this.props.addToWishList(bookEan, userId)
+    }
+  }
+
+  handleShippingAddressModalClose = () => {
+    this.setState({ shippingAddressModal: false })
+  }
+
   handleEnterButton = (event) => {
     if (event.which === 13) {
       event.preventDefault()
     }
   }
+
   handleSeach = R.curry((field, e) => {
     e.persist()
     this.setState({ [field]: e.target.value })
     this.debouncedSearch(e)
   })
+
   debouncedSearch = debounce((event) => {
     if (event.target.value.length > 3) {
       this.props.bookSearch(event.target.value)
@@ -81,8 +100,15 @@ class SearchBookModal extends Component {
             title={book.title}
             rating={book.rating}
             authors={book.authors}
-            bookType='searchBooks'
-            addAction={() => this.handleAddToLibrary(book.ean)}
+            bookType={this.state.context}
+            addAction={() => {
+              if (this.state.context === 'librarySearch') {
+                this.handleAddToLibrary(book.ean)
+              } else {
+                this.handleAddToWishList(book.ean)
+              }
+            }}
+
           />
         )
       })
@@ -161,6 +187,10 @@ class SearchBookModal extends Component {
               </div>
             </div>
           </div>
+          <ShippingAddressModal
+            modalOpen={this.state.shippingAddressModal}
+            handleClose={this.handleShippingAddressModalClose}
+          />
         </Dialog>
       </div>
     )
@@ -168,6 +198,9 @@ class SearchBookModal extends Component {
 }
 const mapStateToProps = (state) => {
   return {
+    currentReader: {
+      shippingAddress: state.currentReader.shippingAddress,
+    },
     searchResults: state.search.bookSearch
   }
 }
@@ -175,5 +208,6 @@ const mapDistpachToProps = {
   bookSearch,
   updateBookSearch,
   addToLibrary,
+  addToWishList,
 }
 export default connect(mapStateToProps, mapDistpachToProps)(SearchBookModal)
