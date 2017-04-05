@@ -73,7 +73,8 @@ class FavoriteGenres extends PureComponent {
     const {
       genreIds,
       isCurrentReader,
-      fullname
+      fullname,
+      context
     } = this.props
     const { modalOpen } = this.state
 
@@ -98,6 +99,7 @@ class FavoriteGenres extends PureComponent {
               modalOpen={modalOpen}
               handleClose={this.handleClose}
               genreIds={genreIds}
+              context={context}
             />
           ) : null}
 

@@ -16,6 +16,7 @@ import { ExternalRoutes as routes } from '../../constants'
 import R from 'ramda'
 import moment from 'moment'
 import ImportLibraryModal from './ImportLibraryModal'
+import { CONTEXTS as C } from '../../constants/litcoins'
 
 const { uploadImage } = Images
 const { updateReader,
@@ -834,6 +835,7 @@ class SettingsTabs extends PureComponent {
                   modalOpen={modalOpen}
                   handleClose={this.handleClose}
                   genreIds={currentReader.genreIds}
+                  context={C.SETTINGS}
                 />
               ) : null
             }

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import ReadFeedProfile from './ReadFeedProfile'
 import LeftHandLinks from './LeftHandLinks'
 import { FavoriteGenres } from '../common'
+import { CONTEXTS as C } from '../../constants/litcoins'
 
 class LeftContainer extends PureComponent {
   render() {
@@ -20,6 +21,7 @@ class LeftContainer extends PureComponent {
           genreIds={genreIds}
           isCurrentReader={isMyReadFeed}
           fullname={fullname}
+          context={C.READ_FEED}
         />
       </div>
     )

@@ -5,6 +5,7 @@ import FavoriteQuotes from './FavoriteQuotes'
 import BooksSection from './BooksSection'
 import { FavoriteGenres } from '../common'
 import MyImageProfileUpload from './MyImageProfileUpload'
+import { CONTEXTS as C } from '../../constants/litcoins'
 
 class LeftProfileContainer extends PureComponent {
   constructor(props) {
@@ -75,6 +76,7 @@ class LeftProfileContainer extends PureComponent {
           genreIds={genreIds}
           isCurrentReader={isMyProfile}
           fullname={fullname}
+          context={C.PROFILE_PAGE}
         />
       </div>
       <FavoriteQuotes quotes={favoriteQuotes} />

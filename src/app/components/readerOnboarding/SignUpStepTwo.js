@@ -95,7 +95,10 @@ class SignUpStepTwo extends PureComponent {
 
     if (buttonText === 'Next') {
       if (this.state.chosenGenres.length > 0) {
-        this.props.createChosenReaderGenres({ genreIds: this.state.chosenGenres })
+        this.props.createChosenReaderGenres({
+          genreIds: this.state.chosenGenres,
+          context: this.props.context
+        })
         this.props.handleNext()
       } else {
         this.setState({ showDisabled: true })
