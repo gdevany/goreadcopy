@@ -262,7 +262,8 @@ class SettingsTabs extends PureComponent {
 
     let readerData = {}
     if (birthdateYear || birthdateMonth || birthdateDay) {
-      const fullDate = moment(`${birthdateYear}-${birthdateMonth}-${birthdateDay}`, 'YYYY-MM-DD')
+      const monthName = moment().month(birthdateMonth).format('M')
+      const fullDate = moment(`${birthdateYear}-${monthName}-${birthdateDay}`, 'YYYY-MM-DD')
       readerData = {
         firstName,
         lastName,
