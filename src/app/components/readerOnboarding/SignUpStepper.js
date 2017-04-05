@@ -14,6 +14,7 @@ import SignUpStepTwo from './SignUpStepTwo'
 import SignUpStepThree from './SignUpStepThree'
 import Steps from './services/steps'
 import Promise from 'bluebird'
+import { CONTEXTS as C } from '../../constants/litcoins'
 
 const styles = {
   stepperContainer: {
@@ -128,6 +129,7 @@ class SignUpStepper extends PureComponent {
               handleNext={this.handleNext}
               handlePrev={this.handlePrev}
               stepIndex={this.state.stepIndex}
+              context={C.ONBOARDING}
             />
           </div>
         )
@@ -139,6 +141,7 @@ class SignUpStepper extends PureComponent {
               handlePrev={this.handlePrev}
               stepIndex={this.state.stepIndex}
               clickedSelectAll={this.props.clickedSelectAll}
+              context={C.ONBOARDING}
             />
           </div>
         )
