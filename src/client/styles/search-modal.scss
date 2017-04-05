@@ -52,40 +52,144 @@
     align-items: flex-start;
     .rap-results-container, .book-results-container{
       width: 50%;
-      .search-reader-results, .search-author-results,
-      .search-publisher-results, .search-book-results{
-        .result-container{
+    }
+    .book-results-container{
+      width: 50%;
+    }
+  }
+}
+
+.search-reader-results, .search-author-results,
+.search-publisher-results, .search-book-results{
+  .result-container{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    padding: .5em;
+    .image-container{
+      a{
+        .search-result-figure{
+          margin: 0;
+          width: 70px;
+          height: 70px;
+          .search-result-image{
+            width: 100%;
+            border-radius: 100%;
+          }
+        }
+      }
+    }
+  }
+  .search-result-info-container{
+    margin-left: .5em;
+    .search-type-anchor{
+      color:$blue;
+      font-size: 12px;
+    }
+    .search-result-add-to{
+      display: block;
+      background-color: #fff;
+      border: 1px solid #0042D6;
+      border-radius: 35px;
+      font-size: 14px;
+      margin-top: .5em;
+      text-align: center;
+      padding: 5px 10px;
+      width: 128px;
+    }
+  }
+}
+
+.complete-profile-books-modal{
+  max-height: 100vh;
+  overflow: scroll;
+}
+
+.searchbooks-readfeeed-title{
+  font-size: 18px;
+  @media all and (min-width: 768px){
+    font-size: 26px;
+  }
+}
+.searchbooks-readfeeed-subtitle{
+  font-size: 16px;
+  @media all and (min-width: 768px){
+    font-size: 18px;
+  }
+}
+
+.search-books-on-readfeed{
+  .search-books-form{
+    input{
+      border-radius: 30px;
+    }
+  }
+  .search-results-container{
+    position: relative;
+    .search-results{
+      .book-search-results-container{
+        width: 100%;
+        .search-book-results{
           display: flex;
-          justify-content: flex-start;
-          align-items: center;
+          justify-content: space-between;
+          align-items: flex-start;
           flex-direction: row;
-          padding: .5em;
-          .image-container{
-            a{
-              .search-result-figure{
-                margin: 0;
-                width: 70px;
-                height: 70px;
-                .search-result-image{
-                  width: 100%;
-                  border-radius: 100%;
+          flex-wrap: wrap;
+          overflow-y: scroll;
+          overflow-x: hidden;
+          min-height: 150px;
+          max-height: 200px;
+          @media all and (min-width: 768px) {
+            max-height: 300px;
+          }
+          @media all and (min-width: 1200px) {
+            max-height: 400px;
+          }
+          @media all and (min-width: 1400px) {
+            max-height: 600px;
+          }
+          .result-container{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            @media all and (min-width: 768px) {
+              width: 30%;
+            }
+            .book-container{
+              transition: none;
+              transform: none;
+            }
+            .library-book-details-container{
+              margin-top: .25em;
+              .library-book-details-anchor{
+                display: block;
+                width: 100%;
+                .link{
+                  font-size: 14px;
+                  font-weight: 200;
+                  color: $black
+                }
+                .library-book-details-element{
+                  font-size: 14px;
+                  font-weight: 200;
                 }
               }
             }
           }
         }
-        .search-result-info-container{
-          margin-left: .5em;
-          .search-type-anchor{
-            color:$blue;
-            font-size: 12px;
-          }
-        }
       }
     }
-    .book-results-container{
-      width: 50%;
-    }
+  }
+}
+
+.refresh-indicator-container{
+  min-height: 50px;
+  position: relative;
+  @media all and (min-width: 768px){
+    min-height: 100px;
   }
 }
 

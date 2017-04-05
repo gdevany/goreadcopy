@@ -52,7 +52,6 @@ class SearchModal extends Component {
   renderSearchResults = () => {
     const searchTerms = this.props.searchResults
     if (searchTerms.counts) {
-
       const readerResults = searchTerms.readers.map((reader, index) => {
         return (
           <div key={reader.id} className='result-container'>

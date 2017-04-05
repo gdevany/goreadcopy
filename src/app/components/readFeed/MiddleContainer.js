@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Tiles } from '../../redux/actions'
-import { AnnouncementTile } from './tiles'
+import { ProfileDetailerTile, AnnouncementTile } from './tiles'
 import { StatusPost, TileScroller } from '../common'
 
 const { getReadFeedTiles, prependReadFeedTile } = Tiles
@@ -11,11 +11,33 @@ class MiddleContainer extends PureComponent {
     super(props)
   }
 
+  checkReaderAwards = () => {
+    const { achievements } = this.props
+    let hasAward = false
+    if (achievements) {
+      for (let i = 0; i < achievements.length; i++) {
+        if (achievements[i].id === 3) {
+          hasAward = true
+        }
+      }
+    }
+    return hasAward
+  }
+
   render() {
-    const { readFeed, userId, prependReadFeedTile, isReadFeedLocked } = this.props
+    const {
+      readFeed,
+      userId,
+      prependReadFeedTile,
+      isReadFeedLocked,
+      isProfileCompleted
+    } = this.props
+
     return (
       <div className='middle-container small-12 large-6 columns'>
         <AnnouncementTile/>
+        {isProfileCompleted && this.checkReaderAwards() ? null : <ProfileDetailerTile />}
+
         <StatusPost targetId={userId} postNewTile={prependReadFeedTile}/>
         <TileScroller
           fetchTiles={(params) => this.props.getReadFeedTiles(params)}
@@ -29,6 +51,10 @@ class MiddleContainer extends PureComponent {
 }
 
 const mapStateToProps = ({
+  currentReader: {
+    isProfileCompleted,
+    achievements,
+  },
   tiles: {
     readFeed,
     isReadFeedLocked
@@ -36,7 +62,9 @@ const mapStateToProps = ({
 }) => {
   return {
     readFeed,
-    isReadFeedLocked
+    isReadFeedLocked,
+    isProfileCompleted,
+    achievements,
   }
 }
 

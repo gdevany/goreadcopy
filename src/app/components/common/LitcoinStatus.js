@@ -56,7 +56,7 @@ class LitcoinStatus extends PureComponent {
     return (
       <div>
         <a className='rf-nav-link' href={litcoins()}>
-          <span>{currentBalance ? currentBalance : null}</span>
+          <span>{currentBalance ? currentBalance.toLocaleString() : null}</span>
           <img className='litcoin-img' src='/image/litcoin.png' />
         </a>
         <div style={styles.container} className={this.state.litcoinClass}>

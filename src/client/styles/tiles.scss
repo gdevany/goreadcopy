@@ -562,6 +562,113 @@
   }
 }
 
+.profile-detailer-container > div {
+  padding-bottom: 0 !important;
+}
+
+.profile-detailer-container{
+  margin-bottom: 1em;
+  .profile-detailer-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em;
+    width: 100%;
+    border-bottom: solid 1px #dedede;
+    box-shadow: rgba(222, 222, 222, 0.5) 0px 4px 20px 0px;
+    .profile-detailer-title{
+      font-size: 16px;
+      margin: 0;
+      font-weight: 400;
+      align-self: flex-start;
+      width: 100%;
+      text-align: left;
+    }
+    .profile-detailer-progress-bar{
+      height: 15px !important;
+    }
+  }
+  .profile-detailer-content{
+    padding: 0 !important;
+    .profile-detailer-actions-content{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: center;
+      .dropzone-profile-detailer{
+        width: 100%;
+        height: auto;
+        border: none;
+      }
+    }
+    .profile-detailer-goto{
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  }
+}
+
+.profile-detailer-single-action{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  background-color: $white;
+  font-size: 16px;
+  width: 100%;
+  padding: 1em;
+  border-bottom: solid 1px #dedede;
+  box-shadow: rgba(222, 222, 222, 0.5) 0px 4px 20px 0px;
+  color: $blue;
+  &:hover{
+    color: $black
+  }
+  .profile-detailer-left-elements{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    width: 75%;
+    .action-icon{
+      span{
+        font-weight: 700;
+        font-size: 22px;
+        color: $blue;
+      }
+    }
+    .action-content{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin-left: .75em;
+      .action-name{
+        font-size: 14px;
+        color: $blue;
+      }
+    }
+  }
+  .litcoin-earn-container{
+    align-self: center;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 25%;
+    .litcoin-amount{
+      font-size: 14px;
+      color: $black;
+      &:hover{
+        color: $black;
+      }
+    }
+    .litcoin-image{
+      width: 15px;
+      margin-left: .25em;
+    }
+  }
+}
+
 .merged-tile-container{
   display: flex;
   justify-content: flex-start;

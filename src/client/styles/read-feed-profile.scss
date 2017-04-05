@@ -321,3 +321,10 @@
 .profile-readfeed-container{
   display: flex;
 }
+
+.profile-error{
+  color: #ff0000;
+  input{
+    border-color: #ff0000;
+  }
+}

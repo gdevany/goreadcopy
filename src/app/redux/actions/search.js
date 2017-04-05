@@ -4,6 +4,7 @@ import { debounce } from 'lodash'
 
 export function mainSearch(searchTerm, searchType) {
   let terms = {}
+
   if (searchType === 'main-search') {
     terms = {
       author: searchTerm,
