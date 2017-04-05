@@ -3,12 +3,15 @@ import { connect } from 'react-redux'
 import { Dialog } from 'material-ui'
 import { Colors } from '../../constants/style'
 import { CurrentReader } from '../../redux/actions'
+import { ProfilePage } from '../../services/api'
 import PrimaryButton from '../common/PrimaryButton'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import R from 'ramda'
 import moment from 'moment'
 
+let countryList, stateList
+const { getCountries, getStates } = ProfilePage
 const { updateReader } = CurrentReader
 const styles = {
   lableStyle: {
@@ -45,9 +48,23 @@ class CompleteProfileModal extends PureComponent {
       birthdateYear: '',
       address1: '',
       city: '',
+      country: 0,
       state: '',
       zipcode: '',
-      profession: ''
+      profession: '',
+      genderError: false,
+      birthdateMonthError: false,
+      birthdateDayError: false,
+      birthdateYearError: false,
+      address1Error: '',
+      cityError: '',
+      countryError: false,
+      stateInputError: '',
+      stateListError: false,
+      zipcodeError: '',
+      professionError: '',
+      isContentRenderList: false,
+      isContentRenderInput: true,
     }
 
     this.handleOnChange = this.handleOnChange.bind(this)
@@ -67,7 +84,7 @@ class CompleteProfileModal extends PureComponent {
         address1: (nextProps.currentReader.address1 || ''),
         city: (nextProps.currentReader.city || ''),
         state: (nextProps.currentReader.state || ''),
-        country: (nextProps.currentReader.country || ''),
+        country: (nextProps.currentReader.country || 0),
         zipcode: (nextProps.currentReader.zipcode || ''),
         profession: (nextProps.currentReader.profession || ''),
       })
@@ -78,12 +95,18 @@ class CompleteProfileModal extends PureComponent {
 
     e.preventDefault()
     if (field === 'gender') {
-      this.setState({ gender: (e.target.innerText === 'Male' ? 'M' : 'F') })
+      this.setState({
+        gender: (e.target.innerText === 'Male' ? 'M' : 'F'),
+        genderError: false,
+      })
     }
 
     if (field === 'birthdateDay' || field === 'birthdateMonth' ||
       field === 'birthdateYear') {
-      this.setState({ [field]: e.target.innerText })
+      this.setState({
+        [field]: e.target.innerText,
+        [field + 'Error']: false,
+      })
     }
 
     if (field !== 'gender' && field !== 'birthdateDay' &&
@@ -93,6 +116,188 @@ class CompleteProfileModal extends PureComponent {
 
     }
   })
+
+  handleOnChangeCountry = R.curry((e, index, value) => {
+    e.preventDefault()
+    if (value) {
+      this.setState({
+        country: value,
+        countryError: false,
+      })
+      getStates(value)
+        .then(res => this.displayStateList(res))
+    }
+  })
+
+  handleOnChangeState = R.curry((e, index, value) => {
+    e.preventDefault()
+    this.setState({
+      state: value,
+      stateError: false,
+    })
+  })
+
+  handleRenderCountry = () => {
+    getCountries()
+      .then(res => this.displayCountryList(res))
+
+    return (
+      <div className='small-12 large-8 columns '>
+        <span className='form-label'>Country</span>
+        <SelectField
+          onChange={this.handleOnChangeCountry()}
+          value={this.state.country}
+          style={styles.selectStyles}
+          errorText={this.state.countryError && 'Please select an option'}
+        >
+          <MenuItem
+            value={0}
+            primaryText='Select your country'
+          />
+          { countryList ? countryList : null }
+        </SelectField>
+      </div>
+    )
+  }
+
+  displayCountryList = (res) => {
+    if (res) {
+      countryList = res.data.result.map((data, index) => {
+        return (
+          <MenuItem
+            value={data.pk}
+            primaryText={data.name}
+            key={data.pk}
+          />
+        )
+      })
+    }
+  }
+
+  renderStateList = () => {
+    return (
+      <div className='small-12 large-8 columns '>
+        <span className='form-label'>State</span>
+        <SelectField
+          onChange={this.handleOnChangeState()}
+          value={this.state.state}
+          style={styles.selectStyles}
+          errorText={this.state.stateListError}
+        >
+          <MenuItem
+            value={0}
+            primaryText='Select a State'
+          />
+          { stateList ? stateList : null }
+        </SelectField>
+      </div>
+    )
+  }
+
+  renderStateInput = () => {
+    return (
+      <div className={'small-12 large-3 columns ' + this.state.stateInputError}>
+        <span className='form-label'>State</span>
+        <input
+          type='text'
+          className='form-input profile-editor-form-input'
+          onChange={this.handleOnChange('state')}
+          value={this.state.state}
+        />
+      </div>
+    )
+  }
+
+  displayStateList = (res) => {
+    if (res) {
+      stateList = res.data.result.map((data, index) => {
+        return (
+          <MenuItem
+            value={data.pk}
+            primaryText={data.name}
+            key={data.pk}
+          />
+        )
+      })
+      this.setState({
+        state: 0,
+        isContentRenderList: true,
+        isContentRenderInput: false,
+      })
+    } else {
+      stateList = false
+      this.setState({
+        state: '',
+        isContentRenderList: false,
+        isContentRenderInput: true,
+      })
+    }
+  }
+
+  handleValidation = (data) => {
+    let val = true
+    if (data.gender === '') {
+      this.setState({ genderError: true })
+      val = false
+    } else {
+      this.setState({ genderError: false })
+    }
+    if (data.birthdate === 'Invalid date') {
+      this.setState({
+        birthdateYearError: true,
+        birthdateMonthError: true,
+        birthdateDayError: true,
+      })
+      val = false
+    } else {
+      this.setState({
+        birthdateYearError: false,
+        birthdateMonthError: false,
+        birthdateDayError: false,
+      })
+    }
+    if (data.address1 === '') {
+      this.setState({ address1Error: 'profile-error' })
+      val = false
+    } else {
+      this.setState({ address1Error: '' })
+    }
+    if (data.profession === '') {
+      this.setState({ professionError: 'profile-error' })
+      val = false
+    }
+    if (data.country === 0) {
+      this.setState({ countryError: true })
+      val = false
+    } else {
+      this.setState({ countryError: false })
+    }
+    if (data.state === '') {
+      this.setState({ stateInputError: 'profile-error' })
+      val = false
+    } else {
+      this.setState({ stateInputError: '' })
+    }
+    if (data.state === 0) {
+      this.setState({ stateListError: true })
+      val = false
+    } else {
+      this.setState({ stateListError: false })
+    }
+    if (data.city === '') {
+      this.setState({ cityError: 'shipping-address-error' })
+      val = false
+    } else {
+      this.setState({ cityError: '' })
+    }
+    if (data.zipcode === '') {
+      this.setState({ zipcodeError: 'shipping-address-error' })
+      val = false
+    } else {
+      this.setState({ zipcodeError: '' })
+    }
+    return val
+  }
 
   handleCompleteSubmit = (event) => {
     event.preventDefault()
@@ -114,7 +319,7 @@ class CompleteProfileModal extends PureComponent {
       const fullDate = moment(`${birthdateYear}-${birthdateMonth}-${birthdateDay}`, 'YYYY-MM-DD')
       readerData = {
         gender,
-        birthdate: fullDate.format('YYYY-MM-DD'),
+        birthdate: fullDate.format('YYYY-MM-DD') ? fullDate.format('YYYY-MM-DD') : '',
         address1,
         city,
         state,
@@ -135,8 +340,10 @@ class CompleteProfileModal extends PureComponent {
         context: 'readfeed'
       }
     }
-    this.props.updateReader(readerData)
-    this.props.handleClose()
+    if (this.handleValidation(readerData) === true) {
+      this.props.updateReader(readerData)
+      this.props.handleClose()
+    }
   }
 
   renderSettings = () => {
@@ -147,10 +354,18 @@ class CompleteProfileModal extends PureComponent {
       birthdateYear,
       address1,
       city,
-      state,
-      country,
       zipcode,
-      profession
+      profession,
+      genderError,
+      birthdateMonthError,
+      birthdateDayError,
+      birthdateYearError,
+      address1Error,
+      cityError,
+      zipcodeError,
+      professionError,
+      isContentRenderList,
+      isContentRenderInput,
     } = this.state
     return (
       <article className='settings-single-tab-content small-10 columns small-centered'>
@@ -158,12 +373,13 @@ class CompleteProfileModal extends PureComponent {
           <div className='profile-editor-form-container'>
             <form className='profile-editor-form'>
               <div className='row'>
-                <div className='small-12 large-6 columns'>
+                <div className={'small-12 large-6 columns ' + genderError}>
                   <span className='form-label'>Gender</span>
                   <SelectField
                     onChange={this.handleOnChange('gender')}
                     value={gender}
                     style={styles.selectStyles}
+                    errorText={genderError && 'Please fill in the blanks'}
                   >
                     <MenuItem value='M' primaryText='Male' />
                     <MenuItem value='F' primaryText='Female' />
@@ -171,15 +387,16 @@ class CompleteProfileModal extends PureComponent {
                 </div>
               </div>
               <div className='row'>
-                <div className='small-12 columns'>
+                <div className='small-12 columns '>
                   <span className='form-label'>Your Birthday</span>
                 </div>
-                <div className='small-12 large-4 columns'>
+                <div className='small-12 large-4 columns '>
                   <SelectField
                     floatingLabelText='Month'
                     value={birthdateMonth}
                     onChange={this.handleOnChange('birthdateMonth')}
                     style={styles.selectStyles}
+                    errorText={birthdateMonthError && 'Please fill in the blanks'}
                   >
                     <MenuItem value='January' primaryText='January' />
                     <MenuItem value='February' primaryText='February' />
@@ -195,12 +412,13 @@ class CompleteProfileModal extends PureComponent {
                     <MenuItem value='December' primaryText='December' />
                   </SelectField>
                 </div>
-                <div className='small-12 large-4 columns'>
+                <div className='small-12 large-4 columns '>
                   <SelectField
                     floatingLabelText='Day'
                     value={birthdateDay}
                     onChange={this.handleOnChange('birthdateDay')}
                     style={styles.selectStyles}
+                    errorText={birthdateDayError && 'Please fill in the blanks'}
                   >
                     <MenuItem value='01' primaryText='01' />
                     <MenuItem value='02' primaryText='02' />
@@ -235,12 +453,13 @@ class CompleteProfileModal extends PureComponent {
                     <MenuItem value='31' primaryText='31' />
                   </SelectField>
                 </div>
-                <div className='small-12 large-4 columns'>
+                <div className='small-12 large-4 columns '>
                   <SelectField
                     floatingLabelText='Year'
                     value={birthdateYear}
                     onChange={this.handleOnChange('birthdateYear')}
                     style={styles.selectStyles}
+                    errorText={birthdateYearError && 'Please fill in the blanks'}
                   >
                     <MenuItem value='1910' primaryText='1910' />
                     <MenuItem value='1911' primaryText='1911' />
@@ -361,7 +580,7 @@ class CompleteProfileModal extends PureComponent {
           <div className='shipping-form-container'>
             <form className='shipping-form' action=''>
               <div className='row'>
-                <div className='small-12 columns'>
+                <div className={'small-12 columns ' + address1Error}>
                   <span className='form-label'>Address Line 1</span>
                   <input
                     type='text'
@@ -370,7 +589,7 @@ class CompleteProfileModal extends PureComponent {
                     value={address1}
                   />
                 </div>
-                <div className='small-12 columns'>
+                <div className={'small-12 columns ' + professionError}>
                   <span className='form-label'>What is your occupation?</span>
                   <input
                     type='text'
@@ -381,7 +600,8 @@ class CompleteProfileModal extends PureComponent {
                 </div>
               </div>
               <div className='row'>
-                <div className='small-12 large-5 columns'>
+                {this.handleRenderCountry()}
+                <div className={'small-12 large-4 columns ' + cityError}>
                   <span className='form-label'>City</span>
                   <input
                     type='text'
@@ -390,25 +610,11 @@ class CompleteProfileModal extends PureComponent {
                     value={city}
                   />
                 </div>
-                <div className='small-12 large-3 columns'>
-                  <span className='form-label'>State</span>
-                  <input
-                    type='text'
-                    className='form-input profile-editor-form-input'
-                    onChange={this.handleOnChange('state')}
-                    value={state}
-                  />
-                </div>
-                <div className='small-12 large-3 columns'>
-                  <span className='form-label'>Country</span>
-                  <input
-                    type='text'
-                    className='form-input profile-editor-form-input'
-                    onChange={this.handleOnChange('country')}
-                    value={country}
-                  />
-                </div>
-                <div className='small-12 large-4 columns'>
+              </div>
+              <div className='row'>
+                {isContentRenderList ? this.renderStateList() : null}
+                {isContentRenderInput ? this.renderStateInput() : null}
+                <div className={'small-12 large-4 columns ' + zipcodeError}>
                   <span className='form-label'>Zip code</span>
                   <input
                     type='text'

@@ -150,7 +150,7 @@ class shippingAddressModal extends PureComponent {
     }
   }
 
-  handleRenderState = () => {
+  renderStateList = () => {
     return (
       <div className={'small-12 large-8 columns ' + this.state.stateError}>
         <span className='form-label'>State</span>
@@ -169,7 +169,7 @@ class shippingAddressModal extends PureComponent {
     )
   }
 
-  handleRenderInput = () => {
+  renderStateInput = () => {
     return (
       <div className={'small-12 large-3 columns ' + this.state.stateError}>
         <span className='form-label'>State</span>
@@ -360,8 +360,8 @@ class shippingAddressModal extends PureComponent {
                   />
                 </div>
               </div>
-              {isContentRenderList ? this.handleRenderState() : null}
-              {isContentRenderInput ? this.handleRenderInput() : null}
+              {isContentRenderList ? this.renderStateList() : null}
+              {isContentRenderInput ? this.renderStateInput() : null}
               <div className='row'>
                 <div className={'small-12 large-4 columns ' + cityError}>
                   <span className='form-label'>City</span>

@@ -268,7 +268,7 @@ class SettingsTabs extends PureComponent {
         lastName,
         email,
         gender,
-        birthdate: fullDate.format('YYYY-MM-DD'),
+        birthdate: fullDate.format('YYYY-MM-DD') ? fullDate.format('YYYY-MM-DD') : '',
         address1,
         address2,
         city,
