@@ -25,6 +25,8 @@ const Endpoints = () => {
     getSocialAccounts: () => apiUrl('socialaccounts'),
     selectSocialAccount: () => apiUrl('socialaccounts/select_account'),
     unSelectSocialAccount: (params) => apiUrl('socialaccounts/unselect_account', params),
+    getCountries: () => apiUrl('forms/countries'),
+    getStates: (id) => apiUrl(`forms/${id}/states`),
     currentReader: {
       getRecommendation: (params) => apiUrl('genres/top_users', params),
       getRecommendedAuthors: (params) => apiUrl('current_reader/recommended/authors', params),

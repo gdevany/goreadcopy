@@ -30,6 +30,7 @@ export const CONTEXTS = {
   COMPLETE_PROFILE: 'complete profile',
   PROFILE_PAGE: 'profile page',
   READ_FEED: 'readfeed',
+  SETTINGS: 'settings',
 }
 
 export default {

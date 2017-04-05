@@ -184,6 +184,7 @@ class SearchBookModal extends Component {
                           placeholder='Search books'
                           onChange={this.handleSeach('searchTerm')}
                           value={this.state.searchTerm}
+                          autoFocus
                         />
                       </form>
                       <div className='search-results-container'>

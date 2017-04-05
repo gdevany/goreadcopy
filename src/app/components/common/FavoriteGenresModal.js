@@ -168,14 +168,18 @@ class FavoriteGenresModal extends PureComponent {
       createChosenReaderGenres,
       updateCurrentReader,
       handleClose,
-      getGenres
+      getGenres,
+      context
     } = this.props
 
     const { chosenGenres } = this.state
     const genreIds = R.map(R.prop('id'), chosenGenres)
     event.preventDefault()
     this.setState({ newSearchInput: '' })
-    createChosenReaderGenres({ genreIds })
+    createChosenReaderGenres({
+      genreIds: genreIds,
+      context: context
+    })
     updateCurrentReader({ genreIds: chosenGenres })
     handleClose()
     getGenres()

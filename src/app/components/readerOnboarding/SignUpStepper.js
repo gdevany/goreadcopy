@@ -13,6 +13,8 @@ import SignUpStepOne from './SignUpStepOne'
 import SignUpStepTwo from './SignUpStepTwo'
 import SignUpStepThree from './SignUpStepThree'
 import Steps from './services/steps'
+import Promise from 'bluebird'
+import { CONTEXTS as C } from '../../constants/litcoins'
 
 const styles = {
   stepperContainer: {
@@ -59,24 +61,36 @@ class SignUpStepper extends PureComponent {
   }
 
   handleNext = () => {
-    const { stepIndex } = this.state
-    if (!this.state.loading) {
-      this.dummyAsync(() => this.setState({
-        loading: false,
-        stepIndex: Steps.next(stepIndex),
-        finished: Steps.finished(stepIndex),
-      }))
-    }
+    return new Promise((resolve, reject) => {
+      const { stepIndex } = this.state
+      if (!this.state.loading) {
+        resolve(
+          this.dummyAsync(() => this.setState({
+            loading: false,
+            stepIndex: Steps.next(stepIndex),
+            finished: Steps.finished(stepIndex),
+          }))
+        )
+      } else {
+        reject('still is loading')
+      }
+    })
   }
 
   handlePrev = () => {
-    const { stepIndex } = this.state
-    if (!this.state.loading) {
-      this.dummyAsync(() => this.setState({
-        loading: false,
-        stepIndex: Steps.previous(stepIndex),
-      }))
-    }
+    return new Promise((resolve, reject) => {
+      const { stepIndex } = this.state
+      if (!this.state.loading) {
+        resolve(
+            this.dummyAsync(() => this.setState({
+              loading: false,
+              stepIndex: Steps.previous(stepIndex),
+            }))
+        )
+      } else {
+        reject('still is loading')
+      }
+    })
   }
 
   handleReset = (event) => {
@@ -115,6 +129,7 @@ class SignUpStepper extends PureComponent {
               handleNext={this.handleNext}
               handlePrev={this.handlePrev}
               stepIndex={this.state.stepIndex}
+              context={C.ONBOARDING}
             />
           </div>
         )
@@ -126,6 +141,7 @@ class SignUpStepper extends PureComponent {
               handlePrev={this.handlePrev}
               stepIndex={this.state.stepIndex}
               clickedSelectAll={this.props.clickedSelectAll}
+              context={C.ONBOARDING}
             />
           </div>
         )

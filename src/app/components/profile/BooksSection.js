@@ -268,10 +268,29 @@ class BooksSection extends PureComponent {
 
   renderCurrentlyReading = () => {
     const { profilePage } = this.props
+    const { isMyProfile, userId } = this.state
 
     if (profilePage.currentlyReading) {
       return (
         <div>
+          {isMyProfile && userId ?
+            (
+              <div className='library-edit-heading'>
+                <a
+                  className='edit-library-anchor'
+                  onClick={this.handleEditLibraryModal}
+                >
+                  <Editcon/>
+                  <span className='edit-library-text'>Add book</span>
+                </a>
+                <LibraryEditModal
+                  modalOpen={this.state.addLibraryModal}
+                  handleClose={this.handleEditLibraryModalClose}
+                  userId={userId}
+                />
+              </div>
+            ) : null
+          }
           {profilePage.currentlyReading.link === '' ?
             (
               <div className='not-currently-reading'>
@@ -297,8 +316,7 @@ class BooksSection extends PureComponent {
   }
 
   render() {
-    const { userId, libraryFetched } = this.state
-
+    const { userId, libraryFetched, isMyProfile } = this.state
     if (userId && libraryFetched) {
       return (
         <div className='sidebar-books-container box'>
@@ -327,6 +345,24 @@ class BooksSection extends PureComponent {
               style={styles.tab}
             >
               <div className='sidebar-books-tab-container'>
+                {isMyProfile && userId ?
+                  (
+                    <div className='library-edit-heading'>
+                      <a
+                        className='edit-library-anchor'
+                        onClick={this.handleEditLibraryModal}
+                      >
+                        <Editcon/>
+                        <span className='edit-library-text'>Add books to Wishlist</span>
+                      </a>
+                      <LibraryEditModal
+                        modalOpen={this.state.addLibraryModal}
+                        handleClose={this.handleEditLibraryModalClose}
+                        userId={userId}
+                      />
+                    </div>
+                  ) : null
+                }
                 <div className='wishlist-container'>
                   {this.renderWishList()}
                 </div>

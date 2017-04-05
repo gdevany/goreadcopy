@@ -8,6 +8,8 @@ const {
   getLibrary,
   getTopBooks,
   getCurrentWishList,
+  getCountries,
+  getStates,
   currentReader: {
     updateLibrary,
     setCurrentlyReading,
@@ -32,6 +34,8 @@ const General = () => {
     getWishList: (id) => http.get(getCurrentWishList(id)),
     updateWishList: (body) => authenticated().post(updateCurrentWishList(), body),
     deleteFromWishList: (data) => authenticated().delete(updateCurrentWishList(), { data }),
+    getCountries: (body) => http.get(getCountries(), body),
+    getStates: (id) => http.get(getStates(id)),
   }
 }
 

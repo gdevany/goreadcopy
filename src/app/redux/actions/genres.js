@@ -30,9 +30,9 @@ export function searchGenres(search) {
   return debounceSearch()
 }
 
-export function createChosenReaderGenres(genres) {
+export function createChosenReaderGenres({ genreIds, context }) {
   return (dispatch) => {
-    CurrentReaderGenres.createChosenGenres(genres)
+    CurrentReaderGenres.createChosenGenres({ genreIds, context })
       .catch(err => console.log(`Error in createChosenRederGenres: ${err}`))
   }
 }
