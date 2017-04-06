@@ -92,7 +92,6 @@ const TilesWrapper = ({ feed }) => {
           )
           break
         case 'author':
-          console.log(tileContent.city)
           const authorContent = {
             name: tileContent.fullname,
             city: tileContent.city || null,
@@ -216,7 +215,6 @@ const TilesWrapper = ({ feed }) => {
           )
           break
         case 'publisher':
-          console.log(tileContent.city)
           const publisherContent = {
             name: tileContent.fullname,
             image: tileContent.imageUrl,
@@ -246,7 +244,6 @@ const TilesWrapper = ({ feed }) => {
                 return ''
             }
           }
-          console.log(tileContent.city)
           const accountContent = {
             name: tileContent.fullname || tile.actor.fullname,
             city: (tileContent.city || (tileContent.poster ?
