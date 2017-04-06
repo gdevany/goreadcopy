@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, PropTypes } from 'react'
 import { stack as MobileMenu } from 'react-burger-menu'
 import { Link } from 'react-router'
 import { Auth, CurrentReader } from '../../redux/actions'
@@ -121,6 +121,7 @@ class NavMenu extends PureComponent {
       chatModalOpen: false,
       socialFollowers: 0,
       socialFollowed: 0,
+      isReadFeed: true,
     }
 
     this.handleModalClose = this.handleModalClose.bind(this)
@@ -130,6 +131,10 @@ class NavMenu extends PureComponent {
     this.handleLogoutClick = this.handleLogoutClick.bind(this)
     this.handleClickSearch = this.handleClickSearch.bind(this)
     this.handleClickChat = this.handleClickChat.bind(this)
+  }
+
+  static contextTypes = {
+    router: PropTypes.object
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -155,6 +160,15 @@ class NavMenu extends PureComponent {
 
     if (!this.state.usePlatformAs && nextProps.currentReader.publishingAs) {
       this.setState({ usePlatformAs: nextProps.currentReader.publishingAs })
+    }
+  }
+
+  componentWillMount = () => {
+    const { router } = this.context
+    if (router.params.slug || router.location.pathname === '/profile/settings') {
+      this.setState({
+        isReadFeed: false,
+      })
     }
   }
 
@@ -601,7 +615,7 @@ class NavMenu extends PureComponent {
 
   renderLogInMenu = () => {
     const { currentReader } = this.props
-    const { socialFollowers, socialFollowed } = this.state
+    const { socialFollowers, socialFollowed, isReadFeed } = this.state
     return (
       <div className='slide-down'>
         <div style={styles.mobileNavContainer} className='top-bar-mobile'>
@@ -609,7 +623,7 @@ class NavMenu extends PureComponent {
             <ul className='nav-menu-logged-container'>
 
               <li
-                className='logged-menu-item loged-menu-item-active home'
+                className={`logged-menu-item ${isReadFeed ? 'loged-menu-item-active' : null} home`}
               >
                 <Link to='/' style={styles.navItemLinks} className='home-link rf-nav-link' />
               </li>
@@ -762,7 +776,9 @@ class NavMenu extends PureComponent {
               <ul className='menu'>
 
                 <li
-                  className='logged-menu-item loged-menu-item-active home'
+                  className={
+                    `logged-menu-item ${isReadFeed ? 'loged-menu-item-active' : null} home`
+                  }
                 >
                   <Link to='/' style={styles.navItemLinks} className='home-link rf-nav-link'>
                     Home
