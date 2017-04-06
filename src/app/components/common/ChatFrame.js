@@ -4,9 +4,7 @@ class ChatFrame extends Component {
   render() {
     const { modalOpen, handleClose } = this.props
     const classString = 'chatbox ' + (modalOpen ? 'open' : '')
-    const chatSource = process.env === 'production' ?
-      'https://www.goread.com/chat' :
-      'https://staging2.readerslegacy.com/chat'
+    const chatSource = 'https://www.goread.com/chat'
     return (
       <div className={classString}>
         <a
