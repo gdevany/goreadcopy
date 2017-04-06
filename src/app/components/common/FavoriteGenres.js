@@ -81,7 +81,7 @@ class FavoriteGenres extends PureComponent {
     return (
       <div style={styles.container} className='text-left'>
         <span className='small-header'>
-          { isCurrentReader ? 'Your' : `${fullname}'s'` } Favorite Genres
+          { isCurrentReader ? 'Your' : `${fullname}'s'` } Favorite Categories
         </span>
         <div style={styles.genreSection}>
           {genreIds ? this.renderChosenGenres(genreIds) : null}
@@ -89,7 +89,7 @@ class FavoriteGenres extends PureComponent {
           {
             isCurrentReader ?
               <a className='sublink' onClick={this.handleOpen}>
-                Add or edit genres >
+                Add or edit Categories >
               </a> : null
           }
         </div>

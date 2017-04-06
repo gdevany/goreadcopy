@@ -349,7 +349,7 @@ class FavoriteGenresModal extends PureComponent {
                   className='form-input'
                   type='text'
                   ref='search'
-                  placeholder='Search for genres to add'
+                  placeholder='Search for categories to add'
                   onChange={this.handleSearchTyping}
                 />
               </form>
