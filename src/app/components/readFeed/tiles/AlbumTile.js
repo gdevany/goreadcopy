@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import TileDefault from '../TileDefault'
+import Anchorify from 'react-anchorify-text'
 
 class AlbumTile extends PureComponent {
   render() {
@@ -31,7 +32,9 @@ class AlbumTile extends PureComponent {
         <div className='album-tile-container'>
           <div className='post-excerpt-container'>
             <p className='post-excerpt-pharagraph'>
-              {content.socialComment ? content.socialComment : null}
+              {content.socialComment ?
+                <Anchorify text={content.socialComment} target='_blank'/> : null
+              }
             </p>
           </div>
           <figure className='album-tile-figure'>
