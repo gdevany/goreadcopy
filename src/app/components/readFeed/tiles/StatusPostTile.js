@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import TileDefault from '../TileDefault'
 import ReactPlayer from 'react-player'
 import urlParser from 'js-video-url-parser'
+import Anchorify from 'react-anchorify-text'
 
 const mentionRegex = /(\@\[\d+\:\d+\])/gi
 
@@ -40,7 +41,13 @@ class StatusPostTile extends PureComponent {
         }
       }
     }
-    return (<span key={index}>{entry}</span>)
+    return (
+      <span key={index}>
+        <Anchorify
+          text={entry}
+          target='_blank'
+        />
+      </span>)
   }
 
   render() {

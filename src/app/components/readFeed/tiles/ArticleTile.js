@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import TileDefault from '../TileDefault'
+import Anchorify from 'react-anchorify-text'
 
 class ArticleTile extends PureComponent {
   render() {
@@ -39,7 +40,7 @@ class ArticleTile extends PureComponent {
             <h2 className='article-title'>{content.title}</h2>
             <div className='post-excerpt-container'>
               <p className='post-excerpt-pharagraph'>
-                {content.header}
+                <Anchorify text={content.header} target='_blank'/>
                 <a href={content.link} className='post-readmore-anchor'>Read more</a>
               </p>
             </div>
