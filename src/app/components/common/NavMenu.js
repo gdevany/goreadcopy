@@ -349,7 +349,7 @@ class NavMenu extends PureComponent {
         <hr className='profile-menu-divider' />
         { this.handleMapProfileMenuItems() }
         <li className='profile-menu-element'>
-          <a href='' className='profile-menu-anchor' onClick={this.handleLogoutClick}>
+          <a className='profile-menu-anchor' onClick={this.handleLogoutClick}>
             Logout
           </a>
         </li>
@@ -637,7 +637,7 @@ class NavMenu extends PureComponent {
               </li>
 
               <li className='logged-menu-item'>
-                <a href='' style={styles.navItemLinks} className='messages-link rf-nav-link' />
+                <a style={styles.navItemLinks} className='messages-link rf-nav-link' />
               </li>
 
               <li style={styles.loggedInRightNavLi}>
@@ -692,7 +692,7 @@ class NavMenu extends PureComponent {
                 </a>
               </li>
               <li className='nav-menu-logged-list'>
-                <a href='' className='nav-menu-logged-anchor'>
+                <a className='nav-menu-logged-anchor'>
                   <MenuIcon style={styles.menuIcon} onClick={this.handleMenuClick}/>
                 </a>
               </li>
@@ -707,7 +707,7 @@ class NavMenu extends PureComponent {
           >
             <div className='profile-section-container'>
               <div className='first-row-elements'>
-                <a href='' className='profile-badge-anchor'>
+                <Link to={`profile/${currentReader.slug}`} className='profile-badge-anchor'>
                   <figure className='profile-badge-container'>
                     <img
                       src={currentReader.profileImage}
@@ -715,7 +715,7 @@ class NavMenu extends PureComponent {
                       alt=''
                     />
                   </figure>
-                </a>
+                </Link>
                 <Link to={`profile/${currentReader.slug}`} className='profile-name-anchor'>
                   <span>{currentReader.firstName} {currentReader.lastName}</span>
                 </Link>
@@ -935,7 +935,7 @@ class NavMenu extends PureComponent {
             <ul className='menu'>
 
               <li style={styles.rightNavItems} className='link nav-item'>
-                <a href='' onClick={this.handleLogInModalOpen}>
+                <a onClick={this.handleLogInModalOpen}>
                   Log In
                 </a>
               </li>
