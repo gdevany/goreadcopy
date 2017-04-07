@@ -48,11 +48,12 @@ class AnnouncementTile extends Component {
   }
 
   getAnnouncement(loginCount) {
-    if (loginCount) {
+    if (loginCount < 3) {
       this.setState({ announcement: Welcome })
-    } else {
-      this.queryAnnouncement()
     }
+    // else {
+    //   this.queryAnnouncement()
+    // }
   }
 
   queryAnnouncement() {
