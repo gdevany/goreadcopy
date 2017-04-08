@@ -26,6 +26,9 @@
         text-align: left;
         margin: 20px 0 10px;
         font-weight: 400;
+        a{
+          word-wrap: break-word;
+        }
       }
     }
   }
@@ -517,7 +520,7 @@
   a{
     .heading-img{
       width: 100%;
-    }  
+    }
   }
 }
 

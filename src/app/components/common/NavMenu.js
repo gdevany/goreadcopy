@@ -649,6 +649,7 @@ class NavMenu extends PureComponent {
                   className='menu-badge-container rf-nav-link'
                 >
                   <Badge
+                    onClick={this.handleClickChat}
                     badgeContent={
                       currentReader.notificationsCount ?
                         currentReader.notificationsCount : 0
@@ -664,7 +665,10 @@ class NavMenu extends PureComponent {
                       backgroundColor: Colors.red,
                     }}
                   >
-                    <img src='/image/notifications-icon.svg' />
+                    <img
+                      src='/image/notifications-icon.svg'
+                      onClick={this.handleClickChat}
+                    />
                   </Badge>
                 </a>
               </li>
@@ -826,6 +830,7 @@ class NavMenu extends PureComponent {
                     className='menu-badge-container rf-nav-link'
                   >
                     <Badge
+                      onClick={this.handleClickChat}
                       badgeContent={
                         currentReader.notificationsCount ?
                           currentReader.notificationsCount : 0
