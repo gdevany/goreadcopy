@@ -36,13 +36,21 @@ class AdvertisingTile extends PureComponent {
             </p>
           </div>
           <figure className='heading-overflow-figure'>
-            <img className='heading-img' src={content.image} alt='advertising'/>
+            <a href={content.link}>
+              <img className='heading-img' src={content.image} alt='advertising'/>
+            </a>
           </figure>
           <div className='adv-content'>
-            <h2 className='adv-title'>{content.heading}</h2>
+            <h2 className='adv-title'>
+              <a href={content.link}>
+                {content.heading}
+              </a>
+            </h2>
             <div className='post-excerpt-container'>
               <p className='post-excerpt-pharagraph'>
-                {content.description}
+                <a href={content.link}>
+                  {content.description}
+                </a>
               </p>
             </div>
           </div>

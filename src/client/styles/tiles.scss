@@ -514,8 +514,10 @@
   max-height: 250px;
   border-radius: 3px;
   overflow: hidden;
-  .heading-img{
-    width: 100%;
+  a{
+    .heading-img{
+      width: 100%;
+    }  
   }
 }
 
