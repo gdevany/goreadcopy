@@ -625,7 +625,10 @@ class NavMenu extends PureComponent {
               <li
                 className={`logged-menu-item ${isReadFeed ? 'loged-menu-item-active' : null} home`}
               >
-                <Link to='/' style={styles.navItemLinks} className='home-link rf-nav-link' />
+                <Link
+                  to='/' style={styles.navItemLinks}
+                  className={`rf-nav-link ${isReadFeed ? 'home-link-active' : 'home-link'}`}
+                />
               </li>
 
               <li className='logged-menu-item'>
@@ -780,8 +783,11 @@ class NavMenu extends PureComponent {
                     `logged-menu-item ${isReadFeed ? 'loged-menu-item-active' : null} home`
                   }
                 >
-                  <Link to='/' style={styles.navItemLinks} className='home-link rf-nav-link'>
-                    Home
+                  <Link
+                    to='/' style={styles.navItemLinks}
+                    className={`rf-nav-link ${isReadFeed ? 'home-link-active' : 'home-link'}`}
+                  >
+                      Home
                   </Link>
                 </li>
 
