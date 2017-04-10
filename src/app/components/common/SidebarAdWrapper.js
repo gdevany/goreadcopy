@@ -34,7 +34,7 @@ class SidebarAdWrapper extends PureComponent {
         return <SidebarAd key={idx} content={ad} isProfileAd={this.state.isProfileAd}/>
       })
     }
-    return <div className='loading-animation'/>
+    return null
   }
 
   render() {
