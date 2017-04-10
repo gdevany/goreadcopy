@@ -39,7 +39,7 @@ class SearchBookModal extends Component {
       context: '',
       shippingAddressModal: false,
       isFilterOpen: false,
-      selectedFilter: 'Select Filter',
+      selectedFilter: 'Books',
     }
     this.handleSeach = this.handleSeach.bind(this)
     this.debouncedSearch = this.debouncedSearch.bind(this)
@@ -130,7 +130,7 @@ class SearchBookModal extends Component {
         this.props.bookSearch(event.target.value, filter)
       }
     }
-  }, 300)
+  }, 1000)
 
   renderSearchResults = () => {
     const searchTerms = this.props.searchResults
