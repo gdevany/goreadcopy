@@ -33,7 +33,56 @@
     }
   }
 }
-
+.base-tile-header{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  padding: 30px;
+  .tile-actor-figure{
+    width: 42px;
+    .tile-actor-image{
+      border-radius: 23px;
+      border: solid 1px #dedede;
+    }
+  }
+  .tile-actor-details{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    margin-left: 1em;
+    .tile-actor-container{
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+      @media all and (min-width: 768px) {
+        flex-direction: row;
+      }
+      .tile-actor-name{
+        font-size: 14px;
+        font-weight: 600;
+        color: $blue;
+        a{
+          color: $blue;
+        }
+      }
+      .tile-actor-action{
+        font-size: 14px;
+        @media all and (min-width: 768px) {
+          margin-left: .5em;
+        }
+      }
+    }
+    .tile-actor-timestamp{
+      align-self: flex-start;
+      font-size: 14px;
+      color: rgb(151, 151, 151);
+    }
+  }
+}
 .base-tile-container{
   display: flex;
   justify-content: center;
@@ -41,42 +90,6 @@
   flex-direction: column;
   width: 100%;
   margin-bottom: 1em;
-  .base-tile-header{
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: row;
-    width: 100%;
-    padding: 1em 1em .5em;
-    .tile-actor-figure{
-      width: 42px;
-      .tile-actor-image{
-        border-radius: 5px;
-        border: solid 1px #dedede;
-      }
-    }
-    .tile-actor-details{
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      flex-direction: column;
-      margin-left: 1em;
-      .tile-actor-container{
-        .tile-actor-name{
-          font-size: 14px;
-          font-weight: bold;
-        }
-        .tile-actor-action{
-          font-size: 14px;
-          margin-left: .5em;
-        }
-      }
-      .tile-actor-timestamp{
-        align-self: flex-start;
-        font-size: 14px;
-      }
-    }
-  }
   .tile-main-content{
     width: 100%;
     padding: .5em 1em 1em;
