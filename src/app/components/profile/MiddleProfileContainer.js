@@ -2,8 +2,16 @@ import React, { PureComponent } from 'react'
 import { Tiles } from '../../redux/actions'
 import { connect } from 'react-redux'
 import { StatusPost, TileScroller } from '../common'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
+import { Colors } from '../../constants/style'
 
 const { getProfileTiles, prependProfileTile, emptyTiles } = Tiles
+const styles = {
+  refresh: {
+    display: 'inline-block',
+    position: 'relative',
+  },
+}
 
 class RightProfileContainer extends PureComponent {
   constructor(props) {
@@ -25,6 +33,19 @@ class RightProfileContainer extends PureComponent {
     }
   }
 
+  setLoading = () => {
+    return (
+      <RefreshIndicator
+        size={50}
+        left={0}
+        top={0}
+        loadingColor={Colors.blue}
+        status='loading'
+        style={styles.refresh}
+      />
+    )
+  }
+
   render() {
     const { profile, isUserLoggedIn, id, isProfileLocked } = this.props
     return (
@@ -42,6 +63,7 @@ class RightProfileContainer extends PureComponent {
             fetchOnMount={false}
           /> : null
         }
+        { isProfileLocked ? this.setLoading() : null }
       </div>
     )
   }
