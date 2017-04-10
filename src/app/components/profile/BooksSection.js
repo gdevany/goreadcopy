@@ -260,7 +260,9 @@ class BooksSection extends PureComponent {
           currentPage={myLibrary && myLibrary.page ? myLibrary.page : 0}
         >
           {this.renderTopBooks() !== null ? this.renderTopBooks() : null}
-          {myLibrary && myLibrary.results ? this.renderBookList(myLibrary) : null}
+          {myLibrary && myLibrary.results ?
+            this.renderBookList(myLibrary) : <div className='loading-animation'/>
+          }
         </PageScroller>
       </div>
     )
@@ -312,7 +314,7 @@ class BooksSection extends PureComponent {
         </div>
       )
     }
-    return null
+    return <div className='loading-animation'/>
   }
 
   render() {

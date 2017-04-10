@@ -84,7 +84,7 @@ class FavoriteGenres extends PureComponent {
           { isCurrentReader ? 'Your' : `${fullname}'s'` } Favorite Categories
         </span>
         <div style={styles.genreSection}>
-          {genreIds ? this.renderChosenGenres(genreIds) : null}
+          {genreIds ? this.renderChosenGenres(genreIds) : <div className='loading-animation'/>}
           <br />
           {
             isCurrentReader ?

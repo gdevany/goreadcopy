@@ -62,7 +62,9 @@ class BookClubRecommendations extends PureComponent {
         </div>
         {/** Derrick, feel free to change how it's rendered in different views: **/}
         <div className='row small-up-1'>
-          { bookClubs ? this.renderBookClubs(bookClubs) : null }
+          { bookClubs ?
+            this.renderBookClubs(bookClubs) : <div className='loading-animation'/>
+          }
         </div>
         <div className='sub-link'>
           <a href={myBookClubs()}>
