@@ -10,6 +10,8 @@ import urlParser from 'js-video-url-parser'
 import R from 'ramda'
 import Promise from 'bluebird'
 import { Tiles } from '../../redux/actions'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
+import { Colors } from '../../constants/style'
 
 const { prependProfileTile } = Tiles
 const { uploadImage } = Images
@@ -25,7 +27,11 @@ const styles = {
   },
   hiddenPreview: {
     display: 'none'
-  }
+  },
+  refresh: {
+    display: 'inline-block',
+    position: 'relative',
+  },
 }
 
 class StatusPost extends PureComponent {
@@ -66,6 +72,7 @@ class StatusPost extends PureComponent {
       activeContent,
     } = this.state
     if (body !== '' || image || activeContent) {
+      this.setState({ loadingPost: true })
       postNewMessage({
         body,
         mentions,
@@ -75,6 +82,7 @@ class StatusPost extends PureComponent {
       })
         .then(res => this.props.postNewTile(res.data))
         .then(() => this.cleanStatusPost())
+        .then(() => this.setState({ loadingPost: false }))
         .catch(err => {
           console.log(err)
           this.cleanStatusPost()
@@ -97,11 +105,27 @@ class StatusPost extends PureComponent {
       showImagePreview: false,
       showVideoPreview: false,
       textareaOpen: false,
+      loadingPost: false,
     }
   }
 
   cleanStatusPost() {
     this.setState(this.initialState())
+  }
+
+  setLoading = () => {
+    return (
+      <div className='statuspost-loader'>
+        <RefreshIndicator
+          size={30}
+          left={0}
+          top={0}
+          loadingColor={Colors.blue}
+          status='loading'
+          style={styles.refresh}
+        />
+      </div>
+    )
   }
 
   handleTextChange(event) {
@@ -306,11 +330,16 @@ class StatusPost extends PureComponent {
           { this.state.textareaOpen ? (
             <div>
               <a
-                className='statuspost-action-btn'
+                className={
+                  this.state.loadingPost ?
+                  'statuspost-action-btn statuspost-action-disabled' :
+                  'statuspost-action-btn'
+                }
                 onClick={this.onPostButtonClick}
               >
                 Post
               </a>
+              { this.state.loadingPost ? this.setLoading() : null }
               <a
                 className='statuspost-close-btn'
                 onClick={this.handleTextAreaClose}

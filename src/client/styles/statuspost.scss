@@ -14,6 +14,11 @@
         fill: $light-med-grey !important;
       }
     }
+    .status-post-upload-icon-container:hover{
+      svg{
+        fill: $blue !important;
+      }
+    }
     .statuspost-action-btn{
       position: absolute;
       left: 75px;
@@ -24,6 +29,19 @@
       padding: .25em 1em;
       font-size: 14px;
       border-radius: 5px;
+    }
+    .statuspost-action-btn:hover{
+      color: $white;
+      background-color: $blue;
+    }
+    .statuspost-action-disabled{
+      cursor: not-allowed;
+      opacity: .25;
+    }
+    .statuspost-loader{
+      position: absolute;
+      left: 140px;
+      bottom: 5px;
     }
     .statuspost-close-btn{
       position: absolute;
