@@ -121,8 +121,9 @@
 
 .search-books-on-readfeed{
   .search-books-form{
+    position: relative;
     input{
-      border-radius: 30px;
+      border-radius: 8px;
     }
   }
   .search-results-container{
@@ -195,8 +196,9 @@
 
 .search-books-on-readfeed{
   .search-books-form{
+    position: relative;
     input{
-      border-radius: 30px;
+      border-radius: 8px;
     }
   }
   .search-results-container{
@@ -285,5 +287,56 @@
   position: relative;
   @media all and (min-width: 768px){
     min-height: 100px;
+  }
+}
+
+.search-book-filters{
+  position: absolute;
+  top: 0;
+  right: 20px;
+  .filter-inside-input{
+    a{
+      display: block;
+      padding: .5em;
+      position: relative;
+      &:after{
+        content: '';
+        position: absolute;
+        top: 18px;
+        right: -5px;
+        border-top: solid 5px $light-med-grey;
+        border-right: solid 5px transparent;
+        border-bottom: solid 5px transparent;
+        border-left: solid 5px transparent;
+      }
+    }
+  }
+  .search-book-filters-container{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    position: absolute;
+    width: 90px;
+    top: 38px;
+    background: $white;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    border-radius: 5px;
+    border: solid 1px $light-med-grey;
+    z-index: 99;
+    .search-book-filters-list{
+      width: 100%;
+      z-index: 99;
+      a{
+        width: 100%;
+        display: block;
+        padding: .5em;
+        &:hover{
+          cursor: pointer;
+        }
+      }
+    }
   }
 }
