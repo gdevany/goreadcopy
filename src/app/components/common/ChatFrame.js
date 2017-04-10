@@ -13,9 +13,7 @@ class ChatFrame extends Component {
           x
         </a>
         <iframe
-          src={`${Env.API_URL === 'https://staging2.readerslegacy.com' ?
-          'https://staging2.readerslegacy.com/chat' : 'https://www.goread.com/chat'}`
-          }
+          src={`${Env.API_URL}/chat`}
         />
       </div>
     )
