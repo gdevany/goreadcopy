@@ -130,7 +130,7 @@ class SearchBookModal extends Component {
         this.props.bookSearch(event.target.value, filter)
       }
     }
-  }, 300)
+  }, 1000)
 
   renderSearchResults = () => {
     const searchTerms = this.props.searchResults
