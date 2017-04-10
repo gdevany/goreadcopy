@@ -299,6 +299,31 @@ input[type="checkbox"]:focus{
   }
 }
 
+.page-main-loader{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  figure{
+    max-width: 250px;
+  }
+}
+.loading-animation {
+  border: 2.5px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 2.5px solid $blue;
+  width: 25px;
+  height: 25px;
+  animation: spin 2s linear infinite;
+  margin: .25em auto;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 @import 'variables.scss';
 @import 'general.scss';
 @import 'errors.scss';

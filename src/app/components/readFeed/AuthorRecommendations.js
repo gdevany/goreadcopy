@@ -64,7 +64,9 @@ class AuthorRecommendations extends PureComponent {
         </div>
         {/** Derrick, feel free to change how it's rendered in different views: **/}
         <div className='row small-up-1'>
-          { authors ? this.renderAuthors(authors.buzz.results) : null }
+          { authors ?
+            this.renderAuthors(authors.buzz.results) : <div className='loading-animation'/>
+          }
         </div>
         {/* <div className='sub-link'>
           <a>

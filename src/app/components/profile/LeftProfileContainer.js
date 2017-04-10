@@ -65,7 +65,7 @@ class LeftProfileContainer extends PureComponent {
               isCurrentReader={isMyProfile}
               profileFollowed={profileFollowed}
               authorProfile={authorProfile}
-            /> : null
+            /> : <div className='loading-animation'/>
         }
       <BooksSection
         id={id}

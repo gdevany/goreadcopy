@@ -44,7 +44,9 @@ class BookRecommendations extends PureComponent {
           <h4> {"We think you'll love these books"} </h4>
         </div>
         <div style={styles.container} className='row small-up-1 medium-up-2 large-up-2'>
-          { books ? this.renderBooks(books) : null }
+          { books ?
+            this.renderBooks(books) : <div className='loading-animation'/>
+          }
         </div>
         <div className='sub-link'>
           <a href={bookStore()}>
