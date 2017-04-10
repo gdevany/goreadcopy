@@ -75,7 +75,7 @@ const {
   updateRecommendedLitcoins
 } = Recommended
 
-const MAX_USERS_PER_SECTION = 5
+const MAX_USERS_PER_SECTION = 6
 const allAuthors = R.compose(R.flatten, R.map(Genres.authors))
 const allReaders = R.compose(R.flatten, R.map(Genres.readers))
 
@@ -117,7 +117,7 @@ class SignUpStepThree extends PureComponent {
   }
 
   componentWillMount = () => {
-    this.props.getRecommendation(5)
+    this.props.getRecommendation(6)
   }
 
   componentDidUpdate = () => {
