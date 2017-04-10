@@ -38,9 +38,13 @@ class SearchBookModal extends Component {
       userId: '',
       context: '',
       shippingAddressModal: false,
+      isFilterOpen: false,
+      selectedFilter: 'Select Filter',
     }
     this.handleSeach = this.handleSeach.bind(this)
     this.debouncedSearch = this.debouncedSearch.bind(this)
+    this.handleFilter = this.handleFilter.bind(this)
+    this.handleSelectFilter = this.handleSelectFilter.bind(this)
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -75,6 +79,36 @@ class SearchBookModal extends Component {
     }
   }
 
+  handleFilter = (event) => {
+    event.preventDefault()
+    if (!this.state.isFilterOpen) {
+      this.setState({
+        isFilterOpen: true
+      })
+    } else {
+      this.setState({
+        isFilterOpen: false
+      })
+    }
+
+  }
+
+  handleSelectFilter = (filterType) => {
+    this.setState({
+      selectedFilter: filterType,
+      isFilterOpen: false,
+    })
+    if (filterType !== 'Select Filter' && this.state.searchTerm.length > 3) {
+      let filter
+      if (this.state.selectedFilter === 'Authors') {
+        filter = 'author'
+      } else {
+        filter = 'title'
+      }
+      this.props.bookSearch(this.state.searchTerm, filter)
+    }
+  }
+
   handleSeach = R.curry((field, e) => {
     e.persist()
     this.setState({ [field]: e.target.value })
@@ -82,8 +116,19 @@ class SearchBookModal extends Component {
   })
 
   debouncedSearch = debounce((event) => {
+
     if (event.target.value.length > 3) {
-      this.props.bookSearch(event.target.value)
+      if (this.state.selectedFilter === 'Select Filter') {
+        this.props.bookSearch(event.target.value)
+      } else {
+        let filter
+        if (this.state.selectedFilter === 'Authors') {
+          filter = 'author'
+        } else {
+          filter = 'title'
+        }
+        this.props.bookSearch(event.target.value, filter)
+      }
     }
   }, 300)
 
@@ -181,11 +226,48 @@ class SearchBookModal extends Component {
                         <input
                           type='text'
                           className='form-input'
-                          placeholder='Search books'
+                          placeholder='Search'
                           onChange={this.handleSeach('searchTerm')}
                           value={this.state.searchTerm}
                           autoFocus
                         />
+                        <div className='search-book-filters'>
+                          <div className='filter-inside-input'>
+                            <a
+                              onClick={this.handleFilter}
+                            >
+                              {this.state.selectedFilter}
+                            </a>
+                          </div>
+                          {
+                            this.state.isFilterOpen ?
+                            (
+                              <ul className='search-book-filters-container'>
+                                <li className='search-book-filters-list'>
+                                  <a
+                                    onClick={() => this.handleSelectFilter('Select Filter')}
+                                  >
+                                    -----
+                                  </a>
+                                </li>
+                                <li className='search-book-filters-list'>
+                                  <a
+                                    onClick={() => this.handleSelectFilter('Books')}
+                                  >
+                                    Books
+                                  </a>
+                                </li>
+                                <li className='search-book-filters-list'>
+                                  <a
+                                    onClick={() => this.handleSelectFilter('Authors')}
+                                  >
+                                    Authors
+                                  </a>
+                                </li>
+                              </ul>
+                            ) : null
+                          }
+                        </div>
                       </form>
                       <div className='search-results-container'>
                         { this.renderSearchResults() }
