@@ -31,9 +31,10 @@ export function mainSearch(searchTerm, searchType) {
   return debounceSearch()
 }
 
-export function bookSearch(searchTerm) {
+export function bookSearch(searchTerm, queryType) {
   const terms = {
     query: searchTerm,
+    queryType: queryType,
   }
 
   const debounceSearch = () => {
