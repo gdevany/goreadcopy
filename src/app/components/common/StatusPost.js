@@ -145,6 +145,7 @@ class StatusPost extends PureComponent {
       videoInfo,
       showVideoPreview,
       showSuggestions,
+      textareaOpen: true,
     })
   }
 
@@ -364,7 +365,9 @@ class StatusPost extends PureComponent {
             placeholder='Type inside me'
             onClick={this.handleTextAreaClick}
             onChange={this.handleTextChange} value={this.state.body}
+            autoFocus
           />
+
           {this.state.showSuggestions ?
             (<SuggestionList
               entries={this.state.suggestions}
