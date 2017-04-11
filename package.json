@@ -4,6 +4,10 @@
   "description": "The front-end for GoRead.",
   "scripts": {
     "build": "webpack --config webpack-production.config.js --colors",
+    "build:staging": "dotenv_config_file='.env-staging' npm run build",
+    "build:staging2": "dotenv_config_file='.env-staging2' npm run build",
+    "build:staging3": "dotenv_config_file='.env-staging3' npm run build",
+    "build:appcloud": "dotenv_config_file='.env-production' npm run build",
     "build:dev": "webpack --config webpack-dev-server.config.js --progress --colors",
     "deploy": "gcloud app deploy --project rl-staging",
     "heroku-postbuild": "npm run build",

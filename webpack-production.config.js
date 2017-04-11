@@ -7,7 +7,8 @@ const dotenv = require('dotenv');
 const CompressionPlugin = require('compression-webpack-plugin');
 const failPlugin = require('webpack-fail-plugin');
 
-dotenv.config() // pull .env into process.env if it exists
+process.env.dotenv_config_file ?
+    dotenv.config({path: path.join(__dirname, process.env.dotenv_config_file)}) : dotenv.config()
 
 module.exports = {
   bail: true,
