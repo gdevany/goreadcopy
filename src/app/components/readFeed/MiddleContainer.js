@@ -58,7 +58,9 @@ class MiddleContainer extends PureComponent {
         <AnnouncementTile/>
         {isProfileCompleted && this.checkReaderAwards() ? null : <ProfileDetailerTile />}
 
-        <StatusPost targetId={userId} postNewTile={prependReadFeedTile}/>
+        {this.props.readFeed ?
+          <StatusPost targetId={userId} postNewTile={prependReadFeedTile}/> : null
+        }
         <TileScroller
           fetchTiles={(params) => this.props.getReadFeedTiles(params)}
           tiles={readFeed}
