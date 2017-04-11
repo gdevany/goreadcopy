@@ -121,6 +121,7 @@ class StatusPost extends PureComponent {
       videoInfo,
       showVideoPreview,
       showSuggestions,
+      textareaOpen: true,
     })
   }
 
