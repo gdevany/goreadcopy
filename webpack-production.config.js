@@ -5,10 +5,12 @@ const testPath = path.resolve(__dirname, 'test');
 const TransferWebpackPlugin = require('transfer-webpack-plugin')
 const dotenv = require('dotenv');
 const CompressionPlugin = require('compression-webpack-plugin');
+const failPlugin = require('webpack-fail-plugin');
 
 dotenv.config() // pull .env into process.env if it exists
 
 module.exports = {
+  bail: true,
   node: {
     fs: 'empty'
   },
@@ -28,6 +30,7 @@ module.exports = {
     publicPath: '/public',
   },
   plugins: [
+    failPlugin,
     new webpack.DefinePlugin({
       'process.env' : JSON.stringify(process.env)
     }),
