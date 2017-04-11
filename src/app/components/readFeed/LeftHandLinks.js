@@ -60,6 +60,8 @@ class LeftHandLinks extends PureComponent {
       videoTutorials,
       referrals,
       games,
+      authors,
+      publishers,
     } = routes
 
     const leftMenuRoutes = [
@@ -67,6 +69,8 @@ class LeftHandLinks extends PureComponent {
       ['Children\'s Literacy', childrensLiteracy],
       ['Video Tutorials', videoTutorials],
       ['Referrals', referrals],
+      ['Author Enrollment', authors],
+      ['Publisher Enrollment', publishers],
       ['Games', games],
     ]
 
