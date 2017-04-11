@@ -119,28 +119,23 @@ class StatusPostTile extends PureComponent {
                 }
                 { content.activeContent.type === 'link' ?
                   (
-                    <div className='active-content-link-container'>
-                      <figure className='active-content-link-figure'>
-                        <img src={content.activeContent.thumbnailUrl}/>
-                      </figure>
-                      <div className='active-content-description'>
-                        <h5>
-                          {content.activeContent.title}
-                        </h5>
-                        <div className='post-excerpt-container'>
-                          <p className='post-excerpt-pharagraph'>
-                            {this.truncInfo(content.activeContent.description, 120)}
-                            <a
-                              href={content.activeContent.url}
-                              target='_blank'
-                              className='post-readmore-anchor'
-                            >
-                              Read more
-                            </a>
-                          </p>
+                    <a href={content.activeContent.url}>
+                      <div className='active-content-link-container'>
+                          <figure className='active-content-link-figure'>
+                            <img src={content.activeContent.thumbnailUrl}/>
+                          </figure>
+                          <div className='active-content-description'>
+                            <h5>
+                              {content.activeContent.title}
+                            </h5>
+                            <div className='post-excerpt-container'>
+                              <p className='post-excerpt-pharagraph'>
+                                {this.truncInfo(content.activeContent.description, 120)}
+                              </p>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
+                      </a>
                   ) : null
                 }
               </div>
