@@ -44,7 +44,9 @@ class AuthorTile extends PureComponent {
       >
         <div className='post-excerpt-container'>
           <p className='post-excerpt-pharagraph'>
-            {content.socialComment ? content.socialComment : null}
+            {content.socialComment && content.socialComment !== 'None' ?
+              content.socialComment : null
+            }
           </p>
         </div>
         <div className='author-tile-container'>
