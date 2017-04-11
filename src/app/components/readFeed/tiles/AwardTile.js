@@ -30,7 +30,9 @@ class AwardTile extends PureComponent {
         <div className='award-tile-container'>
           <div className='post-excerpt-container'>
             <p className='post-excerpt-pharagraph'>
-              {content.socialComment ? content.socialComment : null}
+              {content.socialComment && content.socialComment !== 'None' ?
+                content.socialComment : null
+              }
             </p>
           </div>
           <figure className='award-tile-figure'>

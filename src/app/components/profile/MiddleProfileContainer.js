@@ -50,7 +50,7 @@ class RightProfileContainer extends PureComponent {
     const { profile, isUserLoggedIn, id, isProfileLocked } = this.props
     return (
       <div className='center-profile-container small-12 medium-7 large-6 columns'>
-        {isUserLoggedIn ?
+        {isUserLoggedIn && this.props.profile ?
           <StatusPost
             targetId={id}
             postNewTile={this.props.prependProfileTile}
