@@ -69,9 +69,9 @@ class LeftHandLinks extends PureComponent {
       ['Children\'s Literacy', childrensLiteracy],
       ['Video Tutorials', videoTutorials],
       ['Referrals', referrals],
+      ['Games', games],
       ['Author Enrollment', authors],
       ['Publisher Enrollment', publishers],
-      ['Games', games],
     ]
 
     const leftMenuItem = ([title, routeFn], index) => (
