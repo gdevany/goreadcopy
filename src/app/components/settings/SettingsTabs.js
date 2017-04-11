@@ -435,6 +435,7 @@ class SettingsTabs extends PureComponent {
             onChange={this.handleOnChange('favoriteQuote1')}
             value={favoriteQuote1}
             maxLength={255}
+            autoFocus
           />
         </div>
         <div className='profile-edidor-quote-container'>
@@ -446,6 +447,7 @@ class SettingsTabs extends PureComponent {
             onChange={this.handleOnChange('favoriteQuote2')}
             value={favoriteQuote2}
             maxLength={255}
+            autoFocus
           />
         </div>
         <div className='profile-edidor-quote-container'>
@@ -457,8 +459,10 @@ class SettingsTabs extends PureComponent {
             onChange={this.handleOnChange('favoriteQuote3')}
             value={favoriteQuote3}
             maxLength={255}
+            autoFocus
           />
         </div>
+
         <div className='profile-edidor-quote-container'>
           <h5 className='profile-editor-favorite-quotes-num'>
             Favorite Quote #4
@@ -468,6 +472,7 @@ class SettingsTabs extends PureComponent {
             onChange={this.handleOnChange('favoriteQuote4')}
             value={favoriteQuote4}
             maxLength={255}
+            autoFocus
           />
         </div>
         <div className='profile-edidor-quote-container'>
@@ -479,6 +484,7 @@ class SettingsTabs extends PureComponent {
             onChange={this.handleOnChange('favoriteQuote5')}
             value={favoriteQuote5}
             maxLength={255}
+            autoFocus
           />
         </div>
       </div>
