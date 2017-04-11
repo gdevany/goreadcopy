@@ -7,9 +7,9 @@ export function getReadFeedTiles({ adsense, lastAd, timestamp }) {
   return dispatch => {
     dispatch({ type: A.LOCK_READFEED, payload: true })
     CurrentReaderTiles.getReadFeedTiles({ adsense, lastAd, timestamp })
-    .then(res => dispatch({ type: A.GET_READFEED_TILES, payload: res.data.results }))
-    .then(() => dispatch({ type: A.LOCK_READFEED, payload: false }))
-    .catch(err => console.error(`Error in getReadFeedTiles: ${err}`))
+      .then(res => dispatch({ type: A.GET_READFEED_TILES, payload: res.data.results }))
+      .then(() => dispatch({ type: A.LOCK_READFEED, payload: false }))
+      .catch(err => console.error(`Error in getReadFeedTiles: ${err}`))
   }
 }
 
@@ -17,9 +17,9 @@ export function getProfileTiles(id, { timestamp }) {
   return dispatch => {
     dispatch({ type: B.LOCK_PROFILE, payload: true })
     ReaderTiles.getProfileTiles(id, { timestamp })
-    .then(res => dispatch({ type: B.GET_PROFILE_TILES, payload: res.data.results }))
-    .then(() => dispatch({ type: B.LOCK_PROFILE, payload: false }))
-    .catch(err => console.error(`Error in getProfileTiles: ${err}`))
+      .then(res => dispatch({ type: B.GET_PROFILE_TILES, payload: res.data.results }))
+      .then(() => dispatch({ type: B.LOCK_PROFILE, payload: false }))
+      .catch(err => console.error(`Error in getProfileTiles: ${err}`))
   }
 }
 

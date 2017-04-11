@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-
+import Env from '../../constants/env'
 class ChatFrame extends Component {
   render() {
     const { modalOpen, handleClose } = this.props
     const classString = 'chatbox ' + (modalOpen ? 'open' : '')
-    const chatSource = 'https://www.goread.com/chat'
     return (
       <div className={classString}>
         <a
@@ -13,7 +12,9 @@ class ChatFrame extends Component {
         >
           x
         </a>
-        <iframe src={chatSource} />
+        <iframe
+          src={`${Env.API_URL}/chat`}
+        />
       </div>
     )
   }

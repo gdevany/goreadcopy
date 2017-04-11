@@ -1,14 +1,20 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="17px" height="18px" viewBox="0 0 17 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
-    <title>Page 1</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Feed/Profile-Visuals" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Reed-Feed-V2" transform="translate(-547.000000, -23.000000)" stroke="#000000" stroke-width="0.3" fill="#000000">
-            <g id="Group-5" transform="translate(548.000000, 16.000000)">
-                <path d="M7.51495535,7.49580156 L0.149530516,13.0208522 C0.0564806495,13.0898417 -0.000969664196,13.2040058 1.23924481e-05,13.320134 L1.23924481e-05,23.6317288 C1.23924481e-05,23.8244574 0.175555018,24 0.368283634,24 L5.33994539,24 C5.53267401,24 5.70821664,23.8244574 5.70821664,23.6317288 L5.70821664,17.0028464 L9.75920029,17.0028464 L9.75920029,23.6317288 C9.75920029,23.8244574 9.93474292,24 10.1274715,24 L15.0991333,24 C15.2918619,24 15.4674045,23.8244574 15.4674045,23.6317288 L15.4674045,13.320134 C15.4674045,13.2040058 15.4109363,13.0898417 15.3178864,13.0208522 L7.95246158,7.49678361 C7.78354784,7.39808692 7.66079076,7.4133088 7.51495535,7.49678361 L7.51495535,7.49580156 Z M7.73370846,8.25542237 L14.7308621,13.5032876 L14.7308621,23.2624755 L10.4957428,23.2624755 L10.4957428,16.6335931 C10.4957428,16.4408645 10.3202001,16.2653219 10.1274715,16.2653219 L5.33994539,16.2653219 C5.14721678,16.2653219 4.97167415,16.4408645 4.97167415,16.6335931 L4.97167415,23.2624755 L0.736554875,23.2624755 L0.736554875,13.5032876 L7.73370846,8.25542237 Z" id="Page-1"></path>
-            </g>
-        </g>
-    </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="-631 392 17 18" style="enable-background:new -631 392 17 18;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#979797;stroke:#979797;stroke-width:0.3;}
+</style>
+<title>Page 1</title>
+<desc>Created with Sketch.</desc>
+<g id="Feed_x2F_Profile-Visuals">
+	<g id="Reed-Feed-V2" transform="translate(-547.000000, -23.000000)">
+		<g id="Group-5" transform="translate(548.000000, 16.000000)">
+			<path id="Page-1" class="st0" d="M-623.5,399.5l-7.4,5.5c-0.1,0.1-0.2,0.2-0.1,0.3v10.3c0,0.2,0.2,0.4,0.4,0.4h5
+				c0.2,0,0.4-0.2,0.4-0.4V409h4.1v6.6c0,0.2,0.2,0.4,0.4,0.4h5c0.2,0,0.4-0.2,0.4-0.4v-10.3c0-0.1-0.1-0.2-0.1-0.3l-7.4-5.5
+				C-623.2,399.4-623.3,399.4-623.5,399.5L-623.5,399.5z M-623.3,400.3l7,5.2v9.8h-4.2v-6.6c0-0.2-0.2-0.4-0.4-0.4h-4.8
+				c-0.2,0-0.4,0.2-0.4,0.4v6.6h-4.2v-9.8L-623.3,400.3z"/>
+		</g>
+	</g>
+</g>
 </svg>

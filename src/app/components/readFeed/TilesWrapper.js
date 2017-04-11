@@ -94,7 +94,7 @@ const TilesWrapper = ({ feed }) => {
         case 'author':
           const authorContent = {
             name: tileContent.fullname,
-            city: tileContent.city,
+            city: tileContent.city || null,
             state: tileContent.state,
             about: (tileContent.shortBio || tileContent.aboutMe),
             link: tileContent.url,
@@ -219,7 +219,7 @@ const TilesWrapper = ({ feed }) => {
             name: tileContent.fullname,
             image: tileContent.imageUrl,
             link: tileContent.url,
-            city: tileContent.city,
+            city: tileContent.city || null,
             state: tileContent.state,
             description: tileContent.description,
             socialComment: (tile.socialPostComment || null)
@@ -246,7 +246,8 @@ const TilesWrapper = ({ feed }) => {
           }
           const accountContent = {
             name: tileContent.fullname || tile.actor.fullname,
-            city: tileContent.city || tileContent.poster.city,
+            city: (tileContent.city || (tileContent.poster ?
+              tileContent.poster.city : null) || null),
             state: tileContent.state,
             description: tileContent.description,
             image: tileContent.imageUrl || tileContent.poster.imageUrl,

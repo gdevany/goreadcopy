@@ -8,7 +8,6 @@ import { Auth } from '../../services'
 import {
   Card,
   CardActions,
-  CardHeader,
   CardText,
   Popover,
 } from 'material-ui'
@@ -309,18 +308,27 @@ class TileDefault extends PureComponent {
           key={`${comment.id}`}
           style={styles.commentCard}
         >
-          <CardHeader
-            title={comment.profile.fullname}
-            titleStyle={styles.nameText}
-            style={styles.childCommentHeaderContainer}
-            avatar={comment.profile.imageUrl}
-            textStyle={styles.textContainer}
-          >
-            <p style={styles.timeStamp}>
-              {this.renderTime(comment.datetime)}
-            </p>
-          </CardHeader>
-
+          <div className='base-tile-header'>
+            <figure className='tile-actor-figure'>
+              <a href={comment.profile.url}>
+                <img className='tile-actor-image' src={comment.profile.imageUrl} alt=''/>
+              </a>
+            </figure>
+            <div className='tile-actor-details'>
+              <div className='tile-actor-container'>
+                <span className='tile-actor-name'>
+                  <a href={comment.profile.url}>
+                    {comment.profile.fullname}
+                  </a>
+                </span>
+              </div>
+              <div className='tile-actor-timestamp'>
+                <span>
+                  {this.renderTime(comment.datetime)}
+                </span>
+              </div>
+            </div>
+          </div>
           <CardText style={styles.commentContent}>
             {comment.comment}
           </CardText>
@@ -354,18 +362,27 @@ class TileDefault extends PureComponent {
           key={`${comment.id}`}
           style={styles.commentCard}
         >
-          <CardHeader
-            title={comment.profile.fullname}
-            titleStyle={styles.nameText}
-            style={styles.commentHeaderContainer}
-            avatar={comment.profile.imageUrl}
-            textStyle={styles.textContainer}
-          >
-            <p style={styles.timeStamp}>
-              {this.renderTime(comment.datetime)}
-            </p>
-          </CardHeader>
-
+          <div className='base-tile-header'>
+            <figure className='tile-actor-figure'>
+              <a href={comment.profile.url}>
+                <img className='tile-actor-image' src={comment.profile.imageUrl} alt=''/>
+              </a>
+            </figure>
+            <div className='tile-actor-details'>
+              <div className='tile-actor-container'>
+                <span className='tile-actor-name'>
+                  <a href={comment.profile.url}>
+                    {comment.profile.fullname}
+                  </a>
+                </span>
+              </div>
+              <div className='tile-actor-timestamp'>
+                <span>
+                  {this.renderTime(comment.datetime)}
+                </span>
+              </div>
+            </div>
+          </div>
           <CardText style={styles.commentContent}>
             {comment.comment}
           </CardText>
@@ -544,18 +561,28 @@ class TileDefault extends PureComponent {
           expanded={commentsOpen}
           className='base-tile-container'
         >
-          <CardHeader
-            title={author.name}
-            titleStyle={styles.nameText}
-            subtitle={action}
-            subtitleStyle={styles.postText}
-            style={styles.headerContainer}
-            textStyle={styles.textContainer}
-            avatar={author.image}
-            actAsExpander={true}
-          >
-            <span style={styles.timeStamp}> { promoted ? 'Promoted' : timestamp } </span>
-          </CardHeader>
+          <div className='base-tile-header'>
+            <figure className='tile-actor-figure'>
+              <a href={author.link}>
+                <img className='tile-actor-image' src={author.image} alt=''/>
+              </a>
+            </figure>
+            <div className='tile-actor-details'>
+              <div className='tile-actor-container'>
+                <span className='tile-actor-name'>
+                  <a href={author.link}>{author.name}</a>
+                </span>
+                <span className='tile-actor-action'>
+                  { promoted ? null : action }
+                </span>
+              </div>
+              <div className='tile-actor-timestamp'>
+                <span>
+                  { promoted ? 'Promoted' : timestamp }
+                </span>
+              </div>
+            </div>
+          </div>
           <CardText style={styles.contentContainer} className='tile-main-content'>
             {this.props.children}
           </CardText>

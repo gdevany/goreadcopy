@@ -74,6 +74,7 @@
     "radium": "^0.18.1",
     "ramda": "^0.23.0",
     "react": "^15.4.2",
+    "react-anchorify-text": "^2.0.0",
     "react-burger-menu": "^1.10.10",
     "react-dom": "^15.4.2",
     "react-dropzone": "^3.10.0",

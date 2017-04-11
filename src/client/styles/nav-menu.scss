@@ -308,12 +308,32 @@
   }
 }
 
+.home-link-active {
+  &:before {
+    content: '';
+    display: block;
+    background: url(../image/home-icon-active.svg) no-repeat;
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin: 0 6px 0 0;
+  }
+  &:hover::before {
+    content: '';
+    display: block;
+    background: url(../image/home-icon-hover.svg) no-repeat;
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin: 0 6px 0 0;
+  }
+}
 
 .home-link {
   &:before {
     content: '';
     display: block;
-    background: url(../image/home-icon-active.svg) no-repeat;
+    background: url(../image/home-icon.svg) no-repeat;
     width: 20px;
     height: 20px;
     float: left;

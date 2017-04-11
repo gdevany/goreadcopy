@@ -447,6 +447,7 @@
 }
 .center-profile-container{
   padding: 0 .5em;
+  text-align: center;
 }
 .right-profile-container{
   padding: 0 .5em;
@@ -455,6 +456,9 @@
   // }
   .base-tile-sidebar-container{
     padding: 0;
+    .adv-sidebar-container{
+      width: 100%;
+    }
   }
 }
 

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, PropTypes } from 'react'
 import { stack as MobileMenu } from 'react-burger-menu'
 import { Link } from 'react-router'
 import { Auth, CurrentReader } from '../../redux/actions'
@@ -121,6 +121,7 @@ class NavMenu extends PureComponent {
       chatModalOpen: false,
       socialFollowers: 0,
       socialFollowed: 0,
+      isReadFeed: true,
     }
 
     this.handleModalClose = this.handleModalClose.bind(this)
@@ -130,6 +131,10 @@ class NavMenu extends PureComponent {
     this.handleLogoutClick = this.handleLogoutClick.bind(this)
     this.handleClickSearch = this.handleClickSearch.bind(this)
     this.handleClickChat = this.handleClickChat.bind(this)
+  }
+
+  static contextTypes = {
+    router: PropTypes.object
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -155,6 +160,15 @@ class NavMenu extends PureComponent {
 
     if (!this.state.usePlatformAs && nextProps.currentReader.publishingAs) {
       this.setState({ usePlatformAs: nextProps.currentReader.publishingAs })
+    }
+  }
+
+  componentWillMount = () => {
+    const { router } = this.context
+    if (router.params.slug || router.location.pathname === '/profile/settings') {
+      this.setState({
+        isReadFeed: false,
+      })
     }
   }
 
@@ -335,7 +349,7 @@ class NavMenu extends PureComponent {
         <hr className='profile-menu-divider' />
         { this.handleMapProfileMenuItems() }
         <li className='profile-menu-element'>
-          <a href='' className='profile-menu-anchor' onClick={this.handleLogoutClick}>
+          <a className='profile-menu-anchor' onClick={this.handleLogoutClick}>
             Logout
           </a>
         </li>
@@ -601,7 +615,7 @@ class NavMenu extends PureComponent {
 
   renderLogInMenu = () => {
     const { currentReader } = this.props
-    const { socialFollowers, socialFollowed } = this.state
+    const { socialFollowers, socialFollowed, isReadFeed } = this.state
     return (
       <div className='slide-down'>
         <div style={styles.mobileNavContainer} className='top-bar-mobile'>
@@ -609,9 +623,12 @@ class NavMenu extends PureComponent {
             <ul className='nav-menu-logged-container'>
 
               <li
-                className='logged-menu-item loged-menu-item-active home'
+                className={`logged-menu-item ${isReadFeed ? 'loged-menu-item-active' : null} home`}
               >
-                <Link to='/' style={styles.navItemLinks} className='home-link rf-nav-link' />
+                <Link
+                  to='/' style={styles.navItemLinks}
+                  className={`rf-nav-link ${isReadFeed ? 'home-link-active' : 'home-link'}`}
+                />
               </li>
 
               <li className='logged-menu-item'>
@@ -623,7 +640,7 @@ class NavMenu extends PureComponent {
               </li>
 
               <li className='logged-menu-item'>
-                <a href='' style={styles.navItemLinks} className='messages-link rf-nav-link' />
+                <a style={styles.navItemLinks} className='messages-link rf-nav-link' />
               </li>
 
               <li style={styles.loggedInRightNavLi}>
@@ -632,6 +649,7 @@ class NavMenu extends PureComponent {
                   className='menu-badge-container rf-nav-link'
                 >
                   <Badge
+                    onClick={this.handleClickChat}
                     badgeContent={
                       currentReader.notificationsCount ?
                         currentReader.notificationsCount : 0
@@ -647,7 +665,10 @@ class NavMenu extends PureComponent {
                       backgroundColor: Colors.red,
                     }}
                   >
-                    <img src='/image/notifications-icon.svg' />
+                    <img
+                      src='/image/notifications-icon.svg'
+                      onClick={this.handleClickChat}
+                    />
                   </Badge>
                 </a>
               </li>
@@ -678,7 +699,7 @@ class NavMenu extends PureComponent {
                 </a>
               </li>
               <li className='nav-menu-logged-list'>
-                <a href='' className='nav-menu-logged-anchor'>
+                <a className='nav-menu-logged-anchor'>
                   <MenuIcon style={styles.menuIcon} onClick={this.handleMenuClick}/>
                 </a>
               </li>
@@ -693,7 +714,7 @@ class NavMenu extends PureComponent {
           >
             <div className='profile-section-container'>
               <div className='first-row-elements'>
-                <a href='' className='profile-badge-anchor'>
+                <Link to={`profile/${currentReader.slug}`} className='profile-badge-anchor'>
                   <figure className='profile-badge-container'>
                     <img
                       src={currentReader.profileImage}
@@ -701,7 +722,7 @@ class NavMenu extends PureComponent {
                       alt=''
                     />
                   </figure>
-                </a>
+                </Link>
                 <Link to={`profile/${currentReader.slug}`} className='profile-name-anchor'>
                   <span>{currentReader.firstName} {currentReader.lastName}</span>
                 </Link>
@@ -762,10 +783,15 @@ class NavMenu extends PureComponent {
               <ul className='menu'>
 
                 <li
-                  className='logged-menu-item loged-menu-item-active home'
+                  className={
+                    `logged-menu-item ${isReadFeed ? 'loged-menu-item-active' : null} home`
+                  }
                 >
-                  <Link to='/' style={styles.navItemLinks} className='home-link rf-nav-link'>
-                    Home
+                  <Link
+                    to='/' style={styles.navItemLinks}
+                    className={`rf-nav-link ${isReadFeed ? 'home-link-active' : 'home-link'}`}
+                  >
+                      Home
                   </Link>
                 </li>
 
@@ -804,6 +830,7 @@ class NavMenu extends PureComponent {
                     className='menu-badge-container rf-nav-link'
                   >
                     <Badge
+                      onClick={this.handleClickChat}
                       badgeContent={
                         currentReader.notificationsCount ?
                           currentReader.notificationsCount : 0
@@ -919,7 +946,7 @@ class NavMenu extends PureComponent {
             <ul className='menu'>
 
               <li style={styles.rightNavItems} className='link nav-item'>
-                <a href='' onClick={this.handleLogInModalOpen}>
+                <a onClick={this.handleLogInModalOpen}>
                   Log In
                 </a>
               </li>

@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import TileDefault from '../TileDefault'
 import ReactPlayer from 'react-player'
+import Anchorify from 'react-anchorify-text'
 
 class VideoTile extends PureComponent {
   render() {
@@ -45,7 +46,7 @@ class VideoTile extends PureComponent {
             <h2 className='video-title'>{content.tile}</h2>
             <div className='post-excerpt-container'>
               <p className='post-excerpt-pharagraph'>
-                {content.description}
+                <Anchorify text={content.description} target='_blank'/>
               </p>
             </div>
           </div>

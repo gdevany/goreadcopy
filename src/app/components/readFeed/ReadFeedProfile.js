@@ -254,7 +254,9 @@ class ReadFeedProfile extends PureComponent {
                         Followers
                       </span>
                       <br />
-                      <span className='profile-large-text'> {followersCount} </span>
+                      <span className='profile-large-text'>
+                        {followersCount ? followersCount : <div className='loading-animation'/>}
+                      </span>
                     </div>
                   </div>
 
@@ -269,7 +271,9 @@ class ReadFeedProfile extends PureComponent {
                         Following
                         </span>
                         <br />
-                        <span className='profile-large-text'> {followedCount} </span>
+                        <span className='profile-large-text'>
+                          {followedCount ? followedCount : <div className='loading-animation'/>}
+                        </span>
                       </div>
                     </div>
                   </div>
