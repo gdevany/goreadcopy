@@ -7,29 +7,35 @@ class SidebarAd extends PureComponent {
       <div className={isProfileAd ?
         'base-tile-sidebar-container' : 'base-tile-sidebar-container box'}
       >
-        <a href={content.isExternalTarget ? content.targetUrl : content.url}>
-          <div className='adv-sidebar-container'>
-            <figure className='heading-overflow-figure'>
+        <div className='adv-sidebar-container'>
+          <figure className='heading-overflow-figure'>
+            <a href={content.isExternalTarget ? content.targetUrl : content.url}>
               <img className='heading-img' src={content.imageUrl} alt=''/>
-            </figure>
-            <div className='sidebar-content'>
-              <h2 className='sidebar-title'>
+            </a>
+          </figure>
+
+          <div className='sidebar-content'>
+            <h2 className='sidebar-title'>
+              <a href={content.isExternalTarget ? content.targetUrl : content.url}>
                 {content.heading}
-              </h2>
-              <div className='post-excerpt-container'>
-                <p className='post-excerpt-pharagraph'>
+              </a>
+            </h2>
+            <div className='post-excerpt-container'>
+              <p className='post-excerpt-pharagraph'>
+                <a href={content.isExternalTarget ? content.targetUrl : content.url}>
                   {content.description}
-                  <a
-                    href={content.isExternalTarget ? content.targetUrl : content.url}
-                    className='post-readmore-anchor'
-                  >
-                    Read more
-                  </a>
-                </p>
-              </div>
+                </a>
+                <a
+                  href={content.isExternalTarget ? content.targetUrl : content.url}
+                  className='post-readmore-anchor'
+                >
+                  Read more
+                </a>
+              </p>
             </div>
           </div>
-        </a>
+
+        </div>
       </div>
     )
   }

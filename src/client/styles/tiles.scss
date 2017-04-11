@@ -26,7 +26,9 @@
         text-align: left;
         margin: 20px 0 10px;
         font-weight: 400;
-        word-wrap: break-word;
+        a{
+          word-wrap: break-word;
+        }
       }
     }
   }
@@ -528,8 +530,10 @@
   max-height: 250px;
   border-radius: 3px;
   overflow: hidden;
-  .heading-img{
-    width: 100%;
+  a{
+    .heading-img{
+      width: 100%;
+    }
   }
 }
 

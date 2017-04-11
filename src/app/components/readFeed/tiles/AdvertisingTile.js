@@ -32,9 +32,7 @@ class AdvertisingTile extends PureComponent {
         <div className='adv-tile-container'>
           <div className='post-excerpt-container'>
             <p className='post-excerpt-pharagraph'>
-              {content.socialComment && content.socialComment !== 'None' ?
-                content.socialComment : null
-              }
+              {content.socialComment ? content.socialComment : null}
             </p>
           </div>
           <figure className='heading-overflow-figure'>
