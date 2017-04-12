@@ -83,7 +83,7 @@ class StatusPostTile extends PureComponent {
         <div className='statuspost-tile-container'>
           <div className='post-excerpt-container'>
             <p className='post-excerpt-pharagraph'>
-              {content.socialPostComment ? content.socialPostComment : null}
+              {content.socialComment ? content.socialComment : null}
             </p>
           </div>
           { content.image ?
