@@ -15,11 +15,29 @@ export function getFollowers(id, body) {
   }
 }
 
+export function fetchFollowers(id, params) {
+  return dispatch => {
+    dispatch({ type: A.FETCH_FOLLOWERS })
+    return CurrentReaderSocial.getFetchFollowers(id, params)
+      .then((res) => dispatch({ type: A.GET_FETCH_FOLLOWERS, payload: res.data }))
+      .catch(err => console.error(`Error in fetchFolllowers ${err}`))
+  }
+}
+
 export function getFollowed(id, body) {
   return dispatch => {
     CurrentReaderSocial.getFollowed(id, body)
       .then((res) => dispatch({ type: A.GET_FOLLOWED, payload: res.data }))
       .catch(err => console.error(`Error in getFollowed ${err}`))
+  }
+}
+
+export function fetchFollowed(id, params) {
+  return dispatch => {
+    dispatch({ type: A.FETCH_FOLLOWED })
+    return CurrentReaderSocial.getFetchFollowed(id, params)
+      .then((res) => dispatch({ type: A.GET_FETCH_FOLLOWED, payload: res.data }))
+      .catch(err => console.error(`Error in fetchFolllowed ${err}`))
   }
 }
 
@@ -137,6 +155,8 @@ export function followOrUnfollow(args) {
 export default {
   followOrUnfollow,
   getFollowers,
+  fetchFollowers,
+  fetchFollowed,
   getFollowed,
   getFollowersAndFollowed,
   updateFollowed,
