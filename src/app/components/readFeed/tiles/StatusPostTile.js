@@ -26,7 +26,7 @@ class StatusPostTile extends PureComponent {
       for (let i = 0; i < mentionList.length; i++) {
         if (mentionList[i].mention === entry) {
           const splitResult = this.splitMention(mentionList[i].url)
-          if (splitResult[splitResult.length - 3] === 'profile') {
+          if (splitResult && [splitResult.length - 3] === 'profile') {
             return (
               <Link key={index} to={`profile/${splitResult[splitResult.length - 2]}`}>
                 {mentionList[i].name}
@@ -83,7 +83,7 @@ class StatusPostTile extends PureComponent {
         <div className='statuspost-tile-container'>
           <div className='post-excerpt-container'>
             <p className='post-excerpt-pharagraph'>
-              {content.socialComment ? content.socialComment : null}
+              {content.socialPostComment ? content.socialPostComment : null}
             </p>
           </div>
           { content.image ?

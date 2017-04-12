@@ -163,8 +163,12 @@ const TilesWrapper = ({ feed }) => {
             return '#'
           }
           const getName = () => {
-            if (tileContent.reviewer) return tileContent.reviewer.fullname
-            else if (tileContent.authors.length) return tileContent.authors[0].fullname
+            if (tileContent.reviewer) {
+              return tileContent.reviewer.fullname
+            }
+            if (!tileContent.reviewer && tileContent.authors && tileContent.authors.length) {
+              return tileContent.authors[0].fullname
+            }
             return `${<i>Unknown</i>}`
           }
           const bookAndProductContent = {
