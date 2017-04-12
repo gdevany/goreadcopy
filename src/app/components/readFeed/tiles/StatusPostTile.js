@@ -26,7 +26,7 @@ class StatusPostTile extends PureComponent {
       for (let i = 0; i < mentionList.length; i++) {
         if (mentionList[i].mention === entry) {
           const splitResult = this.splitMention(mentionList[i].url)
-          if (splitResult[splitResult.length - 3] === 'profile') {
+          if (splitResult && [splitResult.length - 3] === 'profile') {
             return (
               <Link key={index} to={`profile/${splitResult[splitResult.length - 2]}`}>
                 {mentionList[i].name}
