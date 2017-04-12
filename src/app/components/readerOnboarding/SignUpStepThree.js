@@ -69,7 +69,7 @@ const styles = {
 
 const { pairs } = Collections
 const {
-  getRecommendation,
+  getOnboardingRecommendation,
   searchRecommendation,
   choseRecommendation,
   updateRecommendedLitcoins
@@ -117,7 +117,7 @@ class SignUpStepThree extends PureComponent {
   }
 
   componentWillMount = () => {
-    this.props.getRecommendation(6)
+    this.props.getOnboardingRecommendation(6)
   }
 
   componentDidUpdate = () => {
@@ -199,7 +199,7 @@ class SignUpStepThree extends PureComponent {
     const search = this.refs.search.value
     this.setState({ newSearchInput: search })
     if (search === '') {
-      this.props.getRecommendation()
+      this.props.getOnboardingRecommendation()
     }
   }
 
@@ -343,7 +343,7 @@ const mapStateToProps = ({ recommended }) => {
 }
 
 const mapDispatchToProps = {
-  getRecommendation,
+  getOnboardingRecommendation,
   searchRecommendation,
   choseRecommendation,
   updateRecommendedLitcoins,

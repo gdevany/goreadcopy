@@ -16,6 +16,7 @@ const { currentReader: {
 const Recommendation = () => {
   return {
     getRecommendation: (params) => authenticated().get(getRecommendation(params)),
+    getOnboardingRecommendation: (params) => authenticated().get(getRecommendation(params)),
     getRecommendedAuthors: (params) => authenticated().get(getRecommendedAuthors(params)),
     getBookRecommendations: (params) => authenticated().get(getBookRecommendations(params)),
     getBookClubRecommendations: (params) => authenticated().get(getBookClubRecommendations(params)),

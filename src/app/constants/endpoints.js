@@ -28,7 +28,8 @@ const Endpoints = () => {
     getCountries: () => apiUrl('forms/countries'),
     getStates: (id) => apiUrl(`forms/${id}/states`),
     currentReader: {
-      getRecommendation: (params) => apiUrl('genres/onboarding_top_users', params),
+      getRecommendation: (params) => apiUrl('genres/top_users', params),
+      getOnboardingRecommendation: (params) => apiUrl('genres/onboarding_top_users', params),
       getRecommendedAuthors: (params) => apiUrl('current_reader/recommended/authors', params),
       getBookRecommendations: (params) => apiUrl('current_reader/recommended/books', params),
       getBookClubRecommendations: (params) => {
