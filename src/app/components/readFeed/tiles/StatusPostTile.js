@@ -26,7 +26,7 @@ class StatusPostTile extends PureComponent {
       for (let i = 0; i < mentionList.length; i++) {
         if (mentionList[i].mention === entry) {
           const splitResult = this.splitMention(mentionList[i].url)
-          if (splitResult && [splitResult.length - 3] === 'profile') {
+          if (splitResult && splitResult[3] === 'profile') {
             return (
               <Link key={index} to={`profile/${splitResult[splitResult.length - 2]}`}>
                 {mentionList[i].name}
@@ -64,7 +64,10 @@ class StatusPostTile extends PureComponent {
       },
       content
     } = this.props
+
     const splittedContent = this.splitContent(content.description)
+    const splittedPostContent = this.splitContent(content.socialPostComment)
+
     let videoInfo = ''
     if (content.activeContent && content.activeContent.providerName === 'Dailymotion') {
       videoInfo = urlParser.parse(content.activeContent.url)
@@ -83,7 +86,14 @@ class StatusPostTile extends PureComponent {
         <div className='statuspost-tile-container'>
           <div className='post-excerpt-container'>
             <p className='post-excerpt-pharagraph'>
-              {content.socialComment ? content.socialComment : null}
+              {
+                content.mentionsPostList !== null || content.socialPostComment !== 'None' ?
+                  (
+                    splittedPostContent.map((entry, index) => {
+                      return this.renderContentWithMentions(entry, index, content.mentionsPostList)
+                    })
+                  ) : null
+              }
             </p>
           </div>
           { content.image ?

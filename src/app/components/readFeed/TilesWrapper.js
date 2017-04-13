@@ -33,8 +33,13 @@ const TilesWrapper = ({ feed }) => {
 
   const renderTiles = (tiles) => {
     const result = []
-    let tileType, tileContent
+    let tileType, tileContent, shareComment, shareMentions
+
     tiles.forEach((tile, index) => {
+      tileType = ''
+      tileContent = ''
+      shareComment = ''
+      shareMentions = []
       let tileDefaultProps = {}
       if (tile.tileType !== 'advertising' && tile.tileType !== 'merged') {
         tileDefaultProps = {
@@ -69,11 +74,12 @@ const TilesWrapper = ({ feed }) => {
           tileType = tile.content.contentType
           tileContent = tile.content
         }
+        shareComment = (tile.mentions || tile.shareComment)
+        shareMentions = tile.mentionsArray
       } else {
         tileType = tile.tileType
         tileContent = tile.content
       }
-
       switch (tileType) {
         case 'article':
           const articleContent = {
@@ -81,7 +87,8 @@ const TilesWrapper = ({ feed }) => {
             header: tileContent.header,
             image: (tileContent.imageUrl || tileContent.image),
             link: tileContent.link,
-            socialComment: (tile.socialPostComment || null)
+            socialComment: (shareComment || ''),
+            mentionsList: (shareMentions || null),
           }
           result.push(
             <ArticleTile
@@ -98,7 +105,8 @@ const TilesWrapper = ({ feed }) => {
             state: tileContent.state,
             about: (tileContent.shortBio || tileContent.aboutMe),
             link: tileContent.url,
-            socialComment: (tile.socialPostComment || null)
+            socialComment: (shareComment || ''),
+            mentionsList: (shareMentions || null),
           }
           result.push(
             <AuthorTile
@@ -111,7 +119,8 @@ const TilesWrapper = ({ feed }) => {
         case 'award':
           const awardContent = {
             image: tileContent.imageUrl,
-            socialComment: (tile.socialPostComment || null)
+            socialComment: (shareComment || ''),
+            mentionsList: (shareMentions || null),
           }
           result.push(
             <AwardTile
@@ -125,7 +134,8 @@ const TilesWrapper = ({ feed }) => {
         case 'buzzphoto':
           const albumContent = {
             image: tileContent.imageUrl,
-            socialComment: (tile.socialPostComment || null)
+            socialComment: (shareComment || ''),
+            mentionsList: (shareMentions || null),
           }
           result.push(
             <AlbumTile
@@ -143,7 +153,8 @@ const TilesWrapper = ({ feed }) => {
             url: tileContent.url,
             start: renderTime(tileContent.start, 'time-date'),
             end: renderTime(tileContent.end, 'time-date'),
-            socialComment: (tile.socialPostComment || null)
+            socialComment: (shareComment || ''),
+            mentionsList: (shareMentions || null),
           }
           result.push(
             <AppearanceTile
@@ -178,7 +189,8 @@ const TilesWrapper = ({ feed }) => {
             rating: tileContent.rating.average,
             author: getName(),
             url: getUrl(),
-            socialComment: (tile.socialPostComment || null)
+            socialComment: (shareComment || ''),
+            mentionsList: (shareMentions || null),
           }
           result.push(
             <BookProductTile
@@ -194,7 +206,8 @@ const TilesWrapper = ({ feed }) => {
             title: tileContent.name,
             description: tileContent.description,
             url: tileContent.link,
-            socialComment: (tile.socialPostComment || null)
+            socialComment: (shareComment || ''),
+            mentionsList: (shareMentions || null),
           }
           result.push(
             <BookClubTile
@@ -208,7 +221,8 @@ const TilesWrapper = ({ feed }) => {
           const bookClubTaskContent = {
             description: tileContent.description,
             link: tileContent.link,
-            socialComment: (tile.socialPostComment || null)
+            socialComment: (shareComment || ''),
+            mentionsList: (shareMentions || null),
           }
           result.push(
             <BookClubTaskTile
@@ -226,7 +240,8 @@ const TilesWrapper = ({ feed }) => {
             city: tileContent.city || null,
             state: tileContent.state,
             description: tileContent.description,
-            socialComment: (tile.socialPostComment || null)
+            socialComment: (shareComment || ''),
+            mentionsList: (shareMentions || null),
           }
           result.push(
             <PublisherUpdateTile
@@ -258,7 +273,8 @@ const TilesWrapper = ({ feed }) => {
             link: tile.actor.link,
             slug: tileContent.slug,
             userType: findUserType(tileContent.contentType),
-            socialComment: (tile.socialPostComment || null)
+            socialComment: (shareComment || ''),
+            mentionsList: (shareMentions || null),
           }
           result.push(
             <UserProfileTile
@@ -274,7 +290,8 @@ const TilesWrapper = ({ feed }) => {
             originUrl: tileContent.originUrl,
             title: tileContent.title,
             description: tileContent.summary,
-            socialComment: (tile.socialPostComment || null)
+            socialComment: (shareComment || ''),
+            mentionsList: (shareMentions || null),
           }
           result.push(
             <VideoTile
@@ -288,8 +305,10 @@ const TilesWrapper = ({ feed }) => {
           const statusPostContent = {
             image: tileContent.imageUrl.url,
             description: tileContent.mentions,
-            socialComment: (tile.socialPostComment || null),
+            socialComment: (shareComment || ''),
             mentionsList: tileContent.mentionArray,
+            socialPostComment: (tile.mentions || tile.shareComment || ''),
+            mentionsPostList: (tile.mentionArray || []),
             activeContent: (tileContent.activeUrl || null),
           }
           result.push(
@@ -321,7 +340,8 @@ const TilesWrapper = ({ feed }) => {
                 title: heading,
                 description: description,
                 link: url,
-                socialComment: (tile.socialPostComment || null)
+                socialComment: (shareComment || ''),
+                mentionsList: (shareMentions || null),
               }
               tileDefaultProps = {
                 id: id,
