@@ -362,7 +362,7 @@ class StatusPost extends PureComponent {
             ref='statuspost'
             className={this.state.textareaOpen ?
               'status-post-textarea-open' : 'status-post-textarea'}
-            placeholder='Type inside me'
+            placeholder='Comment here'
             onClick={this.handleTextAreaClick}
             onChange={this.handleTextChange} value={this.state.body}
             autoFocus
