@@ -17,6 +17,17 @@ const styles = {
 class MiddleContainer extends PureComponent {
   constructor(props) {
     super(props)
+    this.state = {
+      id: ''
+    }
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.userId) {
+      this.setState({
+        id: nextProps.userId
+      })
+    }
   }
 
   checkReaderAwards = () => {
@@ -48,17 +59,18 @@ class MiddleContainer extends PureComponent {
   render() {
     const {
       readFeed,
-      userId,
       prependReadFeedTile,
       isReadFeedLocked,
       isProfileCompleted
     } = this.props
+
+    const { id } = this.state
     return (
       <div className='middle-container small-12 large-6 columns'>
         <AnnouncementTile/>
         {isProfileCompleted && this.checkReaderAwards() ? null : <ProfileDetailerTile />}
 
-        <StatusPost targetId={userId} postNewTile={prependReadFeedTile}/>
+        <StatusPost targetId={id} postNewTile={prependReadFeedTile}/>
         <TileScroller
           fetchTiles={(params) => this.props.getReadFeedTiles(params)}
           tiles={readFeed}
