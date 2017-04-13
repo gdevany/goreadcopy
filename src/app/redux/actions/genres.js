@@ -18,6 +18,22 @@ export function getGenres(search) {
   }
 }
 
+export function getOnboardingGenres(search) {
+  return dispatch => {
+    return Readers.getOnboardingGenres()
+      .then(res => dispatch(updateGenres(fromPaginated(res))))
+      //.catch((err) => console.error(`Error in getGenres api call: ${err}`))
+  }
+}
+
+export function getHomeGenres(search) {
+  return dispatch => {
+    return Readers.getHomeGenres()
+      .then(res => dispatch(updateGenres(fromPaginated(res))))
+      //.catch((err) => console.error(`Error in getGenres api call: ${err}`))
+  }
+}
+
 export function searchGenres(search) {
   const debounceSearch = () => {
     return debounce(dispatch => {
@@ -53,6 +69,8 @@ export function updateGenres(genres) {
 
 export default {
   getGenres,
+  getHomeGenres,
+  getOnboardingGenres,
   createChosenReaderGenres,
   updateGenres,
   updateGenreLitcoins,
