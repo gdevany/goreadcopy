@@ -89,6 +89,7 @@ class AuthorRecSummary extends Component {
       image,
       description,
       booksWritten,
+      link,
     } = this.props
 
     const { isChosen } = this.state
@@ -98,15 +99,17 @@ class AuthorRecSummary extends Component {
     return (
       <div className='row' style={styles.item} key={id}>
         <div className='small-12 columns'>
-          <CardHeader
-            title={title}
-            titleStyle={styles.nameText}
-            textStyle={styles.textContainer}
-            subtitle={subtitle}
-            subtitleStyle={styles.subTitleText}
-            avatar={image}
-            style={styles.infoContainer}
-          />
+          <a href={link}>
+            <CardHeader
+              title={title}
+              titleStyle={styles.nameText}
+              textStyle={styles.textContainer}
+              subtitle={subtitle}
+              subtitleStyle={styles.subTitleText}
+              avatar={image}
+              style={styles.infoContainer}
+            />
+          </a>
 
           <Chip
             key={id}
