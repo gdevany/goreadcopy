@@ -64,8 +64,8 @@ class StatusPostTile extends PureComponent {
       },
       content
     } = this.props
-    const splittedContent = this.splitContent(content.description)
 
+    const splittedContent = this.splitContent(content.description)
     const splittedPostContent = this.splitContent(content.socialPostComment)
 
     let videoInfo = ''
@@ -87,7 +87,7 @@ class StatusPostTile extends PureComponent {
           <div className='post-excerpt-container'>
             <p className='post-excerpt-pharagraph'>
               {
-                content.mentionsPostList !== null ?
+                content.mentionsPostList !== null || content.socialPostComment !== 'None' ?
                   (
                     splittedPostContent.map((entry, index) => {
                       return this.renderContentWithMentions(entry, index, content.mentionsPostList)

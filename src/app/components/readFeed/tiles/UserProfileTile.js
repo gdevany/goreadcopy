@@ -89,7 +89,7 @@ class UserProfileTile extends PureComponent {
         <div className='post-excerpt-container'>
           <p className='post-excerpt-pharagraph'>
             {
-              content.mentionsList !== null ?
+              content.mentionsList !== null || content.socialComment !== 'None' ?
                 (
                   splittedContent.map((entry, index) => {
                     return this.renderContentWithMentions(entry, index, content.mentionsList)
