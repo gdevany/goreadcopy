@@ -1,12 +1,52 @@
 import React, { PureComponent } from 'react'
-import TileDefault from '../TileDefault'
-import LocationIcon from 'material-ui/svg-icons/communication/location-on'
 import { Link } from 'react-router'
+import TileDefault from '../TileDefault'
+import Anchorify from 'react-anchorify-text'
+import LocationIcon from 'material-ui/svg-icons/communication/location-on'
+
+const mentionRegex = /(\@\[\d+\:\d+\])/gi
 
 class UserProfileTile extends PureComponent {
 
   truncInfo = (text, limit) => {
     return text.length >= limit ? `${text.slice(0, limit)}...` : text
+  }
+
+  splitContent(content) {
+    return content.split(mentionRegex)
+  }
+
+  splitMention(content) {
+    return content.split('/')
+  }
+
+  renderContentWithMentions(entry, index, mentionList) {
+    if (mentionRegex.test(entry)) {
+      for (let i = 0; i < mentionList.length; i++) {
+        if (mentionList[i].mention === entry) {
+          const splitResult = this.splitMention(mentionList[i].url)
+          if (splitResult && splitResult[3] === 'profile') {
+            return (
+              <Link key={index} to={`profile/${splitResult[splitResult.length - 2]}`}>
+                {mentionList[i].name}
+              </Link>
+            )
+          }
+          return (
+            <a key={index} href={mentionList[i].url}>
+              {mentionList[i].name}
+            </a>
+          )
+        }
+      }
+    }
+    return (
+      <span key={index}>
+        <Anchorify
+          text={entry}
+          target='_blank'
+        />
+      </span>)
   }
 
   render() {
@@ -23,6 +63,8 @@ class UserProfileTile extends PureComponent {
       },
       content
     } = this.props
+
+    const splittedContent = this.splitContent(content.socialComment)
 
     const {
       city,
@@ -46,7 +88,14 @@ class UserProfileTile extends PureComponent {
       >
         <div className='post-excerpt-container'>
           <p className='post-excerpt-pharagraph'>
-            {content.socialComment ? content.socialComment : null}
+            {
+              content.mentionsList !== null ?
+                (
+                  splittedContent.map((entry, index) => {
+                    return this.renderContentWithMentions(entry, index, content.mentionsList)
+                  })
+                ) : null
+            }
           </p>
         </div>
         <div className='userprofile-tile-container'>
