@@ -53,13 +53,14 @@ class StatusPost extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.state.targetId && !this.props.targetId && nextProps.targetId) {
-      this.setState({ targetId: nextProps.targetId })
-    }
+    this.setState({ targetId: nextProps.targetId })
   }
 
   onUploadButtonClick(event) {
     event.preventDefault()
+    this.setState({
+      textareaOpen: true,
+    })
     this.dropzone.open()
   }
 
@@ -129,6 +130,7 @@ class StatusPost extends PureComponent {
   }
 
   handleTextChange(event) {
+    event.preventDefault()
     const body = event.target.value
     const { showSuggestions, onProcessMentions } = this.checkMentions(body)
     const { activeContent, videoInfo, showVideoPreview } = this.checkVideoUrl(body)
@@ -161,12 +163,10 @@ class StatusPost extends PureComponent {
   }
 
   checkVideoUrl(latestBody) {
-    if (this.state.imageInfo) {
-      return null
-    }
+
     const videoUrls = latestBody.match(videoPattern)
-    let activeContent = '', videoInfo = null, showVideoPreview = false
-    if (videoUrls && videoUrls.length > 0) {
+    let activeContent = '', videoInfo = '', showVideoPreview = false
+    if (videoUrls && videoUrls.length > 0 && !this.state.imageInfo) {
       activeContent = R.last(videoUrls)
       videoInfo = urlParser.parse(activeContent)
       showVideoPreview = true
@@ -362,7 +362,7 @@ class StatusPost extends PureComponent {
             ref='statuspost'
             className={this.state.textareaOpen ?
               'status-post-textarea-open' : 'status-post-textarea'}
-            placeholder='Type inside me'
+            placeholder='Comment here'
             onClick={this.handleTextAreaClick}
             onChange={this.handleTextChange} value={this.state.body}
             autoFocus
