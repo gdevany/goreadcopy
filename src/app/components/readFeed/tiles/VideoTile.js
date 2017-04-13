@@ -4,6 +4,8 @@ import TileDefault from '../TileDefault'
 import ReactPlayer from 'react-player'
 import Anchorify from 'react-anchorify-text'
 
+const mentionRegex = /(\@\[\d+\:\d+\])/gi
+
 class VideoTile extends PureComponent {
 
   splitContent(content) {
