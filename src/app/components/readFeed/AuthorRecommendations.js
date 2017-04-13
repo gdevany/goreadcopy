@@ -36,6 +36,7 @@ class AuthorRecommendations extends PureComponent {
         fullname,
         imageUrl,
         booksWritten,
+        url,
       } = author
       return (
         <div className='column column-block' key={id}>
@@ -44,6 +45,7 @@ class AuthorRecommendations extends PureComponent {
             key={id}
             title={fullname}
             image={imageUrl}
+            link={url}
             description={'Nothing about me yet'}
             booksWritten={booksWritten}
             context={READ_FEED}
