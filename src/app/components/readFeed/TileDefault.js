@@ -98,12 +98,14 @@ const styles = {
     textAlign: 'center',
   },
   commentContainer: {
-    borderTop: `2px solid ${Colors.lightGrey}`,
+    borderTop: '2px solid #F4F4F4',
+    opacity: '100',
     padding: 0,
   },
   commentActions: {
-    borderBottom: `2px solid ${Colors.lightGrey}`,
+    borderBottom: '2px solid #F4F4F4',
     fontSize: 14,
+    opacity: '100',
     padding: '10px 20px',
   },
   likesContainer: {
@@ -145,8 +147,9 @@ const styles = {
     boxShadow: 'rgba(222, 222, 222, 0.5) 0px 4px 20px 0px',
   },
   postInput: {
-    border: `1px solid ${Colors.lightMedGrey}`,
+    border: '1px solid #F4F4F4',
     borderRadius: 3,
+    opacity: '100',
     outline: 'none',
     marginLeft: 85,
     maxWidth: 450,
@@ -195,11 +198,17 @@ class TileDefault extends PureComponent {
       replyPlaceholder: false,
       isAutofocus: false,
       modalLogInOpen: false,
-      userLogged: false
+      userLogged: false,
+      isProfilePage: false,
+      isMyProfile: false,
     }
 
     this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
 
+  }
+
+  static contextTypes = {
+    router: PropTypes.object
   }
 
   renderTime = (time) => {
@@ -207,6 +216,14 @@ class TileDefault extends PureComponent {
       return moment(moment.unix(time)).fromNow()
     }
     return time
+  }
+
+  componentWillMount = () => {
+    if (this.context.router.params.slug) {
+      this.setState({
+        isProfilePage: true,
+      })
+    }
   }
 
   componentDidMount = () => {
@@ -220,6 +237,11 @@ class TileDefault extends PureComponent {
     if (nextProps.token) {
       this.setState({
         userLogged: true,
+      })
+    }
+    if (nextProps.slug === this.context.router.params.slug) {
+      this.setState({
+        isMyProfile: true,
       })
     }
   }
@@ -545,6 +567,8 @@ class TileDefault extends PureComponent {
       commentsOpen,
       sharePostOpen,
       sharedCount,
+      isMyProfile,
+      isProfilePage
     } = this.state
 
     const {
@@ -583,6 +607,14 @@ class TileDefault extends PureComponent {
                 </span>
               </div>
             </div>
+            {
+              isProfilePage && isMyProfile ?
+              (
+                <div>
+                  Hola mundo
+                </div>
+              ) : null
+            }
           </div>
           <CardText style={styles.contentContainer} className='tile-main-content'>
             {this.props.children}
@@ -775,6 +807,7 @@ const mapStateToProps = ({
     url,
     profileImage,
     token,
+    slug,
   },
   tiles: {
     feedComments
@@ -785,7 +818,8 @@ const mapStateToProps = ({
     fullname,
     url,
     profileImage,
-    token
+    token,
+    slug
   }
 }
 

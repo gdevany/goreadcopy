@@ -289,55 +289,61 @@ class NavMenu extends PureComponent {
         className='profile-menu-container'
         onMouseLeave={this.handleProfileMenuHide}
       >
-        <li className='profile-menu-element'>
-          {currentReader.hasAuthorBuzz ||
+        {
+          currentReader.hasAuthorBuzz ||
+           (currentReader.hasPublisherBuzz && currentReader.isPublisher) ?
+           (
+             <li className='profile-menu-element'>
+               <div className='publishing-as-container'>
+                 <label className='publishing-as-label'>
+                   Use Platform as
+                 </label>
+                 <ul className='publishing-as-ul-container'>
+                   <li className='publishing-as-list'>
+                     <a
+                       onClick={() => this.handlePlatformUse('reader')}
+                       className={usePlatformAs === 'reader' ?
+                       ('publishing-as-active') : ('publishing-as-anchor')}
+                     >
+                       Reader
+                     </a>
+                   </li>
+                   {currentReader.hasAuthorBuzz ?
+                     (
+                       <li className='publishing-as-list'>
+                         <a
+                           onClick={() => this.handlePlatformUse('author')}
+                           className={usePlatformAs === 'author' ?
+                           ('publishing-as-active') : ('publishing-as-anchor')}
+                         >
+                           Author
+                         </a>
+                       </li>
+                     ) : null
+                   }
+                   {currentReader.hasPublisherBuzz && currentReader.isPublisher ? (
+                     <li className='publishing-as-list'>
+                       <a
+                         onClick={() => this.handlePlatformUse('publisher')}
+                         className={usePlatformAs === 'publisher' ?
+                         ('publishing-as-active') : ('publishing-as-anchor')}
+                       >
+                         Publisher
+                       </a>
+                     </li>
+                   ) : null}
+                 </ul>
+               </div>
+              </li>
+           ) : null
+        }
+        {
+          currentReader.hasAuthorBuzz ||
            (currentReader.hasPublisherBuzz && currentReader.isPublisher) ?
             (
-              <div className='publishing-as-container'>
-                <label className='publishing-as-label'>
-                  Use Platform as
-                </label>
-                <ul className='publishing-as-ul-container'>
-                  <li className='publishing-as-list'>
-                    <a
-                      onClick={() => this.handlePlatformUse('reader')}
-                      className={usePlatformAs === 'reader' ?
-                      ('publishing-as-active') : ('publishing-as-anchor')}
-                    >
-                      Reader
-                    </a>
-                  </li>
-                  {currentReader.hasAuthorBuzz ?
-                    (
-                      <li className='publishing-as-list'>
-                        <a
-                          onClick={() => this.handlePlatformUse('author')}
-                          className={usePlatformAs === 'author' ?
-                          ('publishing-as-active') : ('publishing-as-anchor')}
-                        >
-                          Author
-                        </a>
-                      </li>
-                    ) : null
-                  }
-                  {currentReader.hasPublisherBuzz && currentReader.isPublisher ? (
-                    <li className='publishing-as-list'>
-                      <a
-                        onClick={() => this.handlePlatformUse('publisher')}
-                        className={usePlatformAs === 'publisher' ?
-                        ('publishing-as-active') : ('publishing-as-anchor')}
-                      >
-                        Publisher
-                      </a>
-                    </li>
-                  ) : null}
-                </ul>
-              </div>
+            <hr className='profile-menu-divider' />
             ) : null
-          }
-
-        </li>
-        <hr className='profile-menu-divider' />
+        }
         <li className='profile-menu-element'>
           <Link
             to={`/profile/${currentReader.slug}`}

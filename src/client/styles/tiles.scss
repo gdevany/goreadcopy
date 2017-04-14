@@ -462,7 +462,8 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin-bottom: .5em;
+    margin-bottom: 15px;
+    margin-top: 15px;
     .adv-learn-more-btn{
       background-color: rgb(255, 255, 255);
       border: 1px solid rgb(0, 66, 214);
@@ -512,6 +513,7 @@
   width: 100%;
   text-align: justify;
   word-wrap: break-word;
+  margin-bottom: 15px;
   .post-excerpt-pharagraph{
     margin: 0;
     font-size: 14px;
