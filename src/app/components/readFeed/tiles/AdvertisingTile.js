@@ -86,30 +86,26 @@ class AdvertisingTile extends PureComponent {
               }
             </p>
           </div>
-          <figure className='heading-overflow-figure'>
-            <a href={content.link}>
+          <a href={content.link}>
+            <figure className='heading-overflow-figure'>
               <img className='heading-img' src={content.image} alt='advertising'/>
-            </a>
-          </figure>
-          <div className='adv-content'>
-            <h2 className='adv-title'>
-              <a href={content.link}>
+            </figure>
+            <div className='adv-content'>
+              <h2 className='adv-title'>
                 {content.heading}
-              </a>
-            </h2>
-            <div className='post-excerpt-container'>
-              <p className='post-excerpt-pharagraph'>
-                <a href={content.link}>
+              </h2>
+              <div className='post-excerpt-container'>
+                <p className='post-excerpt-pharagraph'>
                   {content.description}
-                </a>
-              </p>
+                </p>
+              </div>
             </div>
-          </div>
-          <div className='action-btn-container'>
-            <a href={content.link} className='adv-learn-more-btn'>
-              Learn more
-            </a>
-          </div>
+            <div className='action-btn-container'>
+              <a href={content.link} className='adv-learn-more-btn'>
+                Learn more
+              </a>
+            </div>
+          </a>
         </div>
       </TileDefault>
     )
