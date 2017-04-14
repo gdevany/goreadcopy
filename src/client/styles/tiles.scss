@@ -40,6 +40,7 @@
   flex-direction: row;
   width: 100%;
   padding: 30px;
+  position: relative;
   .tile-actor-figure{
     width: 45px;
     .tile-actor-image{
@@ -80,6 +81,75 @@
       align-self: flex-start;
       font-size: 14px;
       color: rgb(151, 151, 151);
+    }
+  }
+  .tile-action-container{
+    position: absolute;
+    right: 15px;
+    top: 35px;
+    svg{
+      &:hover{
+        cursor: pointer;
+      }
+      path {
+        fill: $light-med-grey
+      }
+    }
+    .tile-action-pop-menu{
+      position: absolute;
+      right: -10px;
+      top: 30px;
+      background: white;
+      border-radius: 10px;
+      border: solid 1px #F4F4F4;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+      list-style: none;
+      margin: 0;
+      width: 85px;
+      display: flex;
+      flex-direction: column;
+      &:before{
+        position: absolute;
+        top: -11px;
+        right: 10px;
+        border-right: 11px solid transparent;
+        border-bottom: 11px solid transparent;
+        border-left: 11px solid transparent;
+        border-bottom-color: #F4F4F4;
+        content: '';
+      }
+      &:after{
+        position: absolute;
+        top: -10px;
+        right: 11px;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid #ffffff;
+        border-left: 10px solid transparent;
+        content: '';
+      }
+      .tile-action-element-container{
+        width: 100%;
+        .tile-action-anchor{
+          display: block;
+          width: 100%;
+          padding: 0 1em;
+          text-align: right;
+          color: #626262;
+          font-size: 14px;
+        }
+        &:first-child{
+          .tile-action-anchor{
+            padding-top: .5em;
+            padding-bottom: .25em;
+          }
+        }
+        &:last-child{
+          .tile-action-anchor{
+            padding-top: .25em;
+            padding-bottom: .5em;
+          }
+        }
+      }
     }
   }
 }

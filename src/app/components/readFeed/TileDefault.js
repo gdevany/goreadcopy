@@ -4,6 +4,7 @@ import { Tiles } from '../../redux/actions'
 import { PrimaryButton } from '../common'
 import { RegisterSignInModal } from '../common'
 import { Colors } from '../../constants/style'
+import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import { Auth } from '../../services'
 import {
   Card,
@@ -201,9 +202,12 @@ class TileDefault extends PureComponent {
       userLogged: false,
       isProfilePage: false,
       isMyProfile: false,
+      actionMenuOpen: false,
     }
 
     this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
+    this.handleActionMenuShow = this.handleActionMenuShow.bind(this)
+    this.handleActionMenuHide = this.handleActionMenuHide.bind(this)
 
   }
 
@@ -250,6 +254,18 @@ class TileDefault extends PureComponent {
     const { likedCount } = this.state
     const { tileId, updateLikes } = this.props
     if (prevState.likedCount !== likedCount) updateLikes(tileId, { liked: true })
+  }
+
+  handleActionMenuShow = () => {
+    if (!this.state.actionMenuOpen) {
+      this.setState({ actionMenuOpen: true })
+    } else {
+      this.setState({ actionMenuOpen: false })
+    }
+  }
+
+  handleActionMenuHide = () => {
+    this.setState({ actionMenuOpen: false })
   }
 
   handleLogInModalClose = () => {
@@ -610,8 +626,27 @@ class TileDefault extends PureComponent {
             {
               isProfilePage && isMyProfile ?
               (
-                <div>
-                  Hola mundo
+                <div className='tile-action-container'>
+                  <ArrowDownIcon onClick={this.handleActionMenuShow} />
+                  { this.state.actionMenuOpen ?
+                    (
+                      <ul
+                        className='tile-action-pop-menu'
+                        onMouseLeave={this.handleActionMenuHide}
+                      >
+                        <li className='tile-action-element-container'>
+                          <a className='tile-action-anchor'>
+                            Edit
+                          </a>
+                        </li>
+                        <li className='tile-action-element-container'>
+                          <a className='tile-action-anchor'>
+                            Delete
+                          </a>
+                        </li>
+                      </ul>
+                    ) : null
+                  }
                 </div>
               ) : null
             }
