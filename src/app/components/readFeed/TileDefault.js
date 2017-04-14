@@ -89,8 +89,9 @@ const styles = {
     margin: 0,
   },
   socialWrapper: {
-    borderTop: `2px solid ${Colors.lightGrey}`,
+    borderTop: '2px solid #F4F4F4',
     fontSize: 14,
+    opacity: '100',
     padding: '20px 30px',
   },
   commentIconContainer: {
