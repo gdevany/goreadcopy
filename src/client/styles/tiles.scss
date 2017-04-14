@@ -136,6 +136,9 @@
           text-align: right;
           color: #626262;
           font-size: 14px;
+          &:hover{
+            color: $blue;
+          }
         }
         &:first-child{
           .tile-action-anchor{
