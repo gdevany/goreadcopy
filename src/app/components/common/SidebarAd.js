@@ -20,12 +20,11 @@ class SidebarAd extends PureComponent {
               <div className='post-excerpt-container'>
                 <p className='post-excerpt-pharagraph'>
                   {content.description}
-                  <a
-                    href={content.isExternalTarget ? content.targetUrl : content.url}
+                  <span
                     className='post-readmore-anchor'
                   >
                     Read more
-                  </a>
+                  </span>
                 </p>
               </div>
             </div>
