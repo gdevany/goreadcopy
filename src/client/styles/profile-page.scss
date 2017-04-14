@@ -451,9 +451,10 @@
 }
 .right-profile-container{
   padding: 0 .5em;
-  // @media all and (min-width: 1024px){
-  //   position: fixed;
-  // }
+  display: none;
+  @media all and (min-width: 1024px){
+    display: block;
+  }
   .base-tile-sidebar-container{
     padding: 0;
     .adv-sidebar-container{

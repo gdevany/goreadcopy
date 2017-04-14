@@ -131,16 +131,26 @@ class StatusPostTile extends PureComponent {
                   (
                     <a href={content.activeContent.url}>
                       <div className='active-content-link-container'>
-                          <figure className='active-content-link-figure'>
-                            <img src={content.activeContent.thumbnailUrl}/>
-                          </figure>
+                          {content.activeContent.thumbnailUrl !== undefined ?
+                            (
+                              <figure className='active-content-link-figure'>
+                                <img src={content.activeContent.thumbnailUrl}/>
+                              </figure>
+                            ) : null
+                          }
                           <div className='active-content-description'>
-                            <h5>
-                              {content.activeContent.title}
-                            </h5>
+                            {content.activeContent.title !== undefined ?
+                              (
+                                <h5>
+                                  {content.activeContent.title}
+                                </h5>
+                              ) : null
+                            }
                             <div className='post-excerpt-container'>
                               <p className='post-excerpt-pharagraph'>
-                                {this.truncInfo(content.activeContent.description, 120)}
+                                {content.activeContent.description !== undefined ?
+                                  this.truncInfo(content.activeContent.description, 120) : null
+                                }
                               </p>
                             </div>
                           </div>
