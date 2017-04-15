@@ -41,7 +41,7 @@
   width: 100%;
   padding: 30px;
   .tile-actor-figure{
-    width: 42px;
+    width: 45px;
     .tile-actor-image{
       border-radius: 23px;
       border: solid 1px #dedede;
@@ -514,13 +514,18 @@
   width: 100%;
   text-align: justify;
   word-wrap: break-word;
+  margin-bottom: 15px;
   .post-excerpt-pharagraph{
     margin: 0;
     font-size: 14px;
-    color: $grey;
+    color: $black;
+    a{
+      font-weight: 600;
+      color: $blue;
+    }
     .post-readmore-anchor{
       text-decoration: underline;
-      color: $grey;
+      color: $black;
       margin-left: .5em;
       font-size: 15px;
     }
