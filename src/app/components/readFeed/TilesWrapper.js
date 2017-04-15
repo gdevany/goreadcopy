@@ -24,8 +24,8 @@ const TilesWrapper = ({ feed }) => {
       return moment(moment.unix(time)).fromNow()
     } else if (timeType === 'time-date') {
       return {
-        date: moment.unix(time).format('MMMM DD'),
-        time: moment.unix(time).format('HA')
+        date: moment(time).format('MMMM DD'),
+        time: moment(time).format('HA')
       }
     }
     return time
