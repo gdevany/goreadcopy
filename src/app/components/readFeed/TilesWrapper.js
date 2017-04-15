@@ -145,6 +145,7 @@ const TilesWrapper = ({ feed }) => {
             />
           )
           break
+        case 'event':
         case 'bookclub_event':
         case 'buzzappearance':
           const eventContent = {
