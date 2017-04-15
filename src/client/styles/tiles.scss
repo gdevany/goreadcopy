@@ -229,13 +229,14 @@
     .video-player{
       width: 100% !important;
       height: 180px  !important;
+      margin: 0 auto;
       @media all and (min-width: 600px){
-        width: 80% !important;
-        height: 275px !important;
+        width: 100% !important;
+        height: 186px !important;
       }
       @media all and (min-width: 768px){
         width: 100% !important;
-        height: 400px !important;
+        height: 210px !important;
       }
       @media all and (min-width: 1024px){
         width: 100% !important;
@@ -362,13 +363,14 @@
     .video-player{
       width: 100% !important;
       height: 180px  !important;
+      margin: 0 auto;
       @media all and (min-width: 600px){
-        width: 80% !important;
-        height: 275px !important;
+        width: 100% !important;
+        height: 186px !important;
       }
       @media all and (min-width: 768px){
         width: 100% !important;
-        height: 400px !important;
+        height: 210px !important;
       }
       @media all and (min-width: 1024px){
         width: 100% !important;
@@ -779,17 +781,24 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-direction: row;
+  flex-direction: column;
   padding: 1em;
   border: solid 1px $light-med-grey;
   box-shadow: rgba(222, 222, 222, 0.498039) 0px 4px 20px 0px;
+  @media all and (min-width: 768px) {
+    flex-direction: row;
+  }
   .active-content-link-figure{
     width: 200px;
     height: auto;
     overflow: hidden;
   }
   .active-content-description{
-    margin-left: 1em;
+    margin-top: 1em;
+    @media all and (min-width: 768px){
+      margin-top: 0;
+      margin-left: 1em;
+    }
     h5{
       text-align: left;
       text-transform: capitalize;
