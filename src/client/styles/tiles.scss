@@ -26,9 +26,7 @@
         text-align: left;
         margin: 20px 0 10px;
         font-weight: 400;
-        a{
-          word-wrap: break-word;
-        }
+        word-wrap: break-word;
       }
     }
   }
@@ -528,6 +526,7 @@
       color: $black;
       margin-left: .5em;
       font-size: 15px;
+      word-wrap: break-word;
     }
   }
 }
