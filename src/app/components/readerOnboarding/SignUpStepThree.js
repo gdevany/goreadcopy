@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import SignUpButtons from './SignUpButtons'
 import Checkbox from './Checkbox'
 import { Recommended } from '../../redux/actions'
-import { Collections, Genres } from '../../services'
+import { Collections } from '../../services'
 import { Colors, Breakpoints } from '../../constants/style'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 
@@ -75,13 +75,6 @@ const {
   updateRecommendedLitcoins
 } = Recommended
 
-const MAX_USERS_PER_SECTION = 6
-const allAuthors = R.compose(R.flatten, R.map(Genres.authors))
-const allReaders = R.compose(R.flatten, R.map(Genres.readers))
-
-// TODO: use shuffle and/or put these values in state?
-const displayable = R.take(MAX_USERS_PER_SECTION)
-
 const UsersRow = ([firstUser, secondUser], i) => {
   return (
     <div className='row' key={i + '_users_row'}>
@@ -117,7 +110,7 @@ class SignUpStepThree extends PureComponent {
   }
 
   componentWillMount = () => {
-    this.props.getOnboardingRecommendation(6)
+    this.props.getOnboardingRecommendation(this.props.RecommendationsAmount)
   }
 
   componentDidUpdate = () => {
@@ -159,6 +152,39 @@ class SignUpStepThree extends PureComponent {
     }
   })
 
+  allAuthors = (recommended) => {
+    const authors = recommended.length ? recommended[0].authors : false
+    let authorsToShow = []
+
+    if (authors) {
+      const buzzAuthors = authors.buzz
+      const nonBuzzAuthors = authors.nonBuzz
+      const buzzAuthorsToShow = R.take(this.props.BuzzAuthorsRecommendations, buzzAuthors)
+      const nonBuzzAuthorsToShow = R.take(this.props.NonBuzzAuthorsRecommendations,
+                                          nonBuzzAuthors)
+      authorsToShow = R.concat(buzzAuthorsToShow, nonBuzzAuthorsToShow)
+    }
+
+    return authorsToShow
+  }
+
+  allReaders = (recommended) => {
+    const readers = recommended.length ? recommended[0].readers : false
+    let readersToShow = []
+
+    if (readers) {
+      const newLastFourteenDays = readers.newLastFourteenDays
+      const loggedLastThirtyDays = readers.loggedLastThirtyDays
+      const newLastFourteenDaysToShow = R.take(this.props.NewReadersRecommendations,
+                                               newLastFourteenDays)
+      const loggedLastThirtyDaysToShow = R.take(this.props.OldReadersRecommendations,
+                                                loggedLastThirtyDays)
+      readersToShow = R.concat(newLastFourteenDaysToShow, loggedLastThirtyDaysToShow)
+    }
+
+    return readersToShow
+  }
+
   handleSelectAll() {
     const selectAll = !this.state.selectAll
     const { recommended, clickedSelectAll } = this.props
@@ -167,8 +193,8 @@ class SignUpStepThree extends PureComponent {
     const selectedUsersState =
       selectAll ?
       {
-        chosenReaders: R.map(idAsNumber, displayable(allReaders(recommended))),
-        chosenAuthors: R.map(idAsNumber, displayable(allAuthors(recommended))),
+        chosenReaders: R.map(idAsNumber, this.allReaders(recommended)),
+        chosenAuthors: R.map(idAsNumber, this.allAuthors(recommended)),
       } :
       {
         chosenReaders: [],
@@ -242,8 +268,8 @@ class SignUpStepThree extends PureComponent {
       shouldSubmit,
       showLoader,
     } = this.state
-    const readers = this.checkBoxesFor('readers', displayable(allReaders(recommended)))
-    const authors = this.checkBoxesFor('authors', displayable(allAuthors(recommended)))
+    const readers = this.checkBoxesFor('readers', this.allReaders(recommended))
+    const authors = this.checkBoxesFor('authors', this.allAuthors(recommended))
 
     return (
       <div style={styles.container} className='card front-card'>
@@ -347,6 +373,14 @@ const mapDispatchToProps = {
   searchRecommendation,
   choseRecommendation,
   updateRecommendedLitcoins,
+}
+
+SignUpStepThree.defaultProps = {
+  RecommendationsAmount: 6,
+  BuzzAuthorsRecommendations: 3,
+  NonBuzzAuthorsRecommendations: 3,
+  NewReadersRecommendations: 2,
+  OldReadersRecommendations: 4,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(SignUpStepThree))
