@@ -157,11 +157,12 @@ class SignUpStepThree extends PureComponent {
     let authorsToShow = []
 
     if (authors) {
-      const buzzAuthors = authors.buzz
-      const nonBuzzAuthors = authors.nonBuzz
-      const buzzAuthorsToShow = R.take(this.props.BuzzAuthorsRecommendations, buzzAuthors)
-      const nonBuzzAuthorsToShow = R.take(this.props.NonBuzzAuthorsRecommendations,
-                                          nonBuzzAuthors)
+      const buzzAuthors = R.prop('buzz', authors) ? authors.buzz : []
+      const nonBuzzAuthors = R.prop('nonBuzz') ? authors.nonBuzz : []
+      const buzzAuthorsToShow = buzzAuthors ?
+          R.take(this.props.BuzzAuthorsRecommendations, buzzAuthors) : []
+      const nonBuzzAuthorsToShow = nonBuzzAuthors ?
+          R.take(this.props.NonBuzzAuthorsRecommendations, nonBuzzAuthors) : []
       authorsToShow = R.concat(buzzAuthorsToShow, nonBuzzAuthorsToShow)
     }
 
@@ -169,16 +170,18 @@ class SignUpStepThree extends PureComponent {
   }
 
   allReaders = (recommended) => {
-    const readers = recommended.length ? recommended[0].readers : false
+    const readers = recommended.length ? recommended[0].authors : false
     let readersToShow = []
 
     if (readers) {
-      const newLastFourteenDays = readers.newLastFourteenDays
-      const loggedLastThirtyDays = readers.loggedLastThirtyDays
-      const newLastFourteenDaysToShow = R.take(this.props.NewReadersRecommendations,
-                                               newLastFourteenDays)
-      const loggedLastThirtyDaysToShow = R.take(this.props.OldReadersRecommendations,
-                                                loggedLastThirtyDays)
+      const newLastFourteenDays = R.prop('newLastFourteenDays', readers) ?
+          readers.newLastFourteenDays : false
+      const loggedLastThirtyDays = R.prop('loggedLastThirtyDays', readers) ?
+          readers.loggedLastThirtyDays : false
+      const newLastFourteenDaysToShow = newLastFourteenDays ?
+          R.take(this.props.NewReadersRecommendations, newLastFourteenDays) : []
+      const loggedLastThirtyDaysToShow = loggedLastThirtyDays ?
+          R.take(this.props.OldReadersRecommendations, loggedLastThirtyDays) : []
       readersToShow = R.concat(newLastFourteenDaysToShow, loggedLastThirtyDaysToShow)
     }
 
