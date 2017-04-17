@@ -170,7 +170,7 @@ class SignUpStepThree extends PureComponent {
   }
 
   allReaders = (recommended) => {
-    const readers = recommended.length ? recommended[0].authors : false
+    const readers = recommended.length ? recommended[0].readers : false
     let readersToShow = []
 
     if (readers) {
