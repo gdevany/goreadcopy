@@ -22,7 +22,7 @@ class AuthorRecommendations extends PureComponent {
   }
 
   componentDidMount = () => {
-    this.props.getRecommendedAuthors(3)
+    this.props.getRecommendedAuthors(this.props.authorsToShow)
   }
 
   handleAuthorClick = () => {
@@ -56,6 +56,16 @@ class AuthorRecommendations extends PureComponent {
     })
   }
 
+  renderRecommendedAuthors = (authors) => {
+    const buzzAuthorsSize = Math.round((this.props.authorsToShow * 65) / 100)
+    const limitedBuzzAuthors = authors.buzz.results.slice(0, buzzAuthorsSize)
+    const lastBuzzAuthorsSize = this.props.authorsToShow - buzzAuthorsSize
+    const limitedLastBuzzAuthors = authors.buzzLastDays.results.slice(0, lastBuzzAuthorsSize)
+    const buzzAuthors = limitedBuzzAuthors.concat(limitedLastBuzzAuthors)
+
+    return this.renderAuthors(buzzAuthors)
+  }
+
   render() {
     const { recommended } = this.props
     const authors = recommended ? recommended.authors : null
@@ -67,7 +77,7 @@ class AuthorRecommendations extends PureComponent {
         {/** Derrick, feel free to change how it's rendered in different views: **/}
         <div className='row small-up-1'>
           { authors ?
-            this.renderAuthors(authors.buzz.results) : <div className='loading-animation'/>
+            this.renderRecommendedAuthors(authors) : <div className='loading-animation'/>
           }
         </div>
         {/* <div className='sub-link'>
@@ -99,6 +109,10 @@ const mapStateToProps = ({
 const mapDispatchToProps = {
   getRecommendedAuthors,
   getFollowersAndFollowed,
+}
+
+AuthorRecommendations.defaultProps = {
+  authorsToShow: 3
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthorRecommendations)
