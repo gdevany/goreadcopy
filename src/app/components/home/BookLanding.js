@@ -7,6 +7,7 @@ import { ExternalRoutes as routes } from '../../constants'
 import { Genres, Books } from '../../redux/actions'
 import { Book } from '../common'
 import { Colors, Breakpoints } from '../../constants/style'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
 
 const { getHomeGenres } = Genres
 const { getBooks } = Books
@@ -96,6 +97,10 @@ const styles = {
     fontWeight: '600',
     color: Colors.blue,
   },
+  refresh: {
+    display: 'inline-block',
+    position: 'relative',
+  },
 }
 
 class BookLanding extends PureComponent {
@@ -103,6 +108,7 @@ class BookLanding extends PureComponent {
     super(props)
     this.state = {
       genreSelected: 'Popular',
+      genreClicked: false,
     }
   }
 
@@ -110,6 +116,14 @@ class BookLanding extends PureComponent {
     const { books, genres, getBooks, getHomeGenres } = this.props
     if (R.isEmpty(books)) { getBooks() }
     if (R.isEmpty(genres)) { getHomeGenres() }
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.books !== this.props.books) {
+      this.setState({
+        genreClicked: true,
+      })
+    }
   }
 
   handleMapGenres = (genres) => {
@@ -147,7 +161,6 @@ class BookLanding extends PureComponent {
         )
       }))
     }
-
     return result
   }
 
@@ -163,6 +176,7 @@ class BookLanding extends PureComponent {
     }
     this.setState({
       genreSelected,
+      genreClicked: false,
     })
   }
 
@@ -222,7 +236,18 @@ class BookLanding extends PureComponent {
         </div>
 
         <div className='row slide-up' style={styles.bookSection}>
-          {this.handleMapBooks(books)}
+          {books && this.state.genreClicked ? this.handleMapBooks(books) : (
+            <div className='small-12 center-text columns'>
+              <RefreshIndicator
+                size={50}
+                left={0}
+                top={0}
+                loadingColor={Colors.blue}
+                status='loading'
+                style={styles.refresh}
+              />
+            </div>
+          )}
         </div>
       </div>
     )

@@ -201,6 +201,7 @@ const TilesWrapper = ({ feed }) => {
             />
           )
           break
+        case 'bookclub_post':
         case 'bookclub':
           const bookClubContent = {
             image: tileContent.image,
