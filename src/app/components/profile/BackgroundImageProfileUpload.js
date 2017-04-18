@@ -53,7 +53,7 @@ class BackgroundImageProfileUpload extends PureComponent {
       'camera-solid'
 
     return (
-      <div className='profile-top'>
+      <div className='profile-top profile-page-img-wrapper'>
         <div className='background-image-wrapper'>
           {
             backgroundImage || backgroundImageUpload ?

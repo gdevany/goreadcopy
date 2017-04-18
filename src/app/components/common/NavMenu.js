@@ -27,8 +27,9 @@ const styles = {
   navContainer: {
     backgroundColor: Colors.white,
     padding: '0 20px',
-    position: 'relative',
+    position: 'fixed',
     zIndex: 10,
+    width: '100%'
   },
 
   navLinks: {
