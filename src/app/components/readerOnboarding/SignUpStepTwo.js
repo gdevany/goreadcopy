@@ -171,7 +171,7 @@ class SignUpStepTwo extends PureComponent {
         <div style={styles.container} className='card center-text front-card'>
 
           <h1>
-            Add your favorite genres
+            Add your favorite categories
           </h1>
 
           <p className='subheader-text'>
