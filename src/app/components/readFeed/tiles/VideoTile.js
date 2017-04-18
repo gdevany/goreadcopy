@@ -59,8 +59,9 @@ class VideoTile extends PureComponent {
       },
       content
     } = this.props
-    const splittedContent = content.socialComment !== null && content.socialComment !== undefined ?
-      this.splitContent(content.socialComment) : null
+
+    const splittedContent = this.splitContent(content.socialComment)
+
     return (
       <TileDefault
         tileId={id}
@@ -76,10 +77,10 @@ class VideoTile extends PureComponent {
           <div className='post-excerpt-container'>
             <p className='post-excerpt-pharagraph'>
               {
-                splittedContent !== null ?
+                content.mentionsList !== null || content.socialComment !== 'None' ?
                   (
                     splittedContent.map((entry, index) => {
-                      return this.renderContentWithMentions(entry, index, content.mentionList)
+                      return this.renderContentWithMentions(entry, index, content.mentionsList)
                     })
                   ) : null
               }
