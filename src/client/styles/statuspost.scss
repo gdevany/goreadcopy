@@ -99,6 +99,18 @@
         width: 89%;
       }
     }
+    .statuspost-error{
+      &::input-placeholder{
+        color: $red;
+      }
+      border: solid 1px $red;
+      &:focus{
+        border: 1px solid $red;
+      }
+    }
+    .statuspost-error{
+
+    }
   }
 }
 
