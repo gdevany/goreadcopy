@@ -80,9 +80,16 @@ input[type="checkbox"]:focus{
 .read-feed {
   padding-top: 80px;
   @media all and (min-width: 1200px){
-    padding-top: 30px;
+    padding-top: 84px;
   }
 }
+
+.profile-page-img-wrapper{
+  @media all and (min-width: 1200px){
+    padding-top: 64px;
+  }
+}
+
 
 .box {
   padding: 30px;
