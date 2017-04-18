@@ -9,7 +9,7 @@ import SignUpButtons from './SignUpButtons'
 import { Colors, Breakpoints } from '../../constants/style'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 
-const { getGenres, createChosenReaderGenres, updateGenreLitcoins } = Genres
+const { getOnboardingGenres, createChosenReaderGenres, updateGenreLitcoins } = Genres
 
 const styles = {
   chip: {
@@ -79,7 +79,7 @@ class SignUpStepTwo extends PureComponent {
   }
 
   componentWillMount = () => {
-    this.props.getGenres('signup')
+    this.props.getOnboardingGenres('signup')
   }
 
   componentDidUpdate = () => {
@@ -229,7 +229,7 @@ const mapStateToProps = ({ genres }) => {
 
 const mapDispatchToProps = {
   createChosenReaderGenres,
-  getGenres,
+  getOnboardingGenres,
   updateGenreLitcoins,
 }
 

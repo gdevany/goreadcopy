@@ -9,7 +9,7 @@ import { Book } from '../common'
 import { Colors, Breakpoints } from '../../constants/style'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 
-const { getGenres } = Genres
+const { getHomeGenres } = Genres
 const { getBooks } = Books
 
 const styles = {
@@ -113,9 +113,9 @@ class BookLanding extends PureComponent {
   }
 
   componentWillMount = () => {
-    const { books, genres, getBooks, getGenres } = this.props
+    const { books, genres, getBooks, getHomeGenres } = this.props
     if (R.isEmpty(books)) { getBooks() }
-    if (R.isEmpty(genres)) { getGenres() }
+    if (R.isEmpty(genres)) { getHomeGenres() }
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -261,4 +261,4 @@ const mapStateToProps = ({ genres, books }) => {
   }
 }
 
-export default connect(mapStateToProps, { getGenres, getBooks })(Radium(BookLanding))
+export default connect(mapStateToProps, { getHomeGenres, getBooks })(Radium(BookLanding))

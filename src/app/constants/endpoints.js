@@ -7,6 +7,8 @@ const Endpoints = () => {
     readers: (params) => apiUrl('onboarding/readers', params),
     readerValidation: (params) => apiUrl('onboarding/readers/check', params),
     getGenres: (params) => apiUrl('genres', params),
+    getOnboardingGenres: (params) => apiUrl('onboarding/genres', params),
+    getHomeGenres: (params) => apiUrl('onboarding/genres/home', params),
     getBooks: (params) => apiUrl('onboarding/books', params),
     searchData: (params) => apiUrl('search', params),
     searchBooksData: (params) => apiUrl('books/library_search', params),
@@ -29,6 +31,7 @@ const Endpoints = () => {
     getStates: (id) => apiUrl(`forms/${id}/states`),
     currentReader: {
       getRecommendation: (params) => apiUrl('genres/top_users', params),
+      getOnboardingRecommendation: (params) => apiUrl('onboarding/genres/top_users', params),
       getRecommendedAuthors: (params) => apiUrl('current_reader/recommended/authors', params),
       getBookRecommendations: (params) => apiUrl('current_reader/recommended/books', params),
       getBookClubRecommendations: (params) => {
