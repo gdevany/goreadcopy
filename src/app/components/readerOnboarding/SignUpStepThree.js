@@ -321,7 +321,9 @@ class SignUpStepThree extends PureComponent {
 
                 <div className='row'>
                   <fieldset className='small-12 columns'>
-                    { this.rowsOf(authors) }
+                    { authors.length ?
+                      this.rowsOf(authors) : <div className='loading-animation'/>
+                    }
                   </fieldset>
                 </div>
 
@@ -334,7 +336,9 @@ class SignUpStepThree extends PureComponent {
 
                 <div className='row'>
                   <fieldset className='small-12 columns'>
-                    { this.rowsOf(readers) }
+                    { readers.length ?
+                      this.rowsOf(readers) : <div className='loading-animation'/>
+                    }
                   </fieldset>
                 </div>
 
