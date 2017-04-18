@@ -51,7 +51,7 @@ class AuthorRecommendations extends PureComponent {
             title={fullname}
             image={imageUrl}
             link={url}
-            description={shortBio ? this.truncInfo(shortBio, 50) : null}
+            description={shortBio ? this.truncInfo(shortBio, 50) : 'Author'}
             booksWritten={booksWritten}
             context={READ_FEED}
             onClick={this.handleAuthorClick}
