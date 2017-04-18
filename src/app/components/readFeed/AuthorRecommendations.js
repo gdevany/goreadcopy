@@ -29,6 +29,10 @@ class AuthorRecommendations extends PureComponent {
     this.props.getFollowersAndFollowed(this.props.currentReaderId)
   }
 
+  truncInfo = (text, limit) => {
+    return text.length >= limit ? `${text.slice(0, limit)}...` : text
+  }
+
   renderAuthors = (authors) => {
     return authors.map(author => {
       const {
@@ -37,6 +41,7 @@ class AuthorRecommendations extends PureComponent {
         imageUrl,
         booksWritten,
         url,
+        shortBio,
       } = author
       return (
         <div className='column column-block' key={id}>
@@ -46,7 +51,7 @@ class AuthorRecommendations extends PureComponent {
             title={fullname}
             image={imageUrl}
             link={url}
-            description={'Nothing about me yet'}
+            description={shortBio ? this.truncInfo(shortBio, 50) : 'Author'}
             booksWritten={booksWritten}
             context={READ_FEED}
             onClick={this.handleAuthorClick}
