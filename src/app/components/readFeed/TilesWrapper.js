@@ -201,6 +201,7 @@ const TilesWrapper = ({ feed }) => {
             />
           )
           break
+        case 'bookclub_post':
         case 'bookclub':
           const bookClubContent = {
             image: tileContent.image,
@@ -282,23 +283,6 @@ const TilesWrapper = ({ feed }) => {
               key={index}
               tileDefaultProps={tileDefaultProps}
               content={accountContent}
-            />
-          )
-          break
-        case 'video':
-          const videoContent = {
-            link: tileContent.data.link,
-            originUrl: tileContent.originUrl,
-            title: tileContent.data.name,
-            description: tileContent.data.description,
-            socialComment: (tile.mentions || null),
-            mentionList: (tile.mentionsArray || null)
-          }
-          result.push(
-            <VideoTile
-              key={index}
-              tileDefaultProps={tileDefaultProps}
-              content={videoContent}
             />
           )
           break
