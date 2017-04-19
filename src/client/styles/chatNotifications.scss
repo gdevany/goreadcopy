@@ -19,27 +19,48 @@
   transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
   box-shadow: rgba(222, 222, 222, 0.498039) 0px 4px 20px 0px;
   border-radius: 5px;
-  &:before{
-    @media all and (min-width: 768px) {
-      position: absolute;
-      top: 0;
-      right: 35%;
-      border-right: 11px solid transparent;
-      border-bottom: 11px solid #ccc;
-      border-left: 11px solid transparent;
-      border-bottom-color: rgba(0,0,0,0.2);
-      content: '';
-    }
+  @media all and(min-width: 768px) {
+    width: 400px;
+    max-height: 80vh;
+    overflow-y: scroll;
+    left: inherit;
+    top: 75px;
+    right: 30px;
+    position: absolute;
+  }
+  @media all and (min-width: 1024px) {
+    width: 400px;
+    left: inherit;
+    top: 75px;
+    right: 215px;
+    position: absolute;
+  }
+  @media all and (min-width: 1200px) {
+    width: 400px;
+    left: inherit;
+    top: 75px;
+    right: 35px;
+    position: absolute;
   }
   &:after{
     @media all and (min-width: 768px) {
-      position: absolute;
-      top: 1px;
-      right: 35%;
+      position: fixed;
+      top: 65px;
+      right: 301px;
       border-right: 10px solid transparent;
       border-bottom: 10px solid #ffffff;
       border-left: 10px solid transparent;
       content: '';
+    }
+    @media all and (min-width: 1024px) {
+      position: fixed;
+      top: 65px;
+      right: 415px;
+    }
+    @media all and (min-width: 1200px) {
+      position: fixed;
+      top: 65px;
+      right: 205px;
     }
   }
   .single-notification-element{
@@ -76,11 +97,24 @@
       width: 100%;
       word-wrap: break-word;
       line-height: 20px;
+      @media all and (min-width: 1200px){
+        margin-bottom: 5px;
+      }
       .notification-description-anchor{
         font-weight: bold;
+        &:hover{
+          .notification-description-action{
+            color: $black;
+            cursor: default;
+          }
+        }
         .notification-description-action{
           font-weight: 200;
           margin-left: 5px;
+          &:hover{
+            color: $black;
+            cursor: default;
+          }
         }
       }
     }
@@ -99,6 +133,9 @@
         font-size: 12px;
         border: solid 1px $blue;
         border-radius: 20px;
+        @media all and (min-width: 1200px){
+          padding: 5px 10px;
+        }
       }
       .liked-action{
         &:before{

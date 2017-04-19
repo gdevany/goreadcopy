@@ -117,6 +117,54 @@ class Notifications extends PureComponent {
             <img src='/image/community.jpg'/>
           </figure>
         </div>
+        <div className='single-notification-element'>
+          <figure className='notification-action-figure'>
+            <img src='/image/kendunn.jpg'/>
+          </figure>
+          <div className='notification-container notification-has-figure'>
+            <p className='notification-description-container'>
+              <a href='#' className='notification-description-anchor'>
+                Scott Hurff
+                <span className='notification-description-action'>
+                  Liked your photo
+                </span>
+              </a>
+            </p>
+            <div className='notification-action-container'>
+              <span className='liked-action'/>
+              <span className='notification-timestamp'>
+                6 days
+              </span>
+            </div>
+          </div>
+          <figure className='liked-image-figure'>
+            <img src='/image/community.jpg'/>
+          </figure>
+        </div>
+        <div className='single-notification-element'>
+          <figure className='notification-action-figure'>
+            <img src='/image/kendunn.jpg'/>
+          </figure>
+          <div className='notification-container notification-has-figure'>
+            <p className='notification-description-container'>
+              <a href='#' className='notification-description-anchor'>
+                Scott Hurff
+                <span className='notification-description-action'>
+                  Liked your photo
+                </span>
+              </a>
+            </p>
+            <div className='notification-action-container'>
+              <span className='liked-action'/>
+              <span className='notification-timestamp'>
+                6 days
+              </span>
+            </div>
+          </div>
+          <figure className='liked-image-figure'>
+            <img src='/image/community.jpg'/>
+          </figure>
+        </div>
       </section>
     )
   }
