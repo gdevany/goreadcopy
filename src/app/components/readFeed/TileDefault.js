@@ -192,7 +192,6 @@ class TileDefault extends PureComponent {
       sharePostOpen: false,
       commentParentId: false,
       replyPlaceholder: false,
-      isAutofocus: false,
       modalLogInOpen: false,
       userLogged: false
     }
@@ -271,14 +270,12 @@ class TileDefault extends PureComponent {
         this.setState({
           sharePostOpen: false,
           commentPostOpen: true,
-          isAutofocus: true,
         })
       } else {
         this.setState({
           commentsOpen: false,
           commentPostOpen: false,
           commentParentId: false,
-          isAutofocus: true,
         })
       }
     } else {
@@ -291,7 +288,6 @@ class TileDefault extends PureComponent {
       this.setState({
         commentsOpen: true,
         commentPostOpen: true,
-        isAutofocus: true,
       })
     }
   }
@@ -497,7 +493,6 @@ class TileDefault extends PureComponent {
       shareInput,
       commentParentId,
       replyPlaceholder,
-      isAutofocus,
     } = this.state
     const { profileImage } = this.props
     const isComment = buttonType === 'comment'
@@ -522,7 +517,7 @@ class TileDefault extends PureComponent {
             onChange={this.handleInputOnChange(`${inputType}`)}
             value={isComment ? commentInput : shareInput}
             rows='3'
-            autoFocus={isAutofocus}
+            autoFocus
           />
         </div>
         <div>
