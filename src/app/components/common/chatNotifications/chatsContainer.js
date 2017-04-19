@@ -23,6 +23,12 @@ class ChatsContainer extends PureComponent {
               <div className='single-chat-actor-name-container'>
                 <a className='single-chat-actor-name'>
                   Willie Hogan
+                  <div className='has-messages-chat'>
+                    <span>•</span>
+                    <figure>
+                      <img src='/image/messages-icon.svg'/>
+                    </figure>
+                  </div>
                 </a>
                 <div className='single-chat-timestamp-container'>
                   <span className='single-chat-timestamp-element'>11h</span>
@@ -155,26 +161,26 @@ class ChatsContainer extends PureComponent {
               </div>
             </div>
           </div>
-          <div className='single-chat-element-container'>
-            <figure className='single-chat-avatar-figure'>
-              <img src='/image/kendunn.jpg'/>
-            </figure>
-            <div className='single-chat-details-container'>
-              <div className='single-chat-actor-name-container'>
-                <a className='single-chat-actor-name'>
-                  Willie Hogan
-                </a>
-                <div className='single-chat-timestamp-container'>
-                  <span className='single-chat-timestamp-element'>11h</span>
+            <div className='single-chat-element-container'>
+              <figure className='single-chat-avatar-figure'>
+                <img src='/image/kendunn.jpg'/>
+              </figure>
+              <div className='single-chat-details-container'>
+                <div className='single-chat-actor-name-container'>
+                  <a className='single-chat-actor-name'>
+                    Willie Hogan
+                  </a>
+                  <div className='single-chat-timestamp-container'>
+                    <span className='single-chat-timestamp-element'>11h</span>
+                  </div>
+                </div>
+                <div className='single-chat-message-preview-container'>
+                  <p className='single-chat-message-preview'>
+                    Oh definitely, let me tell ya right nod...
+                  </p>
                 </div>
               </div>
-              <div className='single-chat-message-preview-container'>
-                <p className='single-chat-message-preview'>
-                  Oh definitely, let me tell ya right nod...
-                </p>
-              </div>
             </div>
-          </div>
         </div>
       </section>
     )

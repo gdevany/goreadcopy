@@ -300,6 +300,22 @@
             font-size: 14px;
             font-weight: 600;
             color: $black;
+            display: flex;
+            flex-direction: row;
+            .has-messages-chat{
+              display: flex;
+              flex-direction: row;
+              margin-left: 2.5px;
+              figure{
+                margin-left: 2.5px;
+                width: 20px;
+                img{
+                  path{
+                    fill: $red;
+                  }
+                }
+              }
+            }
           }
           .single-chat-timestamp-container{
             margin-left: 5px;
