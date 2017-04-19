@@ -15,7 +15,7 @@ import AuthedRedirect from './AuthedRedirect'
 import MenuIcon from 'material-ui/svg-icons/navigation/menu'
 import Badge from 'material-ui/Badge'
 import LitcoinStatus from './LitcoinStatus'
-import ChatFrame from './ChatFrame'
+import Notifications from './chatNotifications/notifications'
 
 import './styles/mobile-menu.scss'
 
@@ -123,6 +123,7 @@ class NavMenu extends PureComponent {
       socialFollowers: 0,
       socialFollowed: 0,
       isReadFeed: true,
+      notificationsOpen: false,
     }
 
     this.handleModalClose = this.handleModalClose.bind(this)
@@ -132,6 +133,7 @@ class NavMenu extends PureComponent {
     this.handleLogoutClick = this.handleLogoutClick.bind(this)
     this.handleClickSearch = this.handleClickSearch.bind(this)
     this.handleClickChat = this.handleClickChat.bind(this)
+    this.handleNotificationsShow = this.handleNotificationsShow.bind(this)
   }
 
   static contextTypes = {
@@ -197,6 +199,14 @@ class NavMenu extends PureComponent {
       open: true,
       anchorEl: event.currentTarget
     })
+  }
+
+  handleNotificationsShow = () => {
+    if (!this.state.notificationsOpen) {
+      this.setState({ notificationsOpen: true })
+    } else {
+      this.setState({ notificationsOpen: false })
+    }
   }
 
   handleRequestClose = () => {
@@ -650,7 +660,7 @@ class NavMenu extends PureComponent {
                   className='menu-badge-container rf-nav-link'
                 >
                   <Badge
-                    onClick={this.handleClickChat}
+                    onClick={this.handleNotificationsShow}
                     badgeContent={
                       currentReader.notificationsCount ?
                         currentReader.notificationsCount : 0
@@ -668,10 +678,11 @@ class NavMenu extends PureComponent {
                   >
                     <img
                       src='/image/notifications-icon.svg'
-                      onClick={this.handleClickChat}
+                      onClick={this.handleNotificationsShow}
                     />
                   </Badge>
                 </a>
+                {this.state.notificationsOpen ? <Notifications /> : null}
               </li>
               <li style={styles.loggedInRightNavLi}>
                 <a
@@ -831,7 +842,7 @@ class NavMenu extends PureComponent {
                     className='menu-badge-container rf-nav-link'
                   >
                     <Badge
-                      onClick={this.handleClickChat}
+                      onClick={this.handleNotificationsShow}
                       badgeContent={
                         currentReader.notificationsCount ?
                           currentReader.notificationsCount : 0
@@ -849,9 +860,10 @@ class NavMenu extends PureComponent {
                     >
                       <img
                         src='/image/notifications-icon.svg'
-                        onClick={this.handleClickChat}
+                        onClick={this.handleNotificationsShow}
                       />
                     </Badge>
+                    {this.state.notificationsOpen ? <Notifications /> : null}
                   </a>
                 </li>
                 <li style={styles.loggedInRightNavLi}>
@@ -901,10 +913,6 @@ class NavMenu extends PureComponent {
         <SearchModal
           modalOpen={this.state.searchModalOpen}
           handleClose={this.handleSearchClose}
-        />
-        <ChatFrame
-          modalOpen={this.state.chatModalOpen}
-          handleClose={this.handleChatClose}
         />
       </div>
     )
