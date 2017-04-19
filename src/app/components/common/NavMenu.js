@@ -98,6 +98,10 @@ const styles = {
     height: 28,
     width: 28,
   },
+  messageBadge: {
+    position: 'relative',
+    padding: 0,
+  }
 }
 
 const {
@@ -662,11 +666,27 @@ class NavMenu extends PureComponent {
                 </li>
 
                 <li className='logged-menu-item'>
-                  <a
+                  <Badge
                     onClick={this.handleChatsContainerShow}
-                    style={styles.navItemLinks}
-                    className='messages-link rf-nav-link'
-                  />
+                    badgeContent={12}
+                    primary={true}
+                    badgeStyle={{
+                      top: -7,
+                      left: 7,
+                      width: '20px',
+                      height: '20px',
+                      fontWeight: 700,
+                      fontSize: 12,
+                      backgroundColor: Colors.red,
+                    }}
+                    style={styles.messageBadge}
+                  >
+                    <a
+                      onClick={this.handleChatsContainerShow}
+                      style={styles.navItemLinks}
+                      className='messages-link rf-nav-link'
+                    />
+                  </Badge>
                 </li>
 
                 <li style={styles.loggedInRightNavLi}>
@@ -822,13 +842,29 @@ class NavMenu extends PureComponent {
                   </li>
 
                   <li style={styles.loggedInNavLi} className='loged-menu-item'>
-                    <a
-                      style={styles.navItemLinks}
-                      className='messages-link rf-nav-link'
+                    <Badge
                       onClick={this.handleChatsContainerShow}
+                      badgeContent={12}
+                      primary={true}
+                      badgeStyle={{
+                        top: -7,
+                        left: 7,
+                        width: '20px',
+                        height: '20px',
+                        fontWeight: 700,
+                        fontSize: 12,
+                        backgroundColor: Colors.red,
+                      }}
+                      style={styles.messageBadge}
                     >
-                      Messages
-                    </a>
+                      <a
+                        style={styles.navItemLinks}
+                        className='messages-link rf-nav-link'
+                        onClick={this.handleChatsContainerShow}
+                      >
+                        Messages
+                      </a>
+                    </Badge>
                   </li>
 
                   <li className='logged-menu-item'>
