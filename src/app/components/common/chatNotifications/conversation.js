@@ -6,9 +6,12 @@ class ChatConversation extends PureComponent {
     super(props)
     this.state = {
       isChatOpen: false,
+      isTextareaOpen: false,
     }
 
     this.handleChatClick = this.handleChatClick.bind(this)
+    this.handleOpenTextArea = this.handleOpenTextArea.bind(this)
+    this.handleCloseTextArea = this.handleCloseTextArea.bind(this)
   }
 
   handleChatClick = (event) => {
@@ -16,7 +19,8 @@ class ChatConversation extends PureComponent {
     const { isChatOpen } = this.state
     if (isChatOpen) {
       this.setState({
-        isChatOpen: false
+        isChatOpen: false,
+        isTextareaOpen: false
       })
     } else {
       this.setState({
@@ -25,8 +29,22 @@ class ChatConversation extends PureComponent {
     }
   }
 
+  handleOpenTextArea = (event) => {
+    event.preventDefault()
+    this.setState({
+      isTextareaOpen: true
+    })
+  }
+
+  handleCloseTextArea = (event) => {
+    event.preventDefault()
+    this.setState({
+      isTextareaOpen: false
+    })
+  }
+
   render() {
-    const { isChatOpen } = this.state
+    const { isChatOpen, isTextareaOpen } = this.state
 
     return (
       <section className='active-chat-container'>
@@ -63,7 +81,10 @@ class ChatConversation extends PureComponent {
           {isChatOpen ?
             (
               <div className='active-chat-conversation-window'>
-                <div className='active-chat-in-use'>
+                <div
+                  className='active-chat-in-use'
+                  onClick={this.handleCloseTextArea}
+                >
                   <div className='conversation-extrange'>
                     <figure className='conversation-extrange-figure'>
                       <img src='/image/kendunn.jpg'/>
@@ -86,7 +107,27 @@ class ChatConversation extends PureComponent {
                   <div className='conversation-me'>
                     <div className='conversation-me-chat-container'>
                       <p className='conversation-me-pharagraph'>
-                        Wowzorz from me
+                        Wowzorz from me Wowzorz from me Wowzorz from me Wowzorz from me
+                        Wowzorz from me Wowzorz from me
+                      </p>
+                    </div>
+                    <div className='timestamp-container'>
+                      <span> 3 min ago </span>
+                    </div>
+                  </div>
+                  <div className='conversation-extrange'>
+                    <figure className='conversation-extrange-figure'>
+                      <img src='/image/kendunn.jpg'/>
+                    </figure>
+                    <div className='conversation-extrange-chat-container'>
+                      <p className='conversation-extrange-pharagraph'>
+                        Wowzorz
+                      </p>
+                      <p className='conversation-extrange-pharagraph'>
+                        That
+                      </p>
+                      <p className='conversation-extrange-pharagraph'>
+                        Wowzorz
                       </p>
                     </div>
                     <div className='timestamp-container'>
@@ -94,8 +135,14 @@ class ChatConversation extends PureComponent {
                     </div>
                   </div>
                 </div>
-                <div className='conversation-textarea-container'>
-                  <textarea/>
+                <div className={`${isTextareaOpen ?
+                  'conversation-textarea-container-open' : 'conversation-textarea-container'}`
+                  }
+                >
+                  <textarea
+                    onClick={this.handleOpenTextArea}
+                    placeholder='Type your message'
+                  />
                 </div>
               </div>
             ) : null

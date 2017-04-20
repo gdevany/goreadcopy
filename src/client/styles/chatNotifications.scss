@@ -361,6 +361,7 @@
     justify-content: flex-start;
     align-items: center;
     z-index: 99;
+    max-width: 200px;
     .online-users-chats-small{
       height: 40px;
       transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
@@ -509,6 +510,7 @@
     justify-content: flex-start;
     align-items: center;
     z-index: 99;
+    max-width: 300px;
     .active-chat-small{
       height: 40px;
       transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
@@ -557,7 +559,7 @@
       .active-chat-conversation-window{
         width: 100%;
         .active-chat-in-use{
-          max-height: 400px;
+          max-height: 300px;
           height: 100%;
           overflow-x: hidden;
           overflow-y: scroll;
@@ -585,6 +587,7 @@
                 margin-bottom: 10px;
                 padding: 7.5px 10px;
                 word-wrap: break-word;
+                font-size: 14px;
                 &:nth-child(odd){
                   border-radius: 100px 100px 100px 0;
                 }
@@ -622,6 +625,7 @@
                 color: $white;
                 word-wrap: break-word;
                 text-align: right;
+                font-size: 14px;
               }
             }
             .timestamp-container{
@@ -633,6 +637,46 @@
                 font-size: 12px;
                 color: #9B9B9B 100%;
               }
+            }
+          }
+        }
+        .conversation-textarea-container{
+          height: 40px;
+          transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+          border-top: 1px solid #F4F4F4;
+          padding: 10px 10px 15px 10px;
+          background-color: $white;
+          textarea{
+            border: none;
+            height: 100%;
+            resize: none;
+            padding: 0;
+            margin-bottom: 0;
+            box-shadow: none;
+            font-size: 14px;
+            &:focus{
+              border: none;
+              box-shadow: none;
+            }
+          }
+        }
+        .conversation-textarea-container-open{
+          height: 125px;
+          transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+          border-top: 1px solid #F4F4F4;
+          padding: 10px 10px 15px 10px;
+          background-color: $white;
+          textarea{
+            border: none;
+            height: 100%;
+            resize: none;
+            padding: 0;
+            margin-bottom: 0;
+            box-shadow: none;
+            font-size: 14px;
+            &:focus{
+              border: none;
+              box-shadow: none;
             }
           }
         }
