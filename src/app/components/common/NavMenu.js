@@ -639,7 +639,7 @@ class NavMenu extends PureComponent {
     const { currentReader } = this.props
     const { socialFollowers, socialFollowed, isReadFeed } = this.state
     return (
-      <div>
+      <div className='relative-top-menu'>
         <div className='slide-down'>
           <div style={styles.mobileNavContainer} className='top-bar-mobile'>
             <nav className='nav-menu-logged'>

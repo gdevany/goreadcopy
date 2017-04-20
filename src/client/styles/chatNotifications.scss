@@ -1,10 +1,14 @@
 @import 'variables.scss';
 
+.relative-top-menu{
+  position: relative;
+}
+
 .notifications-main-frame-container{
   &:after{
     z-index: 9;
     @media all and (min-width: 768px) {
-      position: absolute;
+      position: fixed;
       top: 65px;
       right: 301px;
       border-right: 10px solid transparent;
@@ -13,12 +17,12 @@
       content: '';
     }
     @media all and (min-width: 1024px) {
-      position: absolute;
+      position: fixed;
       top: 65px;
       right: 415px;
     }
     @media all and (min-width: 1200px) {
-      position: absolute;
+      position: fixed;
       top: 65px;
       right: 205px;
     }
@@ -54,21 +58,21 @@
     left: inherit;
     top: 75px;
     right: 30px;
-    position: absolute;
+    position: fixed;
   }
   @media all and (min-width: 1024px) {
     width: 400px;
     left: inherit;
     top: 75px;
     right: 215px;
-    position: absolute;
+    position: fixed;
   }
   @media all and (min-width: 1200px) {
     width: 400px;
     left: inherit;
     top: 75px;
     right: 35px;
-    position: absolute;
+    position: fixed;
   }
   .single-notification-element{
     padding: 20px 10px;
@@ -183,7 +187,7 @@
   &:after{
     z-index: 9;
     @media all and (min-width: 768px) {
-      position: absolute;
+      position: fixed;
       top: 65px;
       right: 55%;
       border-right: 10px solid transparent;
@@ -192,12 +196,12 @@
       content: '';
     }
     @media all and (min-width: 1024px) {
-      position: absolute;
+      position: fixed;
       top: 65px;
       right: 55%;
     }
     @media all and (min-width: 1200px) {
-      position: absolute;
+      position: fixed;
       top: 65px;
       right: 50%;
     }
@@ -228,21 +232,21 @@
     left: inherit;
     top: 75px;
     right: 35%;
-    position: absolute;
+    position: fixed;
   }
   @media all and (min-width: 1024px) {
     width: 400px;
     left: inherit;
     top: 75px;
     right: 35%;
-    position: absolute;
+    position: fixed;
   }
   @media all and (min-width: 1200px) {
     width: 400px;
     left: inherit;
     top: 75px;
     right: 35%;
-    position: absolute;
+    position: fixed;
   }
   .search-users-container{
     width: 100%;
