@@ -67,6 +67,14 @@
           color: $blue;
         }
       }
+      .tile-target-name{
+        font-size: 14px;
+        font-weight: 300;
+        color: $blue;
+        a{
+          color: $blue;
+        }
+      }
       .tile-actor-action{
         font-size: 14px;
         @media all and (min-width: 768px) {
