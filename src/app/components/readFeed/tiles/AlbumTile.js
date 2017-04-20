@@ -48,6 +48,7 @@ class AlbumTile extends PureComponent {
     const {
       tileDefaultProps: {
         author,
+        target,
         description,
         timestamp,
         likes,
@@ -65,6 +66,7 @@ class AlbumTile extends PureComponent {
       <TileDefault
         tileId={id}
         author={author}
+        target={target}
         description={description}
         timestamp={timestamp}
         likes={likes}
