@@ -239,11 +239,11 @@ class StatusPost extends PureComponent {
   }
 
   handleTextAreaClick = (event) => {
-    event.preventDefault()
     this.setState({
       textareaOpen: true,
       showErrorOnPost: false,
     })
+    return false
   }
 
   handleTextAreaClose = (event) => {
