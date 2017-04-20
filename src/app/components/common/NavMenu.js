@@ -15,8 +15,7 @@ import AuthedRedirect from './AuthedRedirect'
 import MenuIcon from 'material-ui/svg-icons/navigation/menu'
 import Badge from 'material-ui/Badge'
 import LitcoinStatus from './LitcoinStatus'
-import Notifications from './chatNotifications/notifications'
-import ChatsContainer from './chatNotifications/chatsContainer'
+import { Notifications, ChatsContainer } from './chatNotifications'
 
 import './styles/mobile-menu.scss'
 

@@ -4,6 +4,7 @@ import LeftContainer from './LeftContainer'
 import MiddleContainer from './MiddleContainer'
 import RightContainer from './RightContainer'
 import { NavMenu } from '../common'
+import { OnlineUsersChat } from '../common/chatNotifications'
 import { Auth } from '../../services'
 import { CurrentReader } from '../../redux/actions'
 
@@ -25,6 +26,7 @@ class ReadFeed extends PureComponent {
           <MiddleContainer userId={id} />
           <RightContainer />
         </div>
+        <OnlineUsersChat />
       </div>
     )
   }
