@@ -208,7 +208,7 @@ class TileDefault extends PureComponent {
   }
 
   renderAction = (entry, index, target) => {
-    const targetUrlRegex = /\<(\w.*)\>/
+    const targetUrlRegex = /\{(\w.*)\}/
     if (targetUrlRegex.test(entry)) {
       const match = targetUrlRegex.exec(entry)
       if (match) {
@@ -576,7 +576,7 @@ class TileDefault extends PureComponent {
       action,
       feedComments,
     } = this.props
-    const splitActionrRegex = /(?:[^\s<]+|<[^<]*>)+/g
+    const splitActionrRegex = /(?:[^\s{]+|{[^{]*})+/g
     const splittedAction = action ? action.match(splitActionrRegex) : null
     console.log(splittedAction)
     return (
