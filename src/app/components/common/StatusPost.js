@@ -243,7 +243,7 @@ class StatusPost extends PureComponent {
       textareaOpen: true,
       showErrorOnPost: false,
     })
-    return false
+    event.target.focus()
   }
 
   handleTextAreaClose = (event) => {
@@ -369,11 +369,12 @@ class StatusPost extends PureComponent {
             ref='statuspost'
             className={this.state.textareaOpen ?
               (
-                `${showErrorOnPost ? 'statuspost-error' : ''} status-post-textarea-open`
+                `${showErrorOnPost ?
+                'statuspost-error' : ''} status-post-textarea status-post-textarea-open`
               ) : (
                 `${showErrorOnPost ? 'statuspost-error' : ''} status-post-textarea`
               )}
-            placeholder={showErrorOnPost ? 'Something happend, please try again' : 'Comment here'}
+            placeholder={showErrorOnPost ? 'Something happened, please try again' : 'Comment here'}
             onClick={this.handleTextAreaClick}
             onChange={this.handleTextChange} value={this.state.body}
             autoFocus
