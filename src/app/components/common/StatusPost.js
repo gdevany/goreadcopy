@@ -410,7 +410,18 @@ class StatusPost extends PureComponent {
                   </a>
                 </div>
               </div>
-            ) : null
+            ) : (
+              <div>
+                {
+                  this.state.imageInfo ?
+                  (
+                    <div className='columns small-12'>
+                      <div className='loading-animation'/>
+                    </div>
+                  ) : null
+                }
+              </div>
+            )
           }
         </div>
       </div>
