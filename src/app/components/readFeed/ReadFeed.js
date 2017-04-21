@@ -22,16 +22,13 @@ class ReadFeed extends PureComponent {
       <div className=''>
         <NavMenu isUserLoggedIn={isUserLoggedIn} />
         <div className='row center-text read-feed'>
+          <div className='main-conversation-container'>
+            <Conversation />
+            <OnlineUsersChat />
+          </div>
           <LeftContainer isMyReadFeed={isMyReadFeed}/>
           <MiddleContainer userId={id} />
           <RightContainer />
-        </div>
-        <div className='main-conversation-container'>
-          <Conversation />
-          <Conversation />
-          <Conversation />
-          <Conversation />
-          <OnlineUsersChat />
         </div>
       </div>
     )
