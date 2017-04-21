@@ -26,8 +26,13 @@ class ReadFeed extends PureComponent {
           <MiddleContainer userId={id} />
           <RightContainer />
         </div>
-        <OnlineUsersChat />
-        <Conversation />
+        <div className='main-conversation-container'>
+          <Conversation />
+          <Conversation />
+          <Conversation />
+          <Conversation />
+          <OnlineUsersChat />
+        </div>
       </div>
     )
   }

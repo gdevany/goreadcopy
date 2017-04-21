@@ -143,6 +143,13 @@ class ChatConversation extends PureComponent {
                     onClick={this.handleOpenTextArea}
                     placeholder='Type your message'
                   />
+                  {isTextareaOpen ?
+                    (
+                      <a href='' className='conversation-send-btn'>
+                        Send
+                      </a>
+                    ) : null
+                  }
                 </div>
               </div>
             ) : null
