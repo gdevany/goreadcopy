@@ -578,7 +578,6 @@ class TileDefault extends PureComponent {
     } = this.props
     const splitActionrRegex = /(?:[^\s{]+|{[^{]*})+/g
     const splittedAction = action ? action.match(splitActionrRegex) : null
-    console.log(splittedAction)
     return (
       <div>
         <Card
