@@ -59,26 +59,31 @@
       @media all and (min-width: 768px) {
         flex-direction: row;
       }
-      .tile-actor-name{
-        font-size: 14px;
-        font-weight: 600;
-        color: $blue;
-        a{
+      p{
+        word-wrap: break-word;
+        margin: 0;
+        text-align: left;
+        .tile-actor-name{
+          font-size: 14px;
+          font-weight: 600;
           color: $blue;
+          a{
+            color: $blue;
+          }
         }
-      }
-      .tile-target-name{
-        font-size: 14px;
-        font-weight: 600;
-        color: $blue;
-        a{
+        .tile-target-name{
+          font-size: 14px;
+          font-weight: 600;
           color: $blue;
+          a{
+            color: $blue;
+          }
         }
-      }
-      .tile-actor-action{
-        font-size: 14px;
-        @media all and (min-width: 768px) {
-          margin-left: .5em;
+        .tile-actor-action{
+          font-size: 14px;
+          @media all and (min-width: 768px) {
+            margin-left: .5em;
+          }
         }
       }
     }
