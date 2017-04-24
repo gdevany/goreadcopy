@@ -286,6 +286,23 @@ const TilesWrapper = ({ feed }) => {
             />
           )
           break
+        case 'video':
+          const videoContent = {
+            link: tileContent.data.link,
+            originUrl: tileContent.originUrl,
+            title: tileContent.data.name,
+            description: tileContent.summary,
+            socialComment: (tile.mentions || null),
+            mentionList: (tile.mentionsArray || null)
+          }
+          result.push(
+            <VideoTile
+              key={index}
+              tileDefaultProps={tileDefaultProps}
+              content={videoContent}
+            />
+          )
+          break
         case 'buzzvideo':
           const buzzVideoContent = {
             link: tileContent.link,
