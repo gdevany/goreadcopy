@@ -593,18 +593,22 @@ class TileDefault extends PureComponent {
             </figure>
             <div className='tile-actor-details'>
               <div className='tile-actor-container'>
-                <span className='tile-actor-name'>
-                  <a href={author.link}>{author.name}</a>
-                </span>
-                <span className='tile-actor-action'>
-                  {
-                    promoted ?
-                      null : splittedAction ?
-                        splittedAction.map((entry, index) => {
-                          return this.renderAction(entry, index, target)
-                        }) : action
-                  }
-                </span>
+                <p>
+                  <span className='tile-actor-name'>
+                    <a href={author.link}>
+                      {author.name}
+                    </a>
+                  </span>
+                  <span className='tile-actor-action'>
+                    {
+                      promoted ?
+                        null : splittedAction ?
+                          splittedAction.map((entry, index) => {
+                            return this.renderAction(entry, index, target)
+                          }) : action
+                    }
+                  </span>
+                </p>
               </div>
               <div className='tile-actor-timestamp'>
                 <span>
