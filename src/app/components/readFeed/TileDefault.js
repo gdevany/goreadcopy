@@ -207,6 +207,32 @@ class TileDefault extends PureComponent {
     return time
   }
 
+  renderAction = (entry, index, target) => {
+    const targetUrlRegex = /\{(\w.*)\}/
+    if (targetUrlRegex.test(entry)) {
+      const match = targetUrlRegex.exec(entry)
+      if (match) {
+        const matchIndex = 1
+        const targetName = match[matchIndex]
+        return (
+          <span className='margin-right' key={index}>
+            <a className='tile-target-name' key={index} href={target.link}>
+              {targetName}
+            </a>
+          </span>
+        )
+      }
+      return (
+        <span className='margin-right' key={index}>
+          {entry}
+        </span>)
+    }
+    return (
+      <span className='margin-right' key={index}>
+        {entry}
+      </span>)
+  }
+
   componentDidMount = () => {
     this.setState({
       anchorEl: this.refs.share,
@@ -543,12 +569,15 @@ class TileDefault extends PureComponent {
 
     const {
       author,
+      target,
       timestamp,
       shareInfo,
       promoted,
       action,
       feedComments,
     } = this.props
+    const splitActionrRegex = /(?:[^\s{]+|{[^{]*})+/g
+    const splittedAction = action ? action.match(splitActionrRegex) : null
     return (
       <div>
         <Card
@@ -568,7 +597,13 @@ class TileDefault extends PureComponent {
                   <a href={author.link}>{author.name}</a>
                 </span>
                 <span className='tile-actor-action'>
-                  { promoted ? null : action }
+                  {
+                    promoted ?
+                      null : splittedAction ?
+                        splittedAction.map((entry, index) => {
+                          return this.renderAction(entry, index, target)
+                        }) : action
+                  }
                 </span>
               </div>
               <div className='tile-actor-timestamp'>
@@ -755,6 +790,7 @@ class TileDefault extends PureComponent {
 
 TileDefault.propTypes = {
   author: PropTypes.object,
+  target: PropTypes.object,
   action: PropTypes.string,
   timestamp: PropTypes.string,
   shared: PropTypes.object,
