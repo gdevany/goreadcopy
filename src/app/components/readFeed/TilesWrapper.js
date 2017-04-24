@@ -51,6 +51,10 @@ const TilesWrapper = ({ feed }) => {
             image: (tile.actor.imageUrl || tile.actor.image),
             link: (tile.actor.url || tile.actor.link)
           },
+          target: {
+            name: (tile.target ? tile.target.fullname || tile.target.name : null),
+            link: (tile.target ? tile.target.url || tile.target.link : null)
+          },
           likes: {
             count: tile.likes.count,
             likedByReader: tile.likedByReader

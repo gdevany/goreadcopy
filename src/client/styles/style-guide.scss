@@ -340,6 +340,14 @@ input[type="checkbox"]:focus{
   }
 }
 
+.margin-left{
+  margin-left: .5em;
+}
+
+.margin-right{
+  margin-right: .5em;
+}
+
 @import 'variables.scss';
 @import 'general.scss';
 @import 'errors.scss';

@@ -48,6 +48,7 @@ class ArticleTile extends PureComponent {
     const {
       tileDefaultProps: {
         author,
+        target,
         timestamp,
         likes,
         comments,
@@ -64,6 +65,7 @@ class ArticleTile extends PureComponent {
       <TileDefault
         tileId={id}
         author={author}
+        target={target}
         timestamp={timestamp}
         likes={likes}
         comments={comments}
