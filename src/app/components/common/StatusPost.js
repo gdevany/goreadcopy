@@ -39,6 +39,7 @@ class StatusPost extends PureComponent {
     super(props)
     this.state = this.initialState()
     this.state['targetId'] = null
+    this.state['showErrorOnPost'] = false
     this.handleTextChange = this.handleTextChange.bind(this)
     this.checkMentions = this.checkMentions.bind(this)
     this.replaceMention = this.replaceMention.bind(this)
@@ -86,6 +87,9 @@ class StatusPost extends PureComponent {
         .then(() => this.setState({ loadingPost: false }))
         .catch(err => {
           console.log(err)
+          this.setState({
+            showErrorOnPost: true,
+          })
           this.cleanStatusPost()
         })
     }
@@ -148,6 +152,7 @@ class StatusPost extends PureComponent {
       showVideoPreview,
       showSuggestions,
       textareaOpen: true,
+      showErrorOnPost: false,
     })
   }
 
@@ -236,7 +241,8 @@ class StatusPost extends PureComponent {
   handleTextAreaClick = (event) => {
     event.preventDefault()
     this.setState({
-      textareaOpen: true
+      textareaOpen: true,
+      showErrorOnPost: false,
     })
   }
 
@@ -314,6 +320,7 @@ class StatusPost extends PureComponent {
 
   render() {
     const { currentReader } = this.props
+    const { showErrorOnPost } = this.state
     return (
       <div className='statuspost'>
         <div className='status-post-text-container'>
@@ -361,13 +368,16 @@ class StatusPost extends PureComponent {
             maxLength='10000'
             ref='statuspost'
             className={this.state.textareaOpen ?
-              'status-post-textarea-open' : 'status-post-textarea'}
-            placeholder='Comment here'
+              (
+                `${showErrorOnPost ? 'statuspost-error' : ''} status-post-textarea-open`
+              ) : (
+                `${showErrorOnPost ? 'statuspost-error' : ''} status-post-textarea`
+              )}
+            placeholder={showErrorOnPost ? 'Something happend, please try again' : 'Comment here'}
             onClick={this.handleTextAreaClick}
             onChange={this.handleTextChange} value={this.state.body}
             autoFocus
           />
-
           {this.state.showSuggestions ?
             (<SuggestionList
               entries={this.state.suggestions}
@@ -399,7 +409,18 @@ class StatusPost extends PureComponent {
                   </a>
                 </div>
               </div>
-            ) : null
+            ) : (
+              <div>
+                {
+                  this.state.imageInfo ?
+                  (
+                    <div className='columns small-12'>
+                      <div className='loading-animation'/>
+                    </div>
+                  ) : null
+                }
+              </div>
+            )
           }
         </div>
       </div>

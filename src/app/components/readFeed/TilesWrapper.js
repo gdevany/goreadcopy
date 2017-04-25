@@ -24,8 +24,8 @@ const TilesWrapper = ({ feed }) => {
       return moment(moment.unix(time)).fromNow()
     } else if (timeType === 'time-date') {
       return {
-        date: moment.unix(time).format('MMMM DD'),
-        time: moment.unix(time).format('HA')
+        date: moment(time).format('MMMM DD'),
+        time: moment(time).format('HA')
       }
     }
     return time
@@ -50,6 +50,10 @@ const TilesWrapper = ({ feed }) => {
             name: (tile.actor.fullname || tile.actor.name),
             image: (tile.actor.imageUrl || tile.actor.image),
             link: (tile.actor.url || tile.actor.link)
+          },
+          target: {
+            name: (tile.target ? tile.target.fullname || tile.target.name : null),
+            link: (tile.target ? tile.target.url || tile.target.link : null)
           },
           likes: {
             count: tile.likes.count,
@@ -145,6 +149,7 @@ const TilesWrapper = ({ feed }) => {
             />
           )
           break
+        case 'event':
         case 'bookclub_event':
         case 'buzzappearance':
           const eventContent = {
@@ -200,6 +205,7 @@ const TilesWrapper = ({ feed }) => {
             />
           )
           break
+        case 'bookclub_post':
         case 'bookclub':
           const bookClubContent = {
             image: tileContent.image,
@@ -281,6 +287,23 @@ const TilesWrapper = ({ feed }) => {
               key={index}
               tileDefaultProps={tileDefaultProps}
               content={accountContent}
+            />
+          )
+          break
+        case 'video':
+          const videoContent = {
+            link: tileContent.data.link,
+            originUrl: tileContent.originUrl,
+            title: tileContent.data.name,
+            description: tileContent.summary,
+            socialComment: (tile.mentions || null),
+            mentionList: (tile.mentionsArray || null)
+          }
+          result.push(
+            <VideoTile
+              key={index}
+              tileDefaultProps={tileDefaultProps}
+              content={videoContent}
             />
           )
           break

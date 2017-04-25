@@ -12,7 +12,6 @@ class SidebarAd extends PureComponent {
             <figure className='heading-overflow-figure'>
               <img className='heading-img' src={content.imageUrl} alt=''/>
             </figure>
-
             <div className='sidebar-content'>
               <h2 className='sidebar-title'>
                 {content.heading}

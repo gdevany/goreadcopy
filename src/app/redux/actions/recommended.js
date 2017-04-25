@@ -30,6 +30,27 @@ export function getRecommendation(amount) {
   }
 }
 
+export function getOnboardingRecommendation(amount) {
+  return (dispatch, getState) => {
+    const currentReaderGenres = getState().currentReader.genreIds || []
+    const readerDataGenres = getState().readerData.genreIds
+    const genreData =
+      R.isEmpty(currentReaderGenres) ?
+      readerDataGenres :
+      currentReaderGenres
+
+    const genreIds = typeof genreData[0] === 'number' ?
+      genreData : R.pluck('id', (genreData))
+
+    CurrentReaderRecommendation.getOnboardingRecommendation({
+      genreIds,
+      perUserType: amount,
+    })
+      .then(res => dispatch(updateRecommended(res.data)))
+      .catch(err => console.error(`Error in getOnboardingRecommendation api call: ${err}`))
+  }
+}
+
 export function searchRecommendation(search) {
   const debounceSearch = () => {
     return debounce(dispatch => {
@@ -102,6 +123,7 @@ export function updateRecommended(recommendation) {
 export default {
   choseRecommendation,
   getRecommendation,
+  getOnboardingRecommendation,
   getRecommendedAuthors,
   searchRecommendation,
   updateRecommended,
