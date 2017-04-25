@@ -70,6 +70,7 @@ const TilesWrapper = ({ feed }) => {
           }
         }
       }
+
       if (tile.tileType === 'socialpost') {
         if (tile.content.tileType) {
           tileType = tile.content.tileType
@@ -324,12 +325,13 @@ const TilesWrapper = ({ feed }) => {
             />
           )
           break
+        case 'statuspost':
         case 'status':
           const statusPostContent = {
             image: tileContent.imageUrl.url,
             description: tileContent.mentions,
             socialComment: (shareComment || ''),
-            mentionsList: tileContent.mentionArray,
+            mentionsList: tileContent.mentionArray || [],
             socialPostComment: (tile.mentions || tile.shareComment || ''),
             mentionsPostList: (tile.mentionArray || []),
             activeContent: (tileContent.activeUrl || null),

@@ -79,7 +79,7 @@ class VideoTile extends PureComponent {
           <div className='post-excerpt-container'>
             <p className='post-excerpt-pharagraph'>
               {
-                splittedContent !== null ?
+                splittedContent !== null && content.mentionList ?
                   (
                     splittedContent.map((entry, index) => {
                       return this.renderContentWithMentions(entry, index, content.mentionList)
