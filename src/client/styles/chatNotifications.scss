@@ -769,4 +769,10 @@
     z-index: 99;
     overflow: hidden;
   }
+  @media all and (min-width: 1400px){
+    max-width: 90%;
+  }
+  @media all and (min-width: 1600px){
+    max-width: 75%;
+  }
 }
