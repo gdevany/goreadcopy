@@ -1,4 +1,8 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
+import { Chat } from '../../../redux/actions'
+
+const { getChatContacts } = Chat
 
 class OnlineUsersChat extends PureComponent {
   constructor(props) {
@@ -8,6 +12,10 @@ class OnlineUsersChat extends PureComponent {
     }
 
     this.handleChatsClick = this.handleChatsClick.bind(this)
+  }
+
+  componentDidMount() {
+    this.props.getChatContacts()
   }
 
   handleChatsClick = (event) => {
@@ -24,8 +32,51 @@ class OnlineUsersChat extends PureComponent {
     }
   }
 
+  renderOnlineUsers(users) {
+    const onlineUsers = users.filter(user => user.isOnline)
+    return onlineUsers.map(user => {
+      return (
+        <div className='chat-single-user' key={user.pk}>
+          <figure className='chat-single-user-figure'>
+            <img src={user.imageUrl}/>
+          </figure>
+          <div className='chat-single-user-name'>
+            <span>{user.fullname}</span>
+          </div>
+          <figure className='chat-single-message-figure'>
+            <img src='/image/online-icon.png'/>
+          </figure>
+        </div>
+      )
+    })
+  }
+
+  renderOfflineUsers(users) {
+    const offlineUsers = users.filter(user => !user.isOnline)
+    return (
+      <div className='offline-users-container'>
+        <span className='offline-users-title'>{`Offline (${offlineUsers.length})`}</span>
+        {
+          offlineUsers.map(user => {
+            return (
+              <div className='single-offline-user' key={user.pk}>
+                <figure className='chat-single-user-figure'>
+                  <img src={user.imageUrl}/>
+                </figure>
+                <div className='chat-single-user-name'>
+                  <span>{user.fullname}</span>
+                </div>
+              </div>
+            )
+          })
+        }
+      </div>
+    )
+  }
+
   render() {
     const { isUsersContainerOpen } = this.state
+    const { contacts } = this.props
 
     return (
       <section className='online-users-chats-container'>
@@ -52,123 +103,22 @@ class OnlineUsersChat extends PureComponent {
             <span className='online-users-main-text'>
               Chat
             </span>
-            <span className='online-users-divider'>•</span>
-            <span className='online-users-count'>
-              10
-            </span>
+            {
+              contacts ? (
+                <div>
+                  <span className='online-users-divider'>•</span>
+                  <span className='online-users-count'>
+                    { contacts.filter(user => user.isOnline).length }
+                  </span>
+                </div>
+              ) : null
+            }
           </div>
-          {isUsersContainerOpen ?
-            (
+          {
+            isUsersContainerOpen && contacts ? (
               <div className='chat-users-container'>
-                <div className='chat-single-user'>
-                  <figure className='chat-single-user-figure'>
-                    <img src='/image/kendunn.jpg'/>
-                  </figure>
-                  <div className='chat-single-user-name'>
-                    <span>Roberth Baratheon</span>
-                  </div>
-                  <figure className='chat-single-message-figure'>
-                    <img src='/image/online-icon.png'/>
-                  </figure>
-                </div>
-                <div className='chat-single-user'>
-                  <figure className='chat-single-user-figure'>
-                    <img src='/image/kendunn.jpg'/>
-                  </figure>
-                  <div className='chat-single-user-name'>
-                    <span>Roberth Baratheon</span>
-                  </div>
-                  <figure className='chat-single-message-figure'>
-                    <img src='/image/online-icon.png'/>
-                  </figure>
-                </div>
-                <div className='chat-single-user'>
-                  <figure className='chat-single-user-figure'>
-                    <img src='/image/kendunn.jpg'/>
-                  </figure>
-                  <div className='chat-single-user-name'>
-                    <span>Roberth Baratheon</span>
-                  </div>
-                  <figure className='chat-single-message-figure'>
-                    <img src='/image/online-icon.png'/>
-                  </figure>
-                </div>
-                <div className='chat-single-user'>
-                  <figure className='chat-single-user-figure'>
-                    <img src='/image/kendunn.jpg'/>
-                  </figure>
-                  <div className='chat-single-user-name'>
-                    <span>Roberth Baratheon</span>
-                  </div>
-                  <figure className='chat-single-message-figure'>
-                    <img src='/image/online-icon.png'/>
-                  </figure>
-                </div>
-                <div className='chat-single-user'>
-                  <figure className='chat-single-user-figure'>
-                    <img src='/image/kendunn.jpg'/>
-                  </figure>
-                  <div className='chat-single-user-name'>
-                    <span>Roberth Baratheon</span>
-                  </div>
-                  <figure className='chat-single-message-figure'>
-                    <img src='/image/online-icon.png'/>
-                  </figure>
-                </div>
-                <div className='chat-single-user'>
-                  <figure className='chat-single-user-figure'>
-                    <img src='/image/kendunn.jpg'/>
-                  </figure>
-                  <div className='chat-single-user-name'>
-                    <span>Roberth Baratheon</span>
-                  </div>
-                  <figure className='chat-single-message-figure'>
-                    <img src='/image/online-icon.png'/>
-                  </figure>
-                </div>
-                <div className='offline-users-container'>
-                  <span className='offline-users-title'>Offline (420)</span>
-                  <div className='single-offline-user'>
-                    <figure className='chat-single-user-figure'>
-                      <img src='/image/kendunn.jpg'/>
-                    </figure>
-                    <div className='chat-single-user-name'>
-                      <span>John Snow</span>
-                    </div>
-                  </div>
-                  <div className='single-offline-user'>
-                    <figure className='chat-single-user-figure'>
-                      <img src='/image/kendunn.jpg'/>
-                    </figure>
-                    <div className='chat-single-user-name'>
-                      <span>John Snow</span>
-                    </div>
-                  </div>
-                  <div className='single-offline-user'>
-                    <figure className='chat-single-user-figure'>
-                      <img src='/image/kendunn.jpg'/>
-                    </figure>
-                    <div className='chat-single-user-name'>
-                      <span>John Snow</span>
-                    </div>
-                  </div>
-                  <div className='single-offline-user'>
-                    <figure className='chat-single-user-figure'>
-                      <img src='/image/kendunn.jpg'/>
-                    </figure>
-                    <div className='chat-single-user-name'>
-                      <span>John Snow</span>
-                    </div>
-                  </div>
-                  <div className='single-offline-user'>
-                    <figure className='chat-single-user-figure'>
-                      <img src='/image/kendunn.jpg'/>
-                    </figure>
-                    <div className='chat-single-user-name'>
-                      <span>John Snow</span>
-                    </div>
-                  </div>
-                </div>
+                { this.renderOnlineUsers(contacts) }
+                { this.renderOfflineUsers(contacts) }
               </div>
             ) : null
           }
@@ -178,4 +128,14 @@ class OnlineUsersChat extends PureComponent {
   }
 }
 
-export default OnlineUsersChat
+const mapStateToProps = ({
+  chat: {
+    contacts
+  }
+}) => {
+  return {
+    contacts
+  }
+}
+
+export default connect(mapStateToProps, { getChatContacts })(OnlineUsersChat)
