@@ -594,7 +594,7 @@ class TileDefault extends PureComponent {
             <div className='tile-actor-details'>
               <div className='tile-actor-container'>
                 <p>
-                  <span className='tile-actor-name'>
+                  <span className='tile-actor-name margin-right'>
                     <a href={author.link}>
                       {author.name}
                     </a>
