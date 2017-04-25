@@ -70,7 +70,7 @@ const TilesWrapper = ({ feed }) => {
           }
         }
       }
-      
+
       if (tile.tileType === 'socialpost') {
         if (tile.content.tileType) {
           tileType = tile.content.tileType
