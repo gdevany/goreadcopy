@@ -63,6 +63,13 @@
         word-wrap: break-word;
         margin: 0;
         text-align: left;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        @media all and (min-width: 768px) {
+          display: block;
+        }
         .tile-actor-name{
           font-size: 14px;
           font-weight: 600;
