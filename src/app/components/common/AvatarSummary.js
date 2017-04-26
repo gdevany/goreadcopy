@@ -70,6 +70,7 @@ class AvatarSummary extends Component {
 
     this.state = {
       isChosen: this.props.isChosen,
+      badgeText: this.props.isChosen ? 'Following' : 'Follow',
     }
 
     this.handleChipClick = this.handleChipClick.bind(this)
@@ -90,8 +91,32 @@ class AvatarSummary extends Component {
       userType,
       ids: [id],
     })
-    this.setState({ isChosen: isChosenNow })
+    this.setState({
+      isChosen: isChosenNow,
+      badgeText: isChosenNow ? 'Following' : 'Follow'
+    })
     this.props.onClick()
+  }
+
+  handleTextChange = () => {
+    const { isChosen } = this.state
+    if (isChosen) {
+      this.setState({
+        badgeText: 'Unfollow'
+      })
+    } else {
+      this.setState({
+        badgeText: 'Follow'
+      })
+    }
+  }
+
+  handleLeaveTextChange = () => {
+    const { isChosen } = this.state
+
+    this.setState({
+      badgeText: isChosen ? 'Following' : 'Follow'
+    })
   }
 
   render() {
@@ -125,16 +150,20 @@ class AvatarSummary extends Component {
               <Chip
                 key={id}
                 value={id}
-                className={isChosen ? 'chosenFollow' : null}
+                className={isChosen ?
+                  'is-following-reader chosenFollow' : 'is-not-following-reader'
+                }
                 labelStyle={styles.chipText}
                 style={styles.chip}
                 onClick={this.handleChipClick}
+                onMouseEnter={this.handleTextChange}
+                onMouseLeave={this.handleLeaveTextChange}
               >
                 {isChosen ?
                   <img style={styles.checkmark} src='/image/checkmark.png' /> :
                   <img style={styles.checkmark} src='/image/plus.png' />
                 }
-                  {isChosen ? 'Following' : 'Follow'}
+                  {this.state.badgeText}
               </Chip>
             </div>
           </div>
