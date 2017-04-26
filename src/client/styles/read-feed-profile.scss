@@ -335,8 +335,14 @@
     transition: .3s ease;
     background-color: #FF2C54 !important;
     border: solid 1px #FF2C54 !important;
+    color: white !important;
     span{
       color: $white !important;
+    }
+    div{
+      a{
+        color: $white !important;
+      }
     }
   }
 }
@@ -347,8 +353,14 @@
     transition: .3s ease;
     background-color: #0DE6D4 !important;
     border: solid 1px #0DE6D4 !important;
+    color: $black !important;
     span{
       color: $black !important;
+    }
+    div{
+      a{
+        color: $black !important;
+      }
     }
   }
 }
