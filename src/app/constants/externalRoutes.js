@@ -27,7 +27,7 @@ const ExternalRoutes = () => {
     readFeed: () => backendUrl(''),
     myBookClubs: () => backendUrl('bookclubs'),
     myOrders: () => backendUrl('store/orders'),
-    booksWithKen: () => backendUrl('bookswithken'),
+    goReadBooks: () => backendUrl('goreadbooks'),
     videoTutorials: () => backendUrl('video-tutorials'),
     games: () => backendUrl('games'),
     advancedSearch: () => backendUrl('search'),
