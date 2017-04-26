@@ -103,10 +103,11 @@ class FollowModal extends PureComponent {
     return users.map((attrs, index) => {
       const {
         id,
+        isFollower,
+        url,
       } = attrs
 
       const user = U.from(attrs)
-
       return (
         <div className='column column-block' key={id}>
           <AvatarSummary
@@ -115,9 +116,10 @@ class FollowModal extends PureComponent {
             description={U.description(user)}
             title={U.fullName(user)}
             image={U.imageUrl(user)}
+            link={url}
             followType={followType}
             userType={userType}
-            isChosen={true}
+            isChosen={userType === 'READER' ? isFollower : true}
           />
         </div>
       )
@@ -153,7 +155,7 @@ class FollowModal extends PureComponent {
             isLocked={followers ? followers.locked : false}
             currentPage={followers && followers.page ? followers.page : 0}
           >
-            {this.renderUsers(READER, followType, readersFollowed)}
+            {this.renderUsers(READER, followType, followers.results.readers)}
           </PageScroller>
           { followers && followers.locked ? this.setLoading() : null }
         </div>
