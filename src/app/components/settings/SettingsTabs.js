@@ -1196,6 +1196,9 @@ class SettingsTabs extends PureComponent {
       receiveAuthorEmail,
 
     } = this.state
+
+    const { resetPassword } = routes
+
     return (
       <article className='settings-single-tab-content small-8 columns small-centered'>
         <div className='settings-section-title-container'>
@@ -1334,6 +1337,16 @@ class SettingsTabs extends PureComponent {
             <a className='profile-editor-section-main-action'>
               <FileDownloadIcon />
               Scan Books To Library
+            </a>
+          </div>
+        </div>
+        <div className='profile-editor-section-container'>
+          <h4 className='profile-editor-section-title' >
+            Change Login Password
+          </h4>
+          <div className='profile-editor-action-container'>
+            <a className='profile-editor-section-main-action' href={resetPassword()}>
+              Change Login Password
             </a>
           </div>
         </div>

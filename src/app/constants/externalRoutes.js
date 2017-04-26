@@ -41,6 +41,7 @@ const ExternalRoutes = () => {
     publisherBuzz: ({ slug }) => backendUrl(`publisher/${slug}`),
     publisherBuzzSettings: ({ slug }) => backendUrl(`publisher/${slug}/buzz/settings`),
     shopCart: () => backendUrl('shop/cart'),
+    resetPassword: () => backendUrl('profile/change_password')
   }
   return routes
 }
