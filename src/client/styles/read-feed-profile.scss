@@ -328,3 +328,27 @@
     border-color: #ff0000;
   }
 }
+
+.is-following-reader{
+  transition: .3s ease;
+  &:hover{
+    transition: .3s ease;
+    background-color: #FF2C54 !important;
+    border: solid 1px #FF2C54 !important;
+    span{
+      color: $white !important;
+    }
+  }
+}
+
+.is-not-following-reader{
+  transition: .3s ease;
+  &:hover{
+    transition: .3s ease;
+    background-color: #0DE6D4 !important;
+    border: solid 1px #0DE6D4 !important;
+    span{
+      color: $black !important;
+    }
+  }
+}
