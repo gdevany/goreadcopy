@@ -300,9 +300,13 @@ class FollowProfile extends PureComponent {
                   </div>
                 )
             }
-            <div className='small-4 columns'>
-              {this.renderChip()}
-            </div>
+            {isReadersProfile ?
+              null : (
+                <div className='small-4 columns'>
+                  {this.renderChip()}
+                </div>
+              )
+            }
             {isReadersProfile ?
               (
                 <div className='small-4 columns'>
