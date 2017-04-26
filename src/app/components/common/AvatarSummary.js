@@ -69,7 +69,7 @@ class AvatarSummary extends Component {
     super(props)
 
     this.state = {
-      isChosen: props.isChosen || true,
+      isChosen: this.props.isChosen,
     }
 
     this.handleChipClick = this.handleChipClick.bind(this)
