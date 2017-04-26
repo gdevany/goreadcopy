@@ -104,6 +104,7 @@ class FollowModal extends PureComponent {
       const {
         id,
         isFollower,
+        url,
       } = attrs
 
       const user = U.from(attrs)
@@ -115,6 +116,7 @@ class FollowModal extends PureComponent {
             description={U.description(user)}
             title={U.fullName(user)}
             image={U.imageUrl(user)}
+            link={url}
             followType={followType}
             userType={userType}
             isChosen={userType === 'READER' ? isFollower : true}
