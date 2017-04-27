@@ -29,6 +29,6 @@ export const Variables = {
 }
 
 export const Breakpoints = {
-  mobile: '@media only screen and (max-width: 640px)',
-  tablet: '@media only screen and (max-width: 1024px)',
+  mobile: '@media only screen and (maxWidth: 640px)',
+  tablet: '@media only screen and (maxWidth: 1024px)',
 }
