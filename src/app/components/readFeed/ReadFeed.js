@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import LeftContainer from './LeftContainer'
 import MiddleContainer from './MiddleContainer'
 import RightContainer from './RightContainer'
-import { NavMenu } from '../common'
+import { NavMenu, SocketHandler } from '../common'
 import { OnlineUsersChat, Conversation } from '../common/chatNotifications'
 import { Auth } from '../../services'
 import { CurrentReader } from '../../redux/actions'
@@ -30,6 +30,7 @@ class ReadFeed extends PureComponent {
           <MiddleContainer userId={id} />
           <RightContainer />
         </div>
+        <SocketHandler/>
       </div>
     )
   }

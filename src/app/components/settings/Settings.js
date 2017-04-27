@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
-import NavMenu from '../common/NavMenu'
+import { NavMenu, SocketHandler } from '../common'
 import Home from '../home/Home'
 import SettingsTabs from './SettingsTabs'
 import { CurrentReader } from '../../redux/actions'
@@ -56,6 +56,7 @@ class Settings extends PureComponent {
         <div className='settings-page'>
           <SettingsTabs/>
         </div>
+        <SocketHandler/>
       </div>
     ) : (
       <Home />

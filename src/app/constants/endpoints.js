@@ -67,6 +67,7 @@ const Endpoints = () => {
       getChatMessages: () => apiUrl('current_reader/chat/messages'),
       getChatConversation: () => apiUrl('current_reader/chat/conversation'),
       postChatMessage: () => apiUrl('current_reader/chat/message'),
+      sendHeartbeat: (params) => apiUrl('current_reader/chat/heartbeat', params),
     },
     jwtRefresh: () => apiUrl('token/refresh'),
     jwtAuth: () => apiUrl('token/auth'),
