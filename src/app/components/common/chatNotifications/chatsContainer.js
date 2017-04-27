@@ -41,7 +41,7 @@ class ChatsContainer extends PureComponent {
     } = contact
 
     if (filter) {
-      return body && timestamp && fullname.includes(filter)
+      return body && timestamp && fullname.toLowerCase().includes(filter.toLowerCase())
     }
     return body && timestamp
   }
