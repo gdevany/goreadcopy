@@ -235,7 +235,7 @@ class BookStoreNavBar extends PureComponent {
               <figure className='bookstore-navbar-logo-figure'>
                 <Link to='/' className='bookstore-navbar-menu-logo-anchor'>
                   <img src='/image/logo_share.png' className='bookstore-mobile-logo'/>
-                  <img src='/image/logo.png' className='bookstore-desktop-logo'/>
+                  <img src='/image/book-store-logo.svg' className='bookstore-desktop-logo'/>
                 </Link>
               </figure>
               <ul className='bookstore-navbar-menu-elements'>
