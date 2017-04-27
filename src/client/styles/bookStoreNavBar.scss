@@ -1,0 +1,165 @@
+@import 'variables.scss';
+
+.main-bookstore-navbar-container{
+  display: flex;
+  height: 60px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  background-color: rgba(222, 222, 222, 0.14);
+  box-shadow: rgba(222, 222, 222, 0.5) 0px 4px 20px 0px;
+  .bookstore-navbar-container{
+    width: 100%;
+    max-width: 75rem;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    .bookstore-navbar{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: row;
+      width: 100%;
+      .bookstore-navbar-left-container{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        width: 65%;
+        padding-left: 10px;
+
+        @media all and (min-width: 768px){
+          justify-content: space-around;
+        }
+        @media all and (min-width: 1024px) {
+          width: 60%;
+          padding-left: 0;
+        }
+        @media all and (min-width: 1200px) {
+          width: 65%;
+        }
+        .bookstore-navbar-logo-figure{
+          width: 30px;
+          @media all and (min-width: 1024px){
+            width: 150px;
+          }
+          .bookstore-navbar-menu-logo-anchor{
+            .bookstore-mobile-logo{
+              @media all and (min-width: 1024px) {
+                display: none;
+              }
+            }
+            .bookstore-desktop-logo{
+              display: none;
+              @media all and (min-width: 1024px) {
+                display: flex;
+              }
+            }
+          }
+        }
+        .bookstore-search-form{
+          margin-left: 10px;
+          position: relative;
+          .bookstore-search-input{
+            margin: 0;
+            border-radius: 20px;
+            box-sizing: border-box;
+            box-shadow: none;
+            padding: 8px 25px 8px 15px;
+            @media all and (min-width: 768px){
+              width: 200px;
+            }
+            @media all and (min-width: 1024px){
+              height: 40px;
+              width: 200px;
+            }
+          }
+          .bookstore-search-icon{
+            position: absolute;
+            top: 11px;
+            right: 8px;
+          }
+        }
+        .bookstore-navbar-menu-elements{
+          display: none;
+          @media all and (min-width: 768px){
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-direction: row;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            width: 250px;
+            .bookstore-navbar-menu-list{
+              .bookstore-navbar-menu-anchor{
+                font-size: 16px;
+                display: flex;
+                padding: 10px;
+              }
+            }
+          }
+        }
+      }
+      .bookstore-navbar-right-container{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-direction: row;
+        width: 35%;
+        @media all and (min-width: 1024px) {
+          width: 40%;
+        }
+        @media all and (min-width: 1200px) {
+          width: 35%;
+        }
+        .bookstore-navbar-menu-elements{
+          padding: 0;
+          margin: 0;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          flex-direction: row;
+          list-style: none;
+          width: 100%;
+          .on-desktop-only{
+            display: none;
+            @media all and (min-width: 1024px) {
+              display: flex;
+            }
+          }
+          .on-mobile-only{
+            @media all and (min-width: 1024px) {
+              display: none;
+            }
+          }
+          .bookstore-navbar-menu-list{
+            .bookstore-navbar-menu-anchor{
+              display: flex;
+              font-size: 16px;
+              padding: 10px;
+              .bookstore-navbar-user-badge{
+                width: 40px;
+                img{
+                  border-radius: 23px;
+                  border: 2px solid rgb(105, 105, 105);
+                }
+              }
+            }
+            .bookstore-badge-container{
+              div{
+                padding: 0 !important;
+              }
+            }
+          }
+        }
+        .bookstore-logged-menu-elements{
+          .bookstore-navbar-menu-list{
+            padding: 0 10px;
+          }
+        }
+      }
+    }
+  }
+}

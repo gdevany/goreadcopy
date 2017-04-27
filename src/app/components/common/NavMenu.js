@@ -103,7 +103,6 @@ const {
   articles,
   childrensLiteracy,
   authors,
-  bookStore,
   news,
 } = routes
 
@@ -337,7 +336,10 @@ class NavMenu extends PureComponent {
           }
 
         </li>
-        <hr className='profile-menu-divider' />
+        {currentReader.hasAuthorBuzz ||
+         (currentReader.hasPublisherBuzz && currentReader.isPublisher) ?
+         <hr className='profile-menu-divider' /> : null
+        }
         <li className='profile-menu-element'>
           <Link
             to={`/profile/${currentReader.slug}`}
@@ -370,9 +372,9 @@ class NavMenu extends PureComponent {
     const bookStoreItem = (
       <li key={'popover-nav-item'} style={styles.navLinks} className='link nav-item'>
 
-        <a onMouseEnter={this.handleNavHover} href={bookStore()}>
+        <Link onMouseEnter={this.handleNavHover} to='/browse'>
           Book Store
-        </a>
+        </Link>
 
         <Popover
           open={this.state.open}
@@ -429,7 +431,7 @@ class NavMenu extends PureComponent {
                     )
                   })
                 }
-                <MenuItem primaryText='See More >' href={bookStore()} />
+                <MenuItem primaryText='See More >' href='/browse' />
               </Menu>
             </div>
 
@@ -462,10 +464,9 @@ class NavMenu extends PureComponent {
   }
 
   handleMapNavItemsMobile = () => {
-    const { bookStore, childrensLiteracy, news, articles, authors } = routes
+    const { childrensLiteracy, news, articles, authors } = routes
 
     const nonMenuRoutes = [
-      ['Book Store', bookStore],
       ["Children's Literacy", childrensLiteracy],
       ['News', news],
       ['Articles', articles],
@@ -552,7 +553,6 @@ class NavMenu extends PureComponent {
     const anchorClass = 'links-anchor'
     const {
       myBookClubs,
-      bookStore,
       myOrders,
       news,
       articles,
@@ -567,7 +567,6 @@ class NavMenu extends PureComponent {
     if (type === 'Explore') {
       nonMenuRoutes = [
         ['My Book Clubs', myBookClubs],
-        ['Book Store', bookStore],
         ['My Orders', myOrders],
         ['News', news],
         ['Articles', articles],
@@ -751,6 +750,14 @@ class NavMenu extends PureComponent {
                 <span className='links-title'>
                   Explore
                 </span>
+                <li className={liClass}>
+                  <Link
+                    className={anchorClass}
+                    to='/browse'
+                  >
+                    Book Store
+                  </Link>
+                </li>
                 {this.mapMobileMenuItems('Explore')}
               </ul>
               <ul className='links-container'>
@@ -933,6 +940,13 @@ class NavMenu extends PureComponent {
         <div style={styles.mobileNavContainer} className='top-bar-mobile'>
           <MobileMenu id={'mobile-menu-container'}>
             <ul className='mobile-menu'>
+              <li style={styles.navLinks} className='link nav-item'>
+                <Link
+                  to='/browse'
+                >
+                  Book Store
+                </Link>
+              </li>
               {this.handleMapNavItemsMobile()}
             </ul>
           </MobileMenu>
