@@ -750,9 +750,9 @@ class NavMenu extends PureComponent {
                 <span className='links-title'>
                   Explore
                 </span>
-                <li className={liClass}>
+                <li className='profile-menu-element'>
                   <Link
-                    className={anchorClass}
+                    className='profile-menu-anchor'
                     to='/browse'
                   >
                     Book Store
