@@ -15,7 +15,7 @@ import AuthedRedirect from './AuthedRedirect'
 import MenuIcon from 'material-ui/svg-icons/navigation/menu'
 import Badge from 'material-ui/Badge'
 import LitcoinStatus from './LitcoinStatus'
-import ChatFrame from './ChatFrame'
+import { Notifications, ChatsContainer } from './chatNotifications'
 
 import './styles/mobile-menu.scss'
 
@@ -97,6 +97,10 @@ const styles = {
     height: 28,
     width: 28,
   },
+  messageBadge: {
+    position: 'relative',
+    padding: 0,
+  }
 }
 
 const {
@@ -123,6 +127,8 @@ class NavMenu extends PureComponent {
       socialFollowers: 0,
       socialFollowed: 0,
       isReadFeed: true,
+      notificationsOpen: false,
+      chatsContainerOpen: false,
     }
 
     this.handleModalClose = this.handleModalClose.bind(this)
@@ -131,7 +137,8 @@ class NavMenu extends PureComponent {
     this.handleProfileMenuHide = this.handleProfileMenuHide.bind(this)
     this.handleLogoutClick = this.handleLogoutClick.bind(this)
     this.handleClickSearch = this.handleClickSearch.bind(this)
-    this.handleClickChat = this.handleClickChat.bind(this)
+    this.handleNotificationsShow = this.handleNotificationsShow.bind(this)
+    this.handleChatsContainerShow = this.handleChatsContainerShow.bind(this)
   }
 
   static contextTypes = {
@@ -199,13 +206,37 @@ class NavMenu extends PureComponent {
     })
   }
 
+  handleNotificationsShow = () => {
+    if (!this.state.notificationsOpen) {
+      this.setState({
+        notificationsOpen: true,
+        chatsContainerOpen: false
+      })
+    } else {
+      this.setState({ notificationsOpen: false })
+    }
+  }
+
+  handleChatsContainerShow = () => {
+    if (!this.state.chatsContainerOpen) {
+      this.setState({
+        chatsContainerOpen: true,
+        notificationsOpen: false,
+      })
+    } else {
+      this.setState({ chatsContainerOpen: false })
+    }
+  }
+
   handleRequestClose = () => {
     this.setState({ open: false })
   }
 
   handleProfileMenuShow = () => {
     if (!this.state.profileMenuOpen) {
-      this.setState({ profileMenuOpen: true })
+      this.setState({
+        profileMenuOpen: true,
+      })
     } else {
       this.setState({ profileMenuOpen: false })
     }
@@ -222,16 +253,6 @@ class NavMenu extends PureComponent {
 
   handleSearchClose = () => {
     this.setState({ searchModalOpen: false })
-  }
-
-  handleClickChat = (event) => {
-    event.preventDefault()
-    const { chatModalOpen } = this.state
-    this.setState({ chatModalOpen: !chatModalOpen })
-  }
-
-  handleChatClose = () => {
-    this.setState({ chatModalOpen: false })
   }
 
   handleMapProfileMenuItems = () => {
@@ -620,201 +641,20 @@ class NavMenu extends PureComponent {
     const { currentReader } = this.props
     const { socialFollowers, socialFollowed, isReadFeed } = this.state
     return (
-      <div className='slide-down'>
-        <div style={styles.mobileNavContainer} className='top-bar-mobile'>
-          <nav className='nav-menu-logged'>
-            <ul className='nav-menu-logged-container'>
-
-              <li
-                className={`logged-menu-item ${isReadFeed ? 'loged-menu-item-active' : null} home`}
-              >
-                <Link
-                  to='/' style={styles.navItemLinks}
-                  className={`rf-nav-link ${isReadFeed ? 'home-link-active' : 'home-link'}`}
-                />
-              </li>
-
-              <li className='logged-menu-item'>
-                <a
-                  style={styles.navItemLinks}
-                  className='search-link rf-nav-link'
-                  onClick={this.handleClickSearch}
-                />
-              </li>
-
-              <li className='logged-menu-item'>
-                <a style={styles.navItemLinks} className='messages-link rf-nav-link' />
-              </li>
-
-              <li style={styles.loggedInRightNavLi}>
-                <a
-                  style={styles.navItemLinks}
-                  className='menu-badge-container rf-nav-link'
-                >
-                  <Badge
-                    onClick={this.handleClickChat}
-                    badgeContent={
-                      currentReader.notificationsCount ?
-                        currentReader.notificationsCount : 0
-                      }
-                    primary={true}
-                    badgeStyle={{
-                      top: -5,
-                      right: -7,
-                      width: '20px',
-                      height: '20px',
-                      paddingTop: 1,
-                      fontWeight: 700,
-                      backgroundColor: Colors.red,
-                    }}
-                  >
-                    <img
-                      src='/image/notifications-icon.svg'
-                      onClick={this.handleClickChat}
-                    />
-                  </Badge>
-                </a>
-              </li>
-              <li style={styles.loggedInRightNavLi}>
-                <a
-                  href={routes.shopCart()}
-                  style={styles.navItemLinks}
-                  className='menu-badge-container rf-nav-link'
-                >
-                  <Badge
-                    badgeContent={
-                      currentReader.cartItems ?
-                        currentReader.cartItems : 0
-                      }
-                    primary={true}
-                    badgeStyle={{
-                      top: -5,
-                      right: -7,
-                      width: '20px',
-                      height: '20px',
-                      paddingTop: 1,
-                      fontWeight: 700,
-                      backgroundColor: Colors.red,
-                    }}
-                  >
-                    <img src='/image/cart.svg' />
-                  </Badge>
-                </a>
-              </li>
-              <li className='nav-menu-logged-list'>
-                <a className='nav-menu-logged-anchor'>
-                  <MenuIcon style={styles.menuIcon} onClick={this.handleMenuClick}/>
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <MobileMenu
-            customBurgerIcon={false}
-            customCrossIcon={false}
-            id={'mobile-menu-logged'}
-            isOpen={this.state.isMobileMenuOpen}
-            width={300}
-          >
-            <div className='profile-section-container'>
-              <div className='first-row-elements'>
-                <Link to={`profile/${currentReader.slug}`} className='profile-badge-anchor'>
-                  <figure className='profile-badge-container'>
-                    <img
-                      src={currentReader.profileImage}
-                      className='profile-badge-img'
-                      alt=''
-                    />
-                  </figure>
-                </Link>
-                <Link to={`profile/${currentReader.slug}`} className='profile-name-anchor'>
-                  <span>{currentReader.firstName} {currentReader.lastName}</span>
-                </Link>
-              </div>
-              <div className='second-row-elements'>
-                <div className='follows-container'>
-                  <span>
-                    {socialFollowers ? socialFollowers : null} Followers
-                  </span>
-                </div>
-                <div className='follows-container'>
-                  <span>
-                    {socialFollowed ? socialFollowed : null} Following
-                  </span>
-                </div>
-              </div>
-              <div className='third-row-elements'>
-                <LitcoinStatus />
-              </div>
-            </div>
-            <div className='explore-links-container'>
-              <ul className='links-container'>
-                <span className='links-title'>
-                  Explore
-                </span>
-                {this.mapMobileMenuItems('Explore')}
-              </ul>
-              <ul className='links-container'>
-                <span className='links-title'>
-                  Help & Settings
-                </span>
-                {this.mapMobileMenuItems('Help')}
-                <li className='links-list'>
-                  <a
-                    href='https://www.goread.com/profile/settings'
-                    className='links-anchor'
-                    target='_blank'
-                  >
-                    Help
-                  </a>
-                </li>
-                <li className='links-list'>
-                  <a onClick={this.handleLogoutClick} className='links-anchor'>
-                    Logout
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div className='footer-links-container'>
-              {this.mapMobileMenuFooterItems()}
-            </div>
-          </MobileMenu>
-        </div>
-        <div style={styles.navContainer} className='top-bar'>
-          <div style={styles.insideNavContainer} className='top-bar-logged-menu'>
-            <div className='top-bar-left'>
-              <ul style={styles.navUl} className='menu'>
-                <li className='align-middle'>
-                  <Link to='/' className='logo-logged-anchor'>
-                    <img src='/image/logo.png' />
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div className='top-bar-center-items'>
-              <ul className='menu'>
-
+      <div className='relative-top-menu'>
+        <div className='slide-down'>
+          <div style={styles.mobileNavContainer} className='top-bar-mobile'>
+            <nav className='nav-menu-logged'>
+              <ul className='nav-menu-logged-container'>
                 <li
-                  className={
-                    `logged-menu-item ${isReadFeed ? 'loged-menu-item-active' : null} home`
+                  className={`logged-menu-item ${isReadFeed ?
+                    'loged-menu-item-active' : null} home`
                   }
                 >
                   <Link
                     to='/' style={styles.navItemLinks}
                     className={`rf-nav-link ${isReadFeed ? 'home-link-active' : 'home-link'}`}
-                  >
-                      Home
-                  </Link>
-                </li>
-
-                <li style={styles.loggedInNavLi} className='loged-menu-item'>
-                  <a
-                    style={styles.navItemLinks}
-                    className='messages-link rf-nav-link'
-                    onClick={this.handleClickChat}
-                  >
-                    Messages
-                  </a>
+                  />
                 </li>
 
                 <li className='logged-menu-item'>
@@ -822,27 +662,40 @@ class NavMenu extends PureComponent {
                     style={styles.navItemLinks}
                     className='search-link rf-nav-link'
                     onClick={this.handleClickSearch}
+                  />
+                </li>
+
+                <li className='logged-menu-item'>
+                  <Badge
+                    onClick={this.handleChatsContainerShow}
+                    badgeContent={12}
+                    primary={true}
+                    badgeStyle={{
+                      top: -7,
+                      left: 7,
+                      width: '20px',
+                      height: '20px',
+                      fontWeight: 700,
+                      fontSize: 12,
+                      backgroundColor: Colors.red,
+                    }}
+                    style={styles.messageBadge}
                   >
-                    Search
-                  </a>
+                    <a
+                      onClick={this.handleChatsContainerShow}
+                      style={styles.navItemLinks}
+                      className='messages-link rf-nav-link'
+                    />
+                  </Badge>
                 </li>
 
-              </ul>
-            </div>
-
-            <div className='top-bar-right'>
-              <ul className='menu'>
-
-                <li style={styles.loggedInRightNavLi}>
-                  <LitcoinStatus />
-                </li>
                 <li style={styles.loggedInRightNavLi}>
                   <a
                     style={styles.navItemLinks}
                     className='menu-badge-container rf-nav-link'
                   >
                     <Badge
-                      onClick={this.handleClickChat}
+                      onClick={this.handleNotificationsShow}
                       badgeContent={
                         currentReader.notificationsCount ?
                           currentReader.notificationsCount : 0
@@ -860,7 +713,7 @@ class NavMenu extends PureComponent {
                     >
                       <img
                         src='/image/notifications-icon.svg'
-                        onClick={this.handleClickChat}
+                        onClick={this.handleNotificationsShow}
                       />
                     </Badge>
                   </a>
@@ -891,32 +744,228 @@ class NavMenu extends PureComponent {
                     </Badge>
                   </a>
                 </li>
-
-                <li style={styles.loggedInRightNavLi} className='profile-menu-badge'>
-                  <a
-                    style={styles.rightNavLinks}
-                    onClick={this.handleProfileMenuShow}
-                  >
-                    <img
-                      src={currentReader.profileImage}
-                      style={styles.profileImageBadge}
-                    />
+                <li className='nav-menu-logged-list'>
+                  <a className='nav-menu-logged-anchor'>
+                    <MenuIcon style={styles.menuIcon} onClick={this.handleMenuClick}/>
                   </a>
-                  { this.state.profileMenuOpen ?
-                    this.userProfileMenu() : null}
                 </li>
               </ul>
+            </nav>
+            <MobileMenu
+              customBurgerIcon={false}
+              customCrossIcon={false}
+              id={'mobile-menu-logged'}
+              isOpen={this.state.isMobileMenuOpen}
+              width={300}
+            >
+              <div className='profile-section-container'>
+                <div className='first-row-elements'>
+                  <Link to={`profile/${currentReader.slug}`} className='profile-badge-anchor'>
+                    <figure className='profile-badge-container'>
+                      <img
+                        src={currentReader.profileImage}
+                        className='profile-badge-img'
+                        alt=''
+                      />
+                    </figure>
+                  </Link>
+                  <Link to={`profile/${currentReader.slug}`} className='profile-name-anchor'>
+                    <span>{currentReader.firstName} {currentReader.lastName}</span>
+                  </Link>
+                </div>
+                <div className='second-row-elements'>
+                  <div className='follows-container'>
+                    <span>
+                      {socialFollowers ? socialFollowers : null} Followers
+                    </span>
+                  </div>
+                  <div className='follows-container'>
+                    <span>
+                      {socialFollowed ? socialFollowed : null} Following
+                    </span>
+                  </div>
+                </div>
+                <div className='third-row-elements'>
+                  <LitcoinStatus />
+                </div>
+              </div>
+              <div className='explore-links-container'>
+                <ul className='links-container'>
+                  <span className='links-title'>
+                    Explore
+                  </span>
+                  {this.mapMobileMenuItems('Explore')}
+                </ul>
+                <ul className='links-container'>
+                  <span className='links-title'>
+                    Help & Settings
+                  </span>
+                  {this.mapMobileMenuItems('Help')}
+                  <li className='links-list'>
+                    <a onClick={this.handleLogoutClick} className='links-anchor'>
+                      Logout
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div className='footer-links-container'>
+                {this.mapMobileMenuFooterItems()}
+              </div>
+            </MobileMenu>
+          </div>
+          <div style={styles.navContainer} className='top-bar'>
+            <div style={styles.insideNavContainer} className='top-bar-logged-menu'>
+              <div className='top-bar-left'>
+                <ul style={styles.navUl} className='menu'>
+                  <li className='align-middle'>
+                    <Link to='/' className='logo-logged-anchor'>
+                      <img src='/image/logo.png' />
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+
+              <div className='top-bar-center-items'>
+                <ul className='menu'>
+
+                  <li
+                    className={
+                      `logged-menu-item ${isReadFeed ? 'loged-menu-item-active' : null} home`
+                    }
+                  >
+                    <Link
+                      to='/' style={styles.navItemLinks}
+                      className={`rf-nav-link ${isReadFeed ? 'home-link-active' : 'home-link'}`}
+                    >
+                        Home
+                    </Link>
+                  </li>
+
+                  <li style={styles.loggedInNavLi} className='loged-menu-item'>
+                    <Badge
+                      onClick={this.handleChatsContainerShow}
+                      badgeContent={12}
+                      primary={true}
+                      badgeStyle={{
+                        top: -7,
+                        left: 7,
+                        width: '20px',
+                        height: '20px',
+                        fontWeight: 700,
+                        fontSize: 12,
+                        backgroundColor: Colors.red,
+                      }}
+                      style={styles.messageBadge}
+                    >
+                      <a
+                        style={styles.navItemLinks}
+                        className='messages-link rf-nav-link'
+                        onClick={this.handleChatsContainerShow}
+                      >
+                        Messages
+                      </a>
+                    </Badge>
+                  </li>
+
+                  <li className='logged-menu-item'>
+                    <a
+                      style={styles.navItemLinks}
+                      className='search-link rf-nav-link'
+                      onClick={this.handleClickSearch}
+                    >
+                      Search
+                    </a>
+                  </li>
+
+                </ul>
+              </div>
+
+              <div className='top-bar-right'>
+                <ul className='menu'>
+
+                  <li style={styles.loggedInRightNavLi}>
+                    <LitcoinStatus />
+                  </li>
+                  <li style={styles.loggedInRightNavLi}>
+                    <a
+                      style={styles.navItemLinks}
+                      className='menu-badge-container rf-nav-link'
+                    >
+                      <Badge
+                        onClick={this.handleNotificationsShow}
+                        badgeContent={
+                          currentReader.notificationsCount ?
+                            currentReader.notificationsCount : 0
+                          }
+                        primary={true}
+                        badgeStyle={{
+                          top: -5,
+                          right: -7,
+                          width: '20px',
+                          height: '20px',
+                          paddingTop: 1,
+                          fontWeight: 700,
+                          backgroundColor: Colors.red,
+                        }}
+                      >
+                        <img
+                          src='/image/notifications-icon.svg'
+                          onClick={this.handleNotificationsShow}
+                        />
+                      </Badge>
+                    </a>
+                  </li>
+                  <li style={styles.loggedInRightNavLi}>
+                    <a
+                      href={routes.shopCart()}
+                      style={styles.navItemLinks}
+                      className='menu-badge-container rf-nav-link'
+                    >
+                      <Badge
+                        badgeContent={
+                          currentReader.cartItems ?
+                            currentReader.cartItems : 0
+                          }
+                        primary={true}
+                        badgeStyle={{
+                          top: -5,
+                          right: -7,
+                          width: '20px',
+                          height: '20px',
+                          paddingTop: 1,
+                          fontWeight: 700,
+                          backgroundColor: Colors.red,
+                        }}
+                      >
+                        <img src='/image/cart.svg' />
+                      </Badge>
+                    </a>
+                  </li>
+
+                  <li style={styles.loggedInRightNavLi} className='profile-menu-badge'>
+                    <a
+                      style={styles.rightNavLinks}
+                      onClick={this.handleProfileMenuShow}
+                    >
+                      <img
+                        src={currentReader.profileImage}
+                        style={styles.profileImageBadge}
+                      />
+                    </a>
+                    { this.state.profileMenuOpen ?
+                      this.userProfileMenu() : null}
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
+          <SearchModal
+            modalOpen={this.state.searchModalOpen}
+            handleClose={this.handleSearchClose}
+          />
         </div>
-        <SearchModal
-          modalOpen={this.state.searchModalOpen}
-          handleClose={this.handleSearchClose}
-        />
-        <ChatFrame
-          modalOpen={this.state.chatModalOpen}
-          handleClose={this.handleChatClose}
-        />
+        {this.state.notificationsOpen ? <Notifications /> : null}
+        {this.state.chatsContainerOpen ? <ChatsContainer /> : null}
       </div>
     )
   }

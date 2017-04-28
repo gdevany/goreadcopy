@@ -11,9 +11,11 @@ import socialReducer from './social'
 import searchReducer from './search'
 import tilesReducer from './tiles'
 import sidebarAdsReducer from './ads'
+import chatReducer from './chat'
 
 const rootReducer = combineReducers({
   books: booksReducer,
+  chat: chatReducer,
   currentReader: currentReaderReducer,
   genres: genreReducer,
   litcoins: litcoinsReducer,

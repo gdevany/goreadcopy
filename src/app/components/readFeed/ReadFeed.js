@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import LeftContainer from './LeftContainer'
 import MiddleContainer from './MiddleContainer'
 import RightContainer from './RightContainer'
-import { NavMenu } from '../common'
+import { NavMenu, SocketHandler } from '../common'
+import { OnlineUsersChat, Conversation } from '../common/chatNotifications'
 import { Auth } from '../../services'
 import { CurrentReader } from '../../redux/actions'
 
@@ -21,10 +22,15 @@ class ReadFeed extends PureComponent {
       <div className=''>
         <NavMenu isUserLoggedIn={isUserLoggedIn} />
         <div className='row center-text read-feed'>
+          <div className='main-conversation-container'>
+            <Conversation />
+            <OnlineUsersChat />
+          </div>
           <LeftContainer isMyReadFeed={isMyReadFeed}/>
           <MiddleContainer userId={id} />
           <RightContainer />
         </div>
+        <SocketHandler/>
       </div>
     )
   }

@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import { Auth } from '../../services'
 import { ProfilePage, CurrentReader } from '../../redux/actions'
-import { NavMenu } from '../common'
+import { NavMenu, SocketHandler } from '../common'
 import LeftProfileContainer from './LeftProfileContainer'
 import MiddleProfileContainer from './MiddleProfileContainer'
 import RightProfileContainer from './RightProfileContainer'
@@ -142,6 +142,7 @@ class ProfileWrapper extends PureComponent {
           />
           <RightProfileContainer />
         </div>
+        <SocketHandler/>
       </div>
     )
   }
