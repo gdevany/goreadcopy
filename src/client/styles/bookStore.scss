@@ -22,6 +22,7 @@
   align-items: center;
   flex-direction: column;
   background-repeat: round;
+  position: relative;
   @media all and (max-width: 667px) and (orientation: landscape) {
     height: 70vh;
     background-repeat: no-repeat;
@@ -39,6 +40,7 @@
     text-align: center;
     margin-bottom: 15px;
     font-size: 20px;
+    z-index: 10;
     @media all and (min-width: 768px){
       font-size: 26px;
     }
@@ -51,13 +53,91 @@
     font-size: 14px;
     color: $white;
     transition: all .3s ease;
+    z-index: 10;
     @media all and (min-width: 768px){
       padding: 10px 15px;
-      font-size: 18px;
+      font-size: 16px;
     }
     &:hover{
       background: $white;
       color: $black;
+    }
+  }
+  .books-effect-in-hero-container{
+    display: none;
+    @media all and (min-width: 768px){
+      position: absolute;
+      right: -100px;
+      bottom: -30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      transform: rotate(-35deg);
+      z-index: 9;
+      max-width: 600px;
+      @media all and (min-width: 1600px){
+        max-width: 800px;
+      }
+    }
+    .book-effect-column{
+      &:nth-child(3) {
+        margin-top: -50px;
+      }
+      figure{
+        width: 100px;
+        padding: 10px;
+        @media all and (min-width: 1600px){
+          width: 150px;
+        }
+      }
+    }
+  }
+}
+
+.categories-on-carousel-container{
+  .slick-slider{
+    box-shadow: none;
+    .slick-list{
+      background: transparent;
+      box-shadow: none;
+      top: -65px;
+      .slick-track{
+        .category-on-carousel-square{
+          width: 180px;
+          height: 130px;
+          margin: 0 5px;
+          text-align: center;
+          background: $white;
+          border-radius: 5px;
+          box-shadow: rgba(222, 222, 222, 0.5) 0px 4px 20px 0px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+    .slick-dots{
+      box-shadow: none;
+      background: transparent;
+      top: -120px;
+      height: auto;
+      li{
+        button{
+          &:before{
+            opacity: 1;
+            height: auto;
+            color: rgba(10, 10, 10, 0.7);
+          }
+        }
+      }
+      .slick-active{
+        button{
+          &:before{
+            color: $white;
+          }
+        }
+      }
     }
   }
 }

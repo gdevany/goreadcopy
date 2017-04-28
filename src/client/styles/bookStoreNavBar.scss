@@ -196,6 +196,7 @@
   position: fixed;
   top: 0;
   background-color: $white;
+  z-index: 11;
   box-shadow: rgba(222, 222, 222, 0.5) 0px 4px 20px 0px;
   .bookstore-navbar-container{
     width: 100%;
