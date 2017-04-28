@@ -170,7 +170,7 @@ input[type="checkbox"]:focus{
   }
   .quotes-text{
     margin: 0;
-    word-break: break-all;
+    word-break: break-word;
   }
 }
 
@@ -338,6 +338,14 @@ input[type="checkbox"]:focus{
   @media all and (min-width: 1400px){
     height: 65vh;
   }
+}
+
+.margin-left{
+  margin-left: .5em;
+}
+
+.margin-right{
+  margin-right: .5em;
 }
 
 @import 'variables.scss';

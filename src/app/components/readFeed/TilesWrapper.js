@@ -51,6 +51,10 @@ const TilesWrapper = ({ feed }) => {
             image: (tile.actor.imageUrl || tile.actor.image),
             link: (tile.actor.url || tile.actor.link)
           },
+          target: {
+            name: (tile.target ? tile.target.fullname || tile.target.name : null),
+            link: (tile.target ? tile.target.url || tile.target.link : null)
+          },
           likes: {
             count: tile.likes.count,
             likedByReader: tile.likedByReader
@@ -66,6 +70,7 @@ const TilesWrapper = ({ feed }) => {
           }
         }
       }
+
       if (tile.tileType === 'socialpost') {
         if (tile.content.tileType) {
           tileType = tile.content.tileType
@@ -286,6 +291,23 @@ const TilesWrapper = ({ feed }) => {
             />
           )
           break
+        case 'video':
+          const videoContent = {
+            link: tileContent.data.link,
+            originUrl: tileContent.originUrl,
+            title: tileContent.data.name,
+            description: tileContent.summary,
+            socialComment: (tile.mentions || null),
+            mentionList: (tile.mentionsArray || null)
+          }
+          result.push(
+            <VideoTile
+              key={index}
+              tileDefaultProps={tileDefaultProps}
+              content={videoContent}
+            />
+          )
+          break
         case 'buzzvideo':
           const buzzVideoContent = {
             link: tileContent.link,
@@ -303,12 +325,13 @@ const TilesWrapper = ({ feed }) => {
             />
           )
           break
+        case 'statuspost':
         case 'status':
           const statusPostContent = {
             image: tileContent.imageUrl.url,
             description: tileContent.mentions,
             socialComment: (shareComment || ''),
-            mentionsList: tileContent.mentionArray,
+            mentionsList: tileContent.mentionArray || [],
             socialPostComment: (tile.mentions || tile.shareComment || ''),
             mentionsPostList: (tile.mentionArray || []),
             activeContent: (tileContent.activeUrl || null),

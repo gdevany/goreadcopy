@@ -27,7 +27,7 @@ const ExternalRoutes = () => {
     readFeed: () => backendUrl(''),
     myBookClubs: () => backendUrl('bookclubs'),
     myOrders: () => backendUrl('store/orders'),
-    booksWithKen: () => backendUrl('bookswithken'),
+    goReadBooks: () => backendUrl('goreadbooks'),
     videoTutorials: () => backendUrl('video-tutorials'),
     games: () => backendUrl('games'),
     advancedSearch: () => backendUrl('search'),
@@ -41,6 +41,7 @@ const ExternalRoutes = () => {
     publisherBuzz: ({ slug }) => backendUrl(`publisher/${slug}`),
     publisherBuzzSettings: ({ slug }) => backendUrl(`publisher/${slug}/buzz/settings`),
     shopCart: () => backendUrl('shop/cart'),
+    resetPassword: () => backendUrl('profile/change_password')
   }
   return routes
 }

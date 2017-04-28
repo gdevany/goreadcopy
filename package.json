@@ -54,7 +54,6 @@
     "basil.js": "^0.4.4",
     "bluebird": "^3.4.7",
     "body-parser": "^1.16.0",
-    "child_process": "^1.0.2",
     "compression": "^1.6.2",
     "compression-webpack-plugin": "^0.3.1",
     "concurrently": "^3.1.0",

@@ -30,7 +30,7 @@ const Auth = () => {
       'domain': Env.SESSION_COOKIE_DOMAIN
     }
 
-    return !Basil.cookie.get(SESSION_ID_FIELD) ?
+    return !Basil.cookie.get(SESSION_ID_FIELD) && token ?
       Basil.cookie.set(SESSION_ID_FIELD, token, cookieSettings) : null
   }
 
@@ -39,7 +39,7 @@ const Auth = () => {
       'domain': Env.SESSION_COOKIE_DOMAIN
     }
 
-    return !Basil.cookie.get(CSRF_TOKEN_FIELD) ?
+    return !Basil.cookie.get(CSRF_TOKEN_FIELD) && token ?
       Basil.cookie.set(CSRF_TOKEN_FIELD, token, cookieSettings) : null
   }
 
