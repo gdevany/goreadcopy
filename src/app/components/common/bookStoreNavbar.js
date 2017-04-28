@@ -4,10 +4,13 @@ import { Link } from 'react-router'
 import { ExternalRoutes as routes } from '../../constants'
 import { Auth, CurrentReader } from '../../redux/actions'
 import { Auth as AuthService } from '../../services'
+import SignUpModal from './SignUpModal'
+import LogInModal from './SignInModal'
 import LitcoinStatus from './LitcoinStatus'
 import { Colors } from '../../constants/style'
 import MenuIcon from 'material-ui/svg-icons/navigation/menu'
 import Badge from 'material-ui/Badge'
+import { stack as MobileMenu } from 'react-burger-menu'
 import R from 'ramda'
 
 const isUserLoggedIn = AuthService.currentUserExists()
@@ -22,14 +25,22 @@ class BookStoreNavBar extends PureComponent {
       profileMenuOpen: false,
       readerFetched: false,
       usePlatformAs: false,
+      modalSignUpOpen: false,
+      modalLogInOpen: false,
+      isMobileMenuOpen: false,
+      isMobileLoggedMenuOpen: false,
+      categoriesOpen: false
     }
+    this.handleSignUpModalClose = this.handleSignUpModalClose.bind(this)
+    this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
     this.handleProfileMenuShow = this.handleProfileMenuShow.bind(this)
     this.handleProfileMenuHide = this.handleProfileMenuHide.bind(this)
     this.handleLogoutClick = this.handleLogoutClick.bind(this)
+    this.handleCategoriesClick = this.handleCategoriesClick.bind(this)
   }
 
   componentWillMount = () => {
-    if (!this.state.readerFetched) {
+    if (!this.state.readerFetched && isUserLoggedIn) {
       this.props.getCurrentReader()
       this.setState({
         readerFetched: true
@@ -51,6 +62,23 @@ class BookStoreNavBar extends PureComponent {
     }
   }
 
+  handleSignUpModalOpen = () => {
+    this.setState({ modalSignUpOpen: true })
+  }
+
+  handleSignUpModalClose = () => {
+    this.setState({ modalSignUpOpen: false })
+  }
+
+  handleLogInModalOpen = (event) => {
+    event.preventDefault()
+    this.setState({ modalLogInOpen: true })
+  }
+
+  handleLogInModalClose = () => {
+    this.setState({ modalLogInOpen: false })
+  }
+
   handleProfileMenuShow = () => {
     if (!this.state.profileMenuOpen) {
       this.setState({ profileMenuOpen: true })
@@ -67,6 +95,36 @@ class BookStoreNavBar extends PureComponent {
     event.preventDefault()
     this.props.logoutCurrentReader()
     this.props.processUserLogout()
+  }
+
+  handleMenuClick = (event) => {
+    event.preventDefault()
+    if (this.state.isMobileMenuOpen) {
+      this.setState({
+        isMobileMenuOpen: false,
+        categoriesOpen: false,
+      })
+    } else {
+      this.setState({ isMobileMenuOpen: true })
+    }
+  }
+
+  handleLoggedMenuClick = (event) => {
+    event.preventDefault()
+    if (this.state.isMobileLoggedMenuOpen) {
+      this.setState({ isMobileLoggedMenuOpen: false })
+    } else {
+      this.setState({ isMobileLoggedMenuOpen: true })
+    }
+  }
+
+  handleCategoriesClick = (event) => {
+    event.preventDefault()
+    if (this.state.categoriesOpen) {
+      this.setState({ categoriesOpen: false })
+    } else {
+      this.setState({ categoriesOpen: true })
+    }
   }
 
   handlePlatformUse(platformUse) {
@@ -234,7 +292,7 @@ class BookStoreNavBar extends PureComponent {
             <div className='bookstore-navbar-left-container'>
               <figure className='bookstore-navbar-logo-figure'>
                 <Link to='/' className='bookstore-navbar-menu-logo-anchor'>
-                  <img src='/image/logo_share.png' className='bookstore-mobile-logo'/>
+                  <img src='/image/book-store-logo-mobile.png' className='bookstore-mobile-logo'/>
                   <img src='/image/book-store-logo.svg' className='bookstore-desktop-logo'/>
                 </Link>
               </figure>
@@ -261,7 +319,7 @@ class BookStoreNavBar extends PureComponent {
                     <li className='bookstore-navbar-menu-list'>
                       <a
                         className='bookstore-navbar-menu-anchor'
-                        href='#'
+                        onClick={this.handleSignUpModalOpen}
                       >
                         Join Community
                       </a>
@@ -376,18 +434,222 @@ class BookStoreNavBar extends PureComponent {
                     <li className='bookstore-navbar-menu-list on-mobile-only'>
                       <a
                         className='bookstore-navbar-menu-anchor'
-                        href='#'
+                        onClick={this.handleLoggedMenuClick}
                       >
                         <MenuIcon />
                       </a>
                     </li>
+                    <MobileMenu
+                      customBurgerIcon={false}
+                      customCrossIcon={false}
+                      id={'bookclub-nav-menu'}
+                      isOpen={this.state.isMobileLoggedMenuOpen}
+                    >
+                      <section className='bookstore-mobile-menu-container'>
+                        <div className='bookstore-mobile-menu-profile-container'>
+                          <figure className='bookstore-mobile-menu-profile-figure'>
+                            <Link
+                              className='bookstore-mobile-menu-profile-img-anchor'
+                              to={`/profile/${currentReader.slug}`}
+                            >
+                              <img
+                                className='bookstore-mobile-menu-profile-img'
+                                src={currentReader.profileImage}
+                              />
+                            </Link>
+                          </figure>
+                          <div className='bookstore-mobile-menu-profile-name'>
+                            <Link
+                              to={`/profile/${currentReader.slug}`}
+                              className='bookstore-mobile-menu-profile-name-anchor'
+                            >
+                              <span>{currentReader.firstName} {currentReader.lastName}</span>
+                            </Link>
+                          </div>
+                          <div className='bookstore-mobile-menu-litcoints'>
+                            <LitcoinStatus />
+                          </div>
+                        </div>
+                        <ul className='bookstore-mobile-elements-container'>
+                          <li className='bookstore-mobile-menu-title'>
+                            Store
+                          </li>
+                          <li className='bookstore-mobile-menu-list'>
+                            <a
+                              onClick={this.handleCategoriesClick}
+                              className='bookstore-mobile-menu-anchor'
+                            >
+                              Categories
+                            </a>
+                          </li>
+                          <li className='bookstore-mobile-menu-list'>
+                            <a
+                              className='bookstore-mobile-menu-anchor'
+                            >
+                              My Wishlist
+                            </a>
+                          </li>
+                          <li className='bookstore-mobile-menu-title'>
+                            Account
+                          </li>
+                          <li className='bookstore-mobile-menu-list'>
+                            <Link
+                              to={`/profile/${currentReader.slug}`}
+                              className='bookstore-mobile-menu-anchor'
+                            >
+                              View Profile
+                            </Link>
+                          </li>
+                          <li className='bookstore-mobile-menu-list'>
+                            <Link
+                              to='/'
+                              className='bookstore-mobile-menu-anchor'
+                            >
+                              My Read Feed
+                            </Link>
+                          </li>
+                          <li className='bookstore-mobile-menu-list'>
+                            <a
+                              className='bookstore-mobile-menu-anchor'
+                            >
+                              Orders
+                            </a>
+                          </li>
+                          <li className='bookstore-mobile-menu-list'>
+                            <Link
+                              to='/profile/settings'
+                              className='bookstore-mobile-menu-anchor'
+                            >
+                              Settings
+                            </Link>
+                          </li>
+                          <li className='bookstore-mobile-menu-list'>
+                            <a
+                              className='bookstore-mobile-menu-anchor'
+                            >
+                              Help
+                            </a>
+                          </li>
+                          <li className='bookstore-mobile-menu-list'>
+                            <a
+                              onClick={this.handleLogoutClick}
+                              className='bookstore-mobile-menu-anchor'
+                            >
+                              Log Out
+                            </a>
+                          </li>
+                        </ul>
+                        <div className='bookstore-mobile-external-links'>
+                          <ul className='bookstore-mobile-external-container'>
+                            <li className='bookstore-mobile-external-list'>
+                              <a
+                                className='bookstore-mobile-external-anchor'
+                              >
+                                Advertising
+                              </a>
+                            </li>
+                            <li className='bookstore-mobile-external-list'>
+                              <a
+                                className='bookstore-mobile-external-anchor'
+                              >
+                                Author Enrollment
+                              </a>
+                            </li>
+                            <li className='bookstore-mobile-external-list'>
+                              <a
+                                className='bookstore-mobile-external-anchor'
+                              >
+                                Publisher Enrollment
+                              </a>
+                            </li>
+                            <li className='bookstore-mobile-external-list'>
+                              <a
+                                className='bookstore-mobile-external-anchor'
+                              >
+                                Media
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                        <div
+                          className={this.state.categoriesOpen ?
+                              'bookstore-categories-list-container list-open' :
+                            'bookstore-categories-list-container list-close'
+                          }
+                        >
+                          <a
+                            onClick={this.handleCategoriesClick}
+                            className='bookstore-categorie-title'
+                          >
+                            &lt; Back
+                          </a>
+                          <ul className='bookstore-categories-list'>
+                            <li className='bookstore-categories-list-element'>
+                              <a className='bookstore-categories-list-anchor selected'>
+                                Science Fiction
+                              </a>
+                            </li>
+                            <li className='bookstore-categories-list-element'>
+                              <a className='bookstore-categories-list-anchor'>
+                                Action & Adventure
+                              </a>
+                            </li>
+                            <li className='bookstore-categories-list-element'>
+                              <a className='bookstore-categories-list-anchor'>
+                                Alternative History
+                              </a>
+                            </li>
+                            <li className='bookstore-categories-list-element'>
+                              <a className='bookstore-categories-list-anchor'>
+                                Apocalyptic & Post Apo...
+                              </a>
+                            </li>
+                            <li className='bookstore-categories-list-element'>
+                              <a className='bookstore-categories-list-anchor'>
+                                Collections & Anthologies
+                              </a>
+                            </li>
+                            <li className='bookstore-categories-list-element'>
+                              <a className='bookstore-categories-list-anchor'>
+                                General
+                              </a>
+                            </li>
+                            <li className='bookstore-categories-list-element'>
+                              <a className='bookstore-categories-list-anchor'>
+                                Hard Science Fiction
+                              </a>
+                            </li>
+                            <li className='bookstore-categories-list-element'>
+                              <a className='bookstore-categories-list-anchor'>
+                                Military
+                              </a>
+                            </li>
+                            <li className='bookstore-categories-list-element'>
+                              <a className='bookstore-categories-list-anchor'>
+                                Space Opera
+                              </a>
+                            </li>
+                            <li className='bookstore-categories-list-element'>
+                              <a className='bookstore-categories-list-anchor'>
+                                Steam Punk
+                              </a>
+                            </li>
+                            <li className='bookstore-categories-list-element'>
+                              <a className='bookstore-categories-list-anchor'>
+                                Time Travel
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </section>
+                    </MobileMenu>
                   </ul>
                 ) : (
                   <ul className='bookstore-navbar-menu-elements'>
                     <li className='bookstore-navbar-menu-list on-desktop-only'>
                       <a
                         className='bookstore-navbar-menu-anchor'
-                        href='#'
+                        onClick={this.handleLogInModalOpen}
                       >
                         Sign In
                       </a>
@@ -406,17 +668,168 @@ class BookStoreNavBar extends PureComponent {
                     <li className='bookstore-navbar-menu-list on-mobile-only'>
                       <a
                         className='bookstore-navbar-menu-anchor'
-                        href='#'
+                        onClick={this.handleMenuClick}
                       >
                         <MenuIcon />
                       </a>
                     </li>
+                    <MobileMenu
+                      customBurgerIcon={false}
+                      customCrossIcon={false}
+                      id={'bookclub-nav-menu'}
+                      isOpen={this.state.isMobileMenuOpen}
+                    >
+                      <section className='bookstore-mobile-menu-container'>
+                        <ul className='bookstore-mobile-elements-container'>
+                          <li className='bookstore-mobile-menu-title'>
+                            Store
+                          </li>
+                          <li className='bookstore-mobile-menu-list'>
+                            <a
+                              onClick={this.handleCategoriesClick}
+                              className='bookstore-mobile-menu-anchor'
+                            >
+                              Categories
+                            </a>
+                          </li>
+                          <li className='bookstore-mobile-menu-list'>
+                            <a
+                              onClick={this.handleSignUpModalOpen}
+                              className='bookstore-mobile-menu-anchor'
+                            >
+                              Join the Community
+                            </a>
+                          </li>
+                          <li className='bookstore-mobile-menu-title'>
+                            GoRead Profile
+                          </li>
+                          <li className='bookstore-mobile-menu-list'>
+                            <a
+                              onClick={this.handleLogInModalOpen}
+                              className='bookstore-mobile-menu-anchor'
+                            >
+                              Sign In
+                            </a>
+                          </li>
+                        </ul>
+                        <div className='bookstore-mobile-external-links'>
+                          <ul className='bookstore-mobile-external-container'>
+                            <li className='bookstore-mobile-external-list'>
+                              <a
+                                className='bookstore-mobile-external-anchor'
+                              >
+                                Advertising
+                              </a>
+                            </li>
+                            <li className='bookstore-mobile-external-list'>
+                              <a
+                                className='bookstore-mobile-external-anchor'
+                              >
+                                Author Enrollment
+                              </a>
+                            </li>
+                            <li className='bookstore-mobile-external-list'>
+                              <a
+                                className='bookstore-mobile-external-anchor'
+                              >
+                                Publisher Enrollment
+                              </a>
+                            </li>
+                            <li className='bookstore-mobile-external-list'>
+                              <a
+                                className='bookstore-mobile-external-anchor'
+                              >
+                                Media
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                        <div
+                          className={this.state.categoriesOpen ?
+                              'bookstore-categories-list-container list-open' :
+                            'bookstore-categories-list-container list-close'
+                          }
+                        >
+                          <a
+                            onClick={this.handleCategoriesClick}
+                            className='bookstore-categorie-title'
+                          >
+                            &lt; Back
+                          </a>
+                          <ul className='bookstore-categories-list'>
+                            <li className='bookstore-categories-list-element'>
+                              <a className='bookstore-categories-list-anchor selected'>
+                                Science Fiction
+                              </a>
+                            </li>
+                            <li className='bookstore-categories-list-element'>
+                              <a className='bookstore-categories-list-anchor'>
+                                Action & Adventure
+                              </a>
+                            </li>
+                            <li className='bookstore-categories-list-element'>
+                              <a className='bookstore-categories-list-anchor'>
+                                Alternative History
+                              </a>
+                            </li>
+                            <li className='bookstore-categories-list-element'>
+                              <a className='bookstore-categories-list-anchor'>
+                                Apocalyptic & Post Apo...
+                              </a>
+                            </li>
+                            <li className='bookstore-categories-list-element'>
+                              <a className='bookstore-categories-list-anchor'>
+                                Collections & Anthologies
+                              </a>
+                            </li>
+                            <li className='bookstore-categories-list-element'>
+                              <a className='bookstore-categories-list-anchor'>
+                                General
+                              </a>
+                            </li>
+                            <li className='bookstore-categories-list-element'>
+                              <a className='bookstore-categories-list-anchor'>
+                                Hard Science Fiction
+                              </a>
+                            </li>
+                            <li className='bookstore-categories-list-element'>
+                              <a className='bookstore-categories-list-anchor'>
+                                Military
+                              </a>
+                            </li>
+                            <li className='bookstore-categories-list-element'>
+                              <a className='bookstore-categories-list-anchor'>
+                                Space Opera
+                              </a>
+                            </li>
+                            <li className='bookstore-categories-list-element'>
+                              <a className='bookstore-categories-list-anchor'>
+                                Steam Punk
+                              </a>
+                            </li>
+                            <li className='bookstore-categories-list-element'>
+                              <a className='bookstore-categories-list-anchor'>
+                                Time Travel
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </section>
+                    </MobileMenu>
                   </ul>
                 )
               }
             </div>
           </nav>
         </section>
+        <SignUpModal
+          modalOpen={this.state.modalSignUpOpen}
+          handleClose={this.handleSignUpModalClose}
+        />
+        <LogInModal
+          modalOpen={this.state.modalLogInOpen}
+          handleClose={this.handleLogInModalClose}
+        />
       </header>
     )
   }

@@ -1,5 +1,146 @@
 @import 'variables.scss';
 
+#bookclub-nav-menu{
+  left: 0;
+  top: 60px;
+  .bm-menu{
+    .bm-item-list{
+      padding: 0;
+      background-color: #f9f9f9;
+      height: 100% !important;
+      overflow: hidden;
+    }
+  }
+}
+
+.bookstore-mobile-menu-container{
+  width: 100%;
+  height: calc(100vh - 60px);
+  overflow-y: scroll;
+  overflow-x: hidden;
+  position: relative;
+  .bookstore-mobile-menu-profile-container{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: $white;
+    padding: 10px;
+    .bookstore-mobile-menu-profile-figure{
+      width: 40px;
+      .bookstore-mobile-menu-profile-img-anchor{
+        .bookstore-mobile-menu-profile-img{
+          border-radius: 23px;
+        }
+      }
+    }
+    .bookstore-mobile-menu-profile-name{
+      display: flex;
+      .bookstore-mobile-menu-profile-name-anchor{
+        span{
+          font-size: 16px;
+          color: $black
+        }
+      }
+    }
+    .bookstore-mobile-menu-litcoints{
+      div{
+        .rf-nav-link{
+          span{
+            font-size: 16px;
+            color: $black;
+          }
+          .litcoin-img{
+            width: 20px;
+            margin-left: 2.5px;
+          }
+        }
+      }
+    }
+  }
+  .bookstore-mobile-elements-container{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    .bookstore-mobile-menu-title{
+      font-size: 16px;
+      width: 100%;
+      padding: 25px 15px 0 15px;
+    }
+    .bookstore-mobile-menu-list{
+      width: 100%;
+      .bookstore-mobile-menu-anchor{
+        display: flex;
+        font-size: 18px;
+        padding: 15px;
+      }
+    }
+  }
+  .bookstore-mobile-external-links{
+    width: 100%;
+    padding: 20px 15px 15px;
+    .bookstore-mobile-external-container{
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      .bookstore-mobile-external-list{
+        padding: 0 7.5px;
+        .bookstore-mobile-external-anchor{
+          font-size: 16px;
+          color: $light-med-grey;
+        }
+      }
+    }
+  }
+  .bookstore-categories-list-container{
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .bookstore-categories-list-container.list-open{
+    height: 100%;
+    width: 100%;
+    transition: all .1s ease-in-out;
+    background-color: #f9f9f9;
+    padding: 15px;
+    .bookstore-categorie-title{
+      display: flex;
+      color: #0099ff;
+      font-size: 16px;
+    }
+    .bookstore-categories-list{
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      .bookstore-categories-list-element{
+        .bookstore-categories-list-anchor{
+          display: flex;
+          font-size: 18px;
+          padding: 7.5px 5px;
+        }
+        .bookstore-categories-list-anchor.selected{
+          font-weight: 600;
+          color: $black;
+        }
+      }
+    }
+  }
+  .bookstore-categories-list-container.list-close{
+    height: 0;
+    width: 0;
+    overflow: hidden;
+    background-color: #f9f9f9;
+    transition: all 0.1s ease-in-out;
+  }
+}
+
 .main-bookstore-navbar-container{
   display: flex;
   height: 60px;
