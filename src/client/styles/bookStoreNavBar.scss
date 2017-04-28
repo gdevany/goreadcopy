@@ -13,6 +13,54 @@
   }
 }
 
+#bookclub-categories-nav-menu{
+  left: 0;
+  top: 60px;
+  .bm-menu{
+    .bm-item-list{
+      padding: 0;
+      background-color: $white;
+      height: 100% !important;
+      overflow: hidden;
+    }
+  }
+}
+
+.categories-list-menu-container{
+  height: calc(100vh - 60px);
+  overflow-x: hidden;
+  overflow-y: scroll;
+  .categories-list-menu{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    .categories-list-item-title{
+      padding: 20px 15px;
+      font-size: 18px;
+      font-weight: 600;
+      color: black;
+    }
+    .categories-list-item{
+      width: 100%;
+      .categories-list-anchor{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        padding: 10px 15px;
+        .categories-list-name{
+          font-size: 16px;
+        }
+        .categories-list-icon{
+          font-size: 16px;
+          color: $blue;
+          font-weight: 800;
+        }
+      }
+    }
+  }
+}
+
 .bookstore-mobile-menu-container{
   width: 100%;
   height: calc(100vh - 60px);
@@ -112,7 +160,7 @@
     padding: 15px;
     .bookstore-categorie-title{
       display: flex;
-      color: #0099ff;
+      color: $store-blue;
       font-size: 16px;
     }
     .bookstore-categories-list{
@@ -147,7 +195,7 @@
   width: 100%;
   position: fixed;
   top: 0;
-  background-color: rgba(222, 222, 222, 0.14);
+  background-color: $white;
   box-shadow: rgba(222, 222, 222, 0.5) 0px 4px 20px 0px;
   .bookstore-navbar-container{
     width: 100%;
@@ -195,6 +243,7 @@
               display: none;
               @media all and (min-width: 1024px) {
                 display: flex;
+                margin: 0 auto;
               }
             }
           }
@@ -237,7 +286,20 @@
               .bookstore-navbar-menu-anchor{
                 font-size: 16px;
                 display: flex;
-                padding: 10px;
+                padding: 17.5px 10px;
+                transition: all .1s ease-in-out;
+                &:hover{
+                  background: $store-blue;
+                  color: white;
+                }
+              }
+              .bookstore-navbar-menu-anchor-active{
+                font-size: 16px;
+                display: flex;
+                padding: 17.5px 10px;
+                transition: all .1s ease-in-out;
+                background: $store-blue;
+                color: white;
               }
             }
           }
