@@ -256,13 +256,12 @@ class NavMenu extends PureComponent {
   }
 
   handleMapProfileMenuItems = () => {
-    const { orders, referrals, help } = routes
+    const { orders, referrals } = routes
 
     const nonMenuRoutes = [
       ['Orders', orders],
       ['Referrals', referrals],
       ['Settings', '/profile/settings', true],
-      ['Help', help],
     ]
 
     const NonMenuItem = ([title, routeFn, routeType], index) => (
@@ -370,6 +369,15 @@ class NavMenu extends PureComponent {
         </li>
         <hr className='profile-menu-divider' />
         { this.handleMapProfileMenuItems() }
+        <li className='profile-menu-element'>
+          <a
+            className='profile-menu-anchor'
+            href='http://support.readerslegacy.com/'
+            target='_blank'
+          >
+            Support
+          </a>
+        </li>
         <li className='profile-menu-element'>
           <a className='profile-menu-anchor' onClick={this.handleLogoutClick}>
             Logout
@@ -529,7 +537,6 @@ class NavMenu extends PureComponent {
     const {
       orders,
       referrals,
-      help,
       authorBuzz,
       authorBuzzSettings,
       publisherBuzz,
@@ -555,9 +562,6 @@ class NavMenu extends PureComponent {
           publisherBuzzSettings({ slug: currentReader.publisher.slug }), false, true],
     ) : null }
 
-    nonMenuRoutes.push(
-      ['Help', help],
-    )
     const NonMenuItem = this.mapElementsHandler(liClass, anchorClass)
 
     return R.map(NonMenuItem, nonMenuRoutes)
@@ -573,12 +577,11 @@ class NavMenu extends PureComponent {
       myOrders,
       news,
       articles,
-      booksWithKen,
+      goReadBooks,
       childrensLiteracy,
       videoTutorials,
       referrals,
       games,
-      help
     } = routes
     let nonMenuRoutes
 
@@ -589,7 +592,7 @@ class NavMenu extends PureComponent {
         ['My Orders', myOrders],
         ['News', news],
         ['Articles', articles],
-        ['Books With Ken', booksWithKen],
+        ['GoRead Books', goReadBooks],
         ['Children\'s Literacy', childrensLiteracy],
         ['Video Tutorials', videoTutorials],
         ['Referrals', referrals],
@@ -599,7 +602,6 @@ class NavMenu extends PureComponent {
     if (type === 'Help') {
       nonMenuRoutes = [
         ['Settings', 'profile/settings', true],
-        ['Help', help],
       ]
     }
 
@@ -644,7 +646,6 @@ class NavMenu extends PureComponent {
           <div style={styles.mobileNavContainer} className='top-bar-mobile'>
             <nav className='nav-menu-logged'>
               <ul className='nav-menu-logged-container'>
-
                 <li
                   className={`logged-menu-item ${isReadFeed ?
                     'loged-menu-item-active' : null} home`

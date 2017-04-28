@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Radium from 'radium'
-import { CardHeader, Chip } from 'material-ui'
+import { Chip } from 'material-ui'
 import { Colors, Breakpoints } from '../../constants/style'
 import { Follow } from '../../redux/actions'
 
@@ -40,7 +40,7 @@ const styles = {
     color: Colors.blue,
     cursor: 'pointer',
     display: 'inline-block',
-    margin: '25px 15px 0px 10px',
+    margin: '10px 10px 0px 10px',
     padding: 5,
 
     [Breakpoints.tablet]: {
@@ -69,7 +69,8 @@ class AvatarSummary extends Component {
     super(props)
 
     this.state = {
-      isChosen: props.isChosen || true,
+      isChosen: this.props.isChosen,
+      badgeText: this.props.isChosen ? 'Following' : 'Follow',
     }
 
     this.handleChipClick = this.handleChipClick.bind(this)
@@ -90,8 +91,32 @@ class AvatarSummary extends Component {
       userType,
       ids: [id],
     })
-    this.setState({ isChosen: isChosenNow })
+    this.setState({
+      isChosen: isChosenNow,
+      badgeText: isChosenNow ? 'Following' : 'Follow'
+    })
     this.props.onClick()
+  }
+
+  handleTextChange = () => {
+    const { isChosen } = this.state
+    if (isChosen) {
+      this.setState({
+        badgeText: 'Unfollow'
+      })
+    } else {
+      this.setState({
+        badgeText: 'Follow'
+      })
+    }
+  }
+
+  handleLeaveTextChange = () => {
+    const { isChosen } = this.state
+
+    this.setState({
+      badgeText: isChosen ? 'Following' : 'Follow'
+    })
   }
 
   render() {
@@ -101,6 +126,7 @@ class AvatarSummary extends Component {
       image,
       description,
       booksWritten,
+      link,
     } = this.props
 
     const { isChosen } = this.state
@@ -110,31 +136,45 @@ class AvatarSummary extends Component {
     return (
       <div className='row' style={styles.item} key={id}>
         <div className='small-10 small-offset-1 large-12 columns'>
-          <CardHeader
-            title={title}
-            titleStyle={styles.nameText}
-            textStyle={styles.textContainer}
-            subtitle={subtitle}
-            subtitleStyle={styles.subTitleText}
-            avatar={image}
-            style={styles.infoContainer}
-          />
+          <div className='avatar-summary-container'>
+            <figure className='avatar-summary-figure'>
+              <a href={link}>
+                <img src={image}/>
+              </a>
+            </figure>
+            <div className='avatar-summary-details-container'>
+              <div className='avatar-summary-title'>
+                <a href={link}>
+                  {title}
+                </a>
+              </div>
+              <div className='avatar-summary-subtitle'>
+                <a href={link}>
+                  {subtitle}
+                </a>
+              </div>
+            </div>
+          </div>
 
           <div className='row'>
             <div className='small-10 small-offset-2 medium-12 columns'>
               <Chip
                 key={id}
                 value={id}
-                className={isChosen ? 'chosenFollow' : null}
+                className={isChosen ?
+                  'is-following-reader chosenFollow' : 'is-not-following-reader'
+                }
                 labelStyle={styles.chipText}
                 style={styles.chip}
                 onClick={this.handleChipClick}
+                onMouseEnter={this.handleTextChange}
+                onMouseLeave={this.handleLeaveTextChange}
               >
                 {isChosen ?
                   <img style={styles.checkmark} src='/image/checkmark.png' /> :
                   <img style={styles.checkmark} src='/image/plus.png' />
                 }
-                  {isChosen ? 'Following' : 'Follow'}
+                  {this.state.badgeText}
               </Chip>
             </div>
           </div>

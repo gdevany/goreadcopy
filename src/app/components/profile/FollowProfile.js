@@ -59,6 +59,7 @@ class FollowProfile extends PureComponent {
       profileFetched: false,
       authorProfile: '',
       isReadersProfile: '',
+      badgeText: 'Follow',
     }
 
     this.handleClose = this.handleClose.bind(this)
@@ -105,7 +106,9 @@ class FollowProfile extends PureComponent {
     if (!this.state.profileFetched && nextProps.profileFollowed !== null) {
       this.setState({
         profileFollowed: nextProps.profileFollowed,
-        profileFetched: true
+        profileFetched: true,
+        badgeText: nextProps.profileFollowed ? 'Following' : 'Follow'
+
       })
     }
     if (this.props.fullname !== nextProps.fullname) {
@@ -148,7 +151,29 @@ class FollowProfile extends PureComponent {
       ids: [this.props.id],
     })
     this.setState({
-      profileFollowed: !this.state.profileFollowed
+      profileFollowed: !this.state.profileFollowed,
+      badgeText: !this.state.profileFollowed ? 'Following' : 'Follow'
+    })
+  }
+
+  handleTextChange = () => {
+    const { profileFollowed } = this.state
+    if (profileFollowed) {
+      this.setState({
+        badgeText: 'Unfollow'
+      })
+    } else {
+      this.setState({
+        badgeText: 'Follow'
+      })
+    }
+  }
+
+  handleLeaveTextChange = () => {
+    const { profileFollowed } = this.state
+
+    this.setState({
+      badgeText: profileFollowed ? 'Following' : 'Follow'
     })
   }
 
@@ -159,6 +184,12 @@ class FollowProfile extends PureComponent {
       <Chip
         labelStyle={styles.chipText}
         style={styles.chip}
+        className={profileFollowed ?
+          'is-following-reader' : 'is-not-following-reader'
+        }
+        onMouseEnter={this.handleTextChange}
+        onMouseLeave={this.handleLeaveTextChange}
+        onClick={Auth.currentUserExists() ? this.handleFollow : null}
       >
         {
           isCurrentReader ?
@@ -168,7 +199,7 @@ class FollowProfile extends PureComponent {
                 (
                   <a onClick={this.handleFollow}>
                     {
-                      profileFollowed ? 'Following' : 'Follow'
+                      this.state.badgeText
                     }
                   </a>
                 ) : (
@@ -269,9 +300,13 @@ class FollowProfile extends PureComponent {
                   </div>
                 )
             }
-            <div className='small-4 columns'>
-              {this.renderChip()}
-            </div>
+            {isReadersProfile ?
+              null : (
+                <div className='small-4 columns'>
+                  {this.renderChip()}
+                </div>
+              )
+            }
             {isReadersProfile ?
               (
                 <div className='small-4 columns'>

@@ -1,9 +1,13 @@
 import { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { Chat } from '../../services/api/currentReader'
+import { Env } from '../../constants'
 
-let socket
-const host = 'localhost:8000'
-const uri = `ws://${host}/ws/userprofile?subscribe-user`
+const { sendHeartbeat } = Chat
+
+let socket, interval
+const uri = Env.SOCKET_URL
+const pingTime = 5000
 
 class SocketHandler extends PureComponent {
   componentDidMount() {
@@ -15,10 +19,15 @@ class SocketHandler extends PureComponent {
   }
 
   componentWillUnmount() {
+    if (interval) {
+      clearInterval(interval)
+    }
     socket.close()
   }
 
-  onConnectionOpen() {}
+  onConnectionOpen() {
+    interval = setInterval(() => { sendHeartbeat({ _: Date.now() }) }, pingTime)
+  }
 
   onConnectionMessage(message) {
     switch (message.type) {

@@ -55,7 +55,7 @@ class LeftHandLinks extends PureComponent {
 
   handleMapHiddenMenuItems = () => {
     const {
-      booksWithKen,
+      goReadBooks,
       childrensLiteracy,
       videoTutorials,
       referrals,
@@ -65,7 +65,7 @@ class LeftHandLinks extends PureComponent {
     } = routes
 
     const leftMenuRoutes = [
-      ['Books With Ken', booksWithKen],
+      ['GoRead Books', goReadBooks],
       ['Children\'s Literacy', childrensLiteracy],
       ['Video Tutorials', videoTutorials],
       ['Referrals', referrals],

@@ -63,6 +63,7 @@ class BookProductTile extends PureComponent {
     const {
       tileDefaultProps: {
         author,
+        target,
         description,
         timestamp,
         likes,
@@ -80,6 +81,7 @@ class BookProductTile extends PureComponent {
       <TileDefault
         tileId={id}
         author={author}
+        target={target}
         description={description}
         timestamp={timestamp}
         likes={likes}
