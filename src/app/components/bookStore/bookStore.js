@@ -16,9 +16,9 @@ class BookStore extends PureComponent {
         <div className='row'>
           <div className='large-12 columns'>
             <CategoriesCarousel />
-            <WishListBooks />
           </div>
         </div>
+        {isUserLoggedIn ? <WishListBooks/> : null}
       </div>
     )
   }

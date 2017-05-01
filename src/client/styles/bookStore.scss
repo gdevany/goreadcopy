@@ -96,6 +96,7 @@
 }
 
 .categories-on-carousel-container{
+  margin-bottom: -50px;
   .slick-slider{
     box-shadow: none;
     .slick-list{
@@ -142,7 +143,7 @@
         box-shadow: rgba(222, 222, 222, 0.5) 0px 4px 20px 0px;
         height: 115px;
         border-radius: 5px;
-        z-index: 12;
+        z-index: 10;
       }
     }
     .slick-prev{
@@ -179,6 +180,90 @@
         button{
           &:before{
             color: $white;
+          }
+        }
+      }
+    }
+  }
+}
+
+.wishlist-books-main-container{
+  width: 100%;
+  background-image: linear-gradient(-134deg, #FFFFFF 0%, #F8FFFE 63%, #F7FCFF 100%);
+  padding: 20px;
+  @media all and (min-width: 1024px) {
+    padding: 50px;
+  }
+  .row{
+    .wishlist-columns-container{
+      .wishlist-books-title{
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
+      .wishlist-books-container{
+        margin-top: 15px;
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: row;
+        align-items: flex-start;
+        overflow-x: scroll;
+        @media all and (min-width: 1024px){
+          overflow-x: hidden;
+          justify-content: center;
+          max-width: 950px;
+          margin: 0 auto;
+        }
+        .book-container{
+          transition: none;
+          transform: none;
+          position: relative;
+          margin: 0 .5em;
+          display: inline-table;
+          width: 150px;
+          height: 300px;
+          @media all and (min-width: 768px) {
+            padding: .5em;
+            height: auto;
+          }
+          @media all and (min-width: 1024px) {
+            margin: .5em 2.5em;
+            display: flex;
+            flex-direction: column;
+          }
+          &:first-child{
+            margin-left: 0;
+          }
+          &:last-child{
+            margin-right: 0;
+          }
+          a{
+            position: relative;
+            .favorite-badge{
+              position: absolute;
+              right: -10px;
+              top: -87px;
+              @media all and (min-width: 1024px) {
+                top: -15px;
+                right: -5px;
+              }
+              figure{
+                width: 20px;
+              }
+            }
+          }
+          .book-info-container{
+            .book-info-title{
+              font-size: 14px;
+              color: rgba(0, 0, 0, 0.9);
+              width: 100%;
+              text-align: left;
+            }
+            .book-info-author{
+              font-size: 12px;
+              color: #949494;
+              width: 100%;
+              text-align: left;
+            }
           }
         }
       }
