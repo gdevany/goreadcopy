@@ -102,19 +102,60 @@
       background: transparent;
       box-shadow: none;
       top: -65px;
+      @media all and (max-width: 667px) and (orientation: landscape){
+        top: -20px;
+      }
       .slick-track{
+        height: 140px;
         .category-on-carousel-square{
-          width: 180px;
-          height: 130px;
-          margin: 0 5px;
+          width: 150px;
+          height: 115px;
+          margin: 0 6px;
           text-align: center;
           background: $white;
           border-radius: 5px;
-          box-shadow: rgba(222, 222, 222, 0.5) 0px 4px 20px 0px;
           display: flex;
           justify-content: center;
           align-items: center;
+          box-shadow: 0px 0px 9px 1px rgba(222, 222, 222, 0.5);
+          background-image: linear-gradient(-134deg, #FFFFFF 0%, #F8FFFE 63%, #F7FCFF 100%);
+          @media all and (min-width: 768px) {
+            margin: 0 7.5px;
+          }
+          &:hover{
+            cursor: pointer;
+          }
+          .category-on-carousel-name{
+            color: #00CCCC;
+            font-weight: 600;
+            font-size: 15px;
+          }
         }
+      }
+    }
+    .slick-arrow{
+      display: none !important;
+      @media all and (min-width: 1024px) {
+        display: block !important;
+        top: -8px;
+        background-image: linear-gradient(-134deg, #FFFFFF 0%, #F8FFFE 63%, #F7FCFF 100%);
+        box-shadow: rgba(222, 222, 222, 0.5) 0px 4px 20px 0px;
+        height: 115px;
+        border-radius: 5px;
+        z-index: 12;
+      }
+    }
+    .slick-prev{
+      display: none !important;
+    }
+    .slick-next{
+      right: -45px;
+      width: 40px;
+      &:before{
+        content: '>';
+        color: $blue;
+        font-size: 14px;
+        font-weight: 600;
       }
     }
     .slick-dots{
@@ -122,12 +163,15 @@
       background: transparent;
       top: -120px;
       height: auto;
+      @media all and (max-width: 667px) and (orientation: landscape){
+        top: -55px;
+      }
       li{
         button{
           &:before{
             opacity: 1;
             height: auto;
-            color: rgba(10, 10, 10, 0.7);
+            color: rgba(247, 247, 247, 0.7);
           }
         }
       }
