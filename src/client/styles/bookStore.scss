@@ -450,3 +450,49 @@
     }
   }
 }
+
+.bookstore-announcement-container{
+  width: 100%;
+  position: relative;
+  background: url('../image/gradient.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 273px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  @media all and (min-width: 768px){
+    height: 373px;
+  }
+  .bookstore-announcement-text{
+    font-size: 22px;
+    color: $white;
+    font-weight: 800;
+    width: 100%;
+    text-align: center;
+    @media all and (min-width: 768px){
+      width: 40%;
+      font-size: 28px;
+    }
+  }
+  .bookstore-announcement-anchor{
+    display: flex;
+    background: rgba(254, 254, 254, 0.10);
+    border: solid 1px $white;
+    border-radius: 23px;
+    padding: 5px 7.5px;
+    font-size: 14px;
+    color: $white;
+    transition: all .3s ease;
+    z-index: 10;
+    @media all and (min-width: 768px){
+      padding: 10px 15px;
+      font-size: 18px;
+    }
+    &:hover{
+      background: $white;
+      color: $black;
+    }
+  }
+}

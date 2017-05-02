@@ -33,6 +33,18 @@ class BookStore extends PureComponent {
           </div>
         </div>
         <TrendingBooks />
+        {isUserLoggedIn ?
+          null : (
+            <section className='bookstore-announcement-container'>
+              <p className='bookstore-announcement-text'>
+                Readers Love our book community & it's non fiction
+              </p>
+              <a href='#' className='bookstore-announcement-anchor'>
+                Ok, i'm sold
+              </a>
+            </section>
+          )
+        }
       </div>
     )
   }
