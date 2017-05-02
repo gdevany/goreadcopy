@@ -212,72 +212,70 @@
   @media all and (min-width: 1024px) {
     padding: 50px;
   }
-  .row{
-    .wishlist-columns-container{
-      .wishlist-books-title{
-        font-weight: 600;
-        margin-bottom: 15px;
-      }
-      .wishlist-books-container{
-        margin-top: 15px;
-        display: -webkit-box;
-        display: -moz-box;
-        display: -ms-box;
-        justify-content: space-between;
-        align-items: flex-start;
-        flex-direction: row;
-        width: 100%;
-        overflow-x: scroll;
-        height: 270px;
-        @media all and (min-width: 1024px){
-          width: 950px;
-          max-width: 950px;
-          margin: 0 auto;
+  .wishlist-columns-container{
+    @media all and (min-width: 1024px){
+      width: 950px;
+      max-width: 950px;
+      margin: 0 auto;
+    }
+    .wishlist-books-title{
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+    .wishlist-books-container{
+      margin-top: 15px;
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-box;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-direction: row;
+      width: 100%;
+      overflow-x: scroll;
+      height: 270px;
+      .book-container{
+        transition: none;
+        transform: none;
+        position: relative;
+        margin-right: 19px;
+        @media all and (min-width: 768px){
+          margin-right: 94px;
         }
-        .book-container{
-          transition: none;
-          transform: none;
+        a{
           position: relative;
-          margin-right: 19px;
-          @media all and (min-width: 768px){
-            margin-right: 94px;
+          img{
+            max-height: 170px;
           }
-          a{
-            position: relative;
-            img{
-              max-height: 170px;
-            }
-            .favorite-badge{
-              position: absolute;
-              right: -10px;
+          .favorite-badge{
+            position: absolute;
+            right: -10px;
+            top: -75px;
+            @media all and (min-width: 1024px) {
               top: -75px;
-              @media all and (min-width: 1024px) {
-                top: -75px;
-                right: -5px;
-              }
-              figure{
-                width: 20px;
-              }
+              right: -5px;
+            }
+            figure{
+              width: 20px;
             }
           }
-          .book-info-container{
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-            flex-direction: column;
-            margin-top: .5em;
-            .book-info-title{
-              font-size: 14px;
-              color: rgba(0, 0, 0, 0.9);
-              width: 100%;
-              text-align: left;
-            }
-            .book-info-author{
-              font-size: 12px;
-              color: #949494;
-              width: 100%;
-              text-align: left;
-            }
+        }
+        .book-info-container{
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-start;
+          flex-direction: column;
+          margin-top: .5em;
+          .book-info-title{
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.9);
+            width: 100%;
+            text-align: left;
+          }
+          .book-info-author{
+            font-size: 12px;
+            color: #949494;
+            width: 100%;
+            text-align: left;
           }
         }
       }

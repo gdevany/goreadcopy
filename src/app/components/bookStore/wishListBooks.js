@@ -57,14 +57,12 @@ class WishListBooks extends PureComponent {
     const { profilePage } = this.props
     return (
       <section className='wishlist-books-main-container'>
-        <div className='row'>
-          <div className='large-12 columns wishlist-columns-container'>
-            <h4 className='wishlist-books-title'>
-              Your Wishlist
-            </h4>
-            <div className='wishlist-books-container'>
-              {profilePage && profilePage.wishList ? this.renderWishList() : null}
-            </div>
+        <div className='wishlist-columns-container'>
+          <h4 className='wishlist-books-title'>
+            Your Wishlist
+          </h4>
+          <div className='wishlist-books-container'>
+            {profilePage && profilePage.wishList ? this.renderWishList() : null}
           </div>
         </div>
       </section>
