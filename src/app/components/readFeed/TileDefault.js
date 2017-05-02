@@ -646,7 +646,7 @@ class TileDefault extends PureComponent {
 
     const splitActionrRegex = /(?:[^\s{]+|{[^{]*})+/g
     const splittedAction = action ? action.match(splitActionrRegex) : null
-    const isPostPersonal = author.name === target.name
+    const isPostPersonal = author.name && target.name ? author.name === target.name : false
     return (
       <div>
         <Card
