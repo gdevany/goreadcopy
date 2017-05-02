@@ -152,6 +152,12 @@
     .slick-next{
       right: -45px;
       width: 40px;
+      @media all and(min-width: 1024px) {
+        right: -15px;
+      }
+      @media all and(min-width: 1200px) {
+        right: -45px;
+      }
       &:before{
         content: '>';
         color: $blue;
@@ -189,8 +195,20 @@
 
 .wishlist-books-main-container{
   width: 100%;
-  background-image: linear-gradient(-134deg, #FFFFFF 0%, #F8FFFE 63%, #F7FCFF 100%);
+  background: url('../image/gradient.png');
+  background-repeat: no-repeat;
+  background-size: cover;
   padding: 20px;
+  position: relative;
+  &:before {
+    content: '';
+  	position: absolute;
+  	top: 0;
+  	right: 0;
+  	bottom: 0;
+  	left: 0;
+    background-image: linear-gradient(to bottom right, rgba(255, 255, 255, 0.78), rgba(255, 240, 223, 0.71));
+  }
   @media all and (min-width: 1024px) {
     padding: 50px;
   }
@@ -254,6 +272,11 @@
             }
           }
           .book-info-container{
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            flex-direction: column;
+            margin-top: .5em;
             .book-info-title{
               font-size: 14px;
               color: rgba(0, 0, 0, 0.9);
@@ -268,6 +291,64 @@
             }
           }
         }
+      }
+    }
+  }
+}
+
+.bookstore-recommended-books-container{
+  margin-top: 37.5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  @media all and (min-width: 768px){
+    flex-direction: row;
+  }
+  @media all and (min-width: 1024px){
+    margin-top: 75px;
+  }
+  .bookstore-recommended-book-element{
+    width: 300px;
+    height: 150px;
+    background: url('../image/feature-background-1.png');
+    background-size: cover;
+    background-repeat: round;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 125px;
+    @media all and (min-width: 768px){
+      margin-bottom: 0;
+      width: 225px;
+      height: 125px;
+    }
+    @media all and (min-width: 1024px){
+      width: 275px;
+      height: 165px;
+    }
+    @media all and (min-width: 1200px){
+      width: 350px;
+      height: 175px;
+    }
+    .bookstore-recommended-book-text{
+      width: 75%;
+      margin: 20px auto;
+      text-align: center;
+      color: $white;
+      font-weight: 600;
+      @media all and (min-width: 1024px) {
+        margin: 30px auto;
+      }
+      @media all and (min-width: 1200px) {
+        margin: 45px auto 20px auto;
+      }
+    }
+    .bookstore-recommended-book-figure{
+      box-sizing: -5px 5px 20px 0px rgba(0, 0, 0, 0.4);
+      img{
+        max-height: 170px;
       }
     }
   }
