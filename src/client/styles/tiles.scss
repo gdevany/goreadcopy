@@ -38,6 +38,7 @@
   flex-direction: row;
   width: 100%;
   padding: 30px;
+  position: relative;
   .tile-actor-figure{
     width: 45px;
     .tile-actor-image{
@@ -100,6 +101,78 @@
       color: rgb(151, 151, 151);
     }
   }
+  .tile-action-container{
+    position: absolute;
+    right: 15px;
+    top: 35px;
+    svg{
+      &:hover{
+        cursor: pointer;
+      }
+      path {
+        fill: $light-med-grey
+      }
+    }
+    .tile-action-pop-menu{
+      position: absolute;
+      right: -10px;
+      top: 30px;
+      background: white;
+      border-radius: 10px;
+      border: solid 1px #F4F4F4;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+      list-style: none;
+      margin: 0;
+      width: 85px;
+      display: flex;
+      flex-direction: column;
+      &:before{
+        position: absolute;
+        top: -11px;
+        right: 10px;
+        border-right: 11px solid transparent;
+        border-bottom: 11px solid transparent;
+        border-left: 11px solid transparent;
+        border-bottom-color: #F4F4F4;
+        content: '';
+      }
+      &:after{
+        position: absolute;
+        top: -10px;
+        right: 11px;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid #ffffff;
+        border-left: 10px solid transparent;
+        content: '';
+      }
+      .tile-action-element-container{
+        width: 100%;
+        .tile-action-anchor{
+          display: block;
+          width: 100%;
+          padding: 0 1em;
+          text-align: right;
+          color: #626262;
+          font-size: 14px;
+          &:hover{
+            color: $blue;
+          }
+        }
+        &:first-child{
+          .tile-action-anchor{
+            padding-top: .5em;
+            padding-bottom: .25em;
+          }
+        }
+        &:last-child{
+          .tile-action-anchor{
+            padding-top: .25em;
+            padding-bottom: .5em;
+          }
+        }
+      }
+    }
+  }
 }
 .base-tile-container{
   display: flex;
@@ -111,6 +184,52 @@
   .tile-main-content{
     width: 100%;
     padding: .5em 1em 1em;
+    .edit-tile{
+      display: flex;
+      position: relative;
+      textarea{
+        margin-bottom: 0;
+        border-radius: 5px;
+        padding: .9em .9em 3em .9em;
+        resize: none;
+        transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+        box-sizing: border-box;
+        font-family: Roboto, sans-serif;
+        -webkit-tap-highlight-color: transparent;
+        box-shadow: rgba(222, 222, 222, 0.498039) 0px 4px 20px 0px;
+      }
+      .edit-controls{
+        text-align: right;
+        .updateButton{
+          position: absolute;
+          bottom: 8px;
+          right: 90px;
+          border: solid 1px #0042D6;
+          background-color: #fff;
+          padding: .25em 1em;
+          font-size: 14px;
+          border-radius: 5px;
+        }
+        .updateButton:hover{
+          color: #fff;
+          background-color: #0042D6;
+        }
+        .cancelButton{
+          position: absolute;
+          bottom: 8px;
+          right: 8px;
+          border: solid 1px #0042D6;
+          background-color: #fff;
+          padding: .25em 1em;
+          font-size: 14px;
+          border-radius: 5px;
+        }
+        .cancelButton:hover{
+          color: #fff;
+          background-color: #0042D6;
+        }
+      }
+    }
   }
   .base-tile-footer{
     display: flex;
@@ -482,7 +601,8 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin-bottom: .5em;
+    margin-bottom: 15px;
+    margin-top: 15px;
     .adv-learn-more-btn{
       background-color: rgb(255, 255, 255);
       border: 1px solid rgb(0, 66, 214);

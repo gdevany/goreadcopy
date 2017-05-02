@@ -66,7 +66,8 @@ class StatusPostTile extends PureComponent {
       content
     } = this.props
 
-    const splittedContent = this.splitContent(content.description)
+    const splittedContent = content.description ?
+    this.splitContent(content.description) : null
     const splittedPostContent = this.splitContent(content.socialPostComment)
 
     let videoInfo = ''
@@ -78,12 +79,13 @@ class StatusPostTile extends PureComponent {
         tileId={id}
         author={author}
         target={target}
-        description={description}
+        description={description ? description : content.description}
         timestamp={timestamp}
         likes={likes}
         comments={comments}
         shareInfo={shareInfo}
         action={action}
+        isPostEditable={true}
       >
         <div className='statuspost-tile-container'>
           <div className='post-excerpt-container'>
@@ -167,9 +169,12 @@ class StatusPostTile extends PureComponent {
             <div className='post-excerpt-container'>
               <p className='post-excerpt-pharagraph'>
                 {
-                  splittedContent.map((entry, index) => {
-                    return this.renderContentWithMentions(entry, index, content.mentionsList)
-                  })
+                  splittedContent ?
+                  (
+                    splittedContent.map((entry, index) => {
+                      return this.renderContentWithMentions(entry, index, content.mentionsList)
+                    })
+                  ) : null
                 }
               </p>
             </div>
