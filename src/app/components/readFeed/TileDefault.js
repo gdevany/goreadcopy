@@ -6,6 +6,7 @@ import { RegisterSignInModal } from '../common'
 import { Colors } from '../../constants/style'
 import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import { Auth } from '../../services'
+import { TileEdit } from './tiles'
 import {
   Card,
   CardActions,
@@ -36,8 +37,10 @@ const LinkedinIcon = generateShareIcon('linkedin')
 const {
   updateLikes,
   updateComments,
+  updateTile,
   getComments,
   shareTile,
+  deleteTile,
 } = Tiles
 
 const styles = {
@@ -201,7 +204,12 @@ class TileDefault extends PureComponent {
       userLogged: false,
       isProfilePage: false,
       isMyProfile: false,
+      isPostEditing: false,
       actionMenuOpen: false,
+      editTileDefaults: {
+        tileId: this.props.tileId,
+        description: this.props.description,
+      },
     }
 
     this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
@@ -472,7 +480,6 @@ class TileDefault extends PureComponent {
     this.setState({
       commentParentId: tileId,
       replyPlaceholder: 'Post your Reply here'
-
     })
     this.handleCommentsOpen
   }
@@ -552,6 +559,24 @@ class TileDefault extends PureComponent {
     this.setState({ [field]: event.target.value })
   })
 
+  handleEditPost = () => {
+    this.setState({
+      isPostEditing: true
+    })
+  }
+
+  handleEditCancel = () => {
+    this.setState({ isPostEditing: false })
+  }
+
+  handleUpdatePost = (id, data) => {
+    this.props.updateTile(id, data)
+  }
+
+  handleDeletePost = (id) => {
+    deleteTile(id)
+  }
+
   renderPostBox = (buttonType) => {
     const {
       commentInput,
@@ -605,7 +630,9 @@ class TileDefault extends PureComponent {
       sharePostOpen,
       sharedCount,
       isMyProfile,
-      isProfilePage
+      isProfilePage,
+      isPostEditing,
+      editTileDefaults,
     } = this.state
 
     const {
@@ -617,6 +644,7 @@ class TileDefault extends PureComponent {
       action,
       feedComments,
     } = this.props
+
     const splitActionrRegex = /(?:[^\s{]+|{[^{]*})+/g
     const splittedAction = action ? action.match(splitActionrRegex) : null
     return (
@@ -669,12 +697,18 @@ class TileDefault extends PureComponent {
                         onMouseLeave={this.handleActionMenuHide}
                       >
                         <li className='tile-action-element-container'>
-                          <a className='tile-action-anchor'>
+                          <a
+                            className='tile-action-anchor'
+                            onClick={this.handleEditPost}
+                          >
                             Edit
                           </a>
                         </li>
                         <li className='tile-action-element-container'>
-                          <a className='tile-action-anchor'>
+                          <a
+                            className='tile-action-anchor'
+                            onClick={this.handleDeletePost}
+                          >
                             Delete
                           </a>
                         </li>
@@ -686,7 +720,16 @@ class TileDefault extends PureComponent {
             }
           </div>
           <CardText style={styles.contentContainer} className='tile-main-content'>
-            {this.props.children}
+            {
+              !isPostEditing ? this.props.children :
+              (
+                <TileEdit
+                  editTileProps={editTileDefaults}
+                  updateTile={this.handleUpdatePost}
+                  cancelTile={this.handleEditCancel}
+                />
+              )
+            }
           </CardText>
 
           <CardActions style={styles.socialWrapper}>
@@ -896,7 +939,9 @@ const mapStateToProps = ({
 const mapDispatchToProps = {
   updateLikes,
   updateComments,
+  updateTile,
   getComments,
-  shareTile
+  shareTile,
+  deleteTile,
 }
 export default connect(mapStateToProps, mapDispatchToProps)(TileDefault)

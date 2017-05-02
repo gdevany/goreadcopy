@@ -137,12 +137,29 @@ export function updateLikes(tileId, liked) {
   }
 }
 
+export function updateTile(tileId, data) {
+  return dispatch => {
+    ReaderTiles.editTile(tileId, data)
+      .then(() => console.log('updated tile'))
+      .catch((err) => console.error(`Error in updateTiles: ${err}`))
+  }
+}
+
+export function deleteTile(tileId) {
+  return dispatch => {
+    ReaderTiles.deleteTile(tileId)
+      .then(() => dispatch({ type: B.DELETE_TILE }))
+      .catch((err) => console.error(`Error in deleteTiles: ${err}`))
+  }
+}
+
 export default {
   getReadFeedTiles,
   getProfileTiles,
   getComments,
   updateLikes,
   updateComments,
+  updateTile,
   shareTile,
   prependProfileTile,
   prependReadFeedTile,
