@@ -560,9 +560,7 @@ class TileDefault extends PureComponent {
   })
 
   handleEditPost = () => {
-    this.setState({
-      isPostEditing: true
-    })
+    this.setState({ isPostEditing: true })
   }
 
   handleEditCancel = () => {
@@ -643,10 +641,12 @@ class TileDefault extends PureComponent {
       promoted,
       action,
       feedComments,
+      isPostEditable,
     } = this.props
 
     const splitActionrRegex = /(?:[^\s{]+|{[^{]*})+/g
     const splittedAction = action ? action.match(splitActionrRegex) : null
+    const isPostPersonal = author.name === target.name
     return (
       <div>
         <Card
@@ -686,7 +686,10 @@ class TileDefault extends PureComponent {
               </div>
             </div>
             {
-              isProfilePage && isMyProfile ?
+              isProfilePage &&
+              isMyProfile &&
+              isPostEditable &&
+              isPostPersonal ?
               (
                 <div className='tile-action-container'>
                   <ArrowDownIcon onClick={this.handleActionMenuShow} />

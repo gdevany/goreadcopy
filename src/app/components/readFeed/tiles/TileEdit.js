@@ -75,6 +75,7 @@ class TileEdit extends PureComponent {
   handleUpdateTile() {
     const data = {
       comment: this.state.body,
+      mentions: this.state.mentions,
     }
     this.props.updateTile(this.props.editTileProps.tileId, data)
   }

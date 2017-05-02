@@ -85,6 +85,7 @@ class StatusPostTile extends PureComponent {
         comments={comments}
         shareInfo={shareInfo}
         action={action}
+        isPostEditable={true}
       >
         <div className='statuspost-tile-container'>
           <div className='post-excerpt-container'>
