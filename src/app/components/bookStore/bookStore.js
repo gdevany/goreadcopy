@@ -4,6 +4,8 @@ import BookStoreHero from './bookStoreHero'
 import CategoriesCarousel from './categoriesCarousel'
 import WishListBooks from './wishListBooks'
 import RecommendedBooks from './RecommendedBooks'
+import BestSellers from './BestSellers'
+import TrendingBooks from './TrendingBooks'
 import { Auth } from '../../services'
 
 const isUserLoggedIn = Auth.currentUserExists()
@@ -25,6 +27,12 @@ class BookStore extends PureComponent {
             <RecommendedBooks />
           </div>
         </div>
+        <div className='row'>
+          <div className='large-12 columns'>
+            <BestSellers />
+          </div>
+        </div>
+        <TrendingBooks />
       </div>
     )
   }
