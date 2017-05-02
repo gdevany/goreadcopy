@@ -6,6 +6,7 @@ import WishListBooks from './wishListBooks'
 import RecommendedBooks from './RecommendedBooks'
 import BestSellers from './BestSellers'
 import TrendingBooks from './TrendingBooks'
+import { Footer } from '../common'
 import { Auth } from '../../services'
 
 const isUserLoggedIn = Auth.currentUserExists()
@@ -45,6 +46,9 @@ class BookStore extends PureComponent {
             </section>
           )
         }
+        <div className='bookstore-footer-container'>
+          <Footer />
+        </div>
       </div>
     )
   }
