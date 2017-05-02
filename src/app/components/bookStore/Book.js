@@ -38,7 +38,7 @@ class Book extends PureComponent {
           <img className='book' src={image} />
           <div className='favorite-badge'>
             <figure>
-              <img src='image/wish-list-icon.svg'/>
+              <img src='/image/wish-list-icon.svg'/>
             </figure>
           </div>
         </a>
