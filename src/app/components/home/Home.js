@@ -25,7 +25,7 @@ const Home = () => {
         />
         <meta name='twitter:image' content='https://goread.com/image/281x281.png'/>
         <meta content='1528633757403356' property='fb:app_id' />
-        <meta property="og:url" content='https://www.goread.com/' />
+        <meta property='og:url' content='https://www.goread.com/' />
         <meta property='og:title' content='GoRead' />
         <meta
           property='og:description'

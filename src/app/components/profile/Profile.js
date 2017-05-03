@@ -133,7 +133,7 @@ class ProfileWrapper extends PureComponent {
           />
           <meta name='twitter:image' content='https://goread.com/image/281x281.png'/>
           <meta content='1528633757403356' property='fb:app_id' />
-          <meta property="og:url" content={`https://www.goread.com/profile/${profile.fullname}`} />
+          <meta property='og:url' content={`https://www.goread.com/profile/${profile.fullname}`} />
           <meta
             property='og:title'
             content={`GoRead | Profile | Library of ${profile.fullname}`}
