@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 
-class Notifications extends PureComponent {
+class NotificationPopupWindow extends PureComponent {
   render() {
     return (
       <section className='notifications-main-frame-container'>
@@ -148,4 +148,4 @@ class Notifications extends PureComponent {
   }
 }
 
-export default Notifications
+export default NotificationPopupWindow

@@ -67,7 +67,7 @@ const Endpoints = () => {
       logoutCurrentReader: () => apiUrl('current_reader/logout'),
       getChatContacts: () => apiUrl('current_reader/chat/contacts'),
       getChatMessages: () => apiUrl('current_reader/chat/messages'),
-      getChatConversation: () => apiUrl('current_reader/chat/conversation'),
+      getChatConversation: (params) => apiUrl('current_reader/chat/conversation', params),
       postChatMessage: () => apiUrl('current_reader/chat/message'),
       sendHeartbeat: (params) => apiUrl('current_reader/chat/heartbeat', params),
     },

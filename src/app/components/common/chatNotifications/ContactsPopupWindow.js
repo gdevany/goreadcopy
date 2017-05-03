@@ -2,23 +2,26 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Chat } from '../../../redux/actions'
 
-const { getChatContacts } = Chat
+const {
+  getChatContacts,
+  openChatConversation,
+} = Chat
 
-class OnlineUsersChat extends PureComponent {
+class ContactsPopupWindow extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
       isUsersContainerOpen: false,
     }
 
-    this.handleChatsClick = this.handleChatsClick.bind(this)
+    this.handleWindowTabClick = this.handleWindowTabClick.bind(this)
   }
 
   componentDidMount() {
     this.props.getChatContacts()
   }
 
-  handleChatsClick = (event) => {
+  handleWindowTabClick = (event) => {
     event.preventDefault()
     const { isUsersContainerOpen } = this.state
     if (isUsersContainerOpen) {
@@ -32,11 +35,20 @@ class OnlineUsersChat extends PureComponent {
     }
   }
 
+  handleContactClick = (idx, e) => {
+    event.preventDefault()
+    this.props.openChatConversation(idx)
+  }
+
   renderOnlineUsers(users) {
     const onlineUsers = users.filter(user => user.isOnline)
     return onlineUsers.map(user => {
       return (
-        <div className='chat-single-user' key={user.pk}>
+        <div
+          className='chat-single-user'
+          key={user.pk}
+          onClick={(e) => this.handleContactClick(user.pk, e)}
+        >
           <figure className='chat-single-user-figure'>
             <img src={user.imageUrl}/>
           </figure>
@@ -59,7 +71,11 @@ class OnlineUsersChat extends PureComponent {
         {
           offlineUsers.map(user => {
             return (
-              <div className='single-offline-user' key={user.pk}>
+              <div
+                className='single-offline-user'
+                key={user.pk}
+                onClick={(e) => this.handleContactClick(user.pk, e)}
+              >
                 <figure className='chat-single-user-figure'>
                   <img src={user.imageUrl}/>
                 </figure>
@@ -86,7 +102,7 @@ class OnlineUsersChat extends PureComponent {
           }
         >
           <div
-            onClick={this.handleChatsClick}
+            onClick={this.handleWindowTabClick}
             className='small-chat-container'
           >
             {isUsersContainerOpen ?
@@ -138,4 +154,9 @@ const mapStateToProps = ({
   }
 }
 
-export default connect(mapStateToProps, { getChatContacts })(OnlineUsersChat)
+const mapDispatchToProps = {
+  getChatContacts,
+  openChatConversation
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactsPopupWindow)

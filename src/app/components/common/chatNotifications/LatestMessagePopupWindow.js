@@ -5,8 +5,7 @@ import moment from 'moment'
 let intervalId
 const refreshTime = 60000
 
-class ChatsContainer extends PureComponent {
-
+class LatestMessagePopupWindow extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -28,8 +27,6 @@ class ChatsContainer extends PureComponent {
   timer() {
     this.forceUpdate()
   }
-
-  componentWillMount() {}
 
   filterChatlist(contact) {
     const { filter } = this.state
@@ -134,4 +131,4 @@ const mapStateToProps = ({
   }
 }
 
-export default connect(mapStateToProps, null)(ChatsContainer)
+export default connect(mapStateToProps, null)(LatestMessagePopupWindow)

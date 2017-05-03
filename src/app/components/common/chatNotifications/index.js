@@ -1,5 +1,7 @@
-export Notifications from './notifications'
-export ChatConversation from './conversation'
-export ChatsContainer from './chatsContainer'
-export OnlineUsersChat from './onlineUsersChat'
-export Conversation from './conversation'
+export Notifications from './NotificationPopupWindow'
+export ChatConversation from './ChatTab'
+export ChatsContainer from './LatestMessagePopupWindow'
+
+export ContactsPopupWindow from './ContactsPopupWindow'
+export ChatTab from './ChatTab'
+export ChatTabWrapper from './ChatTabWrapper'
