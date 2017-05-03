@@ -16,8 +16,8 @@ const Chat = () => {
   return {
     getChatContacts: () => authenticated().get(getChatContacts()),
     getChatMessages: () => authenticated().get(getChatMessages()),
-    getChatConversation: () => authenticated().get(getChatConversation()),
-    postChatMessage: () => authenticated().post(postChatMessage()),
+    getChatConversation: (params) => authenticated().get(getChatConversation(params)),
+    postChatMessage: (params) => authenticated().post(postChatMessage(), params),
     sendHeartbeat: (params) => authenticated().get(sendHeartbeat(params)),
   }
 }

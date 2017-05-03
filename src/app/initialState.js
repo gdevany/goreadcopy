@@ -17,5 +17,5 @@ export default {
   social: emptyState(),
   tiles: emptyState(),
   sidebarAds: emptyState(),
-  chat: emptyState(),
+  chat: emptyState({ conversations: [] }),
 }
