@@ -43,7 +43,7 @@ class BookInfo extends PureComponent {
                   157 Reviews
                 </span>
               </div>
-              <div className='bookpage-book-excerpt-container'>
+              <div className='bookpage-book-excerpt-container-desktop'>
                 <p className='bookpage-book-excerpt'>
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                   Beatae quo, itaque soluta, sit doloremque odio? Voluptates
@@ -58,6 +58,17 @@ class BookInfo extends PureComponent {
                 Watch the trailer
               </div> */}
             </div>
+          </div>
+          <div className='bookpage-book-excerpt-container-mobile'>
+            <p className='bookpage-book-excerpt'>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              Beatae quo, itaque soluta, sit doloremque odio? Voluptates
+              ducimus, corrupti, praesentium blanditiis reiciendis vel ex aut
+              nisi eveniet ut. Necessitatibus asperiores, rerum...
+              <a className='bookpage-book-excerpt-readmore-btn'>
+                See more
+              </a>
+            </p>
           </div>
           <div className='bookpage-info-left-bottom'>
             <div className='bookpage-bottom-action-btn'>
@@ -80,8 +91,63 @@ class BookInfo extends PureComponent {
             </div>
           </div>
         </div>
-        <div className='small-12 large-4 columns bookpage-info-right-element'>
-          Book Price
+        <div className='small-12 large-4 columns end bookpage-info-right-element'>
+          <div className='bookpage-info-right-element-main-container'>
+            <span className='bookpage-book-details-cover'> Paperback </span>
+            <h3 className='bookpage-book-details-price'>$ 17.28</h3>
+            <div className='bookpage-book-details-saving-container'>
+              <span className='bookpage-book-details-saving-old-price'>
+                $ 21.38
+              </span>
+              <span className='bookpage-book-details-saving-percentage'>
+                Save 19%
+              </span>
+            </div>
+            <div className='bookpage-book-details-litcoin-price-container'>
+              <span className='bookpage-book-details-litcoin-price-prefix'>
+                Litcoin Price:
+              </span>
+              <div className='bookpage-book-details-litcoin-price-container'>
+                <span className='bookpage-book-details-litcoin-price'>
+                  25,502
+                </span>
+                <img className='litcoin-img' src='/image/litcoin.png' />
+              </div>
+            </div>
+            <div className='bookpage-book-details-paper-type-selector-container'>
+              <ul className='bookpage-book-details-paper-type-selector'>
+                <li className='bookpage-book-details-paper-type'>
+                  <span className='bookpage-book-details-paper-type-text'>
+                    Paperback
+                  </span>
+                  <span className='bookpage-book-details-paper-type-price'>
+                    $ 17.28
+                  </span>
+                </li>
+                <li className='bookpage-book-details-paper-type'>
+                  <span className='bookpage-book-details-paper-type-text'>
+                    Hardcover
+                  </span>
+                  <span className='bookpage-book-details-paper-type-price'>
+                    $ 21.28
+                  </span>
+                </li>
+                <li className='bookpage-book-details-paper-type'>
+                  <span className='bookpage-book-details-paper-type-text'>
+                    Audio Book
+                  </span>
+                  <span className='bookpage-book-details-paper-type-price'>
+                    $ 4.28
+                  </span>
+                </li>
+              </ul>
+            </div>
+            <div className='bookpage-book-add-to-cart-container'>
+              <a className='bookpage-book-add-to-cart-btn'>
+                Add to Cart
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     )

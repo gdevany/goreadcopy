@@ -5,8 +5,35 @@
 }
 
 .bookpage-rating-icon{
-  height: 23px;
+  height: 18px;
   margin-right: 2px;
+  @media all and (min-width: 768px){
+    height: 23px;
+  }
+}
+
+.bookpage-book-excerpt-container-mobile{
+  display: flex;
+  width: 100%;
+  margin-top: 15px;
+  @media all and (min-width: 768px){
+    display: none;
+  }
+  .bookpage-book-excerpt{
+    font-size: 14px;
+    text-align: justify;
+    font-weight: 500;
+    word-wrap: break-word;
+    margin: 0;
+    .bookpage-book-excerpt-readmore-btn{
+      color: #808080;
+      display: block;
+      transition: all .3s ease;
+      &:hover{
+        text-decoration: underline;
+      }
+    }
+  }
 }
 
 .bookpage-info-main-container{
@@ -19,13 +46,16 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding-right: 0;
-    border-right: solid 2px rgb(249, 249, 249);
+    @media all and (min-width: 768px){
+      padding-right: 0;
+      border-right: solid 2px rgb(249, 249, 249);
+    }
     .bookpage-info-left-top{
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: flex-start;
+      width: 100%;
       .bookpage-info-figure{
         width: 25%;
         img{
@@ -94,14 +124,21 @@
             margin-top: 0;
           }
           .review-counts{
-            font-size: 18px;
+            font-size: 16px;
             margin-left: 10px;
             font-weight: 500;
+            @media all and (min-width: 768px){
+              font-size: 18px;
+            }
           }
         }
-        .bookpage-book-excerpt-container{
+        .bookpage-book-excerpt-container-desktop{
+          display: none;
           width: 100%;
           margin-top: 15px;
+          @media all and (min-width: 768px){
+            display: flex;
+          }
           .bookpage-book-excerpt{
             font-size: 14px;
             text-align: justify;
@@ -128,6 +165,42 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+        span{
+          display: none;
+          @media all and (min-width: 1024px){
+            display: flex;
+          }
+        }
+      }
+    }
+  }
+
+  .bookpage-info-right-element{
+    .bookpage-info-right-element-main-container{
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-start;
+      flex-direction: column;
+      width: 100%;
+      text-align: right;
+      .bookpage-book-details-cover{
+        color: #999;
+        width: 100%;
+      }
+      .bookpage-book-details-price{
+        width: 100%;
+        font-weight: 600;
+        font-size: 22px;
+
+      }
+      .bookpage-book-details-saving-container{
+        width: 100%;
+      }
+      .bookpage-book-details-litcoin-price-container{
+        width: 100%;
+      }
+      .bookpage-book-details-paper-type-selector-container{
+        width: 100%;
       }
     }
   }
