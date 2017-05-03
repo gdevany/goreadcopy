@@ -17,6 +17,35 @@ const mergeStatus = (list, diff) => R.map(n=>{
   }
   return n
 }, list)
+const updateUnreadChatNumber = ({ contacts }, { data, sender, lastMessage }) => R.map(n=>{
+  n.unreadMessages = n.pk === sender ? data : n.unreadMessages
+  n.lastMessage = n.pk === sender ? lastMessage : n.lastMessage
+  return n
+}, contacts)
+const appendReceivedChatMessage = ({ conversations }, { message, sender, recipient, timestamp }) =>
+  R.map(n=>{
+    console.log(n.id, sender)
+    if (n.id === sender) {
+      console.log('Found received chat!')
+      n.history.conversation.push({
+        recipient,
+        sender,
+        timestamp,
+        body: message,
+      })
+    }
+    return n
+  }
+, conversations)
+const appendSentChatMessage = ({ conversations }, { message }) =>
+  R.map(n=>{
+    if (n.id === message.recipient) {
+      console.log('Found sent chat!')
+      n.history.conversation.push(message)
+    }
+    return n
+  }
+, conversations)
 
 export default (state = initialState.chat, { type, payload, errors }) => {
   switch (type) {
@@ -47,7 +76,25 @@ export default (state = initialState.chat, { type, payload, errors }) => {
         ...state,
         contacts: mergeStatus(state.contacts, payload)
       }
-      console.log('New diff to merge', diff)
+      return R.merge(state, diff)
+    case C.UPDATE_CONTACT_UNREAD_MESSAGES:
+      diff = {
+        ...state,
+        contacts: updateUnreadChatNumber(state, payload)
+      }
+      return R.merge(state, diff)
+    case C.APPEND_RECEIVED_CHAT_MESSAGE:
+      diff = {
+        ...state,
+        conversations: appendReceivedChatMessage(state, payload)
+      }
+      return R.merge(state, diff)
+    case C.APPEND_SENT_CHAT_MESSAGE:
+      console.log('Appending sent chat message:', payload)
+      diff = {
+        ...state,
+        conversations: appendSentChatMessage(state, payload)
+      }
       return R.merge(state, diff)
     default:
       return state

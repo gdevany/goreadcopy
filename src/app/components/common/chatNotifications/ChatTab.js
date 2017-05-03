@@ -1,12 +1,10 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Chat as ChatActions } from '../../../redux/actions'
-import { Chat as ChatServices } from '../../../services/api/currentReader'
+import { Chat } from '../../../redux/actions'
 import moment from 'moment'
 import R from 'ramda'
 
-const { loadChatConversation } = ChatActions
-const { postChatMessage } = ChatServices
+const { loadChatConversation, postChatMessage } = Chat
 
 class ChatTab extends PureComponent {
   constructor(props) {
@@ -70,12 +68,7 @@ class ChatTab extends PureComponent {
     const { id } = this.props
     event.preventDefault()
     if (message && id) {
-      postChatMessage({
-        message,
-        recipient: id
-      })
-        .then(res=>this.setState({ message: '' }))
-        .catch(err=>console.log('Error', err))
+      this.props.postChatMessage({ message, recipient: id })
     }
   }
 
@@ -291,7 +284,20 @@ ChatTab.defaultProps = {
 }
 
 const mapDispatchToProps = {
-  loadChatConversation
+  loadChatConversation,
+  postChatMessage,
 }
 
-export default connect(null, mapDispatchToProps)(ChatTab)
+const mapStateToProps = ({
+  chat: {
+    conversations,
+    contacts
+  }
+}) => {
+  return {
+    conversations,
+    contacts
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatTab)
