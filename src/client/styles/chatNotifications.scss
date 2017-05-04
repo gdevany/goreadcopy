@@ -768,6 +768,7 @@
 .main-conversation-container{
   @media all and (min-width: 768px) {
     position: fixed;
+    left: 0;
     bottom: 0;
     width: 100%;
     display: flex;
