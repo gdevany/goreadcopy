@@ -71,6 +71,11 @@ const appendSentChatMessage = ({ conversations }, { message }) =>
   }
 , conversations)
 
+const updateContactLastMessage = ({ contacts }, { message }) => R.map(n=>{
+  n.lastMessage = n.pk === message.recipient ? message : n.lastMessage
+  return n
+}, contacts)
+
 export default (state = initialState.chat, { type, payload, errors }) => {
   switch (type) {
     case C.GET_CHAT_CONTACTS:
@@ -116,6 +121,7 @@ export default (state = initialState.chat, { type, payload, errors }) => {
     case C.APPEND_SENT_CHAT_MESSAGE:
       diff = {
         ...state,
+        contacts: updateContactLastMessage(state, payload),
         conversations: appendSentChatMessage(state, payload)
       }
       return R.merge(state, diff)
