@@ -26,9 +26,9 @@ export function openChatConversation(contactId) {
   }
 }
 
-export function closeChatConversation(contactId) {
+export function closeChatConversation(id) {
   return dispatch => {
-    dispatch({ type: C.CLOSE_CHAT_CONVERSATION, payload: { id: contactId } })
+    dispatch({ type: C.CLOSE_CHAT_CONVERSATION, payload: { id } })
   }
 }
 

@@ -4,7 +4,7 @@ import { Chat } from '../../../redux/actions'
 import moment from 'moment'
 import R from 'ramda'
 
-const { loadChatConversation, postChatMessage } = Chat
+const { loadChatConversation, postChatMessage, closeChatConversation } = Chat
 
 class ChatTab extends PureComponent {
   constructor(props) {
@@ -22,6 +22,7 @@ class ChatTab extends PureComponent {
     this.onTextChange = this.onTextChange.bind(this)
     this.onMessagePost = this.onMessagePost.bind(this)
     this.scrollToBottom = this.scrollToBottom.bind(this)
+    this.handleCloseChatTab = this.handleCloseChatTab.bind(this)
   }
 
   componentDidMount() {
@@ -61,6 +62,12 @@ class ChatTab extends PureComponent {
     this.setState({
       isTextareaOpen: true
     })
+  }
+
+  handleCloseChatTab(event) {
+    event.preventDefault()
+    const { id } = this.props
+    if (id) { this.props.closeChatConversation(id) }
   }
 
   handleCloseTextArea(event) {
@@ -173,7 +180,7 @@ class ChatTab extends PureComponent {
       <div>
         <section className='active-chat-container-mobile'>
           <div className='active-main-chat-container'>
-            <figure className='active-chat-icon-close'>
+            <figure className='active-chat-icon-close' onClick={this.handleCloseChatTab}>
               <img src='/image/close.png'/>
             </figure>
             <span className='active-chat-user-name'>
@@ -228,7 +235,7 @@ class ChatTab extends PureComponent {
             >
               {isChatOpen ?
                 (
-                  <figure className='active-chat-icon-close'>
+                  <figure className='active-chat-icon-close' onClick={this.handleCloseChatTab}>
                     <img src='/image/close.png'/>
                   </figure>
                 ) : (
@@ -303,6 +310,7 @@ ChatTab.defaultProps = {
 const mapDispatchToProps = {
   loadChatConversation,
   postChatMessage,
+  closeChatConversation,
 }
 
 const mapStateToProps = ({
