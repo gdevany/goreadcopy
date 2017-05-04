@@ -290,6 +290,53 @@ class NavMenu extends PureComponent {
 
   }
 
+  handleMapProfileMenuItems = () => {
+    const liClass = 'profile-menu-element'
+    const anchorClass = 'profile-menu-anchor'
+    const { currentReader } = this.props
+    const {
+      orders,
+      referrals,
+      authorBuzz,
+      authorBuzzSettings,
+      publisherBuzz,
+      publisherBuzzSettings
+    } = routes
+    const nonMenuRoutes = [
+      ['Orders', orders],
+      ['Referrals', referrals],
+      ['Settings', '/profile/settings', true],
+    ]
+
+    {currentReader.hasAuthorBuzz ?
+      nonMenuRoutes.push(
+        ['GoRead Buzz', authorBuzz({ slug: currentReader.author.slug }), false, true],
+        ['GoRead Buzz Settings', authorBuzzSettings],
+    ) : null }
+
+    {currentReader.hasPublisherBuzz && currentReader.isPublisher ?
+      nonMenuRoutes.push(
+        ['GoRead Publisher Buzz', publisherBuzz({ slug: currentReader.publisher.slug }),
+          false, true],
+        ['GoRead Publisher Buzz Settings',
+          publisherBuzzSettings({ slug: currentReader.publisher.slug }), false, true],
+    ) : null }
+
+    const NonMenuItem = this.mapElementsHandler(liClass, anchorClass)
+
+    return R.map(NonMenuItem, nonMenuRoutes)
+
+  }
+
+  handleMenuClick = (event) => {
+    event.preventDefault()
+    if (this.state.isMobileMenuOpen) {
+      this.setState({ isMobileMenuOpen: false })
+    } else {
+      this.setState({ isMobileMenuOpen: true })
+    }
+  }
+
   handleLogoutClick(event) {
     event.preventDefault()
     this.props.logoutCurrentReader()
@@ -299,92 +346,6 @@ class NavMenu extends PureComponent {
   handlePlatformUse(platformUse) {
     this.setState({ usePlatformAs: platformUse })
     this.props.usePlatformAs(platformUse)
-  }
-
-  userProfileMenu = () => {
-    const { currentReader } = this.props
-    const { usePlatformAs } = this.state
-
-    return (
-      <ul
-        className='profile-menu-container'
-        onMouseLeave={this.handleProfileMenuHide}
-      >
-        <li className='profile-menu-element'>
-          {currentReader.hasAuthorBuzz ||
-           (currentReader.hasPublisherBuzz && currentReader.isPublisher) ?
-            (
-              <div className='publishing-as-container'>
-                <label className='publishing-as-label'>
-                  Use Platform as
-                </label>
-                <ul className='publishing-as-ul-container'>
-                  <li className='publishing-as-list'>
-                    <a
-                      onClick={() => this.handlePlatformUse('reader')}
-                      className={usePlatformAs === 'reader' ?
-                      ('publishing-as-active') : ('publishing-as-anchor')}
-                    >
-                      Reader
-                    </a>
-                  </li>
-                  {currentReader.hasAuthorBuzz ?
-                    (
-                      <li className='publishing-as-list'>
-                        <a
-                          onClick={() => this.handlePlatformUse('author')}
-                          className={usePlatformAs === 'author' ?
-                          ('publishing-as-active') : ('publishing-as-anchor')}
-                        >
-                          Author
-                        </a>
-                      </li>
-                    ) : null
-                  }
-                  {currentReader.hasPublisherBuzz && currentReader.isPublisher ? (
-                    <li className='publishing-as-list'>
-                      <a
-                        onClick={() => this.handlePlatformUse('publisher')}
-                        className={usePlatformAs === 'publisher' ?
-                        ('publishing-as-active') : ('publishing-as-anchor')}
-                      >
-                        Publisher
-                      </a>
-                    </li>
-                  ) : null}
-                </ul>
-              </div>
-            ) : null
-          }
-
-        </li>
-        <hr className='profile-menu-divider' />
-        <li className='profile-menu-element'>
-          <Link
-            to={`/profile/${currentReader.slug}`}
-            className='profile-menu-anchor'
-          >
-              View Profile
-          </Link>
-        </li>
-        <hr className='profile-menu-divider' />
-        { this.handleMapProfileMenuItems() }
-        <li className='profile-menu-element'>
-          <a
-            className='profile-menu-anchor'
-            href='http://support.readerslegacy.com/'
-            target='_blank'
-          >
-            Support
-          </a>
-        </li>
-        <li className='profile-menu-element'>
-          <a className='profile-menu-anchor' onClick={this.handleLogoutClick}>
-            Logout
-          </a>
-        </li>
-      </ul>
-    )
   }
 
   handleMapNavItems = (categories, genres) => {
@@ -530,44 +491,6 @@ class NavMenu extends PureComponent {
     )
   }
 
-  handleMapProfileMenuItems = () => {
-    const liClass = 'profile-menu-element'
-    const anchorClass = 'profile-menu-anchor'
-    const { currentReader } = this.props
-    const {
-      orders,
-      referrals,
-      authorBuzz,
-      authorBuzzSettings,
-      publisherBuzz,
-      publisherBuzzSettings
-    } = routes
-    const nonMenuRoutes = [
-      ['Orders', orders],
-      ['Referrals', referrals],
-      ['Settings', '/profile/settings', true],
-    ]
-
-    {currentReader.hasAuthorBuzz ?
-      nonMenuRoutes.push(
-        ['GoRead Buzz', authorBuzz({ slug: currentReader.author.slug }), false, true],
-        ['GoRead Buzz Settings', authorBuzzSettings],
-    ) : null }
-
-    {currentReader.hasPublisherBuzz && currentReader.isPublisher ?
-      nonMenuRoutes.push(
-        ['GoRead Publisher Buzz', publisherBuzz({ slug: currentReader.publisher.slug }),
-          false, true],
-        ['GoRead Publisher Buzz Settings',
-          publisherBuzzSettings({ slug: currentReader.publisher.slug }), false, true],
-    ) : null }
-
-    const NonMenuItem = this.mapElementsHandler(liClass, anchorClass)
-
-    return R.map(NonMenuItem, nonMenuRoutes)
-
-  }
-
   mapMobileMenuItems = (type) => {
     const liClass = 'links-list'
     const anchorClass = 'links-anchor'
@@ -628,18 +551,104 @@ class NavMenu extends PureComponent {
     return R.map(NonMenuItem, nonMenuRoutes)
   }
 
-  handleMenuClick = (event) => {
-    event.preventDefault()
-    if (this.state.isMobileMenuOpen) {
-      this.setState({ isMobileMenuOpen: false })
-    } else {
-      this.setState({ isMobileMenuOpen: true })
+  userProfileMenu = () => {
+    const { currentReader } = this.props
+    const { usePlatformAs } = this.state
+
+    return (
+      <ul
+        className='profile-menu-container'
+        onMouseLeave={this.handleProfileMenuHide}
+      >
+        <li className='profile-menu-element'>
+          {currentReader.hasAuthorBuzz ||
+           (currentReader.hasPublisherBuzz && currentReader.isPublisher) ?
+            (
+              <div className='publishing-as-container'>
+                <label className='publishing-as-label'>
+                  Use Platform as
+                </label>
+                <ul className='publishing-as-ul-container'>
+                  <li className='publishing-as-list'>
+                    <a
+                      onClick={() => this.handlePlatformUse('reader')}
+                      className={usePlatformAs === 'reader' ?
+                      ('publishing-as-active') : ('publishing-as-anchor')}
+                    >
+                      Reader
+                    </a>
+                  </li>
+                  {currentReader.hasAuthorBuzz ?
+                    (
+                      <li className='publishing-as-list'>
+                        <a
+                          onClick={() => this.handlePlatformUse('author')}
+                          className={usePlatformAs === 'author' ?
+                          ('publishing-as-active') : ('publishing-as-anchor')}
+                        >
+                          Author
+                        </a>
+                      </li>
+                    ) : null
+                  }
+                  {currentReader.hasPublisherBuzz && currentReader.isPublisher ? (
+                    <li className='publishing-as-list'>
+                      <a
+                        onClick={() => this.handlePlatformUse('publisher')}
+                        className={usePlatformAs === 'publisher' ?
+                        ('publishing-as-active') : ('publishing-as-anchor')}
+                      >
+                        Publisher
+                      </a>
+                    </li>
+                  ) : null}
+                </ul>
+              </div>
+            ) : null
+          }
+
+        </li>
+        <hr className='profile-menu-divider' />
+        <li className='profile-menu-element'>
+          <Link
+            to={`/profile/${currentReader.slug}`}
+            className='profile-menu-anchor'
+          >
+              View Profile
+          </Link>
+        </li>
+        <hr className='profile-menu-divider' />
+        { this.handleMapProfileMenuItems() }
+        <li className='profile-menu-element'>
+          <a
+            className='profile-menu-anchor'
+            href='http://support.readerslegacy.com/'
+            target='_blank'
+          >
+            Support
+          </a>
+        </li>
+        <li className='profile-menu-element'>
+          <a className='profile-menu-anchor' onClick={this.handleLogoutClick}>
+            Logout
+          </a>
+        </li>
+      </ul>
+    )
+  }
+
+  countChatNotifications = () => {
+    const { chat: { contacts } } = this.props
+    if (contacts && contacts.length > 0) {
+      return R.reduce((acc, c)=>{ return acc + c.unreadMessages }, 0, contacts)
     }
+    return 0
   }
 
   renderLogInMenu = () => {
     const { currentReader } = this.props
     const { socialFollowers, socialFollowed, isReadFeed } = this.state
+    const chatNotifications = this.countChatNotifications()
     return (
       <div className='relative-top-menu'>
         <div className='slide-down'>
@@ -668,9 +677,9 @@ class NavMenu extends PureComponent {
                 <li className='logged-menu-item'>
                   <Badge
                     onClick={this.handleChatsContainerShow}
-                    badgeContent={12}
+                    badgeContent={chatNotifications}
                     primary={true}
-                    badgeStyle={{
+                    badgeStyle={chatNotifications > 0 ? {
                       top: -7,
                       left: 7,
                       width: '20px',
@@ -678,7 +687,7 @@ class NavMenu extends PureComponent {
                       fontWeight: 700,
                       fontSize: 12,
                       backgroundColor: Colors.red,
-                    }}
+                    } : { display: 'none' }}
                     style={styles.messageBadge}
                   >
                     <a
@@ -844,9 +853,9 @@ class NavMenu extends PureComponent {
                   <li style={styles.loggedInNavLi} className='loged-menu-item'>
                     <Badge
                       onClick={this.handleChatsContainerShow}
-                      badgeContent={12}
+                      badgeContent={chatNotifications}
                       primary={true}
-                      badgeStyle={{
+                      badgeStyle={chatNotifications > 0 ? {
                         top: -7,
                         left: 7,
                         width: '20px',
@@ -854,7 +863,7 @@ class NavMenu extends PureComponent {
                         fontWeight: 700,
                         fontSize: 12,
                         backgroundColor: Colors.red,
-                      }}
+                      } : { display: 'none' }}
                       style={styles.messageBadge}
                     >
                       <a
@@ -969,6 +978,7 @@ class NavMenu extends PureComponent {
       </div>
     )
   }
+
   render() {
     const { isUserLoggedIn, currentReader } = this.props
 
@@ -1036,10 +1046,15 @@ class NavMenu extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({
+  currentReader,
+  social,
+  chat
+}) => {
   return {
-    currentReader: state.currentReader,
-    social: state.social
+    currentReader,
+    social,
+    chat
   }
 }
 
