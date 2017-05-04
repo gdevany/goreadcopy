@@ -4,6 +4,7 @@ import moment from 'moment'
 
 let intervalId
 const refreshTime = 60000
+const maxPostLength = 35
 
 class LatestMessagePopupWindow extends PureComponent {
   constructor(props) {
@@ -47,6 +48,11 @@ class LatestMessagePopupWindow extends PureComponent {
     return next.lastMessage.timestamp - current.lastMessage.timestamp
   }
 
+  summarizeMessage(text) {
+    if (text.length > maxPostLength) { return `${ text.substr(0, maxPostLength) }...` }
+    return text
+  }
+
   renderMessageList(contacts) {
     const latestMessagingContacts = contacts.filter(this.filterChatlist)
     latestMessagingContacts.sort(this.sortChatlist)
@@ -82,7 +88,7 @@ class LatestMessagePopupWindow extends PureComponent {
             </div>
             <div className='single-chat-message-preview-container'>
               <p className='single-chat-message-preview'>
-                {el.lastMessage.body}
+                { this.summarizeMessage(el.lastMessage.body) }
               </p>
             </div>
           </div>

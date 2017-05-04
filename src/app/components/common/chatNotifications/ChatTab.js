@@ -83,6 +83,7 @@ class ChatTab extends PureComponent {
     event.preventDefault()
     if (message && id) {
       this.props.postChatMessage({ message, recipient: id })
+      this.setState({ message: '' })
     }
   }
 
