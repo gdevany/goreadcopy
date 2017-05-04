@@ -6,7 +6,11 @@ import { Chat as ChatActions } from '../../redux/actions'
 import R from 'ramda'
 
 const { sendHeartbeat } = ChatServices
-const { updateOnlineStatus } = ChatActions
+const {
+  updateOnlineStatus,
+  updateUnreadChatNumber,
+  appendReceivedChatMessage
+} = ChatActions
 
 let socket, interval
 const uri = Env.SOCKET_URL
@@ -58,21 +62,21 @@ class SocketHandler extends PureComponent {
         //console.log(message.data)
         break
       case 'chat-notification':
-        // Handle chat notification
-        //console.log(message.data)
+        // Handle received notifications for unread chats.
+        this.props.updateUnreadChatNumber(message)
         break
       case 'activity-notification':
         // Handle activity notification
         //console.log(message.data)
         break
       case 'chat':
-        // Handle chat
-        console.log(message.data)
+        // Handle received chat posts for conversations.
+        this.props.appendReceivedChatMessage(message.data)
         break
       case 'online-status':
+        // Handle received messages for changes on contact's statuses.
         diff = this.processStatusDiff(message.data)
         if (diff && diff.length > 0) {
-          console.log('Diffed', diff)
           this.props.updateOnlineStatus(diff)
         }
         break
@@ -103,7 +107,9 @@ const mapStateAsProps = ({
 }
 
 const mapDispatchAsProps = {
-  updateOnlineStatus
+  updateOnlineStatus,
+  updateUnreadChatNumber,
+  appendReceivedChatMessage
 }
 
 export default connect(mapStateAsProps, mapDispatchAsProps)(SocketHandler)

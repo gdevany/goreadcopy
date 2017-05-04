@@ -1,12 +1,10 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Chat as ChatActions } from '../../../redux/actions'
-import { Chat as ChatServices } from '../../../services/api/currentReader'
+import { Chat } from '../../../redux/actions'
 import moment from 'moment'
 import R from 'ramda'
 
-const { loadChatConversation } = ChatActions
-const { postChatMessage } = ChatServices
+const { loadChatConversation, postChatMessage } = Chat
 
 class ChatTab extends PureComponent {
   constructor(props) {
@@ -14,7 +12,8 @@ class ChatTab extends PureComponent {
     this.state = {
       isChatOpen: false,
       isTextareaOpen: false,
-      message: ''
+      message: '',
+      listContainer: null,
     }
 
     this.handleChatClick = this.handleChatClick.bind(this)
@@ -22,11 +21,24 @@ class ChatTab extends PureComponent {
     this.handleCloseTextArea = this.handleCloseTextArea.bind(this)
     this.onTextChange = this.onTextChange.bind(this)
     this.onMessagePost = this.onMessagePost.bind(this)
+    this.scrollToBottom = this.scrollToBottom.bind(this)
   }
 
   componentDidMount() {
     const { id } = this.props
     this.props.loadChatConversation(id)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.scrollToBottom()
+  }
+
+  scrollToBottom() {
+    const { listContainer } = this.state
+    const scrollHeight = listContainer.scrollHeight
+    const height = listContainer.clientHeight
+    const maxScrollTop = scrollHeight - height
+    listContainer.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0
   }
 
   handleChatClick(event) {
@@ -70,12 +82,7 @@ class ChatTab extends PureComponent {
     const { id } = this.props
     event.preventDefault()
     if (message && id) {
-      postChatMessage({
-        message,
-        recipient: id
-      })
-        .then(res=>this.setState({ message: '' }))
-        .catch(err=>console.log('Error', err))
+      this.props.postChatMessage({ message, recipient: id })
     }
   }
 
@@ -180,6 +187,7 @@ class ChatTab extends PureComponent {
             <div
               className='active-chat-in-use'
               onClick={this.handleCloseTextArea}
+              ref={(div)=>{this.setState({ listContainer: div })}}
             >
               {
                 history && history.conversation ?
@@ -244,6 +252,7 @@ class ChatTab extends PureComponent {
                   <div
                     className='active-chat-in-use'
                     onClick={this.handleCloseTextArea}
+                    ref={(div)=>{this.setState({ listContainer: div })}}
                   >
                     {
                       history && history.conversation ?
@@ -291,7 +300,20 @@ ChatTab.defaultProps = {
 }
 
 const mapDispatchToProps = {
-  loadChatConversation
+  loadChatConversation,
+  postChatMessage,
 }
 
-export default connect(null, mapDispatchToProps)(ChatTab)
+const mapStateToProps = ({
+  chat: {
+    conversations,
+    contacts
+  }
+}) => {
+  return {
+    conversations,
+    contacts
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatTab)

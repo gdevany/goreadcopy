@@ -46,9 +46,29 @@ export function loadChatConversation(contactId) {
   }
 }
 
-export function updateOnlineStatus(diff) {
+export function postChatMessage(data) {
   return dispatch => {
-    return Promise.resolve(dispatch({ type: C.UPDATE_ONLINE_STATUS, payload: diff }))
+    return Chat.postChatMessage(data)
+      .then(({ data }) => dispatch({ type: C.APPEND_SENT_CHAT_MESSAGE, payload: data }))
+      .catch(err => console.log(err))
+  }
+}
+
+export function updateOnlineStatus(payload) {
+  return dispatch => {
+    return Promise.resolve(dispatch({ type: C.UPDATE_ONLINE_STATUS, payload }))
+  }
+}
+
+export function updateUnreadChatNumber(payload) {
+  return dispatch => {
+    return Promise.resolve(dispatch({ type: C.UPDATE_CONTACT_UNREAD_MESSAGES, payload }))
+  }
+}
+
+export function appendReceivedChatMessage(payload) {
+  return dispatch => {
+    return Promise.resolve(dispatch({ type: C.APPEND_RECEIVED_CHAT_MESSAGE, payload }))
   }
 }
 
@@ -57,5 +77,8 @@ export default {
   openChatConversation,
   closeChatConversation,
   loadChatConversation,
-  updateOnlineStatus
+  updateOnlineStatus,
+  updateUnreadChatNumber,
+  appendReceivedChatMessage,
+  postChatMessage,
 }
