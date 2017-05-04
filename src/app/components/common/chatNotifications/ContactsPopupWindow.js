@@ -1,11 +1,18 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Chat } from '../../../redux/actions'
+import R from 'ramda'
 
 const {
   getChatContacts,
   openChatConversation,
 } = Chat
+
+const compareByProp = (prop, a, b) => {
+  const x = a[prop].toLowerCase()
+  const y = b[prop].toLowerCase()
+  return x < y ? -1 : x > y ? 1 : 0
+}
 
 class ContactsPopupWindow extends PureComponent {
   constructor(props) {
@@ -41,7 +48,9 @@ class ContactsPopupWindow extends PureComponent {
   }
 
   renderOnlineUsers(users) {
-    const onlineUsers = users.filter(user => user.isOnline)
+    let onlineUsers = []
+    onlineUsers = users.filter(user => user.isOnline)
+    onlineUsers.sort(R.curry(compareByProp)('fullname'))
     return onlineUsers.map(user => {
       return (
         <div
@@ -64,7 +73,9 @@ class ContactsPopupWindow extends PureComponent {
   }
 
   renderOfflineUsers(users) {
-    const offlineUsers = users.filter(user => !user.isOnline)
+    let offlineUsers = []
+    offlineUsers = users.filter(user => !user.isOnline)
+    offlineUsers.sort(R.curry(compareByProp)('fullname'))
     return (
       <div className='offline-users-container'>
         <span className='offline-users-title'>{`Offline (${offlineUsers.length})`}</span>
