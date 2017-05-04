@@ -1,19 +1,33 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Chat } from '../../../redux/actions'
+import { Chat as ChatActions } from '../../../redux/actions'
+import { Chat as ChatServices } from '../../../services/api/currentReader'
 import moment from 'moment'
 import R from 'ramda'
 
-const { loadChatConversation, postChatMessage, closeChatConversation } = Chat
+const {
+  loadChatConversation,
+  postChatMessage,
+  closeChatConversation,
+  updateOpenedConversation,
+} = ChatActions
+
+const {
+  updateReadConversation
+} = ChatServices
 
 class ChatTab extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      isChatOpen: false,
+      isChatOpen: true,
       isTextareaOpen: false,
       message: '',
       listContainer: null,
+    }
+
+    this.locals = {
+      isLockedForUpdateRead: false
     }
 
     this.handleChatClick = this.handleChatClick.bind(this)
@@ -23,6 +37,7 @@ class ChatTab extends PureComponent {
     this.onMessagePost = this.onMessagePost.bind(this)
     this.scrollToBottom = this.scrollToBottom.bind(this)
     this.handleCloseChatTab = this.handleCloseChatTab.bind(this)
+    this.updateConversationReadStatus = this.updateConversationReadStatus.bind(this)
   }
 
   componentDidMount() {
@@ -32,6 +47,25 @@ class ChatTab extends PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     this.scrollToBottom()
+    this.updateConversationReadStatus()
+  }
+
+  updateConversationReadStatus() {
+    const { user: { unreadMessages, pk }, history: { conversation } } = this.props
+    const { isChatOpen } = this.state
+    const { isLockedForUpdateRead } = this.locals
+
+    if (
+      unreadMessages && isChatOpen &&
+      conversation && conversation.length > 0 &&
+      !isLockedForUpdateRead
+    ) {
+      this.locals.isLockedForUpdateRead = true
+      updateReadConversation({ contact: pk })
+        .then(this.props.updateOpenedConversation({ contact: pk }))
+        .then(()=>{ this.locals.isLockedForUpdateRead = false })
+        .catch(err=>console.log(err))
+    }
   }
 
   scrollToBottom() {
@@ -314,6 +348,7 @@ const mapDispatchToProps = {
   loadChatConversation,
   postChatMessage,
   closeChatConversation,
+  updateOpenedConversation,
 }
 
 const mapStateToProps = ({
