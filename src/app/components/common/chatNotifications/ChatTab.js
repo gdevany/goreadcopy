@@ -29,7 +29,7 @@ class ChatTab extends PureComponent {
     this.props.loadChatConversation(id)
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps, prevState) {
     this.scrollToBottom()
   }
 
