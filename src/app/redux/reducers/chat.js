@@ -11,6 +11,13 @@ const sortPosts = (conversations) => {
   )
 }
 
+const updateReadConversationStatus = ({ contacts }, { contact }) => {
+  return R.map(n=>{
+    n.unreadMessages = n.pk === contact ? 0 : n.unreadMessages
+    return n
+  }, contacts)
+}
+
 const getChatInstance = ({ conversations }, { id }) => {
   return R.find(R.propEq('id', id))(conversations)
 }
@@ -110,6 +117,12 @@ export default (state = initialState.chat, { type, payload, errors }) => {
       diff = {
         ...state,
         conversations: appendSentChatMessage(state, payload)
+      }
+      return R.merge(state, diff)
+    case C.UPDATE_READ_CONVERSATION_STATUS:
+      diff = {
+        ...state,
+        contacts: updateReadConversationStatus(state, payload)
       }
       return R.merge(state, diff)
     default:

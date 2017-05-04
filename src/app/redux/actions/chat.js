@@ -72,6 +72,12 @@ export function appendReceivedChatMessage(payload) {
   }
 }
 
+export function updateOpenedConversation(payload) {
+  return dispatch => {
+    return Promise.resolve(dispatch({ type: C.UPDATE_READ_CONVERSATION_STATUS, payload }))
+  }
+}
+
 export default {
   getChatContacts,
   openChatConversation,
@@ -81,4 +87,5 @@ export default {
   updateUnreadChatNumber,
   appendReceivedChatMessage,
   postChatMessage,
+  updateOpenedConversation,
 }

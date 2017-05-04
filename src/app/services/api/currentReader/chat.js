@@ -8,7 +8,8 @@ const {
     getChatMessages,
     getChatConversation,
     postChatMessage,
-    sendHeartbeat
+    sendHeartbeat,
+    updateReadConversation,
   }
 } = Endpoints
 
@@ -19,6 +20,7 @@ const Chat = () => {
     getChatConversation: (params) => authenticated().get(getChatConversation(params)),
     postChatMessage: (params) => authenticated().post(postChatMessage(), params),
     sendHeartbeat: (params) => authenticated().get(sendHeartbeat(params)),
+    updateReadConversation: (params) => authenticated().post(updateReadConversation(), params)
   }
 }
 
