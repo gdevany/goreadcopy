@@ -12,7 +12,8 @@ class ChatTab extends PureComponent {
     this.state = {
       isChatOpen: false,
       isTextareaOpen: false,
-      message: ''
+      message: '',
+      listContainer: null,
     }
 
     this.handleChatClick = this.handleChatClick.bind(this)
@@ -20,11 +21,24 @@ class ChatTab extends PureComponent {
     this.handleCloseTextArea = this.handleCloseTextArea.bind(this)
     this.onTextChange = this.onTextChange.bind(this)
     this.onMessagePost = this.onMessagePost.bind(this)
+    this.scrollToBottom = this.scrollToBottom.bind(this)
   }
 
   componentDidMount() {
     const { id } = this.props
     this.props.loadChatConversation(id)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.scrollToBottom()
+  }
+
+  scrollToBottom() {
+    const { listContainer } = this.state
+    const scrollHeight = listContainer.scrollHeight
+    const height = listContainer.clientHeight
+    const maxScrollTop = scrollHeight - height
+    listContainer.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0
   }
 
   handleChatClick(event) {
@@ -173,6 +187,7 @@ class ChatTab extends PureComponent {
             <div
               className='active-chat-in-use'
               onClick={this.handleCloseTextArea}
+              ref={(div)=>{this.setState({ listContainer: div })}}
             >
               {
                 history && history.conversation ?
@@ -237,6 +252,7 @@ class ChatTab extends PureComponent {
                   <div
                     className='active-chat-in-use'
                     onClick={this.handleCloseTextArea}
+                    ref={(div)=>{this.setState({ listContainer: div })}}
                   >
                     {
                       history && history.conversation ?
