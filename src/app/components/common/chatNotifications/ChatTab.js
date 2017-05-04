@@ -100,6 +100,9 @@ class ChatTab extends PureComponent {
     for (let i = 0; i < list.length; i++) {
       if (i === 0) {
         temp.push(list[i])
+        if (i === list.length - 1) {
+          split.push(temp)
+        }
         continue
       }
       if (list[i].sender === list[i - 1].sender) {
