@@ -322,15 +322,17 @@
               margin-left: 2.5px;
               figure{
                 margin-left: 2.5px;
-                width: 20px;
+                width: 17px;
                 position: relative;
                 text-align: center;
                 .unread-counter{
                   color: $white;
                   position: absolute;
-                  font-size: 12px;
+                  font-size: 11px;
                   top: 2.5px;
-                  left: 5px;
+                  left: 0px;
+                  text-align: center;
+                  width: 100%;
                 }
               }
             }
@@ -563,7 +565,9 @@
         border-bottom: 2px solid rgb(249, 249, 249);
         width: 175px;
         @media all and (min-width: 1200px) {
-          width: 200px;
+          min-width: 200px;
+          max-width: 300px;
+          width: 100%;
         }
         &:hover{
           cursor: pointer;
@@ -596,6 +600,8 @@
     }
     .chat-open{
       height: 100%;
+      width:  100%;
+      max-width: 300px;
       transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
       box-shadow: rgba(222, 222, 222, 0.498039) 0px 4px 20px 0px;
       background-image: linear-gradient(-134deg, #FFFFFF 0%, #F8FFFE 63%, #F7FCFF 99%);
@@ -639,11 +645,12 @@
         padding: 7.5px 10px;
         word-wrap: break-word;
         font-size: 14px;
+        text-align: left;
         &:nth-child(odd){
-          border-radius: 100px 100px 100px 0;
+          border-radius: 10px;
         }
         &:nth-child(even){
-          border-radius: 0 100px 100px 100px;
+          border-radius: 10px;
         }
       }
     }
