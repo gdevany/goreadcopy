@@ -444,16 +444,21 @@
           &:hover{
             cursor: pointer;
           }
-          .chat-single-user-figure{
-            width: 30px;
-            img{
-              border-radius: 23px;
+          .chat-single-user-left{
+            display: flex;
+            flex-direction: row;
+            .chat-single-user-figure{
+              width: 30px;
+              img{
+                border-radius: 23px;
+              }
             }
-          }
-          .chat-single-user-name{
-            span{
-              font-size: 12px;
-              font-weight: 400;
+            .chat-single-user-name{
+              margin-left: 10px;
+              span{
+                font-size: 12px;
+                font-weight: 400;
+              }
             }
           }
           .chat-single-message-figure{
@@ -635,21 +640,16 @@
       }
     }
     .conversation-extrange-chat-container{
-      width: 84%;
+      width: 80%;
       margin-left: 10px;
       .conversation-extrange-pharagraph{
         background: #F5F5F5;
         margin-bottom: 10px;
-        padding: 7.5px 10px;
+        padding: 3.75px 10px;
         word-wrap: break-word;
-        font-size: 14px;
+        font-size: 12px;
         text-align: left;
-        &:nth-child(odd){
-          border-radius: 10px;
-        }
-        &:nth-child(even){
-          border-radius: 10px;
-        }
+        border-radius: 7.5px;
       }
     }
     .timestamp-container{
@@ -658,8 +658,8 @@
       margin-left: 45px;
       text-align: left;
       span{
-        font-size: 12px;
-        color: #9B9B9B 100%;
+        font-size: 11px;
+        color: #9B9B9B;
       }
     }
   }
@@ -676,13 +676,13 @@
       margin-left: 10px;
       .conversation-me-pharagraph{
         background: #0092FF;
-        border-radius: 15px;
+        border-radius: 7.5px;
         margin-bottom: 10px;
-        padding: 7.5px 10px;
+        padding: 3.75px 10px;
         color: $white;
         word-wrap: break-word;
         text-align: right;
-        font-size: 14px;
+        font-size: 12px;
       }
     }
     .timestamp-container{
@@ -692,8 +692,8 @@
       margin-left: 45px;
       text-align: right;
       span{
-        font-size: 12px;
-        color: #9B9B9B 100%;
+        font-size: 11px;
+        color: #9B9B9B;
       }
     }
   }
@@ -725,7 +725,10 @@
   }
 }
 .conversation-textarea-container-open{
-  height: 125px;
+  height: auto;
+  min-height: 40px;
+  max-height: 125px;
+  overflow: visible;
   transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
   border-top: 1px solid #F4F4F4;
   padding: 10px 10px 35px 10px;
