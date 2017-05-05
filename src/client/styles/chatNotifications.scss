@@ -364,8 +364,9 @@
     justify-content: flex-start;
     align-items: center;
     z-index: 99;
-    max-width: 200px;
+    width: 250px;
     margin-right: 0px;
+    box-shadow: rgba(16, 16, 16, 0.5) 0 13px 30px 0px;
     @media all and (min-width: 1200px){
       margin-right: 40px;
     }
@@ -376,7 +377,7 @@
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        width: 200px;
+        width: 250px;
         height: 40px;
         background-image: linear-gradient(-134deg, #FFFFFF 0%, #F8FFFE 63%, #F7FCFF 99%);
         border-bottom: 2px solid rgb(249, 249, 249);
@@ -443,16 +444,21 @@
           &:hover{
             cursor: pointer;
           }
-          .chat-single-user-figure{
-            width: 30px;
-            img{
-              border-radius: 23px;
+          .chat-single-user-left{
+            display: flex;
+            flex-direction: row;
+            .chat-single-user-figure{
+              width: 30px;
+              img{
+                border-radius: 23px;
+              }
             }
-          }
-          .chat-single-user-name{
-            span{
-              font-size: 12px;
-              font-weight: 400;
+            .chat-single-user-name{
+              margin-left: 10px;
+              span{
+                font-size: 12px;
+                font-weight: 400;
+              }
             }
           }
           .chat-single-message-figure{
@@ -553,6 +559,7 @@
     z-index: 99;
     width: 250px;
     margin-right: 10px;
+    box-shadow: rgba(16, 16, 16, 0.5) 0 13px 30px 0px;
     .active-chat-small{
       height: 40px;
       transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
@@ -633,21 +640,16 @@
       }
     }
     .conversation-extrange-chat-container{
-      width: 84%;
+      width: 80%;
       margin-left: 10px;
       .conversation-extrange-pharagraph{
         background: #F5F5F5;
         margin-bottom: 10px;
-        padding: 7.5px 10px;
+        padding: 3.75px 10px;
         word-wrap: break-word;
-        font-size: 14px;
+        font-size: 12px;
         text-align: left;
-        &:nth-child(odd){
-          border-radius: 10px;
-        }
-        &:nth-child(even){
-          border-radius: 10px;
-        }
+        border-radius: 7.5px;
       }
     }
     .timestamp-container{
@@ -656,8 +658,8 @@
       margin-left: 45px;
       text-align: left;
       span{
-        font-size: 12px;
-        color: #9B9B9B 100%;
+        font-size: 11px;
+        color: #9B9B9B;
       }
     }
   }
@@ -674,13 +676,13 @@
       margin-left: 10px;
       .conversation-me-pharagraph{
         background: #0092FF;
-        border-radius: 15px;
+        border-radius: 7.5px;
         margin-bottom: 10px;
-        padding: 7.5px 10px;
+        padding: 3.75px 10px;
         color: $white;
         word-wrap: break-word;
         text-align: right;
-        font-size: 14px;
+        font-size: 12px;
       }
     }
     .timestamp-container{
@@ -690,8 +692,8 @@
       margin-left: 45px;
       text-align: right;
       span{
-        font-size: 12px;
-        color: #9B9B9B 100%;
+        font-size: 11px;
+        color: #9B9B9B;
       }
     }
   }
@@ -715,7 +717,7 @@
     padding: 0;
     margin-bottom: 0;
     box-shadow: none;
-    font-size: 14px;
+    font-size: 12px;
     &:focus{
       border: none;
       box-shadow: none;
@@ -723,7 +725,10 @@
   }
 }
 .conversation-textarea-container-open{
-  height: 125px;
+  height: auto;
+  min-height: 40px;
+  max-height: 100px;
+  overflow: visible;
   transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
   border-top: 1px solid #F4F4F4;
   padding: 10px 10px 35px 10px;
@@ -736,7 +741,7 @@
     padding: 0;
     margin-bottom: 0;
     box-shadow: none;
-    font-size: 14px;
+    font-size: 12px;
     &:focus{
       border: none;
       box-shadow: none;
@@ -747,7 +752,7 @@
     bottom: 2.5px;
     right: 15px;
     display: block;
-    padding: 5px 8.5px;
+    padding: 2px 6.5px;
     border: solid 1px $blue;
     border-radius: 12px;
     color: $blue;
@@ -772,11 +777,5 @@
     align-items: flex-end;
     z-index: 99;
     overflow: hidden;
-  }
-  @media all and (min-width: 1400px){
-    max-width: 90%;
-  }
-  @media all and (min-width: 1600px){
-    max-width: 75%;
   }
 }

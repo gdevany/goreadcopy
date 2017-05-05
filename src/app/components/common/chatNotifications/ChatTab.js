@@ -21,22 +21,27 @@ class ChatTab extends PureComponent {
     super(props)
     this.state = {
       isChatOpen: true,
-      isTextareaOpen: false,
+      isTextAreaOpen: true,
       message: '',
-      listContainer: null,
+      textarea: null,
+      container: null,
     }
 
     this.locals = {
-      isLockedForUpdateRead: false
+      isLockedForUpdateRead: false,
+      focusTextArea: true,
     }
 
     this.handleChatClick = this.handleChatClick.bind(this)
     this.handleOpenTextArea = this.handleOpenTextArea.bind(this)
     this.handleCloseTextArea = this.handleCloseTextArea.bind(this)
-    this.onTextChange = this.onTextChange.bind(this)
-    this.onMessagePost = this.onMessagePost.bind(this)
-    this.scrollToBottom = this.scrollToBottom.bind(this)
+    this.handleKeyDown = this.handleKeyDown.bind(this)
     this.handleCloseChatTab = this.handleCloseChatTab.bind(this)
+    this.onTextChange = this.onTextChange.bind(this)
+    this.onTextFieldBlur = this.onTextFieldBlur.bind(this)
+    this.onMessagePost = this.onMessagePost.bind(this)
+    this.postMessage = this.postMessage.bind(this)
+    this.scrollToBottom = this.scrollToBottom.bind(this)
     this.updateConversationReadStatus = this.updateConversationReadStatus.bind(this)
   }
 
@@ -48,6 +53,16 @@ class ChatTab extends PureComponent {
   componentDidUpdate(prevProps, prevState) {
     this.scrollToBottom()
     this.updateConversationReadStatus()
+    this.updateFocusTextArea()
+  }
+
+  updateFocusTextArea() {
+    const { focusTextArea } = this.locals
+    const { textarea } = this.state
+    if (focusTextArea && textarea) {
+      this.locals.focusTextArea = false
+      textarea.focus()
+    }
   }
 
   updateConversationReadStatus() {
@@ -69,11 +84,11 @@ class ChatTab extends PureComponent {
   }
 
   scrollToBottom() {
-    const { listContainer } = this.state
-    const scrollHeight = listContainer.scrollHeight
-    const height = listContainer.clientHeight
+    const { container } = this.state
+    const scrollHeight = container.scrollHeight
+    const height = container.clientHeight
     const maxScrollTop = scrollHeight - height
-    listContainer.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0
+    container.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0
   }
 
   handleChatClick(event) {
@@ -82,19 +97,18 @@ class ChatTab extends PureComponent {
     if (isChatOpen) {
       this.setState({
         isChatOpen: false,
-        isTextareaOpen: false
+        isTextAreaOpen: false
       })
     } else {
-      this.setState({
-        isChatOpen: true
-      })
+      this.locals.focusTextArea = true
+      this.setState({ isChatOpen: true, isTextAreaOpen: true })
     }
   }
 
   handleOpenTextArea(event) {
     event.preventDefault()
     this.setState({
-      isTextareaOpen: true
+      isTextAreaOpen: true
     })
   }
 
@@ -107,8 +121,20 @@ class ChatTab extends PureComponent {
   handleCloseTextArea(event) {
     event.preventDefault()
     this.setState({
-      isTextareaOpen: false
+      isTextAreaOpen: false
     })
+  }
+
+  handleKeyDown(event) {
+    const code = event.key
+    switch (code) {
+      case 'Enter':
+        event.preventDefault()
+        this.postMessage()
+        break
+      default:
+        return
+    }
   }
 
   onTextChange(event) {
@@ -118,14 +144,22 @@ class ChatTab extends PureComponent {
     })
   }
 
-  onMessagePost(event) {
+  postMessage() {
     const { message } = this.state
     const { id } = this.props
-    event.preventDefault()
     if (message && id) {
       this.props.postChatMessage({ message, recipient: id })
       this.setState({ message: '' })
     }
+  }
+
+  onMessagePost(event) {
+    event.preventDefault()
+    this.postMessage()
+  }
+
+  onTextFieldBlur(event) {
+    this.setState({ isTextAreaOpen: false })
   }
 
   splitConversation(list) {
@@ -210,7 +244,7 @@ class ChatTab extends PureComponent {
   }
 
   render() {
-    const { isChatOpen, isTextareaOpen } = this.state
+    const { isChatOpen, isTextAreaOpen } = this.state
     const { id, history, user } = this.props
 
     return (
@@ -232,7 +266,7 @@ class ChatTab extends PureComponent {
             <div
               className='active-chat-in-use'
               onClick={this.handleCloseTextArea}
-              ref={(div)=>{this.setState({ listContainer: div })}}
+              ref={(div)=>{this.setState({ container: div })}}
             >
               {
                 history && history.conversation ?
@@ -240,7 +274,7 @@ class ChatTab extends PureComponent {
                   null
               }
             </div>
-            <div className={`${isTextareaOpen ?
+            <div className={`${isTextAreaOpen ?
               'conversation-textarea-container-open' : 'conversation-textarea-container'}`
               }
             >
@@ -250,7 +284,7 @@ class ChatTab extends PureComponent {
                 placeholder='Type your message'
                 value={this.state.message}
               />
-              {isTextareaOpen ?
+              {isTextAreaOpen ?
                 (
                   <a href='#' className='conversation-send-btn' onClick={this.onMessagePost}>
                     Send
@@ -297,7 +331,7 @@ class ChatTab extends PureComponent {
                   <div
                     className='active-chat-in-use'
                     onClick={this.handleCloseTextArea}
-                    ref={(div)=>{this.setState({ listContainer: div })}}
+                    ref={(div)=>{this.setState({ container: div })}}
                   >
                     {
                       history && history.conversation ?
@@ -305,23 +339,19 @@ class ChatTab extends PureComponent {
                         null
                     }
                   </div>
-                  <div className={`${isTextareaOpen ?
+                  <div className={`${isTextAreaOpen ?
                     'conversation-textarea-container-open' : 'conversation-textarea-container'}`
                     }
                   >
                     <textarea
+                      ref={(textarea)=>{this.setState({ textarea })}}
                       onClick={this.handleOpenTextArea}
+                      onBlur={this.onTextFieldBlur}
                       onChange={this.onTextChange}
                       placeholder='Type your message'
                       value={this.state.message}
+                      onKeyDown={this.handleKeyDown}
                     />
-                    {isTextareaOpen ?
-                      (
-                        <a href='#' className='conversation-send-btn' onClick={this.onMessagePost}>
-                          Send
-                        </a>
-                      ) : null
-                    }
                   </div>
                 </div>
               ) : null

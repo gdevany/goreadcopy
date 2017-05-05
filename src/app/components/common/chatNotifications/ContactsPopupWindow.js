@@ -42,7 +42,7 @@ class ContactsPopupWindow extends PureComponent {
     }
   }
 
-  handleContactClick = (idx, e) => {
+  handleContactClick = (idx, event) => {
     event.preventDefault()
     this.props.openChatConversation(idx)
   }
@@ -58,11 +58,13 @@ class ContactsPopupWindow extends PureComponent {
           key={user.pk}
           onClick={(e) => this.handleContactClick(user.pk, e)}
         >
-          <figure className='chat-single-user-figure'>
-            <img src={user.imageUrl}/>
-          </figure>
-          <div className='chat-single-user-name'>
-            <span>{user.fullname}</span>
+          <div className='chat-single-user-left'>
+            <figure className='chat-single-user-figure'>
+              <img src={user.imageUrl}/>
+            </figure>
+            <div className='chat-single-user-name'>
+              <span>{user.fullname}</span>
+            </div>
           </div>
           <figure className='chat-single-message-figure'>
             <img src='/image/online-icon.png'/>
