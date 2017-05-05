@@ -6,11 +6,25 @@
 }
 
 .header {
-  padding: 194px 0 250px;
+  padding-top: 65px;
+  height: 100vh;
   background: url('../image/header-image.jpg') no-repeat center;
   background-size: cover;
-
-  @media all and (max-width: 1200px){
-    padding-top: 170px;
+  @media all and (min-width: 768px){
+    padding-top: 78px;
+  }
+  @media all and (min-width: 1400px){
+    height: 700px;
+    padding: 78px 0 150px;
+  }
+  .text-on-landing-container{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 0;
+    @media all and (min-width: 768px){
+      padding-top: 25px;
+    }
   }
 }
