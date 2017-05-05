@@ -42,7 +42,7 @@ class ContactsPopupWindow extends PureComponent {
     }
   }
 
-  handleContactClick = (idx, e) => {
+  handleContactClick = (idx, event) => {
     event.preventDefault()
     this.props.openChatConversation(idx)
   }

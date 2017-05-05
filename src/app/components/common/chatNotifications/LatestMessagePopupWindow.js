@@ -1,10 +1,15 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
+import { Chat } from '../../../redux/actions'
 
 let intervalId
 const refreshTime = 60000
 const maxPostLength = 35
+
+const {
+  openChatConversation,
+} = Chat
 
 class LatestMessagePopupWindow extends PureComponent {
   constructor(props) {
@@ -15,6 +20,7 @@ class LatestMessagePopupWindow extends PureComponent {
     this.timer = this.timer.bind(this)
     this.onFilterChange = this.onFilterChange.bind(this)
     this.filterChatlist = this.filterChatlist.bind(this)
+    this.handleContactClick = this.handleContactClick.bind(this)
   }
 
   componentDidMount() {
@@ -53,12 +59,21 @@ class LatestMessagePopupWindow extends PureComponent {
     return text
   }
 
+  handleContactClick(idx, event) {
+    event.preventDefault()
+    this.props.openChatConversation(idx)
+  }
+
   renderMessageList(contacts) {
     const latestMessagingContacts = contacts.filter(this.filterChatlist)
     latestMessagingContacts.sort(this.sortChatlist)
     return latestMessagingContacts.map((el) => {
       return (
-        <div className='single-chat-element-container' key={el.pk}>
+        <div
+          className='single-chat-element-container'
+          key={el.pk}
+          onClick={(e) => this.handleContactClick(el.pk, e)}
+        >
           <figure className='single-chat-avatar-figure'>
             <img src={el.imageUrl}/>
           </figure>
@@ -136,5 +151,8 @@ const mapStateToProps = ({
     contacts
   }
 }
+const mapDispatchToProps = {
+  openChatConversation
+}
 
-export default connect(mapStateToProps, null)(LatestMessagePopupWindow)
+export default connect(mapStateToProps, mapDispatchToProps)(LatestMessagePopupWindow)
