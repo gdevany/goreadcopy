@@ -48,9 +48,10 @@
   .tile-actor-details{
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: column;
     margin-left: 1em;
+    width: 80%;
     .tile-actor-container{
       display: flex;
       justify-content: flex-start;
