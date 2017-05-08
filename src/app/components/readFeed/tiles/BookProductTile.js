@@ -12,8 +12,8 @@ class BookProductTile extends PureComponent {
       <Rating
         readonly={true}
         initialRate={rating}
-        full={<img className='rating-icon-tiles' src='./image/star.svg' />}
-        empty={<img className='rating-icon-tiles' src='./image/star-empty.svg' />}
+        full={<img className='rating-icon-tiles' src='/image/star.svg' />}
+        empty={<img className='rating-icon-tiles' src='/image/star-empty.svg' />}
       />
     )
   }
