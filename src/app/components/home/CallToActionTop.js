@@ -31,7 +31,7 @@ class CallToActionTop extends PureComponent {
           <h2>
             Joining Is Free, It’s A Social Media Website!
           </h2>
-          <span>For a limited time:</span>
+          <span className='middle-small-text'>For a limited time:</span>
           <h2>Get Your First Book Free, Just For Creating An Account!</h2>
 
           <PrimaryButton

@@ -22,7 +22,7 @@ const styles = {
     maxWidth: 1150,
     width: '98%',
     boxShadow: '0px 2px 30px 0px rgba(0,0,0,0.2)',
-    zIndex: 10,
+    zIndex: 9,
 
     [Breakpoints.mobile]: {
       padding: '0 20px 50px 20px',
