@@ -3,12 +3,12 @@ import { connect } from 'react-redux'
 import LeftContainer from './LeftContainer'
 import MiddleContainer from './MiddleContainer'
 import RightContainer from './RightContainer'
-import { NavMenu, SocketHandler } from '../common'
-import { ChatTabWrapper } from '../common/chatNotifications'
+import { NavMenu, SocketHandler, Chat } from '../common'
 import { Auth } from '../../services'
 import { CurrentReader } from '../../redux/actions'
 
 const { getCurrentReader } = CurrentReader
+const { ChatTabWrapper } = Chat
 
 class ReadFeed extends PureComponent {
   componentWillMount = () => this.props.getCurrentReader()
