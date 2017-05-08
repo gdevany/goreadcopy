@@ -2,26 +2,24 @@
 
 .bookstore-hero-logged-container{
   height: 70vh;
-  background-repeat: no-repeat;
   background: url('../image/hero-image.jpg');
 }
 
 .bookstore-hero-anon-container{
-  height: 50vh;
-  background-repeat: round;
+  height: 70vh;
   background: url('../image/hero-anon-image.jpg');
 }
 
 .bookstore-hero-logged-container, .bookstore-hero-anon-container{
   padding-top: 60px;
   background-position: center;
-  background-size: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-repeat: round;
   position: relative;
   @media all and (max-width: 667px) and (orientation: landscape) {
     height: 70vh;

@@ -38,6 +38,8 @@
 
 .bookpage-info-main-container{
   border-bottom: solid 2px rgb(249, 249, 249);
+  margin-bottom: 10px;
+  position: relative;
   .bookpage-info-left-element, .bookpage-info-right-element{
     padding-top: 30px;
   }
@@ -46,9 +48,10 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    @media all and (min-width: 768px){
+    border-bottom: solid 2px rgb(249, 249, 249);
+    @media all and (min-width: 1024px){
       padding-right: 0;
-      border-right: solid 2px rgb(249, 249, 249);
+      border-bottom: none;
     }
     .bookpage-info-left-top{
       display: flex;
@@ -160,15 +163,39 @@
       align-items: center;
       width: 100%;
       padding: 15px;
+      position: relative;
+      border-top: solid 2px rgb(249, 249, 249);
+      @media all and (min-width: 1024px){
+        border-top: none;
+        width: 50%;
+        position: absolute;
+        bottom: 0;
+        left: 100px;
+      }
       .bookpage-bottom-action-btn{
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+        figure{
+          width: 35px;
+          img{
+            width: 100%;
+          }
+        }
+        svg{
+          width: 35px !important;
+          height: 35px !important;
+          path{
+            fill: #DADADA;
+          }
+        }
         span{
           display: none;
           @media all and (min-width: 1024px){
             display: flex;
+            color: #999;
+            margin-left: 10px;
           }
         }
       }
@@ -176,31 +203,158 @@
   }
 
   .bookpage-info-right-element{
+    @media all and (min-width: 1024px){
+      padding-right: 0;
+      border-left: solid 2px rgb(249, 249, 249);
+    }
     .bookpage-info-right-element-main-container{
       display: flex;
       justify-content: flex-end;
       align-items: flex-start;
       flex-direction: column;
       width: 100%;
-      text-align: right;
+      text-align: center;
+      @media all and (min-width: 1024px){
+        text-align: right;
+      }
       .bookpage-book-details-cover{
         color: #999;
         width: 100%;
+        font-size: 22px;
+        @media all and (min-width: 1024px){
+          font-size: 18px;
+        }
       }
       .bookpage-book-details-price{
         width: 100%;
         font-weight: 600;
-        font-size: 22px;
-
+        font-size: 26px;
+        @media all and (min-width: 1024px) {
+          font-size: 26px;
+        }
       }
       .bookpage-book-details-saving-container{
         width: 100%;
+        color: #999;
+        font-size: 15px;
+        .bookpage-book-details-saving-old-price{
+          color: #999;
+          text-decoration: line-through;
+          margin-right: 5px;
+        }
+        .bookpage-book-details-saving-percentage{
+          color: #999;
+          margin-left: 5px;
+        }
       }
       .bookpage-book-details-litcoin-price-container{
         width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        margin-top: 10px;
+        @media all and (min-width: 1024px){
+          justify-content: flex-end;
+        }
+        .bookpage-book-details-litcoin-price-prefix{
+          font-size: 15px;
+          color: #999;
+          margin-right: 5px;
+        }
+        .bookpage-book-details-litcoin-price{
+          font-size: 15px;
+          color: #999;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          flex-direction: row;
+          .bookpage-book-details-litcoin-price-text{
+            margin-right: 5px;
+            font-weight: 500;
+          }
+          .litcoin-img{
+            width: 15px;
+            margin: 0;
+          }
+        }
       }
       .bookpage-book-details-paper-type-selector-container{
         width: 100%;
+        margin-top: 15px;
+        .bookpage-book-details-paper-type-selector{
+          margin: 0;
+          list-style: none;
+          display: flex;
+          justify-content: flex-end;
+          align-items: flex-end;
+          flex-direction: column;
+          width: 70%;
+          margin: 0 auto;
+          @media all and (min-width: 1024px){
+            float: right;
+          }
+          .bookpage-book-details-paper-type{
+            border: solid 2px #999;
+            color: #999;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: row;
+            padding: 5px 20px;
+            width: 100%;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            &:hover{
+              border: solid 2px $black;
+              color: $black;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+      .bookpage-book-add-to-cart-container{
+        width: 100%;
+        margin: 25px auto;
+        display: flex;
+        justify-content: center;
+        @media all and (min-width: 1024px){
+          margin: 25px 0;
+          justify-content: flex-end;
+        }
+        .bookpage-book-add-to-cart-btn{
+          padding: 12px 30px;
+          background-color: $store-blue;
+          color: $white;
+          font-weight: 600;
+          width: 70%;
+          border-radius: 27px;
+          display: block;
+          text-align: center;
+        }
+      }
+      .bookpage-book-piggy-bank-container{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        width: 100%;
+        padding: 15px;
+        .bookpage-book-piggy-bank-figure{
+          width: 30%;
+        }
+        .bookpage-book-piggy-bank-text-container{
+          width: 65%;
+          text-align: left;
+          .bookpage-book-piggy-bank-text-lit{
+            margin-right: 5px;
+            .litcoin-img{
+              width: 15px;
+              height: 15px;
+              margin: -2px 0 0 0;
+            }
+          }
+        }
       }
     }
   }

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import Rating from 'react-rating'
+import ReplyIcon from 'material-ui/svg-icons/content/reply'
 
 class BookInfo extends PureComponent {
 
@@ -73,20 +74,18 @@ class BookInfo extends PureComponent {
           <div className='bookpage-info-left-bottom'>
             <div className='bookpage-bottom-action-btn'>
               <figure>
-                <img src='/image/wish-list-icon.svg'/>
+                <img src='/image/add-to-wishlist.svg'/>
               </figure>
               <span>Add to Wish List</span>
             </div>
             <div className='bookpage-bottom-action-btn'>
               <figure>
-                <img src='/image/wish-list-icon.svg'/>
+                <img src='/image/add-to-library.svg'/>
               </figure>
               <span>Add to Library</span>
             </div>
             <div className='bookpage-bottom-action-btn'>
-              <figure>
-                <img src='/image/wish-list-icon.svg'/>
-              </figure>
+              <ReplyIcon />
               <span>Share</span>
             </div>
           </div>
@@ -99,6 +98,7 @@ class BookInfo extends PureComponent {
               <span className='bookpage-book-details-saving-old-price'>
                 $ 21.38
               </span>
+              |
               <span className='bookpage-book-details-saving-percentage'>
                 Save 19%
               </span>
@@ -107,8 +107,8 @@ class BookInfo extends PureComponent {
               <span className='bookpage-book-details-litcoin-price-prefix'>
                 Litcoin Price:
               </span>
-              <div className='bookpage-book-details-litcoin-price-container'>
-                <span className='bookpage-book-details-litcoin-price'>
+              <div className='bookpage-book-details-litcoin-price'>
+                <span className='bookpage-book-details-litcoin-price-text'>
                   25,502
                 </span>
                 <img className='litcoin-img' src='/image/litcoin.png' />
@@ -146,6 +146,19 @@ class BookInfo extends PureComponent {
               <a className='bookpage-book-add-to-cart-btn'>
                 Add to Cart
               </a>
+            </div>
+            <div className='bookpage-book-piggy-bank-container'>
+              <figure className='bookpage-book-piggy-bank-figure'>
+                <img src='/image/piggy-bank.png'/>
+              </figure>
+              <div className='bookpage-book-piggy-bank-text-container'>
+                Receive
+                <b> $ 1.70 </b>
+                <span className='bookpage-book-piggy-bank-text-lit'>
+                  (5,231 <img className='litcoin-img' src='/image/litcoin.png' />)
+                </span>
+                back when buying with us.
+              </div>
             </div>
           </div>
         </div>
