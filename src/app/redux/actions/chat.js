@@ -32,17 +32,12 @@ export function closeChatConversation(id) {
   }
 }
 
-export function loadChatConversation(contactId) {
+export function loadChatConversation(payload) {
   return dispatch => {
-    return Chat.getChatConversation({ contact: contactId })
-      .then(res => dispatch({
-        type: C.LOAD_CHAT_CONVERSATION,
-        payload: {
-          id: contactId,
-          history: res.data
-        }
-      }))
-      .catch(err => console.log(err))
+    dispatch({ type: C.LOAD_CHAT_CONVERSATION, payload: {
+      id: payload.id,
+      history: payload.data
+    } })
   }
 }
 
