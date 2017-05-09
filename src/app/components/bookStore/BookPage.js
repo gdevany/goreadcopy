@@ -3,6 +3,8 @@ import { BookStoreNavBar } from '../common'
 import WishListBooks from './wishListBooks'
 import BookInfo from './BookInfo'
 import MeetAuthor from './MeetAuthor'
+import ReviewsOverview from './ReviewsOverview'
+import NewsLetter from './NewsLetter'
 import { Footer } from '../common'
 import { Auth } from '../../services'
 
@@ -54,6 +56,18 @@ class BookPage extends PureComponent {
             url='https://www.goread.com/author/kendunn'
           />
           <hr className='bookpage-hr-separator'/>
+          <ReviewsOverview
+            reviewsInfo={{
+              total: 5,
+              goodreads: {
+                total: 4,
+              },
+              amazon: {
+                total: 5,
+              }
+            }}
+          />
+          {isUserLoggedIn ? null : <NewsLetter />}
         </div>
         <div className='bookstore-footer-container'>
           <Footer />

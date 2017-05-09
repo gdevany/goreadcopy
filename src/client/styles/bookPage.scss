@@ -560,3 +560,77 @@
     }
   }
 }
+
+.bookpage-newsletter-main-container{
+  width: 100%;
+  position: relative;
+  height: 150px;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-image: linear-gradient(90deg, rgb(32, 208, 208) 0%, #0099ff 100%);
+  @media all and (min-width: 768px){
+    flex-direction: row;
+  }
+  .bookpage-newsletter-text{
+    margin-bottom: 0;
+    color: $white;
+    font-weight: 600;
+    @media all and (min-width: 768px){
+      margin-right: 20px;
+      margin-bottom: 0;
+      color: $white;
+      font-weight: 600;
+    }
+  }
+  .bookpage-newsletter-form{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    @media all and (min-width: 768px){
+      margin-left: 20px;
+      margin-top: -20px;
+    }
+    label{
+      color: $white;
+      font-weight: 700;
+    }
+    .bookpage-newsletter-input-container{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: row;
+      .bookpage-newsletter-input{
+        margin: 0;
+        border-radius: 5px 0 0 5px;
+        min-width: 175px;
+        max-width: 200px;
+        height: 45px;
+        box-sizing: border-box;
+        box-shadow: none;
+        border: none;
+        &:focus{
+          border: none;
+          box-sizing: border-box;
+          box-shadow: none;
+        }
+      }
+      .bookpage-newsletter-submit{
+        border-radius: 0 5px 5px 0;
+        height: 45px;
+        border: none;
+        box-sizing: border-box;
+        box-shadow: none;
+        background: $white;
+        color: $store-blue;
+        font-size: 15px;
+        font-weight: 600;
+        padding: 3px 20px;
+        margin-left: 1px;
+      }
+    }
+  }
+}
