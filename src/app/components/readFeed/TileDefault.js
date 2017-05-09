@@ -37,10 +37,10 @@ const LinkedinIcon = generateShareIcon('linkedin')
 const {
   updateLikes,
   updateComments,
-  updateTile,
+  updateProfileTile,
   getComments,
   shareTile,
-  deleteTile,
+  deleteProfileTile,
 } = Tiles
 
 const styles = {
@@ -206,10 +206,6 @@ class TileDefault extends PureComponent {
       isMyProfile: false,
       isPostEditing: false,
       actionMenuOpen: false,
-      editTileDefaults: {
-        tileId: this.props.tileId,
-        description: this.props.description,
-      },
     }
 
     this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
@@ -568,11 +564,13 @@ class TileDefault extends PureComponent {
   }
 
   handleUpdatePost = (id, data) => {
-    this.props.updateTile(id, data)
+    const { updateProfileTile } = this.props
+    updateProfileTile(id, data, this.handleEditCancel)
   }
 
-  handleDeletePost = (id) => {
-    deleteTile(id)
+  handleDeletePost = () => {
+    const { deleteProfileTile, tileId } = this.props
+    deleteProfileTile(tileId)
   }
 
   renderPostBox = (buttonType) => {
@@ -630,10 +628,10 @@ class TileDefault extends PureComponent {
       isMyProfile,
       isProfilePage,
       isPostEditing,
-      editTileDefaults,
     } = this.state
 
     const {
+      tileId,
       author,
       target,
       timestamp,
@@ -727,7 +725,7 @@ class TileDefault extends PureComponent {
               !isPostEditing ? this.props.children :
               (
                 <TileEdit
-                  editTileProps={editTileDefaults}
+                  id={tileId}
                   updateTile={this.handleUpdatePost}
                   cancelTile={this.handleEditCancel}
                 />
@@ -926,11 +924,13 @@ const mapStateToProps = ({
     slug,
   },
   tiles: {
-    feedComments
+    feedComments,
+    profile
   }
 }) => {
   return {
     feedComments,
+    profile,
     fullname,
     url,
     profileImage,
@@ -942,9 +942,9 @@ const mapStateToProps = ({
 const mapDispatchToProps = {
   updateLikes,
   updateComments,
-  updateTile,
+  updateProfileTile,
   getComments,
   shareTile,
-  deleteTile,
+  deleteProfileTile,
 }
 export default connect(mapStateToProps, mapDispatchToProps)(TileDefault)
