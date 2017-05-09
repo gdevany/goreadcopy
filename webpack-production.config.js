@@ -88,12 +88,16 @@ module.exports = {
         loader: "url?limit=10000&mimetype=application/octet-stream"
        },
       {
-        test: /\.(eot|mp3)$/,
+        test: /\.eot$/,
         loader: "file"
       },
       {
         test: /\.svg$/,
         loader: "url?limit=10000&mimetype=image/svg+xml"
+      },
+      {
+        test: /\.mp3$/,
+        loader: 'file-loader?name=/sounds/[name].[ext]'
       }
     ],
   }
