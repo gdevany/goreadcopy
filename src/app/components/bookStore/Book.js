@@ -36,11 +36,11 @@ class Book extends PureComponent {
       >
         <a href={url}>
           <img className='book' src={image} />
-          <div className='favorite-badge'>
+          {/* <div className='favorite-badge'>
             <figure>
               <img src='/image/wish-list-icon.svg'/>
             </figure>
-          </div>
+          </div> */}
         </a>
         <div className='book-info-container'>
           <span className='book-info-title'>

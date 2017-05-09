@@ -359,3 +359,204 @@
     }
   }
 }
+
+.bookpage-announcement-container{
+  width: 100%;
+  position: relative;
+  height: 350px;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: $white;
+  @media all and (min-width: 768px){
+    flex-direction: row;
+    padding: 0;
+    height: 300px;
+  }
+  .bookpage-announcement-details{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: left;
+    h3{
+      font-size: 26px;
+      font-weight: 600;
+    }
+    .bookpage-announcement-posts{
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: row;
+      .bookpage-announcement-posts-figure{
+        width: 25px;
+      }
+      .bookpage-announcement-posts-text{
+        color: $store-blue;
+        font-weight: 600;
+        font-size: 20px;
+        margin-left: 10px;
+      }
+    }
+    .bookpage-announcement-anchor-container{
+      width: 100%;
+      .bookpage-announcement-anchor-text{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 160px;
+        text-align: center;
+        padding: 10px 20px;
+        background: transparent;
+        color: $store-blue;
+        border: solid 1px $store-blue;
+        border-radius: 23px;
+        margin: 25px auto;
+        @media all and (min-width: 768px){
+          margin: 25px 0 0 0;
+        }
+        &:hover{
+          transition: all .3s ease;
+          color: $white;
+          background: $store-blue;
+        }
+      }
+    }
+  }
+  .bookpage-announcement-figure{
+    width: 200px;
+    @media all and (min-width: 768px){
+      margin-left: 50px;
+    }
+  }
+}
+
+.bookpage-hr-separator{
+  max-width: 100%;
+  border-bottom: solid 2px rgb(249, 249, 249);
+}
+
+.bookpage-meet-author-main-container{
+  margin: 75px 0;
+  .bookpage-meet-author-title{
+    font-size: 24px;
+  }
+
+  .bookpage-meet-author-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 100%;
+    @media all and (min-width: 768px){
+      flex-direction: row;
+    }
+    .bookpage-meet-author-content{
+      width: 100%;
+      padding: 15px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: row;
+      padding: 25px;
+      background: $white;
+      border-radius: 5px;
+      box-shadow: rgba(222, 222, 222, 0.5) 0px 4px 20px 0px;
+      @media all and (min-width: 768px){
+        width: 415px;
+      }
+      .bookpage-meet-author-content-figure{
+        width: 125px;
+        margin-right: 10px;
+        @media all and (min-width: 768px){
+          margin-right: 20px;
+        }
+        img{
+          border-radius: 10px;
+        }
+      }
+      .bookpage-meet-author-content-section{
+        margin-left: 10px;
+        @media all and (min-width: 768px){
+          margin-left: 20px;
+        }
+        width: 200px;
+        h4{
+          font-weight: 500;
+          width: 100%;
+        }
+        .bookpage-meet-author-numbers-container{
+          margin-top: 15px;
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          flex-direction: row;
+          .bookpage-meet-author-numbers-section{
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            flex-direction: column;
+            .bookpage-meet-author-numbers-title{
+              font-size: 14px;
+              font-weight: 200;
+              color: #808080;
+            }
+            .bookpage-meet-author-numbers{
+              font-size: 18px;
+              font-weight: 600;
+              color: $black;
+            }
+          }
+        }
+        .bookpage-meet-author-anchor-container{
+          margin-top: 25px;
+          width: 100%;
+          .bookpage-meet-author-anchor{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 125px;
+            text-align: center;
+            padding: 10px 20px;
+            background: transparent;
+            color: $store-blue;
+            border: solid 1px $store-blue;
+            border-radius: 23px;
+            margin: 25px auto;
+            @media all and (min-width: 768px){
+              margin: 25px 0 0 0;
+            }
+            &:hover{
+              transition: all .3s ease;
+              color: $white;
+              background: $store-blue;
+            }
+          }
+        }
+      }
+    }
+    .bookpage-meet-author-description-container{
+      width: 100%;
+      padding: 0 15px;
+      text-align: justify;
+      margin-top: 25px;
+      @media all and (min-width: 768px){
+        margin-top: 0;
+        margin-left: 25px;
+        padding: 0 35px;
+      }
+      .bookpage-meet-author-description{
+        word-wrap: break-word;
+        .bookpage-meet-author-description-readmore{
+          color: #808080;
+          &:hover{
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}

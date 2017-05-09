@@ -59,7 +59,7 @@ class WishListBooks extends PureComponent {
       <section className='wishlist-books-main-container'>
         <div className='wishlist-columns-container'>
           <h4 className='wishlist-books-title'>
-            Your Wishlist
+            Books in your wish list
           </h4>
           <div className='wishlist-books-container'>
             {profilePage && profilePage.wishList ? this.renderWishList() : null}
