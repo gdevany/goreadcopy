@@ -4,7 +4,7 @@ import { Chat as ChatServices } from '../../services/api/currentReader'
 import { Env } from '../../constants'
 import { Chat as ChatActions } from '../../redux/actions'
 import R from 'ramda'
-import { default as Sound } from 'react-sound'
+import Sound from 'react-sound'
 import NotificationSound from '../../../client/media/sounds/notification.mp3'
 
 const { sendHeartbeat } = ChatServices
