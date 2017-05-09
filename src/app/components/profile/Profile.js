@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import { Auth } from '../../services'
 import { ProfilePage, CurrentReader } from '../../redux/actions'
-import { NavMenu, SocketHandler } from '../common'
+import { NavMenu, SocketHandler, Chat } from '../common'
 import LeftProfileContainer from './LeftProfileContainer'
 import MiddleProfileContainer from './MiddleProfileContainer'
 import RightProfileContainer from './RightProfileContainer'
@@ -13,6 +13,7 @@ import R from 'ramda'
 const { getProfilePage } = ProfilePage
 const { getCurrentReader } = CurrentReader
 const isUserLoggedIn = Auth.currentUserExists()
+const { ChatTabWrapper } = Chat
 
 class ProfileWrapper extends PureComponent {
   constructor(props) {
@@ -153,6 +154,7 @@ class ProfileWrapper extends PureComponent {
           isMyProfile={isMyProfile}
         />
         <div className='row'>
+          <ChatTabWrapper />
           <LeftProfileContainer
             isMyProfile={isMyProfile}
             id={profile.id}

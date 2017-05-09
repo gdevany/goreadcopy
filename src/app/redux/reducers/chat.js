@@ -18,17 +18,13 @@ const updateReadConversationStatus = ({ contacts }, { contact }) => {
   }, contacts)
 }
 
-const getChatInstance = ({ conversations }, { id }) => {
-  return R.find(R.propEq('id', id))(conversations)
-}
-
 const filterChatByID = ({ conversations }, { id }) => {
   return R.filter(n => n.id !== id, conversations)
 }
 
 const setChatHistory = ({ conversations }, { id, history }) => {
   return R.map(n => {
-    if (n.id === id) {
+    if (n.id === id && n.history) {
       n.history = history
       n.history.conversation = sortPosts(n.history.conversation)
     }
@@ -76,16 +72,27 @@ const updateContactLastMessage = ({ contacts }, { message }) => R.map(n=>{
   return n
 }, contacts)
 
+const addChatConversation = ({ conversations }, payload) => {
+  const isAdded = R.find(R.propEq('id', payload.id))(conversations)
+  const chatsAmount = conversations.length
+  const maxChats = 4
+  if (!isAdded) {
+    if (chatsAmount < maxChats) {
+      return [...conversations, payload]
+    }
+    return [...conversations.slice(1, 4), payload]
+  }
+  return conversations
+}
+
 export default (state = initialState.chat, { type, payload, errors }) => {
   switch (type) {
     case C.GET_CHAT_CONTACTS:
       return R.merge(state, payload)
     case C.OPEN_CHAT_CONVERSATION:
-      if (!getChatInstance(state, payload)) {
-        diff = {
-          ...state,
-          conversations: [...state.conversations, payload]
-        }
+      diff = {
+        ...state,
+        conversations: addChatConversation(state, payload)
       }
       return R.merge(state, diff)
     case C.CLOSE_CHAT_CONVERSATION:

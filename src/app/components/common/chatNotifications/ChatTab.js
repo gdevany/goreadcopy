@@ -13,7 +13,8 @@ const {
 } = ChatActions
 
 const {
-  updateReadConversation
+  updateReadConversation,
+  getChatConversation
 } = ChatServices
 
 class ChatTab extends PureComponent {
@@ -29,6 +30,7 @@ class ChatTab extends PureComponent {
 
     this.locals = {
       isLockedForUpdateRead: false,
+      isLockedForChatLoading: false,
       focusTextArea: true,
     }
 
@@ -43,17 +45,41 @@ class ChatTab extends PureComponent {
     this.postMessage = this.postMessage.bind(this)
     this.scrollToBottom = this.scrollToBottom.bind(this)
     this.updateConversationReadStatus = this.updateConversationReadStatus.bind(this)
+    this.checkIfChatUpdate = this.checkIfChatUpdate.bind(this)
+    this.updateChatConversation = this.updateChatConversation.bind(this)
   }
 
   componentDidMount() {
-    const { id } = this.props
-    this.props.loadChatConversation(id)
+    this.updateChatConversation()
   }
 
   componentDidUpdate(prevProps, prevState) {
     this.scrollToBottom()
     this.updateConversationReadStatus()
     this.updateFocusTextArea()
+    this.checkIfChatUpdate(prevProps)
+  }
+
+  checkIfChatUpdate(prevProps) {
+    if (
+      !this.locals.isLockedForChatLoading &&
+      this.props.id !== prevProps.id &&
+      this.props.history &&
+      !this.props.history.conversation
+    ) {
+      this.updateChatConversation()
+    }
+  }
+
+  updateChatConversation() {
+    this.locals.isLockedForChatLoading = true
+    getChatConversation({ contact: this.props.id })
+      .then(res=>this.props.loadChatConversation({
+        id: this.props.id,
+        data: res.data
+      }))
+      .then(() => { this.locals.isLockedForChatLoading = false })
+      .catch(err=>console.log(err))
   }
 
   updateFocusTextArea() {
@@ -257,9 +283,13 @@ class ChatTab extends PureComponent {
             <span className='active-chat-user-name'>
               { user.fullname }
             </span>
-            <figure className='active-chat-has-mesagges-icon'>
-              <img src='/image/online-icon.png'/>
-            </figure>
+            {
+              user.isOnline ? (
+                <figure className='active-chat-has-mesagges-icon'>
+                  <img src='/image/online-icon.png'/>
+                </figure>
+              ) : null
+            }
           </div>
 
           <div className='active-chat-conversation-window'>
@@ -309,16 +339,16 @@ class ChatTab extends PureComponent {
                   <figure className='active-chat-icon-close' onClick={this.handleCloseChatTab}>
                     <img src='/image/close.png'/>
                   </figure>
-                ) : (
+                ) : user.isOnline ? (
                   <figure className='active-chat-has-mesagges-icon'>
                     <img src='/image/online-icon.png'/>
                   </figure>
-                )
+                ) : null
               }
               <span className='active-chat-user-name'>
                 { user.fullname }
               </span>
-              {isChatOpen ?
+              {isChatOpen && user.isOnline ?
                 (
                   <figure className='active-chat-has-mesagges-icon'>
                     <img src='/image/online-icon.png'/>

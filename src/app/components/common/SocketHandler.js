@@ -1,9 +1,11 @@
-import { PureComponent } from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Chat as ChatServices } from '../../services/api/currentReader'
 import { Env } from '../../constants'
 import { Chat as ChatActions } from '../../redux/actions'
 import R from 'ramda'
+import { default as Sound } from 'react-sound'
+import NotificationSound from '../../../client/media/sounds/notification.mp3'
 
 const { sendHeartbeat } = ChatServices
 const {
@@ -21,8 +23,12 @@ const cmp = (x, y) => x[0] === y[0] && x[1] === y[1]
 class SocketHandler extends PureComponent {
   constructor(props) {
     super(props)
+    this.state = {
+      playStatus: Sound.status.STOPPED
+    }
     this.processStatusDiff = this.processStatusDiff.bind(this)
     this.onConnectionMessage = this.onConnectionMessage.bind(this)
+    this.handleSongFinishedPlaying = this.handleSongFinishedPlaying.bind(this)
   }
 
   componentDidMount() {
@@ -52,6 +58,10 @@ class SocketHandler extends PureComponent {
     return diff.map(n=>{ return { pk: n[0], isOnline: n[1] } })
   }
 
+  handleSongFinishedPlaying() {
+    this.setState({ playStatus: Sound.status.STOPPED })
+  }
+
   onConnectionMessage(post) {
     let diff = null
     const heartbeat = '--heartbeat--'
@@ -64,6 +74,7 @@ class SocketHandler extends PureComponent {
       case 'chat-notification':
         // Handle received notifications for unread chats.
         this.props.updateUnreadChatNumber(message)
+        this.setState({ playStatus: Sound.status.PLAYING })
         break
       case 'activity-notification':
         // Handle activity notification
@@ -72,6 +83,7 @@ class SocketHandler extends PureComponent {
       case 'chat':
         // Handle received chat posts for conversations.
         this.props.appendReceivedChatMessage(message.data)
+        this.setState({ playStatus: Sound.status.PLAYING })
         break
       case 'online-status':
         // Handle received messages for changes on contact's statuses.
@@ -90,7 +102,14 @@ class SocketHandler extends PureComponent {
   onConnectionClose() {}
 
   render() {
-    return null
+    return (
+      <Sound
+        url={NotificationSound}
+        playStatus={this.state.playStatus}
+        playFromPosition={0}
+        onFinishedPlaying={this.handleSongFinishedPlaying}
+      />
+    )
   }
 }
 
