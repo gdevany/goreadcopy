@@ -104,7 +104,7 @@ class SocketHandler extends PureComponent {
   render() {
     return (
       <Sound
-        url={NotificationSound}
+        url={`/${NotificationSound}`}
         playStatus={this.state.playStatus}
         playFromPosition={0}
         onFinishedPlaying={this.handleSongFinishedPlaying}
