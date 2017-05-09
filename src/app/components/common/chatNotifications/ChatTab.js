@@ -283,9 +283,13 @@ class ChatTab extends PureComponent {
             <span className='active-chat-user-name'>
               { user.fullname }
             </span>
-            <figure className='active-chat-has-mesagges-icon'>
-              <img src='/image/online-icon.png'/>
-            </figure>
+            {
+              user.isOnline ? (
+                <figure className='active-chat-has-mesagges-icon'>
+                  <img src='/image/online-icon.png'/>
+                </figure>
+              ) : null
+            }
           </div>
 
           <div className='active-chat-conversation-window'>
@@ -335,16 +339,16 @@ class ChatTab extends PureComponent {
                   <figure className='active-chat-icon-close' onClick={this.handleCloseChatTab}>
                     <img src='/image/close.png'/>
                   </figure>
-                ) : (
+                ) : user.isOnline ? (
                   <figure className='active-chat-has-mesagges-icon'>
                     <img src='/image/online-icon.png'/>
                   </figure>
-                )
+                ) : null
               }
               <span className='active-chat-user-name'>
                 { user.fullname }
               </span>
-              {isChatOpen ?
+              {isChatOpen && user.isOnline ?
                 (
                   <figure className='active-chat-has-mesagges-icon'>
                     <img src='/image/online-icon.png'/>
