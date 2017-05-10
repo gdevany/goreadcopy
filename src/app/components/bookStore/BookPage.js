@@ -59,12 +59,12 @@ class BookPage extends PureComponent {
           <hr className='bookpage-hr-separator'/>
           <ReviewsOverview
             reviewsInfo={{
-              total: 5,
+              total: 4.8,
               goodreads: {
-                total: 4,
+                total: 4.3,
               },
               amazon: {
-                total: 5,
+                total: 3.8,
               }
             }}
           />

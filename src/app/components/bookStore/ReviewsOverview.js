@@ -96,7 +96,19 @@ const ReviewsOverview = ({ reviewsInfo }) => {
                 Amazon Rating
               </span>
               <span className='bookpage-reviews-overview-external-rating-total'>
-                4.3
+                {reviewsInfo.amazon.total}
+              </span>
+              <span className='bookpage-reviews-overview-external-rating-text'>
+                out of 5
+              </span>
+              {renderRating(Math.round(reviewsInfo.amazon.total))}
+            </div>
+            <div className='bookpage-reviews-overview-external-rating-container'>
+              <span className='bookpage-reviews-overview-external-rating-title'>
+                GoodReads Rating
+              </span>
+              <span className='bookpage-reviews-overview-external-rating-total'>
+                {reviewsInfo.goodreads.total}
               </span>
               <span className='bookpage-reviews-overview-external-rating-text'>
                 out of 5

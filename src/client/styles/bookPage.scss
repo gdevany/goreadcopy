@@ -651,7 +651,7 @@
     margin-top: 25px;
     display: flex;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
     flex-direction: column;
     @media all and (min-width: 768px){
       flex-direction: row;
@@ -743,8 +743,26 @@
     }
     .bookpage-reviews-overview-external-data{
       width: 100%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-direction: row;
       @media all and (min-width: 768px){
         width: 40%;
+      }
+      .bookpage-reviews-overview-external-rating-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        .bookpage-reviews-overview-external-rating-title, .bookpage-reviews-overview-external-rating-text{
+          color: #808080;
+          font-size: 15px;
+        }
+        .bookpage-reviews-overview-external-rating-total{
+          font-weight: 600;
+          font-size: 22px;
+        }
       }
     }
   }
