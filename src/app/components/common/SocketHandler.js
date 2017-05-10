@@ -5,7 +5,7 @@ import { Env } from '../../constants'
 import { Chat as ChatActions } from '../../redux/actions'
 import R from 'ramda'
 import Sound from 'react-sound'
-import NotificationSound from '../../../client/media/sounds/notification.mp3'
+//import NotificationSound from '../../../client/media/sounds/notification.mp3'
 
 const { sendHeartbeat } = ChatServices
 const {
@@ -17,6 +17,8 @@ const {
 let socket, interval
 const uri = Env.SOCKET_URL
 const pingTime = 5000
+//HARDCODED - TO FIX LATER
+const NotificationSound = '/media/sounds/notification.mp3'
 
 const cmp = (x, y) => x[0] === y[0] && x[1] === y[1]
 
@@ -102,11 +104,9 @@ class SocketHandler extends PureComponent {
   onConnectionClose() {}
 
   render() {
-    console.log('PUI Sound URI')
-    console.log(`/${NotificationSound}`)
     return (
       <Sound
-        url={`/${NotificationSound}`}
+        url={NotificationSound}
         playStatus={this.state.playStatus}
         playFromPosition={0}
         onFinishedPlaying={this.handleSongFinishedPlaying}
