@@ -155,11 +155,11 @@ export function updateProfileTile(tileId, data, editCancel) {
   }
 }
 
-export function deleteProfileTile(tileId) {
+export function deleteProfileTile(tileId, deletePost) {
   return dispatch => {
     ReaderTiles.deleteProfileTile(tileId)
       .then(() => console.log('Tile Deleted'))
-      //.then(() => dispatch({ type: B.DELETE_PROFILE_TILE }))
+      .then(() => deletePost())
       .catch((err) => console.error(`Error in deleteProfileTiles: ${err}`))
   }
 }

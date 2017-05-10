@@ -186,6 +186,11 @@
     width: 100%;
     padding: .5em 1em 1em;
     .edit-tile{
+      .edit-load{
+        .loader{
+          margin: 2em 0em;
+        }
+      }
       .edit-area{
         position: relative;
         textarea{
@@ -207,13 +212,18 @@
             border: solid 1px #0042D6;
             background-color: #fff;
             padding: .25em 1em;
-            margin: 2em;
+            margin-right: 2em;
             font-size: 14px;
             border-radius: 5px;
           }
           .updateButton:hover{
             color: #fff;
             background-color: #0042D6;
+          }
+          .edit-update{
+            display: inline-block;
+            margin-right: 1em;
+            vertical-align: middle;
           }
           .cancelButton{
             position: relative;

@@ -6,9 +6,11 @@ import { Images } from '../../../services/api/currentReader'
 import { Search } from '../../../services/api'
 import Dropzone from 'react-dropzone'
 import CameraIcon from 'material-ui/svg-icons/action/camera-enhance'
+import { Colors } from '../../../constants/style'
 import R from 'ramda'
 import Anchorify from 'react-anchorify-text'
 import SuggestionList from '../../common/SuggestionList'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
 
 const mentionPattern = /\B@(?!Reader|Author|Publisher|Book)\w+\s?\w+/gi
 const videoPattern = /((https?:\/\/)?(?:www\.)?(?:vimeo|youtu|dailymotion)[:=#\w\.\/\?\-]+)/gi
@@ -18,6 +20,10 @@ const { uploadImage } = Images
 const styles = {
   hiddenPreview: {
     display: 'none'
+  },
+  refresh: {
+    display: 'inline-block',
+    position: 'relative',
   },
 }
 
@@ -34,7 +40,7 @@ class TileEdit extends PureComponent {
       body: body || '',
       mentions: body || '',
       imageUrl: imageUrl || '',
-      imageId: null,
+      imageId: 'fake_id',
       activeContent: activeContent || '',
       onProcessMentions: [],
       processedMentions: [],
@@ -42,6 +48,8 @@ class TileEdit extends PureComponent {
       imageInfo: null,
       hasImage: false,
       hasVideo: false,
+      isEditLoading: false,
+      isEditUpdating: false,
       showVideoPreview: false,
       showSuggestions: false,
       showErrorOnPost: false,
@@ -122,6 +130,7 @@ class TileEdit extends PureComponent {
       activeContent: this.state.activeContent,
       attachedImage: this.state.imageId,
     }
+    this.setState({ isEditUpdating: true })
     this.props.updateTile(this.props.id, data)
   }
 
@@ -140,6 +149,7 @@ class TileEdit extends PureComponent {
       processedMentions,
       mentions
     } = this.refreshMentions(body, this.state.processedMentions)
+    const hasVideo = activeContent !== ''
     this.setState({
       body,
       mentions,
@@ -149,6 +159,7 @@ class TileEdit extends PureComponent {
       videoInfo,
       showVideoPreview,
       showSuggestions,
+      hasVideo,
       showErrorOnPost: false,
     })
   }
@@ -236,7 +247,6 @@ class TileEdit extends PureComponent {
 
   renderVideoPreview() {
     let embedUrl = ''
-
     if (this.state.showVideoPreview && this.state.videoInfo) {
       const { provider, id } = this.state.videoInfo
       switch (provider) {
@@ -292,7 +302,8 @@ class TileEdit extends PureComponent {
         file: acceptedFiles[0]
       },
         imageId: res.data.imageId,
-        hasImage: true }))
+        hasImage: true,
+        isEditLoading: false }))
       .catch(err => {
         console.log('Error on image drop ', err)
         this.setState({ imageInfo: null })
@@ -313,6 +324,7 @@ class TileEdit extends PureComponent {
     event.preventDefault()
     this.setState({
       textareaOpen: true,
+      isEditLoading: true,
     })
     this.dropzone.open()
   }
@@ -321,18 +333,46 @@ class TileEdit extends PureComponent {
     event.preventDefault()
     this.setState({
       imageUrl: '',
-      imageId: null,
+      imageId: 'fake_id',
       imageInfo: null,
       hasImage: false,
     })
   }
 
+  setLoading = (size) => {
+    return (
+      <RefreshIndicator
+        size={size}
+        left={0}
+        top={0}
+        loadingColor={Colors.blue}
+        status='loading'
+        style={styles.refresh}
+        className='loader'
+      />
+    )
+  }
+
   render() {
     const {
-      id
+      body,
+      imageId,
+      imageUrl,
+      imageInfo,
+      suggestions,
+      showSuggestions,
+      isEditLoading,
+      isEditUpdating,
+      hasVideo,
+    } = this.state
+    const {
+      id,
     } = this.props
     return (
       <div className='edit-tile' key={id}>
+        <div className='edit-load'>
+          { isEditLoading ? this.setLoading(50) : null }
+        </div>
         <div className='edit-video'>
           { this.renderVideoPreview() }
         </div>
@@ -345,10 +385,10 @@ class TileEdit extends PureComponent {
             maxSize={10485760}
           />
           {
-            this.state.imageId ? (
+            imageId !== 'fake_id' ? (
               <div className='row'>
                 <div className='edit-image-preview columns'>
-                  <img src={this.state.imageInfo.file.preview} alt='Preview Image'/>
+                  <img src={imageInfo.file.preview} alt='Preview Image'/>
                   <a
                     className='edit-image-preview-discard-btn'
                     href='javascript:void(0)'
@@ -358,9 +398,9 @@ class TileEdit extends PureComponent {
                   </a>
                 </div>
               </div>
-            ) : this.state.imageUrl ? (
+            ) : imageUrl ? (
             <div className='edit-image-preview columns'>
-              <img src={this.state.imageUrl}/>
+              <img src={imageUrl}/>
               <a
                 className='edit-image-preview-discard-btn'
                 href='javascript:void(0)'
@@ -369,7 +409,7 @@ class TileEdit extends PureComponent {
                 x
               </a>
             </div>
-            ) : !this.state.hasVideo ? (
+            ) : !hasVideo ? (
             <div className='image-placeholder'>
               <a
                 className='edit-image-upload-icon-container'
@@ -388,17 +428,20 @@ class TileEdit extends PureComponent {
             rows='4'
             maxLength='10000'
             ref='statuspost'
-            value={this.state.body}
+            value={body}
             onChange={this.handleTextChange}
           />
-          {this.state.showSuggestions ?
+          {showSuggestions ?
             (<SuggestionList
-              entries={this.state.suggestions}
+              entries={suggestions}
               onMentionListClick={this.handleSuggestionClick}
              />
             ) : null
           }
           <div className='edit-controls'>
+            <div className='edit-update'>
+              { isEditUpdating ? this.setLoading(28) : null }
+            </div>
             <a
               className='updateButton'
               onClick={this.handleUpdateTile}
