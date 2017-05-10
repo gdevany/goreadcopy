@@ -39,6 +39,7 @@ class BookPage extends PureComponent {
             </figure>
           </div>
           {isUserLoggedIn ? <WishListBooks/> : null}
+          <hr className='bookpage-hr-separator'/>
           <MeetAuthor
             profilePic='/image/kendunn.jpg'
             description={`
