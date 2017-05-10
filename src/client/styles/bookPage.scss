@@ -1,6 +1,7 @@
 @import 'variables.scss';
 
 .bookpage-main-container{
+  background: $white;
   padding-top: 60px;
 }
 
@@ -38,7 +39,6 @@
 
 .bookpage-info-main-container{
   border-bottom: solid 2px rgb(249, 249, 249);
-  margin-bottom: 10px;
   position: relative;
   .bookpage-info-left-element, .bookpage-info-right-element{
     padding-top: 30px;
@@ -436,6 +436,7 @@
 
 .bookpage-hr-separator{
   max-width: 100%;
+  margin: 0;
   border-bottom: solid 2px rgb(249, 249, 249);
 }
 
@@ -630,6 +631,28 @@
         font-weight: 600;
         padding: 3px 20px;
         margin-left: 1px;
+      }
+    }
+  }
+}
+
+.bookpage-reviews-overview-main-container{
+  margin: 75px 0;
+  .bookpage-reviews-overview-main-title{
+    font-size: 24px;
+  }
+  .bookpage-reviews-overview-container{
+    width: 100%;
+    .bookpage-reviews-overview-internal-data{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: row;
+      .bookpage-reviews-overview-internal-left{
+        width: 60%;
+      }
+      .bookpage-reviews-overview-internal-right{
+        width: 40%;
       }
     }
   }

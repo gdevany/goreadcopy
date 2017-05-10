@@ -67,6 +67,7 @@ class BookPage extends PureComponent {
               }
             }}
           />
+          <hr className='bookpage-hr-separator'/>
           {isUserLoggedIn ? null : <NewsLetter />}
         </div>
         <div className='bookstore-footer-container'>
