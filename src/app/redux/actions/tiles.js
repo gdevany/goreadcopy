@@ -137,19 +137,30 @@ export function updateLikes(tileId, liked) {
   }
 }
 
-export function updateTile(tileId, data) {
+export function updateProfileTile(tileId, data, editCancel) {
   return dispatch => {
-    ReaderTiles.editTile(tileId, data)
-      .then(() => console.log('updated tile'))
-      .catch((err) => console.error(`Error in updateTiles: ${err}`))
+    ReaderTiles.editProfileTile(tileId, data)
+      .then((resp) => {
+        console.log(resp)
+        dispatch({
+          type: B.UPDATE_PROFILE_TILE,
+          payload: {
+            id: tileId,
+            content: resp.data.results,
+          }
+        })
+      })
+      .then(() => editCancel())
+      .catch((err) => console.error(`Error in updateProfileTiles: ${err}`))
   }
 }
 
-export function deleteTile(tileId) {
+export function deleteProfileTile(tileId, deletePost) {
   return dispatch => {
-    ReaderTiles.deleteTile(tileId)
-      .then(() => dispatch({ type: B.DELETE_TILE }))
-      .catch((err) => console.error(`Error in deleteTiles: ${err}`))
+    ReaderTiles.deleteProfileTile(tileId)
+      .then(() => console.log('Tile Deleted'))
+      .then(() => deletePost())
+      .catch((err) => console.error(`Error in deleteProfileTiles: ${err}`))
   }
 }
 
@@ -159,7 +170,8 @@ export default {
   getComments,
   updateLikes,
   updateComments,
-  updateTile,
+  updateProfileTile,
+  deleteProfileTile,
   shareTile,
   prependProfileTile,
   prependReadFeedTile,
