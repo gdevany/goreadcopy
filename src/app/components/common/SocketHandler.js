@@ -103,10 +103,10 @@ class SocketHandler extends PureComponent {
 
   render() {
     console.log('PUI Sound URI')
-    console.log(NotificationSound)
+    console.log(`/${NotificationSound}`)
     return (
       <Sound
-        url={NotificationSound}
+        url={`/${NotificationSound}`}
         playStatus={this.state.playStatus}
         playFromPosition={0}
         onFinishedPlaying={this.handleSongFinishedPlaying}
