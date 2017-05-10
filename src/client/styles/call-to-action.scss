@@ -23,7 +23,7 @@
     height: 700px;
   }
   @media all and (min-width: 1200px){
-    height: 600px;
+    height: 632px;
     padding-top: 78px;
   }
   .text-on-landing-container{
@@ -33,23 +33,24 @@
     flex-direction: column;
     padding: 20px;
     @media all and (min-width: 768px){
-      padding-top: 101px;
+      padding-top: 112px;
     }
     @media all and (min-width: 1024px){
-      padding-top: 103px;
+      padding-top: 111px;
     }
     @media all and (min-width: 1200px){
-      padding-top: 39px;
+      padding-top: 67px;
     }
     @media all and (min-width: 1400px){
-      padding-top: 43px;
+      padding-top: 65px;
     }
     h2{
       font-size: 16px;
+      margin-bottom: 5px;
     }
     .middle-small-text{
       font-size: 10px;
-      margin-bottom: 8px;
+      margin-bottom: 5px;
     }
   }
 }
