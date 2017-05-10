@@ -747,7 +747,9 @@
       justify-content: space-around;
       align-items: center;
       flex-direction: row;
+      padding-top: 15px;
       @media all and (min-width: 768px){
+        padding-top: 0;
         width: 40%;
       }
       .bookpage-reviews-overview-external-rating-container{
