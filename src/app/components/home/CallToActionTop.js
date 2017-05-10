@@ -28,11 +28,13 @@ class CallToActionTop extends PureComponent {
           <h1>
             Where readers and authors come together
           </h1>
-          <h2>
+          <h2 className='first-h2-on-landing'>
             Joining Is Free, It’s A Social Media Website!
           </h2>
           <span className='middle-small-text'>For a limited time:</span>
-          <h2>Get Your First Book Free, Just For Creating An Account!</h2>
+          <h2 className='second-h2-on-landing'>
+            Get Your First Book Free, Just For Creating An Account!
+          </h2>
 
           <PrimaryButton
             label='Sign Up'

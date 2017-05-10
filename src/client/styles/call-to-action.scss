@@ -46,11 +46,17 @@
     }
     h2{
       font-size: 16px;
-      margin-bottom: 5px;
+    }
+    .first-h2-on-landing{
+      margin-bottom: 0;
+    }
+    .second-h2-on-landing{
+      margin-bottom: 20px;
     }
     .middle-small-text{
       font-size: 10px;
-      margin-bottom: 5px;
+      margin-bottom: 0;
+      line-height: 10px;
     }
   }
 }
