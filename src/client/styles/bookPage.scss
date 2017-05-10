@@ -769,3 +769,113 @@
     }
   }
 }
+
+.bookpage-reviews-sign-up-message-container{
+  padding-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  .bookpage-reviews-sign-up-message{
+    font-weight: 600;
+    font-size: 20px;
+  }
+  .bookpage-reviews-sign-up-message-btn{
+    display: block;
+    color: $store-blue;
+    border: solid 1px $store-blue;
+    margin: 15px 0;
+    padding: 10px 20px;
+    border-radius: 23px;
+    font-size: 14px;
+  }
+
+}
+
+.bookage-reviews-container{
+  padding: 50px;
+  border-right: solid 2px rgb(249, 249, 249);
+  .bookpage-single-review{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    margin-bottom: 16px;
+    .bookpage-review-header{
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: row;
+      width: 100%;
+      .bookpage-review-figure{
+        width: 50px;
+
+        a{
+          img{
+            border-radius: 5px;
+            border: solid 1px #ccc;
+          }
+        }
+      }
+      .bookpage-review-header-details{
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        margin-left: 20px;
+        .bookpage-review-header-top{
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          flex-direction: row;
+          .bookpage-review-fullname{
+            font-weight: 600;
+          }
+          .bookpage-review-rating{
+            margin-left: 10px;
+            .review-rating-icon{
+              margin: 0 2.5px 2.5px 0;
+            }
+          }
+        }
+        .bookpage-review-timestamp{
+          .bookpage-review-timestamp-text{
+            font-weight: 400;
+            color: #808080;
+            font-size: 15px;
+          }
+        }
+      }
+    }
+    .bookpage-review-body{
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+      margin-top: 5px;
+      width: 100%;
+      .bookpage-review-body-text{
+        word-wrap: break-word;
+        width: calc(100% - 70px);
+        padding: 30px;
+        border-radius: 10px;
+        background-color: rgba(165, 229, 232, 0.21);
+      }
+    }
+    .bookpage-review-footer{
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+      margin-top: 5px;
+      width: 100%;
+      .bookpage-review-footer-container{
+        width: calc(100% - 70px);
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        .likes-count{
+          margin-right: 15px;
+        }
+      }
+    }
+  }
+}

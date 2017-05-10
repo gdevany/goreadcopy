@@ -4,6 +4,7 @@ import WishListBooks from './wishListBooks'
 import BookInfo from './BookInfo'
 import MeetAuthor from './MeetAuthor'
 import ReviewsOverview from './ReviewsOverview'
+import ReviewsContainer from './ReviewsContainer'
 import NewsLetter from './NewsLetter'
 import { Footer } from '../common'
 import { Auth } from '../../services'
@@ -68,6 +69,8 @@ class BookPage extends PureComponent {
               }
             }}
           />
+          <hr className='bookpage-hr-separator'/>
+          <ReviewsContainer isLogged={isUserLoggedIn} />
           <hr className='bookpage-hr-separator'/>
           {isUserLoggedIn ? null : <NewsLetter />}
         </div>
