@@ -24,10 +24,17 @@ class CallToActionTop extends PureComponent {
     return (
       <div className='center-text header'>
 
-        <div className='slide-up'>
+        <div className='slide-up text-on-landing-container'>
           <h1>
             Where readers and authors come together
-          </h1><br />
+          </h1>
+          <h2 className='first-h2-on-landing'>
+            Joining Is Free, It’s A Social Media Website!
+          </h2>
+          <span className='middle-small-text'>For a limited time:</span>
+          <h2 className='second-h2-on-landing'>
+            Get Your First Book Free, Just For Creating An Account!
+          </h2>
 
           <PrimaryButton
             label='Sign Up'

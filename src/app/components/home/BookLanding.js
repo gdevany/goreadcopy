@@ -22,7 +22,7 @@ const styles = {
     maxWidth: 1150,
     width: '98%',
     boxShadow: '0px 2px 30px 0px rgba(0,0,0,0.2)',
-    zIndex: 10,
+    zIndex: 9,
 
     [Breakpoints.mobile]: {
       padding: '0 20px 50px 20px',
@@ -204,13 +204,13 @@ class BookLanding extends PureComponent {
             </div>
 
             <div style={styles.shopContainer} className='row'>
-              <div style={styles.shopTitleContainer} className='small-1 columns'>
+              <div style={styles.shopTitleContainer} className='small-12 medium-1 columns'>
                 <span style={styles.shopText} className='shop-nav-item'>
                 Shop:
                 </span>
               </div>
 
-              <div className='small-10 columns'>
+              <div className='small-10 medium-10 columns'>
                 <ul style={styles.shopUl}>
                   <li style={styles.shopList} />
                   <li style={styles.shopList} className='link shop-nav-item' >
@@ -226,7 +226,7 @@ class BookLanding extends PureComponent {
                 </ul>
               </div>
 
-              <div style={styles.shopMoreContainer} className='small-1 columns'>
+              <div style={styles.shopMoreContainer} className='small-2 medium-1 columns'>
                 <a style={styles.shopMoreText} className='link shop-nav-item' href={bookStore()}>
                   Shop more
                 </a>
