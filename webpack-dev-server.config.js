@@ -94,7 +94,7 @@ module.exports = {
       },
       {
         test: /\.mp3$/,
-        loader: 'file-loader?name=/sounds/[name].[ext]'
+        loader: 'file'
       }
     ],
   }

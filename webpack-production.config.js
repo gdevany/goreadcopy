@@ -27,8 +27,7 @@ module.exports = {
   devtool: 'source-map',
   output: {
     filename: '[name].js',
-    path: path.join(process.cwd(), 'public'),
-    publicPath: '/public',
+    path: path.join(process.cwd(), 'public')
   },
   plugins: [
     failPlugin,
@@ -97,7 +96,7 @@ module.exports = {
       },
       {
         test: /\.mp3$/,
-        loader: 'file-loader?name=/sounds/[name].[ext]'
+        loader: 'file-loader?name=[name].[ext]'
       }
     ],
   }
