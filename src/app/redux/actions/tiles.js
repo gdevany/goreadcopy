@@ -141,7 +141,6 @@ export function updateProfileTile(tileId, data, editCancel) {
   return dispatch => {
     ReaderTiles.editProfileTile(tileId, data)
       .then((resp) => {
-        console.log(resp)
         dispatch({
           type: B.UPDATE_PROFILE_TILE,
           payload: {
@@ -158,7 +157,6 @@ export function updateProfileTile(tileId, data, editCancel) {
 export function deleteProfileTile(tileId, deletePost) {
   return dispatch => {
     ReaderTiles.deleteProfileTile(tileId)
-      .then(() => console.log('Tile Deleted'))
       .then(() => deletePost())
       .catch((err) => console.error(`Error in deleteProfileTiles: ${err}`))
   }
