@@ -710,7 +710,7 @@ class NavMenu extends PureComponent {
                           currentReader.notificationsCount : 0
                         }
                       primary={true}
-                      badgeStyle={{
+                      badgeStyle={currentReader.notificationsCount ? {
                         top: -5,
                         right: -7,
                         width: '20px',
@@ -718,7 +718,7 @@ class NavMenu extends PureComponent {
                         paddingTop: 1,
                         fontWeight: 700,
                         backgroundColor: Colors.red,
-                      }}
+                      } : { display: 'none' }}
                     >
                       <img
                         src='/image/notifications-icon.svg'
@@ -739,7 +739,7 @@ class NavMenu extends PureComponent {
                           currentReader.cartItems : 0
                         }
                       primary={true}
-                      badgeStyle={{
+                      badgeStyle={currentReader.cartItems ? {
                         top: -5,
                         right: -7,
                         width: '20px',
@@ -747,7 +747,7 @@ class NavMenu extends PureComponent {
                         paddingTop: 1,
                         fontWeight: 700,
                         backgroundColor: Colors.red,
-                      }}
+                      } : { display: 'none' }}
                     >
                       <img src='/image/cart.svg' />
                     </Badge>
@@ -907,7 +907,7 @@ class NavMenu extends PureComponent {
                             currentReader.notificationsCount : 0
                           }
                         primary={true}
-                        badgeStyle={{
+                        badgeStyle={currentReader.notificationsCount ? {
                           top: -5,
                           right: -7,
                           width: '20px',
@@ -915,7 +915,7 @@ class NavMenu extends PureComponent {
                           paddingTop: 1,
                           fontWeight: 700,
                           backgroundColor: Colors.red,
-                        }}
+                        } : { display: 'none' }}
                       >
                         <img
                           src='/image/notifications-icon.svg'
@@ -936,7 +936,7 @@ class NavMenu extends PureComponent {
                             currentReader.cartItems : 0
                           }
                         primary={true}
-                        badgeStyle={{
+                        badgeStyle={currentReader.cartItems ? {
                           top: -5,
                           right: -7,
                           width: '20px',
@@ -944,7 +944,7 @@ class NavMenu extends PureComponent {
                           paddingTop: 1,
                           fontWeight: 700,
                           backgroundColor: Colors.red,
-                        }}
+                        } : { display: 'none' }}
                       >
                         <img src='/image/cart.svg' />
                       </Badge>
