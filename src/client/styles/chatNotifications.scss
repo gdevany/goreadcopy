@@ -772,10 +772,11 @@
     left: 0;
     bottom: 0;
     width: 100%;
+    max-height: 40px;
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
     z-index: 99;
-    overflow: hidden;
+    overflow: visible;
   }
 }
