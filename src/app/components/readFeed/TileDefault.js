@@ -559,6 +559,7 @@ class TileDefault extends PureComponent {
   })
 
   handleEditPost = () => {
+    this.handleActionMenuHide()
     this.setState({ isPostEditing: true })
   }
 

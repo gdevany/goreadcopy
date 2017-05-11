@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import { debounce } from 'lodash'
 import { Images } from '../../../services/api/currentReader'
@@ -8,13 +7,11 @@ import Dropzone from 'react-dropzone'
 import CameraIcon from 'material-ui/svg-icons/action/camera-enhance'
 import { Colors } from '../../../constants/style'
 import R from 'ramda'
-import Anchorify from 'react-anchorify-text'
 import SuggestionList from '../../common/SuggestionList'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 
 const mentionPattern = /\B@(?!Reader|Author|Publisher|Book)\w+\s?\w+/gi
 const videoPattern = /((https?:\/\/)?(?:www\.)?(?:vimeo|youtu|dailymotion)[:=#\w\.\/\?\-]+)/gi
-const mentionRegex = /(\@\[\d+\:\d+\])/gi
 const { search } = Search
 const { uploadImage } = Images
 const styles = {
@@ -68,74 +65,45 @@ class TileEdit extends PureComponent {
   }
 
   componentDidMount = () => {
-    const hasImageUrl = this.state.imageUrl !== '' && this.state.imageUrl
+    const hasImage = this.state.imageUrl !== '' && this.state.imageUrl
     const { activeContent, videoInfo, showVideoPreview } = this.checkVideoUrl(this.state.body)
-    activeContent !== '' || activeContent ?
+    const hasVideo = activeContent !== '' || activeContent
     this.setState({
       activeContent,
       videoInfo,
       showVideoPreview,
-      hasVideo: true,
-      hasImage: false,
-    }) : this.setState({
-      activeContent,
-      videoInfo,
-      showVideoPreview,
-      hasVideo: false,
-      hasImage: hasImageUrl,
+      hasVideo,
+      hasImage,
     })
   }
 
-  splitContent(content) {
-    return content.split(mentionRegex)
-  }
-
-  splitMention(content) {
-    return content.split('/')
-  }
-
-  renderContentWithMentions(entry, index, mentionList) {
-    if (mentionRegex.test(entry)) {
-      for (let i = 0; i < mentionList.length; i++) {
-        if (mentionList[i].mention === entry) {
-          const splitResult = this.splitMention(mentionList[i].url)
-          if (splitResult && splitResult[3] === 'profile') {
-            return (
-              <Link key={index} to={`profile/${splitResult[splitResult.length - 2]}`}>
-                {mentionList[i].name}
-              </Link>
-            )
-          }
-          return (
-            <a key={index} href={mentionList[i].url}>
-              {mentionList[i].name}
-            </a>
-          )
-        }
-      }
-    }
-    return (
-      <span key={index}>
-        <Anchorify
-          text={entry}
-          target='_blank'
-        />
-      </span>)
-  }
-
   handleUpdateTile() {
+    const {
+      body,
+      mentions,
+      activeContent,
+      imageId,
+     } = this.state
+    const {
+      updateTile,
+      id,
+    } = this.props
     const data = {
-      comment: this.state.body,
-      mentions: this.state.mentions,
-      activeContent: this.state.activeContent,
-      attachedImage: this.state.imageId,
+      comment: body,
+      mentions: mentions,
+      activeContent: activeContent,
+      attachedImage: imageId,
     }
     this.setState({ isEditUpdating: true })
-    this.props.updateTile(this.props.id, data)
+    updateTile(id, data)
   }
 
   handleCancelTile() {
-    this.props.cancelTile(this.props.id)
+    const {
+      cancelTile,
+      id,
+    } = this.props
+    cancelTile(id)
   }
 
   handleTextChange(event) {
@@ -297,34 +265,39 @@ class TileEdit extends PureComponent {
   onImageDrop(acceptedFiles, rejectedFiles, e) {
     this.setState({ imageInfo: true })
     this.getBase64AndUpdate(acceptedFiles[0], 'postImage')
-      .then(res => this.setState({ imageInfo: {
-        data: res.data,
-        file: acceptedFiles[0]
-      },
+      .then(res => this.setState({
+        imageInfo: {
+          data: res.data,
+          file: acceptedFiles[0]
+        },
         imageId: res.data.imageId,
         hasImage: true,
-        isEditLoading: false }))
+        isEditLoading: false,
+      }))
       .catch(err => {
         console.log('Error on image drop ', err)
-        this.setState({ imageInfo: null })
+        this.setState({
+          imageInfo: null,
+          showErrorOnPost: true,
+        })
       })
+
   }
 
   getBase64AndUpdate = (file, imageType) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader()
       reader.readAsDataURL(file)
+      reader.onloadstart = () => this.setState({ isEditLoading: true })
       reader.onload = () => resolve(reader.result)
       reader.onerror = (error) => reject(`Error in getBase64: ${error}`)
     }).then(res => uploadImage({ imageType, file: res }))
-    //  .then(() => this.setState({ hasImage: true }))
   }
 
   onUploadButtonClick(event) {
     event.preventDefault()
     this.setState({
       textareaOpen: true,
-      isEditLoading: true,
     })
     this.dropzone.open()
   }
@@ -333,7 +306,7 @@ class TileEdit extends PureComponent {
     event.preventDefault()
     this.setState({
       imageUrl: '',
-      imageId: 'fake_id',
+      imageId: '',
       imageInfo: null,
       hasImage: false,
     })
@@ -361,6 +334,7 @@ class TileEdit extends PureComponent {
       imageInfo,
       suggestions,
       showSuggestions,
+      showErrorOnPost,
       isEditLoading,
       isEditUpdating,
       hasVideo,
@@ -385,7 +359,7 @@ class TileEdit extends PureComponent {
             maxSize={10485760}
           />
           {
-            imageId !== 'fake_id' ? (
+            imageId !== 'fake_id' && imageId !== '' ? (
               <div className='row'>
                 <div className='edit-image-preview columns'>
                   <img src={imageInfo.file.preview} alt='Preview Image'/>
@@ -429,6 +403,7 @@ class TileEdit extends PureComponent {
             maxLength='10000'
             ref='statuspost'
             value={body}
+            placeholder={showErrorOnPost ? 'Something happend, please try again' : 'Comment here'}
             onChange={this.handleTextChange}
           />
           {showSuggestions ?
