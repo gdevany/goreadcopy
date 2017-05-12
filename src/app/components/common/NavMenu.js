@@ -966,7 +966,9 @@ class NavMenu extends PureComponent {
           />
         </div>
         {this.state.notificationsOpen ? <Notifications /> : null}
-        {this.props.chat.isMessagesOpen ? <ChatsContainer /> : null}
+        { this.props.chat.isMessagesOpen ?
+          <ChatsContainer showMethod={this.handleChatsContainerShow}/> : null
+        }
       </div>
     )
   }
