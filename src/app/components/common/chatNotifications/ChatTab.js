@@ -10,6 +10,7 @@ const {
   postChatMessage,
   closeChatConversation,
   updateOpenedConversation,
+  toggleChatWindow,
 } = ChatActions
 
 const {
@@ -21,11 +22,11 @@ class ChatTab extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      isChatOpen: true,
       isTextAreaOpen: true,
       message: '',
       textarea: null,
       container: null,
+      containerMobile: null,
     }
 
     this.locals = {
@@ -54,7 +55,8 @@ class ChatTab extends PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    this.scrollToBottom()
+    this.scrollToBottom(this.state.container)
+    this.scrollToBottom(this.state.containerMobile)
     this.updateConversationReadStatus()
     this.updateFocusTextArea()
     this.checkIfChatUpdate(prevProps)
@@ -92,12 +94,10 @@ class ChatTab extends PureComponent {
   }
 
   updateConversationReadStatus() {
-    const { user: { unreadMessages, pk }, history: { conversation } } = this.props
-    const { isChatOpen } = this.state
+    const { user: { unreadMessages, pk }, history: { conversation }, isOpen } = this.props
     const { isLockedForUpdateRead } = this.locals
-
     if (
-      unreadMessages && isChatOpen &&
+      unreadMessages && isOpen &&
       conversation && conversation.length > 0 &&
       !isLockedForUpdateRead
     ) {
@@ -109,8 +109,8 @@ class ChatTab extends PureComponent {
     }
   }
 
-  scrollToBottom() {
-    const { container } = this.state
+  scrollToBottom(container) {
+    if (!container) { return }
     const scrollHeight = container.scrollHeight
     const height = container.clientHeight
     const maxScrollTop = scrollHeight - height
@@ -119,15 +119,15 @@ class ChatTab extends PureComponent {
 
   handleChatClick(event) {
     event.preventDefault()
-    const { isChatOpen } = this.state
-    if (isChatOpen) {
+    const { isOpen, id } = this.props
+    this.props.toggleChatWindow(id)
+    if (isOpen) {
       this.setState({
-        isChatOpen: false,
         isTextAreaOpen: false
       })
     } else {
       this.locals.focusTextArea = true
-      this.setState({ isChatOpen: true, isTextAreaOpen: true })
+      this.setState({ isTextAreaOpen: true })
     }
   }
 
@@ -270,11 +270,11 @@ class ChatTab extends PureComponent {
   }
 
   render() {
-    const { isChatOpen, isTextAreaOpen } = this.state
-    const { id, history, user } = this.props
+    const { isTextAreaOpen } = this.state
+    const { id, history, user, isOpen } = this.props
 
     return (
-      <div>
+      <div className='active-chat-main-container-mobile'>
         <section className='active-chat-container-mobile'>
           <div className='active-main-chat-container'>
             <figure className='active-chat-icon-close' onClick={this.handleCloseChatTab}>
@@ -296,7 +296,7 @@ class ChatTab extends PureComponent {
             <div
               className='active-chat-in-use'
               onClick={this.handleCloseTextArea}
-              ref={(div)=>{this.setState({ container: div })}}
+              ref={(div)=>{this.setState({ containerMobile: div })}}
             >
               {
                 history && history.conversation ?
@@ -326,7 +326,7 @@ class ChatTab extends PureComponent {
         </section>
         <section className='active-chat-container'>
           <div
-            className={`${isChatOpen ?
+            className={`${isOpen ?
               'active-chat-small chat-open' : 'active-chat-small'}`
             }
           >
@@ -334,7 +334,7 @@ class ChatTab extends PureComponent {
               onClick={this.handleChatClick}
               className='active-main-chat-container'
             >
-              {isChatOpen ?
+              {isOpen ?
                 (
                   <figure className='active-chat-icon-close' onClick={this.handleCloseChatTab}>
                     <img src='/image/close.png'/>
@@ -348,14 +348,14 @@ class ChatTab extends PureComponent {
               <span className='active-chat-user-name'>
                 { user.fullname }
               </span>
-              {isChatOpen && user.isOnline ?
+              {isOpen && user.isOnline ?
                 (
                   <figure className='active-chat-has-mesagges-icon'>
                     <img src='/image/online-icon.png'/>
                   </figure>
                 ) : null}
             </div>
-            {isChatOpen ?
+            {isOpen ?
               (
                 <div className='active-chat-conversation-window'>
                   <div
@@ -409,6 +409,7 @@ const mapDispatchToProps = {
   postChatMessage,
   closeChatConversation,
   updateOpenedConversation,
+  toggleChatWindow,
 }
 
 const mapStateToProps = ({

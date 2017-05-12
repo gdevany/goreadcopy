@@ -6,6 +6,7 @@ import R from 'ramda'
 const {
   getChatContacts,
   openChatConversation,
+  toggleContactsPopup,
 } = Chat
 
 const compareByProp = (prop, a, b) => {
@@ -30,16 +31,7 @@ class ContactsPopupWindow extends PureComponent {
 
   handleWindowTabClick = (event) => {
     event.preventDefault()
-    const { isUsersContainerOpen } = this.state
-    if (isUsersContainerOpen) {
-      this.setState({
-        isUsersContainerOpen: false
-      })
-    } else {
-      this.setState({
-        isUsersContainerOpen: true
-      })
-    }
+    this.props.toggleContactsPopup()
   }
 
   handleContactClick = (idx, event) => {
@@ -104,13 +96,12 @@ class ContactsPopupWindow extends PureComponent {
   }
 
   render() {
-    const { isUsersContainerOpen } = this.state
-    const { contacts } = this.props
+    const { contacts, isContactsOpen } = this.props
 
     return (
       <section className='online-users-chats-container'>
         <div
-          className={`${isUsersContainerOpen ?
+          className={`${isContactsOpen ?
             'online-users-chats-small chats-open' : 'online-users-chats-small'}`
           }
         >
@@ -118,7 +109,7 @@ class ContactsPopupWindow extends PureComponent {
             onClick={this.handleWindowTabClick}
             className='small-chat-container'
           >
-            {isUsersContainerOpen ?
+            {isContactsOpen ?
               (
                 <figure className='online-users-chat-icon-close'>
                   <img src='/image/close.png'/>
@@ -144,7 +135,7 @@ class ContactsPopupWindow extends PureComponent {
             }
           </div>
           {
-            isUsersContainerOpen && contacts ? (
+            isContactsOpen && contacts ? (
               <div className='chat-users-container'>
                 { this.renderOnlineUsers(contacts) }
                 { this.renderOfflineUsers(contacts) }
@@ -159,17 +150,20 @@ class ContactsPopupWindow extends PureComponent {
 
 const mapStateToProps = ({
   chat: {
-    contacts
+    contacts,
+    isContactsOpen,
   }
 }) => {
   return {
-    contacts
+    contacts,
+    isContactsOpen
   }
 }
 
 const mapDispatchToProps = {
   getChatContacts,
-  openChatConversation
+  openChatConversation,
+  toggleContactsPopup,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactsPopupWindow)

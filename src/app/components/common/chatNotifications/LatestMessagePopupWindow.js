@@ -62,6 +62,7 @@ class LatestMessagePopupWindow extends PureComponent {
   handleContactClick(idx, event) {
     event.preventDefault()
     this.props.openChatConversation(idx)
+    this.props.showMethod()
   }
 
   renderMessageList(contacts) {

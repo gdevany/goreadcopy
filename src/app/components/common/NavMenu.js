@@ -1,7 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react'
 import { stack as MobileMenu } from 'react-burger-menu'
 import { Link } from 'react-router'
-import { Auth, CurrentReader } from '../../redux/actions'
+import { Auth, CurrentReader, Chat } from '../../redux/actions'
 import { connect } from 'react-redux'
 import R from 'ramda'
 import SecondaryButton from './SecondaryButton'
@@ -19,6 +19,7 @@ import { Notifications, ChatsContainer } from './chatNotifications'
 
 import './styles/mobile-menu.scss'
 
+const { toggleMessagePopup } = Chat
 const { CATEGORIES, GENRES } = PopularTopics
 const { usePlatformAs, getCurrentReader, logoutCurrentReader } = CurrentReader
 const { verifyUserToken, processUserLogout } = Auth
@@ -218,14 +219,7 @@ class NavMenu extends PureComponent {
   }
 
   handleChatsContainerShow = () => {
-    if (!this.state.chatsContainerOpen) {
-      this.setState({
-        chatsContainerOpen: true,
-        notificationsOpen: false,
-      })
-    } else {
-      this.setState({ chatsContainerOpen: false })
-    }
+    this.props.toggleMessagePopup()
   }
 
   handleRequestClose = () => {
@@ -646,7 +640,7 @@ class NavMenu extends PureComponent {
   }
 
   renderLogInMenu = () => {
-    const { currentReader } = this.props
+    const { currentReader, notifications } = this.props
     const { socialFollowers, socialFollowed, isReadFeed } = this.state
     const chatNotifications = this.countChatNotifications()
     return (
@@ -691,7 +685,6 @@ class NavMenu extends PureComponent {
                     style={styles.messageBadge}
                   >
                     <a
-                      onClick={this.handleChatsContainerShow}
                       style={styles.navItemLinks}
                       className='messages-link rf-nav-link'
                     />
@@ -706,11 +699,11 @@ class NavMenu extends PureComponent {
                     <Badge
                       onClick={this.handleNotificationsShow}
                       badgeContent={
-                        currentReader.notificationsCount ?
-                          currentReader.notificationsCount : 0
+                        notifications.unreadCount ?
+                          notifications.unreadCount : 0
                         }
                       primary={true}
-                      badgeStyle={{
+                      badgeStyle={notifications.unreadCount ? {
                         top: -5,
                         right: -7,
                         width: '20px',
@@ -718,7 +711,7 @@ class NavMenu extends PureComponent {
                         paddingTop: 1,
                         fontWeight: 700,
                         backgroundColor: Colors.red,
-                      }}
+                      } : { display: 'none' }}
                     >
                       <img
                         src='/image/notifications-icon.svg'
@@ -739,7 +732,7 @@ class NavMenu extends PureComponent {
                           currentReader.cartItems : 0
                         }
                       primary={true}
-                      badgeStyle={{
+                      badgeStyle={currentReader.cartItems ? {
                         top: -5,
                         right: -7,
                         width: '20px',
@@ -747,7 +740,7 @@ class NavMenu extends PureComponent {
                         paddingTop: 1,
                         fontWeight: 700,
                         backgroundColor: Colors.red,
-                      }}
+                      } : { display: 'none' }}
                     >
                       <img src='/image/cart.svg' />
                     </Badge>
@@ -869,7 +862,6 @@ class NavMenu extends PureComponent {
                       <a
                         style={styles.navItemLinks}
                         className='messages-link rf-nav-link'
-                        onClick={this.handleChatsContainerShow}
                       >
                         Messages
                       </a>
@@ -903,11 +895,11 @@ class NavMenu extends PureComponent {
                       <Badge
                         onClick={this.handleNotificationsShow}
                         badgeContent={
-                          currentReader.notificationsCount ?
-                            currentReader.notificationsCount : 0
+                          notifications.unreadCount ?
+                            notifications.unreadCount : 0
                           }
                         primary={true}
-                        badgeStyle={{
+                        badgeStyle={notifications.unreadCount ? {
                           top: -5,
                           right: -7,
                           width: '20px',
@@ -915,7 +907,7 @@ class NavMenu extends PureComponent {
                           paddingTop: 1,
                           fontWeight: 700,
                           backgroundColor: Colors.red,
-                        }}
+                        } : { display: 'none' }}
                       >
                         <img
                           src='/image/notifications-icon.svg'
@@ -936,7 +928,7 @@ class NavMenu extends PureComponent {
                             currentReader.cartItems : 0
                           }
                         primary={true}
-                        badgeStyle={{
+                        badgeStyle={currentReader.cartItems ? {
                           top: -5,
                           right: -7,
                           width: '20px',
@@ -944,7 +936,7 @@ class NavMenu extends PureComponent {
                           paddingTop: 1,
                           fontWeight: 700,
                           backgroundColor: Colors.red,
-                        }}
+                        } : { display: 'none' }}
                       >
                         <img src='/image/cart.svg' />
                       </Badge>
@@ -974,7 +966,9 @@ class NavMenu extends PureComponent {
           />
         </div>
         {this.state.notificationsOpen ? <Notifications /> : null}
-        {this.state.chatsContainerOpen ? <ChatsContainer /> : null}
+        { this.props.chat.isMessagesOpen ?
+          <ChatsContainer showMethod={this.handleChatsContainerShow}/> : null
+        }
       </div>
     )
   }
@@ -1049,12 +1043,14 @@ class NavMenu extends PureComponent {
 const mapStateToProps = ({
   currentReader,
   social,
-  chat
+  chat,
+  notifications,
 }) => {
   return {
     currentReader,
     social,
-    chat
+    chat,
+    notifications,
   }
 }
 
@@ -1063,7 +1059,8 @@ const mapDispatchToProps = {
   processUserLogout,
   usePlatformAs,
   getCurrentReader,
-  verifyUserToken
+  verifyUserToken,
+  toggleMessagePopup
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavMenu)
