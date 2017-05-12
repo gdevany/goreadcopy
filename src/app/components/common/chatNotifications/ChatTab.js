@@ -274,7 +274,7 @@ class ChatTab extends PureComponent {
     const { id, history, user } = this.props
 
     return (
-      <div>
+      <div className='active-chat-main-container-mobile'>
         <section className='active-chat-container-mobile'>
           <div className='active-main-chat-container'>
             <figure className='active-chat-icon-close' onClick={this.handleCloseChatTab}>

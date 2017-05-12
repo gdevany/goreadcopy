@@ -512,15 +512,21 @@
     }
   }
 }
-
+.active-chat-main-container-mobile{
+  display: none;
+  &:first-child{
+    display: flex;
+  }
+}
 .active-chat-container-mobile{
-  position: relative;
-  display: flex;
+  position: absolute;
+  top: 60px;
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
   z-index: 99;
   width: 100%;
+  height: auto;
   margin-top: -20px;
   margin-bottom: 20px;
   @media all and (min-width: 768px){
@@ -528,7 +534,7 @@
   }
   .active-main-chat-container{
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     align-items: center;
     height: 50px;
     background-image: linear-gradient(-134deg, #FFFFFF 0%, #F8FFFE 63%, #F7FCFF 100%);
@@ -543,9 +549,35 @@
         vertical-align: inherit;
       }
     }
+    .active-chat-user-name{
+      margin-left: 15px;
+    }
+    .active-chat-has-mesagges-icon{
+      margin-left: 10px;
+    }
   }
   .active-chat-conversation-window{
     width: 100%;
+    position: relative;
+    .active-chat-in-use{
+      height: auto;
+      min-height: 35vh;
+      max-height: 60vh;
+    }
+    .conversation-textarea-container{
+      height: 20px;
+      overflow: visible;
+      border: 1px solid #F4F4F4;
+      padding: 10px 10px 35px 10px;
+      background-color: #fff;
+      position: relative;
+      textarea{
+        font-size: 14px;
+        &:focus{
+          height: 20px;
+        }
+      }
+    }
   }
 }
 
