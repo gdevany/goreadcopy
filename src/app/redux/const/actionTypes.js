@@ -82,6 +82,10 @@ export const CHAT = {
   UPDATE_READ_CONVERSATION_STATUS: 'UPDATE_READ_CONVERSATION_STATUS',
 }
 
+export const NOTIFICATIONS = {
+  LOAD_NOTIFICATIONS: 'LOAD_NOTIFICATIONS',
+}
+
 export default {
   BOOKS,
   CHAT,
@@ -91,4 +95,5 @@ export default {
   PROFILE_PAGE,
   READERS,
   SEARCH,
+  NOTIFICATIONS,
 }

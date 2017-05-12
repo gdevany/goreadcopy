@@ -12,6 +12,7 @@ import searchReducer from './search'
 import tilesReducer from './tiles'
 import sidebarAdsReducer from './ads'
 import chatReducer from './chat'
+import notificationReducer from './notifications'
 
 const rootReducer = combineReducers({
   books: booksReducer,
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   search: searchReducer,
   tiles: tilesReducer,
   sidebarAds: sidebarAdsReducer,
+  notifications: notificationReducer,
 })
 
 export default rootReducer
