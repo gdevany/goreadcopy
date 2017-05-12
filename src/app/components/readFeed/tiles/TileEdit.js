@@ -65,9 +65,11 @@ class TileEdit extends PureComponent {
   }
 
   componentDidMount = () => {
-    const hasImage = this.state.imageUrl !== '' && this.state.imageUrl
-    const { activeContent, videoInfo, showVideoPreview } = this.checkVideoUrl(this.state.body)
-    const hasVideo = activeContent !== '' || activeContent
+    const { body, imageUrl } = this.state
+    const hasImage = imageUrl !== '' && imageUrl
+    const { activeContent, videoInfo, showVideoPreview } =
+    !hasImage ? this.checkVideoUrl(body) : this.state
+    const hasVideo = (activeContent !== '' || activeContent)
     this.setState({
       activeContent,
       videoInfo,
@@ -304,11 +306,16 @@ class TileEdit extends PureComponent {
 
   handleImagePreviewDiscard = (event) => {
     event.preventDefault()
+    const { body } = this.state
+    const { activeContent, videoInfo, showVideoPreview } = this.checkVideoUrl(body)
     this.setState({
       imageUrl: '',
       imageId: '',
       imageInfo: null,
       hasImage: false,
+      activeContent,
+      videoInfo,
+      showVideoPreview,
     })
   }
 
