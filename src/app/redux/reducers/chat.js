@@ -85,6 +85,13 @@ const addChatConversation = ({ conversations }, payload) => {
   return conversations
 }
 
+const toggleChatWindow = ({ conversations }, { id }) => {
+  return conversations.map(el => {
+    el.isOpen = el.id === id ? !el.isOpen : el.isOpen
+    return el
+  })
+}
+
 export default (state = initialState.chat, { type, payload, errors }) => {
   switch (type) {
     case C.GET_CHAT_CONTACTS:
@@ -148,6 +155,12 @@ export default (state = initialState.chat, { type, payload, errors }) => {
       diff = {
         ...state,
         isContactsOpen: !state.isContactsOpen
+      }
+      return R.merge(state, diff)
+    case C.TOGGLE_CHAT_WINDOW:
+      diff = {
+        ...state,
+        conversations: toggleChatWindow(state, payload)
       }
       return R.merge(state, diff)
     default:

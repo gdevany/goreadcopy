@@ -85,6 +85,12 @@ export function toggleContactsPopup() {
   }
 }
 
+export function toggleChatWindow(id) {
+  return dispatch => {
+    return Promise.resolve(dispatch({ type: C.TOGGLE_CHAT_WINDOW, payload: { id } }))
+  }
+}
+
 export default {
   getChatContacts,
   openChatConversation,
@@ -97,4 +103,5 @@ export default {
   updateOpenedConversation,
   toggleMessagePopup,
   toggleContactsPopup,
+  toggleChatWindow,
 }
