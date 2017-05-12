@@ -1,3 +1,3 @@
-export BookStore from './bookStore'
+export BookStore from './BookStore'
 export BookPage from './BookPage'
 export CategoriesPage from './CategoriesPage'

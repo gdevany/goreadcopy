@@ -215,6 +215,7 @@
       width: 950px;
       max-width: 950px;
       margin: 0 auto;
+      position: relative;
     }
     .wishlist-books-title{
       font-weight: 600;
@@ -289,6 +290,8 @@
   flex-direction: column;
   @media all and (min-width: 768px){
     flex-direction: row;
+    height: 300px;
+    align-items: flex-start;
   }
   @media all and (min-width: 1024px){
     margin-top: 75px;
@@ -348,11 +351,11 @@
   align-items: flex-start;
   flex-direction: column;
   @media all and (min-width: 768px){
-    margin-top: 165px;
+    margin-top: 0;
   }
   @media all and (min-width: 1024px){
     max-width: 950px;
-    margin: 165px auto 0 auto;
+    margin: 25px auto 0 auto;
   }
 }
 .bookstore-trending-main-container{
@@ -382,7 +385,7 @@
     padding: 20px;
     position: relative;
     @media all and (min-width: 768px){
-      margin-top: 165px;
+      margin-top: 30px;
     }
     @media all and (min-width: 1024px){
       max-width: 950px;

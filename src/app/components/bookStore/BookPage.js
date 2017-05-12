@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { BookStoreNavBar } from '../common'
-import WishListBooks from './wishListBooks'
+import WishListBooks from './WishListBooks'
 import BookInfo from './BookInfo'
 import MeetAuthor from './MeetAuthor'
 import ReviewsOverview from './ReviewsOverview'
