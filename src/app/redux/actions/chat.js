@@ -73,6 +73,18 @@ export function updateOpenedConversation(payload) {
   }
 }
 
+export function toggleMessagePopup() {
+  return dispatch => {
+    return Promise.resolve(dispatch({ type: C.TOGGLE_MESSAGES_POPUP }))
+  }
+}
+
+export function toggleContactsPopup() {
+  return dispatch => {
+    return Promise.resolve(dispatch({ type: C.TOGGLE_CONTACTS_POPUP }))
+  }
+}
+
 export default {
   getChatContacts,
   openChatConversation,
@@ -83,4 +95,6 @@ export default {
   appendReceivedChatMessage,
   postChatMessage,
   updateOpenedConversation,
+  toggleMessagePopup,
+  toggleContactsPopup,
 }

@@ -31,6 +31,7 @@ class SocketHandler extends PureComponent {
     this.processStatusDiff = this.processStatusDiff.bind(this)
     this.onConnectionMessage = this.onConnectionMessage.bind(this)
     this.handleSongFinishedPlaying = this.handleSongFinishedPlaying.bind(this)
+    this.playNotificationSound = this.playNotificationSound.bind(this)
   }
 
   componentDidMount() {
@@ -64,6 +65,12 @@ class SocketHandler extends PureComponent {
     this.setState({ playStatus: Sound.status.STOPPED })
   }
 
+  playNotificationSound() {
+    const { isMessagesOpen, isContactsOpen } = this.props
+    if (isMessagesOpen || isContactsOpen) { return }
+    this.setState({ playStatus: Sound.status.PLAYING })
+  }
+
   onConnectionMessage(post) {
     let diff = null
     const heartbeat = '--heartbeat--'
@@ -76,7 +83,7 @@ class SocketHandler extends PureComponent {
       case 'chat-notification':
         // Handle received notifications for unread chats.
         this.props.updateUnreadChatNumber(message)
-        this.setState({ playStatus: Sound.status.PLAYING })
+        this.playNotificationSound()
         break
       case 'activity-notification':
         // Handle activity notification
@@ -85,7 +92,7 @@ class SocketHandler extends PureComponent {
       case 'chat':
         // Handle received chat posts for conversations.
         this.props.appendReceivedChatMessage(message.data)
-        this.setState({ playStatus: Sound.status.PLAYING })
+        this.playNotificationSound()
         break
       case 'online-status':
         // Handle received messages for changes on contact's statuses.
@@ -118,12 +125,16 @@ class SocketHandler extends PureComponent {
 const mapStateAsProps = ({
   chat: {
     contacts,
-    conversations
+    conversations,
+    isMessagesOpen,
+    isContactsOpen,
   }
 }) => {
   return {
     contacts,
-    conversations
+    conversations,
+    isMessagesOpen,
+    isContactsOpen,
   }
 }
 
