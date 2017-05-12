@@ -1,10 +1,71 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
+import { Notifications } from '../../../redux/actions'
+import moment from 'moment'
+
+const { loadNotifications } = Notifications
 
 class NotificationPopupWindow extends PureComponent {
+  componentDidMount() {
+    this.props.loadNotifications()
+  }
+
+  drawNotification(el, idx) {
+    const {
+      //category,
+      //recipient,
+      actor,
+      verb,
+      timestamp,
+      //mentions,
+      //mentionArray
+    } = el
+    return (
+      <div key={idx} className='single-notification-element'>
+        <figure className='notification-action-figure'>
+          <img src={actor.imageUrl}/>
+        </figure>
+        <div className='notification-container'>
+          <p className='notification-description-container'>
+            <a href='#' className='notification-description-anchor'>
+              {actor.fullname}
+              <span className='notification-description-action'>
+                {verb}
+              </span>
+            </a>
+          </p>
+          <div className='notification-action-container'>
+            {
+              verb.toLowerCase().includes('follow') ? (
+                <a
+                  className='notification-action-btn'
+                  href='#'
+                >
+                  + Follow
+                </a>
+              ) : null
+            }
+            <span className='notification-timestamp'>
+              {
+                timestamp ? moment(moment.unix(timestamp)).fromNow() : null
+              }
+            </span>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   render() {
+    const { results } = this.props.notifications
     return (
       <section className='notifications-main-frame-container'>
         <section className='notifications-frame-container'>
+          {
+            results && results.length > 0 ?
+              results.map(this.drawNotification) :
+              null
+          }
           <div className='single-notification-element'>
             <figure className='notification-action-figure'>
               <img src='/image/kendunn.jpg'/>
@@ -148,4 +209,16 @@ class NotificationPopupWindow extends PureComponent {
   }
 }
 
-export default NotificationPopupWindow
+const mapStateToProps = ({
+  notifications
+}) => {
+  return {
+    notifications
+  }
+}
+
+const mapDispatchToProps = {
+  loadNotifications,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationPopupWindow)
