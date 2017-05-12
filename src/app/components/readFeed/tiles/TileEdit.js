@@ -283,7 +283,6 @@ class TileEdit extends PureComponent {
           showErrorOnPost: true,
         })
       })
-
   }
 
   getBase64AndUpdate = (file, imageType) => {
