@@ -26,6 +26,7 @@ class ChatTab extends PureComponent {
       message: '',
       textarea: null,
       container: null,
+      containerMobile: null,
     }
 
     this.locals = {
@@ -54,7 +55,8 @@ class ChatTab extends PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    this.scrollToBottom()
+    this.scrollToBottom(this.state.container)
+    this.scrollToBottom(this.state.containerMobile)
     this.updateConversationReadStatus()
     this.updateFocusTextArea()
     this.checkIfChatUpdate(prevProps)
@@ -109,8 +111,8 @@ class ChatTab extends PureComponent {
     }
   }
 
-  scrollToBottom() {
-    const { container } = this.state
+  scrollToBottom(container) {
+    if (!container) { return }
     const scrollHeight = container.scrollHeight
     const height = container.clientHeight
     const maxScrollTop = scrollHeight - height
@@ -296,7 +298,7 @@ class ChatTab extends PureComponent {
             <div
               className='active-chat-in-use'
               onClick={this.handleCloseTextArea}
-              ref={(div)=>{this.setState({ container: div })}}
+              ref={(div)=>{this.setState({ containerMobile: div })}}
             >
               {
                 history && history.conversation ?

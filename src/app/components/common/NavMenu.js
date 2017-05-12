@@ -1,7 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react'
 import { stack as MobileMenu } from 'react-burger-menu'
 import { Link } from 'react-router'
-import { Auth, CurrentReader } from '../../redux/actions'
+import { Auth, CurrentReader, Chat } from '../../redux/actions'
 import { connect } from 'react-redux'
 import R from 'ramda'
 import SecondaryButton from './SecondaryButton'
@@ -19,6 +19,7 @@ import { Notifications, ChatsContainer } from './chatNotifications'
 
 import './styles/mobile-menu.scss'
 
+const { toggleMessagePopup } = Chat
 const { CATEGORIES, GENRES } = PopularTopics
 const { usePlatformAs, getCurrentReader, logoutCurrentReader } = CurrentReader
 const { verifyUserToken, processUserLogout } = Auth
@@ -218,14 +219,7 @@ class NavMenu extends PureComponent {
   }
 
   handleChatsContainerShow = () => {
-    if (!this.state.chatsContainerOpen) {
-      this.setState({
-        chatsContainerOpen: true,
-        notificationsOpen: false,
-      })
-    } else {
-      this.setState({ chatsContainerOpen: false })
-    }
+    this.props.toggleMessagePopup()
   }
 
   handleRequestClose = () => {
@@ -691,7 +685,6 @@ class NavMenu extends PureComponent {
                     style={styles.messageBadge}
                   >
                     <a
-                      onClick={this.handleChatsContainerShow}
                       style={styles.navItemLinks}
                       className='messages-link rf-nav-link'
                     />
@@ -869,7 +862,6 @@ class NavMenu extends PureComponent {
                       <a
                         style={styles.navItemLinks}
                         className='messages-link rf-nav-link'
-                        onClick={this.handleChatsContainerShow}
                       >
                         Messages
                       </a>
@@ -974,7 +966,7 @@ class NavMenu extends PureComponent {
           />
         </div>
         {this.state.notificationsOpen ? <Notifications /> : null}
-        {this.state.chatsContainerOpen ? <ChatsContainer /> : null}
+        {this.props.chat.isMessagesOpen ? <ChatsContainer /> : null}
       </div>
     )
   }
@@ -1063,7 +1055,8 @@ const mapDispatchToProps = {
   processUserLogout,
   usePlatformAs,
   getCurrentReader,
-  verifyUserToken
+  verifyUserToken,
+  toggleMessagePopup
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavMenu)

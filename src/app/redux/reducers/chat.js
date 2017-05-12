@@ -138,6 +138,18 @@ export default (state = initialState.chat, { type, payload, errors }) => {
         contacts: updateReadConversationStatus(state, payload)
       }
       return R.merge(state, diff)
+    case C.TOGGLE_MESSAGES_POPUP:
+      diff = {
+        ...state,
+        isMessagesOpen: !state.isMessagesOpen
+      }
+      return R.merge(state, diff)
+    case C.TOGGLE_CONTACTS_POPUP:
+      diff = {
+        ...state,
+        isContactsOpen: !state.isContactsOpen
+      }
+      return R.merge(state, diff)
     default:
       return state
   }
