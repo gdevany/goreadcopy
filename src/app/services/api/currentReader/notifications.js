@@ -5,12 +5,14 @@ const { authenticated } = http
 const {
   currentReader: {
     getNotifications,
+    readNotifications,
   }
 } = Endpoints
 
 const Notifications = () => {
   return {
-    loadNotifications: () => authenticated().get(getNotifications())
+    loadNotifications: () => authenticated().get(getNotifications()),
+    setReadNotifications: () => authenticated().post(readNotifications()),
   }
 }
 

@@ -640,7 +640,7 @@ class NavMenu extends PureComponent {
   }
 
   renderLogInMenu = () => {
-    const { currentReader } = this.props
+    const { currentReader, notifications } = this.props
     const { socialFollowers, socialFollowed, isReadFeed } = this.state
     const chatNotifications = this.countChatNotifications()
     return (
@@ -699,11 +699,11 @@ class NavMenu extends PureComponent {
                     <Badge
                       onClick={this.handleNotificationsShow}
                       badgeContent={
-                        currentReader.notificationsCount ?
-                          currentReader.notificationsCount : 0
+                        notifications.unreadCount ?
+                          notifications.unreadCount : 0
                         }
                       primary={true}
-                      badgeStyle={currentReader.notificationsCount ? {
+                      badgeStyle={notifications.unreadCount ? {
                         top: -5,
                         right: -7,
                         width: '20px',
@@ -895,11 +895,11 @@ class NavMenu extends PureComponent {
                       <Badge
                         onClick={this.handleNotificationsShow}
                         badgeContent={
-                          currentReader.notificationsCount ?
-                            currentReader.notificationsCount : 0
+                          notifications.unreadCount ?
+                            notifications.unreadCount : 0
                           }
                         primary={true}
-                        badgeStyle={currentReader.notificationsCount ? {
+                        badgeStyle={notifications.unreadCount ? {
                           top: -5,
                           right: -7,
                           width: '20px',
@@ -1043,12 +1043,14 @@ class NavMenu extends PureComponent {
 const mapStateToProps = ({
   currentReader,
   social,
-  chat
+  chat,
+  notifications,
 }) => {
   return {
     currentReader,
     social,
-    chat
+    chat,
+    notifications,
   }
 }
 

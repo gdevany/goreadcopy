@@ -9,6 +9,12 @@ export function loadNotifications() {
   }
 }
 
+export function resetReadNotifications() {
+  return dispatch => {
+    return Promise.resolve(dispatch({ type: N.RESET_NOTIFICATION_COUNT }))
+  }
+}
+
 export default {
   loadNotifications
 }
