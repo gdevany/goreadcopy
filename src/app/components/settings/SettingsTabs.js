@@ -435,6 +435,7 @@ class SettingsTabs extends PureComponent {
             onChange={this.handleOnChange('favoriteQuote1')}
             value={favoriteQuote1}
             maxLength={255}
+            autoFocus
           />
         </div>
         <div className='profile-edidor-quote-container'>
@@ -446,6 +447,7 @@ class SettingsTabs extends PureComponent {
             onChange={this.handleOnChange('favoriteQuote2')}
             value={favoriteQuote2}
             maxLength={255}
+            autoFocus
           />
         </div>
         <div className='profile-edidor-quote-container'>
@@ -457,8 +459,10 @@ class SettingsTabs extends PureComponent {
             onChange={this.handleOnChange('favoriteQuote3')}
             value={favoriteQuote3}
             maxLength={255}
+            autoFocus
           />
         </div>
+
         <div className='profile-edidor-quote-container'>
           <h5 className='profile-editor-favorite-quotes-num'>
             Favorite Quote #4
@@ -468,6 +472,7 @@ class SettingsTabs extends PureComponent {
             onChange={this.handleOnChange('favoriteQuote4')}
             value={favoriteQuote4}
             maxLength={255}
+            autoFocus
           />
         </div>
         <div className='profile-edidor-quote-container'>
@@ -479,6 +484,7 @@ class SettingsTabs extends PureComponent {
             onChange={this.handleOnChange('favoriteQuote5')}
             value={favoriteQuote5}
             maxLength={255}
+            autoFocus
           />
         </div>
       </div>
@@ -1190,6 +1196,9 @@ class SettingsTabs extends PureComponent {
       receiveAuthorEmail,
 
     } = this.state
+
+    const { resetPassword } = routes
+
     return (
       <article className='settings-single-tab-content small-8 columns small-centered'>
         <div className='settings-section-title-container'>
@@ -1328,6 +1337,16 @@ class SettingsTabs extends PureComponent {
             <a className='profile-editor-section-main-action'>
               <FileDownloadIcon />
               Scan Books To Library
+            </a>
+          </div>
+        </div>
+        <div className='profile-editor-section-container'>
+          <h4 className='profile-editor-section-title' >
+            Change Login Password
+          </h4>
+          <div className='profile-editor-action-container'>
+            <a className='profile-editor-section-main-action' href={resetPassword()}>
+              Change Login Password
             </a>
           </div>
         </div>

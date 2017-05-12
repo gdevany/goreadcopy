@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, PropTypes } from 'react'
 import Radium from 'radium'
 import { connect } from 'react-redux'
 import { Follow } from '../../redux/actions'
@@ -40,6 +40,9 @@ const styles = {
   checkmark: {
     marginRight: 7,
   },
+  authorProfileLink: {
+    marginTop: 5,
+  }
 }
 
 class FollowProfile extends PureComponent {
@@ -55,17 +58,31 @@ class FollowProfile extends PureComponent {
       profileFollowed: false,
       profileFetched: false,
       authorProfile: '',
+      isReadersProfile: '',
+      badgeText: 'Follow',
     }
 
     this.handleClose = this.handleClose.bind(this)
     this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
   }
 
+  static contextTypes = {
+    router: PropTypes.object
+  }
+
   componentWillMount = () => {
+    const { router } = this.context
+
     this.setState({
       profileFetched: false,
       fetchedFollows: false,
     })
+
+    if (router.params.slug === 'readers') {
+      this.setState({
+        isReadersProfile: true,
+      })
+    }
   }
 
   componentDidMount = () => {
@@ -74,14 +91,29 @@ class FollowProfile extends PureComponent {
   }
 
   componentWillReceiveProps = (nextProps) => {
+    const { router } = this.context
+
+    if (router.params.slug === 'readers') {
+      this.setState({
+        isReadersProfile: true,
+      })
+    } else {
+      this.setState({
+        isReadersProfile: false,
+      })
+    }
 
     if (!this.state.profileFetched && nextProps.profileFollowed !== null) {
       this.setState({
         profileFollowed: nextProps.profileFollowed,
-        profileFetched: true
+        profileFetched: true,
+        badgeText: nextProps.profileFollowed ? 'Following' : 'Follow'
+
       })
     }
-    if (this.props.fullname !== nextProps.fullname) this.getFollow(nextProps.id)
+    if (this.props.fullname !== nextProps.fullname) {
+      this.getFollow(nextProps.id)
+    }
 
     if (nextProps.isCurrentReader) {
       this.setState({
@@ -119,7 +151,29 @@ class FollowProfile extends PureComponent {
       ids: [this.props.id],
     })
     this.setState({
-      profileFollowed: !this.state.profileFollowed
+      profileFollowed: !this.state.profileFollowed,
+      badgeText: !this.state.profileFollowed ? 'Following' : 'Follow'
+    })
+  }
+
+  handleTextChange = () => {
+    const { profileFollowed } = this.state
+    if (profileFollowed) {
+      this.setState({
+        badgeText: 'Unfollow'
+      })
+    } else {
+      this.setState({
+        badgeText: 'Follow'
+      })
+    }
+  }
+
+  handleLeaveTextChange = () => {
+    const { profileFollowed } = this.state
+
+    this.setState({
+      badgeText: profileFollowed ? 'Following' : 'Follow'
     })
   }
 
@@ -130,6 +184,12 @@ class FollowProfile extends PureComponent {
       <Chip
         labelStyle={styles.chipText}
         style={styles.chip}
+        className={profileFollowed ?
+          'is-following-reader' : 'is-not-following-reader'
+        }
+        onMouseEnter={this.handleTextChange}
+        onMouseLeave={this.handleLeaveTextChange}
+        onClick={Auth.currentUserExists() ? this.handleFollow : null}
       >
         {
           isCurrentReader ?
@@ -139,7 +199,7 @@ class FollowProfile extends PureComponent {
                 (
                   <a onClick={this.handleFollow}>
                     {
-                      profileFollowed ? 'Following' : 'Follow'
+                      this.state.badgeText
                     }
                   </a>
                 ) : (
@@ -168,6 +228,7 @@ class FollowProfile extends PureComponent {
       modalFollowersOpen,
       modalFollowingOpen,
       authorProfile,
+      isReadersProfile,
     } = this.state
 
     const {
@@ -199,54 +260,86 @@ class FollowProfile extends PureComponent {
             <h4 className='follow-profile-card-name'>{this.props.fullname}</h4>
           </div>
           <div className='follows-profile-actions-container small-12 columns'>
-            <div className='followers small-4 columns'>
-              <div
-                className='profile-link'
-                onClick={Auth.currentUserExists() ?
-                  () => this.handleOpen('followers') : this.handleLogInModalOpen
-                }
-              >
-                <span className='small-title'>
-                  Followers
-                </span>
-                <br />
-                <span className='profile-large-text'>
-                  {followersCount ? followersCount : <div className='loading-animation'/>}
-                </span>
-              </div>
-            </div>
-            <div className='following small-4 columns'>
-              <div
-                className='profile-link'
-                onClick={Auth.currentUserExists() ?
-                  () => this.handleOpen('following') : this.handleLogInModalOpen
-                }
-              >
-                <span className='small-title'>
-                  Following
-                </span>
-                <br />
-                <span className='profile-large-text'>
-                  {followedCount ? followedCount : <div className='loading-animation'/>}
-                </span>
-              </div>
-            </div>
-            <div className='small-4 columns'>
-              {this.renderChip()}
-            </div>
-          </div>
-          <div className='small-12 columns'>
-            {authorProfile ?
-              (
-                <a
-                  className='author-profile-link-button'
-                  href={authorProfile.url}
-                >
-                  Author Page
-                </a>
-              ) : null
+            {isReadersProfile ?
+              null : (
+                <div className='followers small-4 columns'>
+                  <div
+                    className='profile-link'
+                    onClick={Auth.currentUserExists() ?
+                      () => this.handleOpen('followers') : this.handleLogInModalOpen
+                    }
+                  >
+                    <span className='small-title'>
+                      Followers
+                    </span>
+                    <br />
+                    <span className='profile-large-text'>
+                      {followersCount ? followersCount : <div className='loading-animation'/>}
+                    </span>
+                  </div>
+                </div>
+              )
             }
+            {isReadersProfile ?
+              null : (
+                  <div className='following small-4 columns'>
+                    <div
+                      className='profile-link'
+                      onClick={Auth.currentUserExists() ?
+                        () => this.handleOpen('following') : this.handleLogInModalOpen
+                      }
+                    >
+                      <span className='small-title'>
+                        Following
+                      </span>
+                      <br />
+                      <span className='profile-large-text'>
+                        {followedCount ? followedCount : <div className='loading-animation'/>}
+                      </span>
+                    </div>
+                  </div>
+                )
+            }
+            {isReadersProfile ?
+              null : (
+                <div className='small-4 columns'>
+                  {this.renderChip()}
+                </div>
+              )
+            }
+            {isReadersProfile ?
+              (
+                <div className='small-4 columns'>
+                  {authorProfile ?
+                    (
+                      <a
+                        style={styles.authorProfileLink}
+                        className='author-profile-link-button'
+                        href={authorProfile.url}
+                      >
+                        Author Page
+                      </a>
+                    ) : null
+                  }
+                </div>
+              ) : null}
           </div>
+          { isReadersProfile ?
+            null : (
+              <div className='small-12 columns'>
+                {authorProfile ?
+                  (
+                    <a
+                      className='author-profile-link-button'
+                      href={authorProfile.url}
+                    >
+                      Author Page
+                    </a>
+                  ) : null
+                }
+              </div>
+            )
+          }
           <div className='small-12 columns'>
             {isCurrentReader ?
               (

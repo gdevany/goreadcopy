@@ -192,7 +192,6 @@ class TileDefault extends PureComponent {
       sharePostOpen: false,
       commentParentId: false,
       replyPlaceholder: false,
-      isAutofocus: false,
       modalLogInOpen: false,
       userLogged: false
     }
@@ -206,6 +205,32 @@ class TileDefault extends PureComponent {
       return moment(moment.unix(time)).fromNow()
     }
     return time
+  }
+
+  renderAction = (entry, index, target) => {
+    const targetUrlRegex = /\{(\w.*)\}/
+    if (targetUrlRegex.test(entry)) {
+      const match = targetUrlRegex.exec(entry)
+      if (match) {
+        const matchIndex = 1
+        const targetName = match[matchIndex]
+        return (
+          <span className='margin-right' key={index}>
+            <a className='tile-target-name' key={index} href={target.link}>
+              {targetName}
+            </a>
+          </span>
+        )
+      }
+      return (
+        <span className='margin-right' key={index}>
+          {entry}
+        </span>)
+    }
+    return (
+      <span className='margin-right' key={index}>
+        {entry}
+      </span>)
   }
 
   componentDidMount = () => {
@@ -271,14 +296,12 @@ class TileDefault extends PureComponent {
         this.setState({
           sharePostOpen: false,
           commentPostOpen: true,
-          isAutofocus: true,
         })
       } else {
         this.setState({
           commentsOpen: false,
           commentPostOpen: false,
           commentParentId: false,
-          isAutofocus: true,
         })
       }
     } else {
@@ -291,7 +314,6 @@ class TileDefault extends PureComponent {
       this.setState({
         commentsOpen: true,
         commentPostOpen: true,
-        isAutofocus: true,
       })
     }
   }
@@ -497,7 +519,6 @@ class TileDefault extends PureComponent {
       shareInput,
       commentParentId,
       replyPlaceholder,
-      isAutofocus,
     } = this.state
     const { profileImage } = this.props
     const isComment = buttonType === 'comment'
@@ -522,7 +543,7 @@ class TileDefault extends PureComponent {
             onChange={this.handleInputOnChange(`${inputType}`)}
             value={isComment ? commentInput : shareInput}
             rows='3'
-            autoFocus={isAutofocus}
+            autoFocus
           />
         </div>
         <div>
@@ -548,12 +569,15 @@ class TileDefault extends PureComponent {
 
     const {
       author,
+      target,
       timestamp,
       shareInfo,
       promoted,
       action,
       feedComments,
     } = this.props
+    const splitActionrRegex = /(?:[^\s{]+|{[^{]*})+/g
+    const splittedAction = action ? action.match(splitActionrRegex) : null
     return (
       <div>
         <Card
@@ -569,12 +593,22 @@ class TileDefault extends PureComponent {
             </figure>
             <div className='tile-actor-details'>
               <div className='tile-actor-container'>
-                <span className='tile-actor-name'>
-                  <a href={author.link}>{author.name}</a>
-                </span>
-                <span className='tile-actor-action'>
-                  { promoted ? null : action }
-                </span>
+                <p>
+                  <span className='tile-actor-name margin-right'>
+                    <a href={author.link}>
+                      {author.name}
+                    </a>
+                  </span>
+                  <span className='tile-actor-action'>
+                    {
+                      promoted ?
+                        null : splittedAction ?
+                          splittedAction.map((entry, index) => {
+                            return this.renderAction(entry, index, target)
+                          }) : action
+                    }
+                  </span>
+                </p>
               </div>
               <div className='tile-actor-timestamp'>
                 <span>
@@ -760,6 +794,7 @@ class TileDefault extends PureComponent {
 
 TileDefault.propTypes = {
   author: PropTypes.object,
+  target: PropTypes.object,
   action: PropTypes.string,
   timestamp: PropTypes.string,
   shared: PropTypes.object,

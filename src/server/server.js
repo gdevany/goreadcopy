@@ -62,19 +62,6 @@ if (ENV.isDevelopment()) {
   app.use(express.static('build'));
   app.get('*', (req, res) => res.sendFile(path.join(__dirname + '/../client/index.html')))
 } else {
-  child_process.exec("npm run build", (error, stdout, stderr) => {
-    if (error) {
-        console.error(`exec error: ${error}`);
-        return;
-    }
-    if (stdout) {
-        console.log('stdout: ' + stdout);
-    }
-    if (stderr) {
-        console.log('stderr: ' + stderr);
-    }
-  });
-
   app.get('*.js', function (req, res, next) {
     req.url = req.url + '.gz';
     res.set('Content-Encoding', 'gzip');

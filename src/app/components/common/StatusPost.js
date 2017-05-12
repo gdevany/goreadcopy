@@ -10,6 +10,8 @@ import urlParser from 'js-video-url-parser'
 import R from 'ramda'
 import Promise from 'bluebird'
 import { Tiles } from '../../redux/actions'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
+import { Colors } from '../../constants/style'
 
 const { prependProfileTile } = Tiles
 const { uploadImage } = Images
@@ -25,7 +27,11 @@ const styles = {
   },
   hiddenPreview: {
     display: 'none'
-  }
+  },
+  refresh: {
+    display: 'inline-block',
+    position: 'relative',
+  },
 }
 
 class StatusPost extends PureComponent {
@@ -33,6 +39,7 @@ class StatusPost extends PureComponent {
     super(props)
     this.state = this.initialState()
     this.state['targetId'] = null
+    this.state['showErrorOnPost'] = false
     this.handleTextChange = this.handleTextChange.bind(this)
     this.checkMentions = this.checkMentions.bind(this)
     this.replaceMention = this.replaceMention.bind(this)
@@ -47,13 +54,14 @@ class StatusPost extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.state.targetId && !this.props.targetId && nextProps.targetId) {
-      this.setState({ targetId: nextProps.targetId })
-    }
+    this.setState({ targetId: nextProps.targetId })
   }
 
   onUploadButtonClick(event) {
     event.preventDefault()
+    this.setState({
+      textareaOpen: true,
+    })
     this.dropzone.open()
   }
 
@@ -66,6 +74,7 @@ class StatusPost extends PureComponent {
       activeContent,
     } = this.state
     if (body !== '' || image || activeContent) {
+      this.setState({ loadingPost: true })
       postNewMessage({
         body,
         mentions,
@@ -75,8 +84,12 @@ class StatusPost extends PureComponent {
       })
         .then(res => this.props.postNewTile(res.data))
         .then(() => this.cleanStatusPost())
+        .then(() => this.setState({ loadingPost: false }))
         .catch(err => {
           console.log(err)
+          this.setState({
+            showErrorOnPost: true,
+          })
           this.cleanStatusPost()
         })
     }
@@ -97,6 +110,7 @@ class StatusPost extends PureComponent {
       showImagePreview: false,
       showVideoPreview: false,
       textareaOpen: false,
+      loadingPost: false,
     }
   }
 
@@ -104,7 +118,23 @@ class StatusPost extends PureComponent {
     this.setState(this.initialState())
   }
 
+  setLoading = () => {
+    return (
+      <div className='statuspost-loader'>
+        <RefreshIndicator
+          size={30}
+          left={0}
+          top={0}
+          loadingColor={Colors.blue}
+          status='loading'
+          style={styles.refresh}
+        />
+      </div>
+    )
+  }
+
   handleTextChange(event) {
+    event.preventDefault()
     const body = event.target.value
     const { showSuggestions, onProcessMentions } = this.checkMentions(body)
     const { activeContent, videoInfo, showVideoPreview } = this.checkVideoUrl(body)
@@ -121,6 +151,8 @@ class StatusPost extends PureComponent {
       videoInfo,
       showVideoPreview,
       showSuggestions,
+      textareaOpen: true,
+      showErrorOnPost: false,
     })
   }
 
@@ -136,12 +168,10 @@ class StatusPost extends PureComponent {
   }
 
   checkVideoUrl(latestBody) {
-    if (this.state.imageInfo) {
-      return null
-    }
+
     const videoUrls = latestBody.match(videoPattern)
-    let activeContent = '', videoInfo = null, showVideoPreview = false
-    if (videoUrls && videoUrls.length > 0) {
+    let activeContent = '', videoInfo = '', showVideoPreview = false
+    if (videoUrls && videoUrls.length > 0 && !this.state.imageInfo) {
       activeContent = R.last(videoUrls)
       videoInfo = urlParser.parse(activeContent)
       showVideoPreview = true
@@ -211,7 +241,8 @@ class StatusPost extends PureComponent {
   handleTextAreaClick = (event) => {
     event.preventDefault()
     this.setState({
-      textareaOpen: true
+      textareaOpen: true,
+      showErrorOnPost: false,
     })
   }
 
@@ -289,6 +320,7 @@ class StatusPost extends PureComponent {
 
   render() {
     const { currentReader } = this.props
+    const { showErrorOnPost } = this.state
     return (
       <div className='statuspost'>
         <div className='status-post-text-container'>
@@ -306,11 +338,16 @@ class StatusPost extends PureComponent {
           { this.state.textareaOpen ? (
             <div>
               <a
-                className='statuspost-action-btn'
+                className={
+                  this.state.loadingPost ?
+                  'statuspost-action-btn statuspost-action-disabled' :
+                  'statuspost-action-btn'
+                }
                 onClick={this.onPostButtonClick}
               >
                 Post
               </a>
+              { this.state.loadingPost ? this.setLoading() : null }
               <a
                 className='statuspost-close-btn'
                 onClick={this.handleTextAreaClose}
@@ -331,10 +368,15 @@ class StatusPost extends PureComponent {
             maxLength='10000'
             ref='statuspost'
             className={this.state.textareaOpen ?
-              'status-post-textarea-open' : 'status-post-textarea'}
-            placeholder='Type inside me'
+              (
+                `${showErrorOnPost ? 'statuspost-error' : ''} status-post-textarea-open`
+              ) : (
+                `${showErrorOnPost ? 'statuspost-error' : ''} status-post-textarea`
+              )}
+            placeholder={showErrorOnPost ? 'Something happend, please try again' : 'Comment here'}
             onClick={this.handleTextAreaClick}
             onChange={this.handleTextChange} value={this.state.body}
+            autoFocus
           />
           {this.state.showSuggestions ?
             (<SuggestionList
@@ -367,7 +409,18 @@ class StatusPost extends PureComponent {
                   </a>
                 </div>
               </div>
-            ) : null
+            ) : (
+              <div>
+                {
+                  this.state.imageInfo ?
+                  (
+                    <div className='columns small-12'>
+                      <div className='loading-animation'/>
+                    </div>
+                  ) : null
+                }
+              </div>
+            )
           }
         </div>
       </div>

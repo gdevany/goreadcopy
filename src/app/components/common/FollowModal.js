@@ -5,6 +5,12 @@ import { Dialog, Tabs, Tab } from 'material-ui'
 import SwipeableViews from 'react-swipeable-views'
 import { Colors } from '../../constants/style'
 import { Users as U } from '../../services'
+import { PageScroller } from './'
+import { Follow } from '../../redux/actions'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
+
+const { fetchFollowers, fetchFollowed } = Follow
+
 import R from 'ramda'
 
 const { TYPES: { READER, AUTHOR } } = U
@@ -39,7 +45,7 @@ const styles = {
 
   header: {
     color: Colors.black,
-    marginBottom: 50,
+    marginBottom: 15,
   },
 
   tab: {
@@ -59,6 +65,13 @@ const styles = {
   currentTab: {
     color: Colors.blue,
     borderBottom: `2px solid ${Colors.blue}`,
+  },
+  refresh: {
+    display: 'inline-block',
+    position: 'relative',
+  },
+  refreshContainer: {
+    textAlign: 'center',
   }
 }
 
@@ -71,14 +84,30 @@ class FollowModal extends PureComponent {
     }
   }
 
+  setLoading = () => {
+    return (
+      <div style={styles.refreshContainer}>
+        <RefreshIndicator
+          size={50}
+          left={0}
+          top={0}
+          loadingColor={Colors.blue}
+          status='loading'
+          style={styles.refresh}
+        />
+      </div>
+    )
+  }
+
   renderUsers = (userType, followType, users) => {
     return users.map((attrs, index) => {
       const {
         id,
+        isFollower,
+        url,
       } = attrs
 
       const user = U.from(attrs)
-
       return (
         <div className='column column-block' key={id}>
           <AvatarSummary
@@ -87,14 +116,23 @@ class FollowModal extends PureComponent {
             description={U.description(user)}
             title={U.fullName(user)}
             image={U.imageUrl(user)}
+            link={url}
             followType={followType}
             userType={userType}
-            isChosen={true}
+            isChosen={userType === 'READER' ? isFollower : true}
           />
         </div>
       )
     })
   }
+
+  fetchHandler = R.curry((id, params) => {
+    this.props.fetchFollowers(id, params)
+  })
+
+  fetchFollowedHandler = R.curry((id, params) => {
+    this.props.fetchFollowed(id, params)
+  })
 
   handleTabChange = (value) => this.setState({ slideIndex: value })
 
@@ -102,6 +140,7 @@ class FollowModal extends PureComponent {
     const result = []
     const authorsFollowed = R.prop('authors', data)
     const readersFollowed = R.prop('readers', data)
+    const { id, followers, followed } = this.props
 
     if (followType === 'followers') {
       result.push(
@@ -109,7 +148,16 @@ class FollowModal extends PureComponent {
           className='modal-chips row large-up-3 medium-up-2 small-up-1 rf-modal'
           key={'users-following-this-user'}
         >
-          {this.renderUsers(READER, followType, readersFollowed)}
+          <PageScroller
+            clsName='modal-chips row large-up-3 medium-up-2 small-up-1 rf-modal followers-scroll'
+            fetchOnLoad={false}
+            fetchHandler={this.fetchHandler(id)}
+            isLocked={followers ? followers.locked : false}
+            currentPage={followers && followers.page ? followers.page : 0}
+          >
+            {this.renderUsers(READER, followType, followers.results.readers)}
+          </PageScroller>
+          { followers && followers.locked ? this.setLoading() : null }
         </div>
       )
     } else {
@@ -142,22 +190,35 @@ class FollowModal extends PureComponent {
             key={'swipe'}
           >
             <div style={styles.headline} key={'readers-following'}>
-              <div
-                className='modal-chips rf-modal row large-up-3 medium-up-2 small-up-1'
+              <PageScroller
+                clsName={
+                  'modal-chips row large-up-3 medium-up-2 small-up-1 rf-modal followers-scroll'
+                }
                 key={'users-following-this-user'}
+                fetchOnLoad={false}
+                fetchHandler={this.fetchFollowedHandler(id)}
+                isLocked={followed ? followed.locked : false}
+                currentPage={followed && followed.page ? followed.page / 1 : 0}
               >
                 {this.renderUsers(READER, followType, readersFollowed)}
-              </div>
+              </PageScroller>
             </div>
             <div style={styles.slide} key={'authors-following'}>
-              <div
-                className='modal-chips row large-up-3 medium-up-2 small-up-1'
+              <PageScroller
+                clsName={
+                  'modal-chips row large-up-3 medium-up-2 small-up-1 rf-modal followers-scroll'
+                }
                 key={'users-following-this-user'}
+                fetchOnLoad={false}
+                fetchHandler={this.fetchFollowedHandler(id)}
+                isLocked={followed ? followed.locked : false}
+                currentPage={followed && followed.page ? followed.page / 1 : 0}
               >
                 {this.renderUsers(AUTHOR, followType, authorsFollowed)}
-              </div>
+              </PageScroller>
             </div>
           </SwipeableViews>
+          { followed && followed.locked ? this.setLoading() : null }
         </div>
       )
     }
@@ -220,6 +281,9 @@ class FollowModal extends PureComponent {
 }
 
 const mapStateToProps = ({
+  currentReader: {
+    id,
+  },
   social: {
     followed = {},
     followers = {},
@@ -228,7 +292,13 @@ const mapStateToProps = ({
   return {
     followed,
     followers,
+    id,
   }
 }
 
-export default connect(mapStateToProps)(FollowModal)
+const mapDispatchToProps = {
+  fetchFollowers,
+  fetchFollowed,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FollowModal)

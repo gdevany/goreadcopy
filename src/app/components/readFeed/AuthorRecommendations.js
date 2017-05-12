@@ -22,11 +22,15 @@ class AuthorRecommendations extends PureComponent {
   }
 
   componentDidMount = () => {
-    this.props.getRecommendedAuthors(3)
+    this.props.getRecommendedAuthors(this.props.authorsToShow)
   }
 
   handleAuthorClick = () => {
     this.props.getFollowersAndFollowed(this.props.currentReaderId)
+  }
+
+  truncInfo = (text, limit) => {
+    return text.length >= limit ? `${text.slice(0, limit)}...` : text
   }
 
   renderAuthors = (authors) => {
@@ -36,6 +40,8 @@ class AuthorRecommendations extends PureComponent {
         fullname,
         imageUrl,
         booksWritten,
+        url,
+        shortBio,
       } = author
       return (
         <div className='column column-block' key={id}>
@@ -44,7 +50,8 @@ class AuthorRecommendations extends PureComponent {
             key={id}
             title={fullname}
             image={imageUrl}
-            description={'Nothing about me yet'}
+            link={url}
+            description={shortBio ? this.truncInfo(shortBio, 50) : 'Author'}
             booksWritten={booksWritten}
             context={READ_FEED}
             onClick={this.handleAuthorClick}
@@ -52,6 +59,16 @@ class AuthorRecommendations extends PureComponent {
         </div>
       )
     })
+  }
+
+  renderRecommendedAuthors = (authors) => {
+    const buzzAuthorsSize = Math.round((this.props.authorsToShow * 65) / 100)
+    const limitedBuzzAuthors = authors.buzz.results.slice(0, buzzAuthorsSize)
+    const lastBuzzAuthorsSize = this.props.authorsToShow - buzzAuthorsSize
+    const limitedLastBuzzAuthors = authors.buzzLastDays.results.slice(0, lastBuzzAuthorsSize)
+    const buzzAuthors = limitedBuzzAuthors.concat(limitedLastBuzzAuthors)
+
+    return this.renderAuthors(buzzAuthors)
   }
 
   render() {
@@ -65,7 +82,7 @@ class AuthorRecommendations extends PureComponent {
         {/** Derrick, feel free to change how it's rendered in different views: **/}
         <div className='row small-up-1'>
           { authors ?
-            this.renderAuthors(authors.buzz.results) : <div className='loading-animation'/>
+            this.renderRecommendedAuthors(authors) : <div className='loading-animation'/>
           }
         </div>
         {/* <div className='sub-link'>
@@ -97,6 +114,10 @@ const mapStateToProps = ({
 const mapDispatchToProps = {
   getRecommendedAuthors,
   getFollowersAndFollowed,
+}
+
+AuthorRecommendations.defaultProps = {
+  authorsToShow: 3
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthorRecommendations)

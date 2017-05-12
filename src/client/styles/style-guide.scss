@@ -80,9 +80,16 @@ input[type="checkbox"]:focus{
 .read-feed {
   padding-top: 80px;
   @media all and (min-width: 1200px){
-    padding-top: 30px;
+    padding-top: 84px;
   }
 }
+
+.profile-page-img-wrapper{
+  @media all and (min-width: 1200px){
+    padding-top: 64px;
+  }
+}
+
 
 .box {
   padding: 30px;
@@ -163,7 +170,7 @@ input[type="checkbox"]:focus{
   }
   .quotes-text{
     margin: 0;
-    word-break: break-all;
+    word-break: break-word;
   }
 }
 
@@ -322,6 +329,23 @@ input[type="checkbox"]:focus{
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.followers-scroll{
+  height: 55vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  @media all and (min-width: 1400px){
+    height: 65vh;
+  }
+}
+
+.margin-left{
+  margin-left: .5em;
+}
+
+.margin-right{
+  margin-right: .5em;
 }
 
 @import 'variables.scss';

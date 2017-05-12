@@ -7,6 +7,8 @@ const Endpoints = () => {
     readers: (params) => apiUrl('onboarding/readers', params),
     readerValidation: (params) => apiUrl('onboarding/readers/check', params),
     getGenres: (params) => apiUrl('genres', params),
+    getOnboardingGenres: (params) => apiUrl('onboarding/genres', params),
+    getHomeGenres: (params) => apiUrl('onboarding/genres/home', params),
     getBooks: (params) => apiUrl('onboarding/books', params),
     searchData: (params) => apiUrl('search', params),
     searchBooksData: (params) => apiUrl('books/library_search', params),
@@ -29,6 +31,7 @@ const Endpoints = () => {
     getStates: (id) => apiUrl(`forms/${id}/states`),
     currentReader: {
       getRecommendation: (params) => apiUrl('genres/top_users', params),
+      getOnboardingRecommendation: (params) => apiUrl('onboarding/genres/top_users', params),
       getRecommendedAuthors: (params) => apiUrl('current_reader/recommended/authors', params),
       getBookRecommendations: (params) => apiUrl('current_reader/recommended/books', params),
       getBookClubRecommendations: (params) => {
@@ -52,7 +55,9 @@ const Endpoints = () => {
       likedAuthors: (params) => apiUrl('current_reader/liked_authors', params),
       uploadImage: (params) => apiUrl('current_reader/images', params),
       getFollowers: (id) => apiUrl(`social/reader/${id}/followers`),
+      getFetchFollowers: (id, params) => apiUrl(`social/reader/${id}/followers`, params),
       getFollowed: (id) => apiUrl(`social/reader/${id}/followed`),
+      getFetchFollowed: (id, params) => apiUrl(`social/reader/${id}/followed`, params),
       updateReadFeedLikes: (id) => apiUrl(`social/posts/${id}/likes`),
       updateReadFeedComments: (id) => apiUrl(`social/posts/${id}/comments`),
       getReadFeedComments: (id) => apiUrl(`activities/${id}/comments`),

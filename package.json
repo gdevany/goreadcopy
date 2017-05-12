@@ -4,6 +4,10 @@
   "description": "The front-end for GoRead.",
   "scripts": {
     "build": "webpack --config webpack-production.config.js --colors",
+    "build:staging": "dotenv_config_file='.env-staging' npm run build",
+    "build:staging2": "dotenv_config_file='.env-staging2' npm run build",
+    "build:staging3": "dotenv_config_file='.env-staging3' npm run build",
+    "build:appcloud": "dotenv_config_file='.env-production' npm run build",
     "build:dev": "webpack --config webpack-dev-server.config.js --progress --colors",
     "deploy": "gcloud app deploy --project rl-staging",
     "heroku-postbuild": "npm run build",
@@ -50,7 +54,6 @@
     "basil.js": "^0.4.4",
     "bluebird": "^3.4.7",
     "body-parser": "^1.16.0",
-    "child_process": "^1.0.2",
     "compression": "^1.6.2",
     "compression-webpack-plugin": "^0.3.1",
     "concurrently": "^3.1.0",
@@ -105,6 +108,7 @@
     "url-loader": "^0.5.7",
     "webpack": "^1.14.0",
     "webpack-dev-middleware": "^1.9.0",
+    "webpack-fail-plugin": "^1.0.6",
     "webpack-hot-middleware": "^2.15.0",
     "webpack-isomorphic-tools": "^2.6.6"
   }

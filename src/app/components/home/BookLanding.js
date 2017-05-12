@@ -7,8 +7,9 @@ import { ExternalRoutes as routes } from '../../constants'
 import { Genres, Books } from '../../redux/actions'
 import { Book } from '../common'
 import { Colors, Breakpoints } from '../../constants/style'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
 
-const { getGenres } = Genres
+const { getHomeGenres } = Genres
 const { getBooks } = Books
 
 const styles = {
@@ -21,7 +22,7 @@ const styles = {
     maxWidth: 1150,
     width: '98%',
     boxShadow: '0px 2px 30px 0px rgba(0,0,0,0.2)',
-    zIndex: 10,
+    zIndex: 9,
 
     [Breakpoints.mobile]: {
       padding: '0 20px 50px 20px',
@@ -96,6 +97,10 @@ const styles = {
     fontWeight: '600',
     color: Colors.blue,
   },
+  refresh: {
+    display: 'inline-block',
+    position: 'relative',
+  },
 }
 
 class BookLanding extends PureComponent {
@@ -103,13 +108,22 @@ class BookLanding extends PureComponent {
     super(props)
     this.state = {
       genreSelected: 'Popular',
+      genreClicked: false,
     }
   }
 
   componentWillMount = () => {
-    const { books, genres, getBooks, getGenres } = this.props
+    const { books, genres, getBooks, getHomeGenres } = this.props
     if (R.isEmpty(books)) { getBooks() }
-    if (R.isEmpty(genres)) { getGenres() }
+    if (R.isEmpty(genres)) { getHomeGenres() }
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.books !== this.props.books) {
+      this.setState({
+        genreClicked: true,
+      })
+    }
   }
 
   handleMapGenres = (genres) => {
@@ -147,7 +161,6 @@ class BookLanding extends PureComponent {
         )
       }))
     }
-
     return result
   }
 
@@ -163,6 +176,7 @@ class BookLanding extends PureComponent {
     }
     this.setState({
       genreSelected,
+      genreClicked: false,
     })
   }
 
@@ -190,13 +204,13 @@ class BookLanding extends PureComponent {
             </div>
 
             <div style={styles.shopContainer} className='row'>
-              <div style={styles.shopTitleContainer} className='small-1 columns'>
+              <div style={styles.shopTitleContainer} className='small-12 medium-1 columns'>
                 <span style={styles.shopText} className='shop-nav-item'>
                 Shop:
                 </span>
               </div>
 
-              <div className='small-10 columns'>
+              <div className='small-10 medium-10 columns'>
                 <ul style={styles.shopUl}>
                   <li style={styles.shopList} />
                   <li style={styles.shopList} className='link shop-nav-item' >
@@ -212,7 +226,7 @@ class BookLanding extends PureComponent {
                 </ul>
               </div>
 
-              <div style={styles.shopMoreContainer} className='small-1 columns'>
+              <div style={styles.shopMoreContainer} className='small-2 medium-1 columns'>
                 <a style={styles.shopMoreText} className='link shop-nav-item' href={bookStore()}>
                   Shop more
                 </a>
@@ -222,7 +236,18 @@ class BookLanding extends PureComponent {
         </div>
 
         <div className='row slide-up' style={styles.bookSection}>
-          {this.handleMapBooks(books)}
+          {books && this.state.genreClicked ? this.handleMapBooks(books) : (
+            <div className='small-12 center-text columns'>
+              <RefreshIndicator
+                size={50}
+                left={0}
+                top={0}
+                loadingColor={Colors.blue}
+                status='loading'
+                style={styles.refresh}
+              />
+            </div>
+          )}
         </div>
       </div>
     )
@@ -236,4 +261,4 @@ const mapStateToProps = ({ genres, books }) => {
   }
 }
 
-export default connect(mapStateToProps, { getGenres, getBooks })(Radium(BookLanding))
+export default connect(mapStateToProps, { getHomeGenres, getBooks })(Radium(BookLanding))

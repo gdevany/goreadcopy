@@ -1,5 +1,11 @@
 @import 'variables.scss';
 
+.settings-page{
+  @media all and (min-width: 1200px) {
+    padding: 64px;
+  }
+}
+
 .settings-tabs-container{
   display: flex;
   justify-content: flex-start;

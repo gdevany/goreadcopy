@@ -57,12 +57,12 @@ const Book = ({ book }) => {
         style={styles.bookImage}
         className='book-container'
       >
-        <a href={book.link || book.slug}>
+        <a href={book.link}>
           <img className='book' src={book.imageUrl} />
         </a>
       </div>
       <div style={styles.tooltip}>
-        <a href={book.slug}>
+        <a href={book.link}>
           <span className='link'>
             {book.title ? truncInfo(book.title, 30) : null}
           </span>

@@ -55,19 +55,23 @@ class LeftHandLinks extends PureComponent {
 
   handleMapHiddenMenuItems = () => {
     const {
-      booksWithKen,
+      goReadBooks,
       childrensLiteracy,
       videoTutorials,
       referrals,
       games,
+      authors,
+      publishers,
     } = routes
 
     const leftMenuRoutes = [
-      ['Books With Ken', booksWithKen],
+      ['GoRead Books', goReadBooks],
       ['Children\'s Literacy', childrensLiteracy],
       ['Video Tutorials', videoTutorials],
       ['Referrals', referrals],
       ['Games', games],
+      ['Author Enrollment', authors],
+      ['Publisher Enrollment', publishers],
     ]
 
     const leftMenuItem = ([title, routeFn], index) => (

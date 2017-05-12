@@ -26,7 +26,7 @@ class StatusPostTile extends PureComponent {
       for (let i = 0; i < mentionList.length; i++) {
         if (mentionList[i].mention === entry) {
           const splitResult = this.splitMention(mentionList[i].url)
-          if (splitResult[splitResult.length - 3] === 'profile') {
+          if (splitResult && splitResult[3] === 'profile') {
             return (
               <Link key={index} to={`profile/${splitResult[splitResult.length - 2]}`}>
                 {mentionList[i].name}
@@ -54,6 +54,7 @@ class StatusPostTile extends PureComponent {
     const {
       tileDefaultProps: {
         author,
+        target,
         description,
         timestamp,
         likes,
@@ -64,7 +65,10 @@ class StatusPostTile extends PureComponent {
       },
       content
     } = this.props
+
     const splittedContent = this.splitContent(content.description)
+    const splittedPostContent = this.splitContent(content.socialPostComment)
+
     let videoInfo = ''
     if (content.activeContent && content.activeContent.providerName === 'Dailymotion') {
       videoInfo = urlParser.parse(content.activeContent.url)
@@ -73,6 +77,7 @@ class StatusPostTile extends PureComponent {
       <TileDefault
         tileId={id}
         author={author}
+        target={target}
         description={description}
         timestamp={timestamp}
         likes={likes}
@@ -83,7 +88,14 @@ class StatusPostTile extends PureComponent {
         <div className='statuspost-tile-container'>
           <div className='post-excerpt-container'>
             <p className='post-excerpt-pharagraph'>
-              {content.socialComment ? content.socialComment : null}
+              {
+                content.mentionsPostList !== null || content.socialPostComment !== 'None' ?
+                  (
+                    splittedPostContent.map((entry, index) => {
+                      return this.renderContentWithMentions(entry, index, content.mentionsPostList)
+                    })
+                  ) : null
+              }
             </p>
           </div>
           { content.image ?
@@ -119,28 +131,33 @@ class StatusPostTile extends PureComponent {
                 }
                 { content.activeContent.type === 'link' ?
                   (
-                    <div className='active-content-link-container'>
-                      <figure className='active-content-link-figure'>
-                        <img src={content.activeContent.thumbnailUrl}/>
-                      </figure>
-                      <div className='active-content-description'>
-                        <h5>
-                          {content.activeContent.title}
-                        </h5>
-                        <div className='post-excerpt-container'>
-                          <p className='post-excerpt-pharagraph'>
-                            {this.truncInfo(content.activeContent.description, 120)}
-                            <a
-                              href={content.activeContent.url}
-                              target='_blank'
-                              className='post-readmore-anchor'
-                            >
-                              Read more
-                            </a>
-                          </p>
+                    <a href={content.activeContent.url}>
+                      <div className='active-content-link-container'>
+                          {content.activeContent.thumbnailUrl !== undefined ?
+                            (
+                              <figure className='active-content-link-figure'>
+                                <img src={content.activeContent.thumbnailUrl}/>
+                              </figure>
+                            ) : null
+                          }
+                          <div className='active-content-description'>
+                            {content.activeContent.title !== undefined ?
+                              (
+                                <h5>
+                                  {content.activeContent.title}
+                                </h5>
+                              ) : null
+                            }
+                            <div className='post-excerpt-container'>
+                              <p className='post-excerpt-pharagraph'>
+                                {content.activeContent.description !== undefined ?
+                                  this.truncInfo(content.activeContent.description, 120) : null
+                                }
+                              </p>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
+                      </a>
                   ) : null
                 }
               </div>
