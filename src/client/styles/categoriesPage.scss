@@ -135,7 +135,77 @@
         }
       }
       .categorypage-single-filter-title{
+        padding: 21px 0;
         font-weight: 600;
+      }
+      .categorypage-filter-popup-container{
+        position: absolute;
+        width: 250px;
+        height: auto;
+        max-height: 400px;
+        overflow-y: scroll;
+        overflow-y: scroll;
+        height: auto;
+        padding: 15px;
+        background-color: $white;
+        z-index: 2;
+        top: 66px;
+        left: 0;
+        .categorypage-category-selected-container{
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          flex-direction: row;
+          .categorypage-category-selected{
+            margin: 0;
+          }
+          .categorypage-category-label{
+            text-transform: capitalize;
+            font-weight: 500;
+          }
+        }
+        .categorypage-subcategories-filters-elems{
+          margin-left: 30px;
+          margin-top: 10px;
+          .categorypage-subcategory-filters{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: row;
+            margin-top: 15px;
+            .categorypage-category-selected{
+              margin: 0;
+            }
+            .categorypage-category-label{
+              text-transform: capitalize;
+              font-weight: 500;
+            }
+          }
+        }
+        .categorypage-filter-rating-element{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-direction: row;
+          padding: 10px 0;
+          .categorypage-rating-radio{
+            margin: 0;
+          }
+          .categorypage-rating-label{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: row;
+            .rating-icon{
+              height: 16px;
+              margin-right: 3.5px;
+            }
+            .categorypage-rating-label-text{
+              font-size: 15px;
+              margin-left: 10px;
+            }
+          }
+        }
       }
     }
   }
