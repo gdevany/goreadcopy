@@ -67,9 +67,9 @@ class SocketHandler extends PureComponent {
 
   playNotificationSound(id) {
     const { isMessagesOpen, isContactsOpen, conversations } = this.props
-    const { isOpen } = id ? R.find(R.propEq('id', id), conversations) : null
+    const chatInstance = id ? R.find(R.propEq('id', id), conversations) : null
     if (isMessagesOpen || isContactsOpen) { return }
-    if (id && isOpen) { return }
+    if (id && chatInstance && chatInstance.isOpen) { return }
     this.setState({ playStatus: Sound.status.PLAYING })
   }
 
