@@ -1,7 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react'
 import { stack as MobileMenu } from 'react-burger-menu'
 import { Link } from 'react-router'
-import { Auth, CurrentReader, Chat } from '../../redux/actions'
+import { Auth, CurrentReader, Chat, Notifications as NotifActions } from '../../redux/actions'
 import { connect } from 'react-redux'
 import R from 'ramda'
 import SecondaryButton from './SecondaryButton'
@@ -20,6 +20,7 @@ import { Notifications, ChatsContainer } from './chatNotifications'
 import './styles/mobile-menu.scss'
 
 const { toggleMessagePopup } = Chat
+const { loadNotifications } = NotifActions
 const { CATEGORIES, GENRES } = PopularTopics
 const { usePlatformAs, getCurrentReader, logoutCurrentReader } = CurrentReader
 const { verifyUserToken, processUserLogout } = Auth
@@ -179,6 +180,10 @@ class NavMenu extends PureComponent {
         isReadFeed: false,
       })
     }
+  }
+
+  componentDidMount() {
+    this.props.loadNotifications()
   }
 
   handleModalOpen = () => {
@@ -965,7 +970,7 @@ class NavMenu extends PureComponent {
             handleClose={this.handleSearchClose}
           />
         </div>
-        {this.state.notificationsOpen ? <Notifications /> : null}
+        <Notifications isOpen={this.state.notificationsOpen} />
         { this.props.chat.isMessagesOpen ?
           <ChatsContainer showMethod={this.handleChatsContainerShow}/> : null
         }
@@ -1060,7 +1065,8 @@ const mapDispatchToProps = {
   usePlatformAs,
   getCurrentReader,
   verifyUserToken,
-  toggleMessagePopup
+  toggleMessagePopup,
+  loadNotifications,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavMenu)

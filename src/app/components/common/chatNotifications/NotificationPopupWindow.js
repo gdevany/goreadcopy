@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Notifications as NotificationActions } from '../../../redux/actions'
 import { Notifications as NotificationServices } from '../../../services/api/currentReader'
 import moment from 'moment'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
+import { Colors } from '../../../constants/style'
 
-const { loadNotifications } = NotificationActions
 const { setReadNotifications } = NotificationServices
 
 class NotificationPopupWindow extends PureComponent {
@@ -15,20 +15,16 @@ class NotificationPopupWindow extends PureComponent {
     }
   }
 
-  componentDidMount() {
-    this.props.loadNotifications()
-  }
-
   componentDidUpdate(prevProps, prevState) {
     this.updateNotificationReadStatus()
   }
 
   updateNotificationReadStatus() {
-    const { notifications: { results, unreadCount } } = this.props
+    const { isOpen, notifications: { results, unreadCount } } = this.props
     const { isLockedForNotifUpdate } = this.locals
     if (
       unreadCount && results &&
-      !isLockedForNotifUpdate
+      !isLockedForNotifUpdate && isOpen
     ) {
       this.locals.isLockedForNotifUpdate = true
       setReadNotifications()
@@ -36,6 +32,34 @@ class NotificationPopupWindow extends PureComponent {
         .then(()=>{ this.locals.isLockedForNotifUpdate = false })
         .catch(err=>console.log(err))
     }
+  }
+
+  loading() {
+    return (
+      <div
+        className='statuspost-loader'
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'row',
+          width: '100%',
+          height: '70px',
+          alignItems: 'center',
+        }}
+      >
+        <RefreshIndicator
+          size={40}
+          left={0}
+          top={0}
+          loadingColor={Colors.blue}
+          status='loading'
+          style={{
+            display: 'inline-block',
+            position: 'relative',
+          }}
+        />
+      </div>
+    )
   }
 
   drawNotification(el, idx) {
@@ -85,18 +109,18 @@ class NotificationPopupWindow extends PureComponent {
   }
 
   render() {
-    const { results } = this.props.notifications
-    return (
+    const { isOpen, notifications: { results } } = this.props
+    return isOpen ? (
       <section className='notifications-main-frame-container'>
         <section className='notifications-frame-container'>
           {
             results && results.length > 0 ?
               results.map(this.drawNotification) :
-              null
+              this.loading()
           }
         </section>
       </section>
-    )
+    ) : null
   }
 
   renderExamples() {
@@ -252,8 +276,4 @@ const mapStateToProps = ({
   }
 }
 
-const mapDispatchToProps = {
-  loadNotifications,
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(NotificationPopupWindow)
+export default connect(mapStateToProps, null)(NotificationPopupWindow)
