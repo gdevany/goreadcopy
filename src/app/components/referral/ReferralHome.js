@@ -90,7 +90,6 @@ class ReferralHome extends PureComponent {
       if (currentReader.slug === nextSlug) {
         this.props.getCurrentReader()
         this.setReaderData(nextSlug)
-        console.log('here')
       } else {
         this.props.getProfilePage(nextSlug, isUserLoggedIn)
       }
@@ -104,9 +103,7 @@ class ReferralHome extends PureComponent {
     })
   }
 
-  render() {
-    const { profilePage } = this.props
-    const referrer = profilePage
+  renderReferralSignup = (referrer) => {
     return (
       <div className='home'>
         <Helmet>
@@ -120,6 +117,17 @@ class ReferralHome extends PureComponent {
         <CallToActionBottom />
         <Footer />
       </div>
+    )
+  }
+
+  render() {
+    const { isMyProfile, currentReader, profilePage } = this.props
+    const referrer = (isMyProfile ? currentReader : profilePage)
+    if (Auth.currentUserExists()) {
+      this.props.router.push('/')
+    }
+    return (
+      this.renderReferralSignup(referrer)
     )
   }
 }
