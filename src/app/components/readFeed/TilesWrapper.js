@@ -188,12 +188,22 @@ const TilesWrapper = ({ feed }) => {
             }
             return `${<i>Unknown</i>}`
           }
+          const getBookAuthor = () => {
+            if (tileContent.book && tileContent.book.authors && tileContent.book.authors.length) {
+              return tileContent.book.authors[0].fullname
+            }
+            if (tileContent.authors && tileContent.authors.length) {
+              return tileContent.authors[0].fullname
+            }
+            return `${<i>Unknown</i>}`
+          }
           const bookAndProductContent = {
             title: (tile.target.name || tile.target.title || tileContent.title),
             description: (tileContent.body || tileContent.description),
             image: tileContent.imageUrl,
             rating: tileContent.rating.average,
             author: getName(),
+            bookAuthor: getBookAuthor(),
             url: getUrl(),
             socialComment: (shareComment || ''),
             mentionsList: (shareMentions || null),
