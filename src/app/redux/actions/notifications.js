@@ -9,12 +9,20 @@ export function loadNotifications() {
   }
 }
 
-export function resetReadNotifications() {
+export function markNotificationsAsRead() {
   return dispatch => {
     return Promise.resolve(dispatch({ type: N.RESET_NOTIFICATION_COUNT }))
   }
 }
 
+export function updateUnreadNotificationNumber(unread) {
+  return dispatch => {
+    return Promise.resolve(dispatch({ type: N.UPDATE_UNREAD_NOTIFICATIONS, payload: { unread } }))
+  }
+}
+
 export default {
-  loadNotifications
+  loadNotifications,
+  markNotificationsAsRead,
+  updateUnreadNotificationNumber,
 }

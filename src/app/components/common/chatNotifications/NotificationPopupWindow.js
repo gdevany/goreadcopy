@@ -1,11 +1,13 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Notifications as NotificationServices } from '../../../services/api/currentReader'
+import { Notifications as NotificationActions } from '../../../redux/actions'
 import moment from 'moment'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { Colors } from '../../../constants/style'
 
 const { setReadNotifications } = NotificationServices
+const { markNotificationsAsRead } = NotificationActions
 
 class NotificationPopupWindow extends PureComponent {
   constructor(props) {
@@ -28,7 +30,7 @@ class NotificationPopupWindow extends PureComponent {
     ) {
       this.locals.isLockedForNotifUpdate = true
       setReadNotifications()
-        .then(this.props.resetReadNotifications())
+        .then(()=>{ this.props.markNotificationsAsRead() })
         .then(()=>{ this.locals.isLockedForNotifUpdate = false })
         .catch(err=>console.log(err))
     }
@@ -276,4 +278,8 @@ const mapStateToProps = ({
   }
 }
 
-export default connect(mapStateToProps, null)(NotificationPopupWindow)
+const mapDispathToProps = {
+  markNotificationsAsRead
+}
+
+export default connect(mapStateToProps, mapDispathToProps)(NotificationPopupWindow)

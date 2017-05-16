@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Chat as ChatServices } from '../../services/api/currentReader'
 import { Env } from '../../constants'
-import { Chat as ChatActions } from '../../redux/actions'
+import { Chat as ChatActions, Notifications as NotificationsActions } from '../../redux/actions'
 import R from 'ramda'
 import Sound from 'react-sound'
 //import NotificationSound from '../../../client/media/sounds/notification.mp3'
@@ -13,6 +13,9 @@ const {
   updateUnreadChatNumber,
   appendReceivedChatMessage
 } = ChatActions
+const {
+  updateUnreadNotificationNumber
+} = NotificationsActions
 
 let socket, interval
 const uri = Env.SOCKET_URL
@@ -80,7 +83,7 @@ class SocketHandler extends PureComponent {
     switch (message.type) {
       case 'activity':
         // Handle activity message
-        //console.log(message.data)
+        //console.log('Activity', message.data)
         break
       case 'chat-notification':
         // Handle received notifications for unread chats.
@@ -89,7 +92,8 @@ class SocketHandler extends PureComponent {
         break
       case 'activity-notification':
         // Handle activity notification
-        //console.log(message.data)
+        this.props.updateUnreadNotificationNumber(message.data)
+        this.playNotificationSound()
         break
       case 'chat':
         // Handle received chat posts for conversations.
@@ -143,7 +147,8 @@ const mapStateAsProps = ({
 const mapDispatchAsProps = {
   updateOnlineStatus,
   updateUnreadChatNumber,
-  appendReceivedChatMessage
+  appendReceivedChatMessage,
+  updateUnreadNotificationNumber,
 }
 
 export default connect(mapStateAsProps, mapDispatchAsProps)(SocketHandler)
