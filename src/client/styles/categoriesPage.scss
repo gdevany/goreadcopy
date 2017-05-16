@@ -206,6 +206,65 @@
             }
           }
         }
+        .categorypage-filter-price-row{
+          .categorypage-filter-price-row-element{
+            padding: 15px 0 0 0;
+            .categorypage-filter-price-label{
+              font-size: 15px;
+            }
+          }
+          .categorypage-filter-custom-price{
+            padding: 15px 0;
+            .categorypage-filter-custom-price-title{
+              font-size: 16px;
+              padding-bottom: 15px;
+              display: block;
+            }
+            .categorypage-filter-custom-inputs-container{
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+              flex-direction: row;
+              .categorypage-filter-custom-input-dollar{
+                font-weight: 600;
+                margin-right: 10px;
+              }
+              .categorypage-filter-custom-input-sepparator{
+                margin-right: 10px;
+              }
+              .categorypage-filter-custom-input{
+                width: 45px;
+                height: 30px;
+                margin: 0;
+                margin-right: 10px;
+                font-size: 12px;
+                padding: 5px;
+              }
+            }
+          }
+          .categorypage-filter-price-submit-container{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .categorypage-filter-price-submit{
+              display: block;
+              color: #CACACA;
+              border: solid 1px #CACACA;
+              margin: 5px 0;
+              padding: 10px 20px;
+              border-radius: 23px;
+              font-size: 14px;
+              text-align: center;
+              transition: all .3s ease;
+              &:hover{
+                color: $white;
+                border-color: transparent;
+                background-color: #0099ff;
+              }
+            }
+          }
+        }
       }
     }
   }

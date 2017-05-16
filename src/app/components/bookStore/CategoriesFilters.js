@@ -10,9 +10,11 @@ class CategoriesFilters extends PureComponent {
       selectedCategory: '',
       isSubcategoriesOpen: false,
       isRatingOpen: false,
+      isPriceOpen: false,
     }
     this.handleSubCategoriesClick = this.handleSubCategoriesClick.bind(this)
     this.handleRatingClick = this.handleRatingClick.bind(this)
+    this.handlePriceClick = this.handlePriceClick.bind(this)
   }
 
   static contextTypes = {
@@ -31,6 +33,7 @@ class CategoriesFilters extends PureComponent {
   handleSubCategoriesClick = () => {
     this.setState({
       isSubcategoriesOpen: !this.state.isSubcategoriesOpen,
+      isPriceOpen: false,
       isRatingOpen: false,
     })
   }
@@ -38,7 +41,16 @@ class CategoriesFilters extends PureComponent {
   handleRatingClick = () => {
     this.setState({
       isSubcategoriesOpen: false,
+      isPriceOpen: false,
       isRatingOpen: !this.state.isRatingOpen
+    })
+  }
+
+  handlePriceClick = () => {
+    this.setState({
+      isSubcategoriesOpen: false,
+      isRatingOpen: false,
+      isPriceOpen: !this.state.isPriceOpen
     })
   }
 
@@ -195,8 +207,97 @@ class CategoriesFilters extends PureComponent {
     )
   }
 
+  renderPriceFilter = () => {
+    return (
+      <div className='categorypage-filter-popup-container'>
+        <div className='categorypage-filter-price-row'>
+          <div className='categorypage-filter-price-row-element'>
+            <input
+              id='zero-to-ten'
+              className='categorypage-filter-price-row-checkbox'
+              type='checkbox'
+              value='zero-to-ten'
+            />
+            <label
+              htmlFor='zero-to-ten'
+              className='categorypage-filter-price-label'
+            >
+              $0 - $10
+            </label>
+          </div>
+          <div className='categorypage-filter-price-row-element'>
+            <input
+              id='ten-to-twentyfive'
+              className='categorypage-filter-price-row-checkbox'
+              type='checkbox'
+              value='ten-to-twentyfive'
+            />
+            <label
+              htmlFor='ten-to-twentyfive'
+              className='categorypage-filter-price-label'
+            >
+              $10 - $25
+            </label>
+          </div>
+          <div className='categorypage-filter-price-row-element'>
+            <input
+              id='twentyfive-to-fifty'
+              className='categorypage-filter-price-row-checkbox'
+              type='checkbox'
+              value='twentyfive-to-fifty'
+            />
+            <label
+              htmlFor='twentyfive-to-fifty'
+              className='categorypage-filter-price-label'
+            >
+              $25 - $50
+            </label>
+          </div>
+          <div className='categorypage-filter-price-row-element'>
+            <input
+              id='fifty-above'
+              className='categorypage-filter-price-row-checkbox'
+              type='checkbox'
+              value='fifty-above'
+            />
+            <label
+              htmlFor='fifty-above'
+              className='categorypage-filter-price-label'
+            >
+              $50 - Above
+            </label>
+          </div>
+        </div>
+        <div className='categorypage-filter-price-row'>
+          <div className='categorypage-filter-custom-price'>
+            <span className='categorypage-filter-custom-price-title'>
+              Set your own:
+            </span>
+            <div className='categorypage-filter-custom-inputs-container'>
+              <span className='categorypage-filter-custom-input-dollar'>
+                $
+              </span>
+              <input className='categorypage-filter-custom-input' type='number' min='0'/>
+              <span className='categorypage-filter-custom-input-sepparator'>
+                to
+              </span>
+              <span className='categorypage-filter-custom-input-dollar'>
+                $
+              </span>
+              <input className='categorypage-filter-custom-input' type='number' min='0'/>
+            </div>
+          </div>
+          <div className='categorypage-filter-price-submit-container'>
+            <a className='categorypage-filter-price-submit'>
+              Apply
+            </a>
+          </div>
+        </div>
+      </div>
+    )
+  }
   render() {
-    const { isSubcategoriesOpen, isRatingOpen } = this.state
+    const { isSubcategoriesOpen, isRatingOpen, isPriceOpen } = this.state
 
     return (
       <section className='categorypage-main-filters-container'>
@@ -231,10 +332,14 @@ class CategoriesFilters extends PureComponent {
             {isRatingOpen ? this.renderRatingFilter() : null}
           </div>
           <div className='categorypage-single-filter-container'>
-            <span className='categorypage-single-filter-title'>
+            <span
+              onClick={this.handlePriceClick}
+              className='categorypage-single-filter-title'
+            >
               Price
             </span>
-            <ArrowDownIcon />
+            {isPriceOpen ? <ArrowUpIcon onClick={this.handlePriceClick}/> : <ArrowDownIcon />}
+            {isPriceOpen ? this.renderPriceFilter() : null}
           </div>
           <div className='categorypage-single-filter-container'>
             <span className='categorypage-single-filter-title'>
