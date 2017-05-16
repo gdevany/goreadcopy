@@ -106,28 +106,31 @@
       }
       .slick-track{
         height: 140px;
-        .category-on-carousel-square{
-          width: 150px;
-          height: 115px;
-          margin: 0 6px;
-          text-align: center;
-          background: $white;
-          border-radius: 5px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          box-shadow: 0px 0px 9px 1px rgba(222, 222, 222, 0.5);
-          background-image: linear-gradient(-134deg, #FFFFFF 0%, #F8FFFE 63%, #F7FCFF 100%);
-          @media all and (min-width: 768px) {
-            margin: 0 7.5px;
-          }
-          &:hover{
-            cursor: pointer;
-          }
-          .category-on-carousel-name{
-            color: #00CCCC;
-            font-weight: 600;
-            font-size: 15px;
+        a{
+          .category-on-carousel-square{
+            width: 150px;
+            height: 115px;
+            margin: 0 6px;
+            text-align: center;
+            background: $white;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0px 0px 9px 1px rgba(222, 222, 222, 0.5);
+            background-image: linear-gradient(-134deg, #FFFFFF 0%, #F8FFFE 63%, #F7FCFF 100%);
+            @media all and (min-width: 768px) {
+              margin: 0 7.5px;
+            }
+            &:hover{
+              cursor: pointer;
+            }
+            .category-on-carousel-name{
+              color: #00CCCC;
+              font-weight: 600;
+              font-size: 15px;
+              text-transform: capitalize;
+            }
           }
         }
       }
@@ -230,7 +233,7 @@
       align-items: flex-start;
       flex-direction: row;
       width: 100%;
-      overflow-x: scroll;
+      overflow-x: auto;
       height: 270px;
       .book-container{
         transition: none;

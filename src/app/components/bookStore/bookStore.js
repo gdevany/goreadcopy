@@ -33,7 +33,7 @@ class BookStore extends PureComponent {
       this.setState({
         categories: nextProps.categories
       })
-      if (!this.state.isRandomSelected) {
+      if (!this.state.isRandomSelected && nextProps.categories.length > 40) {
         this.setRandomCategory()
       }
     }

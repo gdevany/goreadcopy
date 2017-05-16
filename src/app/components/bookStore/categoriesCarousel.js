@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import Slider from 'react-slick'
 
 const settings = {
@@ -8,7 +9,7 @@ const settings = {
   speed: 500,
   slidesToShow: 5,
   variableWidth: true,
-  slidesToScroll: 1,
+  slidesToScroll: 5,
   responsive: [
     {
       breakpoint: 768,
@@ -16,58 +17,70 @@ const settings = {
     },
     {
       breakpoint: 1024,
-      settings: { slidesToShow: 3 }
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+      }
     },
     {
       breakpoint: 1200,
-      settings: { slidesToShow: 5 }
+      settings: {
+        slidesToShow: 5,
+        slidesToScroll: 5,
+      }
     },
   ]
 }
 class CategoriesCarousel extends PureComponent {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      categories: false,
+    }
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.categories) {
+      this.setState({
+        categories: nextProps.categories,
+      })
+    }
+  }
+
+  renderCategories = () => {
+    const { categories } = this.state
+    return categories.slice(0, 24).map((category, index) => {
+      return (
+        <a href={`/categories/${category.slug}`}>
+          <div key={category.id} className='category-on-carousel-square'>
+            <span className='category-on-carousel-name'>
+                {category.name}
+            </span>
+          </div>
+        </a>
+      )
+    })
+  }
+
   render() {
-    return (
-      <div className='categories-on-carousel-container'>
-        <Slider {...settings}>
-          <div className='category-on-carousel-square'>
-            <span className='category-on-carousel-name'>
-              Science Fiction
-            </span>
-          </div>
-          <div className='category-on-carousel-square'>
-            <span className='category-on-carousel-name'>
-              Science Fiction 2
-            </span>
-          </div>
-          <div className='category-on-carousel-square'>
-            <span className='category-on-carousel-name'>
-              Science Fiction 3
-            </span>
-          </div>
-          <div className='category-on-carousel-square'>
-            <span className='category-on-carousel-name'>
-              Science Fiction 4
-            </span>
-          </div>
-          <div className='category-on-carousel-square'>
-            <span className='category-on-carousel-name'>
-              Science Fiction 5
-            </span>
-          </div>
-          <div className='category-on-carousel-square'>
-            <span className='category-on-carousel-name'>
-              Science Fiction 6
-            </span>
-          </div>
-          <div className='category-on-carousel-square'>
-            <span className='category-on-carousel-name'>
-              Science Fiction 7
-            </span>
-          </div>
-        </Slider>
-      </div>
-    )
+    if (this.state.categories) {
+      return (
+        <div className='categories-on-carousel-container'>
+          <Slider {...settings}>
+            {this.renderCategories()}
+          </Slider>
+        </div>
+      )
+    }
+    return null
   }
 }
 
-export default CategoriesCarousel
+const mapStateToProps = (state) => {
+  return {
+    categories: state.store.categories,
+  }
+}
+
+export default connect(mapStateToProps, null)(CategoriesCarousel)

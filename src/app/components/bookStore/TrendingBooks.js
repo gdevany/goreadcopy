@@ -34,7 +34,7 @@ class TrendingBooks extends PureComponent {
       return (
         <Book
           key={book.id}
-          url={book.link}
+          url={`/book/${book.slug}`}
           image={book.imageUrl}
           id={book.id}
           title={book.title}
