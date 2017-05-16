@@ -22,6 +22,7 @@ class BookStoreNavBar extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
+      isUserLogged: false,
       profileMenuOpen: false,
       readerFetched: false,
       usePlatformAs: false,
@@ -50,8 +51,7 @@ class BookStoreNavBar extends PureComponent {
   }
 
   componentWillReceiveProps = (nextProps) => {
-
-    if (nextProps.currentReader.token && !this.state.readerFetched) {
+    if (nextProps.isUserLogged && !this.state.readerFetched) {
       this.props.getCurrentReader()
       this.setState({
         readerFetched: true
