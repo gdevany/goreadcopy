@@ -17,4 +17,5 @@ export default {
   social: emptyState(),
   tiles: emptyState(),
   sidebarAds: emptyState(),
+  store: emptyState(),
 }

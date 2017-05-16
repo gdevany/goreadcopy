@@ -64,6 +64,11 @@ const Endpoints = () => {
       postMessage: (params) => apiUrl('current_reader/posts', params),
       logoutCurrentReader: () => apiUrl('current_reader/logout'),
     },
+    store: {
+      getBestSellers: (params) => apiUrl('store/best_seller_books', params),
+      getCategories: (params) => apiUrl('store/categories', params),
+      getTrendingBooks: (params) => apiUrl('store/trending_books', params),
+    },
     jwtRefresh: () => apiUrl('token/refresh'),
     jwtAuth: () => apiUrl('token/auth'),
     jwtVerify: () => apiUrl('token/verify'),

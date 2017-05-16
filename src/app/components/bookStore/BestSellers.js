@@ -1,78 +1,71 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
+import { Store } from '../../redux/actions'
 import Book from './Book'
 
+const { getBestSellers } = Store
+
 class BestSellers extends PureComponent {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      bestSellers: false,
+    }
+  }
+
+  componentWillMount = () => {
+    if (this.props.category) {
+      this.props.getBestSellers(this.props.category.id)
+    }
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.bestSellers) {
+      this.setState({
+        bestSellers: nextProps.bestSellers,
+      })
+    }
+  }
+
+  renderBestSellers = () => {
+    const { bestSellers } = this.state
+    return bestSellers.results.map((book, index) => {
+      return (
+        <Book
+          key={book.id}
+          url={book.link}
+          image={book.imageUrl}
+          id={book.id}
+          title={book.title}
+          authors={book.authors}
+          rating={book.rating}
+        />
+      )
+    })
+  }
+
   render() {
-    return (
-      <section className='bookstore-best-sellers-container'>
-        <h4 className='bookstore-row-books-title'>
-          Science Fiction best sellers
-        </h4>
-        <div className='bookstore-row-books-contaier'>
-          <Book
-            url='#'
-            image='/image/example1.png'
-            id='1'
-            title='Harry Potter'
-            authors='J.K Rowling'
-            rating={{
-              count: 2,
-              average: 5,
-              total: 10
-            }}
-          />
-          <Book
-            url='#'
-            image='/image/example2.png'
-            id='1'
-            title='Harry Potter'
-            authors='J.K Rowling'
-            rating={{
-              count: 2,
-              average: 5,
-              total: 10
-            }}
-          />
-          <Book
-            url='#'
-            image='/image/example3.png'
-            id='1'
-            title='Harry Potter'
-            authors='J.K Rowling'
-            rating={{
-              count: 2,
-              average: 5,
-              total: 10
-            }}
-          />
-          <Book
-            url='#'
-            image='/image/example4.png'
-            id='1'
-            title='Harry Potter'
-            authors='J.K Rowling'
-            rating={{
-              count: 2,
-              average: 5,
-              total: 10
-            }}
-          />
-          <Book
-            url='#'
-            image='/image/example5.png'
-            id='1'
-            title='Harry Potter'
-            authors='J.K Rowling'
-            rating={{
-              count: 2,
-              average: 5,
-              total: 10
-            }}
-          />
-        </div>
-      </section>
-    )
+    if (this.state.bestSellers && this.state.bestSellers.count > 0) {
+      return (
+        <section className='bookstore-best-sellers-container'>
+          <h4 className='bookstore-row-books-title'>
+            {this.props.category.name} best sellers
+          </h4>
+          <div className='bookstore-row-books-contaier'>
+            {this.renderBestSellers()}
+          </div>
+        </section>
+      )
+    }
+    return null
   }
 }
 
-export default BestSellers
+const mapStateToProps = (state) => {
+  return {
+    bestSellers: state.store.bestSellers,
+  }
+}
+
+export default connect(mapStateToProps, { getBestSellers })(BestSellers)

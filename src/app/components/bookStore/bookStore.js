@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import { BookStoreNavBar } from '../common'
 import BookStoreHero from './BookStoreHero'
 import CategoriesCarousel from './CategoriesCarousel'
@@ -7,12 +8,50 @@ import RecommendedBooks from './RecommendedBooks'
 import BestSellers from './BestSellers'
 import TrendingBooks from './TrendingBooks'
 import { Footer } from '../common'
+import { Store } from '../../redux/actions'
 import { Auth } from '../../services'
 
 const isUserLoggedIn = Auth.currentUserExists()
+const { getCategories } = Store
 
 class BookStore extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = {
+      categories: null,
+      randomCategory: null,
+      isRandomSelected: false,
+    }
+  }
+
+  componentWillMount = () => {
+    this.props.getCategories()
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.categories) {
+      this.setState({
+        categories: nextProps.categories
+      })
+      if (!this.state.isRandomSelected) {
+        this.setRandomCategory()
+      }
+    }
+  }
+
+  setRandomCategory = () => {
+    const { categories } = this.state
+    if (categories) {
+      const catLength = categories.length
+      this.setState({
+        randomCategory: categories[Math.floor((Math.random() * catLength) + 1)],
+        isRandomSelected: true,
+      })
+    }
+  }
+
   render() {
+    const { randomCategory } = this.state
     return (
       <div>
         <BookStoreNavBar/>
@@ -30,10 +69,10 @@ class BookStore extends PureComponent {
         </div>
         <div className='row'>
           <div className='large-12 columns'>
-            <BestSellers />
+            {randomCategory ? <BestSellers category={randomCategory} /> : null}
           </div>
         </div>
-        <TrendingBooks />
+        {randomCategory ? <TrendingBooks category={randomCategory} /> : null}
         {isUserLoggedIn ?
           null : (
             <section className='bookstore-announcement-container'>
@@ -54,4 +93,10 @@ class BookStore extends PureComponent {
   }
 }
 
-export default BookStore
+const mapStateToProps = (state) => {
+  return {
+    categories: state.store.categories,
+  }
+}
+
+export default connect(mapStateToProps, { getCategories })(BookStore)
