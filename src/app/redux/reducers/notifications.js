@@ -5,6 +5,14 @@ import initialState from '../../initialState'
 let diff = {}
 
 const getUnreadNotifications = ({ unread }) => unread
+const dismissNotification = ({ results }, { notification }) => {
+  return R.reject(R.propEq('pk', notification), results)
+}
+const prependReceivedNotification = ({ results }, { json }) => {
+  const x = [json, ...results]
+  debugger
+  return x
+}
 
 export default (state = initialState.notifications, { type, payload, errors }) => {
   switch (type) {
@@ -20,6 +28,24 @@ export default (state = initialState.notifications, { type, payload, errors }) =
       diff = {
         ...state,
         unreadCount: getUnreadNotifications(payload)
+      }
+      return R.merge(state, diff)
+    case N.DISMISS_NOTIFICATION:
+      diff = {
+        ...state,
+        results: dismissNotification(state, payload)
+      }
+      return R.merge(state, diff)
+    case N.DISMISS_ALL_NOTIFICATION:
+      diff = {
+        ...state,
+        results: []
+      }
+      return R.merge(state, diff)
+    case N.PREPEND_RECEIVED_NOTIFICATION:
+      diff = {
+        ...state,
+        results: prependReceivedNotification(state, payload)
       }
       return R.merge(state, diff)
     default:

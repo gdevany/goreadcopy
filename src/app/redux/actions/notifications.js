@@ -21,8 +21,33 @@ export function updateUnreadNotificationNumber(unread) {
   }
 }
 
+export function prependReceivedNotificationMessage(message) {
+  return dispatch => {
+    return Promise.resolve(dispatch({ type: N.PREPEND_RECEIVED_NOTIFICATION, payload: message }))
+  }
+}
+
+export function dismissNotification(notification) {
+  return dispatch => {
+    return Notifications.dismissNotification({ notification })
+      .then(res => dispatch({ type: N.DISMISS_NOTIFICATION, payload: { notification } }))
+      .catch(err => console.log(err))
+  }
+}
+
+export function dismissAllNotifications() {
+  return dispatch => {
+    return Notifications.dismissAllNotifications()
+      .then(res => dispatch({ type: N.DISMISS_ALL_NOTIFICATION }))
+      .catch(err => console.log(err))
+  }
+}
+
 export default {
   loadNotifications,
   markNotificationsAsRead,
   updateUnreadNotificationNumber,
+  dismissNotification,
+  dismissAllNotifications,
+  prependReceivedNotificationMessage,
 }

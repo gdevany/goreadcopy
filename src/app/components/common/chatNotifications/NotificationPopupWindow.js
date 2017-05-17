@@ -7,7 +7,11 @@ import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { Colors } from '../../../constants/style'
 
 const { setReadNotifications } = NotificationServices
-const { markNotificationsAsRead } = NotificationActions
+const {
+  markNotificationsAsRead,
+  dismissNotification,
+  dismissAllNotifications
+} = NotificationActions
 
 class NotificationPopupWindow extends PureComponent {
   constructor(props) {
@@ -15,6 +19,9 @@ class NotificationPopupWindow extends PureComponent {
     this.locals = {
       isLockedForNotifUpdate: false
     }
+    this.drawNotification = this.drawNotification.bind(this)
+    this.onDismissAllClick = this.onDismissAllClick.bind(this)
+    this.onDismissSingleClick = this.onDismissSingleClick.bind(this)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -34,6 +41,16 @@ class NotificationPopupWindow extends PureComponent {
         .then(()=>{ this.locals.isLockedForNotifUpdate = false })
         .catch(err=>console.log(err))
     }
+  }
+
+  onDismissAllClick(e) {
+    e.preventDefault()
+    this.props.dismissAllNotifications()
+  }
+
+  onDismissSingleClick(e, pk) {
+    e.preventDefault()
+    this.props.dismissNotification(pk)
   }
 
   loading() {
@@ -68,6 +85,7 @@ class NotificationPopupWindow extends PureComponent {
     const {
       //category,
       //recipient,
+      pk,
       actor,
       verb,
       timestamp,
@@ -105,6 +123,7 @@ class NotificationPopupWindow extends PureComponent {
               }
             </span>
           </div>
+          <a href='#' onClick={(e) => this.onDismissSingleClick(e, pk)}>Dismiss</a>
         </div>
       </div>
     )
@@ -117,8 +136,23 @@ class NotificationPopupWindow extends PureComponent {
         <section className='notifications-frame-container'>
           {
             results && results.length > 0 ?
-              results.map(this.drawNotification) :
-              this.loading()
+              (
+                <div>
+                  <a href='#' onClick={this.onDismissAllClick}>Dismiss all</a>
+                </div>
+              ) :
+              null
+          }
+          {
+            !results ?
+              (
+                this.loading()
+              ) :
+            results.length === 0 ?
+              (
+                <p> No notifications to list! </p>
+              ) :
+            results.map(this.drawNotification)
           }
         </section>
       </section>
@@ -279,7 +313,9 @@ const mapStateToProps = ({
 }
 
 const mapDispathToProps = {
-  markNotificationsAsRead
+  markNotificationsAsRead,
+  dismissNotification,
+  dismissAllNotifications,
 }
 
 export default connect(mapStateToProps, mapDispathToProps)(NotificationPopupWindow)

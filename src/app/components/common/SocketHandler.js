@@ -8,7 +8,10 @@ import Sound from 'react-sound'
 //import NotificationSound from '../../../client/media/sounds/notification.mp3'
 
 const { sendHeartbeat } = ChatServices
-const { updateUnreadNotificationNumber } = NotificationsActions
+const {
+  updateUnreadNotificationNumber,
+  prependReceivedNotificationMessage
+} = NotificationsActions
 const {
   updateOnlineStatus,
   updateUnreadChatNumber,
@@ -85,7 +88,9 @@ class SocketHandler extends PureComponent {
     switch (message.type) {
       case 'activity':
         // Handle activity message
-        //console.log('Activity', message.data)
+        console.log('Activity', message)
+        this.props.prependReceivedNotificationMessage(message)
+        this.playNotificationSound()
         break
       case 'chat-notification':
         // Handle received notifications for unread chats.
@@ -197,6 +202,7 @@ const mapDispatchAsProps = {
   updateUnreadChatNumber,
   appendReceivedChatMessage,
   updateUnreadNotificationNumber,
+  prependReceivedNotificationMessage,
 }
 
 export default connect(mapStateAsProps, mapDispatchAsProps)(SocketHandler)
