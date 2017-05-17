@@ -8,19 +8,18 @@ import Sound from 'react-sound'
 //import NotificationSound from '../../../client/media/sounds/notification.mp3'
 
 const { sendHeartbeat } = ChatServices
+const { updateUnreadNotificationNumber } = NotificationsActions
 const {
   updateOnlineStatus,
   updateUnreadChatNumber,
   appendReceivedChatMessage
 } = ChatActions
-const {
-  updateUnreadNotificationNumber
-} = NotificationsActions
 
 let socket = null, pollInterval = null, keepInterval = null
 const uri = Env.SOCKET_URL
 const pollDelay = 5000
-const keepDelay = 30000
+const keepDelay = 20000
+
 //HARDCODED - TO FIX LATER
 const NotificationSound = '/media/sounds/notification.mp3'
 
@@ -43,19 +42,20 @@ class SocketHandler extends PureComponent {
   }
 
   componentDidMount() {
-    console.log('Mounted component!')
-    this.keepSocket()
+    this.setSocket()
   }
 
   componentWillUnmount() {
-    console.log('Unmounting component!')
     this.unpollToSocket()
     this.unsetSocket()
   }
 
   onConnectionOpen() {
-    console.log('Socket connected!')
     this.pollToSocket()
+    if (keepInterval) {
+      clearInterval(keepInterval)
+      keepInterval = null
+    }
   }
 
   processStatusDiff(receivedStatus) {
@@ -114,12 +114,9 @@ class SocketHandler extends PureComponent {
     }
   }
 
-  onConnectionError() {
-    console.log('Socket connection error!')
-  }
+  onConnectionError() {}
 
   onConnectionClose() {
-    console.log('Closing connection...')
     this.unpollToSocket()
     this.unsetSocket()
     this.keepSocket()
@@ -127,35 +124,28 @@ class SocketHandler extends PureComponent {
 
   keepSocket() {
     if (!keepInterval && !socket) {
-      console.log('Keeping connection to socket...')
-      this.setSocket()
-      if (!socket) {
-        keepInterval = setInterval(()=>{
-          console.log('Keep action!')
-          this.setSocket()
-        }, keepDelay)
-      }
+      keepInterval = setInterval(()=>{
+        this.setSocket()
+      }, keepDelay)
     }
   }
 
   setSocket() {
     if (!socket) {
-      console.log('Setting socket...')
-      socket = new WebSocket(uri)
-      socket.onopen = this.onConnectionOpen
-      socket.onmessage = this.onConnectionMessage
-      socket.onerror = this.onConnectionError
-      socket.onclose = this.onConnectionClose
-    }
-    if (socket && keepInterval) {
-      console.log('Clearing keepInterval...')
-      clearInterval(keepInterval)
+      try {
+        socket = new WebSocket(uri)
+        socket.onopen = this.onConnectionOpen
+        socket.onmessage = this.onConnectionMessage
+        socket.onerror = this.onConnectionError
+        socket.onclose = this.onConnectionClose
+      } catch (err) {
+        throw err
+      }
     }
   }
 
   unsetSocket() {
     if (socket) {
-      console.log('Unsetting socket...')
       socket.close()
       socket = null
     }
@@ -163,15 +153,14 @@ class SocketHandler extends PureComponent {
 
   pollToSocket() {
     if (!pollInterval) {
-      console.log('Polling to socket...')
       pollInterval = setInterval(() => { sendHeartbeat({ _: Date.now() }) }, pollDelay)
     }
   }
 
   unpollToSocket() {
     if (pollInterval) {
-      console.log('Unpolling to socket...')
       clearInterval(pollInterval)
+      pollInterval = null
     }
   }
 
