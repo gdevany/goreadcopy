@@ -52,8 +52,8 @@ class CategoriesCarousel extends PureComponent {
     const { categories } = this.state
     return categories.slice(0, 24).map((category, index) => {
       return (
-        <a href={`/categories/${category.slug}`}>
-          <div key={category.id} className='category-on-carousel-square'>
+        <a key={category.id} href={`/categories/${category.slug}`}>
+          <div className='category-on-carousel-square'>
             <span className='category-on-carousel-name'>
                 {category.name}
             </span>

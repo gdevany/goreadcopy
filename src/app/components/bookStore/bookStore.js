@@ -64,7 +64,12 @@ class BookStore extends PureComponent {
         {isUserLoggedIn ? <WishListBooks/> : null}
         <div className='row'>
           <div className='large-12 columns'>
-            <RecommendedBooks />
+            {randomCategory ?
+              <RecommendedBooks
+                category={randomCategory}
+                isUserLogged={isUserLoggedIn}
+              /> : null
+            }
           </div>
         </div>
         <div className='row'>

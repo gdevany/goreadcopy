@@ -15,6 +15,10 @@ export default (state = initialState.store, { type, payload }) => {
       return R.merge(state, { bestSellers: payload })
     case A.GET_TRENDING_BOOKS:
       return R.merge(state, { trendingBooks: payload })
+    case A.GET_MOST_PURCHASED:
+      return R.merge(state, { mostPurchased: payload })
+    case A.GET_RECOMMENDED_BY_AUTHOR_FANS:
+      return R.merge(state, { recommendedByAuthorFans: payload })
     default:
       return state
   }

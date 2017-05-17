@@ -30,7 +30,7 @@ class BestSellers extends PureComponent {
 
   renderBestSellers = () => {
     const { bestSellers } = this.state
-    return bestSellers.results.map((book, index) => {
+    return bestSellers.results.slice(1, 6).map((book, index) => {
       return (
         <Book
           key={book.id}
@@ -46,7 +46,7 @@ class BestSellers extends PureComponent {
   }
 
   render() {
-    if (this.state.bestSellers && this.state.bestSellers.count > 0) {
+    if (this.state.bestSellers && this.state.bestSellers.count > 1) {
       return (
         <section className='bookstore-best-sellers-container'>
           <h4 className='bookstore-row-books-title'>

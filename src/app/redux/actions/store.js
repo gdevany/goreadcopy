@@ -19,7 +19,7 @@ export function getCategories() {
 export function getBestSellers(categoryId) {
   const data = {
     genreIds: categoryId,
-    perPage: 5,
+    perPage: 6,
   }
   return dispatch => {
     Store.getBestSellers(data)
@@ -40,8 +40,33 @@ export function getTrendingBooks(categoryId) {
   }
 }
 
+export function getMostPurchased(categoryId) {
+  const data = {
+    genreIds: categoryId,
+    perPage: 5,
+  }
+  return dispatch => {
+    Store.getMostPurchased(data)
+      .then(res => dispatch({ type: A.GET_MOST_PURCHASED, payload: res.data }))
+      .catch(err => console.error(`Error in getMostPurchased ${err}`))
+  }
+}
+
+export function getRecommendedByAuthorFans(categoryId) {
+  const data = {
+    genreIds: categoryId,
+  }
+  return dispatch => {
+    Store.getRecommendedByAuthorFans(data)
+      .then(res => dispatch({ type: A.GET_RECOMMENDED_BY_AUTHOR_FANS, payload: res.data }))
+      .catch(err => console.error(`Error in getRecommendedByAuthorFans ${err}`))
+  }
+}
+
 export default {
   getCategories,
   getBestSellers,
   getTrendingBooks,
+  getMostPurchased,
+  getRecommendedByAuthorFans
 }
