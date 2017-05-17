@@ -17,9 +17,10 @@ const {
   updateUnreadNotificationNumber
 } = NotificationsActions
 
-let socket, interval
+let socket = null, pollInterval = null, keepInterval = null
 const uri = Env.SOCKET_URL
-const pingTime = 5000
+const pollDelay = 5000
+const keepDelay = 30000
 //HARDCODED - TO FIX LATER
 const NotificationSound = '/media/sounds/notification.mp3'
 
@@ -35,25 +36,26 @@ class SocketHandler extends PureComponent {
     this.onConnectionMessage = this.onConnectionMessage.bind(this)
     this.handleSongFinishedPlaying = this.handleSongFinishedPlaying.bind(this)
     this.playNotificationSound = this.playNotificationSound.bind(this)
+    this.onConnectionOpen = this.onConnectionOpen.bind(this)
+    this.onConnectionClose = this.onConnectionClose.bind(this)
+    this.keepSocket = this.keepSocket.bind(this)
+    this.setSocket = this.setSocket.bind(this)
   }
 
   componentDidMount() {
-    socket = new WebSocket(uri)
-    socket.onopen = this.onConnectionOpen
-    socket.onmessage = this.onConnectionMessage
-    socket.onerror = this.onConnectionError
-    socket.onclose = this.onConnectionClose
+    console.log('Mounted component!')
+    this.keepSocket()
   }
 
   componentWillUnmount() {
-    if (interval) {
-      clearInterval(interval)
-    }
-    socket.close()
+    console.log('Unmounting component!')
+    this.unpollToSocket()
+    this.unsetSocket()
   }
 
   onConnectionOpen() {
-    interval = setInterval(() => { sendHeartbeat({ _: Date.now() }) }, pingTime)
+    console.log('Socket connected!')
+    this.pollToSocket()
   }
 
   processStatusDiff(receivedStatus) {
@@ -112,9 +114,66 @@ class SocketHandler extends PureComponent {
     }
   }
 
-  onConnectionError() {}
+  onConnectionError() {
+    console.log('Socket connection error!')
+  }
 
-  onConnectionClose() {}
+  onConnectionClose() {
+    console.log('Closing connection...')
+    this.unpollToSocket()
+    this.unsetSocket()
+    this.keepSocket()
+  }
+
+  keepSocket() {
+    if (!keepInterval && !socket) {
+      console.log('Keeping connection to socket...')
+      this.setSocket()
+      if (!socket) {
+        keepInterval = setInterval(()=>{
+          console.log('Keep action!')
+          this.setSocket()
+        }, keepDelay)
+      }
+    }
+  }
+
+  setSocket() {
+    if (!socket) {
+      console.log('Setting socket...')
+      socket = new WebSocket(uri)
+      socket.onopen = this.onConnectionOpen
+      socket.onmessage = this.onConnectionMessage
+      socket.onerror = this.onConnectionError
+      socket.onclose = this.onConnectionClose
+    }
+    if (socket && keepInterval) {
+      console.log('Clearing keepInterval...')
+      clearInterval(keepInterval)
+    }
+  }
+
+  unsetSocket() {
+    if (socket) {
+      console.log('Unsetting socket...')
+      socket.close()
+      socket = null
+    }
+  }
+
+  pollToSocket() {
+    if (!pollInterval) {
+      console.log('Polling to socket...')
+      pollInterval = setInterval(() => { sendHeartbeat({ _: Date.now() }) }, pollDelay)
+    }
+  }
+
+  unpollToSocket() {
+    if (pollInterval) {
+      console.log('Unpolling to socket...')
+      clearInterval(pollInterval)
+    }
+  }
 
   render() {
     return (
