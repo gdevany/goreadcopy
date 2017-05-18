@@ -42,7 +42,7 @@ class BookPage extends PureComponent {
       <div>
         <BookStoreNavBar/>
         <div className='bookpage-main-container'>
-          {bookInfo ? <BookInfo bookInfo={bookInfo} /> : null}
+          {bookInfo ? <BookInfo bookInfo={bookInfo} isUserLogged={isUserLoggedIn} /> : null}
           <div className='bookpage-announcement-container'>
             <div className='bookpage-announcement-details'>
               <h3>End of watch Thread</h3>
@@ -66,34 +66,34 @@ class BookPage extends PureComponent {
           </div>
           {isUserLoggedIn ? <WishListBooks/> : null}
           <hr className='bookpage-hr-separator'/>
-          <MeetAuthor
-            profilePic='/image/kendunn.jpg'
-            description={`
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-              culpa qui officia deserunt mollit anim id est laborum.
-            `}
-            followers={12843}
-            books={43}
-            fullname='Stephen King'
-            url='https://www.goread.com/author/kendunn'
-          />
+          { bookInfo && bookInfo.authors[0].length ?
+            (
+              <MeetAuthor
+                profilePic={bookInfo.authors[0].imageUrl}
+                description={bookInfo.authors[0].aboutMe}
+                followers={12843}
+                books={43}
+                fullname={bookInfo.authors[0].fullname}
+                url={bookInfo.authors[0].url}
+              />
+            ) : null
+          }
           <hr className='bookpage-hr-separator'/>
-          <ReviewsOverview
-            reviewsInfo={{
-              total: 4.8,
-              goodreads: {
-                total: 4.3,
-              },
-              amazon: {
-                total: 3.8,
-              }
-            }}
-          />
+          {bookInfo ?
+            (
+              <ReviewsOverview
+                reviewsInfo={{
+                  internal: bookInfo.rating,
+                  goodreads: {
+                    total: 4.3,
+                  },
+                  amazon: {
+                    total: 3.8,
+                  }
+                }}
+              />
+            ) : null
+          }
           <hr className='bookpage-hr-separator'/>
           <ReviewsContainer isLogged={isUserLoggedIn} />
           <hr className='bookpage-hr-separator'/>

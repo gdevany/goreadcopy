@@ -2,6 +2,10 @@ import React, { PropTypes } from 'react'
 
 const MeetAuthor = ({ profilePic, description, followers, books, fullname, url }) => {
 
+  const truncInfo = (text, limit) => {
+    return text.length >= limit ? `${text.slice(0, limit)}...` : text
+  }
+
   return (
     <div className='row'>
       <div className='large-12 columns bookpage-meet-author-main-container'>
@@ -32,7 +36,7 @@ const MeetAuthor = ({ profilePic, description, followers, books, fullname, url }
                 </div>
               </div>
               <div className='bookpage-meet-author-anchor-container'>
-                <a className='bookpage-meet-author-anchor'>
+                <a href={url} className='bookpage-meet-author-anchor'>
                   See Profile
                 </a>
               </div>
@@ -40,10 +44,10 @@ const MeetAuthor = ({ profilePic, description, followers, books, fullname, url }
           </div>
           <div className='bookpage-meet-author-description-container'>
             <p className='bookpage-meet-author-description'>
-              {description}
-              <a className='bookpage-meet-author-description-readmore'>
-                See more
-              </a>
+              {truncInfo(description, 500)}
+              {/*<a className='bookpage-meet-author-description-readmore'>*/}
+                {/*See more*/}
+              {/*</a>*/}
             </p>
           </div>
         </section>

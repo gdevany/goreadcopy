@@ -22,10 +22,10 @@ const ReviewsOverview = ({ reviewsInfo }) => {
         <div className='bookpage-reviews-overview-container'>
           <div className='bookpage-reviews-overview-internal-data'>
             <div className='bookpage-reviews-overview-internal-left'>
-              {renderRating(Math.round(reviewsInfo.total))}
+              {renderRating(Math.round(reviewsInfo.internal.average))}
               <div className='bookpage-reviews-overview-internal-total-square'>
                 <span className='bookpage-reviews-overview-internal-total'>
-                  {reviewsInfo.total.toLocaleString()}
+                  {Math.round(reviewsInfo.internal.average * 100) / 100}
                 </span>
                 <span className='bookpage-reviews-overview-internal-text'>
                   out of 5
@@ -35,7 +35,7 @@ const ReviewsOverview = ({ reviewsInfo }) => {
             <div className='bookpage-reviews-overview-internal-right'>
               <h5 className='bookpage-reviews-overview-internal-total'>
                 <span className='bookpage-reviews-overview-internal-total-number'>
-                  152
+                  {reviewsInfo.internal.total}
                 </span>
                 Reviews
               </h5>

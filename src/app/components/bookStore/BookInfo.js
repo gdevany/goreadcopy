@@ -24,7 +24,7 @@ class BookInfo extends PureComponent {
   }
 
   render() {
-    const { bookInfo } = this.props
+    const { bookInfo, isUserLogged } = this.props
     return (
       <div className='row bookpage-info-main-container'>
         <div className='small-12 large-6 large-offset-1 columns bookpage-info-left-element'>
@@ -44,7 +44,13 @@ class BookInfo extends PureComponent {
                   <h5 className='bookpage-author-name'>
                     {bookInfo.authors.length ? bookInfo.authors[0].fullname : ''}
                   </h5>
-                  <a className='bookpage-author-follow-action'> Follow</a>
+                  {isUserLogged ?
+                    (
+                      <a className='bookpage-author-follow-action'> Follow</a>
+                    ) : (
+                      <a className='bookpage-author-follow-action'> Follow</a>
+                    )
+                  }
                 </div>
               </div>
               <div className='bookpage-rating-container'>
