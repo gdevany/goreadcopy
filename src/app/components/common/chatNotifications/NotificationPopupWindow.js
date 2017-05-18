@@ -5,6 +5,7 @@ import { Notifications as NotificationActions } from '../../../redux/actions'
 import moment from 'moment'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { Colors } from '../../../constants/style'
+import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 
 const { setReadNotifications } = NotificationServices
 const {
@@ -16,16 +17,39 @@ const {
 class NotificationPopupWindow extends PureComponent {
   constructor(props) {
     super(props)
-    this.locals = {
-      isLockedForNotifUpdate: false
+
+    this.state = {
+      isDismissAllOpen: false,
+      isDismissNotificationOpen: false,
     }
+
+    this.locals = {
+      isLockedForNotifUpdate: false,
+    }
+
     this.drawNotification = this.drawNotification.bind(this)
+    this.handleDismissAll = this.handleDismissAll.bind(this)
+    this.handleDismissNotification = this.handleDismissNotification.bind(this)
     this.onDismissAllClick = this.onDismissAllClick.bind(this)
     this.onDismissSingleClick = this.onDismissSingleClick.bind(this)
   }
 
   componentDidUpdate(prevProps, prevState) {
     this.updateNotificationReadStatus()
+  }
+
+  handleDismissAll = (event) => {
+    event.preventDefault()
+    this.setState({
+      isDismissAllOpen: !this.state.isDismissAllOpen,
+    })
+  }
+
+  handleDismissNotification = (event) => {
+    event.preventDefault()
+    this.setState({
+      isDismissNotificationOpen: !this.state.isDismissNotificationOpen,
+    })
   }
 
   updateNotificationReadStatus() {
@@ -123,7 +147,16 @@ class NotificationPopupWindow extends PureComponent {
               }
             </span>
           </div>
-          <a href='#' onClick={(e) => this.onDismissSingleClick(e, pk)}>Dismiss</a>
+          <div className='notifications-frame-dismiss-container'>
+            <ArrowDownIcon onClick={this.handleDismissNotification}/>
+            { this.state.isDismissNotificationOpen ?
+              (
+                <div className='notifications-frame-dismiss-square'>
+                  <a onClick={(e) => this.onDismissSingleClick(e, pk)}>Dismiss</a>
+                </div>
+              ) : null
+            }
+          </div>
         </div>
       </div>
     )
@@ -137,8 +170,15 @@ class NotificationPopupWindow extends PureComponent {
           {
             results && results.length > 0 ?
               (
-                <div>
-                  <a href='#' onClick={this.onDismissAllClick}>Dismiss all</a>
+                <div className='notifications-frame-dismissall-container'>
+                  <ArrowDownIcon onClick={this.handleDismissAll}/>
+                  {this.state.isDismissAllOpen ?
+                    (
+                      <div className='notifications-frame-dismissall-square'>
+                        <a onClick={this.onDismissAllClick}>Dismiss all</a>
+                      </div>
+                    ) : null
+                  }
                 </div>
               ) :
               null
