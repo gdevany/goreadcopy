@@ -87,7 +87,7 @@ class RecommendedBooks extends PureComponent {
                 }
               </p>
               <figure className='bookstore-recommended-book-figure'>
-                <a href={`/books/${recommendedByAuthorFans.results[0].slug}`}>
+                <a href={`/book/${recommendedByAuthorFans.results[0].slug}`}>
                   <img src={recommendedByAuthorFans.results[0].imageUrl}/>
                 </a>
               </figure>

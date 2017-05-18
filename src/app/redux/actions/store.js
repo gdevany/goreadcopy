@@ -63,10 +63,19 @@ export function getRecommendedByAuthorFans(categoryId) {
   }
 }
 
+export function getBookInfo(bookSlug) {
+  return dispatch => {
+    Store.getBookInfo(bookSlug)
+      .then(res => dispatch({ type: A.GET_BOOK_INFO, payload: res.data }))
+      .catch(err => console.error(`Error in getBookInfo ${err}`))
+  }
+}
+
 export default {
   getCategories,
   getBestSellers,
   getTrendingBooks,
   getMostPurchased,
-  getRecommendedByAuthorFans
+  getRecommendedByAuthorFans,
+  getBookInfo
 }

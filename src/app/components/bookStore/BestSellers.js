@@ -31,17 +31,20 @@ class BestSellers extends PureComponent {
   renderBestSellers = () => {
     const { bestSellers } = this.state
     return bestSellers.results.slice(1, 6).map((book, index) => {
-      return (
-        <Book
-          key={book.id}
-          url={`/book/${book.slug}`}
-          image={book.imageUrl}
-          id={book.id}
-          title={book.title}
-          authors={book.authors}
-          rating={book.rating}
-        />
-      )
+      if (book) {
+        return (
+          <Book
+            key={book.id}
+            url={`/book/${book.slug}`}
+            image={book.imageUrl}
+            id={book.id}
+            title={book.title}
+            authors={book.authors}
+            rating={book.rating}
+          />
+        )
+      }
+      return null
     })
   }
 

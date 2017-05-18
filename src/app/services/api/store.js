@@ -9,7 +9,8 @@ const {
     getCategories,
     getTrendingBooks,
     getMostPurchased,
-    getRecommendedByAuthorFans
+    getRecommendedByAuthorFans,
+    getBookInfo,
   }
 } = Endpoints
 
@@ -20,6 +21,7 @@ const Store = () => {
     getTrendingBooks: (params) => http.get(getTrendingBooks(params)),
     getMostPurchased: (params) => authenticated().get(getMostPurchased(params)),
     getRecommendedByAuthorFans: (params) => http.get(getRecommendedByAuthorFans(params)),
+    getBookInfo: (id) => http.get(getBookInfo(id)),
   }
 }
 

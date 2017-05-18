@@ -70,6 +70,7 @@ const Endpoints = () => {
       getTrendingBooks: (params) => apiUrl('store/trending_books', params),
       getMostPurchased: (params) => apiUrl('store/friends_most_purchased', params),
       getRecommendedByAuthorFans: (params) => apiUrl('store/recommended/books/author_fans', params),
+      getBookInfo: (id) => apiUrl(`books/${id}`),
     },
     jwtRefresh: () => apiUrl('token/refresh'),
     jwtAuth: () => apiUrl('token/auth'),

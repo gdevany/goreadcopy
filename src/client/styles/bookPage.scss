@@ -52,6 +52,7 @@
     @media all and (min-width: 1024px){
       padding-right: 0;
       border-bottom: none;
+      min-height: 400px;
     }
     .bookpage-info-left-top{
       display: flex;
@@ -167,10 +168,6 @@
       border-top: solid 2px rgb(249, 249, 249);
       @media all and (min-width: 1024px){
         border-top: none;
-        width: 50%;
-        position: absolute;
-        bottom: 0;
-        left: 100px;
       }
       .bookpage-bottom-action-btn{
         display: flex;

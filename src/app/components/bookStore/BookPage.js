@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import { BookStoreNavBar } from '../common'
 import WishListBooks from './WishListBooks'
 import BookInfo from './BookInfo'
@@ -8,16 +9,40 @@ import ReviewsContainer from './ReviewsContainer'
 import NewsLetter from './NewsLetter'
 import { Footer } from '../common'
 import { Auth } from '../../services'
+import { Store } from '../../redux/actions'
+
+const { getBookInfo } = Store
 
 const isUserLoggedIn = Auth.currentUserExists()
 
 class BookPage extends PureComponent {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      bookInfo: null
+    }
+  }
+  componentWillMount = () => {
+    const bookSlug = this.props.params.slug
+    this.props.getBookInfo(bookSlug)
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.bookInfo) {
+      this.setState({
+        bookInfo: nextProps.bookInfo
+      })
+    }
+  }
+
   render() {
+    const { bookInfo } = this.state
     return (
       <div>
         <BookStoreNavBar/>
         <div className='bookpage-main-container'>
-          <BookInfo />
+          {bookInfo ? <BookInfo bookInfo={bookInfo} /> : null}
           <div className='bookpage-announcement-container'>
             <div className='bookpage-announcement-details'>
               <h3>End of watch Thread</h3>
@@ -81,5 +106,10 @@ class BookPage extends PureComponent {
     )
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    bookInfo: state.store.bookInfo,
+  }
+}
 
-export default BookPage
+export default connect(mapStateToProps, { getBookInfo })(BookPage)
