@@ -19,23 +19,25 @@ class RecommendedBooks extends PureComponent {
     if (this.props.category) {
       if (this.props.isUserLogged) {
         this.props.getMostPurchased(this.props.category.id)
+        this.props.getRecommendedByAuthorFans(this.props.category.id)
+      } else {
+        this.props.getRecommendedByAuthorFans(this.props.category.id)
       }
-      this.props.getRecommendedByAuthorFans(this.props.category.id)
     }
   }
 
   componentWillReceiveProps = (nextProps) => {
-    if (nextProps.bestSellers) {
+    if (nextProps.bestSeller) {
       this.setState({
-        bestSeller: nextProps.bestSellers,
+        bestSeller: nextProps.bestSeller
       })
     }
-    if (nextProps.mostPurchased) {
+    if (nextProps.mostPurchased !== false) {
       this.setState({
         mostPurchased: nextProps.mostPurchased,
       })
     }
-    if (nextProps.recommendedByAuthorFans) {
+    if (nextProps.recommendedByAuthorFans !== false) {
       this.setState({
         recommendedByAuthorFans: nextProps.recommendedByAuthorFans,
       })
@@ -43,52 +45,71 @@ class RecommendedBooks extends PureComponent {
   }
 
   render() {
-    const { bestSeller, recommendedByAuthorFans } = this.state
+    const { bestSeller, recommendedByAuthorFans, mostPurchased } = this.state
     const { isUserLogged } = this.props
-    if (bestSeller && recommendedByAuthorFans) {
-      return (
-        <section className='bookstore-recommended-books-container'>
-          { isUserLogged ?
-            (
+    return (
+      <section className='bookstore-recommended-books-container'>
+        {isUserLogged && mostPurchased ?
+          (
+            <article className='bookstore-recommended-book-element'>
+              <p className='bookstore-recommended-book-text'>
+                {mostPurchased.results[0].purchasedTimes > 0 ?
+                  `${mostPurchased.results[0].purchasedTimes} ` : 'Some '
+                }
+                of your friends purchased this book
+              </p>
+              <figure className='bookstore-recommended-book-figure'>
+                <a href={`/book/${mostPurchased.results[0].slug}`}>
+                  <img src={mostPurchased.results[0].imageUrl}/>
+                </a>
+              </figure>
+            </article>
+          ) : bestSeller ? (
               <article className='bookstore-recommended-book-element'>
                 <p className='bookstore-recommended-book-text'>
-                  17 of your friends purchased this book logged
+                  Some of your friends purchased this book
                 </p>
                 <figure className='bookstore-recommended-book-figure'>
-                  <img src='/image/example1.png'/>
+                  <a href={`/book/${bestSeller.results[1].slug}`}>
+                    <img src={bestSeller.results[1].imageUrl}/>
+                  </a>
                 </figure>
               </article>
-            ) : (
-              <article className='bookstore-recommended-book-element'>
-                <p className='bookstore-recommended-book-text'>
-                  17 of your friends purchased this book
-                </p>
-                <figure className='bookstore-recommended-book-figure'>
-                  <img src='/image/example1.png'/>
-                </figure>
-              </article>
-            )
-          }
-          <article className='bookstore-recommended-book-element'>
-            <p className='bookstore-recommended-book-text'>
-              Recommended for Stephen King fans
-            </p>
-            <figure className='bookstore-recommended-book-figure'>
-              <img src='/image/example2.png'/>
-            </figure>
-          </article>
-          <article className='bookstore-recommended-book-element'>
-            <p className='bookstore-recommended-book-text'>
-              Best selling book in Science Fiction
-            </p>
-            <figure className='bookstore-recommended-book-figure'>
-              <img src='/image/example3.png'/>
-            </figure>
-          </article>
-        </section>
-      )
-    }
-    return null
+            ) : null
+        }
+        {recommendedByAuthorFans ?
+          (
+            <article className='bookstore-recommended-book-element'>
+              <p className='bookstore-recommended-book-text'>
+                Recommended for
+                {recommendedByAuthorFans.results.length ?
+                  ` ${recommendedByAuthorFans.results[0].authors[0].fullname} fans` : null
+                }
+              </p>
+              <figure className='bookstore-recommended-book-figure'>
+                <a href={`/books/${recommendedByAuthorFans.results[0].slug}`}>
+                  <img src={recommendedByAuthorFans.results[0].imageUrl}/>
+                </a>
+              </figure>
+            </article>
+          ) : null
+        }
+        {bestSeller ?
+          (
+            <article className='bookstore-recommended-book-element'>
+              <p className='bookstore-recommended-book-text'>
+                Best selling book in the category {this.props.category.name}
+              </p>
+              <figure className='bookstore-recommended-book-figure'>
+                <a href={`/book/${bestSeller.results[0].slug}`}>
+                  <img src={bestSeller.results[0].imageUrl}/>
+                </a>
+              </figure>
+            </article>
+          ) : null
+        }
+      </section>
+    )
   }
 }
 
