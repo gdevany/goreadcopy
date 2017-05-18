@@ -42,7 +42,7 @@ const TestimonialCarousel = () => {
               <img
                 className='carousel-image'
                 style={styles.carouselQuotesImage}
-                src='./image/portrait.jpg'
+                src='/image/portrait.jpg'
                 alt='Image'
               />
             </div>
@@ -73,7 +73,7 @@ const TestimonialCarousel = () => {
             <div className='small-12 medium-4 columns center-text'>
               <img
                 className='carousel-image'
-                src='./image/portrait2.png'
+                src='/image/portrait2.png'
                 style={styles.carouselQuotesImage}
                 alt='Image'
               />
@@ -105,7 +105,7 @@ const TestimonialCarousel = () => {
             <div className='small-12 medium-4 columns center-text'>
               <img
                 className='carousel-image'
-                src='./image/portrait3.png'
+                src='/image/portrait3.png'
                 alt='Image'
               />
             </div>
