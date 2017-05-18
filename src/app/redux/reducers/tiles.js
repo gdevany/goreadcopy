@@ -10,6 +10,12 @@ const updateProfileTile = ({ profile }, { id, content }) => profile.map(p => p.i
   content: content
 } : p)
 
+const updateReadfeedTile = ({ readFeed }, { id, content }) => readFeed.map(r => r.id === id ?
+{
+  ...r,
+  content: content
+} : r)
+
 export default (state = initialState.tiles, { type, payload, errors }) => {
   switch (type) {
     case A.GET_READFEED_TILES:
@@ -68,6 +74,12 @@ export default (state = initialState.tiles, { type, payload, errors }) => {
       diff = {
         ...state,
         profile: updateProfileTile(state, payload)
+      }
+      return R.merge(state, diff)
+    case B.UPDATE_READFEED_TILE:
+      diff = {
+        ...state,
+        readFeed: updateReadfeedTile(state, payload)
       }
       return R.merge(state, diff)
     default:

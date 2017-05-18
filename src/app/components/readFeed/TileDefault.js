@@ -37,9 +37,11 @@ const LinkedinIcon = generateShareIcon('linkedin')
 const {
   updateLikes,
   updateComments,
+  updateReadfeedTile,
   updateProfileTile,
   getComments,
   shareTile,
+  deleteReadfeedTile,
   deleteProfileTile,
 } = Tiles
 
@@ -226,16 +228,16 @@ class TileDefault extends PureComponent {
     return time
   }
 
-  truncInfo = (text, limit) => {
-    return text.length >= limit ? `${text.slice(0, limit)}...` : text
-  }
-
   componentWillMount = () => {
     if (this.context.router.params.slug) {
       this.setState({
         isProfilePage: true,
       })
     }
+  }
+
+  truncInfo = (text, limit) => {
+    return text.length >= limit ? `${text.slice(0, limit)}...` : text
   }
 
   renderAction = (entry, index, target) => {
@@ -572,13 +574,30 @@ class TileDefault extends PureComponent {
   }
 
   handleUpdatePost = (id, data) => {
-    const { updateProfileTile } = this.props
-    updateProfileTile(id, data, this.handleEditCancel)
+    const {
+      readFeed,
+      profile,
+      updateProfileTile,
+      updateReadfeedTile,
+    } = this.props
+    readFeed ?
+    updateReadfeedTile(id, data, this.handleEditCancel) :
+    profile ?
+    updateProfileTile(id, data, this.handleEditCancel) : null
   }
 
   handleDeletePost = () => {
-    const { deleteProfileTile, tileId } = this.props
-    deleteProfileTile(tileId, this.handleDeleted)
+    const {
+      readFeed,
+      profile,
+      deleteReadfeedTile,
+      deleteProfileTile,
+      tileId,
+    } = this.props
+    readFeed ?
+    deleteReadfeedTile(tileId, this.handleDeleted) :
+    profile ?
+    deleteProfileTile(tileId, this.handleDeleted) : null
   }
 
   renderPostBox = (buttonType) => {
@@ -649,11 +668,18 @@ class TileDefault extends PureComponent {
       action,
       feedComments,
       isPostEditable,
+      readFeed,
+      fullname,
     } = this.props
 
     const splitActionrRegex = /(?:[^\s{]+|{[^{]*})+/g
     const splittedAction = action ? action.match(splitActionrRegex) : null
-    const isPostPersonal = author && target ? author.name === target.name : false
+    const isReadFeedPage = readFeed !== undefined
+    const isPostPersonal =
+      isReadFeedPage ?
+      author.name === fullname : author && target ?
+      author.name === target.name : false
+
     return (
       <div>
       { !isPostDeleted ? (
@@ -695,8 +721,8 @@ class TileDefault extends PureComponent {
                 </div>
               </div>
               {
-                isProfilePage &&
-                isMyProfile &&
+                ((isProfilePage && isMyProfile) ||
+                isReadFeedPage) &&
                 isPostEditable &&
                 isPostPersonal ?
                 (
@@ -952,12 +978,14 @@ const mapStateToProps = ({
   },
   tiles: {
     feedComments,
+    readFeed,
     profile
   }
 }) => {
   return {
     feedComments,
     profile,
+    readFeed,
     fullname,
     url,
     profileImage,
@@ -969,9 +997,11 @@ const mapStateToProps = ({
 const mapDispatchToProps = {
   updateLikes,
   updateComments,
+  updateReadfeedTile,
   updateProfileTile,
   getComments,
   shareTile,
+  deleteReadfeedTile,
   deleteProfileTile,
 }
 export default connect(mapStateToProps, mapDispatchToProps)(TileDefault)

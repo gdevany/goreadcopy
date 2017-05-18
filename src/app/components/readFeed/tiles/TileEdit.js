@@ -32,7 +32,7 @@ class TileEdit extends PureComponent {
       body,
       activeContent,
       imageUrl,
-    } = this.handleStates(this.props.id, this.props.profile)
+    } = this.handleStates(this.props.id, this.props.profile || this.props.readFeed)
     this.state = {
       body: body || '',
       mentions: body || '',
@@ -445,10 +445,12 @@ class TileEdit extends PureComponent {
 const mapStateToProps = ({
   tiles: {
     profile,
+    readFeed,
   },
 }) => {
   return {
     profile,
+    readFeed,
   }
 }
 

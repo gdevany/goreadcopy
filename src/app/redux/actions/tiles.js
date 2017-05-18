@@ -137,9 +137,26 @@ export function updateLikes(tileId, liked) {
   }
 }
 
+export function updateReadfeedTile(tileId, data, editCancel) {
+  return dispatch => {
+    ReaderTiles.editTile(tileId, data)
+      .then((resp) => {
+        dispatch({
+          type: B.UPDATE_READFEED_TILE,
+          payload: {
+            id: tileId,
+            content: resp.data.results,
+          }
+        })
+      })
+      .then(() => editCancel())
+      .catch((err) => console.error(`Error in updateReadfeedTile: ${err}`))
+  }
+}
+
 export function updateProfileTile(tileId, data, editCancel) {
   return dispatch => {
-    ReaderTiles.editProfileTile(tileId, data)
+    ReaderTiles.editTile(tileId, data)
       .then((resp) => {
         dispatch({
           type: B.UPDATE_PROFILE_TILE,
@@ -150,15 +167,23 @@ export function updateProfileTile(tileId, data, editCancel) {
         })
       })
       .then(() => editCancel())
-      .catch((err) => console.error(`Error in updateProfileTiles: ${err}`))
+      .catch((err) => console.error(`Error in updateProfileTile: ${err}`))
+  }
+}
+
+export function deleteReadfeedTile(tileId, deletePost) {
+  return dispatch => {
+    ReaderTiles.deleteTile(tileId)
+      .then(() => deletePost())
+      .catch((err) => console.error(`Error in deleteReadfeedTile: ${err}`))
   }
 }
 
 export function deleteProfileTile(tileId, deletePost) {
   return dispatch => {
-    ReaderTiles.deleteProfileTile(tileId)
+    ReaderTiles.deleteTile(tileId)
       .then(() => deletePost())
-      .catch((err) => console.error(`Error in deleteProfileTiles: ${err}`))
+      .catch((err) => console.error(`Error in deleteProfileTile: ${err}`))
   }
 }
 
@@ -168,7 +193,9 @@ export default {
   getComments,
   updateLikes,
   updateComments,
+  updateReadfeedTile,
   updateProfileTile,
+  deleteReadfeedTile,
   deleteProfileTile,
   shareTile,
   prependProfileTile,

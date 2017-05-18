@@ -8,8 +8,8 @@ const {
   updateComments,
   updateLikes,
   shareTile,
-  editProfileTile,
-  deleteProfileTile,
+  editTile,
+  deleteTile,
 } = Endpoints
 
 const Tiles = () => {
@@ -19,8 +19,8 @@ const Tiles = () => {
     updateComments: (id, body) => authenticated().post(updateComments(id), body),
     updateLikes: (id, body) => authenticated().post(updateLikes(id), body),
     shareTile: (id, body) => authenticated().post(shareTile(id), body),
-    editProfileTile: (id, body) => authenticated().post(editProfileTile(id), body),
-    deleteProfileTile: (id) => authenticated().delete(deleteProfileTile(id)),
+    editTile: (id, body) => authenticated().post(editTile(id), body),
+    deleteTile: (id) => authenticated().delete(deleteTile(id)),
   }
 }
 
