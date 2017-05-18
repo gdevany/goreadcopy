@@ -29,8 +29,8 @@ const Endpoints = () => {
     unSelectSocialAccount: (params) => apiUrl('socialaccounts/unselect_account', params),
     getCountries: () => apiUrl('forms/countries'),
     getStates: (id) => apiUrl(`forms/${id}/states`),
-    editProfileTile: (id) => apiUrl(`activities/${id}/edit_statuspost_tile`),
-    deleteProfileTile: (id) => apiUrl(`activities/${id}`),
+    editTile: (id) => apiUrl(`activities/${id}/edit_statuspost_tile`),
+    deleteTile: (id) => apiUrl(`activities/${id}`),
     currentReader: {
       getRecommendation: (params) => apiUrl('genres/top_users', params),
       getOnboardingRecommendation: (params) => apiUrl('onboarding/genres/top_users', params),
