@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { NotificationItem } from './'
 import { Notifications as NotificationServices } from '../../../services/api/currentReader'
 import { Notifications as NotificationActions } from '../../../redux/actions'
-import moment from 'moment'
-import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { Colors } from '../../../constants/style'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
 import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 
 const { setReadNotifications } = NotificationServices
@@ -27,11 +27,8 @@ class NotificationPopupWindow extends PureComponent {
       isLockedForNotifUpdate: false,
     }
 
-    this.drawNotification = this.drawNotification.bind(this)
     this.handleDismissAll = this.handleDismissAll.bind(this)
-    this.handleDismissNotification = this.handleDismissNotification.bind(this)
     this.onDismissAllClick = this.onDismissAllClick.bind(this)
-    this.onDismissSingleClick = this.onDismissSingleClick.bind(this)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -42,13 +39,6 @@ class NotificationPopupWindow extends PureComponent {
     event.preventDefault()
     this.setState({
       isDismissAllOpen: !this.state.isDismissAllOpen,
-    })
-  }
-
-  handleDismissNotification = (event) => {
-    event.preventDefault()
-    this.setState({
-      isDismissNotificationOpen: !this.state.isDismissNotificationOpen,
     })
   }
 
@@ -70,11 +60,6 @@ class NotificationPopupWindow extends PureComponent {
   onDismissAllClick(e) {
     e.preventDefault()
     this.props.dismissAllNotifications()
-  }
-
-  onDismissSingleClick(e, pk) {
-    e.preventDefault()
-    this.props.dismissNotification(pk)
   }
 
   loading() {
@@ -101,63 +86,6 @@ class NotificationPopupWindow extends PureComponent {
             position: 'relative',
           }}
         />
-      </div>
-    )
-  }
-
-  drawNotification(el, idx) {
-    const {
-      //category,
-      //recipient,
-      pk,
-      actor,
-      verb,
-      timestamp,
-      //mentions,
-      //mentionArray
-    } = el
-    return (
-      <div key={idx} className='single-notification-element'>
-        <figure className='notification-action-figure'>
-          <img src={actor.imageUrl}/>
-        </figure>
-        <div className='notification-container'>
-          <p className='notification-description-container'>
-            <a href='#' className='notification-description-anchor'>
-              {actor.fullname}
-              <span className='notification-description-action'>
-                {verb}
-              </span>
-            </a>
-          </p>
-          <div className='notification-action-container'>
-            {
-              verb.toLowerCase().includes('follow') ? (
-                <a
-                  className='notification-action-btn'
-                  href='#'
-                >
-                  + Follow
-                </a>
-              ) : null
-            }
-            <span className='notification-timestamp'>
-              {
-                timestamp ? moment(moment.unix(timestamp)).fromNow() : null
-              }
-            </span>
-          </div>
-          <div className='notifications-frame-dismiss-container'>
-            <ArrowDownIcon onClick={this.handleDismissNotification}/>
-            { this.state.isDismissNotificationOpen ?
-              (
-                <div className='notifications-frame-dismiss-square'>
-                  <a onClick={(e) => this.onDismissSingleClick(e, pk)}>Dismiss</a>
-                </div>
-              ) : null
-            }
-          </div>
-        </div>
       </div>
     )
   }
@@ -192,7 +120,7 @@ class NotificationPopupWindow extends PureComponent {
               (
                 <p> No notifications to list! </p>
               ) :
-            results.map(this.drawNotification)
+            results.map((el, idx)=><NotificationItem key={idx} element={el}/>)
           }
         </section>
       </section>
