@@ -9,9 +9,7 @@ const dismissNotification = ({ results }, { notification }) => {
   return R.reject(R.propEq('pk', notification), results)
 }
 const prependReceivedNotification = ({ results }, { json }) => {
-  const x = [json, ...results]
-  debugger
-  return x
+  return [json, ...results]
 }
 
 export default (state = initialState.notifications, { type, payload, errors }) => {
