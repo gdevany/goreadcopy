@@ -38,10 +38,14 @@ class VideoTile extends PureComponent {
     }
     return (
       <span key={index}>
-        <Anchorify
-          text={entry}
-          target='_blank'
-        />
+        {
+          entry ? (
+            <Anchorify
+              text={entry}
+              target='_blank'
+            />
+          ) : null
+        }
       </span>)
   }
 
@@ -99,7 +103,9 @@ class VideoTile extends PureComponent {
             <h2 className='video-title'>{content.tile}</h2>
             <div className='post-excerpt-container'>
               <p className='post-excerpt-pharagraph'>
-                <Anchorify text={content.description} target='_blank'/>
+              {
+                content.description ? content.description : null
+              }
               </p>
             </div>
           </div>

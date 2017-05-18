@@ -37,10 +37,14 @@ class AdvertisingTile extends PureComponent {
     }
     return (
       <span key={index}>
-        <Anchorify
-          text={entry}
-          target='_blank'
-        />
+      {
+        entry ? (
+          <Anchorify
+            text={entry}
+            target='_blank'
+          />
+        ) : null
+      }
       </span>)
   }
 

@@ -92,7 +92,7 @@ class ArticleTile extends PureComponent {
             <h2 className='article-title'>{content.title}</h2>
             <div className='post-excerpt-container'>
               <p className='post-excerpt-pharagraph'>
-                <Anchorify text={content.header} target='_blank'/>
+                <Anchorify text={content.header}/>
                 <a href={content.link} className='post-readmore-anchor'>Read more</a>
               </p>
             </div>
