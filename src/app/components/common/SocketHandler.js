@@ -2,21 +2,27 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Chat as ChatServices } from '../../services/api/currentReader'
 import { Env } from '../../constants'
-import { Chat as ChatActions } from '../../redux/actions'
+import { Chat as ChatActions, Notifications as NotificationsActions } from '../../redux/actions'
 import R from 'ramda'
 import Sound from 'react-sound'
 //import NotificationSound from '../../../client/media/sounds/notification.mp3'
 
 const { sendHeartbeat } = ChatServices
 const {
+  updateUnreadNotificationNumber,
+  prependReceivedNotificationMessage
+} = NotificationsActions
+const {
   updateOnlineStatus,
   updateUnreadChatNumber,
   appendReceivedChatMessage
 } = ChatActions
 
-let socket, interval
+let socket = null, pollInterval = null, keepInterval = null
 const uri = Env.SOCKET_URL
-const pingTime = 5000
+const pollDelay = 5000
+const keepDelay = 20000
+
 //HARDCODED - TO FIX LATER
 const NotificationSound = '/media/sounds/notification.mp3'
 
@@ -32,25 +38,27 @@ class SocketHandler extends PureComponent {
     this.onConnectionMessage = this.onConnectionMessage.bind(this)
     this.handleSongFinishedPlaying = this.handleSongFinishedPlaying.bind(this)
     this.playNotificationSound = this.playNotificationSound.bind(this)
+    this.onConnectionOpen = this.onConnectionOpen.bind(this)
+    this.onConnectionClose = this.onConnectionClose.bind(this)
+    this.keepSocket = this.keepSocket.bind(this)
+    this.setSocket = this.setSocket.bind(this)
   }
 
   componentDidMount() {
-    socket = new WebSocket(uri)
-    socket.onopen = this.onConnectionOpen
-    socket.onmessage = this.onConnectionMessage
-    socket.onerror = this.onConnectionError
-    socket.onclose = this.onConnectionClose
+    this.setSocket()
   }
 
   componentWillUnmount() {
-    if (interval) {
-      clearInterval(interval)
-    }
-    socket.close()
+    this.unpollToSocket()
+    this.unsetSocket()
   }
 
   onConnectionOpen() {
-    interval = setInterval(() => { sendHeartbeat({ _: Date.now() }) }, pingTime)
+    this.pollToSocket()
+    if (keepInterval) {
+      clearInterval(keepInterval)
+      keepInterval = null
+    }
   }
 
   processStatusDiff(receivedStatus) {
@@ -67,9 +75,9 @@ class SocketHandler extends PureComponent {
 
   playNotificationSound(id) {
     const { isMessagesOpen, isContactsOpen, conversations } = this.props
-    const { isOpen } = id ? R.find(R.propEq('id', id), conversations) : null
+    const chatInstance = id ? R.find(R.propEq('id', id), conversations) : null
     if (isMessagesOpen || isContactsOpen) { return }
-    if (id && isOpen) { return }
+    if (id && chatInstance && chatInstance.isOpen) { return }
     this.setState({ playStatus: Sound.status.PLAYING })
   }
 
@@ -80,7 +88,9 @@ class SocketHandler extends PureComponent {
     switch (message.type) {
       case 'activity':
         // Handle activity message
-        //console.log(message.data)
+        console.log('Activity', message)
+        this.props.prependReceivedNotificationMessage(message)
+        this.playNotificationSound()
         break
       case 'chat-notification':
         // Handle received notifications for unread chats.
@@ -89,7 +99,8 @@ class SocketHandler extends PureComponent {
         break
       case 'activity-notification':
         // Handle activity notification
-        //console.log(message.data)
+        this.props.updateUnreadNotificationNumber(message.data)
+        this.playNotificationSound()
         break
       case 'chat':
         // Handle received chat posts for conversations.
@@ -110,7 +121,53 @@ class SocketHandler extends PureComponent {
 
   onConnectionError() {}
 
-  onConnectionClose() {}
+  onConnectionClose() {
+    this.unpollToSocket()
+    this.unsetSocket()
+    this.keepSocket()
+  }
+
+  keepSocket() {
+    if (!keepInterval && !socket) {
+      keepInterval = setInterval(()=>{
+        this.setSocket()
+      }, keepDelay)
+    }
+  }
+
+  setSocket() {
+    if (!socket) {
+      try {
+        socket = new WebSocket(uri)
+        socket.onopen = this.onConnectionOpen
+        socket.onmessage = this.onConnectionMessage
+        socket.onerror = this.onConnectionError
+        socket.onclose = this.onConnectionClose
+      } catch (err) {
+        throw err
+      }
+    }
+  }
+
+  unsetSocket() {
+    if (socket) {
+      socket.close()
+      socket = null
+    }
+  }
+
+  pollToSocket() {
+    if (!pollInterval) {
+      pollInterval = setInterval(() => { sendHeartbeat({ _: Date.now() }) }, pollDelay)
+    }
+  }
+
+  unpollToSocket() {
+    if (pollInterval) {
+      clearInterval(pollInterval)
+      pollInterval = null
+    }
+  }
 
   render() {
     return (
@@ -143,7 +200,9 @@ const mapStateAsProps = ({
 const mapDispatchAsProps = {
   updateOnlineStatus,
   updateUnreadChatNumber,
-  appendReceivedChatMessage
+  appendReceivedChatMessage,
+  updateUnreadNotificationNumber,
+  prependReceivedNotificationMessage,
 }
 
 export default connect(mapStateAsProps, mapDispatchAsProps)(SocketHandler)

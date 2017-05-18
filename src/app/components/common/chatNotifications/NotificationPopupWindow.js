@@ -1,11 +1,17 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Notifications as NotificationActions } from '../../../redux/actions'
 import { Notifications as NotificationServices } from '../../../services/api/currentReader'
+import { Notifications as NotificationActions } from '../../../redux/actions'
 import moment from 'moment'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
+import { Colors } from '../../../constants/style'
 
-const { loadNotifications } = NotificationActions
 const { setReadNotifications } = NotificationServices
+const {
+  markNotificationsAsRead,
+  dismissNotification,
+  dismissAllNotifications
+} = NotificationActions
 
 class NotificationPopupWindow extends PureComponent {
   constructor(props) {
@@ -13,10 +19,9 @@ class NotificationPopupWindow extends PureComponent {
     this.locals = {
       isLockedForNotifUpdate: false
     }
-  }
-
-  componentDidMount() {
-    this.props.loadNotifications()
+    this.drawNotification = this.drawNotification.bind(this)
+    this.onDismissAllClick = this.onDismissAllClick.bind(this)
+    this.onDismissSingleClick = this.onDismissSingleClick.bind(this)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -24,24 +29,63 @@ class NotificationPopupWindow extends PureComponent {
   }
 
   updateNotificationReadStatus() {
-    const { notifications: { results, unreadCount } } = this.props
+    const { isOpen, notifications: { results, unreadCount } } = this.props
     const { isLockedForNotifUpdate } = this.locals
     if (
       unreadCount && results &&
-      !isLockedForNotifUpdate
+      !isLockedForNotifUpdate && isOpen
     ) {
       this.locals.isLockedForNotifUpdate = true
       setReadNotifications()
-        .then(this.props.resetReadNotifications())
+        .then(()=>{ this.props.markNotificationsAsRead() })
         .then(()=>{ this.locals.isLockedForNotifUpdate = false })
         .catch(err=>console.log(err))
     }
+  }
+
+  onDismissAllClick(e) {
+    e.preventDefault()
+    this.props.dismissAllNotifications()
+  }
+
+  onDismissSingleClick(e, pk) {
+    e.preventDefault()
+    this.props.dismissNotification(pk)
+  }
+
+  loading() {
+    return (
+      <div
+        className='statuspost-loader'
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'row',
+          width: '100%',
+          height: '70px',
+          alignItems: 'center',
+        }}
+      >
+        <RefreshIndicator
+          size={40}
+          left={0}
+          top={0}
+          loadingColor={Colors.blue}
+          status='loading'
+          style={{
+            display: 'inline-block',
+            position: 'relative',
+          }}
+        />
+      </div>
+    )
   }
 
   drawNotification(el, idx) {
     const {
       //category,
       //recipient,
+      pk,
       actor,
       verb,
       timestamp,
@@ -79,24 +123,40 @@ class NotificationPopupWindow extends PureComponent {
               }
             </span>
           </div>
+          <a href='#' onClick={(e) => this.onDismissSingleClick(e, pk)}>Dismiss</a>
         </div>
       </div>
     )
   }
 
   render() {
-    const { results } = this.props.notifications
-    return (
+    const { isOpen, notifications: { results } } = this.props
+    return isOpen ? (
       <section className='notifications-main-frame-container'>
         <section className='notifications-frame-container'>
           {
             results && results.length > 0 ?
-              results.map(this.drawNotification) :
+              (
+                <div>
+                  <a href='#' onClick={this.onDismissAllClick}>Dismiss all</a>
+                </div>
+              ) :
               null
+          }
+          {
+            !results ?
+              (
+                this.loading()
+              ) :
+            results.length === 0 ?
+              (
+                <p> No notifications to list! </p>
+              ) :
+            results.map(this.drawNotification)
           }
         </section>
       </section>
-    )
+    ) : null
   }
 
   renderExamples() {
@@ -252,8 +312,10 @@ const mapStateToProps = ({
   }
 }
 
-const mapDispatchToProps = {
-  loadNotifications,
+const mapDispathToProps = {
+  markNotificationsAsRead,
+  dismissNotification,
+  dismissAllNotifications,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NotificationPopupWindow)
+export default connect(mapStateToProps, mapDispathToProps)(NotificationPopupWindow)

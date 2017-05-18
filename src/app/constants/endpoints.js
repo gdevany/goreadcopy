@@ -73,6 +73,8 @@ const Endpoints = () => {
       sendHeartbeat: (params) => apiUrl('current_reader/chat/heartbeat', params),
       getNotifications: () => apiUrl('current_reader/notifications'),
       readNotifications: () => apiUrl('current_reader/notifications/read'),
+      dismissNotification: (params) => apiUrl('current_reader/notifications/dismiss', params),
+      dismissAllNotifications: () => apiUrl('current_reader/notifications/dismiss_all'),
     },
     jwtRefresh: () => apiUrl('token/refresh'),
     jwtAuth: () => apiUrl('token/auth'),

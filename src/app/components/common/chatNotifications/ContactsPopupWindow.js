@@ -18,10 +18,6 @@ const compareByProp = (prop, a, b) => {
 class ContactsPopupWindow extends PureComponent {
   constructor(props) {
     super(props)
-    this.state = {
-      isUsersContainerOpen: false,
-    }
-
     this.handleWindowTabClick = this.handleWindowTabClick.bind(this)
   }
 
@@ -29,12 +25,12 @@ class ContactsPopupWindow extends PureComponent {
     this.props.getChatContacts()
   }
 
-  handleWindowTabClick = (event) => {
+  handleWindowTabClick(event) {
     event.preventDefault()
     this.props.toggleContactsPopup()
   }
 
-  handleContactClick = (idx, event) => {
+  handleContactClick(idx, event) {
     event.preventDefault()
     this.props.openChatConversation(idx)
   }
@@ -101,24 +97,29 @@ class ContactsPopupWindow extends PureComponent {
     return (
       <section className='online-users-chats-container'>
         <div
-          className={`${isContactsOpen ?
-            'online-users-chats-small chats-open' : 'online-users-chats-small'}`
+          className={
+            `${
+              isContactsOpen ?
+                'online-users-chats-small chats-open' :
+                'online-users-chats-small'
+            }`
           }
         >
           <div
             onClick={this.handleWindowTabClick}
             className='small-chat-container'
           >
-            {isContactsOpen ?
-              (
-                <figure className='online-users-chat-icon-close'>
-                  <img src='/image/close.png'/>
-                </figure>
-              ) : (
-                <figure className='online-users-chat-icon'>
-                  <img src='/image/online-icon.png'/>
-                </figure>
-              )
+            {
+              isContactsOpen ?
+                (
+                  <figure className='online-users-chat-icon-close'>
+                    <img src='/image/close.png'/>
+                  </figure>
+                ) : (
+                  <figure className='online-users-chat-icon'>
+                    <img src='/image/online-icon.png'/>
+                  </figure>
+                )
             }
             <span className='online-users-main-text'>
               Chat

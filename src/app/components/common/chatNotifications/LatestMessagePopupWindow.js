@@ -38,23 +38,29 @@ class LatestMessagePopupWindow extends PureComponent {
   filterChatlist(contact) {
     const { filter } = this.state
     const {
-      fullname,
-      lastMessage: {
-        body, timestamp
-      }
+      fullname
     } = contact
 
     if (filter) {
-      return body && timestamp && fullname.toLowerCase().includes(filter.toLowerCase())
+      return fullname.toLowerCase().includes(filter.toLowerCase())
     }
-    return body && timestamp
+    return true
   }
 
   sortChatlist(current, next) {
-    return next.lastMessage.timestamp - current.lastMessage.timestamp
+    const a = current.lastMessage.timestamp
+    const b = next.lastMessage.timestamp
+    const x = current.fullname.toLowerCase()
+    const y = next.fullname.toLowerCase()
+
+    if (a && b) { return b - a }
+    if (!a && b) { return 1 }
+    if (a && !b) { return -1 }
+    return x < y ? -1 : x > y ? 1 : 0
   }
 
   summarizeMessage(text) {
+    if (!text) { return '' }
     if (text.length > maxPostLength) { return `${ text.substr(0, maxPostLength) }...` }
     return text
   }
@@ -98,7 +104,11 @@ class LatestMessagePopupWindow extends PureComponent {
               </a>
               <div className='single-chat-timestamp-container'>
                 <span className='single-chat-timestamp-element'>
-                  {moment(moment.unix(el.lastMessage.timestamp)).fromNow()}
+                  {
+                    el.lastMessage.timestamp ?
+                      moment(moment.unix(el.lastMessage.timestamp)).fromNow() :
+                      ''
+                  }
                 </span>
               </div>
             </div>
