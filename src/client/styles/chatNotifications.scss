@@ -44,7 +44,7 @@
   background: rgb(255, 255, 255);
   z-index: 1;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
   transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
   box-shadow: rgba(222, 222, 222, 0.498039) 0px 4px 20px 0px;
   border-radius: 5px;
@@ -54,7 +54,7 @@
     margin-top: 0;
     margin-bottom: 0;
     max-height: 80vh;
-    overflow-y: scroll;
+    overflow-y: auto;
     left: inherit;
     top: 75px;
     right: 30px;
