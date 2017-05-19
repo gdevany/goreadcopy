@@ -27,6 +27,9 @@ class NotificationItem extends PureComponent {
   onDismissSingleClick(e, pk) {
     e.preventDefault()
     this.props.dismissNotification(pk)
+    this.setState({
+      showOptions: false,
+    })
   }
 
   render() {
