@@ -115,6 +115,16 @@
                 color: $white;
               }
             }
+            .bookpage-author-follow-action-active{
+              background: $store-blue;
+              color: $white;
+              border-radius: 23px;
+              font-size: 14px;
+              border: solid 1px $store-blue;
+              text-align: center;
+              width: 80px;
+              transition: all .3s ease;
+            }
           }
         }
         .bookpage-rating-container{
@@ -174,6 +184,9 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+        &:hover{
+          cursor: pointer;
+        }
         figure{
           width: 35px;
           img{
@@ -192,6 +205,14 @@
           @media all and (min-width: 1024px){
             display: flex;
             color: #999;
+            margin-left: 10px;
+          }
+        }
+        .bookpage-action-btn-active-text{
+          display: none;
+          @media all and (min-width: 1024px){
+            display: flex;
+            color: $store-blue;
             margin-left: 10px;
           }
         }
@@ -345,10 +366,13 @@
           text-align: left;
           .bookpage-book-piggy-bank-text-lit{
             margin-right: 5px;
+            b{
+              margin-left: 5px;
+            }
             .litcoin-img{
               width: 15px;
               height: 15px;
-              margin: -2px 0 0 0;
+              margin: -2px 0 0 2px;
             }
           }
         }

@@ -23,6 +23,7 @@ class BookStoreNavBar extends PureComponent {
     super(props)
     this.state = {
       isUserLogged: false,
+      currentReader: false,
       profileMenuOpen: false,
       readerFetched: false,
       usePlatformAs: false,
@@ -60,6 +61,12 @@ class BookStoreNavBar extends PureComponent {
 
     if (!this.state.usePlatformAs && nextProps.currentReader.publishingAs) {
       this.setState({ usePlatformAs: nextProps.currentReader.publishingAs })
+    }
+    if (nextProps.currentReader && nextProps.currentReader.cartItems &&
+      (nextProps.currentReader.cartItems !== this.state.currentReader.cartItems)) {
+      this.setState({
+        currentReader: nextProps.currentReader
+      })
     }
   }
 
@@ -680,8 +687,8 @@ class BookStoreNavBar extends PureComponent {
                       >
                         <Badge
                           badgeContent={
-                            currentReader.cartItems ?
-                              currentReader.cartItems : 0
+                            this.state.currentReader.cartItems ?
+                              this.state.currentReader.cartItems : 0
                             }
                           primary={true}
                           badgeStyle={{

@@ -1,5 +1,7 @@
 import { STORE as A } from '../const/actionTypes'
 import Store from '../../services/api/store'
+import ProfilePage from '../../services/api/profilePage'
+import { getCurrentReader } from './currentReader'
 
 export function getCategories() {
   return dispatch => {
@@ -63,11 +65,48 @@ export function getRecommendedByAuthorFans(categoryId) {
   }
 }
 
-export function getBookInfo(bookSlug) {
+export function getBookInfo(bookSlug, isLogged) {
+  if (isLogged) {
+    return dispatch => {
+      Store.getAuthBookInfo(bookSlug)
+        .then(res => dispatch({ type: A.GET_BOOK_INFO, payload: res.data }))
+        .catch(err => console.error(`Error in getBookInfo ${err}`))
+    }
+  }
   return dispatch => {
     Store.getBookInfo(bookSlug)
       .then(res => dispatch({ type: A.GET_BOOK_INFO, payload: res.data }))
       .catch(err => console.error(`Error in getBookInfo ${err}`))
+  }
+}
+
+export function addToCart(bookId) {
+  return dispatch => {
+    Store.addBookToCart(bookId)
+      .then(res => dispatch(getCurrentReader()))
+      .catch(err => console.error(`Error in addToCart ${err}`))
+  }
+}
+
+export function addToLibrary(id, slug, isLogged) {
+  const terms = {
+    ean: id
+  }
+  return dispatch => {
+    ProfilePage.updateLibrary(terms)
+      .then(res => dispatch(getBookInfo(slug, isLogged)))
+      .catch(err => console.error(`Error in addToLibrary ${err}`))
+  }
+}
+
+export function addToWishList(id, slug, isLogged) {
+  const terms = {
+    ean: id
+  }
+  return dispatch => {
+    ProfilePage.updateWishList(terms)
+      .then(res => dispatch(getBookInfo(slug, isLogged)))
+      .catch(err => console.error(`Error in addToWishList ${err}`))
   }
 }
 
@@ -77,5 +116,8 @@ export default {
   getTrendingBooks,
   getMostPurchased,
   getRecommendedByAuthorFans,
-  getBookInfo
+  getBookInfo,
+  addToCart,
+  addToLibrary,
+  addToWishList
 }

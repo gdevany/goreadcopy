@@ -25,7 +25,7 @@ class BookPage extends PureComponent {
   }
   componentWillMount = () => {
     const bookSlug = this.props.params.slug
-    this.props.getBookInfo(bookSlug)
+    this.props.getBookInfo(bookSlug, isUserLoggedIn)
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -66,13 +66,13 @@ class BookPage extends PureComponent {
           </div>
           {isUserLoggedIn ? <WishListBooks/> : null}
           <hr className='bookpage-hr-separator'/>
-          { bookInfo && bookInfo.authors[0].length ?
+          { bookInfo && bookInfo.authors[0] ?
             (
               <MeetAuthor
                 profilePic={bookInfo.authors[0].imageUrl}
                 description={bookInfo.authors[0].aboutMe}
-                followers={12843}
-                books={43}
+                followers={bookInfo.authors[0].numFans}
+                books={bookInfo.authors[0].numBooks}
                 fullname={bookInfo.authors[0].fullname}
                 url={bookInfo.authors[0].url}
               />

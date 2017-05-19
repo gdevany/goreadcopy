@@ -44,7 +44,7 @@ const MeetAuthor = ({ profilePic, description, followers, books, fullname, url }
           </div>
           <div className='bookpage-meet-author-description-container'>
             <p className='bookpage-meet-author-description'>
-              {truncInfo(description, 500)}
+              {description ? truncInfo(description, 500) : null}
               {/*<a className='bookpage-meet-author-description-readmore'>*/}
                 {/*See more*/}
               {/*</a>*/}

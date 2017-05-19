@@ -49,11 +49,11 @@ class RecommendedBooks extends PureComponent {
     const { isUserLogged } = this.props
     return (
       <section className='bookstore-recommended-books-container'>
-        {isUserLogged && mostPurchased ?
+        {isUserLogged && mostPurchased && mostPurchased.results.length ?
           (
             <article className='bookstore-recommended-book-element'>
               <p className='bookstore-recommended-book-text'>
-                {mostPurchased.results[0].purchasedTimes > 0 ?
+                {mostPurchased.results.length && mostPurchased.results[0].purchasedTimes > 0 ?
                   `${mostPurchased.results[0].purchasedTimes} ` : 'Some '
                 }
                 of your friends purchased this book
