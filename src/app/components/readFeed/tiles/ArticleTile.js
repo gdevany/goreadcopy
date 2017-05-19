@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
 import TileDefault from '../TileDefault'
-import Anchorify from 'react-anchorify-text'
+import Linkify from 'react-linkify'
 
 const mentionRegex = /(\@\[\d+\:\d+\])/gi
 
@@ -37,10 +37,9 @@ class ArticleTile extends PureComponent {
     }
     return (
       <span key={index}>
-        <Anchorify
-          text={entry}
-          target='_blank'
-        />
+        <Linkify properties={{ target: '_blank' }}>
+          {entry}
+        </Linkify>
       </span>)
   }
 
@@ -92,7 +91,9 @@ class ArticleTile extends PureComponent {
             <h2 className='article-title'>{content.title}</h2>
             <div className='post-excerpt-container'>
               <p className='post-excerpt-pharagraph'>
-                <Anchorify text={content.header}/>
+                <Linkify properties={{ target: '_blank' }} >
+                  { content.header }
+                </Linkify>
                 <a href={content.link} className='post-readmore-anchor'>Read more</a>
               </p>
             </div>

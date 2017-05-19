@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
 import TileDefault from '../TileDefault'
-import Anchorify from 'react-anchorify-text'
+import Linkify from 'react-linkify'
 
 const mentionRegex = /(\@\[\d+\:\d+\])/gi
 
@@ -37,14 +37,9 @@ class AdvertisingTile extends PureComponent {
     }
     return (
       <span key={index}>
-      {
-        entry ? (
-          <Anchorify
-            text={entry}
-            target='_blank'
-          />
-        ) : null
-      }
+        <Linkify properties={{ target: '_blank' }}>
+          {entry}
+        </Linkify>
       </span>)
   }
 
@@ -102,7 +97,9 @@ class AdvertisingTile extends PureComponent {
               </h2>
               <div className='post-excerpt-container'>
                 <p className='post-excerpt-pharagraph'>
-                  {content.description}
+                  <Linkify properties={{ target: '_blank' }}>
+                    {content.description}
+                  </Linkify>
                 </p>
               </div>
             </div>

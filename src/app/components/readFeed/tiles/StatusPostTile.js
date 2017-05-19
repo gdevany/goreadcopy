@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import TileDefault from '../TileDefault'
 import ReactPlayer from 'react-player'
 import UrlParser from 'js-video-url-parser'
+import Linkify from 'react-linkify'
 
 const mentionRegex = /(\@\[\d+\:\d+\])/gi
 
@@ -42,7 +43,9 @@ class StatusPostTile extends PureComponent {
     }
     return (
       <span key={index}>
-        {entry}
+        <Linkify properties={{ target: '_blank' }}>
+          {entry}
+        </Linkify>
       </span>)
   }
 

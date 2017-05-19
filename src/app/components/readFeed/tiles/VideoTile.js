@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
 import TileDefault from '../TileDefault'
 import ReactPlayer from 'react-player'
-import Anchorify from 'react-anchorify-text'
+import Linkify from 'react-linkify'
 
 const mentionRegex = /(\@\[\d+\:\d+\])/gi
 
@@ -38,14 +38,9 @@ class VideoTile extends PureComponent {
     }
     return (
       <span key={index}>
-        {
-          entry ? (
-            <Anchorify
-              text={entry}
-              target='_blank'
-            />
-          ) : null
-        }
+        <Linkify properties={{ target: '_blank' }}>
+          {entry}
+        </Linkify>
       </span>)
   }
 
@@ -103,9 +98,9 @@ class VideoTile extends PureComponent {
             <h2 className='video-title'>{content.tile}</h2>
             <div className='post-excerpt-container'>
               <p className='post-excerpt-pharagraph'>
-              {
-                content.description ? content.description : null
-              }
+                <Linkify properties={{ target: '_blank' }}>
+                  { content.description }
+                </Linkify>
               </p>
             </div>
           </div>
