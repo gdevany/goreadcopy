@@ -9,16 +9,14 @@ const {
   toggleContactsPopup,
 } = Chat
 
-const compareByProp = (prop, a, b) => {
-  const x = a[prop].toLowerCase()
-  const y = b[prop].toLowerCase()
-  return x < y ? -1 : x > y ? 1 : 0
-}
-
 class ContactsPopupWindow extends PureComponent {
   constructor(props) {
     super(props)
     this.handleWindowTabClick = this.handleWindowTabClick.bind(this)
+    this.renderOnlineUsers = R.memoize(this.renderOnlineUsers)
+    this.renderOfflineUsers = R.memoize(this.renderOfflineUsers)
+    this.filterOnline = R.memoize(this.filterOnline)
+    this.filterOffline = R.memoize(this.filterOffline)
   }
 
   componentDidMount() {
@@ -35,10 +33,15 @@ class ContactsPopupWindow extends PureComponent {
     this.props.openChatConversation(idx)
   }
 
-  renderOnlineUsers(users) {
-    let onlineUsers = []
-    onlineUsers = users.filter(user => user.isOnline)
-    onlineUsers.sort(R.curry(compareByProp)('fullname'))
+  filterOnline(users) {
+    return users.filter(user => user.isOnline)
+  }
+
+  filterOffline(users) {
+    return users.filter(user => !user.isOnline)
+  }
+
+  renderOnlineUsers(onlineUsers) {
     return onlineUsers.map(user => {
       return (
         <div
@@ -62,10 +65,7 @@ class ContactsPopupWindow extends PureComponent {
     })
   }
 
-  renderOfflineUsers(users) {
-    let offlineUsers = []
-    offlineUsers = users.filter(user => !user.isOnline)
-    offlineUsers.sort(R.curry(compareByProp)('fullname'))
+  renderOfflineUsers(offlineUsers) {
     return (
       <div className='offline-users-container'>
         <span className='offline-users-title'>{`Offline (${offlineUsers.length})`}</span>
@@ -93,6 +93,8 @@ class ContactsPopupWindow extends PureComponent {
 
   render() {
     const { contacts, isContactsOpen } = this.props
+    const offlineUsers = contacts ? this.filterOffline(contacts) : []
+    const onlineUsers = contacts ? this.filterOnline(contacts) : []
 
     return (
       <section className='online-users-chats-container'>
@@ -129,7 +131,7 @@ class ContactsPopupWindow extends PureComponent {
                 <div>
                   <span className='online-users-divider'>•</span>
                   <span className='online-users-count'>
-                    { contacts.filter(user => user.isOnline).length }
+                    { onlineUsers.length }
                   </span>
                 </div>
               ) : null
@@ -138,8 +140,8 @@ class ContactsPopupWindow extends PureComponent {
           {
             isContactsOpen && contacts ? (
               <div className='chat-users-container'>
-                { this.renderOnlineUsers(contacts) }
-                { this.renderOfflineUsers(contacts) }
+                { this.renderOnlineUsers(onlineUsers) }
+                { this.renderOfflineUsers(offlineUsers) }
               </div>
             ) : null
           }

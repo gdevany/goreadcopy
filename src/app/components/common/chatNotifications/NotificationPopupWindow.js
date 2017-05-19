@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { NotificationItem } from './'
 import { Notifications as NotificationServices } from '../../../services/api/currentReader'
 import { Notifications as NotificationActions } from '../../../redux/actions'
-import moment from 'moment'
-import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { Colors } from '../../../constants/style'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
+import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 
 const { setReadNotifications } = NotificationServices
 const {
@@ -16,16 +17,29 @@ const {
 class NotificationPopupWindow extends PureComponent {
   constructor(props) {
     super(props)
-    this.locals = {
-      isLockedForNotifUpdate: false
+
+    this.state = {
+      isDismissAllOpen: false,
+      isDismissNotificationOpen: false,
     }
-    this.drawNotification = this.drawNotification.bind(this)
+
+    this.locals = {
+      isLockedForNotifUpdate: false,
+    }
+
+    this.handleDismissAll = this.handleDismissAll.bind(this)
     this.onDismissAllClick = this.onDismissAllClick.bind(this)
-    this.onDismissSingleClick = this.onDismissSingleClick.bind(this)
   }
 
   componentDidUpdate(prevProps, prevState) {
     this.updateNotificationReadStatus()
+  }
+
+  handleDismissAll = (event) => {
+    event.preventDefault()
+    this.setState({
+      isDismissAllOpen: !this.state.isDismissAllOpen,
+    })
   }
 
   updateNotificationReadStatus() {
@@ -46,11 +60,6 @@ class NotificationPopupWindow extends PureComponent {
   onDismissAllClick(e) {
     e.preventDefault()
     this.props.dismissAllNotifications()
-  }
-
-  onDismissSingleClick(e, pk) {
-    e.preventDefault()
-    this.props.dismissNotification(pk)
   }
 
   loading() {
@@ -81,54 +90,6 @@ class NotificationPopupWindow extends PureComponent {
     )
   }
 
-  drawNotification(el, idx) {
-    const {
-      //category,
-      //recipient,
-      pk,
-      actor,
-      verb,
-      timestamp,
-      //mentions,
-      //mentionArray
-    } = el
-    return (
-      <div key={idx} className='single-notification-element'>
-        <figure className='notification-action-figure'>
-          <img src={actor.imageUrl}/>
-        </figure>
-        <div className='notification-container'>
-          <p className='notification-description-container'>
-            <a href='#' className='notification-description-anchor'>
-              {actor.fullname}
-              <span className='notification-description-action'>
-                {verb}
-              </span>
-            </a>
-          </p>
-          <div className='notification-action-container'>
-            {
-              verb.toLowerCase().includes('follow') ? (
-                <a
-                  className='notification-action-btn'
-                  href='#'
-                >
-                  + Follow
-                </a>
-              ) : null
-            }
-            <span className='notification-timestamp'>
-              {
-                timestamp ? moment(moment.unix(timestamp)).fromNow() : null
-              }
-            </span>
-          </div>
-          <a href='#' onClick={(e) => this.onDismissSingleClick(e, pk)}>Dismiss</a>
-        </div>
-      </div>
-    )
-  }
-
   render() {
     const { isOpen, notifications: { results } } = this.props
     return isOpen ? (
@@ -137,8 +98,15 @@ class NotificationPopupWindow extends PureComponent {
           {
             results && results.length > 0 ?
               (
-                <div>
-                  <a href='#' onClick={this.onDismissAllClick}>Dismiss all</a>
+                <div className='notifications-frame-dismissall-container'>
+                  <ArrowDownIcon onClick={this.handleDismissAll}/>
+                  {this.state.isDismissAllOpen ?
+                    (
+                      <div className='notifications-frame-dismissall-square'>
+                        <a onClick={this.onDismissAllClick}>Dismiss all</a>
+                      </div>
+                    ) : null
+                  }
                 </div>
               ) :
               null
@@ -152,7 +120,7 @@ class NotificationPopupWindow extends PureComponent {
               (
                 <p> No notifications to list! </p>
               ) :
-            results.map(this.drawNotification)
+            results.map((el, idx)=><NotificationItem key={idx} element={el}/>)
           }
         </section>
       </section>

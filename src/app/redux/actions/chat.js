@@ -1,22 +1,31 @@
 import { CHAT as C } from '../const/actionTypes'
 import Chat from '../../services/api/currentReader/chat'
+import R from 'ramda'
+
+const compareByProp = (prop, a, b) => {
+  const x = a[prop].toLowerCase()
+  const y = b[prop].toLowerCase()
+  return x < y ? -1 : x > y ? 1 : 0
+}
+
+const createConversation = (id) => {
+  return {
+    id,
+    history: {},
+    isOpen: true
+  }
+}
 
 export function getChatContacts() {
   return dispatch => {
     return Chat.getChatContacts()
       .then(res => dispatch({
         type: C.GET_CHAT_CONTACTS,
-        payload: { contacts: res.data.results.contacts }
+        payload: {
+          contacts: R.sort(R.curry(compareByProp)('fullname'), res.data.results.contacts)
+        }
       }))
       .catch(err => console.log(err))
-  }
-}
-
-function createConversation(id) {
-  return {
-    id,
-    history: {},
-    isOpen: true
   }
 }
 
