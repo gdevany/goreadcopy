@@ -1,5 +1,6 @@
 import axios from 'axios'
 import Auth from './auth'
+import 'babel-polyfill'
 
 const Http = () => {
   const authHeaders = (token) => {

@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
 import TileDefault from '../TileDefault'
 import ReactPlayer from 'react-player'
-import urlParser from 'js-video-url-parser'
-import Anchorify from 'react-anchorify-text'
+import UrlParser from 'js-video-url-parser'
+import Linkify from 'react-linkify'
 
 const mentionRegex = /(\@\[\d+\:\d+\])/gi
 
@@ -43,10 +43,9 @@ class StatusPostTile extends PureComponent {
     }
     return (
       <span key={index}>
-        <Anchorify
-          text={entry}
-          target='_blank'
-        />
+        <Linkify properties={{ target: '_blank' }}>
+          {entry}
+        </Linkify>
       </span>)
   }
 
@@ -72,7 +71,7 @@ class StatusPostTile extends PureComponent {
 
     let videoInfo = ''
     if (content.activeContent && content.activeContent.providerName === 'Dailymotion') {
-      videoInfo = urlParser.parse(content.activeContent.url)
+      videoInfo = UrlParser.parse(content.activeContent.url)
     }
     return (
       <TileDefault
