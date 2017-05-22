@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import moment from 'moment'
 import { AnchoredParagraph } from '../'
+import currentReaderRecommendation from '../../../services/api/currentReader/recommendation'
 
 import { Notifications as NotificationActions } from '../../../redux/actions'
 
@@ -10,12 +11,15 @@ const { dismissNotification } = NotificationActions
 
 class NotificationItem extends PureComponent {
   constructor(props) {
+    const { element: { verb, followBack } } = props
     super(props)
     this.state = {
-      showOptions: false
+      showOptions: false,
+      showFollowBack: verb.toLowerCase().includes('follow') && followBack,
     }
     this.handleDismissNotification = this.handleDismissNotification.bind(this)
     this.onDismissSingleClick = this.onDismissSingleClick.bind(this)
+    this.onFollowClick = this.onFollowClick.bind(this)
   }
 
   handleDismissNotification(e) {
@@ -33,6 +37,13 @@ class NotificationItem extends PureComponent {
     })
   }
 
+  onFollowClick(e) {
+    const { element: { actor: { id } } } = this.props
+    currentReaderRecommendation.likedReaders({ 'readerIds': [id] })
+      .then(res=>{ this.setState({ showFollowBack: false }) })
+      .catch(err=>console.log(err))
+  }
+
   mapMentions(list) {
     return list.map(item=>{
       return {
@@ -45,14 +56,11 @@ class NotificationItem extends PureComponent {
 
   render() {
     const { element: {
-      //category,
-      //recipient,
       pk,
       actor,
-      verb,
       timestamp,
       mentions,
-      mentionArray
+      mentionArray,
     } } = this.props
 
     return (
@@ -73,10 +81,11 @@ class NotificationItem extends PureComponent {
           />
           <div className='notification-action-container'>
             {
-              verb.toLowerCase().includes('follow') ? (
+              this.state.showFollowBack ? (
                 <a
                   className='notification-action-btn'
                   href='#'
+                  onClick={this.onFollowClick}
                 >
                   + Follow
                 </a>
