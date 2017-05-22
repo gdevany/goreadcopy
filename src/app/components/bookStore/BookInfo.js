@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Store } from '../../redux/actions'
+import { Follow, Store, Social } from '../../redux/actions'
 import Rating from 'react-rating'
 import ReplyIcon from 'material-ui/svg-icons/content/reply'
-import { Follow } from '../../redux/actions'
 import { ShareButtons, generateShareIcon } from 'react-share'
 
 const { followOrUnfollow } = Follow
+const { sharePost } = Social
 const { addToCart, addToLibrary, addToWishList } = Store
 const {
   FacebookShareButton,
@@ -33,6 +33,7 @@ class BookInfo extends PureComponent {
     this.handleAddToLibrary = this.handleAddToLibrary.bind(this)
     this.handleAddToWishList = this.handleAddToWishList.bind(this)
     this.handleFollowOrUnFollow = this.handleFollowOrUnFollow.bind(this)
+    this.handleSharePost = this.handleSharePost.bind(this)
     this.handleBookTypeSelect = this.handleBookTypeSelect.bind(this)
     this.handleShowAlert = this.handleShowAlert.bind(this)
     this.handleShareClick = this.handleShareClick.bind(this)
@@ -109,6 +110,23 @@ class BookInfo extends PureComponent {
   }
 
   handleHideShareClick = (event) => this.setState({ isSharePopUpDisplayed: false })
+
+  handleSharePost = (shareType, contentType, contentId, shareComment) => {
+    let data = {}
+    if (shareComment) {
+      data = {
+        shareType,
+        comment: shareComment,
+        contentType,
+      }
+    } else {
+      data = {
+        shareType,
+        contentType,
+      }
+    }
+    this.props.sharePost(data, contentId)
+  }
 
   render() {
     const { bookInfo, isUserLogged } = this.props
@@ -230,7 +248,10 @@ class BookInfo extends PureComponent {
                     className='bookpage-share-buttons-container'
                     onMouseLeave={this.handleHideShareClick}
                   >
-                    <li className='bookpage-share-buttons-li'>
+                    <li
+                      className='bookpage-share-buttons-li'
+                      onClick={() => this.handleSharePost(1, 'bookpage', bookInfo.id)}
+                    >
                       <FacebookShareButton
                         url={bookInfo.url}
                         title={bookInfo.title}
@@ -244,7 +265,10 @@ class BookInfo extends PureComponent {
                       </FacebookShareButton>
                     </li>
 
-                    <li className='bookpage-share-buttons-li'>
+                    <li
+                      className='bookpage-share-buttons-li'
+                      onClick={() => this.handleSharePost(2, 'bookpage', bookInfo.id)}
+                    >
                       <TwitterShareButton
                         url={bookInfo.url}
                         title={bookInfo.title}
@@ -257,7 +281,10 @@ class BookInfo extends PureComponent {
                       </TwitterShareButton>
                     </li>
 
-                    <li className='bookpage-share-buttons-li'>
+                    <li
+                      className='bookpage-share-buttons-li'
+                      onClick={() => this.handleSharePost(4, 'bookpage', bookInfo.id)}
+                    >
                       <LinkedinShareButton
                         url={bookInfo.url}
                         title={bookInfo.title}
@@ -273,7 +300,10 @@ class BookInfo extends PureComponent {
                       </LinkedinShareButton>
                     </li>
 
-                    <li className='bookpage-share-buttons-li'>
+                    <li
+                      onClick={() => this.handleSharePost(3, 'bookpage', bookInfo.id)}
+                      className='bookpage-share-buttons-li'
+                    >
                       <GooglePlusShareButton
                         url={bookInfo.url}
                         className='google-plus-share-button pointer-hand'
@@ -424,6 +454,7 @@ const mapDistpachToProps = {
   addToLibrary,
   addToWishList,
   addToCart,
-  followOrUnfollow
+  followOrUnfollow,
+  sharePost
 }
 export default connect(null, mapDistpachToProps)(BookInfo)
