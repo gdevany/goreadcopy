@@ -5,7 +5,12 @@ import { SignUpFlow } from './components/readerOnboarding'
 import IncomingRedirect from './components/incomingRedirect/IncomingRedirect'
 import { HomeWrapper } from './components/home'
 import { Profile } from './components/profile'
-import { BookStore, BookPage, CategoriesPage } from './components/bookStore'
+import {
+  BookStore,
+  BookPage,
+  CategoriesPage,
+  CartPage,
+} from './components/bookStore'
 import { Settings } from './components/settings'
 import { Auth } from './services'
 
@@ -20,6 +25,7 @@ const Routes = (
     <Route path='/browse' component={BookStore} />
     <Route path='/book/:slug' component={BookPage} />
     <Route path='/categories/:slug' component={CategoriesPage} />
+    <Route path='/shop/cart' component={CartPage} />
     <Route path='/signup' component={SignUpFlow} />
     <Route path='/redirect' component={IncomingRedirect} />
   </Route>

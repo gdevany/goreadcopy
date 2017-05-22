@@ -676,7 +676,7 @@ class NavMenu extends PureComponent {
               </li>
               <li style={styles.loggedInRightNavLi}>
                 <a
-                  href={routes.shopCart()}
+                  href='/shop/cart'
                   style={styles.navItemLinks}
                   className='menu-badge-container rf-nav-link'
                 >
@@ -874,7 +874,7 @@ class NavMenu extends PureComponent {
                 </li>
                 <li style={styles.loggedInRightNavLi}>
                   <a
-                    href={routes.shopCart()}
+                    href='/shop/cart'
                     style={styles.navItemLinks}
                     className='menu-badge-container rf-nav-link'
                   >

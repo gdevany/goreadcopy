@@ -91,8 +91,7 @@ class BookInfo extends PureComponent {
     }
   }
 
-  handleShowAlert = (event) => {
-    event.preventDefault()
+  handleShowAlert = () => {
     this.setState({ isAlertDisplayed: !this.state.isAlertDisplayed })
   }
 
@@ -355,7 +354,7 @@ class BookInfo extends PureComponent {
                   <span className='bookpage-book-details-paper-type-price'>
                     {`$${bookInfo.shopPrice}`}
                   </span>
-                  {isAlertDisplayed ? (
+                  {!addToCartClicked && isAlertDisplayed ? (
                     <div className='bookpage-book-details-paper-type-alert'>
                       <span>Please Select an option</span>
                     </div>
@@ -384,12 +383,14 @@ class BookInfo extends PureComponent {
                 (
                   <a
                     className='bookpage-book-add-to-cart-btn'
-                    onClick={!addToCartClicked && isBookTypeSelected ?
+                    onClick={!addToCartClicked ?
                       this.handleAddToCart : this.handleShowAlert
                     }
-                    href={addToCartClicked ? '/store/cart' : null}
+                    href={!addToCartClicked ? null : '/shop/cart'}
                   >
-                    {addToCartClicked ? 'View Cart & Proceed to checkout' : 'Add to Cart'}
+                    {!addToCartClicked ?
+                      'Add to Cart' : 'View Cart & Proceed to checkout'
+                    }
                   </a>
                 ) : (
                   <a className='bookpage-book-add-to-cart-btn'>

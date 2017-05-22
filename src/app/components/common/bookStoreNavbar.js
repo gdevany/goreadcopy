@@ -683,7 +683,7 @@ class BookStoreNavBar extends PureComponent {
                     <li className='bookstore-navbar-menu-list'>
                       <a
                         className='bookstore-navbar-menu-anchor bookstore-badge-container'
-                        href='#'
+                        href='/shop/cart'
                       >
                         <Badge
                           badgeContent={
@@ -844,7 +844,7 @@ class BookStoreNavBar extends PureComponent {
                     <li className='bookstore-navbar-menu-list'>
                       <a
                         className='bookstore-navbar-menu-anchor'
-                        href='#'
+                        href='/shop/cart'
                       >
                         <img
                           src='/image/cart.svg'
