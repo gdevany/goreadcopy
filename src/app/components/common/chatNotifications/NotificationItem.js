@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import moment from 'moment'
+import { AnchoredParagraph } from '../'
 
 import { Notifications as NotificationActions } from '../../../redux/actions'
 
@@ -32,6 +33,16 @@ class NotificationItem extends PureComponent {
     })
   }
 
+  mapMentions(list) {
+    return list.map(item=>{
+      return {
+        pattern: item.mentions,
+        url: item.url,
+        text: item.name,
+      }
+    })
+  }
+
   render() {
     const { element: {
       //category,
@@ -40,8 +51,8 @@ class NotificationItem extends PureComponent {
       actor,
       verb,
       timestamp,
-      //mentions,
-      //mentionArray
+      mentions,
+      mentionArray
     } } = this.props
 
     return (
@@ -50,14 +61,16 @@ class NotificationItem extends PureComponent {
           <img src={actor.imageUrl}/>
         </figure>
         <div className='notification-container'>
-          <p className='notification-description-container'>
-            <a href='#' className='notification-description-anchor'>
-              {actor.fullname}
-              <span className='notification-description-action'>
-                {verb}
-              </span>
-            </a>
-          </p>
+          <AnchoredParagraph
+            text={mentions}
+            regexpr={/(\@\[\d+\:\d+\])/}
+            replace={this.mapMentions(mentionArray)}
+            cls={{
+              a: 'notification-description-anchor',
+              p: 'notification-description-container',
+              span: 'notification-description-action'
+            }}
+          />
           <div className='notification-action-container'>
             {
               verb.toLowerCase().includes('follow') ? (
@@ -71,7 +84,9 @@ class NotificationItem extends PureComponent {
             }
             <span className='notification-timestamp'>
               {
-                timestamp ? moment(moment.unix(timestamp)).fromNow() : null
+                timestamp ?
+                  moment(moment.unix(timestamp)).fromNow() :
+                  null
               }
             </span>
           </div>
