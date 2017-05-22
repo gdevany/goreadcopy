@@ -4,9 +4,20 @@ import { Store } from '../../redux/actions'
 import Rating from 'react-rating'
 import ReplyIcon from 'material-ui/svg-icons/content/reply'
 import { Follow } from '../../redux/actions'
+import { ShareButtons, generateShareIcon } from 'react-share'
 
 const { followOrUnfollow } = Follow
 const { addToCart, addToLibrary, addToWishList } = Store
+const {
+  FacebookShareButton,
+  GooglePlusShareButton,
+  LinkedinShareButton,
+  TwitterShareButton,
+} = ShareButtons
+const FacebookIcon = generateShareIcon('facebook')
+const TwitterIcon = generateShareIcon('twitter')
+const GooglePlusIcon = generateShareIcon('google')
+const LinkedinIcon = generateShareIcon('linkedin')
 
 class BookInfo extends PureComponent {
 
@@ -14,11 +25,17 @@ class BookInfo extends PureComponent {
     super(props)
     this.state = {
       addToCartClicked: false,
+      isBookTypeSelected: false,
+      isAlertDisplayed: false,
+      isSharePopUpDisplayed: false,
     }
     this.handleAddToCart = this.handleAddToCart.bind(this)
     this.handleAddToLibrary = this.handleAddToLibrary.bind(this)
     this.handleAddToWishList = this.handleAddToWishList.bind(this)
     this.handleFollowOrUnFollow = this.handleFollowOrUnFollow.bind(this)
+    this.handleBookTypeSelect = this.handleBookTypeSelect.bind(this)
+    this.handleShowAlert = this.handleShowAlert.bind(this)
+    this.handleShareClick = this.handleShareClick.bind(this)
   }
 
   truncInfo = (text, limit) => {
@@ -74,9 +91,34 @@ class BookInfo extends PureComponent {
     }
   }
 
+  handleShowAlert = (event) => {
+    event.preventDefault()
+    this.setState({ isAlertDisplayed: !this.state.isAlertDisplayed })
+  }
+
+  handleBookTypeSelect = (event) => {
+    event.preventDefault()
+    this.setState({
+      isBookTypeSelected: true,
+      isAlertDisplayed: false,
+    })
+  }
+
+  handleShareClick = (event) => {
+    event.preventDefault()
+    this.setState({ isSharePopUpDisplayed: !this.state.isSharePopUpDisplayed })
+  }
+
+  handleHideShareClick = (event) => this.setState({ isSharePopUpDisplayed: false })
+
   render() {
     const { bookInfo, isUserLogged } = this.props
-    const { addToCartClicked } = this.state
+    const {
+      addToCartClicked,
+      isBookTypeSelected,
+      isAlertDisplayed,
+      isSharePopUpDisplayed
+    } = this.state
     return (
       <div className='row bookpage-info-main-container'>
         <div className='small-12 large-6 large-offset-1 columns bookpage-info-left-element'>
@@ -180,9 +222,83 @@ class BookInfo extends PureComponent {
                 </div>
               )
             }
-            <div className='bookpage-bottom-action-btn'>
+            <div className='bookpage-bottom-action-btn' onClick={this.handleShareClick}>
               <ReplyIcon />
               <span>Share</span>
+              {isSharePopUpDisplayed ?
+                (
+                  <ul
+                    className='bookpage-share-buttons-container'
+                    onMouseLeave={this.handleHideShareClick}
+                  >
+                    <li className='bookpage-share-buttons-li'>
+                      <FacebookShareButton
+                        url={bookInfo.url}
+                        title={bookInfo.title}
+                        description={this.truncInfo(bookInfo.description, 100)}
+                        className='facebook-share-button pointer-hand'
+                      >
+                        <FacebookIcon
+                          size={32}
+                          round
+                        />
+                      </FacebookShareButton>
+                    </li>
+
+                    <li className='bookpage-share-buttons-li'>
+                      <TwitterShareButton
+                        url={bookInfo.url}
+                        title={bookInfo.title}
+                        className='twitter-share-button pointer-hand'
+                      >
+                        <TwitterIcon
+                          size={32}
+                          round
+                        />
+                      </TwitterShareButton>
+                    </li>
+
+                    <li className='bookpage-share-buttons-li'>
+                      <LinkedinShareButton
+                        url={bookInfo.url}
+                        title={bookInfo.title}
+                        description={this.truncInfo(bookInfo.description, 100)}
+                        windowWidth={750}
+                        windowHeight={600}
+                        className='linkedin-share-button pointer-hand'
+                      >
+                        <LinkedinIcon
+                          size={32}
+                          round
+                        />
+                      </LinkedinShareButton>
+                    </li>
+
+                    <li className='bookpage-share-buttons-li'>
+                      <GooglePlusShareButton
+                        url={bookInfo.url}
+                        className='google-plus-share-button pointer-hand'
+                      >
+                        <GooglePlusIcon
+                          size={32}
+                          round
+                        />
+                      </GooglePlusShareButton>
+                    </li>
+
+                    {isUserLogged ?
+                      (
+                        <li className='bookpage-share-buttons-li-gr'>
+                          <img
+                            className='logo-share-img pointer-hand'
+                            src='/image/logo_share.png'
+                          />
+                        </li>
+                      ) : null
+                    }
+                  </ul>
+                ) : null
+              }
             </div>
           </div>
         </div>
@@ -227,13 +343,23 @@ class BookInfo extends PureComponent {
             </div>
             <div className='bookpage-book-details-paper-type-selector-container'>
               <ul className='bookpage-book-details-paper-type-selector'>
-                <li className='bookpage-book-details-paper-type'>
+                <li
+                  className={isBookTypeSelected ?
+                    'bookpage-book-details-paper-type-slctd' : 'bookpage-book-details-paper-type'
+                  }
+                  onClick={this.handleBookTypeSelect}
+                >
                   <span className='bookpage-book-details-paper-type-text'>
                     Paperback
                   </span>
                   <span className='bookpage-book-details-paper-type-price'>
                     {`$${bookInfo.shopPrice}`}
                   </span>
+                  {isAlertDisplayed ? (
+                    <div className='bookpage-book-details-paper-type-alert'>
+                      <span>Please Select an option</span>
+                    </div>
+                  ) : null}
                 </li>
                 {/*<li className='bookpage-book-details-paper-type'>*/}
                   {/*<span className='bookpage-book-details-paper-type-text'>*/}
@@ -258,7 +384,9 @@ class BookInfo extends PureComponent {
                 (
                   <a
                     className='bookpage-book-add-to-cart-btn'
-                    onClick={!addToCartClicked ? this.handleAddToCart : null}
+                    onClick={!addToCartClicked && isBookTypeSelected ?
+                      this.handleAddToCart : this.handleShowAlert
+                    }
                     href={addToCartClicked ? '/store/cart' : null}
                   >
                     {addToCartClicked ? 'View Cart & Proceed to checkout' : 'Add to Cart'}

@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import { Link } from 'react-router'
 import { ExternalRoutes as routes } from '../../constants'
 import R from 'ramda'
 import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
@@ -106,12 +105,12 @@ class LeftHandLinks extends PureComponent {
             </a>
           </li>
           <li className='left-hand-menu-item'>
-            <Link
+            <a
               className='left-hand-menu-anchor'
-              to='/browse'
+              href='/browse'
             >
               Book Store
-            </Link>
+            </a>
           </li>
           { this.handleMapMenuItems() }
           {

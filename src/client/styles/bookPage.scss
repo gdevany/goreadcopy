@@ -184,6 +184,7 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+        position: relative;
         &:hover{
           cursor: pointer;
         }
@@ -214,6 +215,54 @@
             display: flex;
             color: $store-blue;
             margin-left: 10px;
+          }
+        }
+        .bookpage-share-buttons-container{
+          position: absolute;
+          right: 0;
+          top: 42px;
+          background: white;
+          border-radius: 10px;
+          border: solid 1px #F4F4F4;
+          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+          list-style: none;
+          margin: 0;
+          max-width: 210px;
+          padding: 10px;
+          display: flex;
+          flex-direction: row;
+          z-index:3;
+          &:before{
+            position: absolute;
+            top: -11px;
+            right: 10px;
+            border-right: 11px solid transparent;
+            border-bottom: 11px solid transparent;
+            border-left: 11px solid transparent;
+            border-bottom-color: #F4F4F4;
+            content: '';
+          }
+          &:after{
+            position: absolute;
+            top: -10px;
+            right: 11px;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid #ffffff;
+            border-left: 10px solid transparent;
+            content: '';
+          }
+          .bookpage-share-buttons-li{
+            margin: 0 2.5px;
+            svg{
+              path{
+                fill: $white;
+              }
+            }
+          }
+          .bookpage-share-buttons-li-gr{
+            margin: 0 2.5px;
+            width: 35px;
+            height: 35px;
           }
         }
       }
@@ -323,10 +372,64 @@
             width: 100%;
             margin-bottom: 10px;
             border-radius: 5px;
+            transition: all .3s ease;
+            position: relative;
             &:hover{
               border: solid 2px $black;
               color: $black;
               cursor: pointer;
+            }
+          }
+          .bookpage-book-details-paper-type-slctd{
+            border: solid 2px $black;
+            color: $black;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: row;
+            padding: 5px 20px;
+            width: 100%;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            &:hover{
+              cursor: pointer;
+            }
+          }
+          .bookpage-book-details-paper-type-alert{
+            position: absolute;
+            right: 0;
+            top: 42px;
+            background: white;
+            border-radius: 10px;
+            border: solid 1px #F4F4F4;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            list-style: none;
+            margin: 0;
+            max-width: 200px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            &:before{
+              position: absolute;
+              top: -11px;
+              right: 10px;
+              border-right: 11px solid transparent;
+              border-bottom: 11px solid transparent;
+              border-left: 11px solid transparent;
+              border-bottom-color: #F4F4F4;
+              content: '';
+            }
+            &:after{
+              position: absolute;
+              top: -10px;
+              right: 11px;
+              border-right: 10px solid transparent;
+              border-bottom: 10px solid #ffffff;
+              border-left: 10px solid transparent;
+              content: '';
+            }
+            span{
+              color: $black;
             }
           }
         }
