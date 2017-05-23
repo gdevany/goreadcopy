@@ -751,6 +751,18 @@ class NavMenu extends PureComponent {
                 <span className='links-title'>
                   Explore
                 </span>
+                {currentReader.isAuthor ?
+                  (
+                    <li className='links-list'>
+                      <a
+                        href={currentReader.author.url}
+                        className='links-anchor'
+                      >
+                        My Author Page
+                      </a>
+                    </li>
+                  ) : null
+                }
                 {this.mapMobileMenuItems('Explore')}
               </ul>
               <ul className='links-container'>
@@ -760,9 +772,8 @@ class NavMenu extends PureComponent {
                 {this.mapMobileMenuItems('Help')}
                 <li className='links-list'>
                   <a
-                    href='https://www.goread.com/profile/settings'
+                    href='/profile/settings'
                     className='links-anchor'
-                    target='_blank'
                   >
                     Help
                   </a>
