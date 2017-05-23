@@ -29,6 +29,7 @@ const Endpoints = () => {
     unSelectSocialAccount: (params) => apiUrl('socialaccounts/unselect_account', params),
     getCountries: () => apiUrl('forms/countries'),
     getStates: (id) => apiUrl(`forms/${id}/states`),
+    requestBookClubMembership: () => apiUrl('book_clubs/member_request'),
     editTile: (id) => apiUrl(`activities/${id}/edit_statuspost_tile`),
     deleteTile: (id) => apiUrl(`activities/${id}`),
     currentReader: {
