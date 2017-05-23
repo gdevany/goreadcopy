@@ -648,7 +648,7 @@ class NavMenu extends PureComponent {
 
   renderLogInMenu = () => {
     const { currentReader, notifications } = this.props
-    const { socialFollowers, socialFollowed, isReadFeed } = this.state
+    const { socialFollowers, socialFollowed, isReadFeed, usePlatformAs } = this.state
     const chatNotifications = this.countChatNotifications()
     return (
       <div className='relative-top-menu'>
@@ -674,7 +674,6 @@ class NavMenu extends PureComponent {
                     onClick={this.handleClickSearch}
                   />
                 </li>
-
                 <li className='logged-menu-item'>
                   <Badge
                     onClick={this.handleChatsContainerShow}
@@ -806,41 +805,43 @@ class NavMenu extends PureComponent {
                        <span className='links-title'>
                          Use Platform As
                        </span>
-                      <li className='publishing-as-list'>
-                        <a
-                          onClick={() => this.handlePlatformUse('reader')}
-                          className={usePlatformAs === 'reader' ?
-                            ('publishing-as-active') : ('publishing-as-anchor')}
-                        >
-                          Reader
-                        </a>
-                      </li>
-                      {currentReader.hasAuthorBuzz ?
-                        (
-                          <li className='publishing-as-list'>
-                            <a
-                              onClick={() => this.handlePlatformUse('author')}
-                              className={usePlatformAs === 'author' ?
-                                ('publishing-as-active') : ('publishing-as-anchor')}
-                            >
-                              Author
-                            </a>
-                          </li>
-                        ) : null
-                      }
-                      {currentReader.hasPublisherBuzz && currentReader.isPublisher ?
-                        (
-                          <li className='publishing-as-list'>
-                            <a
-                              onClick={() => this.handlePlatformUse('publisher')}
-                              className={usePlatformAs === 'publisher' ?
-                                ('publishing-as-active') : ('publishing-as-anchor')}
-                            >
-                              Publisher
-                            </a>
-                          </li>
-                        ) : null
-                      }
+                      <div className='publishing-as-mobile-container'>
+                        <li className='publishing-as-list'>
+                          <a
+                            onClick={() => this.handlePlatformUse('reader')}
+                            className={usePlatformAs === 'reader' ?
+                              ('publishing-as-active') : ('publishing-as-anchor')}
+                          >
+                            Reader
+                          </a>
+                        </li>
+                        {currentReader.hasAuthorBuzz ?
+                          (
+                            <li className='publishing-as-list'>
+                              <a
+                                onClick={() => this.handlePlatformUse('author')}
+                                className={usePlatformAs === 'author' ?
+                                  ('publishing-as-active') : ('publishing-as-anchor')}
+                              >
+                                Author
+                              </a>
+                            </li>
+                          ) : null
+                        }
+                        {currentReader.hasPublisherBuzz && currentReader.isPublisher ?
+                          (
+                            <li className='publishing-as-list'>
+                              <a
+                                onClick={() => this.handlePlatformUse('publisher')}
+                                className={usePlatformAs === 'publisher' ?
+                                  ('publishing-as-active') : ('publishing-as-anchor')}
+                              >
+                                Publisher
+                              </a>
+                            </li>
+                          ) : null
+                        }
+                      </div>
                     </ul>
                   ) : null
 
