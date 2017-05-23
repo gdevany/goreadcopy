@@ -635,7 +635,6 @@ class NavMenu extends PureComponent {
       </ul>
     )
   }
-
   countChatNotifications = () => {
     const { chat: { contacts } } = this.props
     if (contacts && contacts.length > 0) {
@@ -801,6 +800,18 @@ class NavMenu extends PureComponent {
                   <span className='links-title'>
                     Explore
                   </span>
+                  {currentReader.isAuthor ?
+                    (
+                      <li className='links-list'>
+                        <a
+                          href={currentReader.author.url}
+                          className='links-anchor'
+                        >
+                          My Author Page
+                        </a>
+                      </li>
+                    ) : null
+                  }
                   {this.mapMobileMenuItems('Explore')}
                 </ul>
                 <ul className='links-container'>
