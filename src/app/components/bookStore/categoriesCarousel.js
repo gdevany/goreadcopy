@@ -50,7 +50,7 @@ class CategoriesCarousel extends PureComponent {
 
   renderCategories = () => {
     const { categories } = this.state
-    return categories.slice(0, 24).map((category, index) => {
+    return categories.map((category, index) => {
       return (
         <a key={category.id} href={`/categories/${category.slug}`}>
           <div className='category-on-carousel-square'>
@@ -79,7 +79,7 @@ class CategoriesCarousel extends PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    categories: state.store.categories,
+    categories: state.store.popularCategories,
   }
 }
 

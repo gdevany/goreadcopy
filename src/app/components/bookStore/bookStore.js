@@ -8,11 +8,9 @@ import RecommendedBooks from './RecommendedBooks'
 import BestSellers from './BestSellers'
 import TrendingBooks from './TrendingBooks'
 import { Footer } from '../common'
-import { Store } from '../../redux/actions'
 import { Auth } from '../../services'
 
 const isUserLoggedIn = Auth.currentUserExists()
-const { getCategories } = Store
 
 class BookStore extends PureComponent {
   constructor(props) {
@@ -22,10 +20,6 @@ class BookStore extends PureComponent {
       randomCategory: null,
       isRandomSelected: false,
     }
-  }
-
-  componentWillMount = () => {
-    this.props.getCategories()
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -104,4 +98,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { getCategories })(BookStore)
+export default connect(mapStateToProps, null)(BookStore)

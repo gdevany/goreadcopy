@@ -4,17 +4,32 @@ import ProfilePage from '../../services/api/profilePage'
 import { getCurrentReader } from './currentReader'
 
 export function getCategories() {
+  const data = {
+    sort: 'alphabetically',
+  }
   return dispatch => {
-    Store.getCategories()
+    Store.getCategories(data)
       .then(res => dispatch({ type: A.GET_CATEGORIES, payload: res.data }))
       .then(res => {
         const totalPages = Math.ceil(res.payload.count / res.payload.perPage)
         for (let i = 1; i < totalPages; i++) {
-          Store.getCategories({ page: i + 1 })
+          Store.getCategories({ page: i + 1, sort: 'alphabetically' })
             .then(res => dispatch({ type: A.GET_MERGE_CATEGORIES, payload: res.data.results }))
         }
       })
       .catch(err => console.error(`Error in getCategoriesAction ${err}`))
+  }
+}
+
+export function getPopularCategories() {
+  const data = {
+    sort: 'popular',
+    perPage: 15,
+  }
+  return dispatch => {
+    Store.getCategories(data)
+       .then(res => dispatch({ type: A.GET_POPULAR_CATEGORIES, payload: res.data }))
+       .catch(err => console.error(`Error in getCategoriesAction ${err}`))
   }
 }
 
@@ -112,6 +127,7 @@ export function addToWishList(id, slug, isLogged) {
 
 export default {
   getCategories,
+  getPopularCategories,
   getBestSellers,
   getTrendingBooks,
   getMostPurchased,

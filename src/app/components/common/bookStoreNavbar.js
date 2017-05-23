@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { ExternalRoutes as routes } from '../../constants'
-import { Auth, CurrentReader } from '../../redux/actions'
+import { Auth, CurrentReader, Store } from '../../redux/actions'
 import { Auth as AuthService } from '../../services'
 import SignUpModal from './SignUpModal'
 import LogInModal from './SignInModal'
@@ -16,6 +16,7 @@ import R from 'ramda'
 const isUserLoggedIn = AuthService.currentUserExists()
 const { verifyUserToken, processUserLogout } = Auth
 const { usePlatformAs, getCurrentReader, logoutCurrentReader } = CurrentReader
+const { getCategories, getPopularCategories } = Store
 
 class BookStoreNavBar extends PureComponent {
 
@@ -24,6 +25,8 @@ class BookStoreNavBar extends PureComponent {
     this.state = {
       isUserLogged: false,
       currentReader: false,
+      categories: false,
+      popularCategories: false,
       profileMenuOpen: false,
       readerFetched: false,
       usePlatformAs: false,
@@ -43,12 +46,15 @@ class BookStoreNavBar extends PureComponent {
   }
 
   componentWillMount = () => {
+
     if (!this.state.readerFetched && isUserLoggedIn) {
       this.props.getCurrentReader()
       this.setState({
         readerFetched: true
       })
     }
+    this.props.getCategories()
+    this.props.getPopularCategories()
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -67,6 +73,12 @@ class BookStoreNavBar extends PureComponent {
       this.setState({
         currentReader: nextProps.currentReader
       })
+    }
+    if (nextProps.categories) {
+      this.setState({ categories: nextProps.categories })
+    }
+    if (nextProps.popularCategories) {
+      this.setState({ popularCategories: nextProps.popularCategories })
     }
   }
 
@@ -925,6 +937,8 @@ class BookStoreNavBar extends PureComponent {
 const mapStateToProps = (state) => {
   return {
     currentReader: state.currentReader,
+    categories: state.store.categories,
+    popularCategories: state.store.popularCategories,
   }
 }
 
@@ -933,7 +947,9 @@ const mapDispatchToProps = {
   processUserLogout,
   usePlatformAs,
   getCurrentReader,
-  verifyUserToken
+  verifyUserToken,
+  getCategories,
+  getPopularCategories,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookStoreNavBar)
