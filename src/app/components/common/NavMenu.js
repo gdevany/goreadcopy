@@ -793,13 +793,6 @@ class NavMenu extends PureComponent {
                           </li>
                         ) : null
                       }
-                      <li className='publishing-as-list'>
-                        <a
-                          className='publishing-as-anchor'
-                        >
-                          Publisher
-                        </a>
-                      </li>
                     </div>
                   </ul>
                 ) : null
