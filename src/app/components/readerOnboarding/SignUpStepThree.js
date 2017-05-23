@@ -152,6 +152,17 @@ class SignUpStepThree extends PureComponent {
     }
   })
 
+  getRandom = (nItems, list) => {
+    const NewList = []
+    for (let i = 0; i < nItems; i++) {
+      const index = Math.floor((Math.random() * list.length))
+      const randomItem = list[index]
+      list.splice(index, 1)
+      NewList.push(randomItem)
+    }
+    return NewList
+  }
+
   allAuthors = (recommended) => {
     const authors = recommended.length ? recommended[0].authors : false
     let authorsToShow = []
@@ -160,9 +171,9 @@ class SignUpStepThree extends PureComponent {
       const buzzAuthors = R.prop('buzz', authors) ? authors.buzz : []
       const nonBuzzAuthors = R.prop('nonBuzz') ? authors.nonBuzz : []
       const buzzAuthorsToShow = buzzAuthors ?
-          R.take(this.props.BuzzAuthorsRecommendations, buzzAuthors) : []
+        this.getRandom(this.props.BuzzAuthorsRecommendations, buzzAuthors) : []
       const nonBuzzAuthorsToShow = nonBuzzAuthors ?
-          R.take(this.props.NonBuzzAuthorsRecommendations, nonBuzzAuthors) : []
+        this.getRandom(this.props.NonBuzzAuthorsRecommendations, nonBuzzAuthors) : []
       authorsToShow = R.concat(buzzAuthorsToShow, nonBuzzAuthorsToShow)
     }
 
@@ -179,9 +190,9 @@ class SignUpStepThree extends PureComponent {
       const loggedLastThirtyDays = R.prop('loggedLastThirtyDays', readers) ?
           readers.loggedLastThirtyDays : false
       const newLastFourteenDaysToShow = newLastFourteenDays ?
-          R.take(this.props.NewReadersRecommendations, newLastFourteenDays) : []
+        this.getRandom(this.props.NewReadersRecommendations, newLastFourteenDays) : []
       const loggedLastThirtyDaysToShow = loggedLastThirtyDays ?
-          R.take(this.props.OldReadersRecommendations, loggedLastThirtyDays) : []
+        this.getRandom(this.props.OldReadersRecommendations, loggedLastThirtyDays) : []
       readersToShow = R.concat(newLastFourteenDaysToShow, loggedLastThirtyDaysToShow)
     }
 
@@ -383,7 +394,7 @@ const mapDispatchToProps = {
 }
 
 SignUpStepThree.defaultProps = {
-  RecommendationsAmount: 6,
+  RecommendationsAmount: 40,
   BuzzAuthorsRecommendations: 3,
   NonBuzzAuthorsRecommendations: 3,
   NewReadersRecommendations: 2,

@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react'
 import { PrimaryButton, SignUpModal } from '../common'
 
-class CallToActionTop extends PureComponent {
+class ReferralCallToActionTop extends PureComponent {
   constructor(props) {
     super(props)
 
     this.state = {
+      referrerName: false,
       modalOpen: false
     }
 
@@ -21,6 +22,7 @@ class CallToActionTop extends PureComponent {
   }
 
   render() {
+    const { referrerName } = this.props
     return (
       <div className='center-text header'>
 
@@ -32,9 +34,12 @@ class CallToActionTop extends PureComponent {
             Joining Is Free, It’s A Social Media Website!
           </h2>
           <span className='middle-small-text'>For a limited time:</span>
-          <h2 className='second-h2-on-landing'>
+          <h2>
             Get Your First Book Free, Just For Creating An Account!
           </h2>
+          <h1 className='referrer-message'>
+            {referrerName} has invited you to join GoRead.
+          </h1>
 
           <PrimaryButton
             label='Sign Up'
@@ -53,4 +58,4 @@ class CallToActionTop extends PureComponent {
   }
 }
 
-export default CallToActionTop
+export default ReferralCallToActionTop

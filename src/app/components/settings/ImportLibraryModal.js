@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Dialog } from 'material-ui'
 import { Import } from '../../services/api'
 import Dropzone from 'react-dropzone'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
 import Promise from 'bluebird'
 
 const { libraryUpload } = Import
@@ -28,17 +29,17 @@ class ImportLibraryModal extends Component {
       isContentImport: true,
       isContentHelp: false,
       isContentResult: false,
-      importLibraryFileUpload: null,
+      isContentLoading: false,
       importResults: null,
       importSucessCount: null,
     }
   }
+
   importLibraryUpload = (file) => {
-    this.setState({
-      importLibraryFileUpload: file
-    })
+    this.setState({ isContentLoading: true })
     this.getBase64AndUpdate(file[0], 'csv')
   }
+
   getBase64AndUpdate = (file, FileType) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader()
@@ -50,71 +51,99 @@ class ImportLibraryModal extends Component {
       .then(res => this.displayResults(res.data))
       //.catch(err => )
   }
+
   displayResults = (results) => {
-    const table = (
-      <table className='display-results'>
-        <th>
-          ISBN
-        </th>
-        <th>
-          Status
-        </th>
-        <th className='title-heading'>
-          Title
-        </th>
-        {results.data.added.map(function (result, index) {
-          return (
-            <tr key={index} className='success'>
-             <td>{result.isbn}</td>
-             <td>Imported</td>
-             <td>{result.title}</td>
+    if (results.status !== 'too_many_books') {
+      const table = (
+        <table className='display-results'>
+          <tbody>
+            <tr>
+              <th>
+                ISBN
+              </th>
+              <th>
+                Status
+              </th>
+              <th className='title-heading'>
+                Title
+              </th>
             </tr>
-          )
-        })}
-        {results.data.failed.map(function (result, index) {
-          return (
-            <tr key={index} className='failed'>
-             <td>{result.isbn}</td>
-             <td>Failed</td>
-             <td>{result.title}</td>
-            </tr>
-          )
-        })}
-        {results.data.exists.map(function (result, index) {
-          return (
-            <tr key={index} className='exists'>
-             <td>{result.isbn}</td>
-             <td>Already added</td>
-             <td>{result.title}</td>
-            </tr>
-          )
-        })}
-      </table>
-    )
-    if (results.data.exists.length > 0 ||
+            {results.data.added.map(function (result, index) {
+              return (
+                <tr key={index} className='success'>
+                 <td>{result.isbn}</td>
+                 <td>Imported</td>
+                 <td>{result.title}</td>
+                </tr>
+              )
+            })}
+            {results.data.failed.map(function (result, index) {
+              return (
+                <tr key={index} className='failed'>
+                 <td>{result.isbn}</td>
+                 <td>Failed</td>
+                 <td>{result.title}</td>
+                </tr>
+              )
+            })}
+            {results.data.exists.map(function (result, index) {
+              return (
+                <tr key={index} className='exists'>
+                 <td>{result.isbn}</td>
+                 <td>Already added</td>
+                 <td>{result.title}</td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      )
+      results.data.exists.length > 0 ||
       results.data.added.length > 0 ||
-      results.data.failed.length > 0
-    ) {
+      results.data.failed.length > 0 ?
+        this.setState({
+          isContentResult: true,
+          isContentLoading: false,
+          importResults: table,
+          importSucessCount: results.data.added.length,
+        }) : null
+    } else {
+      const error = (
+        <div className='library-error'>
+          <p>
+            Your library has too many books, the import of your
+            library is being processed you'll receive a
+            confirmation on your email when it finishes.
+          </p>
+        </div>
+      )
       this.setState({
         isContentResult: true,
-        importResults: table,
-        importSucessCount: results.data.added.length,
+        isContentLoading: false,
+        importResults: error,
       })
     }
   }
+
   loadSection = (section) => {
-    if (section === 'import') {
-      this.setState({
-        isContentImport: true,
-        isContentHelp: false,
-      })
-    } else if (section === 'help') {
-      this.setState({
-        isContentImport: false,
-        isContentHelp: true,
-      })
-    }
+    let isContentImport, isContentHelp, isContentResult
+    const { importResults } = this.state
+    section === 'import' ? (
+      isContentImport = true,
+      isContentHelp = false,
+      isContentResult = importResults !== null
+    ) : (
+      isContentImport = false,
+      isContentHelp = true,
+      isContentResult = false
+    )
+    this.setState({
+      isContentImport,
+      isContentHelp,
+      isContentResult,
+    })
   }
+
   importSection = () => {
     return (
       <div>
@@ -152,6 +181,7 @@ class ImportLibraryModal extends Component {
       </div>
     )
   }
+
   helpSection = () => {
     return (
       <div>
@@ -208,22 +238,54 @@ class ImportLibraryModal extends Component {
       </div>
     )
   }
+
   resultSection = () => {
+    const { importResults } = this.state
     return (
       <div className='results'>
         <h3>
           Result
         </h3>
         <div className='resultDisplay'>
-          {this.state.importResults}
+          {importResults}
         </div>
       </div>
     )
   }
+
+  handleClose = () => {
+    const { handleImportLibraryClose } = this.props
+    this.setState({
+      isContentImport: true,
+      isContentHelp: false,
+      isContentResult: false,
+      importResults: null,
+      importSucessCount: null,
+    })
+    handleImportLibraryClose()
+  }
+
+  setLoading = (size) => {
+    return (
+      <RefreshIndicator
+        size={size}
+        left={0}
+        top={0}
+        loadingColor={Colors.blue}
+        status='loading'
+        style={styles.refresh}
+      />
+    )
+  }
+
   render() {
-    const { isContentHelp, isContentImport, isContentResult } = this.state
     const {
-      handleImportLibraryClose,
+      isContentHelp,
+      isContentImport,
+      isContentResult,
+      isContentLoading,
+    } = this.state
+    const {
       openImportLibraryModal,
     } = this.props
     return (
@@ -236,11 +298,12 @@ class ImportLibraryModal extends Component {
           titleStyle={styles.modalTitle}
           modal={false}
           open={openImportLibraryModal}
-          onRequestClose={handleImportLibraryClose}
+          onRequestClose={this.handleClose}
           autoScrollBodyContent={true}
         >
           {isContentImport ? this.importSection() : null}
           {isContentHelp ? this.helpSection() : null}
+          {isContentLoading ? this.setLoading(50) : null}
           {isContentResult ? this.resultSection() : null}
         </Dialog>
       </div>
