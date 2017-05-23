@@ -146,6 +146,20 @@
         border-radius: 20px;
         @media all and (min-width: 1200px){
           padding: 5px 10px;
+          margin-right: 10px;
+          margin-top: 10px;
+        }
+        &:active{
+          color: white;
+          background-color: $blue;
+        }
+        &.btn-red{
+          color: $red;
+          border: solid 1px $red;
+          &:active{
+            color: white;
+            background-color: $red;
+          }
         }
       }
       .liked-action{

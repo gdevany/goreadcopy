@@ -4,6 +4,9 @@ import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import moment from 'moment'
 import { AnchoredParagraph } from '../'
 import currentReaderRecommendation from '../../../services/api/currentReader/recommendation'
+import { BookClubs } from '../../../services/api/'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
+import { Colors } from '../../../constants/style'
 
 import { Notifications as NotificationActions } from '../../../redux/actions'
 
@@ -11,15 +14,18 @@ const { dismissNotification } = NotificationActions
 
 class NotificationItem extends PureComponent {
   constructor(props) {
-    const { element: { verb, followBack } } = props
+    const { element: { verb, followBack, category } } = props
     super(props)
     this.state = {
       showOptions: false,
       showFollowBack: verb.toLowerCase().includes('follow') && followBack,
+      showAcceptReject: category === 'book_club_member_request',
+      isRequesting: false,
     }
     this.handleDismissNotification = this.handleDismissNotification.bind(this)
     this.onDismissSingleClick = this.onDismissSingleClick.bind(this)
     this.onFollowClick = this.onFollowClick.bind(this)
+    this.onBookClubRequestAction = this.onBookClubRequestAction.bind(this)
   }
 
   handleDismissNotification(e) {
@@ -42,6 +48,19 @@ class NotificationItem extends PureComponent {
     currentReaderRecommendation.likedReaders({ 'readerIds': [id] })
       .then(res=>{ this.setState({ showFollowBack: false }) })
       .catch(err=>console.log(err))
+  }
+
+  onBookClubRequestAction(e, action) {
+    const { element: { action: { memberRequestId } } } = this.props
+    this.setState({ isRequesting: true })
+    BookClubs.membershipRequest({ 'action': action, 'id': memberRequestId })
+      .then(res=>{
+        this.setState({ isRequesting: false, showAcceptReject: false })
+      })
+      .catch(err=>{
+        this.setState({ isRequesting: false })
+        console.log(err)
+      })
   }
 
   mapMentions(list) {
@@ -99,6 +118,43 @@ class NotificationItem extends PureComponent {
               }
             </span>
           </div>
+          {
+            this.state.showAcceptReject ? (
+              <div className='notification-action-container'>
+                <a
+                  className='notification-action-btn'
+                  href='#'
+                  onClick={(e)=>{this.onBookClubRequestAction(e, 'accept')}}
+                >
+                  Accept
+                </a>
+                <a
+                  className='notification-action-btn btn-red'
+                  href='#'
+                  onClick={(e)=>{this.onBookClubRequestAction(e, 'reject')}}
+                >
+                  Decline
+                </a>
+                {
+                  this.state.isRequesting ? (
+                    <RefreshIndicator
+                      size={30}
+                      left={0}
+                      top={0}
+                      loadingColor={Colors.blue}
+                      status='loading'
+                      style={{
+                        display: 'inline-block',
+                        position: 'relative',
+                        marginTop: '10px'
+                      }}
+                    />
+                  ) :
+                  null
+                }
+              </div>
+            ) : null
+          }
           <div className='notifications-frame-dismiss-container'>
             <ArrowDownIcon onClick={this.handleDismissNotification}/>
             { this.state.showOptions ?
