@@ -276,7 +276,10 @@ class NavMenu extends PureComponent {
   }
 
   handlePlatformUse(platformUse) {
-    this.setState({ usePlatformAs: platformUse })
+    this.setState({
+      usePlatformAs: platformUse,
+      isMobileMenuOpen: false
+    })
     this.props.usePlatformAs(platformUse)
   }
 
@@ -747,11 +750,56 @@ class NavMenu extends PureComponent {
               </div>
             </div>
             <div className='explore-links-container'>
+              {currentReader.hasAuthorBuzz ||
+              (currentReader.hasPublisherBuzz && currentReader.isPublisher) ?
+                (
+                  <ul className='links-container'>
+                      <span className='links-title'>
+                        Use Platform As
+                      </span>
+                    <li className='publishing-as-list'>
+                      <a
+                        onClick={() => this.handlePlatformUse('reader')}
+                        className={usePlatformAs === 'reader' ?
+                          ('publishing-as-active') : ('publishing-as-anchor')}
+                      >
+                        Reader
+                      </a>
+                    </li>
+                    {currentReader.hasAuthorBuzz ?
+                      (
+                        <li className='publishing-as-list'>
+                          <a
+                            onClick={() => this.handlePlatformUse('author')}
+                            className={usePlatformAs === 'author' ?
+                              ('publishing-as-active') : ('publishing-as-anchor')}
+                          >
+                            Author
+                          </a>
+                        </li>
+                      ) : null
+                    }
+                    {currentReader.hasPublisherBuzz && currentReader.isPublisher ?
+                      (
+                        <li className='publishing-as-list'>
+                          <a
+                            onClick={() => this.handlePlatformUse('publisher')}
+                            className={usePlatformAs === 'publisher' ?
+                              ('publishing-as-active') : ('publishing-as-anchor')}
+                          >
+                            Publisher
+                          </a>
+                        </li>
+                      ) : null
+                    }
+                  </ul>
+                ) : null
+              }
               <ul className='links-container'>
                 <span className='links-title'>
                   Explore
                 </span>
-                {currentReader.isAuthor ?
+                {currentReader.isAuthor && !currentReader.hasAuthorBuzz ?
                   (
                     <li className='links-list'>
                       <a
@@ -761,7 +809,17 @@ class NavMenu extends PureComponent {
                         My Author Page
                       </a>
                     </li>
-                  ) : null
+                  ) : currentReader.isAuthor && currentReader.hasAuthorBuzz ?
+                    (
+                      <li className='links-list'>
+                        <a
+                          href={currentReader.author.url}
+                          className='links-anchor'
+                        >
+                          GoRead Buzz
+                        </a>
+                      </li>
+                    ) : null
                 }
                 {this.mapMobileMenuItems('Explore')}
               </ul>
@@ -769,6 +827,18 @@ class NavMenu extends PureComponent {
                 <span className='links-title'>
                   Help & Settings
                 </span>
+                { currentReader.isAuthor && currentReader.hasAuthorBuzz ?
+                  (
+                    <li className='links-list'>
+                      <a
+                        href='/author/buzz/settings'
+                        className='links-anchor'
+                      >
+                        Buzz Settings
+                      </a>
+                    </li>
+                  ) : null
+                }
                 {this.mapMobileMenuItems('Help')}
                 <li className='links-list'>
                   <a
