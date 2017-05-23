@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
 import TileDefault from '../TileDefault'
-import Anchorify from 'react-anchorify-text'
+import Linkify from 'react-linkify'
 
 const mentionRegex = /(\@\[\d+\:\d+\])/gi
 
@@ -37,10 +37,9 @@ class AppearanceTile extends PureComponent {
     }
     return (
       <span key={index}>
-        <Anchorify
-          text={entry}
-          target='_blank'
-        />
+        <Linkify properties={{ target: '_blank' }}>
+          {entry}
+        </Linkify>
       </span>)
   }
 

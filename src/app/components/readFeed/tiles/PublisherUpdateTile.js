@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
 import TileDefault from '../TileDefault'
-import Anchorify from 'react-anchorify-text'
+import Linkify from 'react-linkify'
 import LocationIcon from 'material-ui/svg-icons/communication/location-on'
 
 const mentionRegex = /(\@\[\d+\:\d+\])/gi
@@ -38,10 +38,9 @@ class PublisherUpdateTile extends PureComponent {
     }
     return (
       <span key={index}>
-        <Anchorify
-          text={entry}
-          target='_blank'
-        />
+        <Linkify properties={{ target: '_blank' }}>
+          {entry}
+        </Linkify>
       </span>)
   }
 
