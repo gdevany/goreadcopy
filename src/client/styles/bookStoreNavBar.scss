@@ -48,6 +48,7 @@
         align-items: center;
         flex-direction: row;
         padding: 10px 15px;
+        text-transform: capitalize;
         .categories-list-name{
           font-size: 16px;
         }
@@ -172,10 +173,12 @@
           display: flex;
           font-size: 18px;
           padding: 7.5px 5px;
+          text-transform: capitalize;
         }
         .bookstore-categories-list-anchor.selected{
           font-weight: 600;
           color: $black;
+          text-transform: capitalize;
         }
       }
     }

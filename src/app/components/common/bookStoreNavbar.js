@@ -225,6 +225,22 @@ class BookStoreNavBar extends PureComponent {
 
   }
 
+  handleMapMobileCategories = () => {
+    const { categories } = this.props
+    return categories.map((category, index) => {
+      return (
+        <li key={`${index}_${category.id}`} className='bookstore-categories-list-element'>
+          <a
+            href={`/categories/${category.slug}`}
+            className='bookstore-categories-list-anchor'
+          >
+            {category.name}
+          </a>
+        </li>
+      )
+    })
+  }
+
   mapMobileCategoriesList = () => {
     return (
       <div
@@ -240,61 +256,7 @@ class BookStoreNavBar extends PureComponent {
           &lt; Back
         </a>
         <ul className='bookstore-categories-list'>
-          <li className='bookstore-categories-list-element'>
-            <a className='bookstore-categories-list-anchor selected'>
-              Science Fiction
-            </a>
-          </li>
-          <li className='bookstore-categories-list-element'>
-            <a className='bookstore-categories-list-anchor'>
-              Action & Adventure
-            </a>
-          </li>
-          <li className='bookstore-categories-list-element'>
-            <a className='bookstore-categories-list-anchor'>
-              Alternative History
-            </a>
-          </li>
-          <li className='bookstore-categories-list-element'>
-            <a className='bookstore-categories-list-anchor'>
-              Apocalyptic & Post Apo...
-            </a>
-          </li>
-          <li className='bookstore-categories-list-element'>
-            <a className='bookstore-categories-list-anchor'>
-              Collections & Anthologies
-            </a>
-          </li>
-          <li className='bookstore-categories-list-element'>
-            <a className='bookstore-categories-list-anchor'>
-              General
-            </a>
-          </li>
-          <li className='bookstore-categories-list-element'>
-            <a className='bookstore-categories-list-anchor'>
-              Hard Science Fiction
-            </a>
-          </li>
-          <li className='bookstore-categories-list-element'>
-            <a className='bookstore-categories-list-anchor'>
-              Military
-            </a>
-          </li>
-          <li className='bookstore-categories-list-element'>
-            <a className='bookstore-categories-list-anchor'>
-              Space Opera
-            </a>
-          </li>
-          <li className='bookstore-categories-list-element'>
-            <a className='bookstore-categories-list-anchor'>
-              Steam Punk
-            </a>
-          </li>
-          <li className='bookstore-categories-list-element'>
-            <a className='bookstore-categories-list-anchor'>
-              Time Travel
-            </a>
-          </li>
+          {this.props.categories ? this.handleMapMobileCategories() : null}
         </ul>
       </div>
     )
@@ -426,6 +388,54 @@ class BookStoreNavBar extends PureComponent {
     )
   }
 
+  mapPopularCategories = () => {
+    const { popularCategories } = this.props
+    return popularCategories.slice(0, 7).map((category, index) => {
+      return (
+        <li
+          key={`${index}_${category.id}`}
+          className='categories-list-item'
+        >
+          <a
+            href={`/categories/${category.slug}`}
+            className='categories-list-anchor'
+          >
+              <span className='categories-list-name'>
+                {category.name}
+              </span>
+            <span className='categories-list-icon'>
+                &gt;
+              </span>
+          </a>
+        </li>
+      )
+    })
+  }
+
+  mapMainCategories = () => {
+    const { categories } = this.props
+    return categories.map((category, index) => {
+      return (
+        <li
+          key={`${index}_${category.id}`}
+          className='categories-list-item'
+        >
+          <a
+            href={`/categories/${category.slug}`}
+            className='categories-list-anchor'
+          >
+              <span className='categories-list-name'>
+                {category.name}
+              </span>
+            <span className='categories-list-icon'>
+                &gt;
+              </span>
+          </a>
+        </li>
+      )
+    })
+  }
+
   mapCategoriesMenuList = () => {
     return (
       <section className='categories-list-menu-container'>
@@ -433,139 +443,11 @@ class BookStoreNavBar extends PureComponent {
           <li className='categories-list-item-title'>
             Popular Categories
           </li>
-          <li className='categories-list-item'>
-            <a className='categories-list-anchor'>
-              <span className='categories-list-name'>
-                Science Fiction
-              </span>
-              <span className='categories-list-icon'>
-                &gt;
-              </span>
-            </a>
-          </li>
-          <li className='categories-list-item'>
-            <a className='categories-list-anchor'>
-              <span className='categories-list-name'>
-                Romance
-              </span>
-              <span className='categories-list-icon'>
-                &gt;
-              </span>
-            </a>
-          </li>
-          <li className='categories-list-item'>
-            <a className='categories-list-anchor'>
-              <span className='categories-list-name'>
-                Adventure
-              </span>
-              <span className='categories-list-icon'>
-                &gt;
-              </span>
-            </a>
-          </li>
-          <li className='categories-list-item'>
-            <a className='categories-list-anchor'>
-              <span className='categories-list-name'>
-                Young Adult
-              </span>
-              <span className='categories-list-icon'>
-                &gt;
-              </span>
-            </a>
-          </li>
-          <li className='categories-list-item'>
-            <a className='categories-list-anchor'>
-              <span className='categories-list-name'>
-                Business
-              </span>
-              <span className='categories-list-icon'>
-                &gt;
-              </span>
-            </a>
-          </li>
-          <li className='categories-list-item'>
-            <a className='categories-list-anchor'>
-              <span className='categories-list-name'>
-                Sports
-              </span>
-              <span className='categories-list-icon'>
-                &gt;
-              </span>
-            </a>
-          </li>
-          <li className='categories-list-item'>
-            <a className='categories-list-anchor'>
-              <span className='categories-list-name'>
-                History
-              </span>
-              <span className='categories-list-icon'>
-                &gt;
-              </span>
-            </a>
-          </li>
-          <li className='categories-list-item'>
-            <a className='categories-list-anchor'>
-              <span className='categories-list-name'>
-                Non-fiction
-              </span>
-              <span className='categories-list-icon'>
-                &gt;
-              </span>
-            </a>
-          </li>
+          {this.props.popularCategories ? this.mapPopularCategories() : null}
           <li className='categories-list-item-title'>
             Main Categories
           </li>
-          <li className='categories-list-item'>
-            <a className='categories-list-anchor'>
-              <span className='categories-list-name'>
-                Antiques & Collectibles
-              </span>
-              <span className='categories-list-icon'>
-                &gt;
-              </span>
-            </a>
-          </li>
-          <li className='categories-list-item'>
-            <a className='categories-list-anchor'>
-              <span className='categories-list-name'>
-                Architecture
-              </span>
-              <span className='categories-list-icon'>
-                &gt;
-              </span>
-            </a>
-          </li>
-          <li className='categories-list-item'>
-            <a className='categories-list-anchor'>
-              <span className='categories-list-name'>
-                Art
-              </span>
-              <span className='categories-list-icon'>
-                &gt;
-              </span>
-            </a>
-          </li>
-          <li className='categories-list-item'>
-            <a className='categories-list-anchor'>
-              <span className='categories-list-name'>
-                Bibles
-              </span>
-              <span className='categories-list-icon'>
-                &gt;
-              </span>
-            </a>
-          </li>
-          <li className='categories-list-item'>
-            <a className='categories-list-anchor'>
-              <span className='categories-list-name'>
-                Biography & Autobiogr...
-              </span>
-              <span className='categories-list-icon'>
-                &gt;
-              </span>
-            </a>
-          </li>
+          {this.props.categories ? this.mapMainCategories() : null}
         </ul>
       </section>
     )

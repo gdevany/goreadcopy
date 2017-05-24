@@ -68,6 +68,7 @@ const Endpoints = () => {
     store: {
       getBestSellers: (params) => apiUrl('store/best_seller_books', params),
       getCategories: (params) => apiUrl('store/categories', params),
+      getChildCategories: (id, params) => apiUrl(`store/${id}/child_categories`, params),
       getTrendingBooks: (params) => apiUrl('store/trending_books', params),
       getMostPurchased: (params) => apiUrl('store/friends_most_purchased', params),
       getRecommendedByAuthorFans: (params) => apiUrl('store/recommended/books/author_fans', params),

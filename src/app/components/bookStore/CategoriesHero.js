@@ -1,29 +1,29 @@
 import React, { PropTypes } from 'react'
 
-const CategoriesHero = ({ categoryElement }) => {
+const CategoriesHero = ({ category }) => {
   return (
     <section className='categorypage-hero-main-container'>
       <div className='categorypage-hero-container'>
         <ul className='categorypage-hero-breadcrumbs'>
           <li className='categorypage-hero-breadcrumbs-element'>
             <a className='categorypage-hero-breadcrumbs-anchor'>
-              Fiction
+              {category.name}
             </a>
           </li>
-          <li className='categorypage-hero-breadcrumbs-element'>
-            <span className='categorypage-hero-breadcrumbs-element-separator'>
-              >
-            </span>
-          </li>
-          <li className='categorypage-hero-breadcrumbs-element'>
-            <a className='categorypage-hero-breadcrumbs-anchor'>
-              Science Fiction
-            </a>
-          </li>
+          {/*<li className='categorypage-hero-breadcrumbs-element'>*/}
+            {/*<span className='categorypage-hero-breadcrumbs-element-separator'>*/}
+              {/*>*/}
+            {/*</span>*/}
+          {/*</li>*/}
+          {/*<li className='categorypage-hero-breadcrumbs-element'>*/}
+            {/*<a className='categorypage-hero-breadcrumbs-anchor'>*/}
+              {/*Science Fiction*/}
+            {/*</a>*/}
+          {/*</li>*/}
         </ul>
         <div className='categorypage-hero-bottom-elements-container'>
           <h1 className='categorypage-hero-title'>
-            Science Fiction
+            {category.name}
           </h1>
           <div className='categorypage-hero-bottom-right-elements'>
             <div className='categorypage-hero-bottom-right-data'>
@@ -31,7 +31,7 @@ const CategoriesHero = ({ categoryElement }) => {
                 Favorited
               </span>
               <span className='categorypage-hero-bottom-right-data-number'>
-                12,843
+                {category.booksCount.toLocaleString()}
               </span>
             </div>
             <div className='categorypage-hero-bottom-right-data'>
@@ -39,7 +39,7 @@ const CategoriesHero = ({ categoryElement }) => {
                 Books
               </span>
               <span className='categorypage-hero-bottom-right-data-number'>
-                2,823
+                {category.favoritedCount.toLocaleString()}
               </span>
             </div>
           </div>
@@ -50,7 +50,7 @@ const CategoriesHero = ({ categoryElement }) => {
 }
 
 CategoriesHero.propTypes = {
-  categoryElement: PropTypes.object
+  category: PropTypes.object
 }
 
 export default CategoriesHero

@@ -21,6 +21,14 @@ export function getCategories() {
   }
 }
 
+export function getChildCategories(id) {
+  return dispatch => {
+    Store.getChildCategories(id)
+      .then(res => dispatch({ type: A.GET_CHILD_CATEGORIES, payload: res.data }))
+      .catch(err => console.error(`Error in getCategoriesAction ${err}`))
+  }
+}
+
 export function getPopularCategories() {
   const data = {
     sort: 'popular',
@@ -127,6 +135,7 @@ export function addToWishList(id, slug, isLogged) {
 
 export default {
   getCategories,
+  getChildCategories,
   getPopularCategories,
   getBestSellers,
   getTrendingBooks,

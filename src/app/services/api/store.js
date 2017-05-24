@@ -12,6 +12,7 @@ const {
     getRecommendedByAuthorFans,
     getBookInfo,
     addBookToCart,
+    getChildCategories,
   }
 } = Endpoints
 
@@ -19,6 +20,7 @@ const Store = () => {
   return {
     getBestSellers: (params) => http.get(getBestSellers(params)),
     getCategories: (params) => http.get(getCategories(params)),
+    getChildCategories: (id, params) => http.get(getChildCategories(id, params)),
     getTrendingBooks: (params) => http.get(getTrendingBooks(params)),
     getMostPurchased: (params) => authenticated().get(getMostPurchased(params)),
     getRecommendedByAuthorFans: (params) => http.get(getRecommendedByAuthorFans(params)),
