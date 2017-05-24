@@ -2,6 +2,20 @@ import { CURRENT_READER as A, READERS as B } from '../const/actionTypes'
 import initialState from '../../initialState'
 import R from 'ramda'
 
+let diff = {}
+
+const updateProfileTile = ({ profile }, { id, content }) => profile.map(p => p.id === id ?
+{
+  ...p,
+  content: content
+} : p)
+
+const updateReadfeedTile = ({ readFeed }, { id, content }) => readFeed.map(r => r.id === id ?
+{
+  ...r,
+  content: content
+} : r)
+
 export default (state = initialState.tiles, { type, payload, errors }) => {
   switch (type) {
     case A.GET_READFEED_TILES:
@@ -56,6 +70,18 @@ export default (state = initialState.tiles, { type, payload, errors }) => {
           ...payload.newTileComments
         }
       }
+    case B.UPDATE_PROFILE_TILE:
+      diff = {
+        ...state,
+        profile: updateProfileTile(state, payload)
+      }
+      return R.merge(state, diff)
+    case B.UPDATE_READFEED_TILE:
+      diff = {
+        ...state,
+        readFeed: updateReadfeedTile(state, payload)
+      }
+      return R.merge(state, diff)
     default:
       return state
   }

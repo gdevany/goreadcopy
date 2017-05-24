@@ -27,8 +27,7 @@ module.exports = {
   devtool: 'source-map',
   output: {
     filename: '[name].js',
-    path: path.join(process.cwd(), 'public'),
-    publicPath: '/public',
+    path: path.join(process.cwd(), 'public')
   },
   plugins: [
     failPlugin,
@@ -94,6 +93,10 @@ module.exports = {
       {
         test: /\.svg$/,
         loader: "url?limit=10000&mimetype=image/svg+xml"
+      },
+      {
+        test: /\.mp3$/,
+        loader: 'file-loader?name=[name].[ext]'
       }
     ],
   }

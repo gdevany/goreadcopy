@@ -5084,6 +5084,14 @@ react-slick@^0.14.6:
     object-assign "^4.1.0"
     slick-carousel "^1.6.0"
 
+react-sound@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/react-sound/-/react-sound-0.6.1.tgz#1191a1f46b799d024a5b37fb4f324c2316f23442"
+  dependencies:
+    prop-types "^15.5.7"
+    react ">=15.3.0 <16.0.0"
+    soundmanager2 "^2.97.20150601-a"
+
 react-swipeable-views-core@^0.10.1:
   version "0.10.1"
   resolved "https://registry.yarnpkg.com/react-swipeable-views-core/-/react-swipeable-views-core-0.10.1.tgz#aadb91640193679f931274eba483775f6d136e2d"
@@ -5139,7 +5147,7 @@ react-transform-hmr@^1.0.3:
     global "^4.3.0"
     react-proxy "^1.1.7"
 
-react@^15.4.2:
+"react@>=15.3.0 <16.0.0", react@^15.4.2:
   version "15.5.4"
   resolved "https://registry.yarnpkg.com/react/-/react-15.5.4.tgz#fa83eb01506ab237cdc1c8c3b1cea8de012bf047"
   dependencies:
@@ -5704,6 +5712,10 @@ sort-keys@^1.0.0:
   resolved "https://registry.yarnpkg.com/sort-keys/-/sort-keys-1.1.2.tgz#441b6d4d346798f1b4e49e8920adfba0e543f9ad"
   dependencies:
     is-plain-obj "^1.0.0"
+
+soundmanager2@^2.97.20150601-a:
+  version "2.97.20150601"
+  resolved "https://registry.yarnpkg.com/soundmanager2/-/soundmanager2-2.97.20150601.tgz#673edacb9b52bbcfa57712c370b011f6983c6f36"
 
 source-list-map@^0.1.7, source-list-map@~0.1.7:
   version "0.1.8"
@@ -6371,10 +6383,6 @@ webpack-dev-server@^1.16.2:
     strip-ansi "^3.0.0"
     supports-color "^3.1.1"
     webpack-dev-middleware "^1.10.2"
-
-webpack-fail-plugin@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/webpack-fail-plugin/-/webpack-fail-plugin-1.0.6.tgz#a135ee070a258548837f921d452004c695889ee7"
 
 webpack-fail-plugin@^1.0.6:
   version "1.0.6"

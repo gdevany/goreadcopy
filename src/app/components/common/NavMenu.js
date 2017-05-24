@@ -1,7 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react'
 import { stack as MobileMenu } from 'react-burger-menu'
 import { Link } from 'react-router'
-import { Auth, CurrentReader } from '../../redux/actions'
+import { Auth, CurrentReader, Chat, Notifications as NotifActions } from '../../redux/actions'
 import { connect } from 'react-redux'
 import R from 'ramda'
 import SecondaryButton from './SecondaryButton'
@@ -15,10 +15,12 @@ import AuthedRedirect from './AuthedRedirect'
 import MenuIcon from 'material-ui/svg-icons/navigation/menu'
 import Badge from 'material-ui/Badge'
 import LitcoinStatus from './LitcoinStatus'
-import ChatFrame from './ChatFrame'
+import { Notifications, ChatsContainer } from './chatNotifications'
 
 import './styles/mobile-menu.scss'
 
+const { toggleMessagePopup } = Chat
+const { loadNotifications } = NotifActions
 const { CATEGORIES, GENRES } = PopularTopics
 const { usePlatformAs, getCurrentReader, logoutCurrentReader } = CurrentReader
 const { verifyUserToken, processUserLogout } = Auth
@@ -97,6 +99,10 @@ const styles = {
     height: 28,
     width: 28,
   },
+  messageBadge: {
+    position: 'relative',
+    padding: 0,
+  }
 }
 
 const {
@@ -123,6 +129,8 @@ class NavMenu extends PureComponent {
       socialFollowers: 0,
       socialFollowed: 0,
       isReadFeed: true,
+      notificationsOpen: false,
+      chatsContainerOpen: false,
     }
 
     this.handleModalClose = this.handleModalClose.bind(this)
@@ -131,7 +139,8 @@ class NavMenu extends PureComponent {
     this.handleProfileMenuHide = this.handleProfileMenuHide.bind(this)
     this.handleLogoutClick = this.handleLogoutClick.bind(this)
     this.handleClickSearch = this.handleClickSearch.bind(this)
-    this.handleClickChat = this.handleClickChat.bind(this)
+    this.handleNotificationsShow = this.handleNotificationsShow.bind(this)
+    this.handleChatsContainerShow = this.handleChatsContainerShow.bind(this)
   }
 
   static contextTypes = {
@@ -173,6 +182,10 @@ class NavMenu extends PureComponent {
     }
   }
 
+  componentDidMount() {
+    this.props.loadNotifications()
+  }
+
   handleModalOpen = () => {
     this.setState({ modalOpen: true })
   }
@@ -199,13 +212,30 @@ class NavMenu extends PureComponent {
     })
   }
 
+  handleNotificationsShow = () => {
+    if (!this.state.notificationsOpen) {
+      this.setState({
+        notificationsOpen: true,
+        chatsContainerOpen: false
+      })
+    } else {
+      this.setState({ notificationsOpen: false })
+    }
+  }
+
+  handleChatsContainerShow = () => {
+    this.props.toggleMessagePopup()
+  }
+
   handleRequestClose = () => {
     this.setState({ open: false })
   }
 
   handleProfileMenuShow = () => {
     if (!this.state.profileMenuOpen) {
-      this.setState({ profileMenuOpen: true })
+      this.setState({
+        profileMenuOpen: true,
+      })
     } else {
       this.setState({ profileMenuOpen: false })
     }
@@ -222,16 +252,6 @@ class NavMenu extends PureComponent {
 
   handleSearchClose = () => {
     this.setState({ searchModalOpen: false })
-  }
-
-  handleClickChat = (event) => {
-    event.preventDefault()
-    const { chatModalOpen } = this.state
-    this.setState({ chatModalOpen: !chatModalOpen })
-  }
-
-  handleChatClose = () => {
-    this.setState({ chatModalOpen: false })
   }
 
   handleMapProfileMenuItems = () => {
@@ -269,6 +289,53 @@ class NavMenu extends PureComponent {
 
   }
 
+  handleMapProfileMenuItems = () => {
+    const liClass = 'profile-menu-element'
+    const anchorClass = 'profile-menu-anchor'
+    const { currentReader } = this.props
+    const {
+      orders,
+      referrals,
+      authorBuzz,
+      authorBuzzSettings,
+      publisherBuzz,
+      publisherBuzzSettings
+    } = routes
+    const nonMenuRoutes = [
+      ['Orders', orders],
+      ['Referrals', referrals],
+      ['Settings', '/profile/settings', true],
+    ]
+
+    {currentReader.hasAuthorBuzz ?
+      nonMenuRoutes.push(
+        ['GoRead Buzz', authorBuzz({ slug: currentReader.author.slug }), false, true],
+        ['GoRead Buzz Settings', authorBuzzSettings],
+    ) : null }
+
+    {currentReader.hasPublisherBuzz && currentReader.isPublisher ?
+      nonMenuRoutes.push(
+        ['GoRead Publisher Buzz', publisherBuzz({ slug: currentReader.publisher.slug }),
+          false, true],
+        ['GoRead Publisher Buzz Settings',
+          publisherBuzzSettings({ slug: currentReader.publisher.slug }), false, true],
+    ) : null }
+
+    const NonMenuItem = this.mapElementsHandler(liClass, anchorClass)
+
+    return R.map(NonMenuItem, nonMenuRoutes)
+
+  }
+
+  handleMenuClick = (event) => {
+    event.preventDefault()
+    if (this.state.isMobileMenuOpen) {
+      this.setState({ isMobileMenuOpen: false })
+    } else {
+      this.setState({ isMobileMenuOpen: true })
+    }
+  }
+
   handleLogoutClick(event) {
     event.preventDefault()
     this.props.logoutCurrentReader()
@@ -281,92 +348,6 @@ class NavMenu extends PureComponent {
       isMobileMenuOpen: false
     })
     this.props.usePlatformAs(platformUse)
-  }
-
-  userProfileMenu = () => {
-    const { currentReader } = this.props
-    const { usePlatformAs } = this.state
-
-    return (
-      <ul
-        className='profile-menu-container'
-        onMouseLeave={this.handleProfileMenuHide}
-      >
-        <li className='profile-menu-element'>
-          {currentReader.hasAuthorBuzz ||
-           (currentReader.hasPublisherBuzz && currentReader.isPublisher) ?
-            (
-              <div className='publishing-as-container'>
-                <label className='publishing-as-label'>
-                  Use Platform as
-                </label>
-                <ul className='publishing-as-ul-container'>
-                  <li className='publishing-as-list'>
-                    <a
-                      onClick={() => this.handlePlatformUse('reader')}
-                      className={usePlatformAs === 'reader' ?
-                      ('publishing-as-active') : ('publishing-as-anchor')}
-                    >
-                      Reader
-                    </a>
-                  </li>
-                  {currentReader.hasAuthorBuzz ?
-                    (
-                      <li className='publishing-as-list'>
-                        <a
-                          onClick={() => this.handlePlatformUse('author')}
-                          className={usePlatformAs === 'author' ?
-                          ('publishing-as-active') : ('publishing-as-anchor')}
-                        >
-                          Author
-                        </a>
-                      </li>
-                    ) : null
-                  }
-                  {currentReader.hasPublisherBuzz && currentReader.isPublisher ? (
-                    <li className='publishing-as-list'>
-                      <a
-                        onClick={() => this.handlePlatformUse('publisher')}
-                        className={usePlatformAs === 'publisher' ?
-                        ('publishing-as-active') : ('publishing-as-anchor')}
-                      >
-                        Publisher
-                      </a>
-                    </li>
-                  ) : null}
-                </ul>
-              </div>
-            ) : null
-          }
-
-        </li>
-        <hr className='profile-menu-divider' />
-        <li className='profile-menu-element'>
-          <Link
-            to={`/profile/${currentReader.slug}`}
-            className='profile-menu-anchor'
-          >
-              View Profile
-          </Link>
-        </li>
-        <hr className='profile-menu-divider' />
-        { this.handleMapProfileMenuItems() }
-        <li className='profile-menu-element'>
-          <a
-            className='profile-menu-anchor'
-            href='http://support.readerslegacy.com/'
-            target='_blank'
-          >
-            Support
-          </a>
-        </li>
-        <li className='profile-menu-element'>
-          <a className='profile-menu-anchor' onClick={this.handleLogoutClick}>
-            Logout
-          </a>
-        </li>
-      </ul>
-    )
   }
 
   handleMapNavItems = (categories, genres) => {
@@ -512,44 +493,6 @@ class NavMenu extends PureComponent {
     )
   }
 
-  handleMapProfileMenuItems = () => {
-    const liClass = 'profile-menu-element'
-    const anchorClass = 'profile-menu-anchor'
-    const { currentReader } = this.props
-    const {
-      orders,
-      referrals,
-      authorBuzz,
-      authorBuzzSettings,
-      publisherBuzz,
-      publisherBuzzSettings
-    } = routes
-    const nonMenuRoutes = [
-      ['Orders', orders],
-      ['Referrals', referrals],
-      ['Settings', '/profile/settings', true],
-    ]
-
-    {currentReader.hasAuthorBuzz ?
-      nonMenuRoutes.push(
-        ['GoRead Buzz', authorBuzz({ slug: currentReader.author.slug }), false, true],
-        ['GoRead Buzz Settings', authorBuzzSettings],
-    ) : null }
-
-    {currentReader.hasPublisherBuzz && currentReader.isPublisher ?
-      nonMenuRoutes.push(
-        ['GoRead Publisher Buzz', publisherBuzz({ slug: currentReader.publisher.slug }),
-          false, true],
-        ['GoRead Publisher Buzz Settings',
-          publisherBuzzSettings({ slug: currentReader.publisher.slug }), false, true],
-    ) : null }
-
-    const NonMenuItem = this.mapElementsHandler(liClass, anchorClass)
-
-    return R.map(NonMenuItem, nonMenuRoutes)
-
-  }
-
   mapMobileMenuItems = (type) => {
     const liClass = 'links-list'
     const anchorClass = 'links-anchor'
@@ -610,294 +553,118 @@ class NavMenu extends PureComponent {
     return R.map(NonMenuItem, nonMenuRoutes)
   }
 
-  handleMenuClick = (event) => {
-    event.preventDefault()
-    if (this.state.isMobileMenuOpen) {
-      this.setState({ isMobileMenuOpen: false })
-    } else {
-      this.setState({ isMobileMenuOpen: true })
-    }
-  }
-
-  renderLogInMenu = () => {
+  userProfileMenu = () => {
     const { currentReader } = this.props
-    const { socialFollowers, socialFollowed, isReadFeed, usePlatformAs } = this.state
+    const { usePlatformAs } = this.state
+
     return (
-      <div className='slide-down'>
-        <div style={styles.mobileNavContainer} className='top-bar-mobile'>
-          <nav className='nav-menu-logged'>
-            <ul className='nav-menu-logged-container'>
-
-              <li
-                className={`logged-menu-item ${isReadFeed ? 'loged-menu-item-active' : null} home`}
-              >
-                <Link
-                  to='/' style={styles.navItemLinks}
-                  className={`rf-nav-link ${isReadFeed ? 'home-link-active' : 'home-link'}`}
-                />
-              </li>
-
-              <li className='logged-menu-item'>
-                <a
-                  style={styles.navItemLinks}
-                  className='search-link rf-nav-link'
-                  onClick={this.handleClickSearch}
-                />
-              </li>
-
-              <li className='logged-menu-item'>
-                <a style={styles.navItemLinks} className='messages-link rf-nav-link' />
-              </li>
-
-              <li style={styles.loggedInRightNavLi}>
-                <a
-                  style={styles.navItemLinks}
-                  className='menu-badge-container rf-nav-link'
-                >
-                  <Badge
-                    onClick={this.handleClickChat}
-                    badgeContent={
-                      currentReader.notificationsCount ?
-                        currentReader.notificationsCount : 0
-                      }
-                    primary={true}
-                    badgeStyle={{
-                      top: -5,
-                      right: -7,
-                      width: '20px',
-                      height: '20px',
-                      paddingTop: 1,
-                      fontWeight: 700,
-                      backgroundColor: Colors.red,
-                    }}
-                  >
-                    <img
-                      src='/image/notifications-icon.svg'
-                      onClick={this.handleClickChat}
-                    />
-                  </Badge>
-                </a>
-              </li>
-              <li style={styles.loggedInRightNavLi}>
-                <a
-                  href={routes.shopCart()}
-                  style={styles.navItemLinks}
-                  className='menu-badge-container rf-nav-link'
-                >
-                  <Badge
-                    badgeContent={
-                      currentReader.cartItems ?
-                        currentReader.cartItems : 0
-                      }
-                    primary={true}
-                    badgeStyle={{
-                      top: -5,
-                      right: -7,
-                      width: '20px',
-                      height: '20px',
-                      paddingTop: 1,
-                      fontWeight: 700,
-                      backgroundColor: Colors.red,
-                    }}
-                  >
-                    <img src='/image/cart.svg' />
-                  </Badge>
-                </a>
-              </li>
-              <li className='nav-menu-logged-list'>
-                <a className='nav-menu-logged-anchor'>
-                  <MenuIcon style={styles.menuIcon} onClick={this.handleMenuClick}/>
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <MobileMenu
-            customBurgerIcon={false}
-            customCrossIcon={false}
-            id={'mobile-menu-logged'}
-            isOpen={this.state.isMobileMenuOpen}
-            width={300}
-          >
-            <div className='profile-section-container'>
-              <div className='first-row-elements'>
-                <Link to={`profile/${currentReader.slug}`} className='profile-badge-anchor'>
-                  <figure className='profile-badge-container'>
-                    <img
-                      src={currentReader.profileImage}
-                      className='profile-badge-img'
-                      alt=''
-                    />
-                  </figure>
-                </Link>
-                <Link to={`profile/${currentReader.slug}`} className='profile-name-anchor'>
-                  <span>{currentReader.firstName} {currentReader.lastName}</span>
-                </Link>
-              </div>
-              <div className='second-row-elements'>
-                <div className='follows-container'>
-                  <span>
-                    {socialFollowers ? socialFollowers : null} Followers
-                  </span>
-                </div>
-                <div className='follows-container'>
-                  <span>
-                    {socialFollowed ? socialFollowed : null} Following
-                  </span>
-                </div>
-              </div>
-              <div className='third-row-elements'>
-                <LitcoinStatus />
-              </div>
-            </div>
-            <div className='explore-links-container'>
-              {currentReader.hasAuthorBuzz ||
-              (currentReader.hasPublisherBuzz && currentReader.isPublisher) ?
-                (
-                  <ul className='links-container'>
-                      <span className='links-title'>
-                        Use Platform As
-                      </span>
-                    <div className='publishing-as-mobile-container'>
+      <ul
+        className='profile-menu-container'
+        onMouseLeave={this.handleProfileMenuHide}
+      >
+        <li className='profile-menu-element'>
+          {currentReader.hasAuthorBuzz ||
+           (currentReader.hasPublisherBuzz && currentReader.isPublisher) ?
+            (
+              <div className='publishing-as-container'>
+                <label className='publishing-as-label'>
+                  Use Platform as
+                </label>
+                <ul className='publishing-as-ul-container'>
+                  <li className='publishing-as-list'>
+                    <a
+                      onClick={() => this.handlePlatformUse('reader')}
+                      className={usePlatformAs === 'reader' ?
+                      ('publishing-as-active') : ('publishing-as-anchor')}
+                    >
+                      Reader
+                    </a>
+                  </li>
+                  {currentReader.hasAuthorBuzz ?
+                    (
                       <li className='publishing-as-list'>
                         <a
-                          onClick={() => this.handlePlatformUse('reader')}
-                          className={usePlatformAs === 'reader' ?
-                            ('publishing-as-active') : ('publishing-as-anchor')}
+                          onClick={() => this.handlePlatformUse('author')}
+                          className={usePlatformAs === 'author' ?
+                          ('publishing-as-active') : ('publishing-as-anchor')}
                         >
-                          Reader
-                        </a>
-                      </li>
-                      {currentReader.hasAuthorBuzz ?
-                        (
-                          <li className='publishing-as-list'>
-                            <a
-                              onClick={() => this.handlePlatformUse('author')}
-                              className={usePlatformAs === 'author' ?
-                                ('publishing-as-active') : ('publishing-as-anchor')}
-                            >
-                              Author
-                            </a>
-                          </li>
-                        ) : null
-                      }
-                      {currentReader.hasPublisherBuzz && currentReader.isPublisher ?
-                        (
-                          <li className='publishing-as-list'>
-                            <a
-                              onClick={() => this.handlePlatformUse('publisher')}
-                              className={usePlatformAs === 'publisher' ?
-                                ('publishing-as-active') : ('publishing-as-anchor')}
-                            >
-                              Publisher
-                            </a>
-                          </li>
-                        ) : null
-                      }
-                    </div>
-                  </ul>
-                ) : null
-              }
-              <ul className='links-container'>
-                <span className='links-title'>
-                  Explore
-                </span>
-                {currentReader.isAuthor && !currentReader.hasAuthorBuzz ?
-                  (
-                    <li className='links-list'>
-                      <a
-                        href={currentReader.author.url}
-                        className='links-anchor'
-                      >
-                        My Author Page
-                      </a>
-                    </li>
-                  ) : currentReader.isAuthor && currentReader.hasAuthorBuzz ?
-                    (
-                      <li className='links-list'>
-                        <a
-                          href={currentReader.author.url}
-                          className='links-anchor'
-                        >
-                          GoRead Buzz
+                          Author
                         </a>
                       </li>
                     ) : null
-                }
-                {this.mapMobileMenuItems('Explore')}
-              </ul>
-              <ul className='links-container'>
-                <span className='links-title'>
-                  Help & Settings
-                </span>
-                { currentReader.isAuthor && currentReader.hasAuthorBuzz ?
-                  (
-                    <li className='links-list'>
+                  }
+                  {currentReader.hasPublisherBuzz && currentReader.isPublisher ? (
+                    <li className='publishing-as-list'>
                       <a
-                        href='/author/buzz/settings'
-                        className='links-anchor'
+                        onClick={() => this.handlePlatformUse('publisher')}
+                        className={usePlatformAs === 'publisher' ?
+                        ('publishing-as-active') : ('publishing-as-anchor')}
                       >
-                        Buzz Settings
+                        Publisher
                       </a>
                     </li>
-                  ) : null
-                }
-                {this.mapMobileMenuItems('Help')}
-                <li className='links-list'>
-                  <a
-                    href='/profile/settings'
-                    className='links-anchor'
-                  >
-                    Help
-                  </a>
-                </li>
-                <li className='links-list'>
-                  <a onClick={this.handleLogoutClick} className='links-anchor'>
-                    Logout
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div className='footer-links-container'>
-              {this.mapMobileMenuFooterItems()}
-            </div>
-          </MobileMenu>
-        </div>
-        <div style={styles.navContainer} className='top-bar'>
-          <div style={styles.insideNavContainer} className='top-bar-logged-menu'>
-            <div className='top-bar-left'>
-              <ul style={styles.navUl} className='menu'>
-                <li className='align-middle'>
-                  <Link to='/' className='logo-logged-anchor'>
-                    <img src='/image/logo.png' />
-                  </Link>
-                </li>
-              </ul>
-            </div>
 
-            <div className='top-bar-center-items'>
-              <ul className='menu'>
+                  ) : null}
+                </ul>
+              </div>
+            ) : null
+          }
+        </li>
+        <hr className='profile-menu-divider' />
+        <li className='profile-menu-element'>
+          <Link
+            to={`/profile/${currentReader.slug}`}
+            className='profile-menu-anchor'
+          >
+              View Profile
+          </Link>
+        </li>
+        <hr className='profile-menu-divider' />
+        { this.handleMapProfileMenuItems() }
+        <li className='profile-menu-element'>
+          <a
+            className='profile-menu-anchor'
+            href='http://support.readerslegacy.com/'
+            target='_blank'
+          >
+            Support
+          </a>
+        </li>
+        <li className='profile-menu-element'>
+          <a className='profile-menu-anchor' onClick={this.handleLogoutClick}>
+            Logout
+          </a>
+        </li>
+      </ul>
+    )
+  }
+  countChatNotifications = () => {
+    const { chat: { contacts } } = this.props
+    if (contacts && contacts.length > 0) {
+      return R.reduce((acc, c)=>{ return acc + c.unreadMessages }, 0, contacts)
+    }
+    return 0
+  }
 
+  renderLogInMenu = () => {
+    const { currentReader, notifications } = this.props
+    const { socialFollowers, socialFollowed, isReadFeed, usePlatformAs } = this.state
+    const chatNotifications = this.countChatNotifications()
+    return (
+      <div className='relative-top-menu'>
+        <div className='slide-down'>
+          <div style={styles.mobileNavContainer} className='top-bar-mobile'>
+            <nav className='nav-menu-logged'>
+              <ul className='nav-menu-logged-container'>
                 <li
-                  className={
-                    `logged-menu-item ${isReadFeed ? 'loged-menu-item-active' : null} home`
+                  className={`logged-menu-item ${isReadFeed ?
+                    'loged-menu-item-active' : null} home`
                   }
                 >
                   <Link
                     to='/' style={styles.navItemLinks}
                     className={`rf-nav-link ${isReadFeed ? 'home-link-active' : 'home-link'}`}
-                  >
-                      Home
-                  </Link>
-                </li>
-
-                <li style={styles.loggedInNavLi} className='loged-menu-item'>
-                  <a
-                    style={styles.navItemLinks}
-                    className='messages-link rf-nav-link'
-                    onClick={this.handleClickChat}
-                  >
-                    Messages
-                  </a>
+                  />
                 </li>
 
                 <li className='logged-menu-item'>
@@ -905,32 +672,44 @@ class NavMenu extends PureComponent {
                     style={styles.navItemLinks}
                     className='search-link rf-nav-link'
                     onClick={this.handleClickSearch}
+                  />
+                </li>
+                <li className='logged-menu-item'>
+                  <Badge
+                    onClick={this.handleChatsContainerShow}
+                    badgeContent={chatNotifications}
+                    primary={true}
+                    badgeStyle={chatNotifications > 0 ? {
+                      top: -7,
+                      left: 7,
+                      width: '20px',
+                      height: '20px',
+                      fontWeight: 700,
+                      fontSize: 12,
+                      backgroundColor: Colors.red,
+                    } : { display: 'none' }}
+                    style={styles.messageBadge}
                   >
-                    Search
-                  </a>
+                    <a
+                      style={styles.navItemLinks}
+                      className='messages-link rf-nav-link'
+                    />
+                  </Badge>
                 </li>
 
-              </ul>
-            </div>
-
-            <div className='top-bar-right'>
-              <ul className='menu'>
-                <li style={styles.loggedInRightNavLi}>
-                  <LitcoinStatus />
-                </li>
                 <li style={styles.loggedInRightNavLi}>
                   <a
                     style={styles.navItemLinks}
                     className='menu-badge-container rf-nav-link'
                   >
                     <Badge
-                      onClick={this.handleClickChat}
+                      onClick={this.handleNotificationsShow}
                       badgeContent={
-                        currentReader.notificationsCount ?
-                          currentReader.notificationsCount : 0
+                        notifications.unreadCount ?
+                          notifications.unreadCount : 0
                         }
                       primary={true}
-                      badgeStyle={{
+                      badgeStyle={notifications.unreadCount ? {
                         top: -5,
                         right: -7,
                         width: '20px',
@@ -938,11 +717,11 @@ class NavMenu extends PureComponent {
                         paddingTop: 1,
                         fontWeight: 700,
                         backgroundColor: Colors.red,
-                      }}
+                      } : { display: 'none' }}
                     >
                       <img
                         src='/image/notifications-icon.svg'
-                        onClick={this.handleClickChat}
+                        onClick={this.handleNotificationsShow}
                       />
                     </Badge>
                   </a>
@@ -959,7 +738,7 @@ class NavMenu extends PureComponent {
                           currentReader.cartItems : 0
                         }
                       primary={true}
-                      badgeStyle={{
+                      badgeStyle={currentReader.cartItems ? {
                         top: -5,
                         right: -7,
                         width: '20px',
@@ -967,41 +746,322 @@ class NavMenu extends PureComponent {
                         paddingTop: 1,
                         fontWeight: 700,
                         backgroundColor: Colors.red,
-                      }}
+                      } : { display: 'none' }}
                     >
                       <img src='/image/cart.svg' />
                     </Badge>
                   </a>
                 </li>
-
-                <li style={styles.loggedInRightNavLi} className='profile-menu-badge'>
-                  <a
-                    style={styles.rightNavLinks}
-                    onClick={this.handleProfileMenuShow}
-                  >
-                    <img
-                      src={currentReader.profileImage}
-                      style={styles.profileImageBadge}
-                    />
+                <li className='nav-menu-logged-list'>
+                  <a className='nav-menu-logged-anchor'>
+                    <MenuIcon style={styles.menuIcon} onClick={this.handleMenuClick}/>
                   </a>
-                  { this.state.profileMenuOpen ?
-                    this.userProfileMenu() : null}
                 </li>
               </ul>
+            </nav>
+            <MobileMenu
+              customBurgerIcon={false}
+              customCrossIcon={false}
+              id={'mobile-menu-logged'}
+              isOpen={this.state.isMobileMenuOpen}
+              width={300}
+            >
+              <div className='profile-section-container'>
+                <div className='first-row-elements'>
+                  <Link to={`profile/${currentReader.slug}`} className='profile-badge-anchor'>
+                    <figure className='profile-badge-container'>
+                      <img
+                        src={currentReader.profileImage}
+                        className='profile-badge-img'
+                        alt=''
+                      />
+                    </figure>
+                  </Link>
+                  <Link to={`profile/${currentReader.slug}`} className='profile-name-anchor'>
+                    <span>{currentReader.firstName} {currentReader.lastName}</span>
+                  </Link>
+                </div>
+                <div className='second-row-elements'>
+                  <div className='follows-container'>
+                    <span>
+                      {socialFollowers ? socialFollowers : null} Followers
+                    </span>
+                  </div>
+                  <div className='follows-container'>
+                    <span>
+                      {socialFollowed ? socialFollowed : null} Following
+                    </span>
+                  </div>
+                </div>
+                <div className='third-row-elements'>
+                  <LitcoinStatus />
+                </div>
+              </div>
+              <div className='explore-links-container'>
+                {currentReader.hasAuthorBuzz ||
+                (currentReader.hasPublisherBuzz && currentReader.isPublisher) ?
+                  (
+                    <ul className='links-container'>
+                       <span className='links-title'>
+                         Use Platform As
+                       </span>
+                      <div className='publishing-as-mobile-container'>
+                        <li className='publishing-as-list'>
+                          <a
+                            onClick={() => this.handlePlatformUse('reader')}
+                            className={usePlatformAs === 'reader' ?
+                              ('publishing-as-active') : ('publishing-as-anchor')}
+                          >
+                            Reader
+                          </a>
+                        </li>
+                        {currentReader.hasAuthorBuzz ?
+                          (
+                            <li className='publishing-as-list'>
+                              <a
+                                onClick={() => this.handlePlatformUse('author')}
+                                className={usePlatformAs === 'author' ?
+                                  ('publishing-as-active') : ('publishing-as-anchor')}
+                              >
+                                Author
+                              </a>
+                            </li>
+                          ) : null
+                        }
+                        {currentReader.hasPublisherBuzz && currentReader.isPublisher ?
+                          (
+                            <li className='publishing-as-list'>
+                              <a
+                                onClick={() => this.handlePlatformUse('publisher')}
+                                className={usePlatformAs === 'publisher' ?
+                                  ('publishing-as-active') : ('publishing-as-anchor')}
+                              >
+                                Publisher
+                              </a>
+                            </li>
+                          ) : null
+                        }
+                      </div>
+                    </ul>
+                  ) : null
+
+                }
+                <ul className='links-container'>
+                  <span className='links-title'>
+                    Explore
+                  </span>
+                  {currentReader.isAuthor && !currentReader.hasAuthorBuzz ?
+                    (
+                      <li className='links-list'>
+                        <a
+                          href={currentReader.author.url}
+                          className='links-anchor'
+                        >
+                          My Author Page
+                        </a>
+                      </li>
+                    ) : currentReader.isAuthor && currentReader.hasAuthorBuzz ?
+                    (
+                      <li className='links-list'>
+                        <a
+                          href={currentReader.author.url}
+                          className='links-anchor'
+                        >
+                          GoRead Buzz
+                        </a>
+                      </li>
+                    ) : null
+                  }
+                  {this.mapMobileMenuItems('Explore')}
+                </ul>
+                <ul className='links-container'>
+                  <span className='links-title'>
+                    Help & Settings
+                  </span>
+                  { currentReader.isAuthor && currentReader.hasAuthorBuzz ?
+                    (
+                      <li className='links-list'>
+                        <a
+                          href='/author/buzz/settings'
+                          className='links-anchor'
+                        >
+                          Buzz Settings
+                        </a>
+                      </li>
+                    ) : null
+
+                  }
+                  {this.mapMobileMenuItems('Help')}
+                  <li className='links-list'>
+                    <a onClick={this.handleLogoutClick} className='links-anchor'>
+                      Logout
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div className='footer-links-container'>
+                {this.mapMobileMenuFooterItems()}
+              </div>
+            </MobileMenu>
+          </div>
+          <div style={styles.navContainer} className='top-bar'>
+            <div style={styles.insideNavContainer} className='top-bar-logged-menu'>
+              <div className='top-bar-left'>
+                <ul style={styles.navUl} className='menu'>
+                  <li className='align-middle'>
+                    <Link to='/' className='logo-logged-anchor'>
+                      <img src='/image/logo.png' />
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+
+              <div className='top-bar-center-items'>
+                <ul className='menu'>
+
+                  <li
+                    className={
+                      `logged-menu-item ${isReadFeed ? 'loged-menu-item-active' : null} home`
+                    }
+                  >
+                    <Link
+                      to='/' style={styles.navItemLinks}
+                      className={`rf-nav-link ${isReadFeed ? 'home-link-active' : 'home-link'}`}
+                    >
+                        Home
+                    </Link>
+                  </li>
+
+                  <li style={styles.loggedInNavLi} className='loged-menu-item'>
+                    <Badge
+                      onClick={this.handleChatsContainerShow}
+                      badgeContent={chatNotifications}
+                      primary={true}
+                      badgeStyle={chatNotifications > 0 ? {
+                        top: -7,
+                        left: 7,
+                        width: '20px',
+                        height: '20px',
+                        fontWeight: 700,
+                        fontSize: 12,
+                        backgroundColor: Colors.red,
+                      } : { display: 'none' }}
+                      style={styles.messageBadge}
+                    >
+                      <a
+                        style={styles.navItemLinks}
+                        className='messages-link rf-nav-link'
+                      >
+                        Messages
+                      </a>
+                    </Badge>
+                  </li>
+
+                  <li className='logged-menu-item'>
+                    <a
+                      style={styles.navItemLinks}
+                      className='search-link rf-nav-link'
+                      onClick={this.handleClickSearch}
+                    >
+                      Search
+                    </a>
+                  </li>
+
+                </ul>
+              </div>
+
+              <div className='top-bar-right'>
+                <ul className='menu'>
+
+                  <li style={styles.loggedInRightNavLi}>
+                    <LitcoinStatus />
+                  </li>
+                  <li style={styles.loggedInRightNavLi}>
+                    <a
+                      style={styles.navItemLinks}
+                      className='menu-badge-container rf-nav-link'
+                    >
+                      <Badge
+                        onClick={this.handleNotificationsShow}
+                        badgeContent={
+                          notifications.unreadCount ?
+                            notifications.unreadCount : 0
+                          }
+                        primary={true}
+                        badgeStyle={notifications.unreadCount ? {
+                          top: -5,
+                          right: -7,
+                          width: '20px',
+                          height: '20px',
+                          paddingTop: 1,
+                          fontWeight: 700,
+                          backgroundColor: Colors.red,
+                        } : { display: 'none' }}
+                      >
+                        <img
+                          src='/image/notifications-icon.svg'
+                          onClick={this.handleNotificationsShow}
+                        />
+                      </Badge>
+                    </a>
+                  </li>
+                  <li style={styles.loggedInRightNavLi}>
+                    <a
+                      href={routes.shopCart()}
+                      style={styles.navItemLinks}
+                      className='menu-badge-container rf-nav-link'
+                    >
+                      <Badge
+                        badgeContent={
+                          currentReader.cartItems ?
+                            currentReader.cartItems : 0
+                          }
+                        primary={true}
+                        badgeStyle={currentReader.cartItems ? {
+                          top: -5,
+                          right: -7,
+                          width: '20px',
+                          height: '20px',
+                          paddingTop: 1,
+                          fontWeight: 700,
+                          backgroundColor: Colors.red,
+                        } : { display: 'none' }}
+                      >
+                        <img src='/image/cart.svg' />
+                      </Badge>
+                    </a>
+                  </li>
+
+                  <li style={styles.loggedInRightNavLi} className='profile-menu-badge'>
+                    <a
+                      style={styles.rightNavLinks}
+                      onClick={this.handleProfileMenuShow}
+                    >
+                      <img
+                        src={currentReader.profileImage}
+                        style={styles.profileImageBadge}
+                      />
+                    </a>
+                    { this.state.profileMenuOpen ?
+                      this.userProfileMenu() : null}
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
+          <SearchModal
+            modalOpen={this.state.searchModalOpen}
+            handleClose={this.handleSearchClose}
+          />
         </div>
-        <SearchModal
-          modalOpen={this.state.searchModalOpen}
-          handleClose={this.handleSearchClose}
-        />
-        <ChatFrame
-          modalOpen={this.state.chatModalOpen}
-          handleClose={this.handleChatClose}
-        />
+        <Notifications isOpen={this.state.notificationsOpen} />
+        { this.props.chat.isMessagesOpen ?
+          <ChatsContainer showMethod={this.handleChatsContainerShow}/> : null
+        }
       </div>
     )
   }
+
   render() {
     const { isUserLoggedIn, currentReader } = this.props
 
@@ -1069,10 +1129,17 @@ class NavMenu extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({
+  currentReader,
+  social,
+  chat,
+  notifications,
+}) => {
   return {
-    currentReader: state.currentReader,
-    social: state.social
+    currentReader,
+    social,
+    chat,
+    notifications,
   }
 }
 
@@ -1081,7 +1148,9 @@ const mapDispatchToProps = {
   processUserLogout,
   usePlatformAs,
   getCurrentReader,
-  verifyUserToken
+  verifyUserToken,
+  toggleMessagePopup,
+  loadNotifications,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavMenu)

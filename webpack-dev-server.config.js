@@ -83,7 +83,7 @@ module.exports = {
       {
         test: /\.ttf$/,
         loader: "url?limit=10000&mimetype=application/octet-stream"
-       },
+      },
       {
         test: /\.eot$/,
         loader: "file"
@@ -91,6 +91,10 @@ module.exports = {
       {
         test: /\.svg$/,
         loader: "url?limit=10000&mimetype=image/svg+xml"
+      },
+      {
+        test: /\.mp3$/,
+        loader: 'file'
       }
     ],
   }
