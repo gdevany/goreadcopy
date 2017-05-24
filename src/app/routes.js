@@ -11,6 +11,8 @@ import {
   CategoriesPage,
   CartPage,
 } from './components/bookStore'
+
+import { ReferralHome } from './components/referral'
 import { Settings } from './components/settings'
 import { Auth } from './services'
 
@@ -21,7 +23,7 @@ const Routes = (
     <IndexRoute isUserLoggedIn={isUserLoggedIn} component={HomeWrapper} />
     <Route path='/profile/settings' component={Settings} />
     <Route path='/profile/:slug' component={Profile} />
-    <Route path='/me/:slug' component={Profile} />
+    <Route path='/me/:slug' component={ReferralHome} />
     <Route path='/browse' component={BookStore} />
     <Route path='/book/:slug' component={BookPage} />
     <Route path='/categories/:slug' component={CategoriesPage} />
