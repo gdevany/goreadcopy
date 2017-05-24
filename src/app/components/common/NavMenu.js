@@ -28,7 +28,7 @@ const styles = {
     backgroundColor: Colors.white,
     padding: '0 20px',
     position: 'fixed',
-    zIndex: 10,
+    zIndex: 1000,
     width: '100%'
   },
 

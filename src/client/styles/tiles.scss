@@ -46,11 +46,12 @@
     }
   }
   .tile-actor-details{
-    display: flex;
+    display: inline;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: column;
     margin-left: 1em;
+    width: 80%;
     .tile-actor-container{
       display: flex;
       justify-content: flex-start;
@@ -98,6 +99,7 @@
       align-self: flex-start;
       font-size: 14px;
       color: rgb(151, 151, 151);
+      position: absolute;
     }
   }
 }
@@ -108,6 +110,11 @@
   flex-direction: column;
   width: 100%;
   margin-bottom: 1em;
+  .merged-tile{
+    img{
+      display: inline-block !important
+    }
+  }
   .tile-main-content{
     width: 100%;
     padding: .5em 1em 1em;
@@ -184,7 +191,6 @@
 .author-tile-container{
   display: flex;
   justify-content: flex-start;
-  align-items: center;
   flex-direction: column;
   width: 100%;
   .author-name, .author-title{
@@ -451,7 +457,8 @@
       margin: 0;
       width: 100%;
       text-align: left;
-      font-size: 24px;
+      font-size: 18px;
+      color: #7d7d7d;
     }
     .book-rating-container{
       width: 100%;
@@ -758,7 +765,7 @@
   }
   .merged-books{
     img{
-      width: 113px;
+      width: 109px;
       margin: .5em;
     }
   }
