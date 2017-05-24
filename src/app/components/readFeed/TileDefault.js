@@ -207,6 +207,10 @@ class TileDefault extends PureComponent {
     return time
   }
 
+  truncInfo = (text, limit) => {
+    return text.length >= limit ? `${text.slice(0, limit)}...` : text
+  }
+
   renderAction = (entry, index, target) => {
     const targetUrlRegex = /\{(\w.*)\}/
     if (targetUrlRegex.test(entry)) {
@@ -215,11 +219,9 @@ class TileDefault extends PureComponent {
         const matchIndex = 1
         const targetName = match[matchIndex]
         return (
-          <span className='margin-right' key={index}>
-            <a className='tile-target-name' key={index} href={target.link}>
-              {targetName}
-            </a>
-          </span>
+          <a className='tile-target-name' key={index} href={target.link}>
+            {this.truncInfo(targetName, 33)}
+          </a>
         )
       }
       return (
