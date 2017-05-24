@@ -3,23 +3,24 @@ import { connect } from 'react-redux'
 import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import moment from 'moment'
 import { AnchoredParagraph } from '../'
-import currentReaderRecommendation from '../../../services/api/currentReader/recommendation'
-import { BookClubs } from '../../../services/api/'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { Colors } from '../../../constants/style'
 
 import { Notifications as NotificationActions } from '../../../redux/actions'
 
-const { dismissNotification } = NotificationActions
+const {
+  dismissNotification,
+  toggleShowOptions,
+  toggleFollowBack,
+  sendBookClubRequest
+} = NotificationActions
 
 class NotificationItem extends PureComponent {
   constructor(props) {
-    const { element: { verb, followBack, category } } = props
     super(props)
     this.state = {
-      showOptions: false,
-      showFollowBack: verb.toLowerCase().includes('follow') && followBack,
-      showAcceptReject: category === 'book_club_member_request',
+      showFollowBack: true,
+      showAcceptReject: true,
       isRequesting: false,
     }
     this.handleDismissNotification = this.handleDismissNotification.bind(this)
@@ -30,37 +31,24 @@ class NotificationItem extends PureComponent {
 
   handleDismissNotification(e) {
     e.preventDefault()
-    this.setState({
-      showOptions: !this.state.showOptions,
-    })
+    const { element: { pk } } = this.props
+    this.props.toggleShowOptions(pk)
   }
 
   onDismissSingleClick(e, pk) {
     e.preventDefault()
     this.props.dismissNotification(pk)
-    this.setState({
-      showOptions: false,
-    })
+    this.props.toggleShowOptions(pk)
   }
 
   onFollowClick(e) {
-    const { element: { actor: { id } } } = this.props
-    currentReaderRecommendation.likedReaders({ 'readerIds': [id] })
-      .then(res=>{ this.setState({ showFollowBack: false }) })
-      .catch(err=>console.log(err))
+    const { element: { actor: { id }, pk } } = this.props
+    this.props.toggleFollowBack(id, pk)
   }
 
   onBookClubRequestAction(e, action) {
-    const { element: { action: { memberRequestId } } } = this.props
-    this.setState({ isRequesting: true })
-    BookClubs.membershipRequest({ 'action': action, 'id': memberRequestId })
-      .then(res=>{
-        this.setState({ isRequesting: false, showAcceptReject: false })
-      })
-      .catch(err=>{
-        this.setState({ isRequesting: false })
-        console.log(err)
-      })
+    const { element: { action: { memberRequestId }, pk } } = this.props
+    this.props.sendBookClubRequest(action, memberRequestId, pk)
   }
 
   mapMentions(list) {
@@ -80,6 +68,10 @@ class NotificationItem extends PureComponent {
       timestamp,
       mentions,
       mentionArray,
+      followBack,
+      showOptions,
+      showAcceptReject,
+      isRequesting,
     } } = this.props
 
     return (
@@ -100,7 +92,7 @@ class NotificationItem extends PureComponent {
           />
           <div className='notification-action-container'>
             {
-              this.state.showFollowBack ? (
+              followBack ? (
                 <a
                   className='notification-action-btn'
                   href='#'
@@ -119,7 +111,7 @@ class NotificationItem extends PureComponent {
             </span>
           </div>
           {
-            this.state.showAcceptReject ? (
+            showAcceptReject ? (
               <div className='notification-action-container'>
                 <a
                   className='notification-action-btn'
@@ -136,7 +128,7 @@ class NotificationItem extends PureComponent {
                   Decline
                 </a>
                 {
-                  this.state.isRequesting ? (
+                  isRequesting ? (
                     <RefreshIndicator
                       size={30}
                       left={0}
@@ -157,7 +149,7 @@ class NotificationItem extends PureComponent {
           }
           <div className='notifications-frame-dismiss-container'>
             <ArrowDownIcon onClick={this.handleDismissNotification}/>
-            { this.state.showOptions ?
+            { showOptions ?
               (
                 <div className='notifications-frame-dismiss-square'>
                   <a onClick={(e) => this.onDismissSingleClick(e, pk)}>Dismiss</a>
@@ -172,7 +164,20 @@ class NotificationItem extends PureComponent {
 }
 
 const mapDispatchToProps = {
-  dismissNotification
+  dismissNotification,
+  toggleShowOptions,
+  toggleFollowBack,
+  sendBookClubRequest,
 }
 
-export default connect(null, mapDispatchToProps)(NotificationItem)
+const mapStateToProps = ({
+  notifications: {
+    results
+  }
+}) => {
+  return {
+    results
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationItem)

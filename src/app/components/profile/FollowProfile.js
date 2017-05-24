@@ -189,7 +189,6 @@ class FollowProfile extends PureComponent {
         }
         onMouseEnter={this.handleTextChange}
         onMouseLeave={this.handleLeaveTextChange}
-        onClick={Auth.currentUserExists() ? this.handleFollow : null}
       >
         {
           isCurrentReader ?
