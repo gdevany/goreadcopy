@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { BookStoreNavBar } from '../common'
-import WishListBooks from './WishListBooks'
+import WishListBooks from './wishListBooks'
 import BookInfo from './BookInfo'
 import MeetAuthor from './MeetAuthor'
 import ReviewsOverview from './ReviewsOverview'
