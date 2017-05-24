@@ -25,16 +25,12 @@ class LeftHandLinks extends PureComponent {
 
   handleMapMenuItems = () => {
     const {
-      myBookClubs,
-      bookStore,
       myOrders,
       news,
       articles,
     } = routes
 
     const leftMenuRoutes = [
-      ['My Book Clubs', myBookClubs],
-      ['Book Store', bookStore],
       ['My Orders', myOrders],
       ['News', news],
       ['Articles', articles],
@@ -93,11 +89,29 @@ class LeftHandLinks extends PureComponent {
 
   render() {
     const { isCollapsed } = this.state
-
+    const {
+      myBookClubs,
+    } = routes
     return (
       <div style={styles.linkContainer}>
         <span className='small-header'>Explore</span>
         <ul className='left-hand-menu-container'>
+          <li className='left-hand-menu-item'>
+            <a
+              className='left-hand-menu-anchor'
+              href={myBookClubs()}
+            >
+              My Book Clubs
+            </a>
+          </li>
+          <li className='left-hand-menu-item'>
+            <a
+              className='left-hand-menu-anchor'
+              href='/browse'
+            >
+              Book Store
+            </a>
+          </li>
           { this.handleMapMenuItems() }
           {
             isCollapsed ? null :

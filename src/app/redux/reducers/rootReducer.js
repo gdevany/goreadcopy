@@ -10,6 +10,7 @@ import recommendedReducer from './recommended'
 import socialReducer from './social'
 import searchReducer from './search'
 import tilesReducer from './tiles'
+import storeReducer from './store'
 import sidebarAdsReducer from './ads'
 import chatReducer from './chat'
 import notificationReducer from './notifications'
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   tiles: tilesReducer,
   sidebarAds: sidebarAdsReducer,
   notifications: notificationReducer,
+  store: storeReducer,
 })
 
 export default rootReducer

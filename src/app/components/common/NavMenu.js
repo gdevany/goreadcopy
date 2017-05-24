@@ -109,7 +109,6 @@ const {
   articles,
   childrensLiteracy,
   authors,
-  bookStore,
   news,
 } = routes
 
@@ -354,7 +353,7 @@ class NavMenu extends PureComponent {
     const bookStoreItem = (
       <li key={'popover-nav-item'} style={styles.navLinks} className='link nav-item'>
 
-        <a onMouseEnter={this.handleNavHover} href={bookStore()}>
+        <a onMouseEnter={this.handleNavHover} href='/browse'>
           Book Store
         </a>
 
@@ -413,7 +412,7 @@ class NavMenu extends PureComponent {
                     )
                   })
                 }
-                <MenuItem primaryText='See More >' href={bookStore()} />
+                <MenuItem primaryText='See More >' href='/browse' />
               </Menu>
             </div>
 
@@ -446,10 +445,9 @@ class NavMenu extends PureComponent {
   }
 
   handleMapNavItemsMobile = () => {
-    const { bookStore, childrensLiteracy, news, articles, authors } = routes
+    const { childrensLiteracy, news, articles, authors } = routes
 
     const nonMenuRoutes = [
-      ['Book Store', bookStore],
       ["Children's Literacy", childrensLiteracy],
       ['News', news],
       ['Articles', articles],
@@ -498,7 +496,6 @@ class NavMenu extends PureComponent {
     const anchorClass = 'links-anchor'
     const {
       myBookClubs,
-      bookStore,
       myOrders,
       news,
       articles,
@@ -513,7 +510,6 @@ class NavMenu extends PureComponent {
     if (type === 'Explore') {
       nonMenuRoutes = [
         ['My Book Clubs', myBookClubs],
-        ['Book Store', bookStore],
         ['My Orders', myOrders],
         ['News', news],
         ['Articles', articles],
@@ -593,18 +589,6 @@ class NavMenu extends PureComponent {
                       </li>
                     ) : null
                   }
-                  {currentReader.hasPublisherBuzz && currentReader.isPublisher ? (
-                    <li className='publishing-as-list'>
-                      <a
-                        onClick={() => this.handlePlatformUse('publisher')}
-                        className={usePlatformAs === 'publisher' ?
-                        ('publishing-as-active') : ('publishing-as-anchor')}
-                      >
-                        Publisher
-                      </a>
-                    </li>
-
-                  ) : null}
                 </ul>
               </div>
             ) : null
@@ -728,7 +712,7 @@ class NavMenu extends PureComponent {
                 </li>
                 <li style={styles.loggedInRightNavLi}>
                   <a
-                    href={routes.shopCart()}
+                    href='/shop/cart'
                     style={styles.navItemLinks}
                     className='menu-badge-container rf-nav-link'
                   >
@@ -1075,6 +1059,13 @@ class NavMenu extends PureComponent {
         <div style={styles.mobileNavContainer} className='top-bar-mobile'>
           <MobileMenu id={'mobile-menu-container'}>
             <ul className='mobile-menu'>
+              <li style={styles.navLinks} className='link nav-item'>
+                <Link
+                  to='/browse'
+                >
+                  Book Store
+                </Link>
+              </li>
               {this.handleMapNavItemsMobile()}
             </ul>
           </MobileMenu>

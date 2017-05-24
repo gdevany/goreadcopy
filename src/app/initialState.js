@@ -23,4 +23,5 @@ export default {
     isContactsOpen: false,
   }),
   notifications: emptyState(),
+  store: emptyState(),
 }
