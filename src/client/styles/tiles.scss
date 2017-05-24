@@ -47,7 +47,7 @@
     }
   }
   .tile-actor-details{
-    display: flex;
+    display: inline;
     justify-content: flex-start;
     align-items: flex-start;
     flex-direction: column;
@@ -100,6 +100,7 @@
       align-self: flex-start;
       font-size: 14px;
       color: rgb(151, 151, 151);
+      position: absolute;
     }
   }
   .tile-action-container{
@@ -183,6 +184,11 @@
   flex-direction: column;
   width: 100%;
   margin-bottom: 1em;
+  .merged-tile{
+    img{
+      display: inline-block !important
+    }
+  }
   .tile-main-content{
     width: 100%;
     padding: .5em 1em 1em;
@@ -361,7 +367,6 @@
 .author-tile-container{
   display: flex;
   justify-content: flex-start;
-  align-items: center;
   flex-direction: column;
   width: 100%;
   .author-name, .author-title{

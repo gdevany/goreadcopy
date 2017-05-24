@@ -24,7 +24,7 @@ const styles = {
     alignSelf: 'center',
     padding: '3px 8px',
     marginTop: 5,
-
+    display: 'inline-flex',
     ':hover': {
       backgroundColor: Colors.blue,
       color: Colors.white,

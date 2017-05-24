@@ -159,7 +159,6 @@ input[type="checkbox"]:focus{
 }
 
 .quotes-list-element{
-  display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: row;
@@ -171,11 +170,11 @@ input[type="checkbox"]:focus{
   .quotes-text{
     margin: 0;
     word-break: break-word;
+    display: inline;
   }
 }
 
 .sidebar-element-container{
-  display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -197,6 +196,7 @@ input[type="checkbox"]:focus{
 
 .sidebar-favorite-genres-container{
   margin-top: 1em;
+  display: inline-flex;
 }
 
 .sidebar-books-container{
