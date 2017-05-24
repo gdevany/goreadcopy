@@ -1,4 +1,4 @@
-export BookStore from './BookStore'
+export BookStore from './bookStore'
 export BookPage from './BookPage'
 export CategoriesPage from './CategoriesPage'
 export CartPage from './CartPage'
