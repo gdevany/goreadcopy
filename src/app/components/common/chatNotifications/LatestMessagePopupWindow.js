@@ -144,7 +144,11 @@ class LatestMessagePopupWindow extends PureComponent {
               <img className='search-icon-element' src='/image/search-icon.svg'/>
             </form>
           </div>
-          <div className='chat-user-results'>
+          <div
+            className='chat-user-results'
+            onMouseEnter={e=>{document.body.style.overflowY = 'hidden'}}
+            onMouseLeave={e=>{document.body.style.overflowY = 'auto'}}
+          >
             { contacts ? this.renderMessageList(contacts) : null }
           </div>
         </section>

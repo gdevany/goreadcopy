@@ -24,11 +24,11 @@ class TileScroller extends PureComponent {
   }
 
   onScroll(e) {
-    const { fetchTiles, tiles, isLocked } = this.props
+    const { fetchTiles, tiles, isLocked, scrollPercent } = this.props
     const clientHeight = document.body.clientHeight
     const windowHeight = window.innerHeight
     const scrollOffset = window.scrollY || window.pageYOffset
-    if (scrollOffset > (clientHeight - windowHeight) * 0.90 && !isLocked) {
+    if (scrollOffset > (clientHeight - windowHeight) * scrollPercent && !isLocked) {
       fetchTiles(this.getUpdatedParams(tiles))
     }
   }
@@ -58,7 +58,7 @@ class TileScroller extends PureComponent {
       <Scroller
         onScroll={this.onScroll}
         debounced
-        delay={250}
+        delay={200}
         enabled
         scrollParent={window}
       >

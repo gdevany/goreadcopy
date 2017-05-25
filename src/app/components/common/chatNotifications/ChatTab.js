@@ -361,6 +361,8 @@ class ChatTab extends PureComponent {
                   <div
                     className='active-chat-in-use'
                     onClick={this.handleCloseTextArea}
+                    onMouseEnter={e=>{document.body.style.overflowY = 'hidden'}}
+                    onMouseLeave={e=>{document.body.style.overflowY = 'auto'}}
                     ref={(div)=>{this.setState({ container: div })}}
                   >
                     {
