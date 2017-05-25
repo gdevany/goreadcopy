@@ -4,10 +4,15 @@ import { Follow, Store, Social } from '../../redux/actions'
 import Rating from 'react-rating'
 import ReplyIcon from 'material-ui/svg-icons/content/reply'
 import { ShareButtons, generateShareIcon } from 'react-share'
+import { Search } from '../../services/api'
+import { debounce } from 'lodash'
+import SuggestionList from '../common/SuggestionList'
+import R from 'ramda'
 
 const { followOrUnfollow } = Follow
 const { sharePost } = Social
 const { addToCart, addToLibrary, addToWishList } = Store
+const { search } = Search
 const {
   FacebookShareButton,
   GooglePlusShareButton,
@@ -18,6 +23,7 @@ const FacebookIcon = generateShareIcon('facebook')
 const TwitterIcon = generateShareIcon('twitter')
 const GooglePlusIcon = generateShareIcon('google')
 const LinkedinIcon = generateShareIcon('linkedin')
+const mentionPattern = /\B@(?!Reader|Author|Publisher|Book)\w+\s?\w+/gi
 
 class BookInfo extends PureComponent {
 
@@ -28,6 +34,13 @@ class BookInfo extends PureComponent {
       isBookTypeSelected: false,
       isAlertDisplayed: false,
       isSharePopUpDisplayed: false,
+      isGoReadShareClicked: false,
+      mentions: '',
+      onProcessMentions: [],
+      processedMentions: [],
+      commentText: '',
+      suggestions: [],
+      showSuggestions: false,
     }
     this.handleAddToCart = this.handleAddToCart.bind(this)
     this.handleAddToLibrary = this.handleAddToLibrary.bind(this)
@@ -37,6 +50,12 @@ class BookInfo extends PureComponent {
     this.handleBookTypeSelect = this.handleBookTypeSelect.bind(this)
     this.handleShowAlert = this.handleShowAlert.bind(this)
     this.handleShareClick = this.handleShareClick.bind(this)
+    this.handleGoReadClick = this.handleGoReadClick.bind(this)
+    this.handleGoReadClose = this.handleGoReadClose.bind(this)
+    this.handleCommentChange = this.handleCommentChange.bind(this)
+    this.handleSuggestionClick = this.handleSuggestionClick.bind(this)
+    this.replaceMention = this.replaceMention.bind(this)
+    this.getMentions = debounce(this.getMentions, 250)
   }
 
   truncInfo = (text, limit) => {
@@ -125,7 +144,107 @@ class BookInfo extends PureComponent {
         contentType,
       }
     }
+    if (shareType === 5) {
+      this.setState({ isGoReadShareClicked: false, })
+    }
     this.props.sharePost(data, contentId)
+  }
+
+  handleGoReadClick = (event) => {
+    event.preventDefault()
+    this.setState({
+      isGoReadShareClicked: true,
+      isSharePopUpDisplayed: false,
+    })
+  }
+
+  handleGoReadClose = (event) => {
+    event.preventDefault()
+    this.setState({
+      isGoReadShareClicked: false,
+    })
+  }
+
+  handleCommentChange = (event) => {
+    event.preventDefault()
+    const body = event.target.value
+    const { showSuggestions, onProcessMentions } = this.checkMentions(body)
+    const {
+      processedMentions,
+      mentions
+    } = this.refreshMentions(body, this.state.processedMentions)
+    this.setState({
+      commentText: body,
+      mentions,
+      onProcessMentions,
+      processedMentions,
+      showSuggestions,
+    })
+  }
+
+  checkMentions(latestBody) {
+    const result = {
+      showSuggestions: false,
+      onProcessMentions: latestBody.match(mentionPattern)
+    }
+    if (result.onProcessMentions && result.onProcessMentions.length > 0) {
+      this.getMentions(R.last(result.onProcessMentions).replace('@', ''))
+    }
+    return result
+  }
+
+  getMentions(query) {
+    search({
+      author: query,
+      reader: query,
+      book: query,
+      publisher: query
+    }).then((res) => this.setState({
+      suggestions: res.data,
+      showSuggestions: true
+    }))
+  }
+
+  handleSuggestionClick(event) {
+    event.stopPropagation()
+    const { type, display, contenttype, id } = event.target.dataset
+    const body = this.replaceMention(type, display, contenttype, id)
+    const { showSuggestions, onProcessMentions } = this.checkMentions(body)
+    const { processedMentions, mentions } = this.refreshMentions(body, R.concat(
+      this.state.processedMentions,
+      [{
+        display: `@${type}:${display}`,
+        mention: `@[${contenttype}:${id}]`
+      }]
+    ))
+    this.setState({
+      body,
+      mentions,
+      processedMentions,
+      showSuggestions,
+      onProcessMentions,
+    })
+  }
+
+  refreshMentions(updatedBody, updatedProcessedMentions) {
+    let processedMentions = R.clone(updatedProcessedMentions)
+    let mentions = updatedBody
+    // Beware of indexOf 0 in the next line
+    processedMentions = processedMentions.filter((el) => mentions.indexOf(el.display) >= 0)
+    processedMentions.map(function (el) {
+      mentions = mentions.replace(el.display, el.mention)
+    })
+    return {
+      processedMentions,
+      mentions
+    }
+  }
+
+  replaceMention(type, display, contentType, id) {
+    const { commentText, onProcessMentions } = this.state
+    const lastMention = R.last(onProcessMentions)
+    const updatedBody = commentText.replace(lastMention, `@${type}:${display} `)
+    return updatedBody
   }
 
   render() {
@@ -134,7 +253,8 @@ class BookInfo extends PureComponent {
       addToCartClicked,
       isBookTypeSelected,
       isAlertDisplayed,
-      isSharePopUpDisplayed
+      isSharePopUpDisplayed,
+      commentText,
     } = this.state
     return (
       <div className='row bookpage-info-main-container'>
@@ -317,7 +437,10 @@ class BookInfo extends PureComponent {
 
                     {isUserLogged ?
                       (
-                        <li className='bookpage-share-buttons-li-gr'>
+                        <li
+                          onClick={this.handleGoReadClick}
+                          className='bookpage-share-buttons-li-gr'
+                        >
                           <img
                             className='logo-share-img pointer-hand'
                             src='/image/logo_share.png'
@@ -331,6 +454,65 @@ class BookInfo extends PureComponent {
             </div>
           </div>
         </div>
+        {this.state.isGoReadShareClicked ?
+          (
+            <div className='goread-share-popup-container'>
+              <div className='goread-share-popup-tile'>
+                <img
+                  src='/image/close.png'
+                  className='goread-share-popup-tile-close'
+                  onClick={this.handleGoReadClose}
+                />
+                <div className='goread-share-popup-tile-comment'>
+                  <textarea
+                    onChange={this.handleCommentChange}
+                    className='goread-share-popup-tile-comment-area'
+                    placeholder='Write your comment here...'
+                    value={commentText}
+                  />
+                  {this.state.showSuggestions ?
+                    (
+                      <SuggestionList
+                        entries={this.state.suggestions}
+                        onMentionListClick={this.handleSuggestionClick}
+                      />
+                    ) : null
+                  }
+                </div>
+                <div className='book-tile-container'>
+                  <figure className='book-figure'>
+                    <img className='book-img' src={bookInfo.imageUrl} alt=''/>
+                  </figure>
+                  <div className='book-content'>
+                    <h2 className='book-title'>{bookInfo.title ?
+                      this.truncInfo(bookInfo.title, 75) : null}
+                    </h2>
+                    <h4 className='book-author'>by {bookInfo.authors[0].fullname}</h4>
+                    <div className='book-rating-container'>
+                      {this.renderRating(Math.round(bookInfo.rating.average))}
+                    </div>
+                  </div>
+                </div>
+                <div className='post-excerpt-container'>
+                  <p className='post-excerpt-pharagraph'>
+                    {bookInfo.description && bookInfo.description !== 'None' ?
+                      this.truncInfo(bookInfo.description, 225) : null
+                    }
+                    <a href={`/book/${bookInfo.slug}`} className='post-readmore-anchor'>
+                      Read more
+                    </a>
+                  </p>
+                </div>
+                <a
+                  onClick={() => this.handleSharePost(5, 'bookpage', bookInfo.id, commentText)}
+                  className='goread-share-popup-comment-submit'
+                >
+                  Share
+                </a>
+              </div>
+            </div>
+          ) : null
+        }
         <div className='small-12 large-4 columns end bookpage-info-right-element'>
           <div className='bookpage-info-right-element-main-container'>
             <span className='bookpage-book-details-cover'> Paperback </span>
