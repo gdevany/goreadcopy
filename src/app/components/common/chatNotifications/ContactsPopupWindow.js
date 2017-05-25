@@ -139,7 +139,11 @@ class ContactsPopupWindow extends PureComponent {
           </div>
           {
             isContactsOpen && contacts ? (
-              <div className='chat-users-container'>
+              <div
+                className='chat-users-container'
+                onMouseEnter={e=>{document.body.style.overflowY = 'hidden'}}
+                onMouseLeave={e=>{document.body.style.overflowY = 'auto'}}
+              >
                 { this.renderOnlineUsers(onlineUsers) }
                 { this.renderOfflineUsers(offlineUsers) }
               </div>

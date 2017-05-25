@@ -76,6 +76,7 @@ class MiddleContainer extends PureComponent {
           tiles={readFeed}
           isLocked={isReadFeedLocked}
           fetchOnMount={true}
+          scrollPercent={0.7}
         />
         { isReadFeedLocked ? this.setLoading() : null }
       </div>

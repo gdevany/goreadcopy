@@ -5,7 +5,7 @@ import { Notifications as NotificationServices } from '../../../services/api/cur
 import { Notifications as NotificationActions } from '../../../redux/actions'
 import { Colors } from '../../../constants/style'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
-import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
+import CogIcon from 'material-ui/svg-icons/action/settings'
 
 const { setReadNotifications } = NotificationServices
 const {
@@ -94,12 +94,16 @@ class NotificationPopupWindow extends PureComponent {
     const { isOpen, notifications: { results } } = this.props
     return isOpen ? (
       <section className='notifications-main-frame-container'>
-        <section className='notifications-frame-container'>
+        <section
+          className='notifications-frame-container'
+          onMouseEnter={e=>{document.body.style.overflowY = 'hidden'}}
+          onMouseLeave={e=>{document.body.style.overflowY = 'auto'}}
+        >
           {
             results && results.length > 0 ?
               (
                 <div className='notifications-frame-dismissall-container'>
-                  <ArrowDownIcon onClick={this.handleDismissAll}/>
+                  <CogIcon onClick={this.handleDismissAll}/>
                   {this.state.isDismissAllOpen ?
                     (
                       <div className='notifications-frame-dismissall-square'>
