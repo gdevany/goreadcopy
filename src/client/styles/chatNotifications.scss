@@ -76,11 +76,14 @@
     margin-top: 0;
     margin-bottom: 0;
     max-height: 80vh;
-    overflow-y: auto;
     left: inherit;
     top: 60px;
     right: 30px;
     position: fixed;
+    overflow: hidden;
+    &:hover{
+      overflow-y: scroll;
+    }
   }
   @media all and (min-width: 1024px) {
     width: 400px;
@@ -432,6 +435,12 @@
     align-items: flex-start;
     flex-direction: row;
     flex-wrap: wrap;
+    @media all and (min-width: 768px){
+      overflow: hidden;
+      &:hover{
+        overflow-y: scroll;
+      }
+    }
     .single-chat-element-container{
       padding: 10px 15px;
       display: flex;
@@ -581,6 +590,12 @@
         height: 100%;
         overflow-x: hidden;
         overflow-y: scroll;
+        @media all and (min-width: 768px){
+          overflow: hidden;
+          &:hover{
+            overflow-y: scroll;
+          }
+        }
         .chat-single-user{
           display: flex;
           justify-content: space-between;
@@ -804,6 +819,10 @@
   background: $white;
   @media all and (min-width: 768px){
     height: 300px;
+    overflow: hidden;
+    &:hover{
+      overflow-y: scroll;
+    }
   }
   .conversation-extrange{
     display: flex;
