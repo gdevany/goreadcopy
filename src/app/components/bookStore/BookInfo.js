@@ -218,7 +218,7 @@ class BookInfo extends PureComponent {
       }]
     ))
     this.setState({
-      body,
+      commentText: body,
       mentions,
       processedMentions,
       showSuggestions,
@@ -469,6 +469,7 @@ class BookInfo extends PureComponent {
                     className='goread-share-popup-tile-comment-area'
                     placeholder='Write your comment here...'
                     value={commentText}
+                    autoFocus
                   />
                   {this.state.showSuggestions ?
                     (
@@ -507,7 +508,7 @@ class BookInfo extends PureComponent {
                   onClick={() => this.handleSharePost(5, 'bookpage', bookInfo.id, commentText)}
                   className='goread-share-popup-comment-submit'
                 >
-                  Share
+                  Share it!
                 </a>
               </div>
             </div>
