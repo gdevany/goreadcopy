@@ -35,6 +35,7 @@ class SearchModal extends Component {
     }
     this.handleOnChange = this.handleOnChange.bind(this)
     this.debouncedSearch = this.debouncedSearch.bind(this)
+
   }
 
   handleOnChange = R.curry((field, e) => {
@@ -56,7 +57,7 @@ class SearchModal extends Component {
         return (
           <div key={reader.id} className='result-container'>
             <div className='image-container'>
-              <Link to={`profile/${reader.slug}`}>
+              <Link to={`profile/${reader.slug}`} onClick={() => this.props.handleClose()}>
                 <figure className='search-result-figure'>
                   <img
                     src={reader.image}
@@ -67,11 +68,15 @@ class SearchModal extends Component {
               </Link>
             </div>
             <div className='search-result-info-container'>
-              <Link to={`profile/${reader.slug}`}>
+              <Link to={`profile/${reader.slug}`} onClick={() => this.props.handleClose()}>
                 {reader.firstName} {reader.lastName}
               </Link>
               <br/>
-              <Link className='search-type-anchor' to={`profile/${reader.slug}`}>
+              <Link
+                className='search-type-anchor'
+                to={`profile/${reader.slug}`}
+                onClick={() => this.props.handleClose()}
+              >
                 Personal Library
               </Link>
             </div>
