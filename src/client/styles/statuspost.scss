@@ -135,7 +135,7 @@
   list-style: none;
   position: absolute;
   top: 50px;
-  left: 80px;
+  left: 15px;
   max-width: 300px;
   background-color: $white;
   padding: 1em;
@@ -150,6 +150,9 @@
   max-height: 300px;
   overflow-x: hidden;
   overflow-y: scroll;
+  @media (min-width: 768px){
+    left: 80px;
+  }
   .suggestion-list-element {
     align-self: flex-start;
     margin-bottom: .5em;
