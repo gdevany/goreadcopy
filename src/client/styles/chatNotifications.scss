@@ -82,7 +82,7 @@
     position: fixed;
     overflow: hidden;
     &:hover{
-      overflow-y: scroll;
+      overflow-y: auto;
     }
   }
   @media all and (min-width: 1024px) {
@@ -444,7 +444,7 @@
     @media all and (min-width: 768px){
       overflow: hidden;
       &:hover{
-        overflow-y: scroll;
+        overflow-y: auto;
       }
     }
     .single-chat-element-container{
@@ -600,7 +600,7 @@
         @media all and (min-width: 768px){
           overflow: hidden;
           &:hover{
-            overflow-y: scroll;
+            overflow-y: auto;
           }
         }
         .chat-single-user{
@@ -828,7 +828,7 @@
     height: 300px;
     overflow: hidden;
     &:hover{
-      overflow-y: scroll;
+      overflow-y: auto;
     }
   }
   .conversation-extrange{
