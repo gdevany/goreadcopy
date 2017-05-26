@@ -132,7 +132,7 @@
       margin: 0;
       width: 100%;
       word-wrap: break-word;
-      line-height: 20px;
+      line-height: 15px;
       @media all and (min-width: 1200px){
         margin-bottom: 5px;
       }
@@ -849,6 +849,7 @@
         word-wrap: break-word;
         font-size: 12px;
         text-align: left;
+        line-height: 15px;
         border-radius: 7.5px;
       }
     }
@@ -883,6 +884,7 @@
         word-wrap: break-word;
         text-align: right;
         font-size: 12px;
+        line-height: 15px;
       }
     }
     .timestamp-container{
