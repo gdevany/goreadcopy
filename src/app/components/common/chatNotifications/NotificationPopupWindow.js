@@ -142,7 +142,9 @@ class NotificationPopupWindow extends PureComponent {
               ) :
             results.length === 0 ?
               (
-                <p> No notifications to list! </p>
+                <div className='single-notification-element blank-state'>
+                  <p> You don't have any notifications right now. </p>
+                </div>
               ) :
             results.map((el, idx)=><NotificationItem key={idx} element={el}/>)
           }

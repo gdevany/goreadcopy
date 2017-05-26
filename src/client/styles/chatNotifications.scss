@@ -113,6 +113,12 @@
         border-radius: 23px;
       }
     }
+    &.blank-state{
+      p{
+        margin: 0 auto;
+        color: #9E9E9E;
+      }
+    }
   }
   .notification-container{
     display: flex;
