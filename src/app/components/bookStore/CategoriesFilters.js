@@ -7,6 +7,7 @@ class CategoriesFilters extends PureComponent {
     super(props)
 
     this.state = {
+      subCategories: false,
       selectedCategory: '',
       isSubcategoriesOpen: false,
       isRatingOpen: false,
@@ -27,6 +28,12 @@ class CategoriesFilters extends PureComponent {
       this.setState({
         selectedCategory: router.params.slug,
       })
+    }
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.categories) {
+      this.setState({ subCategories: nextProps.categories })
     }
   }
 
@@ -54,71 +61,46 @@ class CategoriesFilters extends PureComponent {
     })
   }
 
+  handleSubCategories = () => {
+    const { subCategories } = this.state
+    return subCategories.map((category, index) => {
+      return (
+        <div
+          key={`${index}_${category.id}`}
+          className='categorypage-subcategory-filters'
+        >
+          <input
+            id={category.slug}
+            className='categorypage-category-selected'
+            type='radio'
+            name='category-filter'
+            value={category.slug}
+          />
+          <label htmlFor={category.slug} className='categorypage-category-label'>
+            {category.name}
+          </label>
+        </div>
+      )
+    })
+  }
   renderSubCategoriesFilter = () => {
-    const { selectedCategory } = this.state
+    const { selectedCategory, subCategories } = this.state
     return (
       <div className='categorypage-filter-popup-container'>
         <div className='categorypage-category-selected-container'>
-          <input
-            className='categorypage-category-selected'
-            id={selectedCategory}
-            type='radio'
-            name='category-filter'
-            value={selectedCategory}
-          />
+          {/*<input*/}
+            {/*className='categorypage-category-selected'*/}
+            {/*id={selectedCategory}*/}
+            {/*type='radio'*/}
+            {/*name='category-filter'*/}
+            {/*value={selectedCategory}*/}
+          {/*/>*/}
           <label htmlFor={selectedCategory} className='categorypage-category-label'>
             {selectedCategory}
           </label>
         </div>
         <div className='categorypage-subcategories-filters-elems'>
-          <div className='categorypage-subcategory-filters'>
-            <input
-              id='Action & Adventure'
-              className='categorypage-category-selected'
-              type='radio'
-              name='category-filter'
-              value='Action & Adventure'
-            />
-            <label htmlFor='Action & Adventure' className='categorypage-category-label'>
-              Action & Adventure
-            </label>
-          </div>
-          <div className='categorypage-subcategory-filters'>
-            <input
-              id='Alternative History'
-              className='categorypage-category-selected'
-              type='radio'
-              name='category-filter'
-              value='Alternative History'
-            />
-            <label htmlFor='Alternative History' className='categorypage-category-label'>
-              Alternative History
-            </label>
-          </div>
-          <div className='categorypage-subcategory-filters'>
-            <input
-              id='General'
-              className='categorypage-category-selected'
-              type='radio'
-              name='category-filter'
-              value='General'
-            />
-            <label htmlFor='General' className='categorypage-category-label'>
-              General
-            </label>
-          </div>
-          <div className='categorypage-subcategory-filters'>
-            <input
-              id='Military'
-              className='categorypage-category-selected'
-              type='radio'
-              name='category-filter'
-              value='Military'
-            />
-            <label htmlFor='Military' className='categorypage-category-label'>
-              Military
-            </label>
-          </div>
+          {subCategories ? this.handleSubCategories() : null}
         </div>
       </div>
     )
@@ -341,12 +323,12 @@ class CategoriesFilters extends PureComponent {
             {isPriceOpen ? <ArrowUpIcon onClick={this.handlePriceClick}/> : <ArrowDownIcon />}
             {isPriceOpen ? this.renderPriceFilter() : null}
           </div>
-          <div className='categorypage-single-filter-container'>
-            <span className='categorypage-single-filter-title'>
-              Awards Categories
-            </span>
-            <ArrowDownIcon />
-          </div>
+          {/*<div className='categorypage-single-filter-container'>*/}
+            {/*<span className='categorypage-single-filter-title'>*/}
+              {/*Awards Categories*/}
+            {/*</span>*/}
+            {/*<ArrowDownIcon />*/}
+          {/*</div>*/}
         </div>
       </section>
     )

@@ -45,7 +45,7 @@ class CategoriesPage extends PureComponent {
   }
 
   render() {
-    const { selectedCategory } = this.state
+    const { selectedCategory, subCategories } = this.state
 
     return (
       <div>
@@ -54,7 +54,7 @@ class CategoriesPage extends PureComponent {
           {selectedCategory && selectedCategory !== '' ?
             <CategoriesHero category={selectedCategory}/> : null
           }
-          <CategoriesFilters />
+          {subCategories ? <CategoriesFilters categories={subCategories}/> : null}
           {isUserLoggedIn ? <WishListBooks/> : null}
           <div className='row'>
             <div className='large-12 columns'>
