@@ -149,6 +149,10 @@ class ContactsPopupWindow extends PureComponent {
               </div>
             ) : null
           }
+          <div className='chat-users-search-input-container'>
+            <input type='text' placeholder='Search' className='chat-users-search-input'/>
+            <img className='chat-users-search-icon' src='/image/search-icon.svg'/>
+          </div>
         </div>
       </section>
     )
