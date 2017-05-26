@@ -12,11 +12,16 @@ const {
 class ContactsPopupWindow extends PureComponent {
   constructor(props) {
     super(props)
+    this.state = {
+      filter: ''
+    }
+    this.locals = {}
     this.handleWindowTabClick = this.handleWindowTabClick.bind(this)
     this.renderOnlineUsers = R.memoize(this.renderOnlineUsers)
     this.renderOfflineUsers = R.memoize(this.renderOfflineUsers)
     this.filterOnline = R.memoize(this.filterOnline)
     this.filterOffline = R.memoize(this.filterOffline)
+    this.handleWheelScroll = this.handleWheelScroll.bind(this)
   }
 
   componentDidMount() {
@@ -31,6 +36,24 @@ class ContactsPopupWindow extends PureComponent {
   handleContactClick(idx, event) {
     event.preventDefault()
     this.props.openChatConversation(idx)
+  }
+
+  handleWheelScroll(e) {
+    if (this.locals && this.locals.container) {
+      const { container } = this.locals
+      const { scrollHeight, scrollTop, clientHeight } = container
+      const { deltaY } = e
+
+      if (scrollTop + deltaY < 0) {
+        e.preventDefault()
+        return false
+      }
+      if (scrollTop + deltaY + clientHeight > scrollHeight) {
+        e.preventDefault()
+        return false
+      }
+    }
+    return true
   }
 
   filterOnline(users) {
@@ -92,9 +115,13 @@ class ContactsPopupWindow extends PureComponent {
   }
 
   render() {
+    const { filter } = this.state
     const { contacts, isContactsOpen } = this.props
-    const offlineUsers = contacts ? this.filterOffline(contacts) : []
-    const onlineUsers = contacts ? this.filterOnline(contacts) : []
+    const filteredContacts = filter ?
+      contacts.filter(c=>c.fullname.toLowerCase().includes(filter.toLowerCase())) :
+      contacts
+    const offlineUsers = contacts ? this.filterOffline(filteredContacts) : []
+    const onlineUsers = contacts ? this.filterOnline(filteredContacts) : []
 
     return (
       <section className='online-users-chats-container'>
@@ -141,13 +168,29 @@ class ContactsPopupWindow extends PureComponent {
             isContactsOpen && contacts ? (
               <div
                 className='chat-users-container'
-                onMouseEnter={e=>{document.body.style.overflowY = 'hidden'}}
-                onMouseLeave={e=>{document.body.style.overflowY = 'auto'}}
+                onWheel={e=>{this.handleWheelScroll(e)}}
+                ref={cont=>{this.locals.container = cont}}
               >
                 { this.renderOnlineUsers(onlineUsers) }
                 { this.renderOfflineUsers(offlineUsers) }
               </div>
-            ) : null
+            ) :
+            null
+          }
+          {
+            isContactsOpen ? (
+              <div className='chat-users-search-input-container'>
+                <input
+                  type='text'
+                  placeholder='Search'
+                  className='chat-users-search-input'
+                  onChange={e=>this.setState({ filter: e.target.value })}
+                  value={this.state.filter}
+                />
+                <img className='chat-users-search-icon' src='/image/search-icon.svg'/>
+              </div>
+            ) :
+            null
           }
         </div>
       </section>

@@ -17,10 +17,14 @@ class LatestMessagePopupWindow extends PureComponent {
     this.state = {
       filter: ''
     }
+    this.locals = {
+      container: null
+    }
     this.timer = this.timer.bind(this)
     this.onFilterChange = this.onFilterChange.bind(this)
     this.filterChatlist = this.filterChatlist.bind(this)
     this.handleContactClick = this.handleContactClick.bind(this)
+    this.handleWheelScroll = this.handleWheelScroll.bind(this)
   }
 
   componentDidMount() {
@@ -69,6 +73,24 @@ class LatestMessagePopupWindow extends PureComponent {
     event.preventDefault()
     this.props.openChatConversation(idx)
     this.props.showMethod()
+  }
+
+  handleWheelScroll(e) {
+    if (this.locals && this.locals.container) {
+      const { container } = this.locals
+      const { scrollHeight, scrollTop, clientHeight } = container
+      const { deltaY } = e
+
+      if (scrollTop + deltaY < 0) {
+        e.preventDefault()
+        return false
+      }
+      if (scrollTop + deltaY + clientHeight > scrollHeight) {
+        e.preventDefault()
+        return false
+      }
+    }
+    return true
   }
 
   renderMessageList(contacts) {
@@ -146,8 +168,8 @@ class LatestMessagePopupWindow extends PureComponent {
           </div>
           <div
             className='chat-user-results'
-            onMouseEnter={e=>{document.body.style.overflowY = 'hidden'}}
-            onMouseLeave={e=>{document.body.style.overflowY = 'auto'}}
+            onWheel={e=>{this.handleWheelScroll(e)}}
+            ref={cont=>{this.locals.container = cont}}
           >
             { contacts ? this.renderMessageList(contacts) : null }
           </div>

@@ -25,10 +25,12 @@ class NotificationPopupWindow extends PureComponent {
 
     this.locals = {
       isLockedForNotifUpdate: false,
+      container: null,
     }
 
     this.handleDismissAll = this.handleDismissAll.bind(this)
     this.onDismissAllClick = this.onDismissAllClick.bind(this)
+    this.handleWheelScroll = this.handleWheelScroll.bind(this)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -90,14 +92,32 @@ class NotificationPopupWindow extends PureComponent {
     )
   }
 
+  handleWheelScroll(e) {
+    if (this.locals && this.locals.container) {
+      const { container } = this.locals
+      const { scrollHeight, scrollTop, clientHeight } = container
+      const { deltaY } = e
+
+      if (scrollTop + deltaY < 0) {
+        e.preventDefault()
+        return false
+      }
+      if (scrollTop + deltaY + clientHeight > scrollHeight) {
+        e.preventDefault()
+        return false
+      }
+    }
+    return true
+  }
+
   render() {
     const { isOpen, notifications: { results } } = this.props
     return isOpen ? (
       <section className='notifications-main-frame-container'>
         <section
           className='notifications-frame-container'
-          onMouseEnter={e=>{document.body.style.overflowY = 'hidden'}}
-          onMouseLeave={e=>{document.body.style.overflowY = 'auto'}}
+          onWheel={e=>{this.handleWheelScroll(e)}}
+          ref={cont=>{this.locals.container = cont}}
         >
           {
             results && results.length > 0 ?
@@ -122,7 +142,9 @@ class NotificationPopupWindow extends PureComponent {
               ) :
             results.length === 0 ?
               (
-                <p> No notifications to list! </p>
+                <div className='single-notification-element blank-state'>
+                  <p> You don't have any notifications right now. </p>
+                </div>
               ) :
             results.map((el, idx)=><NotificationItem key={idx} element={el}/>)
           }
@@ -131,149 +153,6 @@ class NotificationPopupWindow extends PureComponent {
     ) : null
   }
 
-  renderExamples() {
-    return (
-      <div>
-        <div className='single-notification-element'>
-          <figure className='notification-action-figure'>
-            <img src='/image/kendunn.jpg'/>
-          </figure>
-          <div className='notification-container'>
-            <p className='notification-description-container'>
-              <a href='#' className='notification-description-anchor'>
-                Johny Tsinami
-                <span className='notification-description-action'>
-                  started following you
-                </span>
-              </a>
-            </p>
-            <div className='notification-action-container'>
-              <a
-                className='notification-action-btn'
-                href='#'
-              >
-                + Follow
-              </a>
-              <span className='notification-timestamp'>
-                23m
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className='single-notification-element'>
-          <figure className='notification-action-figure'>
-            <img src='/image/kendunn.jpg'/>
-          </figure>
-          <div className='notification-container'>
-            <p className='notification-description-container'>
-              <a href='#' className='notification-description-anchor'>
-                Jaime Stevens
-                <span className='notification-description-action'>
-                  Liked your comment: I agree this is certainly a very, very swagalic...
-                </span>
-              </a>
-            </p>
-            <div className='notification-action-container'>
-              <span className='liked-action'/>
-              <span className='notification-timestamp'>
-                1 hour
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className='single-notification-element'>
-          <figure className='notification-action-figure'>
-            <img src='/image/kendunn.jpg'/>
-          </figure>
-          <div className='notification-container'>
-            <p className='notification-description-container'>
-              <a href='#' className='notification-description-anchor'>
-                Jessica Ramos
-                <span className='notification-description-action'>
-                  Replied to your comment: This book has vas amounts of swaf
-                </span>
-              </a>
-            </p>
-            <div className='notification-action-container'>
-              <span className='commented-action'/>
-              <span className='notification-timestamp'>
-                8 hours
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className='single-notification-element'>
-          <figure className='notification-action-figure'>
-            <img src='/image/kendunn.jpg'/>
-          </figure>
-          <div className='notification-container'>
-            <p className='notification-description-container'>
-              <a href='#' className='notification-description-anchor'>
-                Scott Hurff
-                <span className='notification-description-action'>
-                  Mentioned you in a Post
-                </span>
-              </a>
-            </p>
-            <div className='notification-action-container'>
-              <span className='commented-action'/>
-              <span className='notification-timestamp'>
-                1 day
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className='single-notification-element'>
-          <figure className='notification-action-figure'>
-            <img src='/image/kendunn.jpg'/>
-          </figure>
-          <div className='notification-container notification-has-figure'>
-            <p className='notification-description-container'>
-              <a href='#' className='notification-description-anchor'>
-                Scott Hurff
-                <span className='notification-description-action'>
-                  Liked your photo
-                </span>
-              </a>
-            </p>
-            <div className='notification-action-container'>
-              <span className='liked-action'/>
-              <span className='notification-timestamp'>
-                6 days
-              </span>
-            </div>
-          </div>
-          <figure className='liked-image-figure'>
-            <img src='/image/community.jpg'/>
-          </figure>
-        </div>
-        <div className='single-notification-element'>
-          <figure className='notification-action-figure'>
-            <img src='/image/kendunn.jpg'/>
-          </figure>
-          <div className='notification-container notification-has-figure'>
-            <p className='notification-description-container'>
-              <a href='#' className='notification-description-anchor'>
-                Scott Hurff
-                <span className='notification-description-action'>
-                  Liked your photo
-                </span>
-              </a>
-            </p>
-            <div className='notification-action-container'>
-              <span className='liked-action'/>
-              <span className='notification-timestamp'>
-                6 days
-              </span>
-            </div>
-          </div>
-          <figure className='liked-image-figure'>
-            <img src='/image/community.jpg'/>
-          </figure>
-        </div>
-      </div>
-    )
-  }
 }
 
 const mapStateToProps = ({

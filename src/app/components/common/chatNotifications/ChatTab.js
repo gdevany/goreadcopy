@@ -48,6 +48,7 @@ class ChatTab extends PureComponent {
     this.updateConversationReadStatus = this.updateConversationReadStatus.bind(this)
     this.checkIfChatUpdate = this.checkIfChatUpdate.bind(this)
     this.updateChatConversation = this.updateChatConversation.bind(this)
+    this.handleWheelScroll = this.handleWheelScroll.bind(this)
   }
 
   componentDidMount() {
@@ -186,6 +187,24 @@ class ChatTab extends PureComponent {
 
   onTextFieldBlur(event) {
     this.setState({ isTextAreaOpen: false })
+  }
+
+  handleWheelScroll(e) {
+    if (this.state.container) {
+      const { container } = this.state
+      const { scrollHeight, scrollTop, clientHeight } = container
+      const { deltaY } = e
+
+      if (scrollTop + deltaY < 0) {
+        e.preventDefault()
+        return false
+      }
+      if (scrollTop + deltaY + clientHeight > scrollHeight) {
+        e.preventDefault()
+        return false
+      }
+    }
+    return true
   }
 
   splitConversation(list) {
@@ -361,9 +380,8 @@ class ChatTab extends PureComponent {
                   <div
                     className='active-chat-in-use'
                     onClick={this.handleCloseTextArea}
-                    onMouseEnter={e=>{document.body.style.overflowY = 'hidden'}}
-                    onMouseLeave={e=>{document.body.style.overflowY = 'auto'}}
-                    ref={(div)=>{this.setState({ container: div })}}
+                    ref={div=>{this.setState({ container: div })}}
+                    onWheel={e=>{this.handleWheelScroll(e)}}
                   >
                     {
                       history && history.conversation ?
