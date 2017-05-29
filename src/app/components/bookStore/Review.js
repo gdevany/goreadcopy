@@ -25,6 +25,7 @@ class Review extends PureComponent {
       commentsOpen: false,
     }
   }
+
   renderTime = (time) => {
     if (moment(moment.unix(time)).isValid()) {
       return moment(moment.unix(time))
@@ -77,7 +78,7 @@ class Review extends PureComponent {
             rows='3'
           />
         </div>
-        <div>
+        <div className='center-text'>
           <PrimaryButton
             label='Post'
           />
@@ -105,7 +106,6 @@ class Review extends PureComponent {
       liked,
       likedCount,
     } = this.state
-
     return (
       <Card
         style={styles.cardContainer}

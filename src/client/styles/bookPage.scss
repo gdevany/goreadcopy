@@ -961,6 +961,15 @@
       align-items: center;
       flex-direction: row;
       transition: all .3s ease;
+      .bookpage-review-post-single-star-clicked{
+        &:before{
+          content: '';
+          display: inline-block;
+          background: url('../image/star-rating.png') no-repeat;
+          width: 25px;
+          height: 25px;
+        }
+      }
       .bookpage-review-post-single-star{
         &:before{
           content: '';
@@ -1036,82 +1045,86 @@
     align-items: flex-start;
     flex-direction: column;
     margin-bottom: 20px;
-    .bookpage-review-header{
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      flex-direction: row;
+    div{
       width: 100%;
-      .bookpage-review-figure{
-        width: 50px;
-
-        a{
-          img{
-            border-radius: 5px;
-            border: solid 1px #ccc;
-          }
-        }
-      }
-      .bookpage-review-header-details{
-        display: flex;
-        justify-content: flex-start;
-        align-items: flex-start;
-        flex-direction: column;
-        margin-left: 20px;
-        .bookpage-review-header-top{
-          display: flex;
-          justify-content: flex-start;
-          align-items: center;
-          flex-direction: row;
-          .bookpage-review-fullname{
-            font-weight: 600;
-          }
-          .bookpage-review-rating{
-            margin-left: 10px;
-            .review-rating-icon{
-              margin: 0 2.5px 2.5px 0;
-            }
-          }
-        }
-        .bookpage-review-timestamp{
-          .bookpage-review-timestamp-text{
-            font-weight: 400;
-            color: #808080;
-            font-size: 15px;
-          }
-        }
-      }
-    }
-    .bookpage-review-body{
-      display: flex;
-      justify-content: flex-end;
-      align-items: flex-end;
-      margin-top: 5px;
-      width: 100%;
-      .bookpage-review-body-text{
-        word-wrap: break-word;
-        width: 100%;
-        padding: 30px;
-        border-radius: 10px;
-        background-color: rgba(165, 229, 232, 0.21);
-        @media all and (min-width: 768px) {
-          width: calc(100% - 50px);
-        }
-      }
-    }
-    .bookpage-review-footer{
-      display: flex;
-      justify-content: flex-end;
-      align-items: flex-end;
-      margin-top: 5px;
-      width: 100%;
-      .bookpage-review-footer-container{
-        width: calc(100% - 70px);
+      .bookpage-review-header{
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        .likes-count{
-          margin-right: 15px;
+        flex-direction: row;
+        width: 100%;
+        .bookpage-review-figure{
+          width: 50px;
+
+          a{
+            img{
+              border-radius: 5px;
+              border: solid 1px #ccc;
+            }
+          }
+        }
+        .bookpage-review-header-details{
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-start;
+          flex-direction: column;
+          margin-left: 20px;
+          .bookpage-review-header-top{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: row;
+            .bookpage-review-fullname{
+              font-weight: 600;
+            }
+            .bookpage-review-rating{
+              margin-left: 10px;
+              width: 35%;
+              .review-rating-icon{
+                margin: 0 2.5px 2.5px 0;
+              }
+            }
+          }
+          .bookpage-review-timestamp{
+            .bookpage-review-timestamp-text{
+              font-weight: 400;
+              color: #808080;
+              font-size: 15px;
+            }
+          }
+        }
+      }
+      .bookpage-review-body{
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        margin-top: 5px;
+        width: 100%;
+        .bookpage-review-body-text{
+          word-wrap: break-word;
+          width: 100%;
+          padding: 30px;
+          border-radius: 10px;
+          background-color: rgba(165, 229, 232, 0.21);
+          @media all and (min-width: 768px) {
+            width: calc(100% - 50px);
+          }
+        }
+      }
+      .bookpage-review-footer{
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        margin-top: 5px;
+        width: 100%;
+        .bookpage-review-footer-container{
+          width: calc(100% - 70px);
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          .likes-count{
+            margin-right: 15px;
+          }
         }
       }
     }

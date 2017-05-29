@@ -17,7 +17,16 @@ export function getRates(modelName, id) {
   }
 }
 
+export function postRateAndReview(modelName, rateData, reviewData) {
+  return dispatch => {
+    Rates.postRate(modelName, rateData)
+      .then(() => Rates.postReview(modelName, reviewData))
+      .catch(err => console.error(`Error in postRateAndReview ${err}`))
+  }
+}
+
 export default {
   getStarsInfo,
   getRates,
+  postRateAndReview,
 }
