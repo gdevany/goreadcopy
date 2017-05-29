@@ -1,5 +1,9 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import Review from './Review'
+import { Rates } from '../../redux/actions'
+
+const { getRates } = Rates
 
 class ReviewsContainer extends PureComponent {
 
@@ -7,24 +11,42 @@ class ReviewsContainer extends PureComponent {
     super(props)
     this.state = {
       isLogged: false,
+      rates: false,
     }
   }
   componentWillMount = () => {
     this.setState({
       isLogged: this.props.isLogged,
     })
+    this.props.getRates('book', this.props.bookInfo.id)
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.rates && nextProps.rates !== this.state.rates) {
+      this.setState({ rates: nextProps.rates })
+    }
+  }
+
+  handleMapRates = () => {
+    const { rates } = this.state
+    return rates.map((rate, index) => {
+      return (
+        <Review
+          key={index}
+          rateInfo={rate}
+        />
+      )
+    })
   }
 
   render() {
-    const { isLogged } = this.state
+    const { isLogged, rates } = this.state
 
     return (
       <div className='row'>
         <div className='small-12 large-7 columns'>
           <div className='bookage-reviews-container'>
-            <Review />
-            <Review />
-            <Review />
+            {rates ? this.handleMapRates() : null}
           </div>
         </div>
         <div className='small-12 large-5 columns end'>
@@ -81,4 +103,10 @@ class ReviewsContainer extends PureComponent {
   }
 }
 
-export default ReviewsContainer
+const mapStateToProps = (state) => {
+  return {
+    rates: state.rates.bookRates
+  }
+}
+
+export default connect(mapStateToProps, { getRates })(ReviewsContainer)

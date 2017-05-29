@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import Slider from 'react-slick'
 
 const settings = {
-  dots: true,
+  dots: false,
   accessibility: true,
   infinite: true,
   speed: 500,

@@ -11,6 +11,7 @@ import socialReducer from './social'
 import searchReducer from './search'
 import tilesReducer from './tiles'
 import storeReducer from './store'
+import ratesReducer from './rates'
 import sidebarAdsReducer from './ads'
 
 const rootReducer = combineReducers({
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   tiles: tilesReducer,
   sidebarAds: sidebarAdsReducer,
   store: storeReducer,
+  rates: ratesReducer,
 })
 
 export default rootReducer

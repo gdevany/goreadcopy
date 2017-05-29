@@ -18,4 +18,5 @@ export default {
   tiles: emptyState(),
   sidebarAds: emptyState(),
   store: emptyState(),
+  rates: emptyState(),
 }

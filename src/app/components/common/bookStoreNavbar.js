@@ -18,6 +18,12 @@ const { verifyUserToken, processUserLogout } = Auth
 const { usePlatformAs, getCurrentReader, logoutCurrentReader } = CurrentReader
 const { getCategories, getPopularCategories } = Store
 
+const styles = {
+  categoriesMenu: {
+    left: 0,
+  },
+}
+
 class BookStoreNavBar extends PureComponent {
 
   constructor(props) {
@@ -482,6 +488,7 @@ class BookStoreNavBar extends PureComponent {
                     customCrossIcon={false}
                     id={'bookclub-categories-nav-menu'}
                     isOpen={this.state.categoriesMenuOpen}
+                    style={styles.categoriesMenu}
                   >
                     {this.mapCategoriesMenuList()}
                   </CategoriesMenu>

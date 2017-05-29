@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import Rating from 'react-rating'
+import moment from 'moment'
 import { PrimaryButton } from '../common'
 import {
   Card,
@@ -10,6 +11,7 @@ import {
 const styles = {
   cardContainer: {
     boxShadow: 'none',
+    width: '100%',
   },
 }
 
@@ -22,6 +24,12 @@ class Review extends PureComponent {
       likedCount: 12,
       commentsOpen: false,
     }
+  }
+  renderTime = (time) => {
+    if (moment(moment.unix(time)).isValid()) {
+      return moment(moment.unix(time))
+    }
+    return time
   }
 
   truncInfo = (text, limit) => {
@@ -56,6 +64,7 @@ class Review extends PureComponent {
       })
     }
   }
+
   renderPostBox = () => {
     return (
       <div className='input-post-box comments-tile-container'>
@@ -89,12 +98,8 @@ class Review extends PureComponent {
 
   render() {
 
-    // const {
-    //   userPic,
-    //   fullname,
-    //   timestamp,
-    //   review,
-    // } = this.props
+    const { score } = this.props.rateInfo
+    const { reviews } = this.props.rateInfo.rating
     const {
       commentsOpen,
       liked,
@@ -116,25 +121,22 @@ class Review extends PureComponent {
           <div className='bookpage-review-header-details'>
             <div className='bookpage-review-header-top'>
               <a className='bookpage-review-fullname'>
-                Ken Dunn
+                {`${reviews.reviewer.firstName} ${reviews.reviewer.lastName}`}
               </a>
               <div className='bookpage-review-rating'>
-                {this.renderRating(5)}
+                {this.renderRating(score)}
               </div>
             </div>
             <div className='bookpage-review-timestamp'>
               <span className='bookpage-review-timestamp-text'>
-                January 15, 2017
+                {this.renderTime(reviews.datetime)}
               </span>
             </div>
           </div>
         </div>
         <CardText className='bookpage-review-body'>
           <p className='bookpage-review-body-text'>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse,
-            iste, iure. Perferendis commodi optio at, fuga cupiditate molestiae
-            maiores corrupti, vel saepe, minus laudantium. Assumenda voluptas
-            itaque nostrum ea ratione?
+            {reviews.body && reviews.body !== '' ? reviews.body : 'No text provided'}
           </p>
         </CardText>
         <CardActions className='bookpage-review-footer'>
