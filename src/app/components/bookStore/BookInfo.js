@@ -300,7 +300,10 @@ class BookInfo extends PureComponent {
                   {this.renderRating(Math.round(bookInfo.rating.average))}
                 </span>
                 <span className='review-counts'>
-                  {bookInfo.rating.total} Reviews
+                  {bookInfo.rating.count}
+                  {bookInfo.rating.count === 0 || bookInfo.rating.count > 1 ?
+                    'Reviews' : 'Review'
+                  }
                 </span>
               </div>
               <div className='bookpage-book-excerpt-container-desktop'>

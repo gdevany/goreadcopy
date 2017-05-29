@@ -81,6 +81,11 @@ export const STORE = {
   ADD_TO_CART: 'ADD_TO_CART',
 }
 
+export const RATES = {
+  GET_STARS_INFO: 'GET_STARS_INFO',
+  GET_RATES: 'GET_RATES',
+}
+
 export const SEARCH = {
   GET_SEARCH: 'GET_SEARCH',
   SEARCH_BOOKS: 'SEARCH_BOOKS',
@@ -125,4 +130,6 @@ export default {
   READERS,
   SEARCH,
   NOTIFICATIONS,
+  STORE,
+  RATES,
 }

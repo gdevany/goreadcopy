@@ -9,9 +9,10 @@ import ReviewsContainer from './ReviewsContainer'
 import NewsLetter from './NewsLetter'
 import { Footer } from '../common'
 import { Auth } from '../../services'
-import { Store } from '../../redux/actions'
+import { Store, Rates } from '../../redux/actions'
 
 const { getBookInfo } = Store
+const { getStarsInfo } = Rates
 
 const isUserLoggedIn = Auth.currentUserExists()
 
@@ -20,7 +21,8 @@ class BookPage extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      bookInfo: null
+      bookInfo: null,
+      starsInfo: null,
     }
   }
   componentWillMount = () => {
@@ -29,15 +31,16 @@ class BookPage extends PureComponent {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    if (nextProps.bookInfo) {
+    if (nextProps.bookInfo !== this.state.bookInfo) {
       this.setState({
         bookInfo: nextProps.bookInfo
       })
+      this.props.getStarsInfo('book', nextProps.bookInfo.id)
     }
   }
 
   render() {
-    const { bookInfo } = this.state
+    const { bookInfo, starsInfo } = this.state
     return (
       <div>
         <BookStoreNavBar/>
@@ -83,7 +86,10 @@ class BookPage extends PureComponent {
             (
               <ReviewsOverview
                 reviewsInfo={{
-                  internal: bookInfo.rating,
+                  internal: {
+                    rating: bookInfo.rating,
+                    starsInfo
+                  },
                   goodreads: {
                     total: 4.3,
                   },
@@ -95,7 +101,9 @@ class BookPage extends PureComponent {
             ) : null
           }
           <hr className='bookpage-hr-separator'/>
-          <ReviewsContainer isLogged={isUserLoggedIn} />
+          {bookInfo ?
+            <ReviewsContainer isLogged={isUserLoggedIn} bookInfo={bookInfo} /> : null
+          }
           <hr className='bookpage-hr-separator'/>
           {isUserLoggedIn ? null : <NewsLetter />}
         </div>
@@ -109,7 +117,13 @@ class BookPage extends PureComponent {
 const mapStateToProps = (state) => {
   return {
     bookInfo: state.store.bookInfo,
+    starsInfo: state.rates.starsInfo,
   }
 }
 
-export default connect(mapStateToProps, { getBookInfo })(BookPage)
+const mapDispatchToProps = {
+  getBookInfo,
+  getStarsInfo,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookPage)

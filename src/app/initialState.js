@@ -24,4 +24,5 @@ export default {
   }),
   notifications: emptyState(),
   store: emptyState(),
+  rates: emptyState(),
 }

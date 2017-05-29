@@ -26,6 +26,12 @@
   }
 }
 
+.bookstore-navbar-menu-list{
+  .bm-overlay{
+    left: 0;
+  }
+}
+
 .categories-list-menu-container{
   height: calc(100vh - 60px);
   overflow-x: hidden;

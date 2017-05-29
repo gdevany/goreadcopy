@@ -58,7 +58,7 @@ class BookStore extends PureComponent {
         {isUserLoggedIn ? <WishListBooks/> : null}
         <div className='row'>
           <div className='large-12 columns'>
-            {randomCategory ?
+            {randomCategory && randomCategory !== undefined ?
               <RecommendedBooks
                 category={randomCategory}
                 isUserLogged={isUserLoggedIn}
@@ -68,10 +68,14 @@ class BookStore extends PureComponent {
         </div>
         <div className='row'>
           <div className='large-12 columns'>
-            {randomCategory ? <BestSellers category={randomCategory} /> : null}
+            {randomCategory && randomCategory !== undefined ?
+              <BestSellers category={randomCategory} /> : null
+            }
           </div>
         </div>
-        {randomCategory ? <TrendingBooks category={randomCategory} /> : null}
+        {randomCategory && randomCategory !== undefined ?
+          <TrendingBooks category={randomCategory} /> : null
+        }
         {isUserLoggedIn ?
           null : (
             <section className='bookstore-announcement-container'>
