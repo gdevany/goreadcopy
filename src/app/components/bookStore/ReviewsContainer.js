@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import Review from './Review'
 import { Rates } from '../../redux/actions'
+import { RegisterSignInModal } from '../common'
 
 const { getRates, postRateAndReview } = Rates
 
@@ -11,12 +12,15 @@ class ReviewsContainer extends PureComponent {
     super(props)
     this.state = {
       isLogged: false,
+      modalLogInOpen: false,
       rates: false,
       currentReader: false,
       isStarClicked: false,
       starClicked: 0,
       reviewBody: '',
     }
+
+    this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
     this.handleStarClick = this.handleStarClick.bind(this)
     this.handleReviewPost = this.handleReviewPost.bind(this)
 
@@ -35,6 +39,15 @@ class ReviewsContainer extends PureComponent {
     if (this.state.isLogged && nextProps.currentReader) {
       this.setState({ currentReader: nextProps.currentReader })
     }
+  }
+
+  handleLogInModalClose = () => {
+    this.setState({ modalLogInOpen: false })
+  }
+
+  handleLogInModalOpen = (event) => {
+    event.preventDefault()
+    this.setState({ modalLogInOpen: true })
   }
 
   handleMapRates = () => {
@@ -72,6 +85,10 @@ class ReviewsContainer extends PureComponent {
       }
       postRateAndReview('book', rateData, reviewData)
     }
+    this.setState({
+      reviewBody: '',
+      starClicked: 0
+    })
   }
 
   render() {
@@ -161,9 +178,16 @@ class ReviewsContainer extends PureComponent {
                 <span className='bookpage-reviews-sign-up-message'>
                   Sign up to post your review
                 </span>
-                <a className='bookpage-reviews-sign-up-message-btn'>
+                <a
+                  onClick={this.handleLogInModalOpen}
+                  className='bookpage-reviews-sign-up-message-btn'
+                >
                   Sign Up
                 </a>
+                <RegisterSignInModal
+                  modalOpen={this.state.modalLogInOpen}
+                  handleClose={this.handleLogInModalClose}
+                />
               </div>
             )
           }
