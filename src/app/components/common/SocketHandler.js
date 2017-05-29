@@ -88,7 +88,6 @@ class SocketHandler extends PureComponent {
     switch (message.type) {
       case 'activity':
         // Handle activity message
-        console.log('Activity', message)
         this.props.prependReceivedNotificationMessage(message)
         this.playNotificationSound()
         break
