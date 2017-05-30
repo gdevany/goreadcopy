@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Chat } from '../../../redux/actions'
 import R from 'ramda'
+import { LoadingSpinner } from '../'
 
 const {
   getChatContacts,
@@ -175,7 +176,7 @@ class ContactsPopupWindow extends PureComponent {
                 { this.renderOfflineUsers(offlineUsers) }
               </div>
             ) :
-            null
+            <LoadingSpinner size={40} />
           }
           {
             isContactsOpen ? (

@@ -4,6 +4,7 @@ import { Chat as ChatActions } from '../../../redux/actions'
 import { Chat as ChatServices } from '../../../services/api/currentReader'
 import moment from 'moment'
 import R from 'ramda'
+import { LoadingSpinner } from '../'
 
 const {
   loadChatConversation,
@@ -320,7 +321,7 @@ class ChatTab extends PureComponent {
               {
                 history && history.conversation ?
                   this.renderConversation(history, id, user) :
-                  null
+                  <LoadingSpinner size={40} />
               }
             </div>
             <div className={`${isTextAreaOpen ?
@@ -386,7 +387,7 @@ class ChatTab extends PureComponent {
                     {
                       history && history.conversation ?
                         this.renderConversation(history, id, user) :
-                        null
+                        <LoadingSpinner size={40} />
                     }
                   </div>
                   <div className={`${isTextAreaOpen ?

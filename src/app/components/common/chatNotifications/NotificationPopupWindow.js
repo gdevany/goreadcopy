@@ -3,9 +3,8 @@ import { connect } from 'react-redux'
 import { NotificationItem } from './'
 import { Notifications as NotificationServices } from '../../../services/api/currentReader'
 import { Notifications as NotificationActions } from '../../../redux/actions'
-import { Colors } from '../../../constants/style'
-import RefreshIndicator from 'material-ui/RefreshIndicator'
 import CogIcon from 'material-ui/svg-icons/action/settings'
+import { LoadingSpinner } from '../'
 
 const { setReadNotifications } = NotificationServices
 const {
@@ -64,34 +63,6 @@ class NotificationPopupWindow extends PureComponent {
     this.props.dismissAllNotifications()
   }
 
-  loading() {
-    return (
-      <div
-        className='statuspost-loader'
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          flexDirection: 'row',
-          width: '100%',
-          height: '70px',
-          alignItems: 'center',
-        }}
-      >
-        <RefreshIndicator
-          size={40}
-          left={0}
-          top={0}
-          loadingColor={Colors.blue}
-          status='loading'
-          style={{
-            display: 'inline-block',
-            position: 'relative',
-          }}
-        />
-      </div>
-    )
-  }
-
   handleWheelScroll(e) {
     if (this.locals && this.locals.container) {
       const { container } = this.locals
@@ -138,7 +109,7 @@ class NotificationPopupWindow extends PureComponent {
           {
             !results ?
               (
-                this.loading()
+                <LoadingSpinner size={40} />
               ) :
             results.length === 0 ?
               (

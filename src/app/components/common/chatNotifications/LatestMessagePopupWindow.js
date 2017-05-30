@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import { Chat } from '../../../redux/actions'
+import { LoadingSpinner } from '../'
 
 let intervalId
 const refreshTime = 60000
@@ -171,7 +172,11 @@ class LatestMessagePopupWindow extends PureComponent {
             onWheel={e=>{this.handleWheelScroll(e)}}
             ref={cont=>{this.locals.container = cont}}
           >
-            { contacts ? this.renderMessageList(contacts) : null }
+            {
+              contacts ?
+                this.renderMessageList(contacts) :
+                <LoadingSpinner size={40} />
+            }
           </div>
         </section>
       </section>
