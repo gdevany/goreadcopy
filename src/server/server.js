@@ -63,7 +63,8 @@ if (ENV.isDevelopment()) {
   app.get('*', (req, res) => res.sendFile(path.join(__dirname + '/../client/index.html')))
 } else {
   app.get('*.js', function (req, res, next) {
-    req.url = req.url + '.gz';
+    filename = req.url.replace(/\?.*$/, '')
+    req.url = filename + '.gz';
     res.set('Content-Encoding', 'gzip');
     next();
   });
