@@ -166,12 +166,22 @@ class ReviewsContainer extends PureComponent {
                     placeholder='Write your review here'
                     value={reviewBody}
                   />
-                  <a
-                    onClick={this.handleReviewPost}
-                    className='bookpage-review-post-anchor'
-                  >
-                    Post
-                  </a>
+                  {starClicked > 0 && reviewBody !== '' ?
+                    (
+                      <a
+                        onClick={this.handleReviewPost}
+                        className='bookpage-review-post-anchor'
+                      >
+                        Post
+                      </a>
+                    ) : (
+                      <a
+                        className='bookpage-review-post-anchor-disabled'
+                      >
+                        Post
+                      </a>
+                    )
+                  }
                 </div>
               </div>
             ) : (

@@ -1028,6 +1028,23 @@
         border: solid 1px $store-blue;
       }
     }
+    .bookpage-review-post-anchor-disabled{
+      align-self: flex-end;
+      display: flex;
+      padding: 10px 30px;
+      text-align: center;
+      border-radius: 23px;
+      font-size: 15px;
+      color: $light-med-grey;
+      background: transparent;
+      border: solid 1px $light-med-grey;
+      transition: all .3s ease;
+      &:hover{
+        color: $white;
+        background: $light-med-grey;
+        cursor: help;
+      }
+    }
   }
 }
 

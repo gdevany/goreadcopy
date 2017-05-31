@@ -16,7 +16,8 @@ const ReviewsOverview = ({ reviewsInfo }) => {
 
   const { rating, starsInfo } = reviewsInfo.internal
   const calculateProgress = (count, total) => {
-    return `${(count * 100) / total}%`
+    if (total > 0) return `${(count * 100) / total}%`
+    return '0%'
   }
   if (reviewsInfo.internal && starsInfo) {
     return (
