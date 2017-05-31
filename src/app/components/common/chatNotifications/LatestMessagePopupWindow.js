@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router'
 import moment from 'moment'
 import { Chat } from '../../../redux/actions'
 import { LoadingSpinner } from '../'
@@ -105,12 +106,14 @@ class LatestMessagePopupWindow extends PureComponent {
           onClick={(e) => this.handleContactClick(el.pk, e)}
         >
           <figure className='single-chat-avatar-figure'>
-            <img src={el.imageUrl}/>
+            <Link to={el.url} onClick={e=>e.stopPropagation()}>
+              <img src={el.imageUrl}/>
+            </Link>
           </figure>
           <div className='single-chat-details-container'>
             <div className='single-chat-actor-name-container'>
               <a className='single-chat-actor-name'>
-                {el.fullname}
+                { el.fullname }
                 {
                   el.unreadMessages > 0 ? (
                     <div className='has-messages-chat'>
