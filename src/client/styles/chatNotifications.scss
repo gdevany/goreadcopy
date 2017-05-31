@@ -6,7 +6,7 @@
 
 .notifications-main-frame-container{
   &:before{
-    z-index: 9999;
+    z-index: 1500;
     @media all and (min-width: 768px) {
       position: fixed;
       top: 50px;
@@ -28,7 +28,7 @@
     }
   }
   &:after{
-    z-index: 9999;
+    z-index: 1500;
     @media all and (min-width: 768px) {
       position: fixed;
       top: 51px;
@@ -70,7 +70,7 @@
   box-shadow: rgba(222, 222, 222, 0.498039) 0px 4px 20px 0px;
   border-radius: 5px;
   border: 1px solid rgba(212, 212, 212, 0.61);
-  z-index: 9999;
+  z-index: 1500;
   @media all and(min-width: 768px) {
     width: 400px;
     margin-top: 0;
@@ -320,7 +320,7 @@
 
 .chat-frame-main-container{
   &:before{
-    z-index: 9999;
+    z-index: 1500;
     @media all and (min-width: 768px) {
       position: fixed;
       top: 50px;
@@ -342,7 +342,7 @@
     }
   }
   &:after{
-    z-index: 9999;
+    z-index: 1500;
     @media all and (min-width: 768px) {
       position: fixed;
       top: 51px;
@@ -377,7 +377,7 @@
   margin-bottom: -60px;
   background: rgb(255, 255, 255);
   border: 1px solid rgba(212, 212, 212, 0.61);
-  z-index: 9999;
+  z-index: 1500;
   border-radius: 5px;
   @media all and(min-width: 768px) {
     width: 400px;
