@@ -33,6 +33,7 @@ const Endpoints = () => {
     requestBookClubMembership: () => apiUrl('book_clubs/member_request'),
     editTile: (id) => apiUrl(`activities/${id}/edit_statuspost_tile`),
     deleteTile: (id) => apiUrl(`activities/${id}`),
+    filterBooks: (params) => apiUrl('books', params),
     currentReader: {
       getRecommendation: (params) => apiUrl('genres/top_users', params),
       getOnboardingRecommendation: (params) => apiUrl('onboarding/genres/top_users', params),

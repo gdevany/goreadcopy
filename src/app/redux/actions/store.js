@@ -1,5 +1,6 @@
 import { STORE as A } from '../const/actionTypes'
 import Store from '../../services/api/store'
+import Books from '../../services/api/books'
 import ProfilePage from '../../services/api/profilePage'
 import { getCurrentReader } from './currentReader'
 
@@ -133,6 +134,15 @@ export function addToWishList(id, slug, isLogged) {
   }
 }
 
+export function filterBooks(params) {
+
+  return dispatch => {
+    Books.filterBooks(params)
+      .then(res => dispatch({ type: A.GET_FILTERED_BOOKS, payload: res.data }))
+      .catch(err => console.error(`Error in filterBooks ${err}`))
+  }
+}
+
 export default {
   getCategories,
   getChildCategories,
@@ -144,5 +154,6 @@ export default {
   getBookInfo,
   addToCart,
   addToLibrary,
-  addToWishList
+  addToWishList,
+  filterBooks
 }

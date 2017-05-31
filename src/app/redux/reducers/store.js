@@ -30,6 +30,8 @@ export default (state = initialState.store, { type, payload }) => {
       return R.merge(state, { popularCategories: payload.results })
     case A.GET_BOOK_INFO:
       return R.merge(state, { bookInfo: payload })
+    case A.GET_FILTERED_BOOKS:
+      return R.merge(state, { bookFilterResults: payload })
     default:
       return state
   }

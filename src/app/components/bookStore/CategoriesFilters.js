@@ -1,21 +1,36 @@
 import React, { PureComponent, PropTypes } from 'react'
+import { connect } from 'react-redux'
+import { Store } from '../../redux/actions'
 import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import ArrowUpIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
+
+const { filterBooks } = Store
 
 class CategoriesFilters extends PureComponent {
   constructor(props) {
     super(props)
 
     this.state = {
-      subCategories: false,
+      subCategories: this.props.categories,
       selectedCategory: '',
+      filterResults: false,
       isSubcategoriesOpen: false,
+      selectedSubCategory: false,
+      selectedRating: false,
+      selectedMinPrice: false,
+      selectedMaxPrice: false,
       isRatingOpen: false,
       isPriceOpen: false,
     }
     this.handleSubCategoriesClick = this.handleSubCategoriesClick.bind(this)
     this.handleRatingClick = this.handleRatingClick.bind(this)
     this.handlePriceClick = this.handlePriceClick.bind(this)
+    this.handleSelectedSubCategory = this.handleSelectedSubCategory.bind(this)
+    this.handleSelectedRating = this.handleSelectedRating.bind(this)
+    this.handleSelectedPrice = this.handleSelectedPrice.bind(this)
+    this.handleRemoveSelectedCategory = this.handleRemoveSelectedCategory.bind(this)
+    this.handleRemoveSelectedPrice = this.handleRemoveSelectedPrice.bind(this)
+    this.handleRemoveSelectedRating = this.handleRemoveSelectedRating.bind(this)
   }
 
   static contextTypes = {
@@ -31,15 +46,16 @@ class CategoriesFilters extends PureComponent {
     }
   }
 
-  componentWillReceiveProps = (nextProps) => {
-    if (nextProps.categories) {
-      this.setState({ subCategories: nextProps.categories })
-    }
-  }
+  // componentWillReceiveProps = (nextProps) => {
+  //   console.log('Hola')
+  //   if (nextProps.categories) {
+  //     this.setState({ subCategories: nextProps.categories })
+  //   }
+  // }
 
   handleSubCategoriesClick = () => {
     this.setState({
-      isSubcategoriesOpen: !this.state.isSubcategoriesOpen,
+      isSubcategoriesOpen: true,
       isPriceOpen: false,
       isRatingOpen: false,
     })
@@ -49,7 +65,7 @@ class CategoriesFilters extends PureComponent {
     this.setState({
       isSubcategoriesOpen: false,
       isPriceOpen: false,
-      isRatingOpen: !this.state.isRatingOpen
+      isRatingOpen: true
     })
   }
 
@@ -57,8 +73,174 @@ class CategoriesFilters extends PureComponent {
     this.setState({
       isSubcategoriesOpen: false,
       isRatingOpen: false,
-      isPriceOpen: !this.state.isPriceOpen
+      isPriceOpen: true
     })
+  }
+
+  handleSubCategoriesHide = () => this.setState({ isSubcategoriesOpen: false })
+
+  handleRatingHide = () => this.setState({ isRatingOpen: false })
+
+  handlePriceHide = () => this.setState({ isPriceOpen: false })
+
+  handleRemoveSelectedCategory = () => this.setState({ selectedSubCategory: false })
+
+  handleRemoveSelectedRating = () => this.setState({ selectedRating: false })
+
+  handleRemoveSelectedPrice = () => {
+    this.setState({
+      selectedMinPrice: false,
+      selectedMaxPrice: false,
+    })
+  }
+
+  handleSelectedSubCategory = (filter) => {
+    event.preventDefault()
+    this.setState({
+      selectedSubCategory: {
+        name: filter.name,
+        id: filter.id,
+      }
+    })
+    this.props.filterBooks({
+      genreIds: filter.id
+    })
+  }
+
+  handleSelectedRating = (filter) => {
+    this.setState({ selectedRating: filter })
+  }
+
+  handleSelectedPrice = (minFilter, maxFilter) => {
+    this.setState({
+      selectedMinPrice: minFilter,
+      selectedMaxPrice: maxFilter,
+    })
+  }
+
+  renderSelectedCategory = () => {
+    const { selectedSubCategory } = this.state
+    return (
+      <a
+        onClick={this.handleRemoveSelectedCategory}
+        className='categorypage-selected-filter-element'
+      >
+        <span className='categorypage-selected-filter-remove'> x </span>
+        <span className='categorypage-selected-filter-subcategory'>
+          {selectedSubCategory.name}
+        </span>
+      </a>
+    )
+  }
+
+  renderSelectedRating = () => {
+    const { selectedRating } = this.state
+    switch (selectedRating) {
+      case 'one-and-up':
+        return (
+          <a className='categorypage-selected-filter-element'>
+            <span
+              onClick={this.handleRemoveSelectedRating}
+              className='categorypage-selected-filter-remove'
+            >
+              x
+            </span>
+            <span className='categorypage-selected-filter-rating'>
+              <img className='rating-icon' src='/image/star-rating.png' />
+              <img className='rating-icon' src='/image/star-empty.png' />
+              <img className='rating-icon' src='/image/star-empty.png' />
+              <img className='rating-icon' src='/image/star-empty.png' />
+              <img className='rating-icon' src='/image/star-empty.png' />
+            </span>
+            <span className='categorypage-selected-filter-rating-up'>
+              & Up
+            </span>
+          </a>
+        )
+      case 'two-and-up':
+        return (
+          <a className='categorypage-selected-filter-element'>
+            <span
+              onClick={this.handleRemoveSelectedRating}
+              className='categorypage-selected-filter-remove'
+            >
+              x
+            </span>
+            <span className='categorypage-selected-filter-rating'>
+              <img className='rating-icon' src='/image/star-rating.png' />
+              <img className='rating-icon' src='/image/star-rating.png' />
+              <img className='rating-icon' src='/image/star-empty.png' />
+              <img className='rating-icon' src='/image/star-empty.png' />
+              <img className='rating-icon' src='/image/star-empty.png' />
+            </span>
+            <span className='categorypage-selected-filter-rating-up'>
+              & Up
+            </span>
+          </a>
+        )
+      case 'three-and-up':
+        return (
+          <a className='categorypage-selected-filter-element'>
+            <span
+              onClick={this.handleRemoveSelectedRating}
+              className='categorypage-selected-filter-remove'
+            >
+              x
+            </span>
+            <span className='categorypage-selected-filter-rating'>
+              <img className='rating-icon' src='/image/star-rating.png' />
+              <img className='rating-icon' src='/image/star-rating.png' />
+              <img className='rating-icon' src='/image/star-rating.png' />
+              <img className='rating-icon' src='/image/star-empty.png' />
+              <img className='rating-icon' src='/image/star-empty.png' />
+            </span>
+            <span className='categorypage-selected-filter-rating-up'>
+              & Up
+            </span>
+          </a>
+        )
+      case 'four-and-up':
+        return (
+          <a className='categorypage-selected-filter-element'>
+            <span
+              onClick={this.handleRemoveSelectedRating}
+              className='categorypage-selected-filter-remove'
+            >
+              x
+            </span>
+            <span className='categorypage-selected-filter-rating'>
+              <img className='rating-icon' src='/image/star-rating.png' />
+              <img className='rating-icon' src='/image/star-rating.png' />
+              <img className='rating-icon' src='/image/star-rating.png' />
+              <img className='rating-icon' src='/image/star-rating.png' />
+              <img className='rating-icon' src='/image/star-empty.png' />
+            </span>
+            <span className='categorypage-selected-filter-rating-up'>
+              & Up
+            </span>
+          </a>
+        )
+      default :
+        return null
+    }
+  }
+
+  renderSelectedPrice = () => {
+    const { selectedMinPrice, selectedMaxPrice } = this.state
+    return (
+      <a className='categorypage-selected-filter-element'>
+        <span
+          onClick={this.handleRemoveSelectedPrice}
+          className='categorypage-selected-filter-remove'
+        >
+          x
+        </span>
+        <span className='categorypage-selected-filter-prices'>
+          {`$${selectedMinPrice} - $${selectedMaxPrice}`}
+        </span>
+      </a>
+    )
+
   }
 
   handleSubCategories = () => {
@@ -75,8 +257,12 @@ class CategoriesFilters extends PureComponent {
             type='radio'
             name='category-filter'
             value={category.slug}
+            onClick={() => this.handleSelectedSubCategory(category)}
           />
-          <label htmlFor={category.slug} className='categorypage-category-label'>
+          <label
+            htmlFor={category.slug}
+            className='categorypage-category-label'
+          >
             {category.name}
           </label>
         </div>
@@ -100,7 +286,7 @@ class CategoriesFilters extends PureComponent {
           </label>
         </div>
         <div className='categorypage-subcategories-filters-elems'>
-          {subCategories ? this.handleSubCategories() : null}
+          {subCategories ? this.handleSubCategories() : <span>No Subcategories</span>}
         </div>
       </div>
     )
@@ -116,6 +302,7 @@ class CategoriesFilters extends PureComponent {
             type='radio'
             name='and-up'
             value='one-and-up'
+            onClick={() => this.handleSelectedRating('one-and-up')}
           />
           <label htmlFor='one-and-up' className='categorypage-rating-label'>
             <img className='rating-icon' src='/image/star-rating.png' />
@@ -135,6 +322,7 @@ class CategoriesFilters extends PureComponent {
             type='radio'
             name='and-up'
             value='two-and-up'
+            onClick={() => this.handleSelectedRating('two-and-up')}
           />
           <label htmlFor='two-and-up' className='categorypage-rating-label'>
             <img className='rating-icon' src='/image/star-rating.png' />
@@ -154,6 +342,7 @@ class CategoriesFilters extends PureComponent {
             type='radio'
             name='and-up'
             value='three-and-up'
+            onClick={() => this.handleSelectedRating('three-and-up')}
           />
           <label htmlFor='three-and-up' className='categorypage-rating-label'>
             <img className='rating-icon' src='/image/star-rating.png' />
@@ -173,6 +362,7 @@ class CategoriesFilters extends PureComponent {
             type='radio'
             name='and-up'
             value='four-and-up'
+            onClick={() => this.handleSelectedRating('four-and-up')}
           />
           <label htmlFor='four-and-up' className='categorypage-rating-label'>
             <img className='rating-icon' src='/image/star-rating.png' />
@@ -197,8 +387,9 @@ class CategoriesFilters extends PureComponent {
             <input
               id='zero-to-ten'
               className='categorypage-filter-price-row-checkbox'
-              type='checkbox'
+              type='radio'
               value='zero-to-ten'
+              onClick={() => this.handleSelectedPrice(0, 10)}
             />
             <label
               htmlFor='zero-to-ten'
@@ -211,8 +402,9 @@ class CategoriesFilters extends PureComponent {
             <input
               id='ten-to-twentyfive'
               className='categorypage-filter-price-row-checkbox'
-              type='checkbox'
+              type='radio'
               value='ten-to-twentyfive'
+              onClick={() => this.handleSelectedPrice(10, 25)}
             />
             <label
               htmlFor='ten-to-twentyfive'
@@ -225,8 +417,9 @@ class CategoriesFilters extends PureComponent {
             <input
               id='twentyfive-to-fifty'
               className='categorypage-filter-price-row-checkbox'
-              type='checkbox'
+              type='radio'
               value='twentyfive-to-fifty'
+              onClick={() => this.handleSelectedPrice(25, 50)}
             />
             <label
               htmlFor='twentyfive-to-fifty'
@@ -239,8 +432,9 @@ class CategoriesFilters extends PureComponent {
             <input
               id='fifty-above'
               className='categorypage-filter-price-row-checkbox'
-              type='checkbox'
+              type='radio'
               value='fifty-above'
+              onClick={() => this.handleSelectedPrice(50, 'more')}
             />
             <label
               htmlFor='fifty-above'
@@ -279,60 +473,98 @@ class CategoriesFilters extends PureComponent {
     )
   }
   render() {
-    const { isSubcategoriesOpen, isRatingOpen, isPriceOpen } = this.state
+    const {
+      isSubcategoriesOpen,
+      isRatingOpen,
+      isPriceOpen,
+      selectedSubCategory,
+      selectedRating,
+      selectedMinPrice,
+      selectedMaxPrice,
+    } = this.state
 
     return (
-      <section className='categorypage-main-filters-container'>
-        <div className='categorypage-main-filters'>
-          <div className='categorypage-single-filter-container-main'>
+      <section className='categorypage-filters'>
+        <section className='categorypage-main-filters-container'>
+          <div className='categorypage-main-filters'>
+            <div className='categorypage-single-filter-container-main'>
             <span className='categorypage-single-filter-title'>
               Filter by:
             </span>
-          </div>
-          <div className='categorypage-single-filter-container'>
-            <span
+            </div>
+            <div
               onClick={this.handleSubCategoriesClick}
-              className='categorypage-single-filter-title'
+              className='categorypage-single-filter-container'
+              onMouseLeave={this.handleSubCategoriesHide}
             >
-              Sub Categories
-            </span>
-            {isSubcategoriesOpen ?
-              <ArrowUpIcon onClick={this.handleSubCategoriesClick}/> : <ArrowDownIcon />
-            }
-            {isSubcategoriesOpen ? this.renderSubCategoriesFilter() : null}
-          </div>
-          <div className='categorypage-single-filter-container'>
-            <span
+              <span
+                className='categorypage-single-filter-title'
+              >
+                Sub Categories
+              </span>
+              {isSubcategoriesOpen ?
+                <ArrowUpIcon onClick={this.handleSubCategoriesClick}/> : <ArrowDownIcon />
+              }
+              {isSubcategoriesOpen ? this.renderSubCategoriesFilter() : null}
+            </div>
+            <div
               onClick={this.handleRatingClick}
-              className='categorypage-single-filter-title'
+              className='categorypage-single-filter-container'
+              onMouseLeave={this.handleRatingHide}
             >
-              Rating
-            </span>
-            {isRatingOpen ?
-              <ArrowUpIcon onClick={this.handleRatingClick} /> : <ArrowDownIcon />
-            }
-            {isRatingOpen ? this.renderRatingFilter() : null}
-          </div>
-          <div className='categorypage-single-filter-container'>
-            <span
+              <span className='categorypage-single-filter-title'>
+                Rating
+              </span>
+              {isRatingOpen ?
+                <ArrowUpIcon onClick={this.handleRatingClick} /> : <ArrowDownIcon />
+              }
+              {isRatingOpen ? this.renderRatingFilter() : null}
+            </div>
+            <div
               onClick={this.handlePriceClick}
-              className='categorypage-single-filter-title'
+              className='categorypage-single-filter-container'
+              onMouseLeave={this.handlePriceHide}
             >
-              Price
-            </span>
-            {isPriceOpen ? <ArrowUpIcon onClick={this.handlePriceClick}/> : <ArrowDownIcon />}
-            {isPriceOpen ? this.renderPriceFilter() : null}
-          </div>
-          {/*<div className='categorypage-single-filter-container'>*/}
+              <span
+                className='categorypage-single-filter-title'
+              >
+                Price
+              </span>
+              {isPriceOpen ? <ArrowUpIcon onClick={this.handlePriceClick}/> : <ArrowDownIcon />}
+              {isPriceOpen ? this.renderPriceFilter() : null}
+
+            </div>
+            {/*<div className='categorypage-single-filter-container'>*/}
             {/*<span className='categorypage-single-filter-title'>*/}
-              {/*Awards Categories*/}
+            {/*Awards Categories*/}
             {/*</span>*/}
             {/*<ArrowDownIcon />*/}
-          {/*</div>*/}
-        </div>
+            {/*</div>*/}
+          </div>
+        </section>
+        <section className='categorypage-filters-results-container'>
+          {selectedSubCategory || selectedRating || selectedMinPrice || selectedMaxPrice ?
+            (
+              <div className='categorypage-selected-filters-container'>
+                {selectedSubCategory !== false ? this.renderSelectedCategory() : null}
+                {selectedRating !== false ? this.renderSelectedRating() : null}
+                {selectedMinPrice !== false && selectedMaxPrice !== false ?
+                  this.renderSelectedPrice() : null
+                }
+              </div>
+            ) : null
+          }
+          <div className='categorypage-filter-results' />
+        </section>
       </section>
     )
   }
 }
 
-export default CategoriesFilters
+// const mapStateToProps = (state) => {
+//   return {
+//     categories: state.store.childCategories
+//   }
+// }
+
+export default connect(null, { filterBooks })(CategoriesFilters)
