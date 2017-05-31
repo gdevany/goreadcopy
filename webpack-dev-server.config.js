@@ -7,6 +7,7 @@ const nodeModulesPath = path.resolve(__dirname, 'node_modules');
 const testPath = path.resolve(__dirname, 'test');
 const TransferWebpackPlugin = require('transfer-webpack-plugin');
 const dotenv = require('dotenv');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 dotenv.config() // pull .env into process.env if it exists
 
@@ -48,6 +49,12 @@ module.exports = {
     new TransferWebpackPlugin([ // moves files
       {from: 'client'},
     ], path.resolve(__dirname, 'src')),
+    new HtmlWebpackPlugin({
+        hash: true,
+        showErrors: true,
+        title: 'GoRead',
+        template: 'src/client/index.ejs',
+    }),
   ],
   externals: { // necessary for tests(when we create them) to run properly
     'react/addons': true,
