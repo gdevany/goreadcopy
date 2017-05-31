@@ -371,4 +371,53 @@
       }
     }
   }
+  .categorypage-filter-results{
+    width: 950px;
+    max-width: 950px;
+    margin: 15px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    flex-direction: row;
+    .book-container{
+      transition: none;
+      transform: none;
+      position: relative;
+      margin-right: 19px;
+      @media all and (min-width: 768px){
+        margin-right: 50px;
+        margin-bottom: 10px;
+        width: 100%;
+        min-width: 110px;
+        max-width: 110px;
+      }
+      a{
+        img{
+          max-height: 170px;
+        }
+        .favorite-badge{
+          display: none;
+        }
+      }
+      .book-info-container{
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        margin-top: .5em;
+        .book-info-title{
+          font-size: 14px;
+          color: rgba(0, 0, 0, 0.9);
+          width: 100%;
+          text-align: left;
+        }
+        .book-info-author{
+          font-size: 12px;
+          color: #949494;
+          width: 100%;
+          text-align: left;
+        }
+      }
+    }
+  }
 }

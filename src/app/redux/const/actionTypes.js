@@ -85,6 +85,7 @@ export const STORE = {
 export const RATES = {
   GET_STARS_INFO: 'GET_STARS_INFO',
   GET_RATES: 'GET_RATES',
+  PREPEND_REVIEW: 'PREPEND_REVIEW',
 }
 
 export const SEARCH = {

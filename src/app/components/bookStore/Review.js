@@ -21,14 +21,22 @@ class Review extends PureComponent {
     super(props)
     this.state = {
       liked: false,
-      likedCount: 12,
+      likedCount: props.rateInfo && props.rateInfo.review ? props.rateInfo.review.likesCount : 0,
+      rateInfo: props.rateInfo && props.rateInfo.review ? props.rateInfo : false,
       commentsOpen: false,
     }
   }
 
+  // componentWillReceiveProps = (nextProps) => {
+  //   if (nextProps.rateInfo !== this.props.rateInfo) {
+  //     console.log(nextProps.rateInfo)
+  //     this.setState({ rateInfo: nextProps.rateInfo })
+  //   }
+  // }
+
   renderTime = (time) => {
     if (moment(moment.unix(time)).isValid()) {
-      return moment(moment.unix(time))
+      return moment(moment.unix(time)).format('MMMM DD, YYYY')
     }
     return time
   }
@@ -67,10 +75,11 @@ class Review extends PureComponent {
   }
 
   renderPostBox = () => {
+    const { currentReader } = this.props
     return (
       <div className='input-post-box comments-tile-container'>
         <div className='comments-elelemnts'>
-          <img className='comments-image' src='/image/kendunn.jpg' />
+          <img className='comments-image' src={currentReader.imageUrl} />
           <textarea
             type='text'
             className='search-input comments-textarea'
@@ -99,71 +108,79 @@ class Review extends PureComponent {
 
   render() {
 
-    const { score } = this.props.rateInfo
-    const { reviews } = this.props.rateInfo.rating
     const {
       commentsOpen,
       liked,
       likedCount,
+      rateInfo,
     } = this.state
-    return (
-      <Card
-        style={styles.cardContainer}
-        expanded={commentsOpen}
-        className='bookpage-single-review'
-      >
-        <div className='bookpage-review-header'>
-          <figure className='bookpage-review-figure'>
-            <a>
-              <img src='/image/kendunn.jpg'/>
-            </a>
-          </figure>
-          <div className='bookpage-review-header-details'>
-            <div className='bookpage-review-header-top'>
-              <a className='bookpage-review-fullname'>
-                {`${reviews.reviewer.firstName} ${reviews.reviewer.lastName}`}
+
+    if (rateInfo) {
+      const { score, review } = rateInfo
+      return (
+        <Card
+          style={styles.cardContainer}
+          expanded={commentsOpen}
+          className='bookpage-single-review'
+        >
+          <div className='bookpage-review-header'>
+            <figure className='bookpage-review-figure'>
+              <a href={review.reviewer.url}>
+                <img src={review.reviewer.imageUrl}/>
               </a>
-              <div className='bookpage-review-rating'>
-                {this.renderRating(score)}
+            </figure>
+            <div className='bookpage-review-header-details'>
+              <div className='bookpage-review-header-top'>
+                <a href={review.reviewer.url} className='bookpage-review-fullname'>
+                  {review.reviewer.fullname}
+                </a>
+                <div className='bookpage-review-rating'>
+                  {this.renderRating(score)}
+                </div>
+              </div>
+              <div className='bookpage-review-timestamp'>
+              <span className='bookpage-review-timestamp-text'>
+                {this.renderTime(review.datetime)}
+              </span>
               </div>
             </div>
-            <div className='bookpage-review-timestamp'>
-              <span className='bookpage-review-timestamp-text'>
-                {this.renderTime(reviews.datetime)}
-              </span>
-            </div>
           </div>
-        </div>
-        <CardText className='bookpage-review-body'>
-          <p className='bookpage-review-body-text'>
-            {reviews.body && reviews.body !== '' ? reviews.body : 'No text provided'}
-          </p>
-        </CardText>
-        <CardActions className='bookpage-review-footer'>
-          <div className='bookpage-review-footer-container'>
-            <div className='likes-count'>
-              <a
-                onClick={this.handleLiked}
-                className={liked ? 'liked' : 'not-liked'}
-              />
-              <span className='not-liked-number'>{likedCount}</span>
+          <CardText className='bookpage-review-body'>
+            {review.body && review.body !== '' ?
+              (
+                <p className='bookpage-review-body-text'>
+                  {review.body}
+                </p>
+              ) : null
+            }
+          </CardText>
+          <CardActions className='bookpage-review-footer'>
+            <div className='bookpage-review-footer-container'>
+              <div className='likes-count'>
+                <a
+                  onClick={this.handleLiked}
+                  className={liked ? 'liked' : 'not-liked'}
+                />
+                <span className='not-liked-number'>{likedCount}</span>
+              </div>
+              <div className='comments-count'>
+                <a className='not-commented' onClick={this.handleCommentsOpen}/>
+                <span className='not-commented-number'>0</span>
+              </div>
             </div>
-            <div className='comments-count'>
-              <a className='not-commented' onClick={this.handleCommentsOpen}/>
-              <span className='not-commented-number'>0</span>
+          </CardActions>
+          <CardText
+            className='comments-wrapper'
+            expandable={true}
+          >
+            <div>
+              {this.renderPostBox()}
             </div>
-          </div>
-        </CardActions>
-        <CardText
-          className='comments-wrapper'
-          expandable={true}
-        >
-          <div>
-            {this.renderPostBox()}
-          </div>
-        </CardText>
-      </Card>
-    )
+          </CardText>
+        </Card>
+      )
+    }
+    return null
   }
 }
 export default Review

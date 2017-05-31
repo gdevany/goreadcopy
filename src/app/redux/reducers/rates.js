@@ -8,6 +8,11 @@ export default (state = initialState.rates, { type, payload }) => {
       return R.merge(state, { starsInfo: payload })
     case A.GET_RATES:
       return R.merge(state, { bookRates: payload })
+    case A.PREPEND_REVIEW:
+      return {
+        ...state,
+        bookRates: R.concat([payload], state.bookRates)
+      }
     default:
       return state
   }
