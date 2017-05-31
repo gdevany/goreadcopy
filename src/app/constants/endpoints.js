@@ -30,6 +30,7 @@ const Endpoints = () => {
     unSelectSocialAccount: (params) => apiUrl('socialaccounts/unselect_account', params),
     getCountries: () => apiUrl('forms/countries'),
     getStates: (id) => apiUrl(`forms/${id}/states`),
+    filterBooks: (params) => apiUrl('books', params),
     currentReader: {
       getRecommendation: (params) => apiUrl('genres/top_users', params),
       getOnboardingRecommendation: (params) => apiUrl('onboarding/genres/top_users', params),

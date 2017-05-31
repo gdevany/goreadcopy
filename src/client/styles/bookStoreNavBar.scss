@@ -35,7 +35,7 @@
 .categories-list-menu-container{
   height: calc(100vh - 60px);
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
   .categories-list-menu{
     margin: 0;
     padding: 0;
