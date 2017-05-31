@@ -26,7 +26,7 @@ class CallToActionTop extends PureComponent {
 
         <div className='slide-up text-on-landing-container'>
           <h1>
-            Where readers and authors come together
+            Where readers hang out, connect & discover their next book!
           </h1>
           <h2 className='first-h2-on-landing'>
             Joining Is Free, It’s A Social Media Website!
