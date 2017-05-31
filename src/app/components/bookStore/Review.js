@@ -21,14 +21,14 @@ class Review extends PureComponent {
     super(props)
     this.state = {
       liked: false,
-      likedCount: 12,
+      likedCount: props.rateInfo.review.likesCount,
       commentsOpen: false,
     }
   }
 
   renderTime = (time) => {
     if (moment(moment.unix(time)).isValid()) {
-      return moment(moment.unix(time))
+      return moment(moment.unix(time)).format('MMMM DD, YYYY')
     }
     return time
   }
@@ -67,10 +67,11 @@ class Review extends PureComponent {
   }
 
   renderPostBox = () => {
+    const { currentReader } = this.props
     return (
       <div className='input-post-box comments-tile-container'>
         <div className='comments-elelemnts'>
-          <img className='comments-image' src='/image/kendunn.jpg' />
+          <img className='comments-image' src={currentReader.imageUrl} />
           <textarea
             type='text'
             className='search-input comments-textarea'
@@ -99,8 +100,8 @@ class Review extends PureComponent {
 
   render() {
 
-    const { score } = this.props.rateInfo
-    const { reviews } = this.props.rateInfo.rating
+    const { rateInfo } = this.props
+    const { score, review } = rateInfo
     const {
       commentsOpen,
       liked,
@@ -114,14 +115,14 @@ class Review extends PureComponent {
       >
         <div className='bookpage-review-header'>
           <figure className='bookpage-review-figure'>
-            <a>
-              <img src='/image/kendunn.jpg'/>
+            <a href={review.reviewer.url}>
+              <img src={review.reviewer.imageUrl}/>
             </a>
           </figure>
           <div className='bookpage-review-header-details'>
             <div className='bookpage-review-header-top'>
-              <a className='bookpage-review-fullname'>
-                {`${reviews.reviewer.firstName} ${reviews.reviewer.lastName}`}
+              <a href={review.reviewer.url} className='bookpage-review-fullname'>
+                {review.reviewer.fullname}
               </a>
               <div className='bookpage-review-rating'>
                 {this.renderRating(score)}
@@ -129,15 +130,19 @@ class Review extends PureComponent {
             </div>
             <div className='bookpage-review-timestamp'>
               <span className='bookpage-review-timestamp-text'>
-                {this.renderTime(reviews.datetime)}
+                {this.renderTime(review.datetime)}
               </span>
             </div>
           </div>
         </div>
         <CardText className='bookpage-review-body'>
-          <p className='bookpage-review-body-text'>
-            {reviews.body && reviews.body !== '' ? reviews.body : 'No text provided'}
-          </p>
+          {review.body && review.body !== '' ?
+            (
+              <p className='bookpage-review-body-text'>
+                {review.body}
+              </p>
+            ) : null
+          }
         </CardText>
         <CardActions className='bookpage-review-footer'>
           <div className='bookpage-review-footer-container'>

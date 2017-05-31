@@ -37,6 +37,11 @@ class BookPage extends PureComponent {
       })
       this.props.getStarsInfo('book', nextProps.bookInfo.id)
     }
+    if (nextProps.starsInfo !== this.state.starsInfo) {
+      this.setState({
+        starsInfo: nextProps.starsInfo
+      })
+    }
   }
 
   render() {

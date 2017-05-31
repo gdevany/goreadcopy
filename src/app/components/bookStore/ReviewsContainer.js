@@ -51,12 +51,13 @@ class ReviewsContainer extends PureComponent {
   }
 
   handleMapRates = () => {
-    const { rates } = this.state
+    const { rates, isLogged } = this.state
     return rates.map((rate, index) => {
       return (
         <Review
           key={index}
           rateInfo={rate}
+          currentReader={isLogged ? this.props.currentReader : null}
         />
       )
     })
