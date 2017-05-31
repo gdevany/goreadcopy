@@ -1,6 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Store } from '../../redux/actions'
+import Book from './Book'
 import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import ArrowUpIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
 
@@ -46,12 +47,27 @@ class CategoriesFilters extends PureComponent {
     }
   }
 
-  // componentWillReceiveProps = (nextProps) => {
-  //   console.log('Hola')
-  //   if (nextProps.categories) {
-  //     this.setState({ subCategories: nextProps.categories })
-  //   }
-  // }
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.filterResults !== this.state.filterResults) {
+      this.setState({ filterResults: nextProps.filterResults })
+    }
+  }
+
+  componentWillUpdate = (nextProps, nextState) => {
+    const {
+      selectedSubCategory,
+      selectedRating,
+      selectedMinPrice,
+      selectedMaxPrice
+    } = nextState
+    if (selectedRating !== this.state.selectedRating ||
+      selectedSubCategory !== this.state.selectedSubCategory ||
+      selectedMinPrice !== this.state.selectedMinPrice ||
+      selectedMaxPrice !== this.state.selectedMaxPrice) {
+
+      this.handleFilter(selectedSubCategory, selectedRating, selectedMinPrice, selectedMaxPrice)
+    }
+  }
 
   handleSubCategoriesClick = () => {
     this.setState({
@@ -83,9 +99,13 @@ class CategoriesFilters extends PureComponent {
 
   handlePriceHide = () => this.setState({ isPriceOpen: false })
 
-  handleRemoveSelectedCategory = () => this.setState({ selectedSubCategory: false })
+  handleRemoveSelectedCategory = () => {
+    this.setState({ selectedSubCategory: false })
+  }
 
-  handleRemoveSelectedRating = () => this.setState({ selectedRating: false })
+  handleRemoveSelectedRating = () => {
+    this.setState({ selectedRating: false })
+  }
 
   handleRemoveSelectedPrice = () => {
     this.setState({
@@ -102,9 +122,6 @@ class CategoriesFilters extends PureComponent {
         id: filter.id,
       }
     })
-    this.props.filterBooks({
-      genreIds: filter.id
-    })
   }
 
   handleSelectedRating = (filter) => {
@@ -116,6 +133,59 @@ class CategoriesFilters extends PureComponent {
       selectedMinPrice: minFilter,
       selectedMaxPrice: maxFilter,
     })
+  }
+
+  handleFilter = (selectedSubCategory, selectedRating, selectedMinPrice, selectedMaxPrice) => {
+    if (selectedSubCategory || selectedMinPrice || selectedMaxPrice || selectedRating) {
+      if (selectedRating) {
+        switch (selectedRating) {
+          case 'one-and-up':
+            this.props.filterBooks({
+              genreIds: selectedSubCategory ? selectedSubCategory.id : null,
+              minRate: selectedRating ? 1 : null,
+              maxRate: selectedRating ? 5 : null,
+              minPrice: selectedMinPrice ? selectedMinPrice : null,
+              maxPrice: selectedMaxPrice ? selectedMaxPrice : null,
+            })
+            break
+          case 'two-and-up':
+            this.props.filterBooks({
+              genreIds: selectedSubCategory ? selectedSubCategory.id : null,
+              minRate: selectedRating ? 2 : null,
+              maxRate: selectedRating ? 5 : null,
+              minPrice: selectedMinPrice ? selectedMinPrice : null,
+              maxPrice: selectedMaxPrice ? selectedMaxPrice : null,
+            })
+            break
+          case 'three-and-up':
+            this.props.filterBooks({
+              genreIds: selectedSubCategory ? selectedSubCategory.id : null,
+              minRate: selectedRating ? 3 : null,
+              maxRate: selectedRating ? 5 : null,
+              minPrice: selectedMinPrice ? selectedMinPrice : null,
+              maxPrice: selectedMaxPrice ? selectedMaxPrice : null,
+            })
+            break
+          case 'four-and-up':
+            this.props.filterBooks({
+              genreIds: selectedSubCategory ? selectedSubCategory.id : null,
+              minRate: selectedRating ? 4 : null,
+              maxRate: selectedRating ? 5 : null,
+              minPrice: selectedMinPrice ? selectedMinPrice : null,
+              maxPrice: selectedMaxPrice ? selectedMaxPrice : null,
+            })
+            break
+        }
+      } else {
+        this.props.filterBooks({
+          genreIds: selectedSubCategory ? selectedSubCategory.id : null,
+          minRate: selectedRating ? 4 : null,
+          maxRate: selectedRating ? 5 : null,
+          minPrice: selectedMinPrice ? selectedMinPrice : null,
+          maxPrice: selectedMaxPrice ? selectedMaxPrice : null,
+        })
+      }
+    }
   }
 
   renderSelectedCategory = () => {
@@ -472,6 +542,26 @@ class CategoriesFilters extends PureComponent {
       </div>
     )
   }
+
+  renderFilterResults = () => {
+    const { filterResults } = this.state
+    if (filterResults && filterResults.results) {
+      return filterResults.results.map((book, index) => {
+        return (
+          <Book
+            key={`${book.id}_${index}`}
+            url={`/book/${book.slug}`}
+            image={book.imageUrl}
+            id={book.id}
+            title={book.title}
+            authors={book.authors}
+            rating={book.rating}
+          />
+        )
+      })
+    }
+    return <div className='loading-animation'/>
+  }
   render() {
     const {
       isSubcategoriesOpen,
@@ -481,6 +571,7 @@ class CategoriesFilters extends PureComponent {
       selectedRating,
       selectedMinPrice,
       selectedMaxPrice,
+      filterResults,
     } = this.state
 
     return (
@@ -554,17 +645,23 @@ class CategoriesFilters extends PureComponent {
               </div>
             ) : null
           }
-          <div className='categorypage-filter-results' />
+          {filterResults ?
+            (
+              <div className='categorypage-filter-results' >
+                {this.renderFilterResults()}
+              </div>
+            ) : null
+          }
         </section>
       </section>
     )
   }
 }
 
-// const mapStateToProps = (state) => {
-//   return {
-//     categories: state.store.childCategories
-//   }
-// }
+const mapStateToProps = (state) => {
+  return {
+    filterResults: state.store.bookFilterResults
+  }
+}
 
-export default connect(null, { filterBooks })(CategoriesFilters)
+export default connect(mapStateToProps, { filterBooks })(CategoriesFilters)
