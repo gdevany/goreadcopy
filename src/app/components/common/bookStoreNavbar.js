@@ -28,6 +28,7 @@ class BookStoreNavBar extends PureComponent {
 
   constructor(props) {
     super(props)
+    this.locals = {}
     this.state = {
       isUserLogged: false,
       currentReader: false,
@@ -49,6 +50,7 @@ class BookStoreNavBar extends PureComponent {
     this.handleProfileMenuHide = this.handleProfileMenuHide.bind(this)
     this.handleLogoutClick = this.handleLogoutClick.bind(this)
     this.handleCategoriesClick = this.handleCategoriesClick.bind(this)
+    this.handleWheelScroll = this.handleWheelScroll.bind(this)
   }
 
   componentWillMount = () => {
@@ -167,6 +169,20 @@ class BookStoreNavBar extends PureComponent {
   handlePlatformUse(platformUse) {
     this.setState({ usePlatformAs: platformUse })
     this.props.usePlatformAs(platformUse)
+  }
+
+  handleWheelScroll(e) {
+    if (this.locals && this.locals.container) {
+      const { container } = this.locals
+      const { scrollHeight, scrollTop, clientHeight } = container
+      const { deltaY } = e
+      if (scrollTop + deltaY < 0) {
+        e.preventDefault()
+      }
+      if (scrollTop + deltaY + clientHeight > scrollHeight) {
+        e.preventDefault()
+      }
+    }
   }
 
   mapElementsHandler = (liClass, anchorClass) => {
@@ -444,7 +460,11 @@ class BookStoreNavBar extends PureComponent {
 
   mapCategoriesMenuList = () => {
     return (
-      <section className='categories-list-menu-container'>
+      <section
+        className='categories-list-menu-container'
+        onWheel={this.handleWheelScroll}
+        ref={container=>{this.locals.container = container}}
+      >
         <ul className='categories-list-menu'>
           <li className='categories-list-item-title'>
             Popular Categories
