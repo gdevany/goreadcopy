@@ -19,9 +19,12 @@ class CategoriesPage extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
+      isSubCategory: false,
       subCategories: false,
       categories: false,
       selectedCategory: '',
+      parentCategory: '',
+      subCategoryObject: {},
     }
   }
 
@@ -33,6 +36,16 @@ class CategoriesPage extends PureComponent {
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.childCategories) {
       this.setState({ subCategories: nextProps.childCategories })
+      if (this.props.params.subCategory) {
+        for (let i = 0; i < nextProps.childCategories.length; i++) {
+          if (nextProps.childCategories[i].slug === this.props.params.subCategory) {
+            this.setState({
+              subCategoryObject: nextProps.childCategories[i],
+              isSubCategory: true,
+            })
+          }
+        }
+      }
     }
     if (nextProps.categories) {
       this.setState({ categories: nextProps.categories })
@@ -45,29 +58,38 @@ class CategoriesPage extends PureComponent {
   }
 
   render() {
-    const { selectedCategory, subCategories } = this.state
-
+    const { selectedCategory, subCategories, isSubCategory, subCategoryObject } = this.state
     return (
       <div>
         <BookStoreNavBar/>
         <div className='categorypage-main-container'>
           {selectedCategory && selectedCategory !== '' ?
-            <CategoriesHero category={selectedCategory}/> : null
+            <CategoriesHero
+              isSubCategory={isSubCategory}
+              subCategoryObject={subCategoryObject}
+              category={selectedCategory}
+            /> : null
           }
-          {subCategories ?
+          {selectedCategory && subCategories ?
             <CategoriesFilters
-              categoryId={selectedCategory.id}
-              categories={subCategories}
+              isSubCategory={isSubCategory}
+              categoryId={isSubCategory ? subCategoryObject.id : selectedCategory.id}
+              categories={!isSubCategory && subCategories ? subCategories : null}
             /> : null
           }
           {isUserLoggedIn ? <WishListBooks/> : null}
           <div className='row'>
             <div className='large-12 columns'>
-              {selectedCategory && selectedCategory !== '' ?
-                <BestSellers category={selectedCategory} /> : null
+              {(selectedCategory && selectedCategory !== '') || isSubCategory ?
+                <BestSellers
+                  category={isSubCategory ? subCategoryObject : selectedCategory}
+                /> : null
               }
-              {this.state.subCategories ?
-                <SubCategories SubCategoriesElement={this.state.subCategories}/> : null
+              {this.state.subCategories && this.state.subCategories.length ?
+                <SubCategories
+                  parentCategory={selectedCategory.slug}
+                  SubCategoriesElement={this.state.subCategories}
+                /> : null
               }
             </div>
           </div>
