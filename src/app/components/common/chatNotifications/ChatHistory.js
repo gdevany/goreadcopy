@@ -82,8 +82,6 @@ class ChatHistory extends PureComponent {
     const { conversation, contactId, user } = this.props
     const blocks = this.splitConversation(conversation)
 
-    console.log('Rendered!!!!')
-
     return (
       <div>
         {
