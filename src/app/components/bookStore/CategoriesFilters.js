@@ -4,14 +4,22 @@ import { Store } from '../../redux/actions'
 import Book from './Book'
 import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import ArrowUpIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
+import { slide as FiltersMenu } from 'react-burger-menu'
 
 const { filterBooks } = Store
+const styles = {
+  filtersMenu: {
+    left: 0,
+    top: 0,
+  },
+}
 
 class CategoriesFilters extends PureComponent {
   constructor(props) {
     super(props)
 
     this.state = {
+      filtersMenuOpen: false,
       subCategories: this.props.categories,
       categoryId: this.props.categoryId,
       selectedCategory: '',
@@ -75,6 +83,13 @@ class CategoriesFilters extends PureComponent {
     }
   }
 
+  handleFilterMenuClick = (event) => {
+    event.preventDefault()
+    this.setState({
+      filtersMenuOpen: !this.state.filtersMenuOpen,
+    })
+  }
+
   handleSubCategoriesClick = () => {
     this.setState({
       isSubcategoriesOpen: true,
@@ -126,18 +141,23 @@ class CategoriesFilters extends PureComponent {
       selectedSubCategory: {
         name: filter.name,
         id: filter.id,
-      }
+      },
+      filtersMenuOpen: false,
     })
   }
 
   handleSelectedRating = (filter) => {
-    this.setState({ selectedRating: filter })
+    this.setState({
+      selectedRating: filter,
+      filtersMenuOpen: false,
+    })
   }
 
   handleSelectedPrice = (minFilter, maxFilter) => {
     this.setState({
       selectedMinPrice: minFilter,
       selectedMaxPrice: maxFilter,
+      filtersMenuOpen: false,
     })
   }
 
@@ -157,6 +177,7 @@ class CategoriesFilters extends PureComponent {
       selectedMinPrice: this.state.customMinPrice,
       selectedMaxPrice: this.state.customMaxPrice,
       isPriceOpen: false,
+      filtersMenuOpen: false,
     })
   }
 
@@ -617,6 +638,7 @@ class CategoriesFilters extends PureComponent {
     }
     return <div className='loading-animation-store'/>
   }
+
   render() {
     const {
       isSubcategoriesOpen,
@@ -691,6 +713,31 @@ class CategoriesFilters extends PureComponent {
             {/*<ArrowDownIcon />*/}
             {/*</div>*/}
           </div>
+        </section>
+        <section className='categorypage-main-filters-mobile-container'>
+          <a
+            onClick={this.handleFilterMenuClick}
+            className='categorypage-main-filters-mobile-filter-button'
+          >
+            Filter
+          </a>
+          <FiltersMenu
+            customBurgerIcon={false}
+            customCrossIcon={false}
+            id={'categorypage-main-filters-mobile-menu'}
+            isOpen={this.state.filtersMenuOpen}
+            style={styles.filtersMenu}
+            right
+          >
+            <div className='categorypage-mobile-filters-render'>
+              <span className='categorypage-mobile-filters-title'>Sub Categories Filter</span>
+              {this.renderSubCategoriesFilter()}
+              <span className='categorypage-mobile-filters-title'>Rating Filter</span>
+              {this.renderRatingFilter()}
+              <span className='categorypage-mobile-filters-title'>Price Filter</span>
+              {this.renderPriceFilter()}
+            </div>
+          </FiltersMenu>
         </section>
         <section className='categorypage-filters-results-container'>
           {selectedSubCategory || selectedRating || selectedMinPrice || selectedMaxPrice ?
