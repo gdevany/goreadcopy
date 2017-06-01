@@ -27,6 +27,7 @@ const Routes = (
     <Route path='/browse' component={BookStore} />
     <Route path='/book/:slug' component={BookPage} />
     <Route path='/categories/:slug' component={CategoriesPage} />
+    <Route path='/categories/:slug/:subCategory' component={CategoriesPage} />
     <Route path='/shop/cart' component={CartPage} />
     <Route path='/signup' component={SignUpFlow} />
     <Route path='/redirect' component={IncomingRedirect} />

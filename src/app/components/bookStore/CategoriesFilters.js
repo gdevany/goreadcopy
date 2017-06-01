@@ -23,6 +23,8 @@ class CategoriesFilters extends PureComponent {
       selectedMaxPrice: false,
       isRatingOpen: false,
       isPriceOpen: false,
+      customMinPrice: '',
+      customMaxPrice: '',
     }
     this.handleSubCategoriesClick = this.handleSubCategoriesClick.bind(this)
     this.handleRatingClick = this.handleRatingClick.bind(this)
@@ -33,6 +35,8 @@ class CategoriesFilters extends PureComponent {
     this.handleRemoveSelectedCategory = this.handleRemoveSelectedCategory.bind(this)
     this.handleRemoveSelectedPrice = this.handleRemoveSelectedPrice.bind(this)
     this.handleRemoveSelectedRating = this.handleRemoveSelectedRating.bind(this)
+    this.handleCustomPriceClick = this.handleCustomPriceClick.bind(this)
+    this.handleCustomPriceChange = this.handleCustomPriceChange.bind(this)
   }
 
   static contextTypes = {
@@ -46,6 +50,7 @@ class CategoriesFilters extends PureComponent {
         selectedCategory: router.params.slug,
       })
     }
+
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -133,6 +138,25 @@ class CategoriesFilters extends PureComponent {
     this.setState({
       selectedMinPrice: minFilter,
       selectedMaxPrice: maxFilter,
+    })
+  }
+
+  handleCustomPriceChange = (event, priceType) => {
+    event.preventDefault()
+    if (priceType === 1) {
+      this.setState({ customMinPrice: event.target.value })
+    }
+    if (priceType === 2) {
+      this.setState({ customMaxPrice: event.target.value })
+    }
+  }
+
+  handleCustomPriceClick = (event) => {
+    event.preventDefault()
+    this.setState({
+      selectedMinPrice: this.state.customMinPrice,
+      selectedMaxPrice: this.state.customMaxPrice,
+      isPriceOpen: false,
     })
   }
 
@@ -536,18 +560,33 @@ class CategoriesFilters extends PureComponent {
               <span className='categorypage-filter-custom-input-dollar'>
                 $
               </span>
-              <input className='categorypage-filter-custom-input' type='number' min='0'/>
+              <input
+                onChange={(event) => this.handleCustomPriceChange(event, 1)}
+                className='categorypage-filter-custom-input'
+                type='number'
+                min='0'
+                value={this.state.customMinPrice}
+              />
               <span className='categorypage-filter-custom-input-sepparator'>
                 to
               </span>
               <span className='categorypage-filter-custom-input-dollar'>
                 $
               </span>
-              <input className='categorypage-filter-custom-input' type='number' min='0'/>
+              <input
+                onChange={(event) => this.handleCustomPriceChange(event, 2)}
+                className='categorypage-filter-custom-input'
+                type='number'
+                min='0'
+                value={this.state.customMaxPrice}
+              />
             </div>
           </div>
           <div className='categorypage-filter-price-submit-container'>
-            <a className='categorypage-filter-price-submit'>
+            <a
+              onClick={this.handleCustomPriceClick}
+              className='categorypage-filter-price-submit'
+            >
               Apply
             </a>
           </div>
@@ -589,7 +628,7 @@ class CategoriesFilters extends PureComponent {
       selectedMaxPrice,
       filterResults,
     } = this.state
-
+    console.log()
     return (
       <section className='categorypage-filters'>
         <section className='categorypage-main-filters-container'>
@@ -599,21 +638,25 @@ class CategoriesFilters extends PureComponent {
               Filter by:
             </span>
             </div>
-            <div
-              onClick={this.handleSubCategoriesClick}
-              className='categorypage-single-filter-container'
-              onMouseLeave={this.handleSubCategoriesHide}
-            >
-              <span
-                className='categorypage-single-filter-title'
-              >
-                Sub Categories
-              </span>
-              {isSubcategoriesOpen ?
-                <ArrowUpIcon onClick={this.handleSubCategoriesClick}/> : <ArrowDownIcon />
-              }
-              {isSubcategoriesOpen ? this.renderSubCategoriesFilter() : null}
-            </div>
+            {!this.props.isSubCategory ?
+              (
+                <div
+                  onClick={this.handleSubCategoriesClick}
+                  className='categorypage-single-filter-container'
+                  onMouseLeave={this.handleSubCategoriesHide}
+                >
+                  <span
+                    className='categorypage-single-filter-title'
+                  >
+                    Sub Categories
+                  </span>
+                  {isSubcategoriesOpen ?
+                    <ArrowUpIcon onClick={this.handleSubCategoriesClick}/> : <ArrowDownIcon />
+                  }
+                  {isSubcategoriesOpen ? this.renderSubCategoriesFilter() : null}
+                </div>
+              ) : null
+            }
             <div
               onClick={this.handleRatingClick}
               className='categorypage-single-filter-container'

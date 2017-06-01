@@ -1,12 +1,12 @@
 import React, { PropTypes } from 'react'
 
-const SubCategories = ({ SubCategoriesElement }) => {
+const SubCategories = ({ SubCategoriesElement, parentCategory }) => {
 
   const mapSubCategories = () => {
     return SubCategoriesElement.map((category, index) => {
       return (
         <a
-          href={`/subcategories/${category.slug}`}
+          href={`/categories/${parentCategory}/${category.slug}`}
           key={`${index}_${category.id}`}
           className='categorypage-subcategories-single-element'
         >
@@ -28,6 +28,7 @@ const SubCategories = ({ SubCategoriesElement }) => {
 }
 
 SubCategories.propTypes = {
+  parentCategory: PropTypes.string,
   SubCategoriesElement: PropTypes.array
 }
 
