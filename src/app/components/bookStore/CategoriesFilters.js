@@ -13,6 +13,7 @@ class CategoriesFilters extends PureComponent {
 
     this.state = {
       subCategories: this.props.categories,
+      categoryId: this.props.categoryId,
       selectedCategory: '',
       filterResults: false,
       isSubcategoriesOpen: false,
@@ -136,53 +137,65 @@ class CategoriesFilters extends PureComponent {
   }
 
   handleFilter = (selectedSubCategory, selectedRating, selectedMinPrice, selectedMaxPrice) => {
+    const { categoryId } = this.state
+    this.setState({ filterResults: 'loading' })
     if (selectedSubCategory || selectedMinPrice || selectedMaxPrice || selectedRating) {
       if (selectedRating) {
         switch (selectedRating) {
           case 'one-and-up':
             this.props.filterBooks({
-              genreIds: selectedSubCategory ? selectedSubCategory.id : null,
+              genreIds: selectedSubCategory ? selectedSubCategory.id : categoryId,
               minRate: selectedRating ? 1 : null,
               maxRate: selectedRating ? 5 : null,
-              minPrice: selectedMinPrice ? selectedMinPrice : null,
-              maxPrice: selectedMaxPrice ? selectedMaxPrice : null,
+              minPrice: selectedMinPrice !== false && selectedMinPrice >= 0 ?
+                selectedMinPrice : null,
+              maxPrice: selectedMaxPrice && selectedMaxPrice !== 'more' ?
+                selectedMaxPrice : null,
             })
             break
           case 'two-and-up':
             this.props.filterBooks({
-              genreIds: selectedSubCategory ? selectedSubCategory.id : null,
+              genreIds: selectedSubCategory ? selectedSubCategory.id : categoryId,
               minRate: selectedRating ? 2 : null,
               maxRate: selectedRating ? 5 : null,
-              minPrice: selectedMinPrice ? selectedMinPrice : null,
-              maxPrice: selectedMaxPrice ? selectedMaxPrice : null,
+              minPrice: selectedMinPrice !== false && selectedMinPrice >= 0 ?
+                selectedMinPrice : null,
+              maxPrice: selectedMaxPrice && selectedMaxPrice !== 'more' ?
+                selectedMaxPrice : null,
             })
             break
           case 'three-and-up':
             this.props.filterBooks({
-              genreIds: selectedSubCategory ? selectedSubCategory.id : null,
+              genreIds: selectedSubCategory ? selectedSubCategory.id : categoryId,
               minRate: selectedRating ? 3 : null,
               maxRate: selectedRating ? 5 : null,
-              minPrice: selectedMinPrice ? selectedMinPrice : null,
-              maxPrice: selectedMaxPrice ? selectedMaxPrice : null,
+              minPrice: selectedMinPrice !== false && selectedMinPrice >= 0 ?
+                selectedMinPrice : null,
+              maxPrice: selectedMaxPrice && selectedMaxPrice !== 'more' ?
+                selectedMaxPrice : null
             })
             break
           case 'four-and-up':
             this.props.filterBooks({
-              genreIds: selectedSubCategory ? selectedSubCategory.id : null,
+              genreIds: selectedSubCategory ? selectedSubCategory.id : categoryId,
               minRate: selectedRating ? 4 : null,
               maxRate: selectedRating ? 5 : null,
-              minPrice: selectedMinPrice ? selectedMinPrice : null,
-              maxPrice: selectedMaxPrice ? selectedMaxPrice : null,
+              minPrice: selectedMinPrice !== false && selectedMinPrice >= 0 ?
+                selectedMinPrice : null,
+              maxPrice: selectedMaxPrice && selectedMaxPrice !== 'more' ?
+                selectedMaxPrice : null,
             })
             break
         }
       } else {
         this.props.filterBooks({
-          genreIds: selectedSubCategory ? selectedSubCategory.id : null,
+          genreIds: selectedSubCategory ? selectedSubCategory.id : categoryId,
           minRate: selectedRating ? 4 : null,
           maxRate: selectedRating ? 5 : null,
-          minPrice: selectedMinPrice ? selectedMinPrice : null,
-          maxPrice: selectedMaxPrice ? selectedMaxPrice : null,
+          minPrice: selectedMinPrice !== false && selectedMinPrice >= 0 ?
+            selectedMinPrice : null,
+          maxPrice: selectedMaxPrice && selectedMaxPrice !== 'more' ?
+            selectedMaxPrice : null,
         })
       }
     }
@@ -545,7 +558,7 @@ class CategoriesFilters extends PureComponent {
 
   renderFilterResults = () => {
     const { filterResults } = this.state
-    if (filterResults && filterResults.results) {
+    if (filterResults && filterResults !== 'loading' && filterResults.results.length) {
       return filterResults.results.map((book, index) => {
         return (
           <Book
@@ -560,7 +573,10 @@ class CategoriesFilters extends PureComponent {
         )
       })
     }
-    return <div className='loading-animation'/>
+    if (filterResults && filterResults.results && !filterResults.results.length) {
+      return <div>No Results</div>
+    }
+    return <div className='loading-animation-store'/>
   }
   render() {
     const {
