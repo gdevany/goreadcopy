@@ -54,7 +54,12 @@ class CategoriesPage extends PureComponent {
           {selectedCategory && selectedCategory !== '' ?
             <CategoriesHero category={selectedCategory}/> : null
           }
-          {subCategories ? <CategoriesFilters categories={subCategories}/> : null}
+          {subCategories ?
+            <CategoriesFilters
+              categoryId={selectedCategory.id}
+              categories={subCategories}
+            /> : null
+          }
           {isUserLoggedIn ? <WishListBooks/> : null}
           <div className='row'>
             <div className='large-12 columns'>
