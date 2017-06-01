@@ -2,8 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Chat as ChatActions } from '../../../redux/actions'
 import { Chat as ChatServices } from '../../../services/api/currentReader'
-import moment from 'moment'
-import R from 'ramda'
+import { ChatHistory } from './'
 import { LoadingSpinner } from '../'
 
 const {
@@ -167,9 +166,7 @@ class ChatTab extends PureComponent {
 
   onTextChange(event) {
     event.preventDefault()
-    this.setState({
-      message: event.target.value
-    })
+    this.setState({ message: event.target.value })
   }
 
   postMessage() {
@@ -208,90 +205,10 @@ class ChatTab extends PureComponent {
     return true
   }
 
-  splitConversation(list) {
-    let split = null, temp = []
-    split = []
-    for (let i = 0; i < list.length; i++) {
-      if (i === 0) {
-        temp.push(list[i])
-        if (i === list.length - 1) {
-          split.push(temp)
-        }
-        continue
-      }
-      if (list[i].sender === list[i - 1].sender) {
-        temp.push(list[i])
-      } else {
-        split.push(temp)
-        temp = []
-        temp.push(list[i])
-      }
-      if (i === list.length - 1) {
-        split.push(temp)
-      }
-    }
-    return split
-  }
-
-  renderContactPostList(posts, user, index) {
-    return (
-      <div key={index} className='conversation-extrange'>
-        <figure className='conversation-extrange-figure'>
-          <img src={user.imageUrl}/>
-        </figure>
-        <div className='conversation-extrange-chat-container'>
-          {
-            posts.map((post, idx)=>{
-              return (
-                <p key={idx} className='conversation-extrange-pharagraph'>
-                  { post.body }
-                </p>
-              )
-            })
-          }
-        </div>
-        <div className='timestamp-container'>
-          <span>{ moment(moment.unix(R.last(posts).timestamp)).fromNow() }</span>
-        </div>
-      </div>
-    )
-  }
-
-  renderOwnPostList(posts, index) {
-    return (
-      <div key={index} className='conversation-me'>
-        <div className='conversation-me-chat-container'>
-          {
-            posts.map((post, idx)=>{
-              return (
-                <p key={idx} className='conversation-me-pharagraph'>
-                  { post.body }
-                </p>
-              )
-            })
-          }
-        </div>
-        <div className='timestamp-container'>
-          <span>{ moment(moment.unix(R.last(posts).timestamp)).fromNow() }</span>
-        </div>
-      </div>
-    )
-  }
-
-  renderConversation(history, contactId, user) {
-    const blocks = this.splitConversation(history.conversation)
-    return blocks.map((block, idx, arr)=>{
-      const userID = R.last(block).sender
-      if (userID === contactId) {
-        return this.renderContactPostList(block, user, idx)
-      }
-      return this.renderOwnPostList(block, idx)
-    })
-  }
-
   render() {
     const { isTextAreaOpen } = this.state
     const { id, history, user, isOpen } = this.props
+    const { conversation } = history
 
     return (
       <div className='active-chat-main-container-mobile'>
@@ -320,7 +237,7 @@ class ChatTab extends PureComponent {
             >
               {
                 history && history.conversation ?
-                  this.renderConversation(history, id, user) :
+                  <ChatHistory conversation={conversation} id={id} user={user} /> :
                   <LoadingSpinner size={40} />
               }
             </div>
@@ -386,7 +303,7 @@ class ChatTab extends PureComponent {
                   >
                     {
                       history && history.conversation ?
-                        this.renderConversation(history, id, user) :
+                        <ChatHistory conversation={conversation} id={id} user={user} /> :
                         <LoadingSpinner size={40} />
                     }
                   </div>
