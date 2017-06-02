@@ -31,10 +31,10 @@ class BestSellers extends PureComponent {
   renderBestSellers = () => {
     const { bestSellers } = this.state
     return bestSellers.results.slice(1, 6).map((book, index) => {
-      if (book) {
+      if (book.slug) {
         return (
           <Book
-            key={book.id}
+            key={`${index}_${book.id}`}
             url={`/book/${book.slug}`}
             image={book.imageUrl}
             id={book.id}
@@ -49,7 +49,7 @@ class BestSellers extends PureComponent {
   }
 
   render() {
-    if (this.state.bestSellers && this.state.bestSellers.count > 1) {
+    if (this.state.bestSellers !== undefined && this.state.bestSellers.count > 1) {
       return (
         <section className='bookstore-best-sellers-container'>
           <h4 className='bookstore-row-books-title'>

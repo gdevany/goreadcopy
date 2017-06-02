@@ -31,17 +31,20 @@ class TrendingBooks extends PureComponent {
   renderTrendingBooks = () => {
     const { trendingBooks } = this.state
     return trendingBooks.results.map((book, index) => {
-      return (
-        <Book
-          key={book.id}
-          url={`/book/${book.slug}`}
-          image={book.imageUrl}
-          id={book.id}
-          title={book.title}
-          authors={book.authors}
-          rating={book.rating}
-        />
-      )
+      if (book.slug) {
+        return (
+          <Book
+            key={book.id}
+            url={`/book/${book.slug}`}
+            image={book.imageUrl}
+            id={book.id}
+            title={book.title}
+            authors={book.authors}
+            rating={book.rating}
+          />
+        )
+      }
+      return null
     })
   }
 
