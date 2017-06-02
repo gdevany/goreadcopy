@@ -49,7 +49,7 @@ class RecommendedBooks extends PureComponent {
     const { isUserLogged } = this.props
     return (
       <section className='bookstore-recommended-books-container'>
-        {isUserLogged && mostPurchased && mostPurchased.results.length ?
+        {isUserLogged && mostPurchased && mostPurchased.count > 0 ?
           (
             <article className='bookstore-recommended-book-element'>
               <p className='bookstore-recommended-book-text'>
@@ -64,10 +64,10 @@ class RecommendedBooks extends PureComponent {
                 </a>
               </figure>
             </article>
-          ) : bestSeller ? (
+          ) : bestSeller && bestSeller.count > 0 ? (
               <article className='bookstore-recommended-book-element'>
                 <p className='bookstore-recommended-book-text'>
-                  Some of your friends purchased this book
+                  Some People purchased this book
                 </p>
                 <figure className='bookstore-recommended-book-figure'>
                   <a href={`/book/${bestSeller.results[1].slug}`}>
@@ -77,12 +77,12 @@ class RecommendedBooks extends PureComponent {
               </article>
             ) : null
         }
-        {recommendedByAuthorFans ?
+        {recommendedByAuthorFans && recommendedByAuthorFans.count > 0 ?
           (
             <article className='bookstore-recommended-book-element'>
               <p className='bookstore-recommended-book-text'>
                 Recommended for
-                {recommendedByAuthorFans.results.length ?
+                {recommendedByAuthorFans.results[0].authors.length ?
                   ` ${recommendedByAuthorFans.results[0].authors[0].fullname} fans` : null
                 }
               </p>
@@ -92,9 +92,24 @@ class RecommendedBooks extends PureComponent {
                 </a>
               </figure>
             </article>
-          ) : null
+          ) : recommendedByAuthorFans && recommendedByAuthorFans.count > 1 ?
+            (
+              <article className='bookstore-recommended-book-element'>
+                <p className='bookstore-recommended-book-text'>
+                  Recommended for
+                  {recommendedByAuthorFans.results[1].authors.length ?
+                    ` ${recommendedByAuthorFans.results[1].authors[0].fullname} fans` : null
+                  }
+                </p>
+                <figure className='bookstore-recommended-book-figure'>
+                  <a href={`/book/${recommendedByAuthorFans.results[1].slug}`}>
+                    <img src={recommendedByAuthorFans.results[1].imageUrl}/>
+                  </a>
+                </figure>
+              </article>
+            ) : null
         }
-        {bestSeller ?
+        {bestSeller && bestSeller.count > 0 ?
           (
             <article className='bookstore-recommended-book-element'>
               <p className='bookstore-recommended-book-text'>
@@ -106,7 +121,22 @@ class RecommendedBooks extends PureComponent {
                 </a>
               </figure>
             </article>
-          ) : null
+          ) : recommendedByAuthorFans && recommendedByAuthorFans.count > 1 ?
+              (
+                <article className='bookstore-recommended-book-element'>
+                  <p className='bookstore-recommended-book-text'>
+                    Recommended for
+                    {recommendedByAuthorFans.results[1].authors.length ?
+                      ` ${recommendedByAuthorFans.results[1].authors[0].fullname} fans` : null
+                    }
+                  </p>
+                  <figure className='bookstore-recommended-book-figure'>
+                    <a href={`/book/${recommendedByAuthorFans.results[1].slug}`}>
+                      <img src={recommendedByAuthorFans.results[1 ].imageUrl}/>
+                    </a>
+                  </figure>
+                </article>
+              ) : null
         }
       </section>
     )
