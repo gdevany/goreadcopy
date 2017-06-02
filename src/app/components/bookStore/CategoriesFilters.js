@@ -58,7 +58,7 @@ class CategoriesFilters extends PureComponent {
         selectedCategory: router.params.slug,
       })
     }
-
+    this.props.filterBooks({ genreIds: this.props.categoryId })
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -650,7 +650,6 @@ class CategoriesFilters extends PureComponent {
       selectedMaxPrice,
       filterResults,
     } = this.state
-    console.log()
     return (
       <section className='categorypage-filters'>
         <section className='categorypage-main-filters-container'>
@@ -756,7 +755,7 @@ class CategoriesFilters extends PureComponent {
               <div className='categorypage-filter-results' >
                 {this.renderFilterResults()}
               </div>
-            ) : null
+            ) : <div className='loading-animation-store'/>
           }
         </section>
       </section>
