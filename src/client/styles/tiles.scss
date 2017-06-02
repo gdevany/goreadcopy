@@ -102,6 +102,15 @@
     }
   }
 }
+.commentContent{
+  a{
+    color: #0042D6;
+    font-weight: 600;
+  }
+  a:hover{
+    text-decoration: underline;
+  }
+}
 .base-tile-container{
   display: flex;
   justify-content: center;
@@ -786,6 +795,7 @@
   align-items: center;
   flex-direction: column;
   .comments-elelemnts{
+    position: relative;
     display: flex;
     justify-content: space-around;
     align-items: flex-start;

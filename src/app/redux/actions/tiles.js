@@ -86,9 +86,9 @@ function addNewComment(comments, newComment, parentId) {
   })
 }
 
-export function updateComments(tileId, comment, parentId, datetime, profile) {
+export function updateComments(tileId, comment, parentId, mentions, datetime, profile) {
   return (dispatch, getState) => {
-    ReaderTiles.updateComments(tileId, { comment, parentId })
+    ReaderTiles.updateComments(tileId, { comment, parentId, mentions })
       .then((resp) => {
         const data = resp ? resp.data : false
         const commentId = data ? data.commentId : tileId
@@ -98,6 +98,7 @@ export function updateComments(tileId, comment, parentId, datetime, profile) {
         const newComment = {
           id: commentId,
           comment,
+          mentions,
           datetime,
           profile
         }

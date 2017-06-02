@@ -1,10 +1,15 @@
 import React, { PureComponent, PropTypes } from 'react'
+import { Link } from 'react-router'
 import { connect } from 'react-redux'
+import { debounce } from 'lodash'
 import { Tiles } from '../../redux/actions'
 import { PrimaryButton } from '../common'
 import { RegisterSignInModal } from '../common'
 import { Colors } from '../../constants/style'
 import { Auth } from '../../services'
+import { Search } from '../../services/api'
+import SuggestionList from '../common/SuggestionList'
+import Anchorify from 'react-anchorify-text'
 import {
   Card,
   CardActions,
@@ -26,11 +31,13 @@ const {
 } = ShareButtons
 
 const isUserLoggedIn = Auth.currentUserExists()
-
 const FacebookIcon = generateShareIcon('facebook')
 const TwitterIcon = generateShareIcon('twitter')
 const GooglePlusIcon = generateShareIcon('google')
 const LinkedinIcon = generateShareIcon('linkedin')
+const { search } = Search
+const mentionPattern = /\B@(?!Reader|Author|Publisher|Book)\w+\s?\w+/gi
+const mentionRegex = /(\@\[\d+\:\d+\])/gi
 
 const {
   updateLikes,
@@ -193,11 +200,21 @@ class TileDefault extends PureComponent {
       commentParentId: false,
       replyPlaceholder: false,
       modalLogInOpen: false,
-      userLogged: false
+      userLogged: false,
+      body: '',
+      mentions: '',
+      suggestions: [],
+      onProcessMentions: [],
+      processedMentions: [],
+      showSuggestions: false,
     }
 
     this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
-
+    this.checkMentions = this.checkMentions.bind(this)
+    this.handleSuggestionClick = this.handleSuggestionClick.bind(this)
+    this.refreshMentions = this.refreshMentions.bind(this)
+    this.getMentions = debounce(this.getMentions, 250)
+    this.replaceMention = this.replaceMention.bind(this)
   }
 
   renderTime = (time) => {
@@ -381,6 +398,7 @@ class TileDefault extends PureComponent {
     const { feedComments } = this.props
     const foundComments = this.findCommentsForThisTile(feedComments)
     return foundComments ? foundComments.comments.map(comment => {
+      const splittedContent = this.splitContent(comment.mentions)
       return (
         <Card
           key={`${comment.id}`}
@@ -407,8 +425,12 @@ class TileDefault extends PureComponent {
               </div>
             </div>
           </div>
-          <CardText style={styles.commentContent}>
-            {comment.comment}
+          <CardText style={styles.commentContent} className='commentContent'>
+            {
+              splittedContent.map((entry, index) => {
+                return this.renderContentWithMentions(entry, index, comment.mentionArray)
+              })
+            }
           </CardText>
           <CardActions style={styles.commentActions}>
             <div style={styles.socialContainer} className='row'>
@@ -431,6 +453,43 @@ class TileDefault extends PureComponent {
     }) : null
   }
 
+  renderContentWithMentions(entry, index, mentionList) {
+    if (mentionRegex.test(entry)) {
+      for (let i = 0; i < mentionList.length; i++) {
+        if (mentionList[i].mention === entry) {
+          const splitResult = this.splitMention(mentionList[i].url)
+          if (splitResult && splitResult[3] === 'profile') {
+            return (
+              <Link key={index} to={`profile/${splitResult[splitResult.length - 2]}`}>
+                {mentionList[i].name}
+              </Link>
+            )
+          }
+          return (
+            <a key={index} href={mentionList[i].url}>
+              {mentionList[i].name}
+            </a>
+          )
+        }
+      }
+    }
+    return (
+      <span key={index}>
+        <Anchorify
+          text={entry}
+          target='_blank'
+        />
+      </span>)
+  }
+
+  splitContent(content) {
+    return content.split(mentionRegex)
+  }
+
+  splitMention(content) {
+    return content.split('/')
+  }
+
   handleReplyComment = (tileId) => {
     this.setState({
       commentParentId: tileId,
@@ -445,7 +504,8 @@ class TileDefault extends PureComponent {
       commented,
       commentedCount,
       commentInput,
-      commentParentId
+      commentParentId,
+      mentions,
     } = this.state
     const {
       tileId,
@@ -467,7 +527,7 @@ class TileDefault extends PureComponent {
       commentInput: '',
       replyPlaceholder: false
     })
-    updateComments(tileId, commentInput, commentParentId, datetime, profile)
+    updateComments(tileId, commentInput, commentParentId, mentions, datetime, profile)
   }
 
   handleShareSubmit = (shareType) => {
@@ -512,8 +572,94 @@ class TileDefault extends PureComponent {
   }
 
   handleInputOnChange = R.curry((field, event) => {
-    this.setState({ [field]: event.target.value })
+    const commentInput = event.target.value
+    const { showSuggestions, onProcessMentions } = this.checkMentions(commentInput)
+    const {
+      processedMentions,
+      mentions
+    } = this.refreshMentions(commentInput, this.state.processedMentions)
+    this.setState({
+      [field]: event.target.value,
+      commentInput,
+      mentions,
+      showSuggestions,
+      onProcessMentions,
+      processedMentions,
+    })
   })
+
+  checkMentions(latestBody) {
+    const result = {
+      showSuggestions: false,
+      onProcessMentions: latestBody.match(mentionPattern) || ''
+    }
+    console.log(result.onProcessMentions)
+    if (result.onProcessMentions && result.onProcessMentions.length > 0) {
+      this.getMentions(R.last(result.onProcessMentions).replace('@', ''))
+    }
+    return result
+  }
+
+  getMentions(query) {
+    console.log('fetching mentions')
+    console.log(query)
+    if (query) {
+      search({
+        author: query,
+        reader: query,
+        book: query,
+        publisher: query
+      }).then((res) => this.setState({
+        suggestions: res.data,
+        showSuggestions: true
+      }))
+    } else {
+      this.setState({ showSuggestions: false })
+    }
+  }
+
+  refreshMentions(updatedBody, updatedProcessedMentions) {
+    let processedMentions = R.clone(updatedProcessedMentions)
+    let mentions = updatedBody
+    // Beware of indexOf 0 in the next line
+    processedMentions = processedMentions.filter((el) => mentions.indexOf(el.display) >= 0)
+    processedMentions.map(function (el) {
+      mentions = mentions.replace(el.display, el.mention)
+    })
+    return {
+      processedMentions,
+      mentions
+    }
+  }
+
+  handleSuggestionClick(event) {
+    event.stopPropagation()
+    const { type, display, contenttype, id } = event.target.dataset
+    const commentInput = this.replaceMention(type, display, contenttype, id)
+    const { showSuggestions, onProcessMentions } = this.checkMentions(commentInput)
+    const { processedMentions, mentions } = this.refreshMentions(commentInput, R.concat(
+      this.state.processedMentions,
+      [{
+        display: `@${type}:${display}`,
+        mention: `@[${contenttype}:${id}]`
+      }]
+    ))
+    this.setState({
+      commentInput,
+      mentions,
+      processedMentions,
+      showSuggestions,
+      onProcessMentions,
+    })
+    this.commentInput.focus()
+  }
+
+  replaceMention(type, display, contentType, id) {
+    const { commentInput, onProcessMentions } = this.state
+    const lastMention = R.last(onProcessMentions)
+    const updatedBody = commentInput.replace(lastMention, `@${type}:${display} `)
+    return updatedBody
+  }
 
   renderPostBox = (buttonType) => {
     const {
@@ -540,6 +686,7 @@ class TileDefault extends PureComponent {
           }
           <textarea
             type='text'
+            ref={(input) => {this.commentInput = input}}
             className='search-input comments-textarea'
             placeholder={replyPlaceholder ? replyPlaceholder : 'Share your thoughts'}
             onChange={this.handleInputOnChange(`${inputType}`)}
@@ -547,6 +694,13 @@ class TileDefault extends PureComponent {
             rows='3'
             autoFocus
           />
+          {this.state.showSuggestions ?
+            (<SuggestionList
+              entries={this.state.suggestions}
+              onMentionListClick={this.handleSuggestionClick}
+             />
+            ) : null
+          }
         </div>
         <div>
           <PrimaryButton
@@ -640,11 +794,8 @@ class TileDefault extends PureComponent {
 
                 </div>
               </div>
-
               <div className='small-4 columns' style={styles.commentIconContainer}>
-                <div
-                  className='comments-count'
-                >
+                <div className='comments-count'>
                   <a
                     onClick={
                       this.state.userLogged ?
@@ -652,10 +803,7 @@ class TileDefault extends PureComponent {
                       }
                     className={commented ? 'commented' : 'not-commented'}
                   />
-
-                  <span
-                    className={commented ? 'commented-number' : 'not-commented-number'}
-                  >
+                  <span className={commented ? 'commented-number' : 'not-commented-number'}>
                   {commentedCount}
                   </span>
                 </div>
