@@ -100,6 +100,11 @@
               font-weight: 400;
               color: $black;
               text-transform: capitalize;
+              a{
+                &:hover{
+                  color: $black;
+                }
+              }
             }
             .bookpage-author-follow-action{
               background: transparent;
@@ -263,6 +268,38 @@
             margin: 0 2.5px;
             width: 35px;
             height: 35px;
+          }
+        }
+      }
+      .bookpage-bottom-action-btn-active{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        &:hover{
+          cursor: pointer;
+        }
+        figure{
+          width: 35px;
+          img{
+            width: 100%;
+          }
+        }
+        span{
+          display: none;
+          @media all and (min-width: 1024px){
+            display: flex;
+            color: #999;
+            margin-left: 10px;
+          }
+        }
+        .bookpage-action-btn-active-text{
+          display: none;
+          @media all and (min-width: 1024px){
+            display: flex;
+            color: #999;
+            margin-left: 10px;
           }
         }
       }

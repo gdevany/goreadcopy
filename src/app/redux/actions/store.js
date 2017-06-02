@@ -123,6 +123,17 @@ export function addToLibrary(id, slug, isLogged) {
   }
 }
 
+export function removeFromLibrary(id, slug, isLogged) {
+  const terms = {
+    id: id
+  }
+  return dispatch => {
+    ProfilePage.deleteBookLibrary(terms)
+      .then(res => dispatch(getBookInfo(slug, isLogged)))
+      .catch(err => console.log(`Error in removeFromLibrary ${err}`))
+  }
+}
+
 export function addToWishList(id, slug, isLogged) {
   const terms = {
     ean: id
@@ -131,6 +142,17 @@ export function addToWishList(id, slug, isLogged) {
     ProfilePage.updateWishList(terms)
       .then(res => dispatch(getBookInfo(slug, isLogged)))
       .catch(err => console.error(`Error in addToWishList ${err}`))
+  }
+}
+
+export function removeFromWishList(id, slug, isLogged) {
+  const terms = {
+    ean: id
+  }
+  return dispatch => {
+    ProfilePage.deleteFromWishList(terms)
+      .then(res => dispatch(getBookInfo(slug, isLogged)))
+      .catch(err => console.log(`Error in removeFromWishList ${err}`))
   }
 }
 
@@ -154,6 +176,8 @@ export default {
   getBookInfo,
   addToCart,
   addToLibrary,
+  removeFromLibrary,
   addToWishList,
+  removeFromWishList,
   filterBooks
 }

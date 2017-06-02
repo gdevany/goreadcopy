@@ -11,7 +11,13 @@ import R from 'ramda'
 
 const { followOrUnfollow } = Follow
 const { sharePost } = Social
-const { addToCart, addToLibrary, addToWishList } = Store
+const {
+  addToCart,
+  addToLibrary,
+  removeFromLibrary,
+  addToWishList,
+  removeFromWishList
+} = Store
 const { search } = Search
 const {
   FacebookShareButton,
@@ -41,10 +47,14 @@ class BookInfo extends PureComponent {
       commentText: '',
       suggestions: [],
       showSuggestions: false,
+      isWishlistHover: false,
+      isLibraryHover: false,
     }
     this.handleAddToCart = this.handleAddToCart.bind(this)
     this.handleAddToLibrary = this.handleAddToLibrary.bind(this)
+    this.handleRemoveFromLibrary = this.handleRemoveFromLibrary.bind(this)
     this.handleAddToWishList = this.handleAddToWishList.bind(this)
+    this.handleRemoveFromWishList = this.handleRemoveFromWishList.bind(this)
     this.handleFollowOrUnFollow = this.handleFollowOrUnFollow.bind(this)
     this.handleSharePost = this.handleSharePost.bind(this)
     this.handleBookTypeSelect = this.handleBookTypeSelect.bind(this)
@@ -89,12 +99,26 @@ class BookInfo extends PureComponent {
     event.preventDefault()
     const { bookInfo, isUserLogged } = this.props
     this.props.addToLibrary(bookInfo.ean, bookInfo.slug, isUserLogged)
+    this.setState({ isLibraryHover: false })
+  }
+
+  handleRemoveFromLibrary = (event) => {
+    event.preventDefault()
+    const { bookInfo, isUserLogged } = this.props
+    this.props.removeFromLibrary(bookInfo.id, bookInfo.slug, isUserLogged)
   }
 
   handleAddToWishList = (event) => {
     event.preventDefault()
     const { bookInfo, isUserLogged } = this.props
     this.props.addToWishList(bookInfo.ean, bookInfo.slug, isUserLogged)
+    this.setState({ isWishlistHover: false })
+  }
+
+  handleRemoveFromWishList = (event) => {
+    event.preventDefault()
+    const { bookInfo, isUserLogged } = this.props
+    this.props.removeFromWishList(bookInfo.ean, bookInfo.slug, isUserLogged)
   }
 
   handleFollowOrUnFollow = (event) => {
@@ -182,7 +206,7 @@ class BookInfo extends PureComponent {
     })
   }
 
-  checkMentions(latestBody) {
+  checkMentions = (latestBody) => {
     const result = {
       showSuggestions: false,
       onProcessMentions: latestBody.match(mentionPattern)
@@ -193,7 +217,7 @@ class BookInfo extends PureComponent {
     return result
   }
 
-  getMentions(query) {
+  getMentions = (query) => {
     search({
       author: query,
       reader: query,
@@ -205,7 +229,7 @@ class BookInfo extends PureComponent {
     }))
   }
 
-  handleSuggestionClick(event) {
+  handleSuggestionClick = (event) => {
     event.stopPropagation()
     const { type, display, contenttype, id } = event.target.dataset
     const body = this.replaceMention(type, display, contenttype, id)
@@ -226,7 +250,7 @@ class BookInfo extends PureComponent {
     })
   }
 
-  refreshMentions(updatedBody, updatedProcessedMentions) {
+  refreshMentions = (updatedBody, updatedProcessedMentions) => {
     let processedMentions = R.clone(updatedProcessedMentions)
     let mentions = updatedBody
     // Beware of indexOf 0 in the next line
@@ -240,12 +264,20 @@ class BookInfo extends PureComponent {
     }
   }
 
-  replaceMention(type, display, contentType, id) {
+  replaceMention = (type, display, contentType, id) => {
     const { commentText, onProcessMentions } = this.state
     const lastMention = R.last(onProcessMentions)
     const updatedBody = commentText.replace(lastMention, `@${type}:${display} `)
     return updatedBody
   }
+
+  handleWishlistHover = () => this.setState({ isWishlistHover: true })
+
+  handleWishlistNoHover = () => this.setState({ isWishlistHover: false })
+
+  handleLibraryHover = () => this.setState({ isLibraryHover: true })
+
+  handleLibraryNoHover = () => this.setState({ isLibraryHover: false })
 
   render() {
     const { bookInfo, isUserLogged } = this.props
@@ -255,6 +287,8 @@ class BookInfo extends PureComponent {
       isAlertDisplayed,
       isSharePopUpDisplayed,
       commentText,
+      isWishlistHover,
+      isLibraryHover
     } = this.state
     return (
       <div className='row bookpage-info-main-container'>
@@ -269,11 +303,15 @@ class BookInfo extends PureComponent {
               </h4>
               <div className='bookpage-author-container'>
                 <figure className='bookpage-author-badge-figure'>
-                  <img src={bookInfo.authors.length ? bookInfo.authors[0].imageUrl : ''}/>
+                  <a href={bookInfo.authors.length ? bookInfo.authors[0].url : ''}>
+                    <img src={bookInfo.authors.length ? bookInfo.authors[0].imageUrl : ''}/>
+                  </a>
                 </figure>
                 <div className='bookpage-author-info'>
                   <h5 className='bookpage-author-name'>
-                    {bookInfo.authors.length ? bookInfo.authors[0].fullname : ''}
+                    <a href={bookInfo.authors.length ? bookInfo.authors[0].url : ''}>
+                      {bookInfo.authors.length ? bookInfo.authors[0].fullname : ''}
+                    </a>
                   </h5>
                   { isUserLogged ?
                     bookInfo.authors.length && bookInfo.authors[0].userIsFollower ?
@@ -301,6 +339,8 @@ class BookInfo extends PureComponent {
                 </span>
                 <span className='review-counts'>
                   {bookInfo.rating.count}
+                </span>
+                <span className='review-counts'>
                   {bookInfo.rating.count === 0 || bookInfo.rating.count > 1 ?
                     'Reviews' : 'Review'
                   }
@@ -330,11 +370,24 @@ class BookInfo extends PureComponent {
           <div className='bookpage-info-left-bottom'>
             {bookInfo.isOnWishlist ?
               (
-                <div className='bookpage-bottom-action-btn'>
+                <div
+                  className={isWishlistHover ?
+                    'bookpage-bottom-action-btn-active' : 'bookpage-bottom-action-btn'
+                  }
+                  onClick={this.handleRemoveFromWishList}
+                  onMouseEnter={this.handleWishlistHover}
+                  onMouseLeave={this.handleWishlistNoHover}
+                >
                   <figure>
-                    <img src='/image/wish-list-icon.svg'/>
+                    <img
+                      src={isWishlistHover ?
+                        '/image/add-to-wishlist.svg' : '/image/wish-list-icon.svg'
+                      }
+                    />
                   </figure>
-                  <span className='bookpage-action-btn-active-text'>Book in Wish List</span>
+                  <span className='bookpage-action-btn-active-text'>
+                    {isWishlistHover ? 'Remove from Wish List' : 'Book in Wish List'}
+                  </span>
                 </div>
               ) : (
                 <div className='bookpage-bottom-action-btn' onClick={this.handleAddToWishList}>
@@ -347,11 +400,24 @@ class BookInfo extends PureComponent {
             }
             {bookInfo.isOnLibrary ?
               (
-                <div className='bookpage-bottom-action-btn'>
+                <div
+                  className={isLibraryHover ?
+                    'bookpage-bottom-action-btn-active' : 'bookpage-bottom-action-btn'
+                  }
+                  onClick={this.handleRemoveFromLibrary}
+                  onMouseEnter={this.handleLibraryHover}
+                  onMouseLeave={this.handleLibraryNoHover}
+                >
                   <figure>
-                    <img src='/image/added-to-library.svg'/>
+                    <img
+                      src={isLibraryHover ?
+                        '/image/add-to-library.svg' : '/image/added-to-library.svg'
+                      }
+                    />
                   </figure>
-                  <span className='bookpage-action-btn-active-text'>In your Library</span>
+                  <span className='bookpage-action-btn-active-text'>
+                    {isLibraryHover ? 'Remove from Library' : 'In Your Library'}
+                  </span>
                 </div>
               ) : (
                 <div className='bookpage-bottom-action-btn' onClick={this.handleAddToLibrary}>
@@ -638,7 +704,9 @@ class BookInfo extends PureComponent {
 
 const mapDistpachToProps = {
   addToLibrary,
+  removeFromLibrary,
   addToWishList,
+  removeFromWishList,
   addToCart,
   followOrUnfollow,
   sharePost
