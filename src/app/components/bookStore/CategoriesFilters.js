@@ -122,10 +122,20 @@ class CategoriesFilters extends PureComponent {
 
   handleRemoveSelectedCategory = () => {
     this.setState({ selectedSubCategory: false })
+    if (!this.state.selectedRating &&
+      !this.state.selectedMinPrice &&
+      !this.state.selectedMaxPrice) {
+      this.props.filterBooks({ genreIds: this.props.categoryId })
+    }
   }
 
   handleRemoveSelectedRating = () => {
     this.setState({ selectedRating: false })
+    if (!this.state.selectedSubCategory &&
+      !this.state.selectedMinPrice &&
+      !this.state.selectedMaxPrice) {
+      this.props.filterBooks({ genreIds: this.props.categoryId })
+    }
   }
 
   handleRemoveSelectedPrice = () => {
@@ -133,6 +143,10 @@ class CategoriesFilters extends PureComponent {
       selectedMinPrice: false,
       selectedMaxPrice: false,
     })
+    if (!this.state.selectedRating &&
+      !this.state.selectedSubCategory) {
+      this.props.filterBooks({ genreIds: this.props.categoryId })
+    }
   }
 
   handleSelectedSubCategory = (filter) => {
