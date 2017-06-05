@@ -2,4 +2,168 @@
 
 .cartpage-main-container{
   padding-top: 60px;
+  .cartpage-main-element-container{
+    background-image: linear-gradient(90deg,#fff,#f8fffe 63%,#f7fcff 99%);
+    padding: 15px 0;
+  }
+}
+
+.cartpage-container{
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-direction: column;
+  .cartpage-title{
+    font-size: 26px;
+    text-align: center;
+    width: 100%;
+  }
+  .cartpage-elements-container{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    border-bottom: solid 2px rgba(204, 204, 204, 0.32);
+    .cargpage-single-element{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-direction: row;
+      margin-bottom: 15px;
+      .bookpage-book-info-left{
+        display: flex;
+        flex-direction: row;
+        .cartpage-book-figure{
+          img{
+            max-width: 100px;
+          }
+        }
+        .bookpage-book-information{
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-start;
+          flex-direction: column;
+          width: auto;
+          margin-left: 25px;
+          .bookpage-book-info-title{
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 20px;
+          }
+          .bookpage-book-info-author{
+            color: #757575;
+            margin-bottom: 5px;
+          }
+          .bookpage-book-info-paper{
+            color: #757575;
+            font-size: 14px;
+            margin-bottom: 5px;
+          }
+          .bookpage-book-info-counters{
+            margin-top: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .bookpage-book-info-counter-btn{
+              width: 30px;
+              border-radius: 15px;
+              height: 30px;
+              font-size: 18px;
+              font-weight: 600;
+              text-align: center;
+              display: block;
+              background-color: #fff;
+              box-shadow: rgba(10, 10, 10, 0.13) 3px 2px 9px 0px;
+              margin: 0 8px;
+              &:first-child{
+                margin-left: 0;
+              }
+              &:last-child{
+                margin-right: 0;
+              }
+            }
+          }
+        }
+      }
+      .bookpage-book-info-right{
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        flex-direction: column;
+        .bookpage-book-remove-item{
+          font-size: 24px;
+          color: #CCC;
+        }
+        .bookstore-book-price-info{
+          margin-top: 25px;
+          .bookpage-book-price{
+            font-weight: 600;
+            font-size: 20px;
+          }
+          .bookpage-book-litcoin-price-container{
+            display: flex;
+            align-items: center;
+            .bookpage-book-litcoin-price{
+              color: #757575;
+              font-size: 16px;
+            }
+            .bookpage-book-litcoin-img{
+              width: 18px;
+              margin-left: 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .cartpage-subtotal-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 15px;
+    .bookpage-subtotal-title{
+      font-size: 20px;
+    }
+    .bookpage-subtotal-price{
+      font-size: 28px;
+      font-weight: 800;
+    }
+  }
+  .cartpage-action-btns-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 15px;
+    .cartpage-action-secondary-btn{
+      display: block;
+      text-align: center;
+      padding: 15px 25px;
+      background-color: $white;
+      border: solid 1px #CCC;
+      border-radius: 25px;
+      color: #616161;
+      transition: all .3s ease;
+      &:hover{
+        background-color: $store-blue;
+        color: $white;
+        border: solid 1px transparent;
+      }
+    }
+    .cartpage-action-primary-btn{
+      display: block;
+      text-align: center;
+      padding: 15px 25px;
+      background-color: $store-blue;
+      color: $white;
+      border-radius: 25px;
+      min-width: 200px;
+      &:hover{
+        color: $white;
+      }
+    }
+  }
 }
