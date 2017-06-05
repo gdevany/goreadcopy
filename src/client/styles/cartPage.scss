@@ -37,7 +37,10 @@
         flex-direction: row;
         .cartpage-book-figure{
           img{
-            max-width: 100px;
+            max-width: 75px;
+            @media all and (min-width: 768px) {
+              max-width: 100px;
+            }
           }
         }
         .bookpage-book-information{
@@ -47,14 +50,25 @@
           flex-direction: column;
           width: auto;
           margin-left: 25px;
+          max-width: 150px;
+          @media all and (min-width: 768px) {
+            max-width: 100%;
+          }
           .bookpage-book-info-title{
             font-weight: 600;
             margin-bottom: 5px;
-            font-size: 20px;
+            font-size: 16px;
+            @media all and (min-width: 768px) {
+              font-size: 20px;
+            }
           }
           .bookpage-book-info-author{
             color: #757575;
             margin-bottom: 5px;
+            font-size: 14px;
+            @media all and (min-width: 768px) {
+              font-size: 16px;
+            }
           }
           .bookpage-book-info-paper{
             color: #757575;
@@ -138,6 +152,10 @@
     align-items: center;
     width: 100%;
     margin-top: 15px;
+    flex-direction: column;
+    @media all and (min-width: 768px){
+      flex-direction: row;
+    }
     .cartpage-action-secondary-btn{
       display: block;
       text-align: center;
@@ -147,6 +165,10 @@
       border-radius: 25px;
       color: #616161;
       transition: all .3s ease;
+      margin-bottom: 10px;
+      @media all and (min-width: 768px){
+        margin-bottom: 0;
+      }
       &:hover{
         background-color: $store-blue;
         color: $white;

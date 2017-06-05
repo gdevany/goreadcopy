@@ -5,10 +5,17 @@ import CartElement from './cartElement'
 import { BookStoreNavBar } from '../common'
 import { Footer } from '../common'
 import { Auth } from '../../services'
+import { browserHistory } from 'react-router'
 
 const isUserLoggedIn = Auth.currentUserExists()
 
 class CartPage extends PureComponent {
+
+  componentWillMount = () => {
+    if (!isUserLoggedIn) {
+      browserHistory.push('/')
+    }
+  }
   render() {
     return (
       <div>
