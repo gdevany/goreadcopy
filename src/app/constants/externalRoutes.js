@@ -12,6 +12,7 @@ const ExternalRoutes = () => {
     bookStore: () => backendUrl('browse'),
     childrensLiteracy: () => backendUrl('childrens-literacy'),
     litcoins: () => backendUrl('litcoins'),
+    litcoinsProfile: () => backendUrl('profile/litcoins'),
     login: () => backendUrl('login'),
     media: () => backendUrl('media-page'),
     news: () => backendUrl('news'),
