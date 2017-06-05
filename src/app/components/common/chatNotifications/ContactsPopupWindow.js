@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Chat } from '../../../redux/actions'
 import R from 'ramda'
+import { LoadingSpinner } from '../'
+import { Link } from 'react-router'
 
 const {
   getChatContacts,
@@ -74,7 +76,9 @@ class ContactsPopupWindow extends PureComponent {
         >
           <div className='chat-single-user-left'>
             <figure className='chat-single-user-figure'>
-              <img src={user.imageUrl}/>
+              <Link to={user.url} onClick={e=>e.stopPropagation()}>
+                <img src={user.imageUrl}/>
+              </Link>
             </figure>
             <div className='chat-single-user-name'>
               <span>{user.fullname}</span>
@@ -101,7 +105,9 @@ class ContactsPopupWindow extends PureComponent {
                 onClick={(e) => this.handleContactClick(user.pk, e)}
               >
                 <figure className='chat-single-user-figure'>
-                  <img src={user.imageUrl}/>
+                  <Link to={user.url} onClick={e=>e.stopPropagation()}>
+                    <img src={user.imageUrl}/>
+                  </Link>
                 </figure>
                 <div className='chat-single-user-name'>
                   <span>{user.fullname}</span>
@@ -165,7 +171,9 @@ class ContactsPopupWindow extends PureComponent {
             }
           </div>
           {
-            isContactsOpen && contacts ? (
+            !contacts ? (
+              <LoadingSpinner size={40} />
+            ) : isContactsOpen && contacts ? (
               <div
                 className='chat-users-container'
                 onWheel={e=>{this.handleWheelScroll(e)}}

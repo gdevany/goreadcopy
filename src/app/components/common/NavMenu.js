@@ -30,7 +30,7 @@ const styles = {
     backgroundColor: Colors.white,
     padding: '0 20px',
     position: 'fixed',
-    zIndex: 1000,
+    zIndex: 1500,
     width: '100%'
   },
 
