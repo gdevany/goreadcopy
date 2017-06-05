@@ -15,7 +15,7 @@ class CartElement extends PureComponent {
     if (actionType === 1) {
       this.setState({ bookCount: this.state.bookCount + 1 })
     }
-    if (actionType === 2 && this.state.bookCount > 0) {
+    if (actionType === 2 && this.state.bookCount > 1) {
       this.setState({ bookCount: this.state.bookCount - 1 })
     }
 

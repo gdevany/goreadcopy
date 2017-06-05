@@ -10,10 +10,13 @@ import LitcoinStatus from './LitcoinStatus'
 import { Colors } from '../../constants/style'
 import MenuIcon from 'material-ui/svg-icons/navigation/menu'
 import Badge from 'material-ui/Badge'
+import { Search } from '../../redux/actions'
+import { debounce } from 'lodash'
 import { stack as MobileMenu, slide as CategoriesMenu } from 'react-burger-menu'
 import R from 'ramda'
 
 const isUserLoggedIn = AuthService.currentUserExists()
+const { bookSearch, updateBookSearch } = Search
 const { verifyUserToken, processUserLogout } = Auth
 const { usePlatformAs, getCurrentReader, logoutCurrentReader } = CurrentReader
 const { getCategories, getPopularCategories } = Store
@@ -43,6 +46,7 @@ class BookStoreNavBar extends PureComponent {
       isMobileLoggedMenuOpen: false,
       categoriesOpen: false,
       categoriesMenuOpen: false,
+      searchTerm: '',
     }
     this.handleSignUpModalClose = this.handleSignUpModalClose.bind(this)
     this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
@@ -51,6 +55,8 @@ class BookStoreNavBar extends PureComponent {
     this.handleLogoutClick = this.handleLogoutClick.bind(this)
     this.handleCategoriesClick = this.handleCategoriesClick.bind(this)
     this.handleWheelScroll = this.handleWheelScroll.bind(this)
+    this.handleSeach = this.handleSeach.bind(this)
+    this.debouncedSearch = this.debouncedSearch.bind(this)
   }
 
   componentWillMount = () => {
@@ -89,6 +95,18 @@ class BookStoreNavBar extends PureComponent {
       this.setState({ popularCategories: nextProps.popularCategories })
     }
   }
+
+  handleSeach = R.curry((field, e) => {
+    e.persist()
+    this.setState({ [field]: e.target.value })
+    this.debouncedSearch(e)
+  })
+
+  debouncedSearch = debounce((event) => {
+    if (event.target.value.length > 3) {
+      this.props.bookSearch(event.target.value)
+    }
+  }, 1000)
 
   handleSignUpModalOpen = () => {
     this.setState({ modalSignUpOpen: true })
@@ -540,6 +558,8 @@ class BookStoreNavBar extends PureComponent {
                   className='bookstore-search-input'
                   placeholder='Search store...'
                   type='text'
+                  onChange={this.handleSeach('searchTerm')}
+                  value={this.state.searchTerm}
                 />
                 <img src='/image/search-icon.svg' className='bookstore-search-icon'/>
               </form>
@@ -859,6 +879,8 @@ const mapDispatchToProps = {
   verifyUserToken,
   getCategories,
   getPopularCategories,
+  bookSearch,
+  updateBookSearch,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookStoreNavBar)
