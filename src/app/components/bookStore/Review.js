@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import Rating from 'react-rating'
+import { Tiles } from '../../redux/actions'
 import moment from 'moment'
 import { PrimaryButton } from '../common'
 import {
@@ -7,6 +9,11 @@ import {
   CardActions,
   CardText,
 } from 'material-ui'
+const {
+  updateLikes,
+  updateComments,
+  getComments,
+} = Tiles
 
 const styles = {
   cardContainer: {
@@ -20,9 +27,11 @@ class Review extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      liked: false,
-      likedCount: props.rateInfo && props.rateInfo.review ? props.rateInfo.review.likesCount : 0,
-      rateInfo: props.rateInfo && props.rateInfo.review ? props.rateInfo : false,
+      liked: props.rateInfo.likedByReader,
+      likedCount: props.rateInfo.likes ? props.rateInfo.likes.count : 0,
+      commented: props.rateInfo.commentedByReader,
+      commentsCount: props.rateInfo.comments ? props.rateInfo.comments.count : 0,
+      rateInfo: props.rateInfo,
       commentsOpen: false,
     }
   }
@@ -33,6 +42,11 @@ class Review extends PureComponent {
   //     this.setState({ rateInfo: nextProps.rateInfo })
   //   }
   // }
+  componentDidUpdate = (prevProps, prevState) => {
+    const { likedCount, rateInfo } = this.state
+    const { updateLikes } = this.props
+    if (prevState.likedCount !== likedCount) updateLikes(rateInfo.id, { liked: true })
+  }
 
   renderTime = (time) => {
     if (moment(moment.unix(time)).isValid()) {
@@ -113,10 +127,12 @@ class Review extends PureComponent {
       liked,
       likedCount,
       rateInfo,
+      commented,
+      commentsCount,
     } = this.state
 
     if (rateInfo) {
-      const { score, review } = rateInfo
+      const { content, timestamp, actor } = rateInfo
       return (
         <Card
           style={styles.cardContainer}
@@ -125,31 +141,31 @@ class Review extends PureComponent {
         >
           <div className='bookpage-review-header'>
             <figure className='bookpage-review-figure'>
-              <a href={review.reviewer.url}>
-                <img src={review.reviewer.imageUrl}/>
+              <a href={actor.url}>
+                <img src={actor.imageUrl}/>
               </a>
             </figure>
             <div className='bookpage-review-header-details'>
               <div className='bookpage-review-header-top'>
-                <a href={review.reviewer.url} className='bookpage-review-fullname'>
-                  {review.reviewer.fullname}
+                <a href={actor.url} className='bookpage-review-fullname'>
+                  {actor.fullname}
                 </a>
                 <div className='bookpage-review-rating'>
-                  {this.renderRating(score)}
+                  {this.renderRating(content.userRating)}
                 </div>
               </div>
               <div className='bookpage-review-timestamp'>
               <span className='bookpage-review-timestamp-text'>
-                {this.renderTime(review.datetime)}
+                {this.renderTime(timestamp)}
               </span>
               </div>
             </div>
           </div>
           <CardText className='bookpage-review-body'>
-            {review.body && review.body !== '' ?
+            {content.body && content.body !== '' ?
               (
                 <p className='bookpage-review-body-text'>
-                  {review.body}
+                  {content.body}
                 </p>
               ) : null
             }
@@ -164,8 +180,15 @@ class Review extends PureComponent {
                 <span className='not-liked-number'>{likedCount}</span>
               </div>
               <div className='comments-count'>
-                <a className='not-commented' onClick={this.handleCommentsOpen}/>
-                <span className='not-commented-number'>0</span>
+                <a
+                  className={commented ? 'commented' : 'not-commented'}
+                  onClick={this.handleCommentsOpen}
+                />
+                <span
+                  className={commented ? 'commented-number' : 'not-commented-number'}
+                >
+                  {commentsCount}
+                </span>
               </div>
             </div>
           </CardActions>
@@ -183,4 +206,9 @@ class Review extends PureComponent {
     return null
   }
 }
-export default Review
+const mapDispatchToProps = {
+  updateLikes,
+  updateComments,
+  getComments,
+}
+export default connect(null, mapDispatchToProps)(Review)

@@ -26,9 +26,12 @@ class Book extends PureComponent {
       title,
       authors,
       rating,
+      bookType,
     } = this.props
 
-    const author = authors.length ? authors[0].fullname : null
+    const author = authors.length && bookType !== 'searchResult' ?
+      authors[0].fullname : authors && bookType === 'searchResult' ?
+      authors : null
 
     return (
       <div

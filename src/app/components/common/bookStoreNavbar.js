@@ -10,10 +10,14 @@ import LitcoinStatus from './LitcoinStatus'
 import { Colors } from '../../constants/style'
 import MenuIcon from 'material-ui/svg-icons/navigation/menu'
 import Badge from 'material-ui/Badge'
+import { Search } from '../../redux/actions'
+import { debounce } from 'lodash'
+import Book from '../bookStore/Book'
 import { stack as MobileMenu, slide as CategoriesMenu } from 'react-burger-menu'
 import R from 'ramda'
 
 const isUserLoggedIn = AuthService.currentUserExists()
+const { mainSearch, updateSearch } = Search
 const { verifyUserToken, processUserLogout } = Auth
 const { usePlatformAs, getCurrentReader, logoutCurrentReader } = CurrentReader
 const { getCategories, getPopularCategories } = Store
@@ -43,6 +47,9 @@ class BookStoreNavBar extends PureComponent {
       isMobileLoggedMenuOpen: false,
       categoriesOpen: false,
       categoriesMenuOpen: false,
+      searchTerm: '',
+      searchResults: '',
+      isSearchResultsOpen: false,
     }
     this.handleSignUpModalClose = this.handleSignUpModalClose.bind(this)
     this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
@@ -51,6 +58,8 @@ class BookStoreNavBar extends PureComponent {
     this.handleLogoutClick = this.handleLogoutClick.bind(this)
     this.handleCategoriesClick = this.handleCategoriesClick.bind(this)
     this.handleWheelScroll = this.handleWheelScroll.bind(this)
+    this.handleSeach = this.handleSeach.bind(this)
+    this.debouncedSearch = this.debouncedSearch.bind(this)
   }
 
   componentWillMount = () => {
@@ -88,7 +97,25 @@ class BookStoreNavBar extends PureComponent {
     if (nextProps.popularCategories) {
       this.setState({ popularCategories: nextProps.popularCategories })
     }
+    if (nextProps.searchResults) {
+      this.setState({
+        searchResults: nextProps.searchResults,
+        isSearchResultsOpen: true
+      })
+    }
   }
+
+  handleSeach = R.curry((field, e) => {
+    e.persist()
+    this.setState({ [field]: e.target.value })
+    this.debouncedSearch(e)
+  })
+
+  debouncedSearch = debounce((event) => {
+    if (event.target.value.length > 3) {
+      this.props.mainSearch(event.target.value, 'book-search')
+    }
+  }, 1000)
 
   handleSignUpModalOpen = () => {
     this.setState({ modalSignUpOpen: true })
@@ -479,8 +506,36 @@ class BookStoreNavBar extends PureComponent {
     )
   }
 
+  renderSearchResults = () => {
+    const { searchResults } = this.props
+    if (searchResults.length) {
+      return searchResults.map((book, index) => {
+        return (
+          <Book
+            key={`${index}_${book.id}`}
+            url={book.slug ? `/book/${book.slug}` : '/#'}
+            image={book.imageUrl}
+            title={book.title}
+            authors={book.writtenBy ? book.writtenBy : null}
+            rating={book.rating ? book.rating : null}
+            bookType='searchResult'
+          />
+        )
+      })
+    }
+    return null
+  }
+
+  handleShowHideSearchResuls = () => {
+    const { isSearchResultsOpen } = this.state
+    this.setState({
+      isSearchResultsOpen: !isSearchResultsOpen
+    })
+  }
+
   render() {
     const { currentReader } = this.props
+    const { searchResults, isSearchResultsOpen } = this.state
     return (
       <header className='main-bookstore-navbar-container slide-down'>
         <section className='bookstore-navbar-container'>
@@ -540,8 +595,28 @@ class BookStoreNavBar extends PureComponent {
                   className='bookstore-search-input'
                   placeholder='Search store...'
                   type='text'
+                  onChange={this.handleSeach('searchTerm')}
+                  onClick={this.handleShowHideSearchResuls}
+                  value={this.state.searchTerm}
                 />
-                <img src='/image/search-icon.svg' className='bookstore-search-icon'/>
+                {isSearchResultsOpen && this.state.searchTerm.length > 3 ?
+                  (
+                    <img
+                      onClick={this.handleShowHideSearchResuls}
+                      src='/image/close.png'
+                      className='bookstore-close-results-icon'
+                    />
+                  ) : (
+                    <img src='/image/search-icon.svg' className='bookstore-search-icon'/>
+                  )
+                }
+                {searchResults && isSearchResultsOpen ?
+                  (
+                    <div className='bookstore-search-results-container'>
+                      {this.renderSearchResults()}
+                    </div>
+                  ) : null
+                }
               </form>
             </div>
             <div className='bookstore-navbar-right-container'>
@@ -848,6 +923,7 @@ const mapStateToProps = (state) => {
     currentReader: state.currentReader,
     categories: state.store.categories,
     popularCategories: state.store.popularCategories,
+    searchResults: state.search.books,
   }
 }
 
@@ -859,6 +935,8 @@ const mapDispatchToProps = {
   verifyUserToken,
   getCategories,
   getPopularCategories,
+  mainSearch,
+  updateSearch,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookStoreNavBar)

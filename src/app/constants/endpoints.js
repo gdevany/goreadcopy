@@ -93,7 +93,6 @@ const Endpoints = () => {
       getStarsInfo: (modelName, id) => apiUrl(`rate/${modelName}/${id}/stars`),
       getRates: (modelName, id) => apiUrl(`rate/${modelName}/${id}/all`),
       postRate: (modelName, params) => apiUrl(`rate/${modelName}`, params),
-      postReview: (modelName, params) => apiUrl(`review/${modelName}`, params),
     },
     jwtRefresh: () => apiUrl('token/refresh'),
     jwtAuth: () => apiUrl('token/auth'),
