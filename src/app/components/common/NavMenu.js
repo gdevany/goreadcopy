@@ -140,6 +140,7 @@ class NavMenu extends PureComponent {
     this.handleClickSearch = this.handleClickSearch.bind(this)
     this.handleNotificationsShow = this.handleNotificationsShow.bind(this)
     this.handleChatsContainerShow = this.handleChatsContainerShow.bind(this)
+    this.loadNotifications = this.loadNotifications.bind(this)
   }
 
   static contextTypes = {
@@ -182,7 +183,14 @@ class NavMenu extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.loadNotifications()
+    this.loadNotifications()
+  }
+
+  loadNotifications = () => {
+    const { isUserLoggedIn } = this.props
+    if (isUserLoggedIn) {
+      this.props.loadNotifications()
+    }
   }
 
   handleModalOpen = () => {

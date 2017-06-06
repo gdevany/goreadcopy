@@ -82,12 +82,22 @@ const addChatConversation = ({ conversations }, payload) => {
     }
     return [...conversations.slice(1, 4), payload]
   }
-  return conversations
+  return R.map(c=>{
+    if (c.id === payload.id) { c.isOpen = true }
+    return c
+  }, conversations)
 }
 
 const toggleChatWindow = ({ conversations }, { id }) => {
   return conversations.map(el => {
     el.isOpen = el.id === id ? !el.isOpen : el.isOpen
+    return el
+  })
+}
+
+const setChatWindow = ({ conversations }, { id, isOpen }) => {
+  return conversations.map(el => {
+    if (el.id === id) { el.isOpen = isOpen }
     return el
   })
 }
@@ -161,6 +171,12 @@ export default (state = initialState.chat, { type, payload, errors }) => {
       diff = {
         ...state,
         conversations: toggleChatWindow(state, payload)
+      }
+      return R.merge(state, diff)
+    case C.SET_CHAT_WINDOW:
+      diff = {
+        ...state,
+        conversations: setChatWindow(state, payload)
       }
       return R.merge(state, diff)
     default:

@@ -73,6 +73,10 @@ export function updateUnreadChatNumber(payload) {
 export function appendReceivedChatMessage(payload) {
   return dispatch => {
     return Promise.resolve(dispatch({ type: C.APPEND_RECEIVED_CHAT_MESSAGE, payload }))
+      .then(dispatch({
+        type: C.OPEN_CHAT_CONVERSATION,
+        payload: createConversation(payload.sender)
+      }))
   }
 }
 
@@ -100,6 +104,12 @@ export function toggleChatWindow(id) {
   }
 }
 
+export function setChatWindow(id, isOpen) {
+  return dispatch => {
+    return Promise.resolve(dispatch({ type: C.SET_CHAT_WINDOW, payload: { id, isOpen } }))
+  }
+}
+
 export default {
   getChatContacts,
   openChatConversation,
@@ -113,4 +123,5 @@ export default {
   toggleMessagePopup,
   toggleContactsPopup,
   toggleChatWindow,
+  setChatWindow,
 }

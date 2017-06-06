@@ -79,7 +79,7 @@ class ChatHistory extends PureComponent {
   }
 
   render() {
-    const { conversation, contactId, user } = this.props
+    const { conversation, id, user } = this.props
     const blocks = this.splitConversation(conversation)
 
     return (
@@ -87,7 +87,7 @@ class ChatHistory extends PureComponent {
         {
           blocks.map((block, idx)=>{
             const userID = R.last(block).sender
-            if (userID === contactId) {
+            if (userID === id) {
               return this.renderContactPostList(block, user, idx)
             }
             return this.renderOwnPostList(block, idx)

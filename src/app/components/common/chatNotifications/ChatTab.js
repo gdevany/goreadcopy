@@ -28,13 +28,11 @@ class ChatTab extends PureComponent {
       container: null,
       containerMobile: null,
     }
-
     this.locals = {
       isLockedForUpdateRead: false,
       isLockedForChatLoading: false,
       focusTextArea: true,
     }
-
     this.handleChatClick = this.handleChatClick.bind(this)
     this.handleOpenTextArea = this.handleOpenTextArea.bind(this)
     this.handleCloseTextArea = this.handleCloseTextArea.bind(this)
@@ -49,18 +47,24 @@ class ChatTab extends PureComponent {
     this.checkIfChatUpdate = this.checkIfChatUpdate.bind(this)
     this.updateChatConversation = this.updateChatConversation.bind(this)
     this.handleWheelScroll = this.handleWheelScroll.bind(this)
+    this.handlePassingReference = this.handlePassingReference.bind(this)
   }
 
   componentDidMount() {
     this.updateChatConversation()
+      .then(()=>{
+        this.scrollToBottom(this.state.container)
+        this.scrollToBottom(this.state.containerMobile)
+      })
   }
 
   componentDidUpdate(prevProps, prevState) {
-    this.scrollToBottom(this.state.container)
-    this.scrollToBottom(this.state.containerMobile)
     this.updateConversationReadStatus()
     this.updateFocusTextArea()
     this.checkIfChatUpdate(prevProps)
+    if (!prevProps.isOpen && this.props.isOpen) {
+      this.locals.doScrollToBottom = true
+    }
   }
 
   checkIfChatUpdate(prevProps) {
@@ -76,7 +80,7 @@ class ChatTab extends PureComponent {
 
   updateChatConversation() {
     this.locals.isLockedForChatLoading = true
-    getChatConversation({ contact: this.props.id })
+    return getChatConversation({ contact: this.props.id })
       .then(res=>this.props.loadChatConversation({
         id: this.props.id,
         data: res.data
@@ -92,6 +96,19 @@ class ChatTab extends PureComponent {
       this.locals.focusTextArea = false
       textarea.focus()
     }
+  }
+
+  handlePassingReference(ref, ctx) {
+    const { doScrollToBottom } = this.locals
+    const t = {}
+    t[ctx] = ref
+    this.setState(t, ()=>{
+      if (doScrollToBottom) {
+        this.scrollToBottom(this.state.container)
+        this.scrollToBottom(this.state.containerMobile)
+        this.locals.doScrollToBottom = false
+      }
+    })
   }
 
   updateConversationReadStatus() {
@@ -122,6 +139,10 @@ class ChatTab extends PureComponent {
     event.preventDefault()
     const { isOpen, id } = this.props
     this.props.toggleChatWindow(id)
+      .then(()=>{
+        this.scrollToBottom(this.state.container)
+        this.scrollToBottom(this.state.containerMobile)
+      })
     if (isOpen) {
       this.setState({
         isTextAreaOpen: false
@@ -174,7 +195,12 @@ class ChatTab extends PureComponent {
     const { id } = this.props
     if (message && id) {
       this.props.postChatMessage({ message, recipient: id })
-      this.setState({ message: '' })
+        .then(()=>{
+          this.setState({ message: '' })
+          this.scrollToBottom(this.state.container)
+          this.scrollToBottom(this.state.containerMobile)
+        })
+        .catch(err=>{console.log(err)})
     }
   }
 
@@ -233,7 +259,7 @@ class ChatTab extends PureComponent {
             <div
               className='active-chat-in-use'
               onClick={this.handleCloseTextArea}
-              ref={(div)=>{this.setState({ containerMobile: div })}}
+              ref={(div)=>{ if (div) { this.handlePassingReference(div, 'containerMobile') }}}
             >
               {
                 history && history.conversation ?
@@ -298,7 +324,7 @@ class ChatTab extends PureComponent {
                   <div
                     className='active-chat-in-use'
                     onClick={this.handleCloseTextArea}
-                    ref={div=>{this.setState({ container: div })}}
+                    ref={div=>{ if (div) { this.handlePassingReference(div, 'container') }}}
                     onWheel={e=>{this.handleWheelScroll(e)}}
                   >
                     {

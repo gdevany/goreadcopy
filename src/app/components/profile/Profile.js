@@ -154,7 +154,14 @@ class ProfileWrapper extends PureComponent {
           isMyProfile={isMyProfile}
         />
         <div className='row'>
-          <ChatTabWrapper />
+          {
+            isUserLoggedIn ? (
+              <div>
+                <ChatTabWrapper />
+                <SocketHandler/>
+              </div>
+            ) : null
+          }
           <LeftProfileContainer
             isMyProfile={isMyProfile}
             id={profile.id}
@@ -173,7 +180,6 @@ class ProfileWrapper extends PureComponent {
           />
           <RightProfileContainer />
         </div>
-        <SocketHandler/>
       </div>
     )
   }
