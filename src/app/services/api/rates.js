@@ -13,16 +13,14 @@ const {
     getStarsInfo,
     getRates,
     postRate,
-    postReview,
   }
 } = Endpoints
 
 const Rates = () => {
   return {
     getStarsInfo: (modelName, id) => authenticated().get(getStarsInfo(modelName, id)),
-    getRates: (modelName, id) => authenticated().get(getRates(modelName, id)),
+    getRates: (modelName, id) => http.get(getRates(modelName, id)),
     postRate: (modelName, params) => authenticated().post(postRate(modelName), params),
-    postReview: (modelName, params) => authenticated().post(postReview(modelName), params),
   }
 }
 

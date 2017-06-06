@@ -73,18 +73,15 @@ class ReviewsContainer extends PureComponent {
   handleReviewPost = () => {
     const { bookInfo, postRateAndReview } = this.props
     const { reviewBody, starClicked } = this.state
-    let reviewData = {}
     let rateData = {}
     if (starClicked > 0 && reviewBody !== '') {
-      reviewData = {
+      rateData = {
+        rate: starClicked,
+        id: bookInfo.id,
         body: reviewBody,
         book: bookInfo.id
       }
-      rateData = {
-        rate: starClicked,
-        id: bookInfo.id
-      }
-      postRateAndReview('book', rateData, reviewData)
+      postRateAndReview('book', rateData)
     }
     this.setState({
       reviewBody: '',
