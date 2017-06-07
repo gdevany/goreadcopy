@@ -207,6 +207,7 @@ class TileDefault extends PureComponent {
       onProcessMentions: [],
       processedMentions: [],
       showSuggestions: false,
+      isTextComment: false,
     }
 
     this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
@@ -315,6 +316,7 @@ class TileDefault extends PureComponent {
         this.setState({
           sharePostOpen: false,
           commentPostOpen: true,
+          isTextComment: true,
         })
       } else {
         this.setState({
@@ -333,6 +335,7 @@ class TileDefault extends PureComponent {
       this.setState({
         commentsOpen: true,
         commentPostOpen: true,
+        isTextComment: true,
       })
     }
   }
@@ -533,6 +536,7 @@ class TileDefault extends PureComponent {
   handleShareSubmit = (shareType) => {
     const { sharedCount, shareInput } = this.state
     const { tileId, shareTile } = this.props
+    this.handleShareClose
     if (shareType === 5) {
       this.setState({
         sharePostOpen: false,
@@ -564,11 +568,14 @@ class TileDefault extends PureComponent {
     if (!commentsOpen && sharedOpen) {
       this.setState({
         commentsOpen: true,
-        sharedOpen: false
       })
     }
     if (commentPostOpen) this.setState({ commentPostOpen: false })
-    this.setState({ sharePostOpen: true })
+    this.setState({
+      sharePostOpen: true,
+      isTextComment: false,
+      sharedOpen: false,
+    })
   }
 
   handleInputOnChange = R.curry((field, event) => {
@@ -635,9 +642,9 @@ class TileDefault extends PureComponent {
   handleSuggestionClick(event) {
     event.stopPropagation()
     const { type, display, contenttype, id } = event.target.dataset
-    const commentInput = this.replaceMention(type, display, contenttype, id)
-    const { showSuggestions, onProcessMentions } = this.checkMentions(commentInput)
-    const { processedMentions, mentions } = this.refreshMentions(commentInput, R.concat(
+    const textInput = this.replaceMention(type, display, contenttype, id)
+    const { showSuggestions, onProcessMentions } = this.checkMentions(textInput)
+    const { processedMentions, mentions } = this.refreshMentions(textInput, R.concat(
       this.state.processedMentions,
       [{
         display: `@${type}:${display}`,
@@ -645,13 +652,14 @@ class TileDefault extends PureComponent {
       }]
     ))
     this.setState({
-      commentInput,
+      commentInput: textInput,
+      shareInput: textInput,
       mentions,
       processedMentions,
       showSuggestions,
       onProcessMentions,
     })
-    this.commentInput.focus()
+    this.postInput.focus()
   }
 
   replaceMention(type, display, contentType, id) {
@@ -686,7 +694,7 @@ class TileDefault extends PureComponent {
           }
           <textarea
             type='text'
-            ref={(input) => {this.commentInput = input}}
+            ref={(input) => {this.postInput = input}}
             className='search-input comments-textarea'
             placeholder={replyPlaceholder ? replyPlaceholder : 'Share your thoughts'}
             onChange={this.handleInputOnChange(`${inputType}`)}
@@ -721,6 +729,7 @@ class TileDefault extends PureComponent {
       commentsOpen,
       sharePostOpen,
       sharedCount,
+      isTextComment,
     } = this.state
 
     const {
@@ -827,7 +836,7 @@ class TileDefault extends PureComponent {
             style={styles.commentContainer}
           >
             <div className='comments'>
-              {feedComments ? this.handleRenderComments(feedComments) : null}
+              {isTextComment && feedComments ? this.handleRenderComments(feedComments) : null}
             </div>
             {
               sharePostOpen ?

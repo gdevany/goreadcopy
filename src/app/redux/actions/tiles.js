@@ -95,10 +95,12 @@ export function updateComments(tileId, comment, parentId, mentions, datetime, pr
         const existingTilesComments = getState().tiles.feedComments || {}
         const tileInfo = R.prop(tileId, existingTilesComments) || {}
         const commentsForTile = tileInfo.comments || []
+        const mentionArray = data.mentionArray
         const newComment = {
           id: commentId,
           comment,
           mentions,
+          mentionArray,
           datetime,
           profile
         }
