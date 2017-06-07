@@ -212,6 +212,12 @@ class BookStoreNavBar extends PureComponent {
     }
   }
 
+  handleEnterButton = (event) => {
+    if (event.which === 13) {
+      event.preventDefault()
+    }
+  }
+
   mapElementsHandler = (liClass, anchorClass) => {
     return ([title, routeFn, routeType, isFunc], index) => (
       <li className={liClass} key={title + index}>
@@ -590,7 +596,7 @@ class BookStoreNavBar extends PureComponent {
                   )
                 }
               </ul>
-              <form className='bookstore-search-form'>
+              <form onKeyPress={this.handleEnterButton} className='bookstore-search-form'>
                 <input
                   className='bookstore-search-input'
                   placeholder='Search store...'
@@ -607,7 +613,7 @@ class BookStoreNavBar extends PureComponent {
                       className='bookstore-close-results-icon'
                     />
                   ) : (
-                    <img src='/image/search-icon.svg' className='bookstore-search-icon'/>
+                      <img src='/image/search-icon.svg' className='bookstore-search-icon'/>
                   )
                 }
                 {searchResults && isSearchResultsOpen ?
