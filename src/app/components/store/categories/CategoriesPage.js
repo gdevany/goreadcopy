@@ -1,14 +1,13 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Store } from '../../redux/actions'
-import { BookStoreNavBar } from '../common'
+import { Store } from '../../../redux/actions'
+import { BookStoreNavBar, Footer } from '../../common'
 import CategoriesHero from './CategoriesHero'
 import CategoriesFilters from './CategoriesFilters'
 import SubCategories from './SubCategories'
-import WishListBooks from './wishListBooks'
-import BestSellers from './BestSellers'
-import { Footer } from '../common'
-import { Auth } from '../../services'
+import WishListBooks from '../common/wishListBooks'
+import BestSellers from '../common/BestSellers'
+import { Auth } from '../../../services'
 
 const { getChildCategories } = Store
 

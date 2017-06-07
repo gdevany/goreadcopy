@@ -99,6 +99,27 @@
               }
             }
           }
+          .bookpage-book-gift-container{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: row;
+            margin-top: 15px;
+            .bookpage-book-gift-input{
+              margin: 0;
+            }
+            .bookpage-book-gift-text{
+              margin:0 10px;
+              font-size: 16px;
+            }
+            .bookpage-book-gift-icon{
+              height: 18px;
+              width: 18px;
+              path{
+                fill: $red;
+              }
+            }
+          }
         }
       }
       .bookpage-book-info-right{

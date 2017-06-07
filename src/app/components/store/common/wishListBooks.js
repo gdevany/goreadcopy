@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { ProfilePage } from '../../redux/actions'
+import { ProfilePage } from '../../../redux/actions'
 import Book from './Book'
 
 const { getProfileBookInfo } = ProfilePage

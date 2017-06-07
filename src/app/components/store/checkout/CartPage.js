@@ -1,11 +1,10 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import WishListBooks from './wishListBooks'
-import CartElement from './cartElement'
-import { BookStoreNavBar } from '../common'
-import { Footer } from '../common'
-import { Auth } from '../../services'
 import { browserHistory } from 'react-router'
+import WishListBooks from '../common/wishListBooks'
+import CartElement from './cartElement'
+import { BookStoreNavBar, Footer } from '../../common'
+import { Auth } from '../../../services'
 
 const isUserLoggedIn = Auth.currentUserExists()
 
@@ -54,7 +53,7 @@ class CartPage extends PureComponent {
                     <a className='cartpage-action-secondary-btn' href='/browse'>
                       Continue shopping
                     </a>
-                    <a className='cartpage-action-primary-btn' href='/checkout'>
+                    <a className='cartpage-action-primary-btn' href='/shop/checkout'>
                       Checkout
                     </a>
                   </div>

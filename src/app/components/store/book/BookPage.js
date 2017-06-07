@@ -1,15 +1,14 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { BookStoreNavBar } from '../common'
-import WishListBooks from './wishListBooks'
+import { BookStoreNavBar, Footer } from '../../common'
+import WishListBooks from '../common/wishListBooks'
 import BookInfo from './BookInfo'
 import MeetAuthor from './MeetAuthor'
 import ReviewsOverview from './ReviewsOverview'
 import ReviewsContainer from './ReviewsContainer'
 import NewsLetter from './NewsLetter'
-import { Footer } from '../common'
-import { Auth } from '../../services'
-import { Store, Rates } from '../../redux/actions'
+import { Auth } from '../../../services'
+import { Store, Rates } from '../../../redux/actions'
 
 const { getBookInfo } = Store
 const { getStarsInfo } = Rates

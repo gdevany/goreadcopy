@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Follow, Store, Social } from '../../redux/actions'
+import { Follow, Store, Social } from '../../../redux/actions'
+import { Search } from '../../../services/api'
 import Rating from 'react-rating'
+import SuggestionList from '../../common/SuggestionList'
 import ReplyIcon from 'material-ui/svg-icons/content/reply'
 import { ShareButtons, generateShareIcon } from 'react-share'
-import { Search } from '../../services/api'
-import { debounce } from 'lodash'
-import SuggestionList from '../common/SuggestionList'
 import R from 'ramda'
+import { debounce } from 'lodash'
 
 const { followOrUnfollow } = Follow
 const { sharePost } = Social

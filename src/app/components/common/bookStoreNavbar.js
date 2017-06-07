@@ -12,7 +12,7 @@ import MenuIcon from 'material-ui/svg-icons/navigation/menu'
 import Badge from 'material-ui/Badge'
 import { Search } from '../../redux/actions'
 import { debounce } from 'lodash'
-import Book from '../bookStore/Book'
+import Book from '../store/common/Book'
 import { stack as MobileMenu, slide as CategoriesMenu } from 'react-burger-menu'
 import R from 'ramda'
 
