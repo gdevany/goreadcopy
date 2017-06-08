@@ -11,8 +11,9 @@ import socialReducer from './social'
 import searchReducer from './search'
 import tilesReducer from './tiles'
 import sidebarAdsReducer from './ads'
+import { CURRENT_READER as C } from '../const/actionTypes'
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   books: booksReducer,
   currentReader: currentReaderReducer,
   genres: genreReducer,
@@ -26,5 +27,13 @@ const rootReducer = combineReducers({
   tiles: tilesReducer,
   sidebarAds: sidebarAdsReducer,
 })
+
+const rootReducer = (state, action) => {
+  if (action.type === C.USER_LOGOUT) {
+    state = undefined
+  }
+
+  return appReducer(state, action)
+}
 
 export default rootReducer
