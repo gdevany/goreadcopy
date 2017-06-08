@@ -1,14 +1,13 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { BookStoreNavBar } from '../common'
+import { BookStoreNavBar, Footer } from '../../common'
 import BookStoreHero from './bookStoreHero'
 import CategoriesCarousel from './categoriesCarousel'
-import WishListBooks from './wishListBooks'
+import WishListBooks from '../common/wishListBooks'
 import RecommendedBooks from './RecommendedBooks'
-import BestSellers from './BestSellers'
-import TrendingBooks from './TrendingBooks'
-import { Footer } from '../common'
-import { Auth } from '../../services'
+import BestSellers from '../common/BestSellers'
+import TrendingBooks from '../common/TrendingBooks'
+import { Auth } from '../../../services'
 
 const isUserLoggedIn = Auth.currentUserExists()
 

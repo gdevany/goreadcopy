@@ -10,7 +10,8 @@ import {
   BookPage,
   CategoriesPage,
   CartPage,
-} from './components/bookStore'
+  CheckoutPage,
+} from './components/store'
 
 import { ReferralHome } from './components/referral'
 import { Settings } from './components/settings'
@@ -29,6 +30,7 @@ const Routes = (
     <Route path='/categories/:slug' component={CategoriesPage} />
     <Route path='/categories/:slug/:subCategory' component={CategoriesPage} />
     <Route path='/shop/cart' component={CartPage} />
+    <Route path='/shop/checkout' component={CheckoutPage} />
     <Route path='/signup' component={SignUpFlow} />
     <Route path='/redirect' component={IncomingRedirect} />
   </Route>

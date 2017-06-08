@@ -99,6 +99,27 @@
               }
             }
           }
+          .bookpage-book-gift-container{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: row;
+            margin-top: 15px;
+            .bookpage-book-gift-input{
+              margin: 0;
+            }
+            .bookpage-book-gift-text{
+              margin:0 10px;
+              font-size: 16px;
+            }
+            .bookpage-book-gift-icon{
+              height: 18px;
+              width: 18px;
+              path{
+                fill: $red;
+              }
+            }
+          }
         }
       }
       .bookpage-book-info-right{
@@ -185,6 +206,384 @@
       min-width: 200px;
       &:hover{
         color: $white;
+      }
+    }
+  }
+}
+
+.checkoutpage-main-container{
+  .chekoutpage-header{
+    display: flex;
+    height: 60px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    z-index: 11;
+    box-shadow: 0 4px 20px 0 hsla(0,0%,87%,.5);
+    .checkoutpage-header-logo-figure{
+      width: 30px;
+      height: 30px;
+    }
+  }
+}
+
+.chekoutpage-steps-container{
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: row;
+  width: 100%;
+  .chekoutpage-single-step-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 175px;
+    height: 125px;
+    .checkoutpage-single-step-count{
+      width: 40px;
+      height: 40px;
+      background-color: #CCC;
+      border-radius: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .checkoutpage-single-step-number{
+        color: $white;
+        font-size: 20px;
+        font-weight: 800;
+      }
+    }
+    .checkoutpage-single-step-title{
+      margin-top: 2.5px;
+      color: #CCC;
+      font-weight: 800
+    }
+  }
+  .chekoutpage-single-step-container-active{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 175px;
+    height: 125px;
+    background-color: rgba(232, 232, 232, 0.33);
+    .checkoutpage-single-step-count{
+      width: 40px;
+      height: 40px;
+      background-color: $store-blue;
+      border-radius: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .checkoutpage-single-step-number{
+        color: $white;
+        font-size: 20px;
+        font-weight: 800;
+      }
+    }
+    .checkoutpage-single-step-title{
+      margin-top: 2.5px;
+      color: $black;
+      font-weight: 800
+    }
+  }
+}
+
+.checkoutpage-steps-delivery-method{
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: row;
+  .checkoutpage-steps-delivery-method-input{
+    margin: 0;
+    align-self: center;
+    width: 10%;
+  }
+  .checkoutpage-steps-delivery-method-label{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 90%;
+    .checkoutpage-steps-delivery-method-vendor{
+      color: $black;
+      font-size: 16px;
+      font-weight: 500;
+    }
+    .checkoutpage-steps-delivery-method-days{
+      color: #8C8C8C;
+      font-size: 14px;
+      font-weight: 200;
+    }
+    .checkoutpage-steps-delivery-method-price{
+      color: $black;
+      font-size: 16px;
+      font-weight: 600;
+    }
+  }
+}
+
+.checkoutpage-steps-shipping-address-form-label{
+  color: #848484;
+  font-weight: 200;
+  font-size: 14px;
+}
+
+.checkoutpage-steps-shipping-address-form-input{
+  border: solid 1px $light-med-grey;
+  border-radius: 3px;
+  box-shadow: none;
+  &:focus{
+    box-shadow: none;
+  }
+}
+
+.checkoutpage-shipping-submit-form-btn{
+  display: block;
+  padding: 15px 25px;
+  background-color: $store-blue;
+  color: $white;
+  font-weight: 200;
+  text-align: center;
+  margin-top: 15px;
+  border-radius: 30px;
+  max-width: 200px;
+  &:hover{
+    color: $white;
+  }
+}
+
+.checkoutpage-order-summary-container{
+  padding: 35px 0;
+  width: 100%;
+  border-radius: 10px;
+  background-color: rgba(232, 232, 232, 0.33);
+  .checkoutpage-order-summary-title, .checkoutpage-order-summary-list-elements{
+    padding: 0 35px;
+  }
+  .checkoutpage-order-summary-list-elements{
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    .checkoutpage-order-summary-list-single{
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-direction: row;
+      width: 100%;
+      padding: 2.5px 0;
+      .checkoutpage-order-summary-list-description{
+        color: #8C8C8C;
+        font-size: 16px;
+      }
+      .checkoutpage-order-summary-list-description.has-litcoins{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .has-litcoins-container{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .has-litcoins-ammount{
+            margin: 0 2.5px;
+            font-size: 15px;
+          }
+          .has-litcoins-img{
+            width: 17px;
+            margin-top: 2.5px;
+          }
+        }
+      }
+      .checkoutpage-order-summary-list-price{
+        color: $black;
+        font-size: 17px;
+      }
+
+    }
+  }
+  .checkoutpage-order-summary-total{
+    padding: 0 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    .checkoutpage-order-summary-total-text{
+      font-size: 18px;
+      color: $black;
+    }
+    .checkoutpage-order-summary-total-count{
+      font-size: 24px;
+      color: $black;
+      font-weight: 800;
+    }
+  }
+  .checkoutpage-order-summary-coupon-form{
+    padding: 0 35px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    .checkoutpage-order-summary-coupon-input{
+      border: solid 1px $light-med-grey;
+      border-radius: 7px 0 0 7px;
+      box-shadow: none;
+      margin: 0;
+      width: 70%;
+      height: 39px;
+      &:focus{
+        box-shadow: none;
+      }
+    }
+    .checkoutpage-order-summary-coupon-submit{
+      border: solid 1px $light-med-grey;
+      border-left: none;
+      padding: 0 5px;
+      border-radius: 0 7px 7px 0;
+      text-align: center;
+      height: 39px;
+      background-color: $white;
+      color: $light-med-grey;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 30%;
+      transition: all .3s ease;
+      &:hover{
+        border: solid 1px transparent;
+        background-color: $store-blue;
+        color: $white;
+      }
+    }
+  }
+  .checkoutpage-order-summary-divider{
+    border-bottom: 2px solid rgba(204, 204, 204, 0.18);
+  }
+}
+
+.checkoutpage-order-litcoins-to-earn-container{
+  margin-top: 25px;
+  padding: 25px;
+  border: solid 2px rgba(204, 204, 204, 0.18);
+  border-radius: 5px;
+  .checkoutpage-order-litcoins-to-earn-main-text{
+    font-size: 15px;
+    .checkoutpage-order-litcoins-to-earn-litcoins-amount{
+      .checkoutpage-order-litcoins-to-earn-litcoins-img{
+        width: 17px;
+        margin: 0 2.5px;
+      }
+    }
+  }
+}
+
+.checkoutpage-cart-elements-container{
+  margin: 25px 0;
+  padding: 35px;
+  width: 100%;
+  border-radius: 10px;
+  background-color: rgba(232, 232, 232, 0.33);
+  .checkoutpage-cart-elements-heading{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    .checkoutpage-cart-elements-heading-anchor{
+      padding: 10px 15px;
+      border: solid 1px $light-med-grey;
+      color: $light-med-grey;
+      border-radius: 23px;
+      transition: all .3s ease;
+      &:hover{
+        border: solid 1px transparent;
+        color: $white;
+        background-color: $store-blue;
+      }
+    }
+  }
+  .checkoutpage-cart-elements{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 100%;
+    .checkoutpage-cart-single-element{
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      width: 100%;
+      margin-top: 15px;
+      .checkoutpage-cart-single-element-figure{
+        position: relative;
+        max-width: 110px;
+        min-width: 110px;
+        .checkoutpage-cart-single-element-img{
+          width: 100%;
+        }
+        .checkoutpage-cart-single-element-count{
+          position: absolute;
+          right: -5px;
+          width: 18px;
+          height: 18px;
+          justify-content: center;
+          align-items: center;
+          display: flex;
+          top: -5px;
+          color: #fff;
+          background-color: $store-blue;
+          padding: 5px;
+          border-radius: 10px;
+          font-size: 11px;
+          text-align: center;
+        }
+      }
+      .checkoutpage-cart-single-element-info{
+        width: 100%;
+        margin-left: 15px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        .checkoutpage-cart-single-element-title{
+          font-size: 16px;
+          font-weight: 600;
+          color: $black;
+        }
+        .checkoutpage-cart-single-element-author{
+          font-size: 15px;
+          color: $light-med-grey;
+          font-weight: 600;
+        }
+        .checkoutpage-cart-single-element-paper{
+          font-size: 15px;
+          color: $light-med-grey;
+        }
+        .checkoutpage-cart-single-element-price{
+          margin-top: 15px;
+          font-size: 18px;
+          color: $black;
+          font-weight: 600;
+        }
+        .checkoutpage-cart-single-element-litcoins{
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          flex-direction: row;
+          .checkoutpage-cart-single-element-litcoins-count{
+            color: $light-med-grey;
+            font-size: 15px;
+          }
+          .checkoutpage-cart-single-element-litcoins-img{
+            width: 17px;
+            margin: 0 2.5px;
+          }
+        }
       }
     }
   }

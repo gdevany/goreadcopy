@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import Review from './Review'
-import { Rates } from '../../redux/actions'
-import { RegisterSignInModal } from '../common'
+import { Rates } from '../../../redux/actions'
+import { RegisterSignInModal } from '../../common'
 
 const { getRates, postRateAndReview } = Rates
 

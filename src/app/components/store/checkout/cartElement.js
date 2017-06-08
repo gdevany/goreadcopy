@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import GiftIcon from 'material-ui/svg-icons/action/card-giftcard'
 
 class CartElement extends PureComponent {
 
@@ -54,6 +55,11 @@ class CartElement extends PureComponent {
                 onClick={() => this.handleBooksCount(1)}
                 className='bookpage-book-info-counter-btn'
               > + </a>
+            </div>
+            <div className='bookpage-book-gift-container'>
+              <input className='bookpage-book-gift-input' type='checkbox'/>
+              <span className='bookpage-book-gift-text'>Gift</span>
+              <GiftIcon className='bookpage-book-gift-icon'/>
             </div>
           </div>
         </div>

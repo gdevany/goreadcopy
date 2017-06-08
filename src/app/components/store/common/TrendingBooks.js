@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Store } from '../../redux/actions'
+import { Store } from '../../../redux/actions'
 import Book from './Book'
 
 const { getTrendingBooks } = Store

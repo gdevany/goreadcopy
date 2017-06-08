@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import Rating from 'react-rating'
-import { Tiles } from '../../redux/actions'
+import { Tiles } from '../../../redux/actions'
+import { PrimaryButton } from '../../common'
 import moment from 'moment'
-import { PrimaryButton } from '../common'
 import {
   Card,
   CardActions,
