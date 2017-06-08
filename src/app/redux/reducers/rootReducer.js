@@ -14,6 +14,7 @@ import storeReducer from './store'
 import ratesReducer from './rates'
 import chatReducer from './chat'
 import notificationReducer from './notifications'
+import sidebarAdsReducer from './ads'
 import { CURRENT_READER as C } from '../const/actionTypes'
 
 const appReducer = combineReducers({
