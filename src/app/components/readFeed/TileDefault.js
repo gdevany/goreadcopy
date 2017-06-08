@@ -534,8 +534,15 @@ class TileDefault extends PureComponent {
   }
 
   handleShareSubmit = (shareType) => {
-    const { sharedCount, shareInput } = this.state
-    const { tileId, shareTile } = this.props
+    const {
+      sharedCount,
+      shareInput,
+      mentions
+    } = this.state
+    const {
+      tileId,
+      shareTile
+    } = this.props
     this.handleShareClose
     if (shareType === 5) {
       this.setState({
@@ -546,13 +553,13 @@ class TileDefault extends PureComponent {
         commentsOpen: false,
         commentPostOpen: false,
       })
-      shareTile(tileId, shareType, shareInput)
+      shareTile(tileId, shareType, shareInput, mentions)
     } else {
       this.setState({
         sharedOpen: false,
         sharedCount: sharedCount + 1,
       })
-      shareTile(tileId, shareType, null)
+      shareTile(tileId, shareType, null, null)
     }
   }
 

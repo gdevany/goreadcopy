@@ -44,10 +44,10 @@ export function emptyTiles() {
   }
 }
 
-export function shareTile(id, shareType, comment) {
+export function shareTile(id, shareType, comment, mentions) {
   if (comment) {
     return dispatch => {
-      ReaderTiles.shareTile(id, { shareType, comment })
+      ReaderTiles.shareTile(id, { shareType, comment, mentions })
 
         .catch(err => console.error(`Error in shareTile: ${err}`))
     }
