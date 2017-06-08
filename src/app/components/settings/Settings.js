@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
-import NavMenu from '../common/NavMenu'
+import { NavMenu, SocketHandler, Chat } from '../common'
 import Home from '../home/Home'
 import SettingsTabs from './SettingsTabs'
 import { CurrentReader } from '../../redux/actions'
@@ -10,6 +10,7 @@ import { Auth as AuthAction } from '../../redux/actions'
 
 const { getCurrentReader } = CurrentReader
 const { verifyUserToken } = AuthAction
+const { ChatTabWrapper } = Chat
 
 class Settings extends PureComponent {
 
@@ -54,8 +55,10 @@ class Settings extends PureComponent {
         </Helmet>
         <NavMenu isUserLoggedIn={isUserLoggedIn}/>
         <div className='settings-page'>
+          <ChatTabWrapper/>
           <SettingsTabs/>
         </div>
+        <SocketHandler/>
       </div>
     ) : (
       <Home />

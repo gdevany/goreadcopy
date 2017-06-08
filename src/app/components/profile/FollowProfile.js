@@ -24,7 +24,7 @@ const styles = {
     alignSelf: 'center',
     padding: '3px 8px',
     marginTop: 5,
-
+    display: 'inline-flex',
     ':hover': {
       backgroundColor: Colors.blue,
       color: Colors.white,
@@ -189,7 +189,6 @@ class FollowProfile extends PureComponent {
         }
         onMouseEnter={this.handleTextChange}
         onMouseLeave={this.handleLeaveTextChange}
-        onClick={Auth.currentUserExists() ? this.handleFollow : null}
       >
         {
           isCurrentReader ?

@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import { Auth } from '../../services'
 import { ProfilePage, CurrentReader } from '../../redux/actions'
-import { NavMenu } from '../common'
+import { NavMenu, SocketHandler, Chat } from '../common'
 import LeftProfileContainer from './LeftProfileContainer'
 import MiddleProfileContainer from './MiddleProfileContainer'
 import RightProfileContainer from './RightProfileContainer'
@@ -13,6 +13,7 @@ import R from 'ramda'
 const { getProfilePage } = ProfilePage
 const { getCurrentReader } = CurrentReader
 const isUserLoggedIn = Auth.currentUserExists()
+const { ChatTabWrapper } = Chat
 
 class ProfileWrapper extends PureComponent {
   constructor(props) {
@@ -117,6 +118,35 @@ class ProfileWrapper extends PureComponent {
       <div>
         <Helmet>
           <title>{`GoRead | Profile | Library of ${profile.fullname}`}</title>
+          <meta
+            name='description'
+            content='Earn Litcoins sharing your favorite books with others.'
+          />
+          <meta name='twitter:card' content='summary' />
+          <meta name='twitter:site' content='@TheRealGoRead' />
+          <meta
+            name='twitter:title'
+            content={`GoRead | Profile | Library of ${profile.fullname}`}
+          />
+          <meta
+            name='twitter:description'
+            content='Earn Litcoins sharing your favorite books with others.'
+          />
+          <meta name='twitter:image' content='https://goread.com/image/281x281.png'/>
+          <meta content='1528633757403356' property='fb:app_id' />
+          <meta property='og:url' content={`https://www.goread.com/profile/${profile.fullname}`} />
+          <meta
+            property='og:title'
+            content={`GoRead | Profile | Library of ${profile.fullname}`}
+          />
+          <meta
+            property='og:description'
+            content='Earn Litcoins sharing your favorite books with others.'
+          />
+          <meta property='og:image' content='https://goread.com/image/281x281.png' />
+          <meta property='og:image:width' content='281' />
+          <meta property='og:image:height' content='281' />
+          <meta property='og:image:type' content='image/png' />
         </Helmet>
         <NavMenu isUserLoggedIn={isUserLoggedIn} />
         <BackgroundImageProfileUpload
@@ -124,6 +154,14 @@ class ProfileWrapper extends PureComponent {
           isMyProfile={isMyProfile}
         />
         <div className='row'>
+          {
+            isUserLoggedIn ? (
+              <div>
+                <ChatTabWrapper />
+                <SocketHandler/>
+              </div>
+            ) : null
+          }
           <LeftProfileContainer
             isMyProfile={isMyProfile}
             id={profile.id}

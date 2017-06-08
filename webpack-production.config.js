@@ -19,7 +19,8 @@ module.exports = {
   resolve: {
     modules:  ['node_modules'],
     alias: {
-      'foundation': path.join(nodeModulesPath, 'foundation-sites/dist/css')
+      'foundation': path.join(nodeModulesPath, 'foundation-sites/dist/css'),
+      'soundmanager2': path.join(nodeModulesPath, 'soundmanager2/script/soundmanager2-nodebug-jsmin.js'),
     }
   },
   entry: [
@@ -101,6 +102,10 @@ module.exports = {
       {
         test: /\.svg$/,
         loader: "url?limit=10000&mimetype=image/svg+xml"
+      },
+      {
+        test: /\.mp3$/,
+        loader: 'file-loader?name=[name].[ext]'
       }
     ],
   }

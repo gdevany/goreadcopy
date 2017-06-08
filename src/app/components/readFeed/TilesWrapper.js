@@ -174,9 +174,9 @@ const TilesWrapper = ({ feed }) => {
         case 'book_review':
         case 'book':
           const getUrl = () => {
-            if (tileContent.product) return tileContent.product.url
-            else if (tileContent.book) return tileContent.book.link
-            else if (tileContent.link) return tileContent.link
+            if (tileContent.product) return `/book/${tileContent.product.slug}`
+            else if (tileContent.book) return `/book/${tileContent.book.slug}`
+            else if (tileContent.slug) return `/book/${tileContent.slug}`
             return '#'
           }
           const getName = () => {

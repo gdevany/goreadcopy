@@ -17,4 +17,12 @@ export default {
   social: emptyState(),
   tiles: emptyState(),
   sidebarAds: emptyState(),
+  chat: emptyState({
+    conversations: [],
+    isMessagesOpen: false,
+    isContactsOpen: false,
+  }),
+  notifications: emptyState(),
+  store: emptyState(),
+  rates: emptyState(),
 }

@@ -139,10 +139,10 @@ class SearchBookModal extends Component {
         return (
           <Book
             key={`${book.ean}_${index}`}
-            url={book.link}
             image={book.imageUrl}
             id={book.ean}
             title={book.title}
+            slug={book.slug}
             rating={book.rating}
             authors={book.authors}
             bookType={this.state.context}

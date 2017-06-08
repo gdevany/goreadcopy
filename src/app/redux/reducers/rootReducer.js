@@ -10,11 +10,15 @@ import recommendedReducer from './recommended'
 import socialReducer from './social'
 import searchReducer from './search'
 import tilesReducer from './tiles'
-import sidebarAdsReducer from './ads'
+import storeReducer from './store'
+import ratesReducer from './rates'
+import chatReducer from './chat'
+import notificationReducer from './notifications'
 import { CURRENT_READER as C } from '../const/actionTypes'
 
 const appReducer = combineReducers({
   books: booksReducer,
+  chat: chatReducer,
   currentReader: currentReaderReducer,
   genres: genreReducer,
   litcoins: litcoinsReducer,
@@ -26,6 +30,9 @@ const appReducer = combineReducers({
   search: searchReducer,
   tiles: tilesReducer,
   sidebarAds: sidebarAdsReducer,
+  notifications: notificationReducer,
+  store: storeReducer,
+  rates: ratesReducer,
 })
 
 const rootReducer = (state, action) => {
