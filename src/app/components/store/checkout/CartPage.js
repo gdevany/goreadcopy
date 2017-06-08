@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { browserHistory } from 'react-router'
+import { browserHistory, Link } from 'react-router'
 import WishListBooks from '../common/wishListBooks'
 import CartElement from './cartElement'
 import { BookStoreNavBar, Footer } from '../../common'
@@ -53,9 +53,9 @@ class CartPage extends PureComponent {
                     <a className='cartpage-action-secondary-btn' href='/browse'>
                       Continue shopping
                     </a>
-                    <a className='cartpage-action-primary-btn' href='/shop/checkout'>
+                    <Link className='cartpage-action-primary-btn' to='/shop/checkout'>
                       Checkout
-                    </a>
+                    </Link>
                   </div>
                 </section>
               </div>
