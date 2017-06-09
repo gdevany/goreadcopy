@@ -3,6 +3,8 @@ import { Link } from 'react-router'
 import OrderSummary from './OrderSummary'
 import CartItems from './CartItems'
 import { Footer } from '../../common'
+import CheckIcon from 'material-ui/svg-icons/navigation/check'
+// import LockIcon from 'material-ui/svg-icons/action/lock-outline'
 import R from 'ramda'
 
 class CheckoutPage extends PureComponent {
@@ -12,6 +14,9 @@ class CheckoutPage extends PureComponent {
       isStepOneActive: true,
       isStepTwoActive: false,
       isStepThreeActive: false,
+      stepOneComplete: false,
+      stepTwoComplete: false,
+      stepThreeComplete: false,
       firstNameShipping: '',
       lastNameShipping: '',
       addressShipping: '',
@@ -21,6 +26,11 @@ class CheckoutPage extends PureComponent {
       stateShipping: '',
       zipcodeShipping: '',
     }
+    this.continueToBillingClick = this.continueToBillingClick.bind(this)
+  }
+
+  truncInfo = (text, limit) => {
+    return text.length >= limit ? `${text.slice(0, limit)}...` : text
   }
 
   handleFormsChanges = R.curry((field, event) => {
@@ -28,13 +38,26 @@ class CheckoutPage extends PureComponent {
     this.setState({ [field]: event.target.value })
   })
 
+  continueToBillingClick = (event) => {
+    event.preventDefault()
+    this.setState({
+      isStepOneActive: false,
+      isStepTwoActive: true,
+      isStepThreeActive: false,
+      stepOneComplete: true,
+    })
+  }
+
   renderStepOne = () => {
     return (
       <div className='row'>
         <div className='large-7 columns'>
           {this.renderShippingAddress()}
           {this.renderShippingMethod()}
-          <a href='#' className='checkoutpage-shipping-submit-form-btn'>
+          <a
+            onClick={this.continueToBillingClick}
+            className='checkoutpage-shipping-submit-form-btn'
+          >
             Continue to Billing
           </a>
         </div>
@@ -226,8 +249,10 @@ class CheckoutPage extends PureComponent {
   renderStepTwo = () => {
     return (
       <div className='row'>
-        <div className='large-6 columns'>
-          Left Side
+        <div className='large-7 columns'>
+          <section className='checkoutpage-payment-selection-container'>
+            Payment selection
+          </section>
         </div>
         <div className='large-4 large-offset-1 columns end'>
           <OrderSummary />
@@ -240,10 +265,10 @@ class CheckoutPage extends PureComponent {
   renderStepThree = () => {
     return (
       <div className='row'>
-        <div className='large-6 columns'>
+        <div className='large-7 columns'>
           Left Side
         </div>
-        <div className='large-5 columns end'>
+        <div className='large-4 large-offset-1 columns end'>
           Right Side
         </div>
       </div>
@@ -251,7 +276,7 @@ class CheckoutPage extends PureComponent {
   }
 
   render() {
-    const { isStepOneActive, isStepTwoActive, isStepThreeActive } = this.state
+    const { isStepOneActive, isStepTwoActive, isStepThreeActive, stepOneComplete } = this.state
     return (
       <section className='checkoutpage-main-container'>
         <header className='chekoutpage-header slide-down'>
@@ -264,17 +289,30 @@ class CheckoutPage extends PureComponent {
         <section className='row'>
           <div className='large-12 columns'>
             <div className='chekoutpage-steps-container'>
-              <div className={isStepOneActive ?
+              <div className={isStepOneActive || stepOneComplete ?
                 'chekoutpage-single-step-container-active' : 'chekoutpage-single-step-container'
                 }
               >
                 <div className='checkoutpage-single-step-count'>
-                  <span className='checkoutpage-single-step-number'>
-                    1
-                  </span>
+                  {stepOneComplete ?
+                    (
+                      <span className='checkoutpage-single-step-number'>
+                        <CheckIcon />
+                      </span>
+                    ) : (
+                      <span className='checkoutpage-single-step-number'>
+                        1
+                      </span>
+                    )
+                  }
                 </div>
                 <span className='checkoutpage-single-step-title'>
-                  Shipping
+                  {stepOneComplete ?
+                    (
+                      this.state.addressShipping ?
+                        this.truncInfo(this.state.addressShipping, 10) : null
+                    ) : 'Shipping'
+                  }
                 </span>
               </div>
               <div className={isStepTwoActive ?

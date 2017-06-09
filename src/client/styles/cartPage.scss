@@ -253,6 +253,11 @@
         color: $white;
         font-size: 20px;
         font-weight: 800;
+        svg{
+          path{
+            fill: $white;
+          }
+        }
       }
     }
     .checkoutpage-single-step-title{
@@ -281,6 +286,12 @@
         color: $white;
         font-size: 20px;
         font-weight: 800;
+        svg{
+          margin-top: 5px;
+          path{
+            fill: $white;
+          }
+        }
       }
     }
     .checkoutpage-single-step-title{
@@ -297,8 +308,8 @@
   align-items: flex-start;
   flex-direction: row;
   .checkoutpage-steps-delivery-method-input{
-    margin: 0;
-    align-self: center;
+    margin: 15px;
+    align-self: flex-start;
     width: 10%;
   }
   .checkoutpage-steps-delivery-method-label{
