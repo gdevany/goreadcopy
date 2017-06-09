@@ -3,6 +3,8 @@ import { Link } from 'react-router'
 import OrderSummary from './OrderSummary'
 import CartItems from './CartItems'
 import { Footer } from '../../common'
+import CheckIcon from 'material-ui/svg-icons/navigation/check'
+import LockIcon from 'material-ui/svg-icons/action/lock-outline'
 import R from 'ramda'
 
 class CheckoutPage extends PureComponent {
@@ -12,6 +14,11 @@ class CheckoutPage extends PureComponent {
       isStepOneActive: true,
       isStepTwoActive: false,
       isStepThreeActive: false,
+      stepOneComplete: false,
+      stepTwoComplete: false,
+      stepThreeComplete: false,
+      isCardClicked: true,
+      isPaypalClicked: false,
       firstNameShipping: '',
       lastNameShipping: '',
       addressShipping: '',
@@ -21,6 +28,13 @@ class CheckoutPage extends PureComponent {
       stateShipping: '',
       zipcodeShipping: '',
     }
+    this.continueToBillingClick = this.continueToBillingClick.bind(this)
+    this.continueToReviewClick = this.continueToReviewClick.bind(this)
+    this.handlePaymentClick = this.handlePaymentClick.bind(this)
+  }
+
+  truncInfo = (text, limit) => {
+    return text.length >= limit ? `${text.slice(0, limit)}...` : text
   }
 
   handleFormsChanges = R.curry((field, event) => {
@@ -28,13 +42,51 @@ class CheckoutPage extends PureComponent {
     this.setState({ [field]: event.target.value })
   })
 
+  continueToBillingClick = (event) => {
+    event.preventDefault()
+    this.setState({
+      isStepOneActive: false,
+      isStepTwoActive: true,
+      isStepThreeActive: false,
+      stepOneComplete: true,
+    })
+  }
+
+  continueToReviewClick = (event) => {
+    event.preventDefault()
+    this.setState({
+      isStepOneActive: false,
+      isStepTwoActive: false,
+      isStepThreeActive: true,
+      stepOneComplete: true,
+      stepTwoComplete: true,
+    })
+  }
+
+  handlePaymentClick = (type) => {
+    if (type === 'card' && !this.state.isCardClicked) {
+      this.setState({
+        isCardClicked: true,
+        isPaypalClicked: false,
+      })
+    } else if (type === 'paypal' && !this.state.isPaypalClicked) {
+      this.setState({
+        isCardClicked: false,
+        isPaypalClicked: true,
+      })
+    }
+  }
+
   renderStepOne = () => {
     return (
       <div className='row'>
         <div className='large-7 columns'>
           {this.renderShippingAddress()}
           {this.renderShippingMethod()}
-          <a href='#' className='checkoutpage-shipping-submit-form-btn'>
+          <a
+            onClick={this.continueToBillingClick}
+            className='checkoutpage-shipping-submit-form-btn'
+          >
             Continue to Billing
           </a>
         </div>
@@ -187,6 +239,7 @@ class CheckoutPage extends PureComponent {
               </label>
               <input
                 type='text'
+                className='checkoutpage-steps-shipping-address-form-input'
                 onChange={this.handleFormsChanges('cityShipping')}
                 value={cityShipping}
               />
@@ -224,10 +277,173 @@ class CheckoutPage extends PureComponent {
   }
 
   renderStepTwo = () => {
+    const { isPaypalClicked, isCardClicked } = this.state
     return (
       <div className='row'>
-        <div className='large-6 columns'>
-          Left Side
+        <div className='large-7 columns'>
+          <section className='checkoutpage-payment-selection-container'>
+            <section
+              className={isCardClicked ?
+                'checkoutpage-payment-card-container payment-selected' :
+                'checkoutpage-payment-card-container'
+              }
+            >
+              <div className='checkoutpage-payment-selector'>
+                <div
+                  className={isCardClicked ?
+                    'checkoutpage-payment-selector-element selected-payment' :
+                    'checkoutpage-payment-selector-element'
+                  }
+                  onClick={() => this.handlePaymentClick('card')}
+                >
+                  <a className='checkoutpage-payment-selector-anchor'/>
+                </div>
+              </div>
+              <div className='checkoutpage-payment-card'>
+                <div className='checkoutpage-payment-card-head'>
+                  <span className='checkoutpage-payment-card-head-title'>
+                    Card / Credit Card
+                  </span>
+                  <img
+                    className='checkoutpage-payment-card-head-img'
+                    src='/image/credit-cards.png'
+                  />
+                </div>
+                <div className='checkoutpage-payment-card-subhead'>
+                  <LockIcon className='checkoutpage-payment-card-subhead-icon'/>
+                  <span className='checkoutpage-payment-card-subhead-text'>
+                    Secure and encrypted
+                  </span>
+                </div>
+                <div className='checkoutpage-payment-card-form'>
+                  <div className='row'>
+                    <div className='large-12 columns'>
+                      <div className='checkoutpage-payment-card-inputs'>
+                        <label className='checkoutpage-payment-card-inputs-label'>
+                          Name on Card
+                        </label>
+                        <input
+                          type='text'
+                          className='checkoutpage-payment-card-single-input'
+                        />
+                      </div>
+                    </div>
+                    <div className='large-12 columns'>
+                      <div className='checkoutpage-payment-card-inputs'>
+                        <label className='checkoutpage-payment-card-inputs-label'>
+                          Card Number
+                        </label>
+                        <input
+                          type='text'
+                          className='checkoutpage-payment-card-single-input'
+                        />
+                      </div>
+                    </div>
+                    <div className='large-8 columns'>
+                      <div className='checkoutpage-payment-card-inputs'>
+                        <label className='checkoutpage-payment-card-inputs-label'>
+                          Expiration Date (MM/YY)
+                        </label>
+                        <input
+                          type='text'
+                          className='checkoutpage-payment-card-single-input'
+                        />
+                      </div>
+                    </div>
+                    <div className='large-4 columns'>
+                      <div className='checkoutpage-payment-card-inputs'>
+                        <label className='checkoutpage-payment-card-inputs-label'>
+                          CVC
+                        </label>
+                        <input
+                          type='text'
+                          className='checkoutpage-payment-card-single-input has-lock'
+                        />
+                        <LockIcon
+                          className='checkoutpage-payment-card-single-input-lock'
+                        />
+                      </div>
+                    </div>
+                    <div className='large-12 columns'>
+                      <div className='checkoutpage-payment-card-inputs'>
+                        <input
+                          type='checkbox'
+                          className='checkoutpage-payment-card-single-input-check'
+                        />
+                        <label className='checkoutpage-payment-card-inputs-label-check'>
+                          Save card for future use
+                        </label>
+                      </div>
+                    </div>
+                    <div className='large-12 columns'>
+                      <div className='checkoutpage-payment-card-inputs'>
+                        <input
+                          type='checkbox'
+                          className='checkoutpage-payment-card-single-input-check'
+                        />
+                        <label className='checkoutpage-payment-card-inputs-label-check'>
+                          Use shipping address
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section
+              className={isPaypalClicked ?
+                'checkoutpage-payment-paypal-container payment-selected' :
+                'checkoutpage-payment-paypal-container'
+              }
+            >
+              <div className='checkoutpage-payment-selector'>
+                <div
+                  className={isPaypalClicked ?
+                    'checkoutpage-payment-selector-element selected-payment' :
+                    'checkoutpage-payment-selector-element'
+                  }
+                  onClick={() => this.handlePaymentClick('paypal')}
+                >
+                  <a className='checkoutpage-payment-selector-anchor'/>
+                </div>
+              </div>
+              <div className='checkoutpage-payment-paypal'>
+                <img src='/image/paypal-logo.png'/>
+              </div>
+            </section>
+          </section>
+          <section className='checkoutpage-litcoins-use-container'>
+            <h3>Litcoins</h3>
+            <div className='checkoutpage-litcoins-use-main'>
+              <input
+                className='checkoutpage-litcoins-use-input'
+                type='checkbox'
+              />
+              <label className='checkoutpage-litcoins-use-label'>
+                <span className='checkoutpage-litcoins-use-label-span'>
+                  Use my Litcoins
+                </span>
+                <div className='checkoutpage-litcoins-use-details'>
+                  <span className='checkoutpage-litcoins-use-text'>
+                    <b>$6.00</b> (8,000
+                    <img
+                      className='checkoutpage-litcoins-use-img'
+                      src='/image/litcoin.png'
+                    /> available)
+                  </span>
+                </div>
+              </label>
+            </div>
+          </section>
+          <a
+            onClick={this.continueToReviewClick}
+            className='checkoutpage-review-order-btn'
+          >
+            Review Order
+          </a>
+          <span className='checkoutpage-review-order-text'>
+            You will not be charged ultil you confirm your order
+          </span>
         </div>
         <div className='large-4 large-offset-1 columns end'>
           <OrderSummary />
@@ -240,10 +456,10 @@ class CheckoutPage extends PureComponent {
   renderStepThree = () => {
     return (
       <div className='row'>
-        <div className='large-6 columns'>
+        <div className='large-7 columns'>
           Left Side
         </div>
-        <div className='large-5 columns end'>
+        <div className='large-4 large-offset-1 columns end'>
           Right Side
         </div>
       </div>
@@ -251,7 +467,13 @@ class CheckoutPage extends PureComponent {
   }
 
   render() {
-    const { isStepOneActive, isStepTwoActive, isStepThreeActive } = this.state
+    const {
+      isStepOneActive,
+      isStepTwoActive,
+      isStepThreeActive,
+      stepOneComplete,
+      stepTwoComplete
+    } = this.state
     return (
       <section className='checkoutpage-main-container'>
         <header className='chekoutpage-header slide-down'>
@@ -264,27 +486,43 @@ class CheckoutPage extends PureComponent {
         <section className='row'>
           <div className='large-12 columns'>
             <div className='chekoutpage-steps-container'>
-              <div className={isStepOneActive ?
+              <div className={isStepOneActive || stepOneComplete ?
                 'chekoutpage-single-step-container-active' : 'chekoutpage-single-step-container'
                 }
               >
                 <div className='checkoutpage-single-step-count'>
-                  <span className='checkoutpage-single-step-number'>
-                    1
-                  </span>
+                  {stepOneComplete ?
+                    (
+                      <span className='checkoutpage-single-step-number'>
+                        <CheckIcon />
+                      </span>
+                    ) : (
+                      <span className='checkoutpage-single-step-number'>
+                        1
+                      </span>
+                    )
+                  }
                 </div>
                 <span className='checkoutpage-single-step-title'>
                   Shipping
                 </span>
               </div>
-              <div className={isStepTwoActive ?
+              <div className={isStepTwoActive || stepTwoComplete ?
                 'chekoutpage-single-step-container-active' : 'chekoutpage-single-step-container'
                 }
               >
                 <div className='checkoutpage-single-step-count'>
-                  <span className='checkoutpage-single-step-number'>
-                    2
-                  </span>
+                  {stepTwoComplete ?
+                    (
+                      <span className='checkoutpage-single-step-number'>
+                        <CheckIcon />
+                      </span>
+                    ) : (
+                      <span className='checkoutpage-single-step-number'>
+                        2
+                      </span>
+                    )
+                  }
                 </div>
                 <span className='checkoutpage-single-step-title'>
                   Billing
@@ -304,10 +542,14 @@ class CheckoutPage extends PureComponent {
                 </span>
               </div>
             </div>
-            <div className='chekoutpage-steps-main-container'>
-              {isStepOneActive ? this.renderStepOne() : null}
-              {isStepTwoActive ? this.renderStepTwo() : null}
-              {isStepThreeActive ? this.renderStepThree() : null}
+            <div className='row'>
+              <div className='large-10 columns large-offset-1'>
+                <div className='chekoutpage-steps-main-container'>
+                  {isStepOneActive ? this.renderStepOne() : null}
+                  {isStepTwoActive ? this.renderStepTwo() : null}
+                  {isStepThreeActive ? this.renderStepThree() : null}
+                </div>
+              </div>
             </div>
           </div>
         </section>
