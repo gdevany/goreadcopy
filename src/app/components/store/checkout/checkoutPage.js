@@ -29,6 +29,7 @@ class CheckoutPage extends PureComponent {
       zipcodeShipping: '',
     }
     this.continueToBillingClick = this.continueToBillingClick.bind(this)
+    this.continueToReviewClick = this.continueToReviewClick.bind(this)
     this.handlePaymentClick = this.handlePaymentClick.bind(this)
   }
 
@@ -48,6 +49,17 @@ class CheckoutPage extends PureComponent {
       isStepTwoActive: true,
       isStepThreeActive: false,
       stepOneComplete: true,
+    })
+  }
+
+  continueToReviewClick = (event) => {
+    event.preventDefault()
+    this.setState({
+      isStepOneActive: false,
+      isStepTwoActive: false,
+      isStepThreeActive: true,
+      stepOneComplete: true,
+      stepTwoComplete: true,
     })
   }
 
@@ -400,6 +412,38 @@ class CheckoutPage extends PureComponent {
               </div>
             </section>
           </section>
+          <section className='checkoutpage-litcoins-use-container'>
+            <h3>Litcoins</h3>
+            <div className='checkoutpage-litcoins-use-main'>
+              <input
+                className='checkoutpage-litcoins-use-input'
+                type='checkbox'
+              />
+              <label className='checkoutpage-litcoins-use-label'>
+                <span className='checkoutpage-litcoins-use-label-span'>
+                  Use my Litcoins
+                </span>
+                <div className='checkoutpage-litcoins-use-details'>
+                  <span className='checkoutpage-litcoins-use-text'>
+                    <b>$6.00</b> (8,000
+                    <img
+                      className='checkoutpage-litcoins-use-img'
+                      src='/image/litcoin.png'
+                    /> available)
+                  </span>
+                </div>
+              </label>
+            </div>
+          </section>
+          <a
+            onClick={this.continueToReviewClick}
+            className='checkoutpage-review-order-btn'
+          >
+            Review Order
+          </a>
+          <span className='checkoutpage-review-order-text'>
+            You will not be charged ultil you confirm your order
+          </span>
         </div>
         <div className='large-4 large-offset-1 columns end'>
           <OrderSummary />
@@ -423,7 +467,13 @@ class CheckoutPage extends PureComponent {
   }
 
   render() {
-    const { isStepOneActive, isStepTwoActive, isStepThreeActive, stepOneComplete } = this.state
+    const {
+      isStepOneActive,
+      isStepTwoActive,
+      isStepThreeActive,
+      stepOneComplete,
+      stepTwoComplete
+    } = this.state
     return (
       <section className='checkoutpage-main-container'>
         <header className='chekoutpage-header slide-down'>
@@ -457,14 +507,22 @@ class CheckoutPage extends PureComponent {
                   Shipping
                 </span>
               </div>
-              <div className={isStepTwoActive ?
+              <div className={isStepTwoActive || stepTwoComplete ?
                 'chekoutpage-single-step-container-active' : 'chekoutpage-single-step-container'
                 }
               >
                 <div className='checkoutpage-single-step-count'>
-                  <span className='checkoutpage-single-step-number'>
-                    2
-                  </span>
+                  {stepTwoComplete ?
+                    (
+                      <span className='checkoutpage-single-step-number'>
+                        <CheckIcon />
+                      </span>
+                    ) : (
+                      <span className='checkoutpage-single-step-number'>
+                        2
+                      </span>
+                    )
+                  }
                 </div>
                 <span className='checkoutpage-single-step-title'>
                   Billing
