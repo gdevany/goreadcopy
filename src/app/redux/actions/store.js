@@ -165,6 +165,32 @@ export function filterBooks(params) {
   }
 }
 
+export function getCartItems(params) {
+  return dispatch => {
+    Store.getCartItems(params)
+      .then(res => dispatch({ type: A.GET_CART_ITEMS, payload: res.data }))
+      .catch(err => console.error(`Error in getCartItems ${err}`))
+  }
+}
+
+export function updateCartItems(id, quantity) {
+  return dispatch => {
+    Store.updateCartItems(id, quantity)
+      // .then(res => dispatch({ type: A.GET_CART_ITEMS, payload: res.data }))
+      .catch(err => console.error(`Error in updateCartItems ${err}`))
+  }
+}
+
+export function removeItemFromCart(id) {
+  return dispatch => {
+    Store.removeItemFromCart(id)
+      .then(res => dispatch(getCartItems({
+        perPage: 50,
+      })))
+      .catch(err => console.error(`Error in removeItemFromCart ${err}`))
+  }
+}
+
 export default {
   getCategories,
   getChildCategories,
@@ -179,5 +205,8 @@ export default {
   removeFromLibrary,
   addToWishList,
   removeFromWishList,
-  filterBooks
+  filterBooks,
+  getCartItems,
+  updateCartItems,
+  removeItemFromCart,
 }

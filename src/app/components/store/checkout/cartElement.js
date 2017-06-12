@@ -1,5 +1,10 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
+import { Store } from '../../../redux/actions'
+import { debounce } from 'lodash'
 import GiftIcon from 'material-ui/svg-icons/action/card-giftcard'
+
+const { updateCartItems, removeItemFromCart } = Store
 
 class CartElement extends PureComponent {
 
@@ -8,7 +13,9 @@ class CartElement extends PureComponent {
     this.state = {
       bookCount: props.bookCount
     }
+    this.handleBookRemove = this.handleBookRemove.bind(this)
     this.handleBooksCount = this.handleBooksCount.bind(this)
+    this.handleDebounceUpdate = this.handleDebounceUpdate.bind(this)
   }
 
   handleBooksCount = (actionType) => {
@@ -19,7 +26,19 @@ class CartElement extends PureComponent {
     if (actionType === 2 && this.state.bookCount > 1) {
       this.setState({ bookCount: this.state.bookCount - 1 })
     }
+    this.handleDebounceUpdate()
+  }
 
+  handleDebounceUpdate = debounce(() => {
+    const { bookCount } = this.state
+    const { bookId, updateCartItems } = this.props
+    updateCartItems(bookId, bookCount)
+  }, 500)
+
+  handleBookRemove = (event) => {
+    event.preventDefault()
+    const { bookId, removeItemFromCart } = this.props
+    removeItemFromCart(bookId)
   }
 
   render() {
@@ -64,7 +83,12 @@ class CartElement extends PureComponent {
           </div>
         </div>
         <div className='bookpage-book-info-right'>
-          <a className='bookpage-book-remove-item'> X </a>
+          <a
+            onClick={this.handleBookRemove}
+            className='bookpage-book-remove-item'
+          >
+            X
+          </a>
           <div className='bookstore-book-price-info'>
             <span className='bookpage-book-price'> $ {bookPrice}</span>
             <div className='bookpage-book-litcoin-price-container'>
@@ -81,4 +105,4 @@ class CartElement extends PureComponent {
     )
   }
 }
-export default CartElement
+export default connect(null, { updateCartItems, removeItemFromCart })(CartElement)

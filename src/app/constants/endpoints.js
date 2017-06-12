@@ -73,8 +73,12 @@ const Endpoints = () => {
       getTrendingBooks: (params) => apiUrl('store/trending_books', params),
       getMostPurchased: (params) => apiUrl('store/friends_most_purchased', params),
       getRecommendedByAuthorFans: (params) => apiUrl('store/recommended/books/author_fans', params),
-      addBookToCart: (id) => apiUrl(`store/${id}/add_book_to_cart`),
       getBookInfo: (id) => apiUrl(`books/${id}`),
+      addBookToCart: (id) => apiUrl(`store/${id}/add_book_to_cart`),
+      getCartItems: (params) => apiUrl('store/cart', params),
+      updateCartItems:
+        (id, quantity) => apiUrl(`store/cart/${id}/update_item_quantity/${quantity}`),
+      removeItemFromCart: (id) => apiUrl(`store/cart/${id}/remove_item`),
     },
     rates: {
       getStarsInfo: (modelName, id) => apiUrl(`rate/${modelName}/${id}/stars`),
