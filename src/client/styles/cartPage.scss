@@ -819,3 +819,104 @@
   margin-top: 10px;
   color: #949494;
 }
+
+.checkoutpage-order-review{
+  .checkoutpage-order-review-divider{
+    border-bottom: 2px solid rgba(204, 204, 204, 0.18);
+  }
+  .checkoutpage-order-review-address-main{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: row;
+    width: 100%;
+    .checkoutpage-order-review-address-container{
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+      width: 90%;
+      h4{
+        font-size: 16px;
+        font-weight: 800;
+      }
+      .checkoutpage-order-review-address-details{
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  }
+  .checkoutpage-order-review-card-main{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: row;
+    width: 100%;
+    .checkoutpage-order-review-card-container{
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+      width: 90%;
+      h4{
+        font-size: 16px;
+        font-weight: 800;
+      }
+      .checkoutpage-order-review-card-details{
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        .checkoutpage-order-review-card-nums{
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          .checkoutpage-order-review-card-type{
+            width: 45px;
+            margin-right: 5px;
+          }
+          .checkoutpage-order-review-card-last{
+            font-size: 15px;
+            margin: 0 5px;
+          }
+          .checkoutpage-order-review-card-exp{
+            font-size: 15px;
+            margin-left: 5px;
+            color: $light-med-grey;
+          }
+        }
+        .checkoutpage-order-review-card-name .checkoutpage-order-review-card-address{
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+.checkoutpage-order-review-edit{
+  width: 10%;
+  text-align: right;
+  .checkoutpage-order-review-edit-btn{
+    color: $light-med-grey;
+    font-size: 16px;
+    &:hover{
+      color: $light-med-grey;
+    }
+  }
+}
+
+.checkoutpage-place-order-btn{
+  display: block;
+  padding: 10px 20px;
+  background-color: $store-blue;
+  color: $white;
+  font-weight: 200;
+  text-align: center;
+  margin-bottom: 15px;
+  border-radius: 30px;
+  max-width: 200px;
+  &:hover{
+    color: $white;
+  }
+}

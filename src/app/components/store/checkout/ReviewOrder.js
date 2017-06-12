@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import UseLitcoins from './UseLitcoins'
 
 class ReviewOrder extends PureComponent {
   render() {
@@ -28,24 +29,26 @@ class ReviewOrder extends PureComponent {
           </div>
         </article>
         <hr className='checkoutpage-order-review-divider'/>
-        <article className='checkoutpage-order-review-address-main'>
-          <h4>Payment</h4>
-          <div className='checkoutpage-order-review-card-details'>
-            <div className='checkoutpage-order-review-card-nums'>
-              <img className='checkoutpage-order-review-card-type'/>
-              <span className='checkoutpage-order-review-card-last'>
-                *****4910
+        <article className='checkoutpage-order-review-card-main'>
+          <div className='checkoutpage-order-review-card-container'>
+            <h4>Payment</h4>
+            <div className='checkoutpage-order-review-card-details'>
+              <div className='checkoutpage-order-review-card-nums'>
+                <img src='/image/visa-black.png' className='checkoutpage-order-review-card-type'/>
+                <span className='checkoutpage-order-review-card-last'>
+                  *****4910
+                </span>
+                <span className='checkoutpage-order-review-card-exp'>
+                  Expires 12/21
+                </span>
+              </div>
+              <span className='checkoutpage-order-review-card-name'>
+                Jenny Olofmeister
               </span>
-              <span className='checkoutpage-order-review-card-exp'>
-                12/21
+              <span className='checkoutpage-order-review-card-address'>
+                Santa Monica, CA 9042, United States
               </span>
             </div>
-            <span className='checkoutpage-order-review-card-name'>
-              Jenny Olofmeister
-            </span>
-            <span className='checkoutpage-order-review-card-address'>
-              Santa Monica, CA 9042, United States
-            </span>
           </div>
           <div className='checkoutpage-order-review-edit'>
             <a className='checkoutpage-order-review-edit-btn'>
@@ -53,29 +56,7 @@ class ReviewOrder extends PureComponent {
             </a>
           </div>
         </article>
-        <article className='checkoutpage-litcoins-use-container'>
-          <h3>Litcoins</h3>
-          <div className='checkoutpage-litcoins-use-main'>
-            <input
-              className='checkoutpage-litcoins-use-input'
-              type='checkbox'
-            />
-            <label className='checkoutpage-litcoins-use-label'>
-              <span className='checkoutpage-litcoins-use-label-span'>
-                Use my Litcoins
-              </span>
-              <div className='checkoutpage-litcoins-use-details'>
-                <span className='checkoutpage-litcoins-use-text'>
-                  <b>$6.00</b> (8,000
-                  <img
-                    className='checkoutpage-litcoins-use-img'
-                    src='/image/litcoin.png'
-                  /> available)
-                </span>
-              </div>
-            </label>
-          </div>
-        </article>
+        <UseLitcoins />
       </section>
     )
   }
