@@ -13,6 +13,9 @@ const {
     getBookInfo,
     addBookToCart,
     getChildCategories,
+    getCartItems,
+    updateCartItems,
+    removeItemFromCart,
   }
 } = Endpoints
 
@@ -27,6 +30,10 @@ const Store = () => {
     getBookInfo: (id) => http.get(getBookInfo(id)),
     getAuthBookInfo: (id) => authenticated().get(getBookInfo(id)),
     addBookToCart: (id) => authenticated().post(addBookToCart(id)),
+    getCartItems: (params) => authenticated().get(getCartItems(params)),
+    updateCartItems: (id, quantity) => authenticated().post(updateCartItems(id, quantity)),
+    removeItemFromCart: (id) => authenticated().delete(removeItemFromCart(id)),
+
   }
 }
 

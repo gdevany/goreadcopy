@@ -5,17 +5,58 @@ import WishListBooks from '../common/wishListBooks'
 import CartElement from './cartElement'
 import { BookStoreNavBar, Footer } from '../../common'
 import { Auth } from '../../../services'
+import { Store } from '../../../redux/actions'
 
 const isUserLoggedIn = Auth.currentUserExists()
+const { getCartItems } = Store
 
 class CartPage extends PureComponent {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      cart: false,
+    }
+  }
 
   componentWillMount = () => {
     if (!isUserLoggedIn) {
       browserHistory.push('/')
     }
+    this.props.getCartItems({
+      perPage: 50,
+    })
   }
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.cart && nextProps.cart.itemsCount >= 0) {
+      this.setState({
+        cart: nextProps.cart
+      })
+    }
+  }
+
+  mapCartItems = () => {
+    const { cart } = this.state
+    return cart.items.map((item, index) => {
+      return (
+        <CartElement
+          key={item.id}
+          bookImage={item.product.imageUrl}
+          bookTile={item.product.name}
+          authorFullName='Sthepen King'
+          paperType='Hardcover'
+          bookCount={item.quantity}
+          bookPrice={item.product.unitPrice}
+          litcoinsPrice={item.product.litcoinsPrice}
+          bookId={item.product.id}
+        />
+      )
+    })
+  }
+
   render() {
+    const { cart } = this.state
     return (
       <div>
         <BookStoreNavBar/>
@@ -26,28 +67,15 @@ class CartPage extends PureComponent {
                 <section className='cartpage-container'>
                   <h2 className='cartpage-title'>Your Cart</h2>
                   <div className='cartpage-elements-container'>
-                    <CartElement
-                      bookImage='/image/example1.png'
-                      bookTile='End of Wach'
-                      authorFullName='Sthepen King'
-                      paperType='Hardcover'
-                      bookCount={3}
-                      bookPrice={17.28}
-                      litcoinsPrice={25502}
-                    />
-                    <CartElement
-                      bookImage='/image/example2.png'
-                      bookTile='Harry Potter and the Prisioner of Azkaban'
-                      authorFullName='JK Rolling'
-                      paperType='Hardcover'
-                      bookCount={1}
-                      bookPrice={7.28}
-                      litcoinsPrice={15502}
-                    />
+                    {cart && cart.itemsCount > 0 ?
+                      this.mapCartItems() : null
+                    }
                   </div>
                   <div className='cartpage-subtotal-container'>
                     <span className='bookpage-subtotal-title'>Subtotal</span>
-                    <h3 className='bookpage-subtotal-price'>$17.28</h3>
+                    <h3 className='bookpage-subtotal-price'>
+                      ${cart ? cart.subtotalPrice : 0}
+                    </h3>
                   </div>
                   <div className='cartpage-action-btns-container'>
                     <a className='cartpage-action-secondary-btn' href='/browse'>
@@ -70,4 +98,11 @@ class CartPage extends PureComponent {
     )
   }
 }
-export default connect(null, null)(CartPage)
+
+const mapStateToProps = (state) => {
+  return {
+    cart: state.store.cartItems,
+  }
+}
+
+export default connect(mapStateToProps, { getCartItems })(CartPage)
