@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
 import OrderSummary from './OrderSummary'
 import CartItems from './CartItems'
+import ReviewOrder from './ReviewOrder'
 import { Footer } from '../../common'
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
 import LockIcon from 'material-ui/svg-icons/action/lock-outline'
@@ -457,10 +458,11 @@ class CheckoutPage extends PureComponent {
     return (
       <div className='row'>
         <div className='large-7 columns'>
-          Left Side
+          <ReviewOrder />
         </div>
         <div className='large-4 large-offset-1 columns end'>
-          Right Side
+          <OrderSummary />
+          <CartItems />
         </div>
       </div>
     )
