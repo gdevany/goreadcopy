@@ -3,7 +3,6 @@ import { Link } from 'react-router'
 import OrderSummary from './OrderSummary'
 import CartItems from './CartItems'
 import ReviewOrder from './ReviewOrder'
-import { Footer } from '../../common'
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
 import UseLitcoins from './UseLitcoins'
 import LockIcon from 'material-ui/svg-icons/action/lock-outline'
@@ -537,9 +536,6 @@ class CheckoutPage extends PureComponent {
             </div>
           </div>
         </section>
-        <div className='bookstore-footer-container'>
-          <Footer />
-        </div>
       </section>
     )
   }

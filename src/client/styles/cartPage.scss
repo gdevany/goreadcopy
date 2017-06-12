@@ -894,6 +894,21 @@
     }
   }
 }
+
+.checkoutpage-order-delivery-main{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
+  h4{
+    font-size: 16px;
+    font-weight: 800;
+  }
+  .row{
+    width: 100%;
+  }
+}
 .checkoutpage-order-review-edit{
   width: 10%;
   text-align: right;
