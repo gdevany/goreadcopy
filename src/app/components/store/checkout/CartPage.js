@@ -6,6 +6,7 @@ import CartElement from './cartElement'
 import { BookStoreNavBar, Footer } from '../../common'
 import { Auth } from '../../../services'
 import { Store } from '../../../redux/actions'
+import ShippingGiftAddressModal from './ShippingGiftAddressModal'
 
 const isUserLoggedIn = Auth.currentUserExists()
 const { getCartItems } = Store
@@ -16,7 +17,10 @@ class CartPage extends PureComponent {
     super(props)
     this.state = {
       cart: false,
+      anyGift: false,
+      modalOpen: false,
     }
+    this.handleModalClose = this.handleModalClose.bind(this)
   }
 
   componentWillMount = () => {
@@ -33,9 +37,30 @@ class CartPage extends PureComponent {
       this.setState({
         cart: nextProps.cart
       })
+      if (nextProps.cart.itemsCount > 0) this.checkGifts(nextProps.cart.items)
     }
   }
 
+  handleModalOpen = (event) => {
+    this.setState({ modalOpen: true })
+  }
+
+  handleModalClose = () => {
+    this.setState({
+      modalOpen: false,
+    })
+  }
+
+  checkGifts = (items) => {
+    for (let i = 0; i < items.length ; i++) {
+      if (items[i].isGiftItem) {
+        this.setState({
+          anyGift: true
+        })
+        break
+      } else this.setState({ anyGift: false })
+    }
+  }
   mapCartItems = () => {
     const { cart } = this.state
     return cart.items.map((item, index) => {
@@ -44,19 +69,21 @@ class CartPage extends PureComponent {
           key={item.id}
           bookImage={item.product.imageUrl}
           bookTile={item.product.name}
-          authorFullName='Sthepen King'
-          paperType='Hardcover'
+          authorFullName={item.product.seller}
+          paperType={false}
+          isGift={item.isGiftItem}
           bookCount={item.quantity}
           bookPrice={item.product.unitPrice}
           litcoinsPrice={item.product.litcoinsPrice}
           bookId={item.product.id}
+          itemId={item.id}
         />
       )
     })
   }
 
   render() {
-    const { cart } = this.state
+    const { cart, anyGift } = this.state
     return (
       <div>
         <BookStoreNavBar/>
@@ -70,20 +97,41 @@ class CartPage extends PureComponent {
                     {cart && cart.itemsCount > 0 ?
                       this.mapCartItems() : null
                     }
+                    {anyGift ?
+                      (
+                        <div className='cartpage-set-gifts-shipping'>
+                          <a
+                            onClick={this.handleModalOpen}
+                            className='cartpage-set-gifts-btn'
+                          >
+                            Set Gifts Shipping Address
+                          </a>
+                          <ShippingGiftAddressModal
+                            modalOpen={this.state.modalOpen}
+                            handleClose={this.handleModalClose}
+                            cartElements={cart.items}
+                          />
+                        </div>
+                      ) : null
+                    }
                   </div>
                   <div className='cartpage-subtotal-container'>
                     <span className='bookpage-subtotal-title'>Subtotal</span>
                     <h3 className='bookpage-subtotal-price'>
-                      ${cart ? cart.subtotalPrice : 0}
+                      ${cart ? cart.subtotalPrice : 0.00}
                     </h3>
                   </div>
                   <div className='cartpage-action-btns-container'>
                     <a className='cartpage-action-secondary-btn' href='/browse'>
                       Continue shopping
                     </a>
-                    <Link className='cartpage-action-primary-btn' to='/shop/checkout'>
-                      Checkout
-                    </Link>
+                    {cart && cart.itemsCount > 0 ?
+                      (
+                        <Link className='cartpage-action-primary-btn' to='/shop/checkout'>
+                          Checkout
+                        </Link>
+                      ) : null
+                    }
                   </div>
                 </section>
               </div>

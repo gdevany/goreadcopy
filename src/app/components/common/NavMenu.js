@@ -678,8 +678,8 @@ class NavMenu extends PureComponent {
                 </a>
               </li>
               <li style={styles.loggedInRightNavLi}>
-                <a
-                  href='/shop/cart'
+                <Link
+                  to='/shop/cart'
                   style={styles.navItemLinks}
                   className='menu-badge-container rf-nav-link'
                 >
@@ -701,7 +701,7 @@ class NavMenu extends PureComponent {
                   >
                     <img src='/image/cart.svg' />
                   </Badge>
-                </a>
+                </Link>
               </li>
               <li className='nav-menu-logged-list'>
                 <a className='nav-menu-logged-anchor'>
@@ -956,8 +956,8 @@ class NavMenu extends PureComponent {
                   </a>
                 </li>
                 <li style={styles.loggedInRightNavLi}>
-                  <a
-                    href='/shop/cart'
+                  <Link
+                    to='/shop/cart'
                     style={styles.navItemLinks}
                     className='menu-badge-container rf-nav-link'
                   >
@@ -979,7 +979,7 @@ class NavMenu extends PureComponent {
                     >
                       <img src='/image/cart.svg' />
                     </Badge>
-                  </a>
+                  </Link>
                 </li>
 
                 <li style={styles.loggedInRightNavLi} className='profile-menu-badge'>

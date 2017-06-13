@@ -191,6 +191,23 @@ export function removeItemFromCart(id) {
   }
 }
 
+export function convertToGift(id, params) {
+  return dispatch => {
+    Store.convertToGift(id, params)
+      .then(res => dispatch(getCartItems({
+        perPage: 50,
+      })))
+      .catch(err => console.error(`Error in convertToGift ${err}`))
+  }
+}
+
+export function addGiftData(params) {
+  return dispatch => {
+    Store.addGiftData(params)
+      .catch(err => console.error(`Error in addGiftData ${err}`))
+  }
+}
+
 export default {
   getCategories,
   getChildCategories,
@@ -209,4 +226,6 @@ export default {
   getCartItems,
   updateCartItems,
   removeItemFromCart,
+  convertToGift,
+  addGiftData,
 }

@@ -935,3 +935,18 @@
     color: $white;
   }
 }
+
+.cartpage-set-gifts-shipping{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  .cartpage-set-gifts-btn{
+    color: rgba(47, 47, 47, 0.52);
+    font-size: 16px;
+    transition: all .3s ease;
+    &:hover{
+      color: #2f2f2f;
+    }
+  }
+}

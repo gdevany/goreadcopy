@@ -1,6 +1,11 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
+import { Auth } from '../../../services'
+import { Store } from '../../../redux/actions'
+
+const isUserLoggedIn = Auth.currentUserExists()
+const { getCartItems } = Store
 
 class CartItems extends PureComponent {
   constructor(props) {
@@ -10,10 +15,17 @@ class CartItems extends PureComponent {
     }
   }
 
+  componentWillMount = () => {
+    if (!isUserLoggedIn) {
+      browserHistory.push('/')
+    }
+    this.props.getCartItems({
+      perPage: 50,
+    })
+  }
+
   componentWillReceiveProps = (nextProps) => {
-    console.log(nextProps)
     if (nextProps.cart && nextProps.cart.itemsCount >= 0) {
-      console.log(nextProps.cart)
       this.setState({
         cart: nextProps.cart
       })
@@ -47,11 +59,11 @@ class CartItems extends PureComponent {
                 {elem.product.name ? this.truncInfo(elem.product.name, 100) : null}
               </span>
               <span className='checkoutpage-cart-single-element-author'>
-                by Stephen King
+                by {elem.product.seller ? this.truncInfo(elem.product.seller, 50) : null}
               </span>
-              <span className='checkoutpage-cart-single-element-paper'>
+              {/* <span className='checkoutpage-cart-single-element-paper'>
                 Hardcover
-              </span>
+              </span> */}
               <span className='checkoutpage-cart-single-element-price'>
                 ${elem.product.unitPrice}
               </span>
@@ -103,4 +115,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, null)(CartItems)
+export default connect(mapStateToProps, { getCartItems })(CartItems)

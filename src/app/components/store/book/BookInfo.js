@@ -283,8 +283,8 @@ class BookInfo extends PureComponent {
     const { bookInfo, isUserLogged } = this.props
     const {
       addToCartClicked,
-      isBookTypeSelected,
-      isAlertDisplayed,
+      // isBookTypeSelected,
+      // isAlertDisplayed,
       isSharePopUpDisplayed,
       commentText,
       isWishlistHover,
@@ -585,7 +585,7 @@ class BookInfo extends PureComponent {
         }
         <div className='small-12 large-4 columns end bookpage-info-right-element'>
           <div className='bookpage-info-right-element-main-container'>
-            <span className='bookpage-book-details-cover'> Paperback </span>
+            {/* <span className='bookpage-book-details-cover'> Paperback </span> */}
             <h3 className='bookpage-book-details-price'>
               {bookInfo.isOnSale ? `$${bookInfo.onSalePrice}` : `$${bookInfo.shopPrice}`}
               </h3>
@@ -623,7 +623,7 @@ class BookInfo extends PureComponent {
               </div>
             </div>
             <div className='bookpage-book-details-paper-type-selector-container'>
-              <ul className='bookpage-book-details-paper-type-selector'>
+              {/* <ul className='bookpage-book-details-paper-type-selector'>
                 <li
                   className={isBookTypeSelected ?
                     'bookpage-book-details-paper-type-slctd' : 'bookpage-book-details-paper-type'
@@ -642,23 +642,23 @@ class BookInfo extends PureComponent {
                     </div>
                   ) : null}
                 </li>
-                {/*<li className='bookpage-book-details-paper-type'>*/}
-                  {/*<span className='bookpage-book-details-paper-type-text'>*/}
-                    {/*Hardcover*/}
-                  {/*</span>*/}
-                  {/*<span className='bookpage-book-details-paper-type-price'>*/}
-                    {/*$ 21.28*/}
-                  {/*</span>*/}
-                {/*</li>*/}
-                {/*<li className='bookpage-book-details-paper-type'>*/}
-                  {/*<span className='bookpage-book-details-paper-type-text'>*/}
-                    {/*Audio Book*/}
-                  {/*</span>*/}
-                  {/*<span className='bookpage-book-details-paper-type-price'>*/}
-                    {/*$ 4.28*/}
-                  {/*</span>*/}
-                {/*</li>*/}
-              </ul>
+                <li className='bookpage-book-details-paper-type'>
+                  <span className='bookpage-book-details-paper-type-text'>
+                    Hardcover
+                  </span>
+                  <span className='bookpage-book-details-paper-type-price'>
+                    $ 21.28
+                  </span>
+                </li>
+                <li className='bookpage-book-details-paper-type'>*/}
+                  {/* <span className='bookpage-book-details-paper-type-text'>
+                    Audio Book
+                  </span>
+                  <span className='bookpage-book-details-paper-type-price'>
+                    $ 4.28
+                  </span>
+                </li> */}
+              {/* </ul> */}
             </div>
             <div className='bookpage-book-add-to-cart-container'>
               {isUserLogged ?
