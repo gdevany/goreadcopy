@@ -12,7 +12,6 @@ import R from 'ramda'
 
 const { getProfilePage } = ProfilePage
 const { getCurrentReader } = CurrentReader
-const isUserLoggedIn = Auth.currentUserExists()
 const { ChatTabWrapper } = Chat
 
 class ProfileWrapper extends PureComponent {
@@ -28,7 +27,7 @@ class ProfileWrapper extends PureComponent {
   }
 
   componentWillMount = () => {
-
+    const isUserLoggedIn = Auth.currentUserExists()
     if (isUserLoggedIn) {
       this.props.getCurrentReader()
     } else {
@@ -47,6 +46,7 @@ class ProfileWrapper extends PureComponent {
   componentDidMount = () => window.scrollTo(0, 0)
 
   componentWillReceiveProps = (nextProps) => {
+    const isUserLoggedIn = Auth.currentUserExists()
     const profileSlug = this.props.params.slug
     if (nextProps.currentReader) {
       const currentSlug = nextProps.currentReader.slug
@@ -87,6 +87,7 @@ class ProfileWrapper extends PureComponent {
   }
 
   componentWillUpdate = (nextProps, nextState) => {
+    const isUserLoggedIn = Auth.currentUserExists()
     const profileSlug = this.props.params.slug
     const nextSlug = nextProps.params.slug
     const { currentReader } = this.props
@@ -110,6 +111,7 @@ class ProfileWrapper extends PureComponent {
   getGenreIds = (genres) => R.map(R.prop('id'), genres)
 
   render() {
+    const isUserLoggedIn = Auth.currentUserExists()
     const { isMyProfile } = this.state
     const { currentReader, profilePage } = this.props
     const profile = (isMyProfile ? currentReader : profilePage)
@@ -185,10 +187,13 @@ class ProfileWrapper extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({
+  currentReader,
+  profilePage,
+}) => {
   return {
-    currentReader: state.currentReader,
-    profilePage: state.profilePage,
+    currentReader,
+    profilePage,
   }
 }
 
