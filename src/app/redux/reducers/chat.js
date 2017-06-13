@@ -32,8 +32,8 @@ const setChatHistory = ({ conversations }, { id, history }) => {
           ...history.conversation,
           results: [...history.conversation.results, ...n.history.conversation.results]
         }
-        n.history.conversation.results = sortPosts(n.history.conversation.results)
       }
+      n.history.conversation.results = sortPosts(n.history.conversation.results)
     }
     return n
   }, conversations)
