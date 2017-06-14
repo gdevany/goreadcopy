@@ -8,6 +8,10 @@ class ChatHistory extends PureComponent {
     super(props)
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    this.props.scroll()
+  }
+
   splitConversation(list) {
     let split = null, temp = []
     split = []

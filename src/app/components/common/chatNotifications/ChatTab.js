@@ -49,13 +49,13 @@ class ChatTab extends PureComponent {
     this.updateChatConversation = this.updateChatConversation.bind(this)
     this.handleWheelScroll = this.handleWheelScroll.bind(this)
     this.handlePassingReference = this.handlePassingReference.bind(this)
+    this.performScroll = this.performScroll.bind(this)
   }
 
   componentDidMount() {
     this.updateChatConversation()
       .then(()=>{
-        this.scrollToBottom(this.state.container)
-        this.scrollToBottom(this.state.containerMobile)
+        this.performScroll()
       })
   }
 
@@ -106,8 +106,7 @@ class ChatTab extends PureComponent {
     t[ctx] = ref
     this.setState(t, ()=>{
       if (doScrollToBottom) {
-        this.scrollToBottom(this.state.container)
-        this.scrollToBottom(this.state.containerMobile)
+        this.performScroll()
         this.locals.doScrollToBottom = false
       }
     })
@@ -138,13 +137,17 @@ class ChatTab extends PureComponent {
     container.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0
   }
 
+  performScroll() {
+    this.scrollToBottom(this.state.container)
+    this.scrollToBottom(this.state.containerMobile)
+  }
+
   handleChatClick(event) {
     event.preventDefault()
     const { isOpen, id } = this.props
     this.props.toggleChatWindow(id)
       .then(()=>{
-        this.scrollToBottom(this.state.container)
-        this.scrollToBottom(this.state.containerMobile)
+        this.performScroll()
       })
     if (isOpen) {
       this.setState({
@@ -200,8 +203,7 @@ class ChatTab extends PureComponent {
       this.props.postChatMessage({ message, recipient: id })
         .then(()=>{
           this.setState({ message: '' })
-          this.scrollToBottom(this.state.container)
-          this.scrollToBottom(this.state.containerMobile)
+          this.performScroll()
         })
         .catch(err=>{console.log(err)})
     }
@@ -271,7 +273,12 @@ class ChatTab extends PureComponent {
             >
               {
                 history && history.conversation ?
-                  <ChatHistory conversation={conversation.results} id={id} user={user} /> :
+                  <ChatHistory
+                    scroll={this.performScroll}
+                    conversation={conversation.results}
+                    id={id}
+                    user={user}
+                  /> :
                   <LoadingSpinner size={40} />
               }
             </div>
@@ -337,7 +344,12 @@ class ChatTab extends PureComponent {
                   >
                     {
                       history && history.conversation ?
-                        <ChatHistory conversation={conversation.results} id={id} user={user} /> :
+                        <ChatHistory
+                          scroll={this.performScroll}
+                          conversation={conversation.results}
+                          id={id}
+                          user={user}
+                        /> :
                         <LoadingSpinner size={40} />
                     }
                   </div>
