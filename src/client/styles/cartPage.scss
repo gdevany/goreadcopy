@@ -950,3 +950,47 @@
     }
   }
 }
+
+.cartpage-gift-address-modal-container{
+  display: flex;
+  flex-direction: column;
+  .cartpage-gift-address-modal-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    .cartpage-gift-address-product{
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      .cartpage-gift-address-product-figure{
+        max-width: 125px;
+        img{
+          width: 100%;
+        }
+      }
+      .cartpage-gift-address-product-details{
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: column;
+        margin: 0 10px;
+        max-width: 120px;
+        .cartpage-gift-address-product-name{
+          font-weight: 600;
+        }
+        .cartpage-gift-address-product-price{
+          font-weight: 600;
+        }
+      }
+    }
+    .cartpage-gift-address-gift-messagge{
+      width: 75%;
+      textarea{
+        min-height: 85px;
+        max-height: 110px;
+        resize: vertical;
+      }
+    }
+  }
+}

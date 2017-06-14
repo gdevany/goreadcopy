@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Dialog } from 'material-ui'
-import Book from '../common/Book'
+import SingleGiftElement from './singleGiftElement'
+import R from 'ramda'
 
 const styles = {
   modalBody: {
@@ -19,23 +20,114 @@ const styles = {
 
 class ShippingGiftAddressModal extends PureComponent {
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      sendToSamePerson: false,
+      city: '',
+      country: '',
+      address: '',
+      address2: '',
+      zipcode: '',
+      phone: '',
+      state: '',
+      giftMessage: '',
+    }
+    this.handleOnChange = this.handleOnChange.bind(this)
+    this.handleSamePersonClick = this.handleSamePersonClick.bind(this)
+  }
+
+  handleSamePersonClick = (event) => {
+    this.setState({
+      sendToSamePerson: event.target.checked
+    })
+  }
+
+  handleOnChange = R.curry((field, event) => {
+    event.preventDefault()
+    this.setState({ [field]: event.target.value })
+  })
+
   renderGiftCartItems = () => {
     const { cartElements } = this.props
     return cartElements.map((item, index) => {
-      if (item.isGiftItem) {
-        return (
-          <Book
-            key={`gifts_${index}`}
-            url={`/book/${item.product.slug}`}
-            image={item.product.imageUrl}
-            id={item.product.id}
-            title={item.product.name}
-            authors={item.product.seller}
-          />
-        )
-      }
+      if (item.isGiftItem) return <SingleGiftElement key={`gift_${index}`} giftItem={item}/>
       return null
     })
+  }
+
+  renderForm = () => {
+    return (
+      <div className='row'>
+        <div className='large-8 columns'>
+          <div className='row'>
+            <div className='large-6 columns'>
+              <label>Country</label>
+              <input
+                type='text'
+                onChange={this.handleOnChange('country')}
+                value={this.state.country}
+              />
+            </div>
+            <div className='large-6 columns'>
+              <label>State</label>
+              <input
+                type='text'
+                onChange={this.handleOnChange('state')}
+                value={this.state.state}
+              />
+            </div>
+            <div className='large-12 columns'>
+              <label>Address</label>
+              <input
+                type='text'
+                onChange={this.handleOnChange('address')}
+                value={this.state.address}
+              />
+            </div>
+            <div className='large-12 columns'>
+              <label>Address 2</label>
+              <input
+                type='text'
+                onChange={this.handleOnChange('address2')}
+                value={this.state.address2}
+              />
+            </div>
+            <div className='large-4 columns'>
+              <label>Phone</label>
+              <input
+                type='text'
+                onChange={this.handleOnChange('phone')}
+                value={this.state.phone}
+              />
+            </div>
+            <div className='large-4 columns'>
+              <label>City</label>
+              <input
+                type='text'
+                onChange={this.handleOnChange('city')}
+                value={this.state.city}
+              />
+            </div>
+            <div className='large-4 columns'>
+              <label>Zipcode</label>
+              <input
+                type='text'
+                onChange={this.handleOnChange('zipcode')}
+                value={this.state.zipcode}
+              />
+            </div>
+          </div>
+        </div>
+        <div className='large-4 columns'>
+          <label>Gift Messagge</label>
+          <textarea
+            onChange={this.handleOnChange('giftMessage')}
+            value={this.state.giftMessage}
+          />
+        </div>
+      </div>
+    )
   }
 
   render() {
@@ -62,7 +154,21 @@ class ShippingGiftAddressModal extends PureComponent {
           />
           <div className='row'>
             <div className='large-8 large-offset-2 column'>
-              {this.renderGiftCartItems()}
+              <section className='cartpage-gift-address-modal-message'>
+                <input
+                  type='checkbox'
+                  name='use-same-address'
+                  checked={this.state.sendToSamePerson}
+                  onChange={this.handleSamePersonClick}
+                />
+                <label htmlFor='use-same-address'>
+                  Use same address for all gifts
+                </label>
+              </section>
+              <hr className='cartpage-gift-address-modal-divider'/>
+              <section className='cartpage-gift-address-modal-container'>
+                {this.state.sendToSamePerson ? this.renderForm() : this.renderGiftCartItems()}
+              </section>
             </div>
           </div>
         </Dialog>
