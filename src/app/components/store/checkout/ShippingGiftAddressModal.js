@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import { Dialog } from 'material-ui'
 import SingleGiftElement from './singleGiftElement'
+import { Store } from '../../../redux/actions'
 import R from 'ramda'
 
 const styles = {
@@ -17,6 +19,8 @@ const styles = {
     position: 'relative',
   },
 }
+
+const { addGiftData } = Store
 
 class ShippingGiftAddressModal extends PureComponent {
 
@@ -35,6 +39,7 @@ class ShippingGiftAddressModal extends PureComponent {
     }
     this.handleOnChange = this.handleOnChange.bind(this)
     this.handleSamePersonClick = this.handleSamePersonClick.bind(this)
+    this.handleShippingSubmit = this.handleShippingSubmit.bind(this)
   }
 
   handleSamePersonClick = (event) => {
@@ -48,6 +53,44 @@ class ShippingGiftAddressModal extends PureComponent {
     this.setState({ [field]: event.target.value })
   })
 
+  giftIdsHandler = () => {
+    const { cartElements } = this.props
+    const giftIds = []
+    for (let i = 0; i < cartElements.length; i++) {
+      if (cartElements[i].isGiftItem) {
+        giftIds.push(cartElements[i].id)
+      }
+    }
+    return giftIds
+  }
+
+  handleShippingSubmit = (event) => {
+    event.preventDefault()
+    const { addGiftData } = this.props
+    const {
+      city,
+      country,
+      address,
+      address2,
+      zipcode,
+      phone,
+      state,
+      giftMessage,
+    } = this.state
+    addGiftData({
+      cartItems: this.giftIdsHandler(),
+      city,
+      country,
+      address,
+      address2,
+      zipcode,
+      phone,
+      state,
+      giftMessage
+    })
+    this.props.handleClose()
+  }
+
   renderGiftCartItems = () => {
     const { cartElements } = this.props
     return cartElements.map((item, index) => {
@@ -58,73 +101,85 @@ class ShippingGiftAddressModal extends PureComponent {
 
   renderForm = () => {
     return (
-      <div className='row'>
-        <div className='large-8 columns'>
-          <div className='row'>
-            <div className='large-6 columns'>
-              <label>Country</label>
-              <input
-                type='text'
-                onChange={this.handleOnChange('country')}
-                value={this.state.country}
-              />
-            </div>
-            <div className='large-6 columns'>
-              <label>State</label>
-              <input
-                type='text'
-                onChange={this.handleOnChange('state')}
-                value={this.state.state}
-              />
-            </div>
-            <div className='large-12 columns'>
-              <label>Address</label>
-              <input
-                type='text'
-                onChange={this.handleOnChange('address')}
-                value={this.state.address}
-              />
-            </div>
-            <div className='large-12 columns'>
-              <label>Address 2</label>
-              <input
-                type='text'
-                onChange={this.handleOnChange('address2')}
-                value={this.state.address2}
-              />
-            </div>
-            <div className='large-4 columns'>
-              <label>Phone</label>
-              <input
-                type='text'
-                onChange={this.handleOnChange('phone')}
-                value={this.state.phone}
-              />
-            </div>
-            <div className='large-4 columns'>
-              <label>City</label>
-              <input
-                type='text'
-                onChange={this.handleOnChange('city')}
-                value={this.state.city}
-              />
-            </div>
-            <div className='large-4 columns'>
-              <label>Zipcode</label>
-              <input
-                type='text'
-                onChange={this.handleOnChange('zipcode')}
-                value={this.state.zipcode}
-              />
+      <div>
+        <div className='row'>
+          <div className='large-8 columns'>
+            <div className='row'>
+              <div className='large-6 columns'>
+                <label>Country</label>
+                <input
+                  type='text'
+                  onChange={this.handleOnChange('country')}
+                  value={this.state.country}
+                />
+              </div>
+              <div className='large-6 columns'>
+                <label>State</label>
+                <input
+                  type='text'
+                  onChange={this.handleOnChange('state')}
+                  value={this.state.state}
+                />
+              </div>
+              <div className='large-12 columns'>
+                <label>Address</label>
+                <input
+                  type='text'
+                  onChange={this.handleOnChange('address')}
+                  value={this.state.address}
+                />
+              </div>
+              <div className='large-12 columns'>
+                <label>Address 2</label>
+                <input
+                  type='text'
+                  onChange={this.handleOnChange('address2')}
+                  value={this.state.address2}
+                />
+              </div>
+              <div className='large-4 columns'>
+                <label>Phone</label>
+                <input
+                  type='text'
+                  onChange={this.handleOnChange('phone')}
+                  value={this.state.phone}
+                />
+              </div>
+              <div className='large-4 columns'>
+                <label>City</label>
+                <input
+                  type='text'
+                  onChange={this.handleOnChange('city')}
+                  value={this.state.city}
+                />
+              </div>
+              <div className='large-4 columns'>
+                <label>Zipcode</label>
+                <input
+                  type='text'
+                  onChange={this.handleOnChange('zipcode')}
+                  value={this.state.zipcode}
+                />
+              </div>
             </div>
           </div>
+          <div className='large-4 columns'>
+            <label>Gift Messagge</label>
+            <textarea
+              onChange={this.handleOnChange('giftMessage')}
+              value={this.state.giftMessage}
+            />
+          </div>
         </div>
-        <div className='large-4 columns'>
-          <label>Gift Messagge</label>
-          <textarea
-            onChange={this.handleOnChange('giftMessage')}
-            value={this.state.giftMessage}
-          />
+        <div className='row'>
+          <div className='large-3 large-offset-4 columns'>
+            <a
+              className='checkoutpage-place-order-btn'
+              onClick={this.handleShippingSubmit}
+            >
+                Save Address
+            </a>
+          </div>
         </div>
       </div>
     )
@@ -177,4 +232,4 @@ class ShippingGiftAddressModal extends PureComponent {
   }
 }
 
-export default ShippingGiftAddressModal
+export default connect(null, { addGiftData })(ShippingGiftAddressModal)

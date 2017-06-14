@@ -441,7 +441,7 @@ class CheckoutPage extends PureComponent {
         </div>
         <div className='large-4 large-offset-1 columns end'>
           <a className='checkoutpage-place-order-btn'>
-            Plase Order
+            Place Order
           </a>
           <OrderSummary />
         </div>
