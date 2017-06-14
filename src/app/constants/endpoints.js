@@ -92,6 +92,8 @@ const Endpoints = () => {
       updateCartItems:
         (id, quantity) => apiUrl(`store/cart/${id}/update_item_quantity/${quantity}`),
       removeItemFromCart: (id) => apiUrl(`store/cart/${id}/remove_item`),
+      convertToGift: (id) => apiUrl(`store/cart/${id}/convert_item_to_gift`),
+      addGiftData: (params) => apiUrl('store/cart/gift_item_data', params),
     },
     rates: {
       getStarsInfo: (modelName, id) => apiUrl(`rate/${modelName}/${id}/stars`),

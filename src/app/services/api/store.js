@@ -16,6 +16,8 @@ const {
     getCartItems,
     updateCartItems,
     removeItemFromCart,
+    convertToGift,
+    addGiftData,
   }
 } = Endpoints
 
@@ -33,6 +35,8 @@ const Store = () => {
     getCartItems: (params) => authenticated().get(getCartItems(params)),
     updateCartItems: (id, quantity) => authenticated().post(updateCartItems(id, quantity)),
     removeItemFromCart: (id) => authenticated().delete(removeItemFromCart(id)),
+    convertToGift: (id, params) => authenticated().post(convertToGift(id), params),
+    addGiftData: (params) => authenticated().post(addGiftData(), params),
 
   }
 }

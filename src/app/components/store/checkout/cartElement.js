@@ -4,17 +4,19 @@ import { Store } from '../../../redux/actions'
 import { debounce } from 'lodash'
 import GiftIcon from 'material-ui/svg-icons/action/card-giftcard'
 
-const { updateCartItems, removeItemFromCart } = Store
+const { updateCartItems, removeItemFromCart, convertToGift } = Store
 
 class CartElement extends PureComponent {
 
   constructor(props) {
     super(props)
     this.state = {
-      bookCount: props.bookCount
+      bookCount: props.bookCount,
+      isGift: props.isGift
     }
     this.handleBookRemove = this.handleBookRemove.bind(this)
     this.handleBooksCount = this.handleBooksCount.bind(this)
+    this.handleGiftBook = this.handleGiftBook.bind(this)
     this.handleDebounceUpdate = this.handleDebounceUpdate.bind(this)
   }
 
@@ -35,10 +37,19 @@ class CartElement extends PureComponent {
     updateCartItems(bookId, bookCount)
   }, 500)
 
+  handleGiftBook = (event) => {
+    this.setState({
+      isGift: event.target.checked
+    })
+    this.props.convertToGift(this.props.itemId, {
+      toGift: event.target.checked,
+    })
+  }
+
   handleBookRemove = (event) => {
     event.preventDefault()
-    const { bookId, removeItemFromCart } = this.props
-    removeItemFromCart(bookId)
+    const { itemId, removeItemFromCart } = this.props
+    removeItemFromCart(itemId)
   }
 
   render() {
@@ -76,7 +87,12 @@ class CartElement extends PureComponent {
               > + </a>
             </div>
             <div className='bookpage-book-gift-container'>
-              <input className='bookpage-book-gift-input' type='checkbox'/>
+              <input
+                className='bookpage-book-gift-input'
+                type='checkbox'
+                checked={this.state.isGift}
+                onChange={this.handleGiftBook}
+              />
               <span className='bookpage-book-gift-text'>Gift</span>
               <GiftIcon className='bookpage-book-gift-icon'/>
             </div>
@@ -105,4 +121,10 @@ class CartElement extends PureComponent {
     )
   }
 }
-export default connect(null, { updateCartItems, removeItemFromCart })(CartElement)
+
+const mapDispachToProps = {
+  updateCartItems,
+  removeItemFromCart,
+  convertToGift
+}
+export default connect(null, mapDispachToProps)(CartElement)
