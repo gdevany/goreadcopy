@@ -276,7 +276,10 @@ class NavMenu extends PureComponent {
   }
 
   handlePlatformUse(platformUse) {
-    this.setState({ usePlatformAs: platformUse })
+    this.setState({
+      usePlatformAs: platformUse,
+      isMobileMenuOpen: false
+    })
     this.props.usePlatformAs(platformUse)
   }
 
@@ -624,7 +627,7 @@ class NavMenu extends PureComponent {
 
   renderLogInMenu = () => {
     const { currentReader } = this.props
-    const { socialFollowers, socialFollowed, isReadFeed } = this.state
+    const { socialFollowers, socialFollowed, isReadFeed, usePlatformAs } = this.state
     return (
       <div className='slide-down'>
         <div style={styles.mobileNavContainer} className='top-bar-mobile'>
@@ -753,22 +756,102 @@ class NavMenu extends PureComponent {
               </div>
             </div>
             <div className='explore-links-container'>
+              {currentReader.hasAuthorBuzz ||
+              (currentReader.hasPublisherBuzz && currentReader.isPublisher) ?
+                (
+                  <ul className='links-container'>
+                      <span className='links-title'>
+                        Use Platform As
+                      </span>
+                    <div className='publishing-as-mobile-container'>
+                      <li className='publishing-as-list'>
+                        <a
+                          onClick={() => this.handlePlatformUse('reader')}
+                          className={usePlatformAs === 'reader' ?
+                            ('publishing-as-active') : ('publishing-as-anchor')}
+                        >
+                          Reader
+                        </a>
+                      </li>
+                      {currentReader.hasAuthorBuzz ?
+                        (
+                          <li className='publishing-as-list'>
+                            <a
+                              onClick={() => this.handlePlatformUse('author')}
+                              className={usePlatformAs === 'author' ?
+                                ('publishing-as-active') : ('publishing-as-anchor')}
+                            >
+                              Author
+                            </a>
+                          </li>
+                        ) : null
+                      }
+                      {currentReader.hasPublisherBuzz && currentReader.isPublisher ?
+                        (
+                          <li className='publishing-as-list'>
+                            <a
+                              onClick={() => this.handlePlatformUse('publisher')}
+                              className={usePlatformAs === 'publisher' ?
+                                ('publishing-as-active') : ('publishing-as-anchor')}
+                            >
+                              Publisher
+                            </a>
+                          </li>
+                        ) : null
+                      }
+                    </div>
+                  </ul>
+                ) : null
+              }
               <ul className='links-container'>
                 <span className='links-title'>
                   Explore
                 </span>
+                {currentReader.isAuthor && !currentReader.hasAuthorBuzz ?
+                  (
+                    <li className='links-list'>
+                      <a
+                        href={currentReader.author.url}
+                        className='links-anchor'
+                      >
+                        My Author Page
+                      </a>
+                    </li>
+                  ) : currentReader.isAuthor && currentReader.hasAuthorBuzz ?
+                    (
+                      <li className='links-list'>
+                        <a
+                          href={currentReader.author.url}
+                          className='links-anchor'
+                        >
+                          GoRead Buzz
+                        </a>
+                      </li>
+                    ) : null
+                }
                 {this.mapMobileMenuItems('Explore')}
               </ul>
               <ul className='links-container'>
                 <span className='links-title'>
                   Help & Settings
                 </span>
+                { currentReader.isAuthor && currentReader.hasAuthorBuzz ?
+                  (
+                    <li className='links-list'>
+                      <a
+                        href='/author/buzz/settings'
+                        className='links-anchor'
+                      >
+                        Buzz Settings
+                      </a>
+                    </li>
+                  ) : null
+                }
                 {this.mapMobileMenuItems('Help')}
                 <li className='links-list'>
                   <a
-                    href='https://www.goread.com/profile/settings'
+                    href='/profile/settings'
                     className='links-anchor'
-                    target='_blank'
                   >
                     Help
                   </a>
@@ -838,7 +921,6 @@ class NavMenu extends PureComponent {
 
             <div className='top-bar-right'>
               <ul className='menu'>
-
                 <li style={styles.loggedInRightNavLi}>
                   <LitcoinStatus />
                 </li>

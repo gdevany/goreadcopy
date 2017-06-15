@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Litcoins } from '../../redux/actions'
 import { ExternalRoutes as routes } from '../../constants'
 
-const { litcoins } = routes
+const { litcoins, litcoinsProfile } = routes
 const { updateLitcoinBalance } = Litcoins
 const styles = {
   container: {
@@ -57,11 +57,15 @@ class LitcoinStatus extends PureComponent {
       <div>
         <a className='rf-nav-link' href={litcoins()}>
           <span>{currentBalance ? currentBalance.toLocaleString() : null}</span>
+        </a>
+        <a className='litcoin-balance-anchor' href={litcoinsProfile()}>
           <img className='litcoin-img' src='/image/litcoin.png' />
         </a>
         <div style={styles.container} className={this.state.litcoinClass}>
-          <a className='litcoin-balance-anchor' href={litcoins()}>
+          <a className='litcoin-balance-anchor' href={litcoinsProfile()}>
             + {litcoinDifference}
+          </a>
+          <a className='litcoin-balance-anchor' href={litcoinsProfile()}>
             <img className='litcoin-img' src='/image/litcoin.png' />
           </a>
         </div>

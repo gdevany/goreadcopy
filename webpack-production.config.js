@@ -6,6 +6,7 @@ const TransferWebpackPlugin = require('transfer-webpack-plugin')
 const dotenv = require('dotenv');
 const CompressionPlugin = require('compression-webpack-plugin');
 const failPlugin = require('webpack-fail-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 process.env.dotenv_config_file ?
     dotenv.config({path: path.join(__dirname, process.env.dotenv_config_file)}) : dotenv.config()
@@ -28,7 +29,7 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: path.join(process.cwd(), 'public'),
-    publicPath: '/public',
+    publicPath: '/',
   },
   plugins: [
     failPlugin,
@@ -56,6 +57,12 @@ module.exports = {
     new TransferWebpackPlugin([
       {from: 'client'},
     ], path.resolve(__dirname, 'src')),
+    new HtmlWebpackPlugin({
+        hash: true,
+        showErrors: true,
+        title: 'GoRead',
+        template: 'src/client/index.ejs',
+    }),
   ],
   module: {
     preLoaders: [
