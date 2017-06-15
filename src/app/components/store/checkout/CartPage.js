@@ -9,7 +9,7 @@ import { Store } from '../../../redux/actions'
 import ShippingGiftAddressModal from './ShippingGiftAddressModal'
 
 const isUserLoggedIn = Auth.currentUserExists()
-const { getCartItems } = Store
+const { getCartItems, setOrder } = Store
 
 class CartPage extends PureComponent {
 
@@ -127,7 +127,11 @@ class CartPage extends PureComponent {
                     </a>
                     {cart && cart.itemsCount > 0 ?
                       (
-                        <Link className='cartpage-action-primary-btn' to='/shop/checkout'>
+                        <Link
+                          onClick={this.props.setOrder()}
+                          className='cartpage-action-primary-btn'
+                          to='/shop/checkout'
+                        >
                           Checkout
                         </Link>
                       ) : null
@@ -153,4 +157,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { getCartItems })(CartPage)
+export default connect(mapStateToProps, { getCartItems, setOrder })(CartPage)

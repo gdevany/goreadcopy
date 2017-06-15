@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router'
+import { Store } from '../../../redux/actions'
 import OrderSummary from './OrderSummary'
 import CartItems from './CartItems'
 import ReviewOrder from './ReviewOrder'
@@ -7,6 +9,8 @@ import CheckIcon from 'material-ui/svg-icons/navigation/check'
 import UseLitcoins from './UseLitcoins'
 import LockIcon from 'material-ui/svg-icons/action/lock-outline'
 import R from 'ramda'
+
+const { setOrder, getOrder, getCurrentOrder, getShippingMethods } = Store
 
 class CheckoutPage extends PureComponent {
   constructor(props) {
@@ -34,6 +38,31 @@ class CheckoutPage extends PureComponent {
     this.handlePaymentClick = this.handlePaymentClick.bind(this)
   }
 
+  componentWillMount = () => {
+    this.props.getCurrentOrder()
+    this.props.getShippingMethods()
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.order) {
+      const { shippingAddress } = nextProps.order
+      const fullname = this.splitFullName(shippingAddress.name)
+      this.setState({
+        firstNameShipping: fullname[0],
+        lastNameShipping: fullname[1],
+        addressShipping: shippingAddress.address,
+        address2Shipping: shippingAddress.address2,
+        countryShipping: shippingAddress.country,
+        stateShipping: shippingAddress.state,
+        cityShipping: shippingAddress.city,
+        zipcodeShipping: shippingAddress.zipcode,
+      })
+    }
+  }
+
+  splitFullName = (fullname) => {
+    return fullname.split(' ')
+  }
   truncInfo = (text, limit) => {
     return text.length >= limit ? `${text.slice(0, limit)}...` : text
   }
@@ -110,6 +139,7 @@ class CheckoutPage extends PureComponent {
             <div className='checkoutpage-steps-delivery-method'>
               <input
                 className='checkoutpage-steps-delivery-method-input'
+                name='delivery-method'
                 type='radio'
               />
               <label className='checkoutpage-steps-delivery-method-label'>
@@ -129,6 +159,7 @@ class CheckoutPage extends PureComponent {
             <div className='checkoutpage-steps-delivery-method'>
               <input
                 className='checkoutpage-steps-delivery-method-input'
+                name='delivery-method'
                 type='radio'
               />
               <label className='checkoutpage-steps-delivery-method-label'>
@@ -541,4 +572,18 @@ class CheckoutPage extends PureComponent {
   }
 }
 
-export default CheckoutPage
+const mapStateToProps = (state) => {
+  return {
+    order: state.store.order,
+    shippingMethods: state.store.shippingMethods,
+  }
+}
+
+const mapDistpachToProps = {
+  setOrder,
+  getOrder,
+  getCurrentOrder,
+  getShippingMethods,
+}
+
+export default connect(mapStateToProps, mapDistpachToProps)(CheckoutPage)
