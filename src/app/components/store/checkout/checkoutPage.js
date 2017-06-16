@@ -40,9 +40,8 @@ class CheckoutPage extends PureComponent {
       zipcodeShipping: '',
       nameOnCard: '',
       cardNumber: '',
-      expMonth: '',
-      expYear: '',
       cardCVC: '',
+      fullExpDate: '',
       saveCard: false,
       sameShippingAddress: true,
       firstNameBilling: '',
@@ -86,6 +85,11 @@ class CheckoutPage extends PureComponent {
   splitFullName = (fullname) => {
     return fullname.split(' ')
   }
+
+  splitCardExp = (date) => {
+    return date.split('/')
+  }
+
   truncInfo = (text, limit) => {
     return text.length >= limit ? `${text.slice(0, limit)}...` : text
   }
@@ -132,38 +136,57 @@ class CheckoutPage extends PureComponent {
   continueToReviewClick = (event) => {
     event.preventDefault()
     const { setUserAddress } = this.props
-    this.setState({
-      isStepOneActive: false,
-      isStepTwoActive: false,
-      isStepThreeActive: true,
-      stepOneComplete: true,
-      stepTwoComplete: true,
-    })
-    if (!this.state.sameShippingAddress) {
-      const {
-        firstNameBilling,
-        lastNameBilling,
-        addressBilling,
-        address2Billing,
-        countryBilling,
-        stateBilling,
-        cityBilling,
-        zipcodeBilling,
-      } = this.state
-      if (cityBilling && countryBilling && addressBilling &&
-        address2Billing && zipcodeBilling && stateBilling) {
-        setUserAddress({
-          city: cityBilling,
-          name: `${firstNameBilling} ${lastNameBilling}`,
-          country: countryBilling,
-          address: addressBilling,
-          address2: address2Billing,
-          zipcode: zipcodeBilling,
-          state: stateBilling,
-          addressType: 'billing',
-          sameBillingAndShipping: false,
+    const {
+      nameOnCard,
+      cardNumber,
+      cardCVC,
+      fullExpDate,
+    } = this.state
+    if (nameOnCard && cardNumber && cardCVC && fullExpDate) {
+      // const expDate = this.splitCardExp(fullExpDate)
+      if (!this.state.sameShippingAddress) {
+        const {
+          firstNameBilling,
+          lastNameBilling,
+          addressBilling,
+          address2Billing,
+          countryBilling,
+          stateBilling,
+          cityBilling,
+          zipcodeBilling,
+        } = this.state
+        if (cityBilling && countryBilling && addressBilling &&
+          address2Billing && zipcodeBilling && stateBilling) {
+          this.setState({
+            isStepOneActive: false,
+            isStepTwoActive: false,
+            isStepThreeActive: true,
+            stepOneComplete: true,
+            stepTwoComplete: true,
+          })
+          setUserAddress({
+            city: cityBilling,
+            name: `${firstNameBilling} ${lastNameBilling}`,
+            country: countryBilling,
+            address: addressBilling,
+            address2: address2Billing,
+            zipcode: zipcodeBilling,
+            state: stateBilling,
+            addressType: 'billing',
+            sameBillingAndShipping: false,
+          })
+        } else alert('Complete all billing fields')
+      } else {
+        this.setState({
+          isStepOneActive: false,
+          isStepTwoActive: false,
+          isStepThreeActive: true,
+          stepOneComplete: true,
+          stepTwoComplete: true,
         })
-      } else alert('Fill all')
+      }
+    } else {
+      alert('Complete all card fields')
     }
   }
 
@@ -388,7 +411,14 @@ class CheckoutPage extends PureComponent {
   handleCheckSame = (event) => this.setState({ sameShippingAddress: event.target.checked })
 
   renderStepTwo = () => {
-    const { isPaypalClicked, isCardClicked } = this.state
+    const {
+      isPaypalClicked,
+      isCardClicked,
+      nameOnCard,
+      cardNumber,
+      cardCVC,
+      fullExpDate,
+    } = this.state
     return (
       <div className='row'>
         <div className='large-7 columns'>
@@ -436,6 +466,8 @@ class CheckoutPage extends PureComponent {
                         <input
                           type='text'
                           className='checkoutpage-payment-card-single-input'
+                          onChange={this.handleFormsChanges('nameOnCard')}
+                          value={nameOnCard}
                         />
                       </div>
                     </div>
@@ -447,6 +479,8 @@ class CheckoutPage extends PureComponent {
                         <input
                           type='number'
                           className='checkoutpage-payment-card-single-input'
+                          onChange={this.handleFormsChanges('cardNumber')}
+                          value={cardNumber}
                         />
                       </div>
                     </div>
@@ -458,6 +492,8 @@ class CheckoutPage extends PureComponent {
                         <input
                           type='text'
                           className='checkoutpage-payment-card-single-input'
+                          onChange={this.handleFormsChanges('fullExpDate')}
+                          value={fullExpDate}
                         />
                       </div>
                     </div>
@@ -471,6 +507,8 @@ class CheckoutPage extends PureComponent {
                           min='100'
                           min='999'
                           className='checkoutpage-payment-card-single-input has-lock'
+                          onChange={this.handleFormsChanges('cardCVC')}
+                          value={cardCVC}
                         />
                         <LockIcon
                           className='checkoutpage-payment-card-single-input-lock'
