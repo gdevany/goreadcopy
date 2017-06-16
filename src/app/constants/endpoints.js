@@ -94,6 +94,12 @@ const Endpoints = () => {
       removeItemFromCart: (id) => apiUrl(`store/cart/${id}/remove_item`),
       convertToGift: (id) => apiUrl(`store/cart/${id}/convert_item_to_gift`),
       addGiftData: (params) => apiUrl('store/cart/gift_item_data', params),
+      setUserAddress: (params) => apiUrl('store/cart/user_address', params),
+      setOrder: (params) => apiUrl('store/order', params),
+      getOrder: (params) => apiUrl('store/order', params),
+      getShippingMethods: (params) => apiUrl('store/order/shipping_methods', params),
+      getCurrentOrder: (params) => apiUrl('store/order/current', params),
+      setBilling: (params) => apiUrl('store/order/billing', params),
     },
     rates: {
       getStarsInfo: (modelName, id) => apiUrl(`rate/${modelName}/${id}/stars`),

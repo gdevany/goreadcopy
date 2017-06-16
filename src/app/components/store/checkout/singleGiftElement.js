@@ -1,5 +1,9 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
+import { Store } from '../../../redux/actions'
 import R from 'ramda'
+
+const { addGiftData } = Store
 
 class SingleGiftElement extends PureComponent {
   constructor(props) {
@@ -18,6 +22,7 @@ class SingleGiftElement extends PureComponent {
     }
     this.handleOpenAddress = this.handleOpenAddress.bind(this)
     this.handleOnChange = this.handleOnChange.bind(this)
+    this.handleShippingSubmit = this.handleShippingSubmit.bind(this)
   }
 
   handleOpenAddress = (event) => {
@@ -29,6 +34,34 @@ class SingleGiftElement extends PureComponent {
     event.preventDefault()
     this.setState({ [field]: event.target.value })
   })
+
+  handleShippingSubmit = (event) => {
+    event.preventDefault()
+    const { addGiftData } = this.props
+    const {
+      city,
+      country,
+      address,
+      address2,
+      zipcode,
+      phone,
+      state,
+      giftMessage,
+      gift
+    } = this.state
+    addGiftData({
+      cartItems: [gift.id],
+      city,
+      country,
+      address,
+      address2,
+      zipcode,
+      phone,
+      state,
+      giftMessage
+    })
+    this.setState({ isAddressClicked: false, })
+  }
 
   render() {
     const { gift, isAddressClicked } = this.state
@@ -128,6 +161,16 @@ class SingleGiftElement extends PureComponent {
                   />
                 </div>
               </div>
+              <div className='row'>
+                <div className='large-3 large-offset-4 columns'>
+                  <a
+                    className='checkoutpage-place-order-btn'
+                    onClick={this.handleShippingSubmit}
+                  >
+                      Save Address
+                  </a>
+                </div>
+              </div>
             </div>
           ) : null
         }
@@ -136,4 +179,4 @@ class SingleGiftElement extends PureComponent {
   }
 }
 
-export default SingleGiftElement
+export default connect(null, { addGiftData })(SingleGiftElement)

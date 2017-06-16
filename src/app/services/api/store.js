@@ -18,6 +18,12 @@ const {
     removeItemFromCart,
     convertToGift,
     addGiftData,
+    setUserAddress,
+    setOrder,
+    getOrder,
+    getCurrentOrder,
+    getShippingMethods,
+    setBilling
   }
 } = Endpoints
 
@@ -37,7 +43,12 @@ const Store = () => {
     removeItemFromCart: (id) => authenticated().delete(removeItemFromCart(id)),
     convertToGift: (id, params) => authenticated().post(convertToGift(id), params),
     addGiftData: (params) => authenticated().post(addGiftData(), params),
-
+    setUserAddress: (params) => authenticated().post(setUserAddress(), params),
+    setOrder: (params) => authenticated().post(setOrder(), params),
+    getOrder: (params) => authenticated().get(getOrder(), params),
+    getCurrentOrder: (params) => authenticated().get(getCurrentOrder(), params),
+    getShippingMethods: (params) => authenticated().get(getShippingMethods(), params),
+    setBilling: (params) => authenticated().post(setBilling(), params),
   }
 }
 

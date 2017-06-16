@@ -994,3 +994,80 @@
     }
   }
 }
+
+.chekoutpage-edit-shipping-modal{
+  .chekoutpage-edit-shipping-modal-title{
+    font-size: 22px;
+    font-weight: 600;
+  }
+  .chekoutpage-edit-shipping-address-container{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    padding: 15px;
+    border: solid 2px $store-blue;
+    border-radius: 5px;
+    margin-top: 25px;
+    .chekoutpage-edit-shipping-address-icon{
+      align-self: center;
+      padding: 5px;
+      background-color: $store-blue;
+      border-radius: 20px;
+      width: 34px !important;
+      height: 34px !important;
+      path{
+        fill: $white;
+      }
+    }
+    .chekoutpage-edit-shipping-address-overview{
+      .chekoutpage-edit-shipping-address-name, .chekoutpage-edit-shipping-address-address{
+        margin-bottom: 2.5px;
+      }
+      .chekoutpage-edit-shipping-address-state{
+        display: flex;
+      }
+      .chekoutpage-edit-shipping-address-phone{
+        display: flex;
+      }
+    }
+    .chekoutpage-edit-shipping-address-edit{
+      .chekoutpage-edit-shipping-address-edit-btn{
+        color: $black;
+      }
+    }
+  }
+  .chekoutpage-edit-shipping-address-form{
+    margin-top: 25px;
+    padding: 15px;
+    border: solid 1px $store-blue;
+    border-radius: 5px;
+    .chekoutpage-edit-shipping-address-form-title{
+      font-size: 20px;
+      font-weight: 500;
+    }
+    .chekoutpage-edit-shipping-address-btns-container{
+      margin: 25px 0;
+      display: flex;
+      justify-content: flex-start;
+      .chekoutpage-edit-shipping-address-btn-save{
+        display: flex;
+        align-items: center;
+        padding: 10px 25px;
+        color: $white;
+        background-color: $store-blue;
+        font-size: 16px;
+        border-radius: 23px;
+        margin-right: 15px;
+      }
+      .chekoutpage-edit-shipping-address-btn-cancel{
+        display: flex;
+        align-items: center;
+        padding: 10px 25px;
+        color: $store-blue;
+        font-size: 16px;
+        border: solid 1px $store-blue;
+        border-radius: 23px;
+      }
+    }
+  }
+}
