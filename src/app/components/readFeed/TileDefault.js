@@ -4,7 +4,9 @@ import { Tiles } from '../../redux/actions'
 import { PrimaryButton } from '../common'
 import { RegisterSignInModal } from '../common'
 import { Colors } from '../../constants/style'
+import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import { Auth } from '../../services'
+import { TileEdit } from './tiles'
 import {
   Card,
   CardActions,
@@ -35,8 +37,12 @@ const LinkedinIcon = generateShareIcon('linkedin')
 const {
   updateLikes,
   updateComments,
+  updateReadfeedTile,
+  updateProfileTile,
   getComments,
   shareTile,
+  deleteReadfeedTile,
+  deleteProfileTile,
 } = Tiles
 
 const styles = {
@@ -89,20 +95,23 @@ const styles = {
     margin: 0,
   },
   socialWrapper: {
-    borderTop: `2px solid ${Colors.lightGrey}`,
+    borderTop: '2px solid #F4F4F4',
     fontSize: 14,
+    opacity: '100',
     padding: '20px 30px',
   },
   commentIconContainer: {
     textAlign: 'center',
   },
   commentContainer: {
-    borderTop: `2px solid ${Colors.lightGrey}`,
+    borderTop: '2px solid #F4F4F4',
+    opacity: '100',
     padding: 0,
   },
   commentActions: {
-    borderBottom: `2px solid ${Colors.lightGrey}`,
+    borderBottom: '2px solid #F4F4F4',
     fontSize: 14,
+    opacity: '100',
     padding: '10px 20px',
   },
   likesContainer: {
@@ -144,8 +153,9 @@ const styles = {
     boxShadow: 'rgba(222, 222, 222, 0.5) 0px 4px 20px 0px',
   },
   postInput: {
-    border: `1px solid ${Colors.lightMedGrey}`,
+    border: '1px solid #F4F4F4',
     borderRadius: 3,
+    opacity: '100',
     outline: 'none',
     marginLeft: 85,
     maxWidth: 450,
@@ -193,11 +203,22 @@ class TileDefault extends PureComponent {
       commentParentId: false,
       replyPlaceholder: false,
       modalLogInOpen: false,
-      userLogged: false
+      userLogged: false,
+      isProfilePage: false,
+      isMyProfile: false,
+      isPostEditing: false,
+      isPostDeleted: false,
+      actionMenuOpen: false,
     }
 
     this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
+    this.handleActionMenuShow = this.handleActionMenuShow.bind(this)
+    this.handleActionMenuHide = this.handleActionMenuHide.bind(this)
 
+  }
+
+  static contextTypes = {
+    router: PropTypes.object
   }
 
   renderTime = (time) => {
@@ -205,6 +226,14 @@ class TileDefault extends PureComponent {
       return moment(moment.unix(time)).fromNow()
     }
     return time
+  }
+
+  componentWillMount = () => {
+    if (this.context.router.params.slug) {
+      this.setState({
+        isProfilePage: true,
+      })
+    }
   }
 
   truncInfo = (text, limit) => {
@@ -248,12 +277,29 @@ class TileDefault extends PureComponent {
         userLogged: true,
       })
     }
+    if (nextProps.slug === this.context.router.params.slug) {
+      this.setState({
+        isMyProfile: true,
+      })
+    }
   }
 
   componentDidUpdate = (prevProps, prevState) => {
     const { likedCount } = this.state
     const { tileId, updateLikes } = this.props
     if (prevState.likedCount !== likedCount) updateLikes(tileId, { liked: true })
+  }
+
+  handleActionMenuShow = () => {
+    if (!this.state.actionMenuOpen) {
+      this.setState({ actionMenuOpen: true })
+    } else {
+      this.setState({ actionMenuOpen: false })
+    }
+  }
+
+  handleActionMenuHide = () => {
+    this.setState({ actionMenuOpen: false })
   }
 
   handleLogInModalClose = () => {
@@ -435,7 +481,6 @@ class TileDefault extends PureComponent {
     this.setState({
       commentParentId: tileId,
       replyPlaceholder: 'Post your Reply here'
-
     })
     this.handleCommentsOpen
   }
@@ -515,6 +560,46 @@ class TileDefault extends PureComponent {
     this.setState({ [field]: event.target.value })
   })
 
+  handleEditPost = () => {
+    this.handleActionMenuHide()
+    this.setState({ isPostEditing: true })
+  }
+
+  handleEditCancel = () => {
+    this.setState({ isPostEditing: false })
+  }
+
+  handleDeleted = () => {
+    this.setState({ isPostDeleted: true })
+  }
+
+  handleUpdatePost = (id, data) => {
+    const {
+      readFeed,
+      profile,
+      updateProfileTile,
+      updateReadfeedTile,
+    } = this.props
+    readFeed ?
+    updateReadfeedTile(id, data, this.handleEditCancel) :
+    profile ?
+    updateProfileTile(id, data, this.handleEditCancel) : null
+  }
+
+  handleDeletePost = () => {
+    const {
+      readFeed,
+      profile,
+      deleteReadfeedTile,
+      deleteProfileTile,
+      tileId,
+    } = this.props
+    readFeed ?
+    deleteReadfeedTile(tileId, this.handleDeleted) :
+    profile ?
+    deleteProfileTile(tileId, this.handleDeleted) : null
+  }
+
   renderPostBox = (buttonType) => {
     const {
       commentInput,
@@ -567,9 +652,14 @@ class TileDefault extends PureComponent {
       commentsOpen,
       sharePostOpen,
       sharedCount,
+      isMyProfile,
+      isProfilePage,
+      isPostEditing,
+      isPostDeleted,
     } = this.state
 
     const {
+      tileId,
       author,
       target,
       timestamp,
@@ -577,218 +667,291 @@ class TileDefault extends PureComponent {
       promoted,
       action,
       feedComments,
+      isPostEditable,
+      readFeed,
+      fullname,
     } = this.props
+
     const splitActionrRegex = /(?:[^\s{]+|{[^{]*})+/g
     const splittedAction = action ? action.match(splitActionrRegex) : null
+    const isReadFeedPage = readFeed !== undefined
+    const isPostPersonal =
+      isReadFeedPage ?
+      author.name === fullname : author && target ?
+      author.name === target.name : false
+
     return (
       <div>
-        <Card
-          style={styles.cardContainer}
-          expanded={commentsOpen}
-          className='base-tile-container'
-        >
-          <div className='base-tile-header'>
-            <figure className='tile-actor-figure'>
-              <a href={author.link}>
-                <img className='tile-actor-image' src={author.image} alt=''/>
-              </a>
-            </figure>
-            <div className='tile-actor-details'>
-              <div className='tile-actor-container'>
-                <p>
-                  <span className='tile-actor-name margin-right'>
-                    <a href={author.link}>
-                      {author.name}
-                    </a>
+      { !isPostDeleted ? (
+        <div>
+          <Card
+            style={styles.cardContainer}
+            expanded={commentsOpen}
+            className='base-tile-container'
+          >
+            <div className='base-tile-header'>
+              <figure className='tile-actor-figure'>
+                <a href={author.link}>
+                  <img className='tile-actor-image' src={author.image} alt=''/>
+                </a>
+              </figure>
+              <div className='tile-actor-details'>
+                <div className='tile-actor-container'>
+                  <p>
+                    <span className='tile-actor-name margin-right'>
+                      <a href={author.link}>
+                        {author.name}
+                      </a>
+                    </span>
+                    <span className='tile-actor-action'>
+                      {
+                        promoted ?
+                          null : splittedAction ?
+                            splittedAction.map((entry, index) => {
+                              return this.renderAction(entry, index, target)
+                            }) : action
+                      }
+                    </span>
+                  </p>
+                </div>
+                <div className='tile-actor-timestamp'>
+                  <span>
+                    { promoted ? 'Promoted' : timestamp }
                   </span>
-                  <span className='tile-actor-action'>
-                    {
-                      promoted ?
-                        null : splittedAction ?
-                          splittedAction.map((entry, index) => {
-                            return this.renderAction(entry, index, target)
-                          }) : action
-                    }
-                  </span>
-                </p>
-              </div>
-              <div className='tile-actor-timestamp'>
-                <span>
-                  { promoted ? 'Promoted' : timestamp }
-                </span>
-              </div>
-            </div>
-          </div>
-          <CardText style={styles.contentContainer} className='tile-main-content'>
-            {this.props.children}
-          </CardText>
-
-          <CardActions style={styles.socialWrapper}>
-            <div style={styles.socialContainer} className='row'>
-              <div className='small-4 columns' style={styles.likesContainer}>
-                <div className='likes-count'>
-                  <a
-                    onClick={this.state.userLogged ? this.handleLiked : this.handleLogInModalOpen}
-                    className={liked ? 'liked' : 'not-liked'}
-                  />
-
-                <span
-                  className={liked ? 'liked-number' : 'not-liked-number'}
-                >
-                  {likedCount}
-                </span>
-
                 </div>
               </div>
-
-              <div className='small-4 columns' style={styles.commentIconContainer}>
-                <div
-                  className='comments-count'
-                >
-                  <a
-                    onClick={
-                      this.state.userLogged ?
-                        this.handleCommentsOpen : this.handleLogInModalOpen
-                      }
-                    className={commented ? 'commented' : 'not-commented'}
+              {
+                ((isProfilePage && isMyProfile) ||
+                isReadFeedPage) &&
+                isPostEditable &&
+                isPostPersonal ?
+                (
+                  <div className='tile-action-container'>
+                    <ArrowDownIcon onClick={this.handleActionMenuShow} />
+                    { this.state.actionMenuOpen ?
+                      (
+                        <ul
+                          className='tile-action-pop-menu'
+                          onMouseLeave={this.handleActionMenuHide}
+                        >
+                          <li className='tile-action-element-container'>
+                            <a
+                              className='tile-action-anchor'
+                              onClick={this.handleEditPost}
+                            >
+                              Edit
+                            </a>
+                          </li>
+                          <li className='tile-action-element-container'>
+                            <a
+                              className='tile-action-anchor'
+                              onClick={this.handleDeletePost}
+                            >
+                              Delete
+                            </a>
+                          </li>
+                        </ul>
+                      ) : null
+                    }
+                  </div>
+                ) : null
+              }
+            </div>
+            <CardText style={styles.contentContainer} className='tile-main-content'>
+              {
+                !isPostEditing ? this.props.children :
+                (
+                  <TileEdit
+                    id={tileId}
+                    updateTile={this.handleUpdatePost}
+                    cancelTile={this.handleEditCancel}
                   />
+                )
+              }
+            </CardText>
+            <CardActions style={styles.socialWrapper}>
+              <div style={styles.socialContainer} className='row'>
+                <div className='small-4 columns' style={styles.likesContainer}>
+                  <div className='likes-count'>
+                    <a
+                      onClick={this.state.userLogged ? this.handleLiked : this.handleLogInModalOpen}
+                      className={liked ? 'liked' : 'not-liked'}
+                    />
 
                   <span
-                    className={commented ? 'commented-number' : 'not-commented-number'}
+                    className={liked ? 'liked-number' : 'not-liked-number'}
                   >
-                  {commentedCount}
+                    {likedCount}
                   </span>
+
+                  </div>
+                </div>
+
+                <div className='small-4 columns' style={styles.commentIconContainer}>
+                  <div
+                    className='comments-count'
+                  >
+                    <a
+                      onClick={
+                        this.state.userLogged ?
+                          this.handleCommentsOpen : this.handleLogInModalOpen
+                        }
+                      className={commented ? 'commented' : 'not-commented'}
+                    />
+
+                    <span
+                      className={commented ? 'commented-number' : 'not-commented-number'}
+                    >
+                    {commentedCount}
+                    </span>
+                  </div>
+                </div>
+                <div className='small-4 columns' style={styles.shareContainer}>
+                  <div className='shared-count'>
+                    <a
+                      onClick={this.handleShareOpen}
+                    >
+                    <span className='share' ref='share'>
+                      Share {sharedCount}
+                    </span>
+                    </a>
+                  </div>
                 </div>
               </div>
-              <div className='small-4 columns' style={styles.shareContainer}>
-                <div className='shared-count'>
-                  <a
-                    onClick={this.handleShareOpen}
-                  >
-                  <span className='share' ref='share'>
-                    Share {sharedCount}
-                  </span>
-                  </a>
-                </div>
+            </CardActions>
+            <CardText
+              className='comments-wrapper'
+              expandable={true}
+              style={styles.commentContainer}
+            >
+              <div className='comments'>
+                {feedComments ? this.handleRenderComments(feedComments) : null}
               </div>
-            </div>
-          </CardActions>
-          <CardText
-            className='comments-wrapper'
-            expandable={true}
-            style={styles.commentContainer}
+              {
+                sharePostOpen ?
+                  <div className='shared-post'>
+                    {this.renderPostBox('share')}
+                  </div> :
+                  <div className='comments-post'>
+                    {this.renderPostBox('comment')}
+                  </div>
+              }
+            </CardText>
+            <RegisterSignInModal
+              modalOpen={this.state.modalLogInOpen}
+              handleClose={this.handleLogInModalClose}
+            />
+          </Card>
+          <Popover
+            open={this.state.sharedOpen}
+            anchorEl={this.state.anchorEl}
+            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+            onRequestClose={this.handleShareClose}
+            zDepth={5}
+            style={styles.popover}
           >
-            <div className='comments'>
-              {feedComments ? this.handleRenderComments(feedComments) : null}
-            </div>
-            {
-              sharePostOpen ?
-                <div className='shared-post'>
-                  {this.renderPostBox('share')}
-                </div> :
-                <div className='comments-post'>
-                  {this.renderPostBox('comment')}
-                </div>
-            }
-          </CardText>
-          <RegisterSignInModal
-            modalOpen={this.state.modalLogInOpen}
-            handleClose={this.handleLogInModalClose}
-          />
-        </Card>
-        <Popover
-          open={this.state.sharedOpen}
-          anchorEl={this.state.anchorEl}
-          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-          targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-          onRequestClose={this.handleShareClose}
-          zDepth={5}
-          style={styles.popover}
-        >
-          <ul style={styles.sharePopover}>
-            <li
-              style={styles.shareLink}
-              onClick={() => this.handleShareSubmit(1)}
-            >
-              <FacebookShareButton
-                url={shareInfo.shareLink}
-                title={shareInfo.title}
-                description={action}
-                className='facebook-share-button pointer-hand'
+            <ul style={styles.sharePopover}>
+              <li
+                style={styles.shareLink}
+                onClick={() => this.handleShareSubmit(1)}
               >
-                <FacebookIcon
-                  size={32}
-                  round
-                />
-              </FacebookShareButton>
-            </li>
-
-            <li
-              style={styles.shareLink}
-              onClick={() => this.handleShareSubmit(2)}
-            >
-              <TwitterShareButton
-                url={shareInfo.shareLink}
-                title={shareInfo.title}
-                className='twitter-share-button pointer-hand'
-              >
-                <TwitterIcon
-                  size={32}
-                  round
-                  style={styles.shareButton}
-                />
-              </TwitterShareButton>
-            </li>
-
-            <li
-              style={styles.shareLink}
-              onClick={() => this.handleShareSubmit(4)}
-            >
-              <LinkedinShareButton
-                url={shareInfo.shareLink}
-                title={shareInfo.title}
-                windowWidth={750}
-                windowHeight={600}
-                description={action}
-                className='linkedin-share-button pointer-hand'
-              >
-                  <LinkedinIcon
+                <FacebookShareButton
+                  url={shareInfo.shareLink}
+                  title={shareInfo.title}
+                  description={action}
+                  className='facebook-share-button pointer-hand'
+                >
+                  <FacebookIcon
                     size={32}
                     round
                   />
-              </LinkedinShareButton>
-            </li>
+                </FacebookShareButton>
+              </li>
 
-            <li
-              style={styles.shareLink}
-              onClick={() => this.handleShareSubmit(3)}
-            >
-              <GooglePlusShareButton
-                url={shareInfo.shareLink}
-                className='google-plus-share-button pointer-hand'
+              <li
+                style={styles.shareLink}
+                onClick={() => this.handleShareSubmit(2)}
               >
-                <GooglePlusIcon
-                  size={32}
-                  round
-                />
-              </GooglePlusShareButton>
-            </li>
-
-            {this.state.userLogged ?
-              (
-                <li
-                  style={styles.shareGoReadLink}
-                  onClick={this.handleShareOpenGoRead}
+                <TwitterShareButton
+                  url={shareInfo.shareLink}
+                  title={shareInfo.title}
+                  className='twitter-share-button pointer-hand'
                 >
-                <img
-                  className='logo-share-img pointer-hand'
-                  src='/image/logo_share.png'
-                />
-                </li>
-              ) : null
-            }
-          </ul>
-        </Popover>
+                  <TwitterIcon
+                    size={32}
+                    round
+                    style={styles.shareButton}
+                  />
+                </TwitterShareButton>
+              </li>
+
+              <li
+                style={styles.shareLink}
+                onClick={() => this.handleShareSubmit(4)}
+              >
+                <LinkedinShareButton
+                  url={shareInfo.shareLink}
+                  title={shareInfo.title}
+                  windowWidth={750}
+                  windowHeight={600}
+                  description={action}
+                  className='linkedin-share-button pointer-hand'
+                >
+                    <LinkedinIcon
+                      size={32}
+                      round
+                    />
+                </LinkedinShareButton>
+              </li>
+
+              <li
+                style={styles.shareLink}
+                onClick={() => this.handleShareSubmit(3)}
+              >
+                <GooglePlusShareButton
+                  url={shareInfo.shareLink}
+                  className='google-plus-share-button pointer-hand'
+                >
+                  <GooglePlusIcon
+                    size={32}
+                    round
+                  />
+                </GooglePlusShareButton>
+              </li>
+
+              {this.state.userLogged ?
+                (
+                  <li
+                    style={styles.shareGoReadLink}
+                    onClick={this.handleShareOpenGoRead}
+                  >
+                  <img
+                    className='logo-share-img pointer-hand'
+                    src='/image/logo_share.png'
+                  />
+                  </li>
+                ) : null
+              }
+            </ul>
+          </Popover>
+        </div>
+        ) : (
+          <Card
+            style={styles.cardContainer}
+            expanded={commentsOpen}
+            className='base-tile-container'
+          >
+            <CardText>
+              <div className='deleted-tile'>
+                <p>
+                  Post deleted
+                </p>
+              </div>
+            </CardText>
+          </Card>
+        )
+      }
       </div>
     )
   }
@@ -811,24 +974,34 @@ const mapStateToProps = ({
     url,
     profileImage,
     token,
+    slug,
   },
   tiles: {
-    feedComments
+    feedComments,
+    readFeed,
+    profile
   }
 }) => {
   return {
     feedComments,
+    profile,
+    readFeed,
     fullname,
     url,
     profileImage,
-    token
+    token,
+    slug
   }
 }
 
 const mapDispatchToProps = {
   updateLikes,
   updateComments,
+  updateReadfeedTile,
+  updateProfileTile,
   getComments,
-  shareTile
+  shareTile,
+  deleteReadfeedTile,
+  deleteProfileTile,
 }
 export default connect(mapStateToProps, mapDispatchToProps)(TileDefault)
