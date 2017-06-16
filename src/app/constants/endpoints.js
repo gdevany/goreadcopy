@@ -86,6 +86,7 @@ const Endpoints = () => {
       getOrder: (params) => apiUrl('store/order', params),
       getShippingMethods: (params) => apiUrl('store/order/shipping_methods', params),
       getCurrentOrder: (params) => apiUrl('store/order/current', params),
+      setBilling: (params) => apiUrl('store/order/billing', params),
     },
     rates: {
       getStarsInfo: (modelName, id) => apiUrl(`rate/${modelName}/${id}/stars`),

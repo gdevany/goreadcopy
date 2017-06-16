@@ -10,7 +10,13 @@ import UseLitcoins from './UseLitcoins'
 import LockIcon from 'material-ui/svg-icons/action/lock-outline'
 import R from 'ramda'
 
-const { setOrder, getOrder, getCurrentOrder, getShippingMethods } = Store
+const {
+  setOrder,
+  getOrder,
+  getCurrentOrder,
+  getShippingMethods,
+  setUserAddress
+} = Store
 
 class CheckoutPage extends PureComponent {
   constructor(props) {
@@ -32,10 +38,27 @@ class CheckoutPage extends PureComponent {
       cityShipping: '',
       stateShipping: '',
       zipcodeShipping: '',
+      nameOnCard: '',
+      cardNumber: '',
+      expMonth: '',
+      expYear: '',
+      cardCVC: '',
+      saveCard: false,
+      sameShippingAddress: true,
+      firstNameBilling: '',
+      lastNameBilling: '',
+      addressBilling: '',
+      address2Billing: '',
+      countryBilling: '',
+      cityBilling: '',
+      stateBilling: '',
+      zipcodeBilling: '',
     }
     this.continueToBillingClick = this.continueToBillingClick.bind(this)
     this.continueToReviewClick = this.continueToReviewClick.bind(this)
     this.handlePaymentClick = this.handlePaymentClick.bind(this)
+    this.handleCheckSave = this.handleCheckSave.bind(this)
+    this.handleCheckSame = this.handleCheckSame.bind(this)
   }
 
   componentWillMount = () => {
@@ -74,16 +97,41 @@ class CheckoutPage extends PureComponent {
 
   continueToBillingClick = (event) => {
     event.preventDefault()
-    this.setState({
-      isStepOneActive: false,
-      isStepTwoActive: true,
-      isStepThreeActive: false,
-      stepOneComplete: true,
-    })
+    const {
+      firstNameShipping,
+      lastNameShipping,
+      addressShipping,
+      address2Shipping,
+      countryShipping,
+      stateShipping,
+      cityShipping,
+      zipcodeShipping,
+    } = this.state
+    if (cityShipping && countryShipping && addressShipping &&
+      address2Shipping && zipcodeShipping && stateShipping) {
+      this.setState({
+        isStepOneActive: false,
+        isStepTwoActive: true,
+        isStepThreeActive: false,
+        stepOneComplete: true,
+      })
+      this.props.setUserAddress({
+        city: cityShipping,
+        name: `${firstNameShipping} ${lastNameShipping}`,
+        country: countryShipping,
+        address: addressShipping,
+        address2: address2Shipping,
+        zipcode: zipcodeShipping,
+        state: stateShipping,
+        addressType: 'shipping',
+        sameBillingAndShipping: true,
+      })
+    }
   }
 
   continueToReviewClick = (event) => {
     event.preventDefault()
+    const { setUserAddress } = this.props
     this.setState({
       isStepOneActive: false,
       isStepTwoActive: false,
@@ -91,6 +139,32 @@ class CheckoutPage extends PureComponent {
       stepOneComplete: true,
       stepTwoComplete: true,
     })
+    if (!this.state.sameShippingAddress) {
+      const {
+        firstNameBilling,
+        lastNameBilling,
+        addressBilling,
+        address2Billing,
+        countryBilling,
+        stateBilling,
+        cityBilling,
+        zipcodeBilling,
+      } = this.state
+      if (cityBilling && countryBilling && addressBilling &&
+        address2Billing && zipcodeBilling && stateBilling) {
+        setUserAddress({
+          city: cityBilling,
+          name: `${firstNameBilling} ${lastNameBilling}`,
+          country: countryBilling,
+          address: addressBilling,
+          address2: address2Billing,
+          zipcode: zipcodeBilling,
+          state: stateBilling,
+          addressType: 'billing',
+          sameBillingAndShipping: false,
+        })
+      } else alert('Fill all')
+    }
   }
 
   handlePaymentClick = (type) => {
@@ -103,6 +177,7 @@ class CheckoutPage extends PureComponent {
       this.setState({
         isCardClicked: false,
         isPaypalClicked: true,
+        sameShippingAddress: true,
       })
     }
   }
@@ -308,6 +383,10 @@ class CheckoutPage extends PureComponent {
     )
   }
 
+  handleCheckSave = (event) => this.setState({ saveCard: event.target.checked })
+
+  handleCheckSame = (event) => this.setState({ sameShippingAddress: event.target.checked })
+
   renderStepTwo = () => {
     const { isPaypalClicked, isCardClicked } = this.state
     return (
@@ -366,7 +445,7 @@ class CheckoutPage extends PureComponent {
                           Card Number
                         </label>
                         <input
-                          type='text'
+                          type='number'
                           className='checkoutpage-payment-card-single-input'
                         />
                       </div>
@@ -388,7 +467,9 @@ class CheckoutPage extends PureComponent {
                           CVC
                         </label>
                         <input
-                          type='text'
+                          type='number'
+                          min='100'
+                          min='999'
                           className='checkoutpage-payment-card-single-input has-lock'
                         />
                         <LockIcon
@@ -401,6 +482,8 @@ class CheckoutPage extends PureComponent {
                         <input
                           type='checkbox'
                           className='checkoutpage-payment-card-single-input-check'
+                          onChange={this.handleCheckSave}
+                          checked={this.state.saveCard}
                         />
                         <label className='checkoutpage-payment-card-inputs-label-check'>
                           Save card for future use
@@ -412,6 +495,8 @@ class CheckoutPage extends PureComponent {
                         <input
                           type='checkbox'
                           className='checkoutpage-payment-card-single-input-check'
+                          onChange={this.handleCheckSame}
+                          checked={this.state.sameShippingAddress}
                         />
                         <label className='checkoutpage-payment-card-inputs-label-check'>
                           Use shipping address
@@ -420,6 +505,122 @@ class CheckoutPage extends PureComponent {
                     </div>
                   </div>
                 </div>
+                {!this.state.sameShippingAddress ?
+                  (
+                    <div className='row'>
+                      <div className='large-12 columns'>
+                        Billing Address
+                        <hr/>
+                        <div className='row'>
+                          <div className='small-6 columns'>
+                            <label
+                              className='checkoutpage-steps-shipping-address-form-label'
+                            >
+                              First Name
+                            </label>
+                            <input
+                              type='text'
+                              onChange={this.handleFormsChanges('firstNameBilling')}
+                              className='checkoutpage-steps-shipping-address-form-input'
+                              value={this.state.firstNameBilling}
+                            />
+                          </div>
+                          <div className='small-6 columns'>
+                            <label
+                              className='checkoutpage-steps-shipping-address-form-label'
+                            >
+                              Last Name
+                            </label>
+                            <input
+                              type='text'
+                              className='checkoutpage-steps-shipping-address-form-input'
+                              onChange={this.handleFormsChanges('lastNameBilling')}
+                              value={this.state.lastNameBilling}
+                            />
+                          </div>
+                          <div className='small-12 columns'>
+                            <label
+                              className='checkoutpage-steps-shipping-address-form-label'
+                            >
+                              Address
+                            </label>
+                            <input
+                              type='text'
+                              className='checkoutpage-steps-shipping-address-form-input'
+                              onChange={this.handleFormsChanges('addressBilling')}
+                              value={this.state.addressBilling}
+                            />
+                          </div>
+                          <div className='small-12 columns'>
+                            <label
+                              className='checkoutpage-steps-shipping-address-form-label'
+                            >
+                              Address Line 2 *Optional
+                            </label>
+                            <input
+                              type='text'
+                              className='checkoutpage-steps-shipping-address-form-input'
+                              onChange={this.handleFormsChanges('address2Billing')}
+                              value={this.state.address2Billing}
+                            />
+                          </div>
+                          <div className='small-6 columns'>
+                            <label
+                              className='checkoutpage-steps-shipping-address-form-label'
+                            >
+                              Country
+                            </label>
+                            <input
+                              type='text'
+                              className='checkoutpage-steps-shipping-address-form-input'
+                              onChange={this.handleFormsChanges('countryBilling')}
+                              value={this.state.countryBilling}
+                            />
+                          </div>
+                          <div className='small-6 columns'>
+                            <label
+                              className='checkoutpage-steps-shipping-address-form-label'
+                            >
+                              City
+                            </label>
+                            <input
+                              type='text'
+                              className='checkoutpage-steps-shipping-address-form-input'
+                              onChange={this.handleFormsChanges('cityBilling')}
+                              value={this.state.cityBilling}
+                            />
+                          </div>
+                          <div className='small-6 columns'>
+                            <label
+                              className='checkoutpage-steps-shipping-address-form-label'
+                            >
+                              State
+                            </label>
+                            <input
+                              type='text'
+                              className='checkoutpage-steps-shipping-address-form-input'
+                              onChange={this.handleFormsChanges('stateBilling')}
+                              value={this.state.stateBilling}
+                            />
+                          </div>
+                          <div className='small-6 columns'>
+                            <label
+                              className='checkoutpage-steps-shipping-address-form-label'
+                            >
+                              Zipcode
+                            </label>
+                            <input
+                              type='text'
+                              className='checkoutpage-steps-shipping-address-form-input'
+                              onChange={this.handleFormsChanges('zipcodeBilling')}
+                              value={this.state.zipcodeBilling}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null
+                }
               </div>
             </section>
             <section
@@ -584,6 +785,7 @@ const mapDistpachToProps = {
   getOrder,
   getCurrentOrder,
   getShippingMethods,
+  setUserAddress,
 }
 
 export default connect(mapStateToProps, mapDistpachToProps)(CheckoutPage)

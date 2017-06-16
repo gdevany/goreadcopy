@@ -246,6 +246,14 @@ export function getShippingMethods(params) {
   }
 }
 
+export function setBilling(params) {
+  return dispatch => {
+    Store.setBilling(params)
+      // .then(res => dispatch({ type: A.GET_SHIPPING_METHODS, payload: res.data }))
+      .catch(err => console.error(`Error in setBilling ${err}`))
+  }
+}
+
 export default {
   getCategories,
   getChildCategories,
