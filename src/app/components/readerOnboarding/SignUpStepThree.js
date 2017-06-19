@@ -245,27 +245,30 @@ class SignUpStepThree extends PureComponent {
 
   checkBoxesFor(dataType, users) {
     return users.map(user => {
-      const {
-        id,
-        fullname,
-        imageUrl,
-        booksWritten,
-        inspiredBy,
-      } = user
+      if (user) {
+        const {
+          id,
+          fullname,
+          imageUrl,
+          booksWritten,
+          inspiredBy,
+        } = user
 
-      return (
-        <Checkbox
-          key={id}
-          id={id}
-          fullname={fullname}
-          imageUrl={imageUrl}
-          booksWritten={booksWritten}
-          inspiredBy={inspiredBy}
-          onClick={this.handleCheckBoxClick(dataType)}
-          isChecked={this.isChosen(id)}
-          dataType={dataType}
-        />
-      )
+        return (
+          <Checkbox
+            key={id}
+            id={id}
+            fullname={fullname}
+            imageUrl={imageUrl}
+            booksWritten={booksWritten}
+            inspiredBy={inspiredBy}
+            onClick={this.handleCheckBoxClick(dataType)}
+            isChecked={this.isChosen(id)}
+            dataType={dataType}
+          />
+        )
+      }
+      return null
     })
   }
 

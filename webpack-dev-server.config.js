@@ -7,6 +7,8 @@ const nodeModulesPath = path.resolve(__dirname, 'node_modules');
 const testPath = path.resolve(__dirname, 'test');
 const TransferWebpackPlugin = require('transfer-webpack-plugin');
 const dotenv = require('dotenv');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 
 dotenv.config() // pull .env into process.env if it exists
 
@@ -37,6 +39,7 @@ module.exports = {
     filename: '[name].js',
     path: '/', // Not on the filesystem since webpackDevMiddleware builds in-memory
     // No publicPath needed because of webpackDevMiddleware defaults
+    publicPath: '/',
   },
   plugins: [
     // CICD support for dynamically setting process variables to represent the env config
@@ -49,6 +52,16 @@ module.exports = {
     new TransferWebpackPlugin([ // moves files
       {from: 'client'},
     ], path.resolve(__dirname, 'src')),
+    new HtmlWebpackPlugin({
+        alwaysWriteToDisk: true,
+        title: 'GoRead',
+        template: 'src/client/index.ejs',
+        filesname: 'index.html',
+        showErrors: true,
+    }),
+    new HtmlWebpackHarddiskPlugin({
+        outputPath: path.resolve(__dirname, 'src/client')
+    }),
   ],
   externals: { // necessary for tests(when we create them) to run properly
     'react/addons': true,
