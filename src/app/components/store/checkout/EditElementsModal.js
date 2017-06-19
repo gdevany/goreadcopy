@@ -1,7 +1,11 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { Store } from '../../../redux/actions'
 import { Dialog } from 'material-ui'
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
+import R from 'ramda'
+
+const { setUserAddress } = Store
 
 const styles = {
   modalBody: {
@@ -19,9 +23,105 @@ const styles = {
 }
 
 class EditElementsModal extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = {
+      firstName: '',
+      lastName: '',
+      address: '',
+      address2: '',
+      country: '',
+      city: '',
+      state: '',
+      zipcode: '',
+      editClicked: false,
+    }
+    this.editAddressClick = this.editAddressClick.bind(this)
+    this.handleSave = this.handleSave.bind(this)
+    this.handleCancel = this.handleCancel.bind(this)
+    this.handleFormsChanges = this.handleFormsChanges.bind(this)
+  }
 
   truncInfo = (text, limit) => {
     return text.length >= limit ? `${text.slice(0, limit)}...` : text
+  }
+
+  splitFullName = (fullname) => {
+    return fullname.split(' ')
+  }
+
+  handleFormsChanges = R.curry((field, event) => {
+    event.preventDefault()
+    this.setState({ [field]: event.target.value })
+  })
+
+  editAddressClick = (event) => {
+    event.preventDefault()
+    const { shippingAddress } = this.props
+    const fullName = this.splitFullName(shippingAddress.name)
+    this.setState({
+      firstName: fullName[0],
+      lastName: fullName[1],
+      address: shippingAddress.address,
+      address2: shippingAddress.address2,
+      country: shippingAddress.country,
+      city: shippingAddress.city,
+      state: shippingAddress.state,
+      zipcode: shippingAddress.zipcode,
+      editClicked: true
+    })
+  }
+
+  handleSave = (event) => {
+    event.preventDefault()
+    const { setUserAddress, shippingAddress } = this.props
+    const {
+      firstName,
+      lastName,
+      address,
+      address2,
+      country,
+      city,
+      state,
+      zipcode
+    } = this.state
+    if (shippingAddress.name === `${firstName} ${lastName}` &&
+      shippingAddress.address === address &&
+      shippingAddress.address2 === address2 &&
+      shippingAddress.country === country &&
+      shippingAddress.city === city &&
+      shippingAddress.state === state &&
+      shippingAddress.zipcode === zipcode) {
+      alert('Todo es igual dud')
+    } else {
+      setUserAddress({
+        city: city,
+        name: `${firstName} ${lastName}`,
+        country: country,
+        address: address,
+        address2: address2,
+        zipcode: zipcode,
+        state: state,
+        addressType: 'shipping',
+        sameBillingAndShipping: true,
+      })
+      this.props.handleClose()
+    }
+  }
+
+  handleCancel = () => {
+    this.setState({
+      firstName: '',
+      lastName: '',
+      address: '',
+      address2: '',
+      country: '',
+      city: '',
+      state: '',
+      zipcode: '',
+      editClicked: false,
+    })
+    this.props.handleClose()
   }
 
   renderEditShipping = () => {
@@ -50,14 +150,17 @@ class EditElementsModal extends PureComponent {
                 </span>
               </div>
               <div className='chekoutpage-edit-shipping-address-edit'>
-                <a className='chekoutpage-edit-shipping-address-edit-btn'>
+                <a
+                  onClick={this.editAddressClick}
+                  className='chekoutpage-edit-shipping-address-edit-btn'
+                >
                   Edit
                 </a>
               </div>
             </section>
             <section className='chekoutpage-edit-shipping-address-form'>
               <h4 className='chekoutpage-edit-shipping-address-form-title'>
-                Add new Shipping Address
+                {this.state.editClicked ? 'Edit Shipping Address' : 'Add new Shipping Address'}
               </h4>
               <div className='row'>
                 <div className='small-6 columns'>
@@ -69,6 +172,8 @@ class EditElementsModal extends PureComponent {
                   <input
                     type='text'
                     className='checkoutpage-steps-shipping-address-form-input'
+                    onChange={this.handleFormsChanges('firstName')}
+                    value={this.state.firstName}
                   />
                 </div>
                 <div className='small-6 columns'>
@@ -80,6 +185,8 @@ class EditElementsModal extends PureComponent {
                   <input
                     type='text'
                     className='checkoutpage-steps-shipping-address-form-input'
+                    onChange={this.handleFormsChanges('lastName')}
+                    value={this.state.lastName}
                   />
                 </div>
                 <div className='small-12 columns'>
@@ -91,6 +198,8 @@ class EditElementsModal extends PureComponent {
                   <input
                     type='text'
                     className='checkoutpage-steps-shipping-address-form-input'
+                    onChange={this.handleFormsChanges('address')}
+                    value={this.state.address}
                   />
                 </div>
                 <div className='small-12 columns'>
@@ -102,6 +211,8 @@ class EditElementsModal extends PureComponent {
                   <input
                     type='text'
                     className='checkoutpage-steps-shipping-address-form-input'
+                    onChange={this.handleFormsChanges('address2')}
+                    value={this.state.address2}
                   />
                 </div>
                 <div className='small-6 columns'>
@@ -113,6 +224,8 @@ class EditElementsModal extends PureComponent {
                   <input
                     type='text'
                     className='checkoutpage-steps-shipping-address-form-input'
+                    onChange={this.handleFormsChanges('country')}
+                    value={this.state.country}
                   />
                 </div>
                 <div className='small-6 columns'>
@@ -124,6 +237,8 @@ class EditElementsModal extends PureComponent {
                   <input
                     type='text'
                     className='checkoutpage-steps-shipping-address-form-input'
+                    onChange={this.handleFormsChanges('city')}
+                    value={this.state.city}
                   />
                 </div>
                 <div className='small-6 columns'>
@@ -135,6 +250,8 @@ class EditElementsModal extends PureComponent {
                   <input
                     type='text'
                     className='checkoutpage-steps-shipping-address-form-input'
+                    onChange={this.handleFormsChanges('state')}
+                    value={this.state.state}
                   />
                 </div>
                 <div className='small-6 columns'>
@@ -146,14 +263,22 @@ class EditElementsModal extends PureComponent {
                   <input
                     type='text'
                     className='checkoutpage-steps-shipping-address-form-input'
+                    onChange={this.handleFormsChanges('zipcode')}
+                    value={this.state.zipcode}
                   />
                 </div>
               </div>
               <div className='chekoutpage-edit-shipping-address-btns-container'>
-                <a className='chekoutpage-edit-shipping-address-btn-save'>
+                <a
+                  onClick={this.handleSave}
+                  className='chekoutpage-edit-shipping-address-btn-save'
+                >
                   Save Address
                 </a>
-                <a className='chekoutpage-edit-shipping-address-btn-cancel'>
+                <a
+                  onClick={this.handleCancel}
+                  className='chekoutpage-edit-shipping-address-btn-cancel'
+                >
                   Cancel
                 </a>
               </div>
@@ -206,4 +331,4 @@ const mapStateToProps = (state) => {
     shippingAddress: state.store.order.shippingAddress,
   }
 }
-export default connect(mapStateToProps, null)(EditElementsModal)
+export default connect(mapStateToProps, { setUserAddress })(EditElementsModal)

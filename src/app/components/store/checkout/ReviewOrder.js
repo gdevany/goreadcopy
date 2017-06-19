@@ -27,6 +27,7 @@ class ReviewOrder extends PureComponent {
   }
 
   render() {
+    const { data } = this.props
     return (
       <section className='checkoutpage-order-review'>
         <h3> Review your order</h3>
@@ -36,13 +37,14 @@ class ReviewOrder extends PureComponent {
             <h4>Shipping Address</h4>
             <div className='checkoutpage-order-review-address-details'>
               <span className='checkoutpage-order-review-name'>
-                Jenny Olofmeister
+                {data.shippingAddress.name}
               </span>
               <span className='checkoutpage-order-review-address-text'>
-                1615 16th St.
+                {data.shippingAddress.address}
               </span>
               <span className='checkoutpage-order-review-text-two'>
-                Santa Monica, CA 9042, United States
+                {`${data.shippingAddress.city}, ${data.shippingAddress.state},
+                ${data.shippingAddress.country}`}
               </span>
             </div>
           </div>

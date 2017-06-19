@@ -706,7 +706,7 @@ class CheckoutPage extends PureComponent {
     return (
       <div className='row'>
         <div className='large-7 columns'>
-          <ReviewOrder />
+          <ReviewOrder data={this.props.order} />
           <CartItems />
         </div>
         <div className='large-4 large-offset-1 columns end'>
