@@ -6,6 +6,7 @@ import CallToActionBottom from './CallToActionBottom'
 import PriorityReasons from './PriorityReasons'
 import BookLanding from './BookLanding'
 import TestimonialCarousel from './TestimonialCarousel'
+import ReactPlayer from 'react-player'
 
 const Home = () => {
   return (
@@ -40,6 +41,15 @@ const Home = () => {
       <NavMenu />
       <CallToActionTop />
       <BookLanding />
+      {location.pathname === '/vid' ?
+        (
+          <ReactPlayer
+            className='video-player-landing'
+            controls={true}
+            url='https://www.youtube.com/watch?v=ozXIAg7zp9I'
+          />
+        ) : null
+      }
       <PriorityReasons />
       <TestimonialCarousel />
       <CallToActionBottom />
