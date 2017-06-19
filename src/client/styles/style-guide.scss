@@ -348,6 +348,28 @@ input[type="checkbox"]:focus{
   margin-right: .5em;
 }
 
+.video-player-landing {
+  padding: 10px;
+  background-color: $white;
+  border-radius: 5px;
+  position: relative;
+  z-index: 0;
+  width: 100% !important;
+  margin: 10px auto 0 auto;
+  @media all and (min-width: 768px){
+    width: 80% !important;
+  }
+  @media all and (min-width: 1024px) {
+    z-index: 998;
+    width: 340px !important;
+    height: 200px !important;
+    position: fixed;
+    top: 50vh;
+    top: 40vh;
+    right: 50px;
+  }
+}
+
 @import 'variables.scss';
 @import 'general.scss';
 @import 'errors.scss';

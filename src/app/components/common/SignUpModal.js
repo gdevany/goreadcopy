@@ -71,6 +71,11 @@ class SignUpModal extends Component {
           referrer: profileSlug,
         })
       }
+      if (location.pathname === '/vid') {
+        this.props.updateReaderData({
+          affiliate: 'newHome',
+        })
+      }
     }
   }
 
@@ -79,7 +84,7 @@ class SignUpModal extends Component {
     this.setState({
       showLoader: true,
     })
-    const fields = R.pick(['firstName', 'lastName', 'email', 'referrer'], this.props)
+    const fields = R.pick(['firstName', 'lastName', 'email', 'referrer', 'affiliate'], this.props)
     this.props.checkFields(fields)
       .then(() => {
         this.setState({ showLoader: false })
