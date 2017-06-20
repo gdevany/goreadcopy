@@ -46,7 +46,7 @@ const Home = () => {
           <ReactPlayer
             className='video-player-landing'
             controls={true}
-            url='https://www.youtube.com/watch?v=ozXIAg7zp9I'
+            url='https://player.vimeo.com/video/222335035'
           />
         ) : null
       }
