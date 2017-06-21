@@ -53,6 +53,10 @@ class ChatTab extends PureComponent {
   }
 
   componentDidMount() {
+    const { history } = this.props
+    if (history && history.conversation && history.conversation.results) {
+      return
+    }
     this.updateChatConversation()
       .then(()=>{
         this.performScroll()
