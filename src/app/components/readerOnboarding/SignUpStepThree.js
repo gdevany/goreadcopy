@@ -114,6 +114,12 @@ class SignUpStepThree extends PureComponent {
   componentWillMount = () => {
     this.props.getOnboardingRecommendation(this.props.RecommendationsAmount)
   }
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.recommended && !this.state.randomReaders) {
+      this.allReaders(nextProps.recommended)
+      this.allAuthors(nextProps.recommended)
+    }
+  }
 
   componentDidUpdate = () => {
     const { chosenReaders, chosenAuthors, oldSearchInput, newSearchInput } = this.state
@@ -237,7 +243,10 @@ class SignUpStepThree extends PureComponent {
 
   handleSearchTyping = () => {
     const search = this.refs.search.value
-    this.setState({ newSearchInput: search })
+    this.setState({
+      newSearchInput: search,
+      randomReaders: false,
+    })
     if (search === '') {
       this.props.getOnboardingRecommendation()
     }
@@ -277,8 +286,14 @@ class SignUpStepThree extends PureComponent {
     return rows.map(UsersRow)
   }
 
+  handleEnterButton = (event) => {
+    if (event.which === 13) {
+      event.preventDefault()
+    }
+  }
+
   render() {
-    const { stepIndex, recommended } = this.props
+    const { stepIndex } = this.props
     const {
       newSearchInput,
       selectAll,
@@ -287,8 +302,6 @@ class SignUpStepThree extends PureComponent {
       randomAuthors,
       randomReaders,
     } = this.state
-    this.allReaders(recommended)
-    this.allAuthors(recommended)
     let readers, authors = []
 
     if (randomAuthors && randomReaders) {
@@ -311,7 +324,11 @@ class SignUpStepThree extends PureComponent {
         <h5 style={styles.labelText}> Add Your Own </h5>
 
         <div className='small-12'>
-          <form style={styles.formWrapper} className='form-input-wrapper'>
+          <form
+            style={styles.formWrapper}
+            className='form-input-wrapper'
+            onKeyPress={this.handleEnterButton}
+          >
             <div className='search-icon' />
             <input
               value={newSearchInput}
