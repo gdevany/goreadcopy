@@ -1,10 +1,9 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
 import moment from 'moment'
 import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
-import { AnchoredParagraph } from '../'
+import { AnchoredParagraph, HyperLinkWrapper } from '../'
 import { Colors } from '../../../constants/style'
 
 import { Notifications as NotificationActions } from '../../../redux/actions'
@@ -78,9 +77,9 @@ class NotificationItem extends PureComponent {
     return (
       <div className='single-notification-element'>
         <figure className='notification-action-figure'>
-          <Link to={actor.url} onClick={e=>e.stopPropagation()}>
+          <HyperLinkWrapper url={actor.url} onClick={e=>e.stopPropagation()}>
             <img src={actor.imageUrl}/>
-          </Link>
+          </HyperLinkWrapper>
         </figure>
         <div className='notification-container'>
           <AnchoredParagraph

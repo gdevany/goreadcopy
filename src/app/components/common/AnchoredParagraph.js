@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router'
+import { HyperLinkWrapper } from './'
 
 export default function AnchoredParagraph(props) {
   const { text, replace, regexpr, cls } = props
@@ -13,12 +13,12 @@ export default function AnchoredParagraph(props) {
               if (chunk === replace[i].pattern) {
                 return (
                   <span key={idx}>
-                    <Link
-                      to={replace[i].url}
-                      className={cls.a}
+                    <HyperLinkWrapper
+                      url={replace[i].url}
+                      cls={cls.a}
                     >
                       {replace[i].text}
-                    </Link>
+                    </HyperLinkWrapper>
                     &nbsp;
                   </span>
                 )
