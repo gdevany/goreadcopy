@@ -57,7 +57,7 @@ class Scroller extends PureComponent {
   }
 }
 
-Scroller.proptypes = {
+Scroller.propTypes = {
   onScroll: React.PropTypes.func,
   debounced: React.PropTypes.bool,
   delay: React.PropTypes.number,

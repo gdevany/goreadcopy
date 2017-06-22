@@ -348,6 +348,32 @@ input[type="checkbox"]:focus{
   margin-right: .5em;
 }
 
+.video-player-landing {
+  padding: 10px;
+  background-color: $white;
+  border-radius: 5px;
+  position: relative;
+  z-index: 0;
+  width: 100% !important;
+  margin: 10px auto 0 auto;
+  @media all and (min-width: 768px){
+    width: 80% !important;
+  }
+  @media all and (min-width: 1024px) {
+    z-index: 998;
+    width: 375px !important;
+    height: 236px !important;
+    position: fixed;
+    top: 40vh;
+    right: 50px;
+  }
+  @media all and (min-width: 1400px){
+    width: 500px !important;
+    height: 314px !important;
+    top: 23vh;
+  }
+}
+
 @import 'variables.scss';
 @import 'general.scss';
 @import 'errors.scss';
@@ -369,3 +395,5 @@ input[type="checkbox"]:focus{
 @import 'settings.scss';
 @import 'profile-page.scss';
 @import 'chatbox.scss';
+@import 'chatNotifications.scss';
+@import 'spinning-loader.scss';

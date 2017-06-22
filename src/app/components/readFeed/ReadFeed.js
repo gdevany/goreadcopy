@@ -3,11 +3,12 @@ import { connect } from 'react-redux'
 import LeftContainer from './LeftContainer'
 import MiddleContainer from './MiddleContainer'
 import RightContainer from './RightContainer'
-import { NavMenu } from '../common'
+import { NavMenu, SocketHandler, Chat } from '../common'
 import { Auth } from '../../services'
 import { CurrentReader } from '../../redux/actions'
 
 const { getCurrentReader } = CurrentReader
+const { ChatTabWrapper } = Chat
 
 class ReadFeed extends PureComponent {
   componentWillMount = () => this.props.getCurrentReader()
@@ -21,10 +22,12 @@ class ReadFeed extends PureComponent {
       <div className=''>
         <NavMenu isUserLoggedIn={isUserLoggedIn} />
         <div className='row center-text read-feed'>
+          <ChatTabWrapper />
           <LeftContainer isMyReadFeed={isMyReadFeed}/>
           <MiddleContainer userId={id} />
           <RightContainer />
         </div>
+        <SocketHandler/>
       </div>
     )
   }
