@@ -13,6 +13,17 @@ const {
     getBookInfo,
     addBookToCart,
     getChildCategories,
+    getCartItems,
+    updateCartItems,
+    removeItemFromCart,
+    convertToGift,
+    addGiftData,
+    setUserAddress,
+    setOrder,
+    getOrder,
+    getCurrentOrder,
+    getShippingMethods,
+    setBilling
   }
 } = Endpoints
 
@@ -27,6 +38,17 @@ const Store = () => {
     getBookInfo: (id) => http.get(getBookInfo(id)),
     getAuthBookInfo: (id) => authenticated().get(getBookInfo(id)),
     addBookToCart: (id) => authenticated().post(addBookToCart(id)),
+    getCartItems: (params) => authenticated().get(getCartItems(params)),
+    updateCartItems: (id, quantity) => authenticated().post(updateCartItems(id, quantity)),
+    removeItemFromCart: (id) => authenticated().delete(removeItemFromCart(id)),
+    convertToGift: (id, params) => authenticated().post(convertToGift(id), params),
+    addGiftData: (params) => authenticated().post(addGiftData(), params),
+    setUserAddress: (params) => authenticated().post(setUserAddress(), params),
+    setOrder: (params) => authenticated().post(setOrder(), params),
+    getOrder: (params) => authenticated().get(getOrder(), params),
+    getCurrentOrder: (params) => authenticated().get(getCurrentOrder(), params),
+    getShippingMethods: (params) => authenticated().get(getShippingMethods(), params),
+    setBilling: (params) => authenticated().post(setBilling(), params),
   }
 }
 

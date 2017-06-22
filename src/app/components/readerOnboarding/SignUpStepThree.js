@@ -100,6 +100,8 @@ class SignUpStepThree extends PureComponent {
       newSearchInput: '',
       shouldSubmit: false,
       showLoader: false,
+      randomReaders: false,
+      randomAuthors: false,
     }
 
     this.handleButtonClick = this.handleButtonClick.bind(this)
@@ -111,6 +113,12 @@ class SignUpStepThree extends PureComponent {
 
   componentWillMount = () => {
     this.props.getOnboardingRecommendation(this.props.RecommendationsAmount)
+  }
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.recommended && !this.state.randomReaders) {
+      this.allReaders(nextProps.recommended)
+      this.allAuthors(nextProps.recommended)
+    }
   }
 
   componentDidUpdate = () => {
@@ -175,9 +183,8 @@ class SignUpStepThree extends PureComponent {
       const nonBuzzAuthorsToShow = nonBuzzAuthors ?
         this.getRandom(this.props.NonBuzzAuthorsRecommendations, nonBuzzAuthors) : []
       authorsToShow = R.concat(buzzAuthorsToShow, nonBuzzAuthorsToShow)
+      if (!this.state.randomAuthors) this.setState({ randomAuthors: authorsToShow })
     }
-
-    return authorsToShow
   }
 
   allReaders = (recommended) => {
@@ -194,21 +201,20 @@ class SignUpStepThree extends PureComponent {
       const loggedLastThirtyDaysToShow = loggedLastThirtyDays ?
         this.getRandom(this.props.OldReadersRecommendations, loggedLastThirtyDays) : []
       readersToShow = R.concat(newLastFourteenDaysToShow, loggedLastThirtyDaysToShow)
+      if (!this.state.randomReaders) this.setState({ randomReaders: readersToShow })
     }
-
-    return readersToShow
   }
 
   handleSelectAll() {
     const selectAll = !this.state.selectAll
-    const { recommended, clickedSelectAll } = this.props
-    const { chosenReaders, chosenAuthors } = this.state
+    const { clickedSelectAll } = this.props
+    const { chosenReaders, chosenAuthors, randomReaders, randomAuthors } = this.state
     const idAsNumber = R.compose(Number, R.prop('id'))
     const selectedUsersState =
       selectAll ?
       {
-        chosenReaders: R.map(idAsNumber, this.allReaders(recommended)),
-        chosenAuthors: R.map(idAsNumber, this.allAuthors(recommended)),
+        chosenReaders: R.map(idAsNumber, randomReaders),
+        chosenAuthors: R.map(idAsNumber, randomAuthors),
       } :
       {
         chosenReaders: [],
@@ -237,7 +243,10 @@ class SignUpStepThree extends PureComponent {
 
   handleSearchTyping = () => {
     const search = this.refs.search.value
-    this.setState({ newSearchInput: search })
+    this.setState({
+      newSearchInput: search,
+      randomReaders: false,
+    })
     if (search === '') {
       this.props.getOnboardingRecommendation()
     }
@@ -277,16 +286,28 @@ class SignUpStepThree extends PureComponent {
     return rows.map(UsersRow)
   }
 
+  handleEnterButton = (event) => {
+    if (event.which === 13) {
+      event.preventDefault()
+    }
+  }
+
   render() {
-    const { stepIndex, recommended } = this.props
+    const { stepIndex } = this.props
     const {
       newSearchInput,
       selectAll,
       shouldSubmit,
       showLoader,
+      randomAuthors,
+      randomReaders,
     } = this.state
-    const readers = this.checkBoxesFor('readers', this.allReaders(recommended))
-    const authors = this.checkBoxesFor('authors', this.allAuthors(recommended))
+    let readers, authors = []
+
+    if (randomAuthors && randomReaders) {
+      readers = this.checkBoxesFor('readers', randomReaders)
+      authors = this.checkBoxesFor('authors', randomAuthors)
+    }
 
     return (
       <div style={styles.container} className='card front-card'>
@@ -303,7 +324,11 @@ class SignUpStepThree extends PureComponent {
         <h5 style={styles.labelText}> Add Your Own </h5>
 
         <div className='small-12'>
-          <form style={styles.formWrapper} className='form-input-wrapper'>
+          <form
+            style={styles.formWrapper}
+            className='form-input-wrapper'
+            onKeyPress={this.handleEnterButton}
+          >
             <div className='search-icon' />
             <input
               value={newSearchInput}
@@ -335,7 +360,7 @@ class SignUpStepThree extends PureComponent {
 
                 <div className='row'>
                   <fieldset className='small-12 columns'>
-                    { authors.length ?
+                    { authors && authors.length ?
                       this.rowsOf(authors) : <div className='loading-animation'/>
                     }
                   </fieldset>
@@ -350,7 +375,7 @@ class SignUpStepThree extends PureComponent {
 
                 <div className='row'>
                   <fieldset className='small-12 columns'>
-                    { readers.length ?
+                    { readers && readers.length ?
                       this.rowsOf(readers) : <div className='loading-animation'/>
                     }
                   </fieldset>

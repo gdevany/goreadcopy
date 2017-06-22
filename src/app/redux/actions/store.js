@@ -165,6 +165,95 @@ export function filterBooks(params) {
   }
 }
 
+export function getCartItems(params) {
+  return dispatch => {
+    Store.getCartItems(params)
+      .then(res => dispatch({ type: A.GET_CART_ITEMS, payload: res.data }))
+      .catch(err => console.error(`Error in getCartItems ${err}`))
+  }
+}
+
+export function updateCartItems(id, quantity) {
+  return dispatch => {
+    Store.updateCartItems(id, quantity)
+      // .then(res => dispatch({ type: A.GET_CART_ITEMS, payload: res.data }))
+      .catch(err => console.error(`Error in updateCartItems ${err}`))
+  }
+}
+
+export function removeItemFromCart(id) {
+  return dispatch => {
+    Store.removeItemFromCart(id)
+      .then(res => dispatch(getCartItems({
+        perPage: 50,
+      })))
+      .catch(err => console.error(`Error in removeItemFromCart ${err}`))
+  }
+}
+
+export function convertToGift(id, params) {
+  return dispatch => {
+    Store.convertToGift(id, params)
+      .then(res => dispatch(getCartItems({
+        perPage: 50,
+      })))
+      .catch(err => console.error(`Error in convertToGift ${err}`))
+  }
+}
+
+export function addGiftData(params) {
+  return dispatch => {
+    Store.addGiftData(params)
+      .catch(err => console.error(`Error in addGiftData ${err}`))
+  }
+}
+
+export function setUserAddress(params) {
+  return dispatch => {
+    Store.setUserAddress(params)
+      .catch(err => console.error(`Error in setUserAddress ${err}`))
+  }
+}
+
+export function setOrder(params) {
+  return dispatch => {
+    Store.setOrder(params)
+      .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
+      .catch(err => console.error(`Error in setOrder ${err}`))
+  }
+}
+
+export function getOrder(params) {
+  return dispatch => {
+    Store.getOrder(params)
+      .catch(err => console.error(`Error in getOrder ${err}`))
+  }
+}
+
+export function getCurrentOrder(params) {
+  return dispatch => {
+    Store.getCurrentOrder(params)
+      .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
+      .catch(err => console.error(`Error in getCurrentOrder ${err}`))
+  }
+}
+
+export function getShippingMethods(params) {
+  return dispatch => {
+    Store.getShippingMethods(params)
+      .then(res => dispatch({ type: A.GET_SHIPPING_METHODS, payload: res.data }))
+      .catch(err => console.error(`Error in getCurrentOrder ${err}`))
+  }
+}
+
+export function setBilling(params) {
+  return dispatch => {
+    Store.setBilling(params)
+      // .then(res => dispatch({ type: A.GET_SHIPPING_METHODS, payload: res.data }))
+      .catch(err => console.error(`Error in setBilling ${err}`))
+  }
+}
+
 export default {
   getCategories,
   getChildCategories,
@@ -179,5 +268,15 @@ export default {
   removeFromLibrary,
   addToWishList,
   removeFromWishList,
-  filterBooks
+  filterBooks,
+  getCartItems,
+  updateCartItems,
+  removeItemFromCart,
+  convertToGift,
+  addGiftData,
+  setUserAddress,
+  setOrder,
+  getOrder,
+  getCurrentOrder,
+  getShippingMethods
 }

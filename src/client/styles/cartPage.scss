@@ -210,7 +210,9 @@
     }
   }
 }
-
+.chekoutpage-steps-main-container{
+  margin-top: 15px;
+}
 .checkoutpage-main-container{
   .chekoutpage-header{
     display: flex;
@@ -253,6 +255,11 @@
         color: $white;
         font-size: 20px;
         font-weight: 800;
+        svg{
+          path{
+            fill: $white;
+          }
+        }
       }
     }
     .checkoutpage-single-step-title{
@@ -281,6 +288,12 @@
         color: $white;
         font-size: 20px;
         font-weight: 800;
+        svg{
+          margin-top: 5px;
+          path{
+            fill: $white;
+          }
+        }
       }
     }
     .checkoutpage-single-step-title{
@@ -297,8 +310,8 @@
   align-items: flex-start;
   flex-direction: row;
   .checkoutpage-steps-delivery-method-input{
-    margin: 0;
-    align-self: center;
+    margin: 15px;
+    align-self: flex-start;
     width: 10%;
   }
   .checkoutpage-steps-delivery-method-label{
@@ -332,7 +345,7 @@
 }
 
 .checkoutpage-steps-shipping-address-form-input{
-  border: solid 1px $light-med-grey;
+  border: solid 1px #949494;
   border-radius: 3px;
   box-shadow: none;
   &:focus{
@@ -584,6 +597,476 @@
             margin: 0 2.5px;
           }
         }
+      }
+    }
+  }
+}
+
+.checkoutpage-payment-paypal-container{
+  justify-content: flex-start !important;
+}
+
+.checkoutpage-payment-selection-container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  .checkoutpage-payment-card-container, .checkoutpage-payment-paypal-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: row;
+    .checkoutpage-payment-selector{
+      width: 20%;
+      .checkoutpage-payment-selector-element.selected-payment{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 25px;
+        height: 25px;
+        padding: 2.5px;
+        border: solid 1px $blue;
+        border-radius: 16px;
+        &:hover{
+          cursor: pointer;
+        }
+        .checkoutpage-payment-selector-anchor{
+          display: flex;
+          width: 15px;
+          height: 15px;
+          border-radius: 16px;
+          background-color: $blue;
+        }
+      }
+      .checkoutpage-payment-selector-element{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 25px;
+        height: 25px;
+        padding: 2.5px;
+        border: solid 1px #949494;
+        border-radius: 16px;
+        &:hover{
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .checkoutpage-payment-card-container.payment-selected{
+    border: solid 2px $store-blue;
+    padding: 25px;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .checkoutpage-payment-paypal-container.payment-selected{
+    border: solid 2px $store-blue;
+    padding: 25px;
+    border-radius: 0 0 10px 10px;
+  }
+  .checkoutpage-payment-card-container{
+    border: solid 1px #949494;
+    border-bottom: none;
+    padding: 25px;
+    border-radius: 10px 10px 0 0;
+    .checkoutpage-payment-card{
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+      .checkoutpage-payment-card-head{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        flex-direction: row;
+        .checkoutpage-payment-card-head-title{
+          font-weight: 600;
+          font-size: 20px;
+        }
+        .checkoutpage-payment-card-head-img{
+          width: 100%;
+          max-width: 160px;
+        }
+      }
+      .checkoutpage-payment-card-subhead{
+        display: flex;
+        justify-content: flex-start;
+        align-self: center;
+        flex-direction: row;
+        width: 100%;
+        margin-top: 10px;
+        .checkoutpage-payment-card-subhead-icon{
+          width: 20px !important;
+          height: 20px !important;
+          path{
+            fill: #949494;
+          }
+        }
+        .checkoutpage-payment-card-subhead-text{
+          margin-left: 2.5px;
+          font-size: 16px;
+          color: #949494;
+        }
+      }
+      .checkoutpage-payment-card-form{
+        margin-top: 10px;
+      }
+    }
+  }
+  .checkoutpage-payment-paypal-container{
+    border: solid 1px #949494;
+    border-top: none;
+    padding: 25px;
+    border-radius: 0 0 10px 10px ;
+    .checkoutpage-payment-paypal{
+      width: 100%;
+      img{
+        width: 150px;
+      }
+    }
+  }
+}
+
+.checkoutpage-payment-card-inputs{
+  margin-bottom: 10px;
+  position: relative;
+  .checkoutpage-payment-card-inputs-label{
+    color: #949494;
+    font-size: 16px;
+  }
+  .checkoutpage-payment-card-single-input.has-lock{
+    padding-right: 25px;
+  }
+  .checkoutpage-payment-card-single-input{
+    border-radius: 3px;
+    border: solid 1px #949494;
+    box-shadow: none;
+    padding: 2.5px 10px;
+    margin: 0;
+  }
+  .checkoutpage-payment-card-single-input-lock{
+    position: absolute;
+    top: 35px;
+    right: 5px;
+    width: 20px !important;
+    height: 20px !important;
+    path{
+      fill: #949494;
+    }
+  }
+}
+
+.checkoutpage-litcoins-use-container{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 15px;
+  .checkoutpage-litcoins-use-main{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: row;
+    .checkoutpage-litcoins-use-input{
+      width: 15%;
+      margin: 0;
+    }
+    .checkoutpage-litcoins-use-label{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      font-size: 16px;
+      .checkoutpage-litcoins-use-details{
+        .checkoutpage-litcoins-use-text{
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          flex-direction: row;
+          b{
+            margin: 0 3.5px 0 0;
+          }
+          .checkoutpage-litcoins-use-img{
+            width: 17px;
+            margin: 0 3.5px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.checkoutpage-review-order-btn{
+  display: block;
+  padding: 15px 25px;
+  background-color: $store-blue;
+  color: $white;
+  font-weight: 200;
+  text-align: center;
+  margin-top: 15px;
+  border-radius: 30px;
+  max-width: 200px;
+  &:hover{
+    color: $white;
+  }
+}
+.checkoutpage-review-order-text{
+  display: block;
+  font-size: 14px;
+  margin-top: 10px;
+  color: #949494;
+}
+
+.checkoutpage-order-review{
+  .checkoutpage-order-review-divider{
+    border-bottom: 2px solid rgba(204, 204, 204, 0.18);
+  }
+  .checkoutpage-order-review-address-main{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: row;
+    width: 100%;
+    .checkoutpage-order-review-address-container{
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+      width: 90%;
+      h4{
+        font-size: 16px;
+        font-weight: 800;
+      }
+      .checkoutpage-order-review-address-details{
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  }
+  .checkoutpage-order-review-card-main{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: row;
+    width: 100%;
+    .checkoutpage-order-review-card-container{
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+      width: 90%;
+      h4{
+        font-size: 16px;
+        font-weight: 800;
+      }
+      .checkoutpage-order-review-card-details{
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        .checkoutpage-order-review-card-nums{
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          .checkoutpage-order-review-card-type{
+            width: 45px;
+            margin-right: 5px;
+          }
+          .checkoutpage-order-review-card-last{
+            font-size: 15px;
+            margin: 0 5px;
+          }
+          .checkoutpage-order-review-card-exp{
+            font-size: 15px;
+            margin-left: 5px;
+            color: $light-med-grey;
+          }
+        }
+        .checkoutpage-order-review-card-name .checkoutpage-order-review-card-address{
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+
+.checkoutpage-order-delivery-main{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
+  h4{
+    font-size: 16px;
+    font-weight: 800;
+  }
+  .row{
+    width: 100%;
+  }
+}
+.checkoutpage-order-review-edit{
+  width: 10%;
+  text-align: right;
+  .checkoutpage-order-review-edit-btn{
+    color: $light-med-grey;
+    font-size: 16px;
+    &:hover{
+      color: $light-med-grey;
+    }
+  }
+}
+
+.checkoutpage-place-order-btn{
+  display: block;
+  padding: 10px 20px;
+  background-color: $store-blue;
+  color: $white;
+  font-weight: 200;
+  text-align: center;
+  margin-bottom: 15px;
+  border-radius: 30px;
+  max-width: 200px;
+  &:hover{
+    color: $white;
+  }
+}
+
+.cartpage-set-gifts-shipping{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  .cartpage-set-gifts-btn{
+    color: rgba(47, 47, 47, 0.52);
+    font-size: 16px;
+    transition: all .3s ease;
+    &:hover{
+      color: #2f2f2f;
+    }
+  }
+}
+
+.cartpage-gift-address-modal-container{
+  display: flex;
+  flex-direction: column;
+  .cartpage-gift-address-modal-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    .cartpage-gift-address-product{
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      .cartpage-gift-address-product-figure{
+        max-width: 125px;
+        img{
+          width: 100%;
+        }
+      }
+      .cartpage-gift-address-product-details{
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: column;
+        margin: 0 10px;
+        max-width: 120px;
+        .cartpage-gift-address-product-name{
+          font-weight: 600;
+        }
+        .cartpage-gift-address-product-price{
+          font-weight: 600;
+        }
+      }
+    }
+    .cartpage-gift-address-gift-messagge{
+      width: 75%;
+      textarea{
+        min-height: 85px;
+        max-height: 110px;
+        resize: vertical;
+      }
+    }
+  }
+}
+
+.chekoutpage-edit-shipping-modal{
+  .chekoutpage-edit-shipping-modal-title{
+    font-size: 22px;
+    font-weight: 600;
+  }
+  .chekoutpage-edit-shipping-address-container{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    padding: 15px;
+    border: solid 2px $store-blue;
+    border-radius: 5px;
+    margin-top: 25px;
+    .chekoutpage-edit-shipping-address-icon{
+      align-self: center;
+      padding: 5px;
+      background-color: $store-blue;
+      border-radius: 20px;
+      width: 34px !important;
+      height: 34px !important;
+      path{
+        fill: $white;
+      }
+    }
+    .chekoutpage-edit-shipping-address-overview{
+      .chekoutpage-edit-shipping-address-name, .chekoutpage-edit-shipping-address-address{
+        margin-bottom: 2.5px;
+      }
+      .chekoutpage-edit-shipping-address-state{
+        display: flex;
+      }
+      .chekoutpage-edit-shipping-address-phone{
+        display: flex;
+      }
+    }
+    .chekoutpage-edit-shipping-address-edit{
+      .chekoutpage-edit-shipping-address-edit-btn{
+        color: $black;
+      }
+    }
+  }
+  .chekoutpage-edit-shipping-address-form{
+    margin-top: 25px;
+    padding: 15px;
+    border: solid 1px $store-blue;
+    border-radius: 5px;
+    .chekoutpage-edit-shipping-address-form-title{
+      font-size: 20px;
+      font-weight: 500;
+    }
+    .chekoutpage-edit-shipping-address-btns-container{
+      margin: 25px 0;
+      display: flex;
+      justify-content: flex-start;
+      .chekoutpage-edit-shipping-address-btn-save{
+        display: flex;
+        align-items: center;
+        padding: 10px 25px;
+        color: $white;
+        background-color: $store-blue;
+        font-size: 16px;
+        border-radius: 23px;
+        margin-right: 15px;
+      }
+      .chekoutpage-edit-shipping-address-btn-cancel{
+        display: flex;
+        align-items: center;
+        padding: 10px 25px;
+        color: $store-blue;
+        font-size: 16px;
+        border: solid 1px $store-blue;
+        border-radius: 23px;
       }
     }
   }
