@@ -71,11 +71,14 @@ class SignUpModal extends Component {
           referrer: profileSlug,
         })
       }
-      if (location.pathname === '/vid') {
-        this.props.updateReaderData({
-          affiliate: 'newHome',
-        })
-      }
+    }
+  }
+
+  componentDidUpdate = () => {
+    if (location.pathname === '/vid') {
+      this.props.updateReaderData({
+        affiliate: 'newHome',
+      })
     }
   }
 
