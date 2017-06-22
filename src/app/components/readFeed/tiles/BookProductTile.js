@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
 import TileDefault from '../TileDefault'
-import Rating from 'react-rating'
 import Linkify from 'react-linkify'
+import Rating from 'react-rating'
 
 const mentionRegex = /(\@\[\d+\:\d+\])/gi
 
