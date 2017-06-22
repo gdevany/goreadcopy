@@ -34,6 +34,9 @@ class SocketHandler extends PureComponent {
     this.state = {
       playStatus: Sound.status.STOPPED
     }
+    this.locals = {
+      killHeartBeat: false
+    }
     this.processStatusDiff = this.processStatusDiff.bind(this)
     this.onConnectionMessage = this.onConnectionMessage.bind(this)
     this.handleSongFinishedPlaying = this.handleSongFinishedPlaying.bind(this)
@@ -49,6 +52,7 @@ class SocketHandler extends PureComponent {
   }
 
   componentWillUnmount() {
+    this.locals.killHeartBeat = true
     this.unpollToSocket()
     this.unsetSocket()
   }
@@ -74,10 +78,10 @@ class SocketHandler extends PureComponent {
   }
 
   playNotificationSound(id) {
-    const { isMessagesOpen, isContactsOpen, conversations } = this.props
-    const chatInstance = id ? R.find(R.propEq('id', id), conversations) : null
-    if (isMessagesOpen || isContactsOpen) { return }
-    if (id && chatInstance && chatInstance.isOpen) { return }
+    //const { isMessagesOpen, isContactsOpen, conversations } = this.props
+    //const chatInstance = id ? R.find(R.propEq('id', id), conversations) : null
+    // if (isMessagesOpen || isContactsOpen) { return }
+    // if (id && chatInstance && chatInstance.isOpen) { return }
     this.setState({ playStatus: Sound.status.PLAYING })
   }
 
@@ -123,7 +127,9 @@ class SocketHandler extends PureComponent {
   onConnectionClose() {
     this.unpollToSocket()
     this.unsetSocket()
-    this.keepSocket()
+    if (!this.locals.killHeartBeat) {
+      this.keepSocket()
+    }
   }
 
   keepSocket() {

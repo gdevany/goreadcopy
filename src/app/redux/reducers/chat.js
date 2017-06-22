@@ -24,9 +24,16 @@ const filterChatByID = ({ conversations }, { id }) => {
 
 const setChatHistory = ({ conversations }, { id, history }) => {
   return R.map(n => {
-    if (n.id === id && n.history) {
-      n.history = history
-      n.history.conversation = sortPosts(n.history.conversation)
+    if (n.id === id) {
+      if (!n.history.conversation) {
+        n.history = history
+      } else {
+        n.history.conversation = {
+          ...history.conversation,
+          results: [...history.conversation.results, ...n.history.conversation.results]
+        }
+      }
+      n.history.conversation.results = sortPosts(n.history.conversation.results)
     }
     return n
   }, conversations)
@@ -47,7 +54,7 @@ const updateUnreadChatNumber = ({ contacts }, { data, sender, lastMessage }) => 
 const appendReceivedChatMessage = ({ conversations }, { message, sender, recipient, timestamp }) =>
   R.map(n=>{
     if (n.id === sender) {
-      n.history.conversation.push({
+      n.history.conversation.results.push({
         recipient,
         sender,
         timestamp,
@@ -61,7 +68,7 @@ const appendReceivedChatMessage = ({ conversations }, { message, sender, recipie
 const appendSentChatMessage = ({ conversations }, { message }) =>
   R.map(n=>{
     if (n.id === message.recipient) {
-      n.history.conversation.push(message)
+      n.history.conversation.results.push(message)
     }
     return n
   }
