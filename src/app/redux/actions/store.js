@@ -238,9 +238,9 @@ export function getCurrentOrder(params) {
   }
 }
 
-export function getShippingMethods(params) {
+export function getShippingMethods() {
   return dispatch => {
-    Store.getShippingMethods(params)
+    Store.getShippingMethods()
       .then(res => dispatch({ type: A.GET_SHIPPING_METHODS, payload: res.data }))
       .catch(err => console.error(`Error in getCurrentOrder ${err}`))
   }

@@ -13,9 +13,12 @@ import tilesReducer from './tiles'
 import storeReducer from './store'
 import ratesReducer from './rates'
 import sidebarAdsReducer from './ads'
+import chatReducer from './chat'
+import notificationReducer from './notifications'
 
 const rootReducer = combineReducers({
   books: booksReducer,
+  chat: chatReducer,
   currentReader: currentReaderReducer,
   genres: genreReducer,
   litcoins: litcoinsReducer,
@@ -29,6 +32,7 @@ const rootReducer = combineReducers({
   sidebarAds: sidebarAdsReducer,
   store: storeReducer,
   rates: ratesReducer,
+  notifications: notificationReducer,
 })
 
 export default rootReducer

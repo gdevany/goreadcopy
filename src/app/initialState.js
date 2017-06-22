@@ -19,4 +19,10 @@ export default {
   sidebarAds: emptyState(),
   store: emptyState(),
   rates: emptyState(),
+  chat: emptyState({
+    conversations: [],
+    isMessagesOpen: false,
+    isContactsOpen: false,
+  }),
+  notifications: emptyState(),
 }

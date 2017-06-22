@@ -1,14 +1,25 @@
 import React, { PureComponent } from 'react'
 import AdsenseDefault from '../AdsenseDefault'
-import GoogleAd from 'react-google-ad'
-
-const styles = {
-  googleAd: {
-    display: 'block',
-  },
-}
 
 class AdsenseTile extends PureComponent {
+
+  componentDidMount() {
+    (window.adsbygoogle = window.adsbygoogle || []).push({})
+  }
+
+  handleAd() {
+    return (
+      <div className='adv-sense-tile-container'>
+        <ins className='adsbygoogle'
+          style={{ display: 'block' }}
+          data-ad-client='ca-pub-7843612025672312'
+          data-ad-slot='2948177383'
+          data-ad-format='rectangle'
+        />
+      </div>
+    )
+  }
+
   render() {
     const { content } = this.props
 
@@ -16,17 +27,8 @@ class AdsenseTile extends PureComponent {
       <AdsenseDefault
         promoted={content.promoted}
         adsense={content.isAdsense}
-      >
-        <div className='adv-sense-tile-container'>
-          <GoogleAd
-            className='adsbygoogle'
-            style={styles.googleAd}
-            client='ca-pub-7843612025672312'
-            slot='2948177383'
-            format='rectangle'
-          />
-        </div>
-      </AdsenseDefault>
+        adchild={this.handleAd()}
+      />
     )
   }
 }

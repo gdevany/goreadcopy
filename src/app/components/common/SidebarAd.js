@@ -14,7 +14,7 @@ class SidebarAd extends PureComponent {
             </figure>
             <div className='sidebar-content'>
               <h2 className='sidebar-title'>
-                  {content.heading}
+                {content.heading}
               </h2>
               <div className='post-excerpt-container'>
                 <p className='post-excerpt-pharagraph'>

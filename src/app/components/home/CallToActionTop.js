@@ -6,7 +6,7 @@ class CallToActionTop extends PureComponent {
     super(props)
 
     this.state = {
-      modalOpen: false
+      modalOpen: false,
     }
 
     this.handleClose = this.handleClose.bind(this)
@@ -47,7 +47,6 @@ class CallToActionTop extends PureComponent {
           handleClose={this.handleClose}
         />
         <br /> <br />
-
       </div>
     )
   }

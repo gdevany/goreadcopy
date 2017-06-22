@@ -61,6 +61,7 @@ class RightProfileContainer extends PureComponent {
             tiles={profile}
             isLocked={isProfileLocked}
             fetchOnMount={false}
+            scrollPercent={0.7}
           /> : null
         }
         { isProfileLocked ? this.setLoading() : null }

@@ -3,6 +3,7 @@ import { Paths } from '../services'
 const Endpoints = () => {
   const { apiUrl } = Paths
   const routes = {
+    timesRendered: () => apiUrl('views/home_rendered_times'),
     books: (params) => apiUrl('onboarding/books', params),
     readers: (params) => apiUrl('onboarding/readers', params),
     readerValidation: (params) => apiUrl('onboarding/readers/check', params),
@@ -31,6 +32,9 @@ const Endpoints = () => {
     getCountries: () => apiUrl('forms/countries'),
     getStates: (id) => apiUrl(`forms/${id}/states`),
     filterBooks: (params) => apiUrl('books', params),
+    requestBookClubMembership: () => apiUrl('book_clubs/member_request'),
+    editTile: (id) => apiUrl(`activities/${id}/edit_statuspost_tile`),
+    deleteTile: (id) => apiUrl(`activities/${id}`),
     currentReader: {
       getRecommendation: (params) => apiUrl('genres/top_users', params),
       getOnboardingRecommendation: (params) => apiUrl('onboarding/genres/top_users', params),
@@ -65,6 +69,16 @@ const Endpoints = () => {
       getReadFeedComments: (id) => apiUrl(`activities/${id}/comments`),
       postMessage: (params) => apiUrl('current_reader/posts', params),
       logoutCurrentReader: () => apiUrl('current_reader/logout'),
+      getChatContacts: () => apiUrl('current_reader/chat/contacts'),
+      getChatMessages: () => apiUrl('current_reader/chat/messages'),
+      getChatConversation: (params) => apiUrl('current_reader/chat/conversation', params),
+      postChatMessage: () => apiUrl('current_reader/chat/message'),
+      updateReadConversation: (params) => apiUrl('current_reader/chat/conversation/read', params),
+      sendHeartbeat: (params) => apiUrl('current_reader/chat/heartbeat', params),
+      getNotifications: () => apiUrl('current_reader/notifications'),
+      readNotifications: () => apiUrl('current_reader/notifications/read'),
+      dismissNotification: (params) => apiUrl('current_reader/notifications/dismiss', params),
+      dismissAllNotifications: () => apiUrl('current_reader/notifications/dismiss_all'),
     },
     store: {
       getBestSellers: (params) => apiUrl('store/best_seller_books', params),
@@ -84,7 +98,7 @@ const Endpoints = () => {
       setUserAddress: (params) => apiUrl('store/cart/user_address', params),
       setOrder: (params) => apiUrl('store/order', params),
       getOrder: (params) => apiUrl('store/order', params),
-      getShippingMethods: (params) => apiUrl('store/order/shipping_methods', params),
+      getShippingMethods: () => apiUrl('store/shipping_methods'),
       getCurrentOrder: (params) => apiUrl('store/order/current', params),
       setBilling: (params) => apiUrl('store/order/billing', params),
     },

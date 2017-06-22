@@ -226,6 +226,32 @@ class CheckoutPage extends PureComponent {
     )
   }
 
+  mapShippingMethods = (shippingMethods) => {
+    return shippingMethods.map((method, index) => {
+      return (
+        <div className='small-6 columns'>
+          <div className='checkoutpage-steps-delivery-method'>
+            <input
+              className='checkoutpage-steps-delivery-method-input'
+              name='delivery-method'
+              type='radio'
+            />
+            <label className='checkoutpage-steps-delivery-method-label'>
+              <span className='checkoutpage-steps-delivery-method-vendor'>
+                {method.title}
+              </span>
+              <span className='checkoutpage-steps-delivery-method-days'>
+                5 - 7 business days
+              </span>
+              {/* <spam className='checkoutpage-steps-delivery-method-price'>
+                $4.99
+              </spam> */}
+            </label>
+          </div>
+        </div>
+      )
+    })
+  }
   renderShippingMethod = () => {
     return (
       <section className='checkoutpage-steps-delivery-method-container'>
@@ -233,46 +259,9 @@ class CheckoutPage extends PureComponent {
           Delivery
         </h3>
         <div className='row'>
-          <div className='small-6 columns'>
-            <div className='checkoutpage-steps-delivery-method'>
-              <input
-                className='checkoutpage-steps-delivery-method-input'
-                name='delivery-method'
-                type='radio'
-              />
-              <label className='checkoutpage-steps-delivery-method-label'>
-                <span className='checkoutpage-steps-delivery-method-vendor'>
-                  USPS Media Mail
-                </span>
-                <span className='checkoutpage-steps-delivery-method-days'>
-                  ~5 - 7 business days
-                </span>
-                <spam className='checkoutpage-steps-delivery-method-price'>
-                  $4.99
-                </spam>
-              </label>
-            </div>
-          </div>
-          <div className='small-6 columns'>
-            <div className='checkoutpage-steps-delivery-method'>
-              <input
-                className='checkoutpage-steps-delivery-method-input'
-                name='delivery-method'
-                type='radio'
-              />
-              <label className='checkoutpage-steps-delivery-method-label'>
-                <span className='checkoutpage-steps-delivery-method-vendor'>
-                  USPS Priority Mail
-                </span>
-                <span className='checkoutpage-steps-delivery-method-days'>
-                 2 - 3 business days
-                </span>
-                <spam className='checkoutpage-steps-delivery-method-price'>
-                  $8.99
-                </spam>
-              </label>
-            </div>
-          </div>
+          {this.props.shippingMethods ?
+            this.mapShippingMethods(this.props.shippingMethods) : null
+          }
         </div>
       </section>
     )
