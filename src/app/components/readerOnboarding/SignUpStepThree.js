@@ -115,8 +115,7 @@ class SignUpStepThree extends PureComponent {
   componentWillMount = () => {
     this.props.getOnboardingRecommendation(this.props.RecommendationsAmount)
   }
-  // this.checkBoxesFor('readers', this.allReaders(nextProps.recommended))
-  // this.checkBoxesFor('authors', this.allAuthors(nextProps.recommended))
+
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.recommended) {
       this.setState({
