@@ -71,6 +71,8 @@ class NotificationPopupWindow extends PureComponent {
     e.preventDefault()
     this.setState({ loadingDismiss: true })
     this.props.dismissAllNotifications()
+      .then(()=>{ this.setState({ loadingDismiss: false }) })
+      .catch(()=>{ this.setState({ loadingDismiss: false }) })
   }
 
   handleWheelScroll(e) {
