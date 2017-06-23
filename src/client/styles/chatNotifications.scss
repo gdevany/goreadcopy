@@ -265,6 +265,12 @@
       border-left: 10px solid transparent;
       content: '';
     }
+    .statuspost-loader{
+      display: inline;
+      padding-left: 5px;
+      position: relative;
+      top: 3px;
+    }
   }
 }
 
@@ -310,6 +316,12 @@
       border-bottom: 10px solid #ffffff;
       border-left: 10px solid transparent;
       content: '';
+    }
+    .statuspost-loader{
+      display: inline;
+      padding-left: 5px;
+      position: relative;
+      top: 3px;
     }
   }
 }
