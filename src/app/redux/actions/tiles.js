@@ -44,10 +44,10 @@ export function emptyTiles() {
   }
 }
 
-export function shareTile(id, shareType, comment) {
+export function shareTile(id, shareType, comment, mentions) {
   if (comment) {
     return dispatch => {
-      ReaderTiles.shareTile(id, { shareType, comment })
+      ReaderTiles.shareTile(id, { shareType, comment, mentions })
 
         .catch(err => console.error(`Error in shareTile: ${err}`))
     }
@@ -86,18 +86,21 @@ function addNewComment(comments, newComment, parentId) {
   })
 }
 
-export function updateComments(tileId, comment, parentId, datetime, profile) {
+export function updateComments(tileId, comment, parentId, mentions, datetime, profile) {
   return (dispatch, getState) => {
-    ReaderTiles.updateComments(tileId, { comment, parentId })
+    ReaderTiles.updateComments(tileId, { comment, parentId, mentions })
       .then((resp) => {
         const data = resp ? resp.data : false
         const commentId = data ? data.commentId : tileId
         const existingTilesComments = getState().tiles.feedComments || {}
         const tileInfo = R.prop(tileId, existingTilesComments) || {}
         const commentsForTile = tileInfo.comments || []
+        const mentionArray = data.mentionArray
         const newComment = {
           id: commentId,
           comment,
+          mentions,
+          mentionArray,
           datetime,
           profile
         }

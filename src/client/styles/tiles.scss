@@ -177,6 +177,15 @@
     }
   }
 }
+.commentContent{
+  a{
+    color: #0042D6;
+    font-weight: 600;
+  }
+  a:hover{
+    text-decoration: underline;
+  }
+}
 .base-tile-container{
   display: flex;
   justify-content: center;
@@ -735,6 +744,30 @@
   }
 }
 
+.shared{
+  padding: 0 15px;
+  border-left: 3px solid rgba(0,0,0,0.15);
+  p{
+    opacity: 0.8;
+  }
+}
+
+.sharepost-excerpt-container{
+  width: 100%;
+  text-align: justify;
+  word-wrap: break-word;
+  margin-bottom: 15px;
+  .sharepost-excerpt-pharagraph{
+    margin: 0;
+    font-size: 14px;
+    color: $black;
+    a{
+      font-weight: 600;
+      color: $blue;
+    }
+  }
+}
+
 .heading-overflow-figure{
   width: 100%;
   max-height: 250px;
@@ -968,6 +1001,7 @@
   align-items: center;
   flex-direction: column;
   .comments-elelemnts{
+    position: relative;
     display: flex;
     justify-content: space-around;
     align-items: flex-start;

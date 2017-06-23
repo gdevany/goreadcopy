@@ -33,6 +33,9 @@ const renderSuggestion = (entry, type, ctype) => {
           <span className='suggestion-list-name'>
             Reader: {`${entry.firstName} ${entry.lastName}`}
           </span>
+          <span className='tooltiptext'>
+            {`${entry.firstName} ${entry.lastName}`}
+          </span>
         </li>
       )
     case 'Author':
@@ -53,6 +56,9 @@ const renderSuggestion = (entry, type, ctype) => {
           <span className='suggestion-list-name'>
             Author: {`${entry.firstName} ${entry.lastName}`}
           </span>
+          <span className='tooltiptext'>
+            {`${entry.firstName} ${entry.lastName}`}
+          </span>
         </li>
       )
     case 'Book':
@@ -70,7 +76,12 @@ const renderSuggestion = (entry, type, ctype) => {
             style={styles.layer}
           />
           <img className='sugestion-list-image' src={entry.image} alt='User image'/>
-          <span className='suggestion-list-name'>Book: {entry.title}</span>
+          <span className='suggestion-list-name'>
+            Book: {entry.title}
+          </span>
+          <span className='tooltiptext'>
+            {entry.title}
+          </span>
         </li>
       )
     case 'Publisher':
@@ -88,7 +99,12 @@ const renderSuggestion = (entry, type, ctype) => {
             style={styles.layer}
           />
           <img className='sugestion-list-image' src={entry.image} alt='User image'/>
-          <span className='suggestion-list-name'>Publisher: {entry.title}</span>
+          <span className='suggestion-list-name'>
+            Publisher: {entry.title}
+          </span>
+          <span className='tooltiptext'>
+            {entry.title}
+          </span>
         </li>
       )
     default:
