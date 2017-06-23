@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react'
 import { Link } from 'react-router'
 import TileDefault from '../TileDefault'
 import ReactPlayer from 'react-player'
-import urlParser from 'js-video-url-parser'
-import Anchorify from 'react-anchorify-text'
+import UrlParser from 'js-video-url-parser'
+import Linkify from 'react-linkify'
 
 const mentionRegex = /(\@\[\d+\:\d+\])/gi
 
@@ -43,10 +43,9 @@ class StatusPostTile extends PureComponent {
     }
     return (
       <span key={index}>
-        <Anchorify
-          text={entry}
-          target='_blank'
-        />
+        <Linkify properties={{ target: '_blank' }}>
+          {entry}
+        </Linkify>
       </span>)
   }
 
@@ -66,30 +65,37 @@ class StatusPostTile extends PureComponent {
       content
     } = this.props
 
-    const splittedContent = this.splitContent(content.description)
+    const splittedContent = content.description ?
+    this.splitContent(content.description) : null
     const splittedPostContent = this.splitContent(content.socialPostComment)
-
+    const sharePostStyle =
+      content.mentionsPostList.length > 0 ||
+      content.socialPostComment.length > 0 ?
+      'shared' : ''
     let videoInfo = ''
     if (content.activeContent && content.activeContent.providerName === 'Dailymotion') {
-      videoInfo = urlParser.parse(content.activeContent.url)
+      videoInfo = UrlParser.parse(content.activeContent.url)
     }
     return (
       <TileDefault
         tileId={id}
         author={author}
         target={target}
-        description={description}
+        description={description ? description : content.description}
         timestamp={timestamp}
         likes={likes}
         comments={comments}
         shareInfo={shareInfo}
         action={action}
+        isPostEditable={true}
+        mentionsList={content.mentionsList}
+        activeContent={content.activeContent}
       >
         <div className='statuspost-tile-container'>
-          <div className='post-excerpt-container'>
-            <p className='post-excerpt-pharagraph'>
+          <div className='sharepost-excerpt-container'>
+            <p className='sharepost-excerpt-pharagraph'>
               {
-                content.mentionsPostList !== null || content.socialPostComment !== 'None' ?
+                content.mentionsPostList.length > 0 || content.socialPostComment !== 'None' ?
                   (
                     splittedPostContent.map((entry, index) => {
                       return this.renderContentWithMentions(entry, index, content.mentionsPostList)
@@ -164,12 +170,15 @@ class StatusPostTile extends PureComponent {
             ) : null
           }
           <div className='statuspost-content'>
-            <div className='post-excerpt-container'>
+            <div className={`post-excerpt-container ${sharePostStyle}`}>
               <p className='post-excerpt-pharagraph'>
                 {
-                  splittedContent.map((entry, index) => {
-                    return this.renderContentWithMentions(entry, index, content.mentionsList)
-                  })
+                  splittedContent ?
+                  (
+                    splittedContent.map((entry, index) => {
+                      return this.renderContentWithMentions(entry, index, content.mentionsList)
+                    })
+                  ) : null
                 }
               </p>
             </div>

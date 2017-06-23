@@ -6,11 +6,13 @@ import { ExternalRoutes as routes } from '../../constants'
 import PrimaryButton from './PrimaryButton'
 import SocialButton from './SocialButton'
 import WrappedField from './WrappedField'
-import { Auth } from '../../redux/actions'
+import { Auth, Chat, Notifications } from '../../redux/actions'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { Colors } from '../../constants/style'
 
 const { processUserLogin, cleanUserLoginErrors } = Auth
+const { getChatContacts } = Chat
+const { loadNotifications } = Notifications
 
 const styles = {
   modalBody: {
@@ -53,6 +55,8 @@ class SignInModal extends Component {
     this.setState({ showLoader: true })
     const credentials = R.pick(['username', 'password'], this.state)
     this.props.processUserLogin(credentials)
+      .then(() => { this.props.getChatContacts() })
+      .then(() => { this.props.loadNotifications() })
       .then(() => {
         this.setState({ showLoader: false })
         this.props.handleClose
@@ -199,4 +203,11 @@ class SignInModal extends Component {
 
 const mapStateToProps = R.prop('readerData')
 
-export default connect(mapStateToProps, { processUserLogin, cleanUserLoginErrors })(SignInModal)
+const mapDispatchToProps = {
+  processUserLogin,
+  cleanUserLoginErrors,
+  getChatContacts,
+  loadNotifications,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignInModal)

@@ -14,6 +14,7 @@ const styles = {
 class AdsenseDefault extends PureComponent {
 
   render() {
+    const { adchild } = this.props
     return (
       <Card style={styles.cardContainer} className='base-tile-container'>
         <div className='base-tile-header'>
@@ -26,7 +27,7 @@ class AdsenseDefault extends PureComponent {
           </div>
         </div>
         <CardText className='tile-main-content'>
-          {this.props.children}
+          {adchild ? adchild : null}
         </CardText>
       </Card>
     )
