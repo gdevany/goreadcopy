@@ -5,6 +5,8 @@ import { Notifications as NotificationServices } from '../../../services/api/cur
 import { Notifications as NotificationActions } from '../../../redux/actions'
 import CogIcon from 'material-ui/svg-icons/action/settings'
 import { LoadingSpinner } from '../'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
+import { Colors } from '../../../constants/style'
 
 const { setReadNotifications } = NotificationServices
 const {
@@ -12,6 +14,12 @@ const {
   dismissNotification,
   dismissAllNotifications
 } = NotificationActions
+const styles = {
+  refresh: {
+    display: 'inline-block',
+    position: 'relative',
+  },
+}
 
 class NotificationPopupWindow extends PureComponent {
   constructor(props) {
@@ -20,6 +28,7 @@ class NotificationPopupWindow extends PureComponent {
     this.state = {
       isDismissAllOpen: false,
       isDismissNotificationOpen: false,
+      loadingDismiss: false,
     }
 
     this.locals = {
@@ -60,6 +69,7 @@ class NotificationPopupWindow extends PureComponent {
 
   onDismissAllClick(e) {
     e.preventDefault()
+    this.setState({ loadingDismiss: true })
     this.props.dismissAllNotifications()
   }
 
@@ -81,6 +91,21 @@ class NotificationPopupWindow extends PureComponent {
     return true
   }
 
+  setLoading = () => {
+    return (
+      <div className='statuspost-loader'>
+        <RefreshIndicator
+          size={25}
+          left={0}
+          top={0}
+          loadingColor={Colors.blue}
+          status='loading'
+          style={styles.refresh}
+        />
+      </div>
+    )
+  }
+
   render() {
     const { isOpen, notifications: { results } } = this.props
     return isOpen ? (
@@ -99,6 +124,7 @@ class NotificationPopupWindow extends PureComponent {
                     (
                       <div className='notifications-frame-dismissall-square'>
                         <a onClick={this.onDismissAllClick}>Dismiss all</a>
+                        { this.state.loadingDismiss ? this.setLoading() : null }
                       </div>
                     ) : null
                   }
