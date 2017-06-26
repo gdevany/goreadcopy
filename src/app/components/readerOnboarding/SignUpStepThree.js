@@ -100,6 +100,9 @@ class SignUpStepThree extends PureComponent {
       newSearchInput: '',
       shouldSubmit: false,
       showLoader: false,
+      recommended: [],
+      randomReaders: false,
+      randomAuthors: false,
     }
 
     this.handleButtonClick = this.handleButtonClick.bind(this)
@@ -111,6 +114,15 @@ class SignUpStepThree extends PureComponent {
 
   componentWillMount = () => {
     this.props.getOnboardingRecommendation(this.props.RecommendationsAmount)
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.recommended) {
+      this.setState({
+        randomReaders: this.allReaders(nextProps.recommended),
+        randomAuthors: this.allAuthors(nextProps.recommended)
+      })
+    }
   }
 
   componentDidUpdate = () => {
@@ -168,15 +180,16 @@ class SignUpStepThree extends PureComponent {
     let authorsToShow = []
 
     if (authors) {
-      const buzzAuthors = R.prop('buzz', authors) ? authors.buzz : []
-      const nonBuzzAuthors = R.prop('nonBuzz') ? authors.nonBuzz : []
-      const buzzAuthorsToShow = buzzAuthors ?
-        this.getRandom(this.props.BuzzAuthorsRecommendations, buzzAuthors) : []
-      const nonBuzzAuthorsToShow = nonBuzzAuthors ?
-        this.getRandom(this.props.NonBuzzAuthorsRecommendations, nonBuzzAuthors) : []
-      authorsToShow = R.concat(buzzAuthorsToShow, nonBuzzAuthorsToShow)
+      if (R.prop('buzz', authors) || R.prop('nonBuzz', authors)) {
+        const buzzAuthors = R.prop('buzz', authors) ? authors.buzz : []
+        const nonBuzzAuthors = R.prop('nonBuzz') ? authors.nonBuzz : []
+        const buzzAuthorsToShow = buzzAuthors ?
+          this.getRandom(this.props.BuzzAuthorsRecommendations, buzzAuthors) : []
+        const nonBuzzAuthorsToShow = nonBuzzAuthors ?
+          this.getRandom(this.props.NonBuzzAuthorsRecommendations, nonBuzzAuthors) : []
+        authorsToShow = R.concat(buzzAuthorsToShow, nonBuzzAuthorsToShow)
+      } else authorsToShow = authors.slice(1, 6)
     }
-
     return authorsToShow
   }
 
@@ -185,30 +198,31 @@ class SignUpStepThree extends PureComponent {
     let readersToShow = []
 
     if (readers) {
-      const newLastFourteenDays = R.prop('newLastFourteenDays', readers) ?
-          readers.newLastFourteenDays : false
-      const loggedLastThirtyDays = R.prop('loggedLastThirtyDays', readers) ?
-          readers.loggedLastThirtyDays : false
-      const newLastFourteenDaysToShow = newLastFourteenDays ?
-        this.getRandom(this.props.NewReadersRecommendations, newLastFourteenDays) : []
-      const loggedLastThirtyDaysToShow = loggedLastThirtyDays ?
-        this.getRandom(this.props.OldReadersRecommendations, loggedLastThirtyDays) : []
-      readersToShow = R.concat(newLastFourteenDaysToShow, loggedLastThirtyDaysToShow)
+      if (R.prop('newLastFourteenDays', readers) || R.prop('loggedLastThirtyDays', readers)) {
+        const newLastFourteenDays = R.prop('newLastFourteenDays', readers) ?
+            readers.newLastFourteenDays : false
+        const loggedLastThirtyDays = R.prop('loggedLastThirtyDays', readers) ?
+            readers.loggedLastThirtyDays : false
+        const newLastFourteenDaysToShow = newLastFourteenDays ?
+          this.getRandom(this.props.NewReadersRecommendations, newLastFourteenDays) : []
+        const loggedLastThirtyDaysToShow = loggedLastThirtyDays ?
+          this.getRandom(this.props.OldReadersRecommendations, loggedLastThirtyDays) : []
+        readersToShow = R.concat(newLastFourteenDaysToShow, loggedLastThirtyDaysToShow)
+      } else readersToShow = readers.slice(1, 6)
     }
-
     return readersToShow
   }
 
   handleSelectAll() {
     const selectAll = !this.state.selectAll
-    const { recommended, clickedSelectAll } = this.props
-    const { chosenReaders, chosenAuthors } = this.state
+    const { clickedSelectAll } = this.props
+    const { chosenReaders, chosenAuthors, randomReaders, randomAuthors } = this.state
     const idAsNumber = R.compose(Number, R.prop('id'))
     const selectedUsersState =
       selectAll ?
       {
-        chosenReaders: R.map(idAsNumber, this.allReaders(recommended)),
-        chosenAuthors: R.map(idAsNumber, this.allAuthors(recommended)),
+        chosenReaders: R.map(idAsNumber, randomReaders),
+        chosenAuthors: R.map(idAsNumber, randomAuthors),
       } :
       {
         chosenReaders: [],
@@ -237,7 +251,10 @@ class SignUpStepThree extends PureComponent {
 
   handleSearchTyping = () => {
     const search = this.refs.search.value
-    this.setState({ newSearchInput: search })
+    this.setState({
+      newSearchInput: search,
+      randomReaders: false,
+    })
     if (search === '') {
       this.props.getOnboardingRecommendation()
     }
@@ -248,8 +265,6 @@ class SignUpStepThree extends PureComponent {
       if (user) {
         const {
           id,
-          fullname,
-          imageUrl,
           booksWritten,
           inspiredBy,
         } = user
@@ -258,8 +273,8 @@ class SignUpStepThree extends PureComponent {
           <Checkbox
             key={id}
             id={id}
-            fullname={fullname}
-            imageUrl={imageUrl}
+            fullname={user.fullname ? user.fullname : `${user.firstName} ${user.lastName}`}
+            imageUrl={user.imageUrl ? user.imageUrl : user.image}
             booksWritten={booksWritten}
             inspiredBy={inspiredBy}
             onClick={this.handleCheckBoxClick(dataType)}
@@ -277,17 +292,28 @@ class SignUpStepThree extends PureComponent {
     return rows.map(UsersRow)
   }
 
+  handleEnterButton = (event) => {
+    if (event.which === 13) {
+      event.preventDefault()
+    }
+  }
+
   render() {
-    const { stepIndex, recommended } = this.props
+    const { stepIndex } = this.props
     const {
       newSearchInput,
       selectAll,
       shouldSubmit,
       showLoader,
+      randomAuthors,
+      randomReaders
     } = this.state
-    const readers = this.checkBoxesFor('readers', this.allReaders(recommended))
-    const authors = this.checkBoxesFor('authors', this.allAuthors(recommended))
-
+    let readers
+    let authors
+    if (randomReaders && randomAuthors) {
+      readers = this.checkBoxesFor('readers', randomReaders)
+      authors = this.checkBoxesFor('authors', randomAuthors)
+    }
     return (
       <div style={styles.container} className='card front-card'>
 
@@ -303,7 +329,11 @@ class SignUpStepThree extends PureComponent {
         <h5 style={styles.labelText}> Add Your Own </h5>
 
         <div className='small-12'>
-          <form style={styles.formWrapper} className='form-input-wrapper'>
+          <form
+            style={styles.formWrapper}
+            className='form-input-wrapper'
+            onKeyPress={this.handleEnterButton}
+          >
             <div className='search-icon' />
             <input
               value={newSearchInput}
@@ -335,7 +365,7 @@ class SignUpStepThree extends PureComponent {
 
                 <div className='row'>
                   <fieldset className='small-12 columns'>
-                    { authors.length ?
+                    { authors && authors.length ?
                       this.rowsOf(authors) : <div className='loading-animation'/>
                     }
                   </fieldset>
@@ -350,7 +380,7 @@ class SignUpStepThree extends PureComponent {
 
                 <div className='row'>
                   <fieldset className='small-12 columns'>
-                    { readers.length ?
+                    { readers && readers.length ?
                       this.rowsOf(readers) : <div className='loading-animation'/>
                     }
                   </fieldset>

@@ -113,7 +113,6 @@ export function updateRecommended(recommendation) {
     R.isArrayLike(recommendation) ?
     recommendation :
     [recommendation]
-
   return {
     type: A.GET_RECOMMENDATION,
     payload,

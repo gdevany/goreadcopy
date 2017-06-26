@@ -75,6 +75,7 @@ class MergedTileDefault extends PureComponent {
           textStyle={styles.textContainer}
           avatar={author.image}
           actAsExpander={true}
+          className='merged-tile'
         >
           <span style={styles.timeStamp}> { timestamp } </span>
         </CardHeader>
