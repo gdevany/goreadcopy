@@ -116,6 +116,12 @@
       }
     }
   }
+  .single-notification-element:last-child{
+    padding-bottom: 50px;
+    &.blank-state{
+      padding-bottom: 20px;
+    }
+  }
   .notification-container{
     display: flex;
     justify-content: flex-start;
