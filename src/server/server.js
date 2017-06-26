@@ -61,7 +61,9 @@ if (ENV.isDevelopment()) {
   app.use(webpackHotMiddleware(compiler));
   app.use(express.static('build'));
   app.get('*', (req, res) => res.sendFile(path.join(__dirname + '/../client/index.html')))
+
 } else {
+
   app.get('*.js', function (req, res, next) {
     filename = req.url.replace(/\?.*$/, '')
     req.url = filename + '.gz';

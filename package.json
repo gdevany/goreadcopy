@@ -21,6 +21,7 @@
     "node": "6.6.0"
   },
   "devDependencies": {
+    "chunk-manifest-webpack-plugin": "^1.1.0",
     "eslint": "^3.13.1",
     "eslint-config-airbnb": "^14.0.0",
     "eslint-loader": "^1.6.1",

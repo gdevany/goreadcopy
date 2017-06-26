@@ -42,7 +42,7 @@ module.exports = {
   devtool: 'inline-source-map',
   */
   output: {
-    filename: '[name].js',
+    filename: '[name].[hash].js',
     path: '/', // Not on the filesystem since webpackDevMiddleware builds in-memory
     // No publicPath needed because of webpackDevMiddleware defaults
     publicPath: '/',
@@ -68,6 +68,18 @@ module.exports = {
     new HtmlWebpackHarddiskPlugin({
         outputPath: path.resolve(__dirname, 'src/client')
     }),
+    new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor',
+        minChunks: function (module) {
+           // this assumes your vendor imports exist in the node_modules directory
+           return module.context && module.context.indexOf('node_modules') !== -1;
+        }
+    }),
+    /*
+    new webpack.optimize.CommonsChunkPlugin({
+        name: 'manifest' //But since there are no more common modules between them we end up with just the runtime code included in the manifest file
+    }),
+    */
     new BundleAnalyzerPlugin(),
   ],
   /*
