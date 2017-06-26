@@ -99,6 +99,7 @@ const Endpoints = () => {
       setOrder: (params) => apiUrl('store/order', params),
       getOrder: (params) => apiUrl('store/order', params),
       getShippingMethods: () => apiUrl('store/shipping_methods'),
+      setShipping: (params) => apiUrl('store/order/shipping', params),
       getCurrentOrder: (params) => apiUrl('store/order/current', params),
       setBilling: (params) => apiUrl('store/order/billing', params),
     },

@@ -6,7 +6,7 @@ import OrderSummary from './OrderSummary'
 import CartItems from './CartItems'
 import ReviewOrder from './ReviewOrder'
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
-import UseLitcoins from './UseLitcoins'
+// import UseLitcoins from './UseLitcoins'
 import LockIcon from 'material-ui/svg-icons/action/lock-outline'
 import R from 'ramda'
 
@@ -15,7 +15,9 @@ const {
   getOrder,
   getCurrentOrder,
   getShippingMethods,
-  setUserAddress
+  setUserAddress,
+  setShipping,
+  setBilling
 } = Store
 
 class CheckoutPage extends PureComponent {
@@ -38,6 +40,10 @@ class CheckoutPage extends PureComponent {
       cityShipping: '',
       stateShipping: '',
       zipcodeShipping: '',
+      shippingMethod: '',
+      shippingId: '',
+      billingId: '',
+      setShippingMethod: '',
       nameOnCard: '',
       cardNumber: '',
       cardCVC: '',
@@ -52,11 +58,13 @@ class CheckoutPage extends PureComponent {
       cityBilling: '',
       stateBilling: '',
       zipcodeBilling: '',
+      useLitcoins: false,
     }
     this.continueToBillingClick = this.continueToBillingClick.bind(this)
     this.continueToReviewClick = this.continueToReviewClick.bind(this)
     this.handlePaymentClick = this.handlePaymentClick.bind(this)
     this.handleCheckSave = this.handleCheckSave.bind(this)
+    this.handleUseLitcoins = this.handleUseLitcoins.bind(this)
     this.handleCheckSame = this.handleCheckSame.bind(this)
   }
 
@@ -67,7 +75,7 @@ class CheckoutPage extends PureComponent {
 
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.order) {
-      const { shippingAddress } = nextProps.order
+      const { shippingAddress, billingAddress } = nextProps.order
       const fullname = this.splitFullName(shippingAddress.name)
       this.setState({
         firstNameShipping: fullname[0],
@@ -78,6 +86,8 @@ class CheckoutPage extends PureComponent {
         stateShipping: shippingAddress.state,
         cityShipping: shippingAddress.city,
         zipcodeShipping: shippingAddress.zipcode,
+        shippingId: shippingAddress.id,
+        billingId: billingAddress.id,
       })
     }
   }
@@ -110,9 +120,11 @@ class CheckoutPage extends PureComponent {
       stateShipping,
       cityShipping,
       zipcodeShipping,
+      shippingId,
+      shippingMethod,
     } = this.state
     if (cityShipping && countryShipping && addressShipping &&
-      address2Shipping && zipcodeShipping && stateShipping) {
+      address2Shipping && zipcodeShipping && stateShipping && shippingMethod !== '') {
       this.setState({
         isStepOneActive: false,
         isStepTwoActive: true,
@@ -130,7 +142,11 @@ class CheckoutPage extends PureComponent {
         addressType: 'shipping',
         sameBillingAndShipping: true,
       })
-    }
+      this.props.setShipping({
+        shippingAddressId: shippingId,
+        shippingMethod: shippingMethod,
+      })
+    } else alert('Fill everything')
   }
 
   continueToReviewClick = (event) => {
@@ -141,9 +157,11 @@ class CheckoutPage extends PureComponent {
       cardNumber,
       cardCVC,
       fullExpDate,
+      isCardClicked,
+      shippingId,
+      billingId,
     } = this.state
-    if (nameOnCard && cardNumber && cardCVC && fullExpDate) {
-      // const expDate = this.splitCardExp(fullExpDate)
+    if (isCardClicked && nameOnCard && cardNumber && cardCVC && fullExpDate) {
       if (!this.state.sameShippingAddress) {
         const {
           firstNameBilling,
@@ -154,6 +172,7 @@ class CheckoutPage extends PureComponent {
           stateBilling,
           cityBilling,
           zipcodeBilling,
+
         } = this.state
         if (cityBilling && countryBilling && addressBilling &&
           address2Billing && zipcodeBilling && stateBilling) {
@@ -177,6 +196,18 @@ class CheckoutPage extends PureComponent {
           })
         } else alert('Complete all billing fields')
       } else {
+        const expDate = this.splitCardExp(fullExpDate)
+        this.props.setBilling({
+          cardExpYear: expDate[1],
+          shippingMethod: this.state.shippingMethod,
+          cardExpMonth: expDate[0],
+          paymentMethod: 'cc',
+          shippingAddressId: shippingId,
+          cardCvc: cardCVC,
+          cardNumber: cardNumber,
+          billingAddressId: billingId,
+          litcoins: this.state.useLitcoins,
+        })
         this.setState({
           isStepOneActive: false,
           isStepTwoActive: false,
@@ -185,9 +216,15 @@ class CheckoutPage extends PureComponent {
           stepTwoComplete: true,
         })
       }
-    } else {
-      alert('Complete all card fields')
-    }
+    } else if (this.state.isPaypalClicked) {
+      this.setState({
+        isStepOneActive: false,
+        isStepTwoActive: false,
+        isStepThreeActive: true,
+        stepOneComplete: true,
+        stepTwoComplete: true,
+      })
+    } else alert('Complete all card fields')
   }
 
   handlePaymentClick = (type) => {
@@ -226,15 +263,18 @@ class CheckoutPage extends PureComponent {
     )
   }
 
+  setShippingMethod = (shippingMethod) => this.setState({ shippingMethod })
+
   mapShippingMethods = (shippingMethods) => {
     return shippingMethods.map((method, index) => {
       return (
-        <div className='small-6 columns'>
+        <div className='small-6 columns' key={`shipping_method_${index}`}>
           <div className='checkoutpage-steps-delivery-method'>
             <input
               className='checkoutpage-steps-delivery-method-input'
               name='delivery-method'
               type='radio'
+              onClick={() => this.setShippingMethod(method.name)}
             />
             <label className='checkoutpage-steps-delivery-method-label'>
               <span className='checkoutpage-steps-delivery-method-vendor'>
@@ -243,9 +283,13 @@ class CheckoutPage extends PureComponent {
               <span className='checkoutpage-steps-delivery-method-days'>
                 5 - 7 business days
               </span>
-              {/* <spam className='checkoutpage-steps-delivery-method-price'>
-                $4.99
-              </spam> */}
+              {method.cost ?
+                (
+                  <spam className='checkoutpage-steps-delivery-method-price'>
+                    ${method.cost}
+                  </spam>
+                ) : null
+              }
             </label>
           </div>
         </div>
@@ -398,6 +442,8 @@ class CheckoutPage extends PureComponent {
   handleCheckSave = (event) => this.setState({ saveCard: event.target.checked })
 
   handleCheckSame = (event) => this.setState({ sameShippingAddress: event.target.checked })
+
+  handleUseLitcoins = (event) => this.setState({ useLitcoins: event.target.checked })
 
   renderStepTwo = () => {
     const {
@@ -672,7 +718,31 @@ class CheckoutPage extends PureComponent {
               </div>
             </section>
           </section>
-          <UseLitcoins />
+          <section className='checkoutpage-litcoins-use-container'>
+            <h3>Litcoins</h3>
+            <div className='checkoutpage-litcoins-use-main'>
+              <input
+                className='checkoutpage-litcoins-useinput'
+                type='checkbox'
+                onChange={this.handleUseLitcoins}
+                checked={this.state.useLitcoins}
+              />
+              <label className='checkoutpage-litcoins-use-label'>
+                <span className='checkoutpage-litcoins-use-label-span'>
+                  Use my Litcoins
+                </span>
+                <div className='checkoutpage-litcoins-use-details'>
+                  <span className='checkoutpage-litcoins-use-text'>
+                    <b>$6.00</b> (8,000
+                    <img
+                      className='checkoutpage-litcoins-use-img'
+                      src='/image/litcoin.png'
+                    /> available)
+                  </span>
+                </div>
+              </label>
+            </div>
+          </section>
           <a
             onClick={this.continueToReviewClick}
             className='checkoutpage-review-order-btn'
@@ -813,6 +883,8 @@ const mapDistpachToProps = {
   getCurrentOrder,
   getShippingMethods,
   setUserAddress,
+  setShipping,
+  setBilling
 }
 
 export default connect(mapStateToProps, mapDistpachToProps)(CheckoutPage)

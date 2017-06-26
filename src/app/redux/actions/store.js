@@ -249,8 +249,15 @@ export function getShippingMethods() {
 export function setBilling(params) {
   return dispatch => {
     Store.setBilling(params)
-      // .then(res => dispatch({ type: A.GET_SHIPPING_METHODS, payload: res.data }))
       .catch(err => console.error(`Error in setBilling ${err}`))
+  }
+}
+
+export function setShipping(params) {
+  return dispatch => {
+    Store.setShipping(params)
+      .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
+      .catch(err => console.error(`Error in setShipping ${err}`))
   }
 }
 
@@ -278,5 +285,7 @@ export default {
   setOrder,
   getOrder,
   getCurrentOrder,
-  getShippingMethods
+  getShippingMethods,
+  setBilling,
+  setShipping,
 }
