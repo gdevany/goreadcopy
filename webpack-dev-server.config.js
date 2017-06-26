@@ -7,6 +7,7 @@ const TransferWebpackPlugin = require('transfer-webpack-plugin')
 const dotenv = require('dotenv')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const nodeModulesPath = path.resolve(__dirname, 'node_modules')
 const testPath = path.resolve(__dirname, 'test')
@@ -67,6 +68,7 @@ module.exports = {
     new HtmlWebpackHarddiskPlugin({
         outputPath: path.resolve(__dirname, 'src/client')
     }),
+    new BundleAnalyzerPlugin(),
   ],
   /*
   externals: { // necessary for tests(when we create them) to run properly

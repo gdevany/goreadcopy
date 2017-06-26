@@ -48,7 +48,7 @@ if (ENV.isDevelopment()) {
     contentBase: 'http://localhost:' + port,
     port: port,
     quiet: false,
-    noInfo: true,
+    noInfo: false,
     hot: true,
     inline: true,
     lazy: false,
