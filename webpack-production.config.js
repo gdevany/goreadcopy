@@ -3,12 +3,13 @@ const path = require('path')
 const nodeModulesPath = path.resolve(__dirname, 'node_modules')
 const testPath = path.resolve(__dirname, 'test');
 const TransferWebpackPlugin = require('transfer-webpack-plugin')
-const dotenv = require('dotenv');
-const CompressionPlugin = require('compression-webpack-plugin');
-const failPlugin = require('webpack-fail-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const dotenv = require('dotenv')
+const CompressionPlugin = require('compression-webpack-plugin')
+const failPlugin = require('webpack-fail-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
+const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin')
+const NameAllModulesPlugin = require('name-all-modules-plugin')
 
 process.env.dotenv_config_file ?
     dotenv.config({path: path.join(__dirname, process.env.dotenv_config_file)}) : dotenv.config()
@@ -71,6 +72,13 @@ module.exports = {
         template: 'src/client/index.ejs',
         chunksSortMode: 'dependency',
     }),
+    new webpack.NamedModulesPlugin(),
+    new webpack.NamedChunksPlugin((chunk) => {
+        if (chunk.name) {
+            return chunk.name;
+        }
+        return chunk.mapModules(m => path.relative(m.context, m.request)).join("_");
+    }),
     new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
         filename: 'vendor.[hash].js',
@@ -79,6 +87,7 @@ module.exports = {
            return module.context && module.context.indexOf('node_modules') !== -1;
         }
     }),
+    new NameAllModulesPlugin(),
     //--------------------------------------------------
     // Only enable when you want to use the Analyzer!!!!
     //--------------------------------------------------
