@@ -58,6 +58,7 @@ class CheckoutPage extends PureComponent {
       stateBilling: '',
       zipcodeBilling: '',
       useLitcoins: false,
+      cardStored: false,
     }
     this.continueToBillingClick = this.continueToBillingClick.bind(this)
     this.continueToReviewClick = this.continueToReviewClick.bind(this)
@@ -97,6 +98,7 @@ class CheckoutPage extends PureComponent {
         cardNumber: `**** **** **** ${cardLast4}` || '',
         fullExpDate: `${cardExpMonth}/${cardExpYear}` || '',
       })
+      if (cardLast4) this.setState({ cardStored: true })
     }
   }
 
@@ -206,7 +208,6 @@ class CheckoutPage extends PureComponent {
           stateBilling,
           cityBilling,
           zipcodeBilling,
-
         } = this.state
         if (cityBilling && countryBilling && addressBilling &&
           address2Billing && zipcodeBilling && stateBilling) {
@@ -231,17 +232,28 @@ class CheckoutPage extends PureComponent {
         } else alert('Complete all billing fields')
       } else {
         const expDate = this.splitCardExp(fullExpDate)
-        this.props.setBilling({
-          cardExpYear: expDate[1],
-          shippingMethod: this.state.shippingMethod,
-          cardExpMonth: expDate[0],
-          paymentMethod: 'cc',
-          shippingAddressId: shippingId,
-          cardCvc: cardCVC,
-          cardNumber: cardNumber,
-          billingAddressId: billingId,
-          litcoins: this.state.useLitcoins,
-        })
+        if (this.state.cardStored) {
+          this.props.setBilling({
+            shippingMethod: this.state.shippingMethod,
+            paymentMethod: 'cc',
+            litcoins: this.state.useLitcoins,
+            avoidCheckCardData: this.state.cardStored,
+          })
+        } else {
+          this.props.setBilling({
+            cardExpYear: expDate[1],
+            shippingMethod: this.state.shippingMethod,
+            cardExpMonth: expDate[0],
+            paymentMethod: 'cc',
+            shippingAddressId: shippingId,
+            cardCvc: cardCVC,
+            cardNumber: cardNumber,
+            billingAddressId: billingId,
+            litcoins: this.state.useLitcoins,
+            avoidCheckCardData: this.state.cardStored,
+          })
+        }
+
         this.setState({
           isStepOneActive: false,
           isStepTwoActive: false,
@@ -262,6 +274,7 @@ class CheckoutPage extends PureComponent {
   }
 
   handlePaymentClick = (type) => {
+    console.log(type)
     if (type === 'card' && !this.state.isCardClicked) {
       this.setState({
         isCardClicked: true,
@@ -796,6 +809,7 @@ class CheckoutPage extends PureComponent {
   }
 
   renderStepThree = () => {
+    const { shippingId, shippingMethod } = this.state
     return (
       <div className='row'>
         <div className='large-7 columns'>
@@ -803,6 +817,9 @@ class CheckoutPage extends PureComponent {
             data={this.props.order}
             isPaypal={this.state.isPaypalClicked}
             shippingMethods={this.props.shippingMethods}
+            usingLitcoins={this.state.useLitcoins}
+            shippingMethod={shippingMethod}
+            shippingId={shippingId}
           />
           <CartItems />
         </div>

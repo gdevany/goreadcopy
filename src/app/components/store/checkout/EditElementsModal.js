@@ -6,7 +6,7 @@ import CheckIcon from 'material-ui/svg-icons/navigation/check'
 import LockIcon from 'material-ui/svg-icons/action/lock-outline'
 import R from 'ramda'
 
-const { setUserAddress } = Store
+const { setUserAddress, setBilling } = Store
 
 const styles = {
   modalBody: {
@@ -36,9 +36,14 @@ class EditElementsModal extends PureComponent {
       state: '',
       zipcode: '',
       editClicked: false,
+      nameOnCard: '',
+      cardNumber: '',
+      cardCVC: '',
+      fullExpDate: '',
     }
     this.editAddressClick = this.editAddressClick.bind(this)
     this.handleSave = this.handleSave.bind(this)
+    this.handleSaveCard = this.handleSaveCard.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
     this.handleFormsChanges = this.handleFormsChanges.bind(this)
   }
@@ -51,9 +56,39 @@ class EditElementsModal extends PureComponent {
     return fullname.split(' ')
   }
 
+  splitCardExp = (date) => {
+    return date.split('/')
+  }
+
   handleFormsChanges = R.curry((field, event) => {
     event.preventDefault()
-    this.setState({ [field]: event.target.value })
+    if (field === 'cardCVC' && event.target.value.length <= 4) {
+      this.setState({
+        [field]: event.target.value
+      })
+    }
+
+    if (field === 'cardNumber') {
+      this.setState({
+        [field]: event.target.value.replace(/[^\dA-Z]/g, '').replace(/(.{4})/g, '$1 ').trim()
+      })
+    }
+
+    if (field === 'fullExpDate' && event.target.value.length <= 5) {
+      if (event.target.value.length === 2) {
+        this.setState({
+          [field]: `${event.target.value}/`
+        })
+      } else {
+        this.setState({
+          [field]: event.target.value
+        })
+      }
+    }
+
+    if (field !== 'cardNumber' && field !== 'fullExpDate' && field !== 'cardCVC') {
+      this.setState({ [field]: event.target.value })
+    }
   })
 
   editAddressClick = (event) => {
@@ -109,6 +144,24 @@ class EditElementsModal extends PureComponent {
       this.props.handleClose()
     }
   }
+  handleSaveCard = (event) => {
+    const {
+      cardNumber,
+      cardCVC,
+      fullExpDate,
+    } = this.state
+    event.preventDefault()
+    const expDate = this.splitCardExp(fullExpDate)
+    this.props.setBilling({
+      cardExpYear: expDate[1],
+      cardExpMonth: expDate[0],
+      paymentMethod: 'cc',
+      cardCvc: cardCVC,
+      cardNumber: cardNumber,
+      shippingMethod: this.props.shippingMethod,
+    })
+    this.props.handleClose()
+  }
 
   handleCancel = () => {
     this.setState({
@@ -120,6 +173,10 @@ class EditElementsModal extends PureComponent {
       city: '',
       state: '',
       zipcode: '',
+      nameOnCard: '',
+      cardNumber: '',
+      cardCVC: '',
+      fullExpDate: '',
       editClicked: false,
     })
     this.props.handleClose()
@@ -292,6 +349,13 @@ class EditElementsModal extends PureComponent {
 
   renderEditPayment = () => {
     const { cardDetails } = this.props
+    const {
+      nameOnCard,
+      cardNumber,
+      cardCVC,
+      fullExpDate,
+    } = this.state
+
     return (
       <div className='row'>
         <div className='large-5 large-offset-4'>
@@ -300,7 +364,7 @@ class EditElementsModal extends PureComponent {
               Payment
             </h2>
             <section
-              className={!this.props.isPaypal ?
+              className={!this.props.isPaypal && cardDetails ?
                 'chekoutpage-edit-payment-container active' :
                 'chekoutpage-edit-payment-container'
               }
@@ -358,14 +422,6 @@ class EditElementsModal extends PureComponent {
                   </span>
                 </div>
               </div>
-              <div className='chekoutpage-edit-shipping-address-edit'>
-                <a
-                  // onClick={this.editAddressClick}
-                  className='chekoutpage-edit-shipping-address-edit-btn'
-                >
-                  Edit
-                </a>
-              </div>
             </section>
             <section
               className={this.props.isPaypal ?
@@ -387,7 +443,7 @@ class EditElementsModal extends PureComponent {
               <div className='checkoutpage-edit-payment-card'>
                 <div className='checkoutpage-edit-payment-card-head'>
                   <span className='checkoutpage-edit-payment-card-head-title'>
-                    Card / Credit Card
+                    Add New Card / Credit Card
                   </span>
                   <img
                     className='checkoutpage-edit-payment-card-head-img'
@@ -411,7 +467,7 @@ class EditElementsModal extends PureComponent {
                           type='text'
                           className='checkoutpage-payment-card-single-input'
                           onChange={this.handleFormsChanges('nameOnCard')}
-                          // value={nameOnCard}
+                          value={nameOnCard}
                         />
                       </div>
                     </div>
@@ -424,7 +480,7 @@ class EditElementsModal extends PureComponent {
                           type='text'
                           className='checkoutpage-payment-card-single-input'
                           onChange={this.handleFormsChanges('cardNumber')}
-                          // value={cardNumber}
+                          value={cardNumber}
                         />
                       </div>
                     </div>
@@ -437,7 +493,7 @@ class EditElementsModal extends PureComponent {
                           type='text'
                           className='checkoutpage-payment-card-single-input'
                           onChange={this.handleFormsChanges('fullExpDate')}
-                          // value={fullExpDate}
+                          value={fullExpDate}
                         />
                       </div>
                     </div>
@@ -450,26 +506,28 @@ class EditElementsModal extends PureComponent {
                           type='number'
                           className='checkoutpage-payment-card-single-input has-lock'
                           onChange={this.handleFormsChanges('cardCVC')}
-                          // value={cardCVC}
+                          value={cardCVC}
                         />
                         <LockIcon
                           className='checkoutpage-payment-card-single-input-lock'
                         />
                       </div>
                     </div>
-                    <div className='chekoutpage-edit-payment-btns-container'>
-                      <a
-                        onClick={this.handleSave}
-                        className='chekoutpage-edit-shipping-address-btn-save'
-                      >
-                        Save Address
-                      </a>
-                      <a
-                        onClick={this.handleCancel}
-                        className='chekoutpage-edit-shipping-address-btn-cancel'
-                      >
-                        Cancel
-                      </a>
+                    <div className='large-12 columns'>
+                      <div className='chekoutpage-edit-payment-btns-container'>
+                        <a
+                          onClick={this.handleSaveCard}
+                          className='chekoutpage-edit-payment-btn-save'
+                        >
+                          Save Address
+                        </a>
+                        <a
+                          onClick={this.handleCancel}
+                          className='chekoutpage-edit-payment-btn-cancel'
+                        >
+                          Cancel
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -531,4 +589,4 @@ const mapStateToProps = (state) => {
     },
   }
 }
-export default connect(mapStateToProps, { setUserAddress })(EditElementsModal)
+export default connect(mapStateToProps, { setUserAddress, setBilling })(EditElementsModal)

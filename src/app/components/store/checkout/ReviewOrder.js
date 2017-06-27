@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import UseLitcoins from './UseLitcoins'
 import EditElementsModal from './EditElementsModal'
 
 class ReviewOrder extends PureComponent {
@@ -8,8 +7,11 @@ class ReviewOrder extends PureComponent {
     this.state = {
       editModalOpen: false,
       modalRefference: false,
-      setShippingMethod: '',
+      shippingMethod: props.shippingMethod,
+      shippingId: props.shippingId,
+      isUsingLitcoins: props.usingLitcoins,
     }
+    this.handleUseLitcoins = this.handleUseLitcoins.bind(this)
     this.handleEditModalClose = this.handleEditModalClose.bind(this)
   }
 
@@ -27,6 +29,8 @@ class ReviewOrder extends PureComponent {
     })
   }
 
+  handleUseLitcoins = (event) => this.setState({ isUsingLitcoins: event.target.checked })
+
   setShippingMethod = (shippingMethod) => this.setState({ shippingMethod })
 
   mapShippingMethods = (shippingMethods) => {
@@ -38,6 +42,7 @@ class ReviewOrder extends PureComponent {
               className='checkoutpage-steps-delivery-method-input'
               name='delivery-method'
               type='radio'
+              value={method.name}
               onClick={() => this.setShippingMethod(method.name)}
             />
             <label className='checkoutpage-steps-delivery-method-label'>
@@ -98,8 +103,8 @@ class ReviewOrder extends PureComponent {
             <h4>Payment</h4>
             {isPaypal ?
               (
-                <div>
-                  paypal
+                <div className='checkoutpage-order-review-paypal-details'>
+                  <img className='paypal-image' src='/image/paypal-logo.png'/>
                 </div>
               ) : (
                 <div className='checkoutpage-order-review-card-details'>
@@ -174,11 +179,37 @@ class ReviewOrder extends PureComponent {
           </div>
         </article>
         <hr className='checkoutpage-order-review-divider'/>
-        <UseLitcoins />
+        <section className='checkoutpage-litcoins-use-container'>
+          <h3>Litcoins</h3>
+          <div className='checkoutpage-litcoins-use-main'>
+            <input
+              className='checkoutpage-litcoins-useinput'
+              type='checkbox'
+              onChange={this.handleUseLitcoins}
+              checked={this.state.isUsingLitcoins}
+            />
+            <label className='checkoutpage-litcoins-use-label'>
+              <span className='checkoutpage-litcoins-use-label-span'>
+                Use my Litcoins
+              </span>
+              <div className='checkoutpage-litcoins-use-details'>
+                <span className='checkoutpage-litcoins-use-text'>
+                  <b>$6.00</b> (8,000
+                  <img
+                    className='checkoutpage-litcoins-use-img'
+                    src='/image/litcoin.png'
+                  /> available)
+                </span>
+              </div>
+            </label>
+          </div>
+        </section>
         <EditElementsModal
           modalOpen={this.state.editModalOpen}
           handleClose={this.handleEditModalClose}
           refference={this.state.modalRefference}
+          isPaypal={isPaypal}
+          shippingMethod={this.state.shippingMethod}
         />
       </section>
     )

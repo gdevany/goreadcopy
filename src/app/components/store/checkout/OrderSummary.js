@@ -29,7 +29,7 @@ class OrderSummary extends PureComponent {
                   Shipping
                 </span>
                 <span className='checkoutpage-order-summary-list-price'>
-                  $4.99
+                  ${orderSummary.shippingCost.toLocaleString()}
                 </span>
               </div>
               <div className='checkoutpage-order-summary-list-single'>
@@ -37,19 +37,21 @@ class OrderSummary extends PureComponent {
                   Tax
                 </span>
                 <span className='checkoutpage-order-summary-list-price'>
-                  $0.00
+                  ${orderSummary.taxes.toLocaleString()}
                 </span>
               </div>
               <div className='checkoutpage-order-summary-list-single'>
                 <span className='checkoutpage-order-summary-list-description has-litcoins'>
                   Litcoins
                   <div className='has-litcoins-container'>
-                    <span className='has-litcoins-ammount'>(6,000)</span>
+                    <span className='has-litcoins-ammount'>
+                      ({orderSummary.litcoinsRedeemed.toLocaleString()})
+                    </span>
                     <img className='has-litcoins-img' src='/image/litcoin.png'/>
                   </div>
                 </span>
                 <span className='checkoutpage-order-summary-list-price'>
-                  - $4.00
+                  - ${orderSummary.dollarsRedeemed.toLocaleString()}
                 </span>
               </div>
             </div>
@@ -76,7 +78,7 @@ class OrderSummary extends PureComponent {
           </section>
           <section className='checkoutpage-order-litcoins-to-earn-container'>
             <span className='checkoutpage-order-litcoins-to-earn-main-text'>
-               Yo'll earn {/*<b> $.170 </b> */}
+               Yo'll earn <b> ${orderSummary.dollarsToEarn} </b>
               <span className='checkoutpage-order-litcoins-to-earn-litcoins-amount'>
                 ({orderSummary.litcoinsToEarn ?
                   orderSummary.litcoinsToEarn.toLocaleString() : null

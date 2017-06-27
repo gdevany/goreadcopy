@@ -176,7 +176,9 @@ export function getCartItems(params) {
 export function updateCartItems(id, quantity) {
   return dispatch => {
     Store.updateCartItems(id, quantity)
-      // .then(res => dispatch({ type: A.GET_CART_ITEMS, payload: res.data }))
+      .then(res => dispatch(getCartItems({
+        perPage: 50,
+      })))
       .catch(err => console.error(`Error in updateCartItems ${err}`))
   }
 }
@@ -211,6 +213,7 @@ export function addGiftData(params) {
 export function setUserAddress(params) {
   return dispatch => {
     Store.setUserAddress(params)
+      .then(() => dispatch(getOrder()))
       .catch(err => console.error(`Error in setUserAddress ${err}`))
   }
 }
@@ -249,6 +252,7 @@ export function getShippingMethods() {
 export function setBilling(params) {
   return dispatch => {
     Store.setBilling(params)
+      .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
       .catch(err => console.error(`Error in setBilling ${err}`))
   }
 }

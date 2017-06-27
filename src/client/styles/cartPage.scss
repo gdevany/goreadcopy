@@ -919,6 +919,12 @@
   }
 }
 
+.checkoutpage-order-review-paypal-details{
+  .paypal-image{
+    width: 150px;
+  }
+}
+
 .checkoutpage-order-review-card-details{
   display: flex;
   justify-content: flex-start;
@@ -1097,33 +1103,36 @@
       font-size: 20px;
       font-weight: 500;
     }
-    .chekoutpage-edit-shipping-address-btns-container{
-      margin: 25px 0;
-      display: flex;
-      justify-content: flex-start;
-      .chekoutpage-edit-shipping-address-btn-save{
-        display: flex;
-        align-items: center;
-        padding: 10px 25px;
-        color: $white;
-        background-color: $store-blue;
-        font-size: 16px;
-        border-radius: 23px;
-        margin-right: 15px;
-      }
-      .chekoutpage-edit-shipping-address-btn-cancel{
-        display: flex;
-        align-items: center;
-        padding: 10px 25px;
-        color: $store-blue;
-        font-size: 16px;
-        border: solid 1px $store-blue;
-        border-radius: 23px;
-      }
-    }
   }
 }
 
+.chekoutpage-edit-shipping-address-btns-container,
+.chekoutpage-edit-payment-btns-container{
+  margin: 25px 0;
+  display: flex;
+  justify-content: flex-start;
+  .chekoutpage-edit-shipping-address-btn-save,
+  .chekoutpage-edit-payment-btn-save{
+    display: flex;
+    align-items: center;
+    padding: 10px 25px;
+    color: $white;
+    background-color: $store-blue;
+    font-size: 16px;
+    border-radius: 23px;
+    margin-right: 15px;
+  }
+  .chekoutpage-edit-shipping-address-btn-cancel,
+  .chekoutpage-edit-payment-btn-cancel{
+    display: flex;
+    align-items: center;
+    padding: 10px 25px;
+    color: $store-blue;
+    font-size: 16px;
+    border: solid 1px $store-blue;
+    border-radius: 23px;
+  }
+}
 
 .chekoutpage-edit-payment-modal{
   .chekoutpage-edit-payment-title{
