@@ -6,7 +6,6 @@ import OrderSummary from './OrderSummary'
 import CartItems from './CartItems'
 import ReviewOrder from './ReviewOrder'
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
-// import UseLitcoins from './UseLitcoins'
 import LockIcon from 'material-ui/svg-icons/action/lock-outline'
 import R from 'ramda'
 
@@ -75,7 +74,13 @@ class CheckoutPage extends PureComponent {
 
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.order) {
-      const { shippingAddress, billingAddress } = nextProps.order
+      const {
+        shippingAddress,
+        billingAddress,
+        cardLast4,
+        cardExpMonth,
+        cardExpYear
+      } = nextProps.order
       const fullname = this.splitFullName(shippingAddress.name)
       this.setState({
         firstNameShipping: fullname[0],
@@ -88,6 +93,9 @@ class CheckoutPage extends PureComponent {
         zipcodeShipping: shippingAddress.zipcode,
         shippingId: shippingAddress.id,
         billingId: billingAddress.id,
+        nameOnCard: shippingAddress.name || '',
+        cardNumber: `**** **** **** ${cardLast4}` || '',
+        fullExpDate: `${cardExpMonth}/${cardExpYear}` || '',
       })
     }
   }
@@ -106,7 +114,33 @@ class CheckoutPage extends PureComponent {
 
   handleFormsChanges = R.curry((field, event) => {
     event.preventDefault()
-    this.setState({ [field]: event.target.value })
+    if (field === 'cardCVC' && event.target.value.length <= 4) {
+      this.setState({
+        [field]: event.target.value
+      })
+    }
+
+    if (field === 'cardNumber') {
+      this.setState({
+        [field]: event.target.value.replace(/[^\dA-Z]/g, '').replace(/(.{4})/g, '$1 ').trim()
+      })
+    }
+
+    if (field === 'fullExpDate' && event.target.value.length <= 5) {
+      if (event.target.value.length === 2) {
+        this.setState({
+          [field]: `${event.target.value}/`
+        })
+      } else {
+        this.setState({
+          [field]: event.target.value
+        })
+      }
+    }
+
+    if (field !== 'cardNumber' && field !== 'fullExpDate' && field !== 'cardCVC') {
+      this.setState({ [field]: event.target.value })
+    }
   })
 
   continueToBillingClick = (event) => {
@@ -512,7 +546,7 @@ class CheckoutPage extends PureComponent {
                           Card Number
                         </label>
                         <input
-                          type='number'
+                          type='text'
                           className='checkoutpage-payment-card-single-input'
                           onChange={this.handleFormsChanges('cardNumber')}
                           value={cardNumber}
@@ -550,7 +584,7 @@ class CheckoutPage extends PureComponent {
                         />
                       </div>
                     </div>
-                    <div className='large-12 columns'>
+                    {/* <div className='large-12 columns'>
                       <div className='checkoutpage-payment-card-inputs'>
                         <input
                           type='checkbox'
@@ -562,7 +596,7 @@ class CheckoutPage extends PureComponent {
                           Save card for future use
                         </label>
                       </div>
-                    </div>
+                    </div> */}
                     <div className='large-12 columns'>
                       <div className='checkoutpage-payment-card-inputs'>
                         <input
@@ -765,7 +799,11 @@ class CheckoutPage extends PureComponent {
     return (
       <div className='row'>
         <div className='large-7 columns'>
-          <ReviewOrder data={this.props.order} />
+          <ReviewOrder
+            data={this.props.order}
+            isPaypal={this.state.isPaypalClicked}
+            shippingMethods={this.props.shippingMethods}
+          />
           <CartItems />
         </div>
         <div className='large-4 large-offset-1 columns end'>
