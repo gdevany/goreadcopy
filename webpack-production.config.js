@@ -30,8 +30,7 @@ module.exports = {
   ],
   devtool: 'source-map',
   output: {
-    filename: '[name].js',
-    //filename: '[name].[chunkhash].js',
+    filename: '[name].[chunkhash].js',
     path: path.join(process.cwd(), 'public'),
     publicPath: '/',
   },
@@ -60,22 +59,21 @@ module.exports = {
     new TransferWebpackPlugin([
       {from: 'client'},
     ], path.resolve(__dirname, 'src')),
+    new ChunkManifestPlugin({
+      filename: 'manifest.json',
+      manifestVariable: 'webpackManifest',
+      inlineManifest: true
+    }),
     new HtmlWebpackPlugin({
-        hash: true,
+        hash: false,
         showErrors: true,
         title: 'GoRead',
         template: 'src/client/index.ejs',
         chunksSortMode: 'dependency',
     }),
-    new ChunkManifestPlugin({
-      filename: 'manifest.json',
-      manifestVariable: 'webpackManifest',
-      inlineManifest: false
-    }),
     new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
-        filename: 'vendor.js',
-        //filename: 'vendor.[hash].js',
+        filename: 'vendor.[hash].js',
         minChunks: function (module) {
            // this assumes your vendor imports exist in the node_modules directory
            return module.context && module.context.indexOf('node_modules') !== -1;
