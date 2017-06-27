@@ -731,6 +731,57 @@
   }
 }
 
+.checkoutpage-edit-payment-card-container{
+  border: solid 2px $light-med-grey;
+  margin-top: 25px;
+  padding: 25px;
+  border-radius: 5px;
+  .checkoutpage-edit-payment-card{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    .checkoutpage-edit-payment-card-head{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      flex-direction: row;
+      .checkoutpage-edit-payment-card-head-title{
+        font-weight: 600;
+        font-size: 20px;
+      }
+      .checkoutpage-edit-payment-card-head-img{
+        width: 100%;
+        max-width: 160px;
+      }
+    }
+    .checkoutpage-edit-payment-card-subhead{
+      display: flex;
+      justify-content: flex-start;
+      align-self: center;
+      flex-direction: row;
+      width: 100%;
+      margin-top: 10px;
+      .checkoutpage-edit-payment-card-subhead-icon{
+        width: 20px !important;
+        height: 20px !important;
+        path{
+          fill: #949494;
+        }
+      }
+      .checkoutpage-edit-payment-card-subhead-text{
+        margin-left: 2.5px;
+        font-size: 16px;
+        color: #949494;
+      }
+    }
+    .checkoutpage-edit-payment-card-form{
+      margin-top: 10px;
+    }
+  }
+}
+
 .checkoutpage-payment-card-inputs{
   margin-bottom: 10px;
   position: relative;
@@ -864,34 +915,35 @@
         font-size: 16px;
         font-weight: 800;
       }
-      .checkoutpage-order-review-card-details{
-        display: flex;
-        justify-content: flex-start;
-        align-items: flex-start;
-        flex-direction: column;
-        .checkoutpage-order-review-card-nums{
-          display: flex;
-          justify-content: flex-start;
-          align-items: center;
-          .checkoutpage-order-review-card-type{
-            width: 45px;
-            margin-right: 5px;
-          }
-          .checkoutpage-order-review-card-last{
-            font-size: 15px;
-            margin: 0 5px;
-          }
-          .checkoutpage-order-review-card-exp{
-            font-size: 15px;
-            margin-left: 5px;
-            color: $light-med-grey;
-          }
-        }
-        .checkoutpage-order-review-card-name .checkoutpage-order-review-card-address{
-          font-size: 16px;
-        }
-      }
     }
+  }
+}
+
+.checkoutpage-order-review-card-details{
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  .checkoutpage-order-review-card-nums{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    .checkoutpage-order-review-card-type{
+      width: 45px;
+      margin-right: 5px;
+    }
+    .checkoutpage-order-review-card-last{
+      font-size: 15px;
+      margin: 0 5px;
+    }
+    .checkoutpage-order-review-card-exp{
+      font-size: 15px;
+      margin-left: 5px;
+      color: $light-med-grey;
+    }
+  }
+  .checkoutpage-order-review-card-name .checkoutpage-order-review-card-address{
+    font-size: 16px;
   }
 }
 
@@ -1067,6 +1119,74 @@
         font-size: 16px;
         border: solid 1px $store-blue;
         border-radius: 23px;
+      }
+    }
+  }
+}
+
+
+.chekoutpage-edit-payment-modal{
+  .chekoutpage-edit-payment-title{
+    font-size: 22px;
+    font-weight: 600;
+  }
+  .chekoutpage-edit-payment-container{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    padding: 15px;
+    border: solid 2px $light-med-grey;
+    border-radius: 5px;
+    margin-top: 25px;
+    .chekoutpage-edit-payment-icon{
+      align-self: center;
+      padding: 5px;
+      background-color: $light-med-grey;
+      border-radius: 20px;
+      width: 34px !important;
+      height: 34px !important;
+      path{
+        fill: $white;
+      }
+    }
+    .chekoutpage-edit-payment-overview{
+      width: 80%;
+      .paypal-image{
+        width: 150px;
+      }
+      .chekoutpage-edit-payment-name, .chekoutpage-edit-payment-address{
+        margin-bottom: 2.5px;
+      }
+      .chekoutpage-edit-payment-state{
+        display: flex;
+      }
+      .chekoutpage-edit-payment-phone{
+        display: flex;
+      }
+    }
+    .chekoutpage-edit-payment-edit{
+      .chekoutpage-edit-payment-edit-btn{
+        color: $black;
+      }
+    }
+  }
+  .chekoutpage-edit-payment-container.active{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    padding: 15px;
+    border: solid 2px $store-blue;
+    border-radius: 5px;
+    margin-top: 25px;
+    .chekoutpage-edit-payment-icon{
+      align-self: center;
+      padding: 5px;
+      background-color: $store-blue;
+      border-radius: 20px;
+      width: 34px !important;
+      height: 34px !important;
+      path{
+        fill: $white;
       }
     }
   }

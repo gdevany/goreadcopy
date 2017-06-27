@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Store } from '../../../redux/actions'
 import { Dialog } from 'material-ui'
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
+import LockIcon from 'material-ui/svg-icons/action/lock-outline'
 import R from 'ramda'
 
 const { setUserAddress } = Store
@@ -288,6 +289,198 @@ class EditElementsModal extends PureComponent {
       </div>
     )
   }
+
+  renderEditPayment = () => {
+    const { cardDetails } = this.props
+    return (
+      <div className='row'>
+        <div className='large-5 large-offset-4'>
+          <section className='chekoutpage-edit-payment-modal'>
+            <h2 className='chekoutpage-edit-payment-modal-title'>
+              Payment
+            </h2>
+            <section
+              className={!this.props.isPaypal ?
+                'chekoutpage-edit-payment-container active' :
+                'chekoutpage-edit-payment-container'
+              }
+            >
+              <CheckIcon className='chekoutpage-edit-payment-icon'/>
+              <div className='chekoutpage-edit-payment-overview'>
+                <div className='checkoutpage-order-review-card-details'>
+                  <div className='checkoutpage-order-review-card-nums'>
+                    {cardDetails.cardType === 'Visa' ?
+                      (
+                        <img
+                          src='/image/visa-black.png'
+                          className='checkoutpage-order-review-card-type'
+                        />
+                      ) : null
+                    }
+                    {cardDetails.cardType === 'Master' ?
+                      (
+                        <img
+                          src='/image/master-black.png'
+                          className='checkoutpage-order-review-card-type'
+                        />
+                      ) : null
+                    }
+
+                    {cardDetails.cardType === 'American' ?
+                      (
+                        <img
+                          src='/image/american-black.png'
+                          className='checkoutpage-order-review-card-type'
+                        />
+                      ) : null
+                    }
+                    {cardDetails.cardType === 'Discover' ?
+                      (
+                        <img
+                          src='/image/discover-black.png'
+                          className='checkoutpage-order-review-card-type'
+                        />
+                      ) : null
+                    }
+                    <span className='checkoutpage-order-review-card-last'>
+                      {`**** **** **** ${cardDetails.cardLast4}`}
+                    </span>
+                    <span className='checkoutpage-order-review-card-exp'>
+                      Expires {`${cardDetails.cardExpMonth}/${cardDetails.cardExpYear}`}
+                    </span>
+                  </div>
+                  <span className='checkoutpage-order-review-card-name'>
+                    {cardDetails.billing.name}
+                  </span>
+                  <span className='checkoutpage-order-review-card-address'>
+                    {`${cardDetails.billing.city}, ${cardDetails.billing.state},
+                    ${cardDetails.billing.country}`}
+                  </span>
+                </div>
+              </div>
+              <div className='chekoutpage-edit-shipping-address-edit'>
+                <a
+                  // onClick={this.editAddressClick}
+                  className='chekoutpage-edit-shipping-address-edit-btn'
+                >
+                  Edit
+                </a>
+              </div>
+            </section>
+            <section
+              className={this.props.isPaypal ?
+                'chekoutpage-edit-payment-container active' :
+                'chekoutpage-edit-payment-container'
+              }
+            >
+              <CheckIcon className='chekoutpage-edit-payment-icon'/>
+              <div className='chekoutpage-edit-payment-overview'>
+                <img className='paypal-image' src='/image/paypal-logo.png'/>
+              </div>
+            </section>
+            <section className='checkoutpage-edit-payment-card-container'>
+              <div className='checkoutpage-edit-payment-selector'>
+                <div className='checkoutpage-edit-payment-selector-element'>
+                  <a className='checkoutpage-edit-payment-selector-anchor'/>
+                </div>
+              </div>
+              <div className='checkoutpage-edit-payment-card'>
+                <div className='checkoutpage-edit-payment-card-head'>
+                  <span className='checkoutpage-edit-payment-card-head-title'>
+                    Card / Credit Card
+                  </span>
+                  <img
+                    className='checkoutpage-edit-payment-card-head-img'
+                    src='/image/credit-cards.png'
+                  />
+                </div>
+                <div className='checkoutpage-edit-payment-card-subhead'>
+                  <LockIcon className='checkoutpage-edit-payment-card-subhead-icon'/>
+                  <span className='checkoutpage-edit-payment-card-subhead-text'>
+                    Secure and encrypted
+                  </span>
+                </div>
+                <div className='checkoutpage-edit-payment-card-form'>
+                  <div className='row'>
+                    <div className='large-12 columns'>
+                      <div className='checkoutpage-payment-card-inputs'>
+                        <label className='checkoutpage-payment-card-inputs-label'>
+                          Name on Card
+                        </label>
+                        <input
+                          type='text'
+                          className='checkoutpage-payment-card-single-input'
+                          onChange={this.handleFormsChanges('nameOnCard')}
+                          // value={nameOnCard}
+                        />
+                      </div>
+                    </div>
+                    <div className='large-12 columns'>
+                      <div className='checkoutpage-payment-card-inputs'>
+                        <label className='checkoutpage-payment-card-inputs-label'>
+                          Card Number
+                        </label>
+                        <input
+                          type='text'
+                          className='checkoutpage-payment-card-single-input'
+                          onChange={this.handleFormsChanges('cardNumber')}
+                          // value={cardNumber}
+                        />
+                      </div>
+                    </div>
+                    <div className='large-8 columns'>
+                      <div className='checkoutpage-payment-card-inputs'>
+                        <label className='checkoutpage-payment-card-inputs-label'>
+                          Expiration Date (MM/YY)
+                        </label>
+                        <input
+                          type='text'
+                          className='checkoutpage-payment-card-single-input'
+                          onChange={this.handleFormsChanges('fullExpDate')}
+                          // value={fullExpDate}
+                        />
+                      </div>
+                    </div>
+                    <div className='large-4 columns'>
+                      <div className='checkoutpage-payment-card-inputs'>
+                        <label className='checkoutpage-payment-card-inputs-label'>
+                          CVC
+                        </label>
+                        <input
+                          type='number'
+                          className='checkoutpage-payment-card-single-input has-lock'
+                          onChange={this.handleFormsChanges('cardCVC')}
+                          // value={cardCVC}
+                        />
+                        <LockIcon
+                          className='checkoutpage-payment-card-single-input-lock'
+                        />
+                      </div>
+                    </div>
+                    <div className='chekoutpage-edit-payment-btns-container'>
+                      <a
+                        onClick={this.handleSave}
+                        className='chekoutpage-edit-shipping-address-btn-save'
+                      >
+                        Save Address
+                      </a>
+                      <a
+                        onClick={this.handleCancel}
+                        className='chekoutpage-edit-shipping-address-btn-cancel'
+                      >
+                        Cancel
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </section>
+        </div>
+      </div>
+    )
+  }
+
   render() {
     const {
       modalOpen,
@@ -317,7 +510,7 @@ class EditElementsModal extends PureComponent {
           }
           {refference === 'card' ?
             (
-              <div>Edit Payment</div>
+              this.renderEditPayment() : null
             ) : null
           }
         </Dialog>
@@ -329,6 +522,13 @@ class EditElementsModal extends PureComponent {
 const mapStateToProps = (state) => {
   return {
     shippingAddress: state.store.order.shippingAddress,
+    cardDetails: {
+      cardExpYear: state.store.order.cardExpYear,
+      cardExpMonth: state.store.order.cardExpMonth,
+      cardLast4: state.store.order.cardLast4,
+      cardType: state.store.order.cardType,
+      billing: state.store.order.billingAddress,
+    },
   }
 }
 export default connect(mapStateToProps, { setUserAddress })(EditElementsModal)

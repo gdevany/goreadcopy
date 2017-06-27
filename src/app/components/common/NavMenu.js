@@ -1010,8 +1010,8 @@ class NavMenu extends PureComponent {
                     </a>
                   </li>
                   <li style={styles.loggedInRightNavLi}>
-                    <a
-                      href={routes.shopCart()}
+                    <Link
+                      to='/shop/cart'
                       style={styles.navItemLinks}
                       className='menu-badge-container rf-nav-link'
                     >
@@ -1033,7 +1033,7 @@ class NavMenu extends PureComponent {
                       >
                         <img src='/image/cart.svg' />
                       </Badge>
-                    </a>
+                    </Link>
                   </li>
 
                   <li style={styles.loggedInRightNavLi} className='profile-menu-badge'>
