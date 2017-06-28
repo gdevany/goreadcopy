@@ -5,7 +5,6 @@ import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { AnchoredParagraph, HyperLinkWrapper } from '../'
 import { Colors } from '../../../constants/style'
-
 import { Notifications as NotificationActions } from '../../../redux/actions'
 
 const {
@@ -14,6 +13,12 @@ const {
   toggleFollowBack,
   sendBookClubRequest
 } = NotificationActions
+const styles = {
+  refresh: {
+    display: 'inline-block',
+    position: 'relative',
+  },
+}
 
 class NotificationItem extends PureComponent {
   constructor(props) {
@@ -22,6 +27,7 @@ class NotificationItem extends PureComponent {
       showFollowBack: true,
       showAcceptReject: true,
       isRequesting: false,
+      loadingDismiss: false,
     }
     this.handleDismissNotification = this.handleDismissNotification.bind(this)
     this.onDismissSingleClick = this.onDismissSingleClick.bind(this)
@@ -37,8 +43,16 @@ class NotificationItem extends PureComponent {
 
   onDismissSingleClick(e, pk) {
     e.preventDefault()
+    this.setState({ loadingDismiss: true })
     this.props.dismissNotification(pk)
-    this.props.toggleShowOptions(pk)
+      .then(()=>{
+        this.setState({ loadingDismiss: false })
+        this.props.toggleShowOptions(pk)
+      })
+      .catch(()=>{
+        this.setState({ loadingDismiss: false })
+        this.props.toggleShowOptions(pk)
+      })
   }
 
   onFollowClick(e) {
@@ -59,6 +73,21 @@ class NotificationItem extends PureComponent {
         text: item.name,
       }
     })
+  }
+
+  setLoading = () => {
+    return (
+      <div className='statuspost-loader'>
+        <RefreshIndicator
+          size={25}
+          left={0}
+          top={0}
+          loadingColor={Colors.blue}
+          status='loading'
+          style={styles.refresh}
+        />
+      </div>
+    )
   }
 
   render() {
@@ -155,6 +184,7 @@ class NotificationItem extends PureComponent {
               (
                 <div className='notifications-frame-dismiss-square'>
                   <a onClick={(e) => this.onDismissSingleClick(e, pk)}>Dismiss</a>
+                  { this.state.loadingDismiss ? this.setLoading() : null }
                 </div>
               ) : null
             }
