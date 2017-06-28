@@ -116,6 +116,12 @@
       }
     }
   }
+  .single-notification-element:last-child{
+    padding-bottom: 50px;
+    &.blank-state{
+      padding-bottom: 20px;
+    }
+  }
   .notification-container{
     display: flex;
     justify-content: flex-start;
@@ -265,6 +271,12 @@
       border-left: 10px solid transparent;
       content: '';
     }
+    .statuspost-loader{
+      display: inline;
+      padding-left: 5px;
+      position: relative;
+      top: 3px;
+    }
   }
 }
 
@@ -310,6 +322,12 @@
       border-bottom: 10px solid #ffffff;
       border-left: 10px solid transparent;
       content: '';
+    }
+    .statuspost-loader{
+      display: inline;
+      padding-left: 5px;
+      position: relative;
+      top: 3px;
     }
   }
 }
