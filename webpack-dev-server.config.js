@@ -15,15 +15,9 @@ const testPath = path.resolve(__dirname, 'test')
 dotenv.config() // pull .env into process.env if it exists
 
 module.exports = {
-  // resolves webpack + dotenv issue
   node: {
     fs: "empty"
   },
-  /*
-  eslint: {
-    configFile: './.eslintrc'
-  },
-  */
   resolve: {
     modules:  ['node_modules'],
     alias: {
@@ -31,7 +25,6 @@ module.exports = {
       'soundmanager2': path.join(nodeModulesPath, 'soundmanager2/script/soundmanager2-nodebug-jsmin.js'),
     }
   },
-  // project entry points
   entry: [
     'webpack/hot/dev-server',
     'webpack-hot-middleware/client',
@@ -70,16 +63,12 @@ module.exports = {
     }),
     new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
+        filename: 'vendor.[hash].js',
         minChunks: function (module) {
            // this assumes your vendor imports exist in the node_modules directory
            return module.context && module.context.indexOf('node_modules') !== -1;
         }
     }),
-    /*
-    new webpack.optimize.CommonsChunkPlugin({
-        name: 'manifest' //But since there are no more common modules between them we end up with just the runtime code included in the manifest file
-    }),
-    */
     new BundleAnalyzerPlugin(),
   ],
   /*
