@@ -48,7 +48,7 @@ if (ENV.isDevelopment()) {
     contentBase: 'http://localhost:' + port,
     port: port,
     quiet: false,
-    noInfo: true,
+    noInfo: false,
     hot: true,
     inline: true,
     lazy: false,
@@ -61,9 +61,16 @@ if (ENV.isDevelopment()) {
   app.use(webpackHotMiddleware(compiler));
   app.use(express.static('build'));
   app.get('*', (req, res) => res.sendFile(path.join(__dirname + '/../client/index.html')))
+
 } else {
+
   app.get('*.js', function (req, res, next) {
     filename = req.url.replace(/\?.*$/, '')
+    // Temporal hardcoded solution for not gzipped runtime file
+    if (/runtime\.[\w]+\.js/.test(filename)) {
+      next(); return;
+    }
+    // To be kept until better solution is found
     req.url = filename + '.gz';
     res.set('Content-Encoding', 'gzip');
     next();
