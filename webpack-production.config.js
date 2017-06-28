@@ -49,13 +49,6 @@ module.exports = {
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
-    new CompressionPlugin({
-      asset: "[path].gz[query]",
-      algorithm: "gzip",
-      test: /\.js$|\.(css|scss)$|\.html$/,
-      threshold: 10240,
-      minRatio: 0.8
-    }),
     new webpack.NoEmitOnErrorsPlugin(),
     new TransferWebpackPlugin([
       {from: 'client'},
@@ -81,13 +74,25 @@ module.exports = {
     }),
     new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
-        filename: 'vendor.[hash].js',
+        filename: 'vendor.[chunkhash].js',
         minChunks: function (module) {
            // this assumes your vendor imports exist in the node_modules directory
            return module.context && module.context.indexOf('node_modules') !== -1;
         }
     }),
+    new webpack.optimize.CommonsChunkPlugin({
+        name: 'runtime',
+        filename: 'runtime.[hash].js',
+        minChunks: Infinity,
+    }),
     new NameAllModulesPlugin(),
+    new CompressionPlugin({
+      asset: "[path].gz[query]",
+      algorithm: "gzip",
+      test: /\.js$|\.(css|scss)$|\.html$/,
+      threshold: 10240,
+      minRatio: 0.8
+    }),
     //--------------------------------------------------
     // Only enable when you want to use the Analyzer!!!!
     //--------------------------------------------------
