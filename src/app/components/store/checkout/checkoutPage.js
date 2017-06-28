@@ -16,7 +16,9 @@ const {
   getShippingMethods,
   setUserAddress,
   setShipping,
-  setBilling
+  setBilling,
+  placeOrder,
+  setUserAddressAndShipping
 } = Store
 
 class CheckoutPage extends PureComponent {
@@ -62,10 +64,11 @@ class CheckoutPage extends PureComponent {
     }
     this.continueToBillingClick = this.continueToBillingClick.bind(this)
     this.continueToReviewClick = this.continueToReviewClick.bind(this)
-    this.handlePaymentClick = this.handlePaymentClick.bind(this)
-    this.handleCheckSave = this.handleCheckSave.bind(this)
-    this.handleUseLitcoins = this.handleUseLitcoins.bind(this)
     this.handleCheckSame = this.handleCheckSame.bind(this)
+    this.handleCheckSave = this.handleCheckSave.bind(this)
+    this.handlePaymentClick = this.handlePaymentClick.bind(this)
+    this.handlePlaceOrder = this.handlePlaceOrder.bind(this)
+    this.handleUseLitcoins = this.handleUseLitcoins.bind(this)
   }
 
   componentWillMount = () => {
@@ -167,7 +170,7 @@ class CheckoutPage extends PureComponent {
         isStepThreeActive: false,
         stepOneComplete: true,
       })
-      this.props.setUserAddress({
+      this.props.setUserAddressAndShipping({
         city: cityShipping,
         name: `${firstNameShipping} ${lastNameShipping}`,
         country: countryShipping,
@@ -177,11 +180,13 @@ class CheckoutPage extends PureComponent {
         state: stateShipping,
         addressType: 'shipping',
         sameBillingAndShipping: true,
-      })
-      this.props.setShipping({
+      }, {
         shippingAddressId: shippingId,
         shippingMethod: shippingMethod,
       })
+      // this.props.setShipping({
+      //
+      // })
     } else alert('Fill everything')
   }
 
@@ -270,11 +275,15 @@ class CheckoutPage extends PureComponent {
         stepOneComplete: true,
         stepTwoComplete: true,
       })
+      this.props.setBilling({
+        shippingMethod: this.state.shippingMethod,
+        paymentMethod: 'paypal',
+        litcoins: this.state.useLitcoins,
+      })
     } else alert('Complete all card fields')
   }
 
   handlePaymentClick = (type) => {
-    console.log(type)
     if (type === 'card' && !this.state.isCardClicked) {
       this.setState({
         isCardClicked: true,
@@ -808,6 +817,14 @@ class CheckoutPage extends PureComponent {
     )
   }
 
+  handlePlaceOrder = () => {
+    if (this.state.isCardClicked) {
+      this.props.placeOrder({
+        shippingMethod: this.state.shippingMethod,
+        paymentMethod: 'cc'
+      })
+    }
+  }
   renderStepThree = () => {
     const { shippingId, shippingMethod } = this.state
     return (
@@ -824,7 +841,10 @@ class CheckoutPage extends PureComponent {
           <CartItems />
         </div>
         <div className='large-4 large-offset-1 columns end'>
-          <a className='checkoutpage-place-order-btn'>
+          <a
+            onClick={this.handlePlaceOrder}
+            className='checkoutpage-place-order-btn'
+          >
             Place Order
           </a>
           <OrderSummary />
@@ -939,7 +959,9 @@ const mapDistpachToProps = {
   getShippingMethods,
   setUserAddress,
   setShipping,
-  setBilling
+  setBilling,
+  placeOrder,
+  setUserAddressAndShipping
 }
 
 export default connect(mapStateToProps, mapDistpachToProps)(CheckoutPage)
