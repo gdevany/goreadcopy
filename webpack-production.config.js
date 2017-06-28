@@ -3,10 +3,13 @@ const path = require('path')
 const nodeModulesPath = path.resolve(__dirname, 'node_modules')
 const testPath = path.resolve(__dirname, 'test');
 const TransferWebpackPlugin = require('transfer-webpack-plugin')
-const dotenv = require('dotenv');
-const CompressionPlugin = require('compression-webpack-plugin');
-const failPlugin = require('webpack-fail-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const dotenv = require('dotenv')
+const CompressionPlugin = require('compression-webpack-plugin')
+const failPlugin = require('webpack-fail-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin')
+const NameAllModulesPlugin = require('name-all-modules-plugin')
 
 process.env.dotenv_config_file ?
     dotenv.config({path: path.join(__dirname, process.env.dotenv_config_file)}) : dotenv.config()
@@ -28,25 +31,61 @@ module.exports = {
   ],
   devtool: 'source-map',
   output: {
-    filename: '[name].js',
+    filename: '[name].[chunkhash].js',
     path: path.join(process.cwd(), 'public'),
     publicPath: '/',
   },
   plugins: [
     failPlugin,
     new webpack.DefinePlugin({
-      'process.env' : JSON.stringify(process.env)
+      'process.env.SOCKET_URL' : JSON.stringify(process.env.SOCKET_URL),
+      'process.env.API_URL' : JSON.stringify(process.env.API_URL),
     }),
-    new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
       minimize: true,
       compress: {
         warnings: false,
       },
     }),
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new TransferWebpackPlugin([
+      {from: 'client'},
+    ], path.resolve(__dirname, 'src')),
+    new ChunkManifestPlugin({
+      filename: 'manifest.json',
+      manifestVariable: 'webpackManifest',
+      inlineManifest: true
+    }),
+    new HtmlWebpackPlugin({
+        hash: false,
+        showErrors: true,
+        title: 'GoRead',
+        template: 'src/client/index.ejs',
+        chunksSortMode: 'dependency',
+    }),
+    new webpack.NamedModulesPlugin(),
+    new webpack.NamedChunksPlugin((chunk) => {
+        if (chunk.name) {
+            return chunk.name;
+        }
+        return chunk.mapModules(m => path.relative(m.context, m.request)).join("_");
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor',
+        filename: 'vendor.[chunkhash].js',
+        minChunks: function (module) {
+           // this assumes your vendor imports exist in the node_modules directory
+           return module.context && module.context.indexOf('node_modules') !== -1;
+        }
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+        name: 'runtime',
+        filename: 'runtime.[hash].js',
+        minChunks: Infinity,
+    }),
+    new NameAllModulesPlugin(),
     new CompressionPlugin({
       asset: "[path].gz[query]",
       algorithm: "gzip",
@@ -54,58 +93,51 @@ module.exports = {
       threshold: 10240,
       minRatio: 0.8
     }),
-    new webpack.NoErrorsPlugin(),
-    new TransferWebpackPlugin([
-      {from: 'client'},
-    ], path.resolve(__dirname, 'src')),
-    new HtmlWebpackPlugin({
-        hash: true,
-        showErrors: true,
-        title: 'GoRead',
-        template: 'src/client/index.ejs',
-    }),
+    //--------------------------------------------------
+    // Only enable when you want to use the Analyzer!!!!
+    //--------------------------------------------------
+    //new BundleAnalyzerPlugin(),
   ],
   module: {
-    preLoaders: [
-      {
-        test: /\.js$/, // All .js files
-        loaders: ['eslint'],
-        exclude: [nodeModulesPath, testPath],
-      }
-    ],
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
-        loaders: ['react-hot', 'babel'], // react-hot is like browser sync and babel loads jsx and es6-7
+        enforce: 'pre',
+        loader: 'eslint-loader',
+        exclude: [nodeModulesPath, testPath],
+      },
+      {
+        test: /\.js$/,
+        use: ['react-hot-loader', 'babel-loader'], // react-hot is like browser sync and babel loads jsx and es6-7
         exclude: [nodeModulesPath],
       },
       {
         test: /\.(png|jpg|gif)$/,
-        loaders: ['url-loader']
+        loader: 'url-loader'
       },
       {
         test: /\.(css|scss)$/,
-        loaders: ['style', 'css', 'sass']
+        use: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
         test: /\.(woff|woff2)$/,
-        loader: "url?limit=10000&mimetype=application/font-woff"
+        loader: "url-loader?limit=10000&mimetype=application/font-woff"
       },
       {
         test: /\.ttf$/,
-        loader: "url?limit=10000&mimetype=application/octet-stream"
-       },
+        loader: "url-loader?limit=10000&mimetype=application/octet-stream"
+      },
       {
         test: /\.eot$/,
-        loader: "file"
+        loader: "file-loader"
       },
       {
         test: /\.svg$/,
-        loader: "url?limit=10000&mimetype=image/svg+xml"
+        loader: "url-loader?limit=10000&mimetype=image/svg+xml"
       },
       {
         test: /\.mp3$/,
-        loader: 'file-loader?name=[name].[ext]'
+        loader: 'file-loader'
       }
     ],
   }

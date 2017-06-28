@@ -25,6 +25,8 @@ const {
     getShippingMethods,
     setBilling,
     setShipping,
+    reviewOrder,
+    placeOrder,
   }
 } = Endpoints
 
@@ -51,6 +53,8 @@ const Store = () => {
     getShippingMethods: () => authenticated().get(getShippingMethods()),
     setBilling: (params) => authenticated().post(setBilling(), params),
     setShipping: (params) => authenticated().post(setShipping(), params),
+    placeOrder: (params) => authenticated().post(placeOrder(), params),
+    reviewOrder: (params) => authenticated().post(reviewOrder(), params),
   }
 }
 
