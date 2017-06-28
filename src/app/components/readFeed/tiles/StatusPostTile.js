@@ -87,6 +87,7 @@ class StatusPostTile extends PureComponent {
         isPostEditable={true}
         mentionsList={content.mentionsList}
         activeContent={content.activeContent}
+        tileType={content.tileType}
       >
         <div className='statuspost-tile-container'>
           <div className='post-excerpt-container'>
