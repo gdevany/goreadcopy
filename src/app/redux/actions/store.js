@@ -213,16 +213,7 @@ export function addGiftData(params) {
 export function setUserAddress(params) {
   return dispatch => {
     Store.setUserAddress(params)
-      .then(res => dispatch({ type: A.SET_NEW_SHIPPING, payload: res.data }))
-      .catch(err => console.error(`Error in setUserAddress ${err}`))
-  }
-}
-
-export function setUserAddressAndShipping(address, shipping) {
-  return dispatch => {
-    Store.setUserAddress(address)
-      .then(res => dispatch({ type: A.SET_NEW_SHIPPING, payload: res.data }))
-      .then(() => dispatch(setShipping(shipping)))
+      .then(() => dispatch(getOrder()))
       .catch(err => console.error(`Error in setUserAddress ${err}`))
   }
 }
@@ -274,20 +265,6 @@ export function setShipping(params) {
   }
 }
 
-export function reviewOrder(params) {
-  return dispatch => {
-    Store.reviewOrder(params)
-    .catch(err => console.error(`Error in reviewOrder ${err}`))
-  }
-}
-
-export function placeOrder(params) {
-  return dispatch => {
-    Store.placeOrder(params)
-    .catch(err => console.error(`Error in placeOrder ${err}`))
-  }
-}
-
 export default {
   getCategories,
   getChildCategories,
@@ -315,7 +292,4 @@ export default {
   getShippingMethods,
   setBilling,
   setShipping,
-  reviewOrder,
-  placeOrder,
-  setUserAddressAndShipping,
 }
