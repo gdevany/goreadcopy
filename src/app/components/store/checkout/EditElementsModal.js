@@ -40,12 +40,14 @@ class EditElementsModal extends PureComponent {
       cardNumber: '',
       cardCVC: '',
       fullExpDate: '',
+      selectedPayment: '',
     }
     this.editAddressClick = this.editAddressClick.bind(this)
     this.handleSave = this.handleSave.bind(this)
     this.handleSaveCard = this.handleSaveCard.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
     this.handleFormsChanges = this.handleFormsChanges.bind(this)
+    this.handlePaymentSwitch = this.handlePaymentSwitch.bind(this)
   }
 
   truncInfo = (text, limit) => {
@@ -91,6 +93,16 @@ class EditElementsModal extends PureComponent {
     }
   })
 
+  handlePaymentSwitch = (type) => {
+    if (type === 'paypal') {
+      this.props.setBilling({
+        shippingMethod: this.props.shippingMethod,
+        paymentMethod: 'paypal',
+      })
+      this.props.handleClose()
+    }
+  }
+
   editAddressClick = (event) => {
     event.preventDefault()
     const { shippingAddress } = this.props
@@ -121,15 +133,13 @@ class EditElementsModal extends PureComponent {
       state,
       zipcode
     } = this.state
-    if (shippingAddress.name === `${firstName} ${lastName}` &&
-      shippingAddress.address === address &&
-      shippingAddress.address2 === address2 &&
-      shippingAddress.country === country &&
-      shippingAddress.city === city &&
-      shippingAddress.state === state &&
-      shippingAddress.zipcode === zipcode) {
-      alert('Todo es igual dud')
-    } else {
+    if (shippingAddress.name !== `${firstName} ${lastName}` ||
+      shippingAddress.address !== address ||
+      shippingAddress.address2 !== address2 ||
+      shippingAddress.country !== country ||
+      shippingAddress.city !== city ||
+      shippingAddress.state !== state ||
+      shippingAddress.zipcode !== zipcode) {
       setUserAddress({
         city: city,
         name: `${firstName} ${lastName}`,
@@ -142,8 +152,9 @@ class EditElementsModal extends PureComponent {
         sameBillingAndShipping: true,
       })
       this.props.handleClose()
-    }
+    } else this.props.handleClose()
   }
+
   handleSaveCard = (event) => {
     const {
       cardNumber,
@@ -429,7 +440,10 @@ class EditElementsModal extends PureComponent {
                 'chekoutpage-edit-payment-container'
               }
             >
-              <CheckIcon className='chekoutpage-edit-payment-icon'/>
+              <CheckIcon
+                onClick={() => this.handlePaymentSwitch('paypal')}
+                className='chekoutpage-edit-payment-icon'
+              />
               <div className='chekoutpage-edit-payment-overview'>
                 <img className='paypal-image' src='/image/paypal-logo.png'/>
               </div>

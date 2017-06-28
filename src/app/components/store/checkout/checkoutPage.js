@@ -5,6 +5,7 @@ import { Store } from '../../../redux/actions'
 import OrderSummary from './OrderSummary'
 import CartItems from './CartItems'
 import ReviewOrder from './ReviewOrder'
+import ShippingAddress from './ShippingAddress'
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
 import LockIcon from 'material-ui/svg-icons/action/lock-outline'
 import R from 'ramda'
@@ -17,8 +18,7 @@ const {
   setUserAddress,
   setShipping,
   setBilling,
-  placeOrder,
-  setUserAddressAndShipping
+  placeOrder
 } = Store
 
 class CheckoutPage extends PureComponent {
@@ -83,7 +83,8 @@ class CheckoutPage extends PureComponent {
         billingAddress,
         cardLast4,
         cardExpMonth,
-        cardExpYear
+        cardExpYear,
+        billingMethod
       } = nextProps.order
       const fullname = this.splitFullName(shippingAddress.name)
       this.setState({
@@ -100,10 +101,15 @@ class CheckoutPage extends PureComponent {
         nameOnCard: shippingAddress.name || '',
         cardNumber: `**** **** **** ${cardLast4}` || '',
         fullExpDate: `${cardExpMonth}/${cardExpYear}` || '',
+        billingMethod: billingMethod || '',
       })
       if (cardLast4) this.setState({ cardStored: true })
     }
   }
+
+  // componentWillUpdate = (nextProps, nextState) => {
+  //   debugger
+  // }
 
   splitFullName = (fullname) => {
     return fullname.split(' ')
@@ -170,7 +176,7 @@ class CheckoutPage extends PureComponent {
         isStepThreeActive: false,
         stepOneComplete: true,
       })
-      this.props.setUserAddressAndShipping({
+      this.props.setUserAddress({
         city: cityShipping,
         name: `${firstNameShipping} ${lastNameShipping}`,
         country: countryShipping,
@@ -180,13 +186,11 @@ class CheckoutPage extends PureComponent {
         state: stateShipping,
         addressType: 'shipping',
         sameBillingAndShipping: true,
-      }, {
+      })
+      this.props.setShipping({
         shippingAddressId: shippingId,
         shippingMethod: shippingMethod,
       })
-      // this.props.setShipping({
-      //
-      // })
     } else alert('Fill everything')
   }
 
@@ -299,10 +303,33 @@ class CheckoutPage extends PureComponent {
   }
 
   renderStepOne = () => {
+    const {
+      firstNameShipping,
+      lastNameShipping,
+      addressShipping,
+      address2Shipping,
+      countryShipping,
+      cityShipping,
+      stateShipping,
+      zipcodeShipping,
+    } = this.state
+    const info = {
+      firstNameShipping,
+      lastNameShipping,
+      addressShipping,
+      address2Shipping,
+      countryShipping,
+      cityShipping,
+      stateShipping,
+      zipcodeShipping,
+    }
     return (
       <div className='row'>
         <div className='large-7 columns'>
-          {this.renderShippingAddress()}
+          <ShippingAddress
+            shippingInfo={info}
+            onChange={this.handleFormsChanges}
+          />
           {this.renderShippingMethod()}
           <a
             onClick={this.continueToBillingClick}
@@ -352,6 +379,7 @@ class CheckoutPage extends PureComponent {
       )
     })
   }
+
   renderShippingMethod = () => {
     return (
       <section className='checkoutpage-steps-delivery-method-container'>
@@ -363,134 +391,6 @@ class CheckoutPage extends PureComponent {
             this.mapShippingMethods(this.props.shippingMethods) : null
           }
         </div>
-      </section>
-    )
-  }
-
-  renderShippingAddress = () => {
-    const {
-      firstNameShipping,
-      lastNameShipping,
-      addressShipping,
-      address2Shipping,
-      countryShipping,
-      cityShipping,
-      stateShipping,
-      zipcodeShipping,
-    } = this.state
-    return (
-      <section className='checkoutpage-steps-shipping-address-container'>
-        <h3 className='checkoutpage-steps-shipping-address-title'>
-          Shipping Address
-        </h3>
-        <form className='checkoutpage-steps-shipping-address-form'>
-          <div className='row'>
-            <div className='small-6 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                First Name
-              </label>
-              <input
-                type='text'
-                onChange={this.handleFormsChanges('firstNameShipping')}
-                className='checkoutpage-steps-shipping-address-form-input'
-                value={firstNameShipping}
-              />
-            </div>
-            <div className='small-6 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                Last Name
-              </label>
-              <input
-                type='text'
-                className='checkoutpage-steps-shipping-address-form-input'
-                onChange={this.handleFormsChanges('lastNameShipping')}
-                value={lastNameShipping}
-              />
-            </div>
-            <div className='small-12 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                Address
-              </label>
-              <input
-                type='text'
-                className='checkoutpage-steps-shipping-address-form-input'
-                onChange={this.handleFormsChanges('addressShipping')}
-                value={addressShipping}
-              />
-            </div>
-            <div className='small-12 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                Address Line 2 *Optional
-              </label>
-              <input
-                type='text'
-                className='checkoutpage-steps-shipping-address-form-input'
-                onChange={this.handleFormsChanges('address2Shipping')}
-                value={address2Shipping}
-              />
-            </div>
-            <div className='small-6 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                Country
-              </label>
-              <input
-                type='text'
-                className='checkoutpage-steps-shipping-address-form-input'
-                onChange={this.handleFormsChanges('countryShipping')}
-                value={countryShipping}
-              />
-            </div>
-            <div className='small-6 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                City
-              </label>
-              <input
-                type='text'
-                className='checkoutpage-steps-shipping-address-form-input'
-                onChange={this.handleFormsChanges('cityShipping')}
-                value={cityShipping}
-              />
-            </div>
-            <div className='small-6 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                State
-              </label>
-              <input
-                type='text'
-                className='checkoutpage-steps-shipping-address-form-input'
-                onChange={this.handleFormsChanges('stateShipping')}
-                value={stateShipping}
-              />
-            </div>
-            <div className='small-6 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                Zipcode
-              </label>
-              <input
-                type='text'
-                className='checkoutpage-steps-shipping-address-form-input'
-                onChange={this.handleFormsChanges('zipcodeShipping')}
-                value={zipcodeShipping}
-              />
-            </div>
-          </div>
-        </form>
       </section>
     )
   }
@@ -960,8 +860,7 @@ const mapDistpachToProps = {
   setUserAddress,
   setShipping,
   setBilling,
-  placeOrder,
-  setUserAddressAndShipping
+  placeOrder
 }
 
 export default connect(mapStateToProps, mapDistpachToProps)(CheckoutPage)
