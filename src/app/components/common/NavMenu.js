@@ -560,7 +560,6 @@ class NavMenu extends PureComponent {
   userProfileMenu = () => {
     const { currentReader } = this.props
     const { usePlatformAs } = this.state
-
     return (
       <ul
         className='profile-menu-container'
@@ -596,7 +595,20 @@ class NavMenu extends PureComponent {
                         </a>
                       </li>
                     ) : null
-                  }
+                }
+                { currentReader.isPublisher ?
+                  (
+                    <li className='links-list'>
+                      <a
+                        onClick={() => this.handlePlatformUse('publisher')}
+                        className={usePlatformAs === 'publisher' ?
+                        ('publishing-as-active') : ('publishing-as-anchor')}
+                      >
+                        Publisher
+                      </a>
+                    </li>
+
+                  ) : null}
                 </ul>
               </div>
             ) : null
@@ -998,8 +1010,8 @@ class NavMenu extends PureComponent {
                     </a>
                   </li>
                   <li style={styles.loggedInRightNavLi}>
-                    <a
-                      href={routes.shopCart()}
+                    <Link
+                      to='/shop/cart'
                       style={styles.navItemLinks}
                       className='menu-badge-container rf-nav-link'
                     >
@@ -1021,7 +1033,7 @@ class NavMenu extends PureComponent {
                       >
                         <img src='/image/cart.svg' />
                       </Badge>
-                    </a>
+                    </Link>
                   </li>
 
                   <li style={styles.loggedInRightNavLi} className='profile-menu-badge'>

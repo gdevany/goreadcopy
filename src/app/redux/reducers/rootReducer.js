@@ -31,9 +31,9 @@ const appReducer = combineReducers({
   search: searchReducer,
   tiles: tilesReducer,
   sidebarAds: sidebarAdsReducer,
-  notifications: notificationReducer,
   store: storeReducer,
   rates: ratesReducer,
+  notifications: notificationReducer,
 })
 
 const rootReducer = (state, action) => {

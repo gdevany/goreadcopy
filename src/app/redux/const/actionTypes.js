@@ -137,7 +137,7 @@ export default {
   PROFILE_PAGE,
   READERS,
   SEARCH,
-  NOTIFICATIONS,
   STORE,
   RATES,
+  NOTIFICATIONS,
 }

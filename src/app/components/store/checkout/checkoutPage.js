@@ -6,7 +6,6 @@ import OrderSummary from './OrderSummary'
 import CartItems from './CartItems'
 import ReviewOrder from './ReviewOrder'
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
-import UseLitcoins from './UseLitcoins'
 import LockIcon from 'material-ui/svg-icons/action/lock-outline'
 import R from 'ramda'
 
@@ -15,7 +14,9 @@ const {
   getOrder,
   getCurrentOrder,
   getShippingMethods,
-  setUserAddress
+  setUserAddress,
+  setShipping,
+  setBilling
 } = Store
 
 class CheckoutPage extends PureComponent {
@@ -38,6 +39,10 @@ class CheckoutPage extends PureComponent {
       cityShipping: '',
       stateShipping: '',
       zipcodeShipping: '',
+      shippingMethod: '',
+      shippingId: '',
+      billingId: '',
+      setShippingMethod: '',
       nameOnCard: '',
       cardNumber: '',
       cardCVC: '',
@@ -52,11 +57,14 @@ class CheckoutPage extends PureComponent {
       cityBilling: '',
       stateBilling: '',
       zipcodeBilling: '',
+      useLitcoins: false,
+      cardStored: false,
     }
     this.continueToBillingClick = this.continueToBillingClick.bind(this)
     this.continueToReviewClick = this.continueToReviewClick.bind(this)
     this.handlePaymentClick = this.handlePaymentClick.bind(this)
     this.handleCheckSave = this.handleCheckSave.bind(this)
+    this.handleUseLitcoins = this.handleUseLitcoins.bind(this)
     this.handleCheckSame = this.handleCheckSame.bind(this)
   }
 
@@ -67,7 +75,13 @@ class CheckoutPage extends PureComponent {
 
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.order) {
-      const { shippingAddress } = nextProps.order
+      const {
+        shippingAddress,
+        billingAddress,
+        cardLast4,
+        cardExpMonth,
+        cardExpYear
+      } = nextProps.order
       const fullname = this.splitFullName(shippingAddress.name)
       this.setState({
         firstNameShipping: fullname[0],
@@ -78,7 +92,13 @@ class CheckoutPage extends PureComponent {
         stateShipping: shippingAddress.state,
         cityShipping: shippingAddress.city,
         zipcodeShipping: shippingAddress.zipcode,
+        shippingId: shippingAddress.id,
+        billingId: billingAddress.id,
+        nameOnCard: shippingAddress.name || '',
+        cardNumber: `**** **** **** ${cardLast4}` || '',
+        fullExpDate: `${cardExpMonth}/${cardExpYear}` || '',
       })
+      if (cardLast4) this.setState({ cardStored: true })
     }
   }
 
@@ -96,7 +116,33 @@ class CheckoutPage extends PureComponent {
 
   handleFormsChanges = R.curry((field, event) => {
     event.preventDefault()
-    this.setState({ [field]: event.target.value })
+    if (field === 'cardCVC' && event.target.value.length <= 4) {
+      this.setState({
+        [field]: event.target.value
+      })
+    }
+
+    if (field === 'cardNumber') {
+      this.setState({
+        [field]: event.target.value.replace(/[^\dA-Z]/g, '').replace(/(.{4})/g, '$1 ').trim()
+      })
+    }
+
+    if (field === 'fullExpDate' && event.target.value.length <= 5) {
+      if (event.target.value.length === 2) {
+        this.setState({
+          [field]: `${event.target.value}/`
+        })
+      } else {
+        this.setState({
+          [field]: event.target.value
+        })
+      }
+    }
+
+    if (field !== 'cardNumber' && field !== 'fullExpDate' && field !== 'cardCVC') {
+      this.setState({ [field]: event.target.value })
+    }
   })
 
   continueToBillingClick = (event) => {
@@ -110,9 +156,11 @@ class CheckoutPage extends PureComponent {
       stateShipping,
       cityShipping,
       zipcodeShipping,
+      shippingId,
+      shippingMethod,
     } = this.state
     if (cityShipping && countryShipping && addressShipping &&
-      address2Shipping && zipcodeShipping && stateShipping) {
+      address2Shipping && zipcodeShipping && stateShipping && shippingMethod !== '') {
       this.setState({
         isStepOneActive: false,
         isStepTwoActive: true,
@@ -130,7 +178,11 @@ class CheckoutPage extends PureComponent {
         addressType: 'shipping',
         sameBillingAndShipping: true,
       })
-    }
+      this.props.setShipping({
+        shippingAddressId: shippingId,
+        shippingMethod: shippingMethod,
+      })
+    } else alert('Fill everything')
   }
 
   continueToReviewClick = (event) => {
@@ -141,9 +193,11 @@ class CheckoutPage extends PureComponent {
       cardNumber,
       cardCVC,
       fullExpDate,
+      isCardClicked,
+      shippingId,
+      billingId,
     } = this.state
-    if (nameOnCard && cardNumber && cardCVC && fullExpDate) {
-      // const expDate = this.splitCardExp(fullExpDate)
+    if (isCardClicked && nameOnCard && cardNumber && cardCVC && fullExpDate) {
       if (!this.state.sameShippingAddress) {
         const {
           firstNameBilling,
@@ -177,6 +231,29 @@ class CheckoutPage extends PureComponent {
           })
         } else alert('Complete all billing fields')
       } else {
+        const expDate = this.splitCardExp(fullExpDate)
+        if (this.state.cardStored) {
+          this.props.setBilling({
+            shippingMethod: this.state.shippingMethod,
+            paymentMethod: 'cc',
+            litcoins: this.state.useLitcoins,
+            avoidCheckCardData: this.state.cardStored,
+          })
+        } else {
+          this.props.setBilling({
+            cardExpYear: expDate[1],
+            shippingMethod: this.state.shippingMethod,
+            cardExpMonth: expDate[0],
+            paymentMethod: 'cc',
+            shippingAddressId: shippingId,
+            cardCvc: cardCVC,
+            cardNumber: cardNumber,
+            billingAddressId: billingId,
+            litcoins: this.state.useLitcoins,
+            avoidCheckCardData: this.state.cardStored,
+          })
+        }
+
         this.setState({
           isStepOneActive: false,
           isStepTwoActive: false,
@@ -185,12 +262,19 @@ class CheckoutPage extends PureComponent {
           stepTwoComplete: true,
         })
       }
-    } else {
-      alert('Complete all card fields')
-    }
+    } else if (this.state.isPaypalClicked) {
+      this.setState({
+        isStepOneActive: false,
+        isStepTwoActive: false,
+        isStepThreeActive: true,
+        stepOneComplete: true,
+        stepTwoComplete: true,
+      })
+    } else alert('Complete all card fields')
   }
 
   handlePaymentClick = (type) => {
+    console.log(type)
     if (type === 'card' && !this.state.isCardClicked) {
       this.setState({
         isCardClicked: true,
@@ -226,6 +310,39 @@ class CheckoutPage extends PureComponent {
     )
   }
 
+  setShippingMethod = (shippingMethod) => this.setState({ shippingMethod })
+
+  mapShippingMethods = (shippingMethods) => {
+    return shippingMethods.map((method, index) => {
+      return (
+        <div className='small-6 columns' key={`shipping_method_${index}`}>
+          <div className='checkoutpage-steps-delivery-method'>
+            <input
+              className='checkoutpage-steps-delivery-method-input'
+              name='delivery-method'
+              type='radio'
+              onClick={() => this.setShippingMethod(method.name)}
+            />
+            <label className='checkoutpage-steps-delivery-method-label'>
+              <span className='checkoutpage-steps-delivery-method-vendor'>
+                {method.title}
+              </span>
+              <span className='checkoutpage-steps-delivery-method-days'>
+                5 - 7 business days
+              </span>
+              {method.cost ?
+                (
+                  <spam className='checkoutpage-steps-delivery-method-price'>
+                    ${method.cost}
+                  </spam>
+                ) : null
+              }
+            </label>
+          </div>
+        </div>
+      )
+    })
+  }
   renderShippingMethod = () => {
     return (
       <section className='checkoutpage-steps-delivery-method-container'>
@@ -233,46 +350,9 @@ class CheckoutPage extends PureComponent {
           Delivery
         </h3>
         <div className='row'>
-          <div className='small-6 columns'>
-            <div className='checkoutpage-steps-delivery-method'>
-              <input
-                className='checkoutpage-steps-delivery-method-input'
-                name='delivery-method'
-                type='radio'
-              />
-              <label className='checkoutpage-steps-delivery-method-label'>
-                <span className='checkoutpage-steps-delivery-method-vendor'>
-                  USPS Media Mail
-                </span>
-                <span className='checkoutpage-steps-delivery-method-days'>
-                  ~5 - 7 business days
-                </span>
-                <spam className='checkoutpage-steps-delivery-method-price'>
-                  $4.99
-                </spam>
-              </label>
-            </div>
-          </div>
-          <div className='small-6 columns'>
-            <div className='checkoutpage-steps-delivery-method'>
-              <input
-                className='checkoutpage-steps-delivery-method-input'
-                name='delivery-method'
-                type='radio'
-              />
-              <label className='checkoutpage-steps-delivery-method-label'>
-                <span className='checkoutpage-steps-delivery-method-vendor'>
-                  USPS Priority Mail
-                </span>
-                <span className='checkoutpage-steps-delivery-method-days'>
-                 2 - 3 business days
-                </span>
-                <spam className='checkoutpage-steps-delivery-method-price'>
-                  $8.99
-                </spam>
-              </label>
-            </div>
-          </div>
+          {this.props.shippingMethods ?
+            this.mapShippingMethods(this.props.shippingMethods) : null
+          }
         </div>
       </section>
     )
@@ -410,6 +490,8 @@ class CheckoutPage extends PureComponent {
 
   handleCheckSame = (event) => this.setState({ sameShippingAddress: event.target.checked })
 
+  handleUseLitcoins = (event) => this.setState({ useLitcoins: event.target.checked })
+
   renderStepTwo = () => {
     const {
       isPaypalClicked,
@@ -477,7 +559,7 @@ class CheckoutPage extends PureComponent {
                           Card Number
                         </label>
                         <input
-                          type='number'
+                          type='text'
                           className='checkoutpage-payment-card-single-input'
                           onChange={this.handleFormsChanges('cardNumber')}
                           value={cardNumber}
@@ -515,7 +597,7 @@ class CheckoutPage extends PureComponent {
                         />
                       </div>
                     </div>
-                    <div className='large-12 columns'>
+                    {/* <div className='large-12 columns'>
                       <div className='checkoutpage-payment-card-inputs'>
                         <input
                           type='checkbox'
@@ -527,7 +609,7 @@ class CheckoutPage extends PureComponent {
                           Save card for future use
                         </label>
                       </div>
-                    </div>
+                    </div> */}
                     <div className='large-12 columns'>
                       <div className='checkoutpage-payment-card-inputs'>
                         <input
@@ -683,7 +765,31 @@ class CheckoutPage extends PureComponent {
               </div>
             </section>
           </section>
-          <UseLitcoins />
+          <section className='checkoutpage-litcoins-use-container'>
+            <h3>Litcoins</h3>
+            <div className='checkoutpage-litcoins-use-main'>
+              <input
+                className='checkoutpage-litcoins-useinput'
+                type='checkbox'
+                onChange={this.handleUseLitcoins}
+                checked={this.state.useLitcoins}
+              />
+              <label className='checkoutpage-litcoins-use-label'>
+                <span className='checkoutpage-litcoins-use-label-span'>
+                  Use my Litcoins
+                </span>
+                <div className='checkoutpage-litcoins-use-details'>
+                  <span className='checkoutpage-litcoins-use-text'>
+                    <b>$6.00</b> (8,000
+                    <img
+                      className='checkoutpage-litcoins-use-img'
+                      src='/image/litcoin.png'
+                    /> available)
+                  </span>
+                </div>
+              </label>
+            </div>
+          </section>
           <a
             onClick={this.continueToReviewClick}
             className='checkoutpage-review-order-btn'
@@ -703,10 +809,18 @@ class CheckoutPage extends PureComponent {
   }
 
   renderStepThree = () => {
+    const { shippingId, shippingMethod } = this.state
     return (
       <div className='row'>
         <div className='large-7 columns'>
-          <ReviewOrder />
+          <ReviewOrder
+            data={this.props.order}
+            isPaypal={this.state.isPaypalClicked}
+            shippingMethods={this.props.shippingMethods}
+            usingLitcoins={this.state.useLitcoins}
+            shippingMethod={shippingMethod}
+            shippingId={shippingId}
+          />
           <CartItems />
         </div>
         <div className='large-4 large-offset-1 columns end'>
@@ -824,6 +938,8 @@ const mapDistpachToProps = {
   getCurrentOrder,
   getShippingMethods,
   setUserAddress,
+  setShipping,
+  setBilling
 }
 
 export default connect(mapStateToProps, mapDistpachToProps)(CheckoutPage)

@@ -176,7 +176,9 @@ export function getCartItems(params) {
 export function updateCartItems(id, quantity) {
   return dispatch => {
     Store.updateCartItems(id, quantity)
-      // .then(res => dispatch({ type: A.GET_CART_ITEMS, payload: res.data }))
+      .then(res => dispatch(getCartItems({
+        perPage: 50,
+      })))
       .catch(err => console.error(`Error in updateCartItems ${err}`))
   }
 }
@@ -211,6 +213,7 @@ export function addGiftData(params) {
 export function setUserAddress(params) {
   return dispatch => {
     Store.setUserAddress(params)
+      .then(() => dispatch(getOrder()))
       .catch(err => console.error(`Error in setUserAddress ${err}`))
   }
 }
@@ -238,9 +241,9 @@ export function getCurrentOrder(params) {
   }
 }
 
-export function getShippingMethods(params) {
+export function getShippingMethods() {
   return dispatch => {
-    Store.getShippingMethods(params)
+    Store.getShippingMethods()
       .then(res => dispatch({ type: A.GET_SHIPPING_METHODS, payload: res.data }))
       .catch(err => console.error(`Error in getCurrentOrder ${err}`))
   }
@@ -249,8 +252,16 @@ export function getShippingMethods(params) {
 export function setBilling(params) {
   return dispatch => {
     Store.setBilling(params)
-      // .then(res => dispatch({ type: A.GET_SHIPPING_METHODS, payload: res.data }))
+      .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
       .catch(err => console.error(`Error in setBilling ${err}`))
+  }
+}
+
+export function setShipping(params) {
+  return dispatch => {
+    Store.setShipping(params)
+      .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
+      .catch(err => console.error(`Error in setShipping ${err}`))
   }
 }
 
@@ -278,5 +289,7 @@ export default {
   setOrder,
   getOrder,
   getCurrentOrder,
-  getShippingMethods
+  getShippingMethods,
+  setBilling,
+  setShipping,
 }
