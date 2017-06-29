@@ -45,6 +45,10 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.SOCKET_URL' : JSON.stringify(process.env.SOCKET_URL),
       'process.env.API_URL' : JSON.stringify(process.env.API_URL),
+      'process.env.REDIRECT_BASE_URL' : JSON.stringify(process.env.REDIRECT_BASE_URL),
+      'process.env.NODE_ENV' : JSON.stringify(process.env.NODE_ENV),
+      'process.env.SESSION_COOKIE_DOMAIN' : JSON.stringify(process.env.SESSION_COOKIE_DOMAIN),
+      'process.env.PORT' : JSON.stringify(process.env.PORT),
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(), // error warnings without stopping compiling
