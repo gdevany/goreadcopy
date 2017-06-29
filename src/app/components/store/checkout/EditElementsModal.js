@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Store } from '../../../redux/actions'
 import { Dialog } from 'material-ui'
-import { CardForm } from './'
+import { CardForm, ShippingForm } from './'
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
 import LockIcon from 'material-ui/svg-icons/action/lock-outline'
 import R from 'ramda'
@@ -28,14 +28,14 @@ class EditElementsModal extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      firstName: '',
-      lastName: '',
-      address: '',
-      address2: '',
-      country: '',
-      city: '',
-      state: '',
-      zipcode: '',
+      firstNameShipping: '',
+      lastNameShipping: '',
+      addressShipping: '',
+      address2Shipping: '',
+      countryShipping: '',
+      cityShipping: '',
+      stateShipping: '',
+      zipcodeShipping: '',
       editClicked: false,
       nameOnCard: '',
       cardNumber: '',
@@ -109,14 +109,14 @@ class EditElementsModal extends PureComponent {
     const { shippingAddress } = this.props
     const fullName = this.splitFullName(shippingAddress.name)
     this.setState({
-      firstName: fullName[0],
-      lastName: fullName[1],
-      address: shippingAddress.address,
-      address2: shippingAddress.address2,
-      country: shippingAddress.country,
-      city: shippingAddress.city,
-      state: shippingAddress.state,
-      zipcode: shippingAddress.zipcode,
+      firstNameShipping: fullName[0],
+      lastNameShipping: fullName[1],
+      addressShipping: shippingAddress.address,
+      address2Shipping: shippingAddress.address2,
+      countryShipping: shippingAddress.country,
+      cityShipping: shippingAddress.city,
+      stateShipping: shippingAddress.state,
+      zipcodeShipping: shippingAddress.zipcode,
       editClicked: true
     })
   }
@@ -125,35 +125,39 @@ class EditElementsModal extends PureComponent {
     event.preventDefault()
     const { setUserAddress, shippingAddress } = this.props
     const {
-      firstName,
-      lastName,
-      address,
-      address2,
-      country,
-      city,
-      state,
-      zipcode
+      firstNameShipping,
+      lastNameShipping,
+      addressShipping,
+      address2Shipping,
+      countryShipping,
+      cityShipping,
+      stateShipping,
+      zipcodeShipping
     } = this.state
-    if (shippingAddress.name !== `${firstName} ${lastName}` ||
-      shippingAddress.address !== address ||
-      shippingAddress.address2 !== address2 ||
-      shippingAddress.country !== country ||
-      shippingAddress.city !== city ||
-      shippingAddress.state !== state ||
-      shippingAddress.zipcode !== zipcode) {
-      setUserAddress({
-        city: city,
-        name: `${firstName} ${lastName}`,
-        country: country,
-        address: address,
-        address2: address2,
-        zipcode: zipcode,
-        state: state,
-        addressType: 'shipping',
-        sameBillingAndShipping: true,
-      })
-      this.props.handleClose()
-    } else this.props.handleClose()
+    if (firstNameShipping !== '' && lastNameShipping !== '' &&
+      addressShipping !== '' && countryShipping !== '' &&
+      cityShipping !== '' && stateShipping !== '' && zipcodeShipping !== '') {
+      if (shippingAddress.name !== `${firstNameShipping} ${lastNameShipping}` ||
+        shippingAddress.address !== addressShipping ||
+        shippingAddress.address2 !== address2Shipping ||
+        shippingAddress.country !== countryShipping ||
+        shippingAddress.city !== cityShipping ||
+        shippingAddress.state !== stateShipping ||
+        shippingAddress.zipcode !== zipcodeShipping) {
+        setUserAddress({
+          city: cityShipping,
+          name: `${firstNameShipping} ${lastNameShipping}`,
+          country: countryShipping,
+          address: addressShipping,
+          address2: address2Shipping,
+          zipcode: zipcodeShipping,
+          state: stateShipping,
+          addressType: 'shipping',
+          sameBillingAndShipping: true,
+        })
+        this.props.handleClose()
+      } else this.props.handleClose()
+    }
   }
 
   handleSaveCard = (event) => {
@@ -177,14 +181,14 @@ class EditElementsModal extends PureComponent {
 
   handleCancel = () => {
     this.setState({
-      firstName: '',
-      lastName: '',
-      address: '',
-      address2: '',
-      country: '',
-      city: '',
-      state: '',
-      zipcode: '',
+      firstNameShipping: '',
+      lastNameShipping: '',
+      addressShipping: '',
+      address2Shipping: '',
+      countryShipping: '',
+      cityShipping: '',
+      stateShipping: '',
+      zipcodeShipping: '',
       nameOnCard: '',
       cardNumber: '',
       cardCVC: '',
@@ -196,6 +200,14 @@ class EditElementsModal extends PureComponent {
 
   renderEditShipping = () => {
     const { shippingAddress } = this.props
+    const {
+      firstNameShipping, lastNameShipping, addressShipping, address2Shipping,
+      countryShipping, cityShipping, stateShipping, zipcodeShipping
+    } = this.state
+    const formInfo = {
+      firstNameShipping, lastNameShipping, addressShipping, address2Shipping,
+      countryShipping, cityShipping, stateShipping, zipcodeShipping
+    }
     return (
       <div className='row'>
         <div className='large-5 large-offset-4'>
@@ -228,131 +240,14 @@ class EditElementsModal extends PureComponent {
                 </a>
               </div>
             </section>
-            <section className='chekoutpage-edit-shipping-address-form'>
-              <h4 className='chekoutpage-edit-shipping-address-form-title'>
-                {this.state.editClicked ? 'Edit Shipping Address' : 'Add new Shipping Address'}
-              </h4>
-              <div className='row'>
-                <div className='small-6 columns'>
-                  <label
-                    className='checkoutpage-steps-shipping-address-form-label'
-                  >
-                    First Name
-                  </label>
-                  <input
-                    type='text'
-                    className='checkoutpage-steps-shipping-address-form-input'
-                    onChange={this.handleFormsChanges('firstName')}
-                    value={this.state.firstName}
-                  />
-                </div>
-                <div className='small-6 columns'>
-                  <label
-                    className='checkoutpage-steps-shipping-address-form-label'
-                  >
-                    Last Name
-                  </label>
-                  <input
-                    type='text'
-                    className='checkoutpage-steps-shipping-address-form-input'
-                    onChange={this.handleFormsChanges('lastName')}
-                    value={this.state.lastName}
-                  />
-                </div>
-                <div className='small-12 columns'>
-                  <label
-                    className='checkoutpage-steps-shipping-address-form-label'
-                  >
-                    Address
-                  </label>
-                  <input
-                    type='text'
-                    className='checkoutpage-steps-shipping-address-form-input'
-                    onChange={this.handleFormsChanges('address')}
-                    value={this.state.address}
-                  />
-                </div>
-                <div className='small-12 columns'>
-                  <label
-                    className='checkoutpage-steps-shipping-address-form-label'
-                  >
-                    Address Line 2 *Optional
-                  </label>
-                  <input
-                    type='text'
-                    className='checkoutpage-steps-shipping-address-form-input'
-                    onChange={this.handleFormsChanges('address2')}
-                    value={this.state.address2}
-                  />
-                </div>
-                <div className='small-6 columns'>
-                  <label
-                    className='checkoutpage-steps-shipping-address-form-label'
-                  >
-                    Country
-                  </label>
-                  <input
-                    type='text'
-                    className='checkoutpage-steps-shipping-address-form-input'
-                    onChange={this.handleFormsChanges('country')}
-                    value={this.state.country}
-                  />
-                </div>
-                <div className='small-6 columns'>
-                  <label
-                    className='checkoutpage-steps-shipping-address-form-label'
-                  >
-                    City
-                  </label>
-                  <input
-                    type='text'
-                    className='checkoutpage-steps-shipping-address-form-input'
-                    onChange={this.handleFormsChanges('city')}
-                    value={this.state.city}
-                  />
-                </div>
-                <div className='small-6 columns'>
-                  <label
-                    className='checkoutpage-steps-shipping-address-form-label'
-                  >
-                    State
-                  </label>
-                  <input
-                    type='text'
-                    className='checkoutpage-steps-shipping-address-form-input'
-                    onChange={this.handleFormsChanges('state')}
-                    value={this.state.state}
-                  />
-                </div>
-                <div className='small-6 columns'>
-                  <label
-                    className='checkoutpage-steps-shipping-address-form-label'
-                  >
-                    Zipcode
-                  </label>
-                  <input
-                    type='text'
-                    className='checkoutpage-steps-shipping-address-form-input'
-                    onChange={this.handleFormsChanges('zipcode')}
-                    value={this.state.zipcode}
-                  />
-                </div>
-              </div>
-              <div className='chekoutpage-edit-shipping-address-btns-container'>
-                <a
-                  onClick={this.handleSave}
-                  className='chekoutpage-edit-shipping-address-btn-save'
-                >
-                  Save Address
-                </a>
-                <a
-                  onClick={this.handleCancel}
-                  className='chekoutpage-edit-shipping-address-btn-cancel'
-                >
-                  Cancel
-                </a>
-              </div>
-            </section>
+            <ShippingForm
+              shippingInfo={formInfo}
+              onChange={this.handleFormsChanges}
+              title={this.state.editClicked ? 'Edit Shipping Address' : 'Add new Shipping Address'}
+              className='chekoutpage-edit-shipping-address-form'
+              handleSave={this.handleSave}
+              handleCancel={this.handleCancel}
+            />
           </section>
         </div>
       </div>

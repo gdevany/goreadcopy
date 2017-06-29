@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react'
 
-const ShippingFrom = ({ shippingInfo, onChange }) => {
+const ShippingFrom = ({ shippingInfo, onChange, title, className, handleSave, handleCancel }) => {
   return (
-    <section className='checkoutpage-steps-shipping-address-container'>
+    <section className={className}>
       <h3 className='checkoutpage-steps-shipping-address-title'>
-        Shipping Address
+        {title}
       </h3>
       <form className='checkoutpage-steps-shipping-address-form'>
         <div className='row'>
@@ -114,13 +114,35 @@ const ShippingFrom = ({ shippingInfo, onChange }) => {
           </div>
         </div>
       </form>
+      {handleSave && handleCancel ?
+        (
+          <div className='chekoutpage-edit-shipping-address-btns-container'>
+            <a
+              onClick={handleSave}
+              className='chekoutpage-edit-shipping-address-btn-save'
+            >
+              Save Address
+            </a>
+            <a
+              onClick={handleCancel}
+              className='chekoutpage-edit-shipping-address-btn-cancel'
+            >
+              Cancel
+            </a>
+          </div>
+        ) : null
+      }
     </section>
   )
 }
 
 ShippingFrom.propTypes = {
   shippingInfo: PropTypes.object.isRequired,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  title: PropTypes.string,
+  className: PropTypes.string,
+  handleSave: PropTypes.func,
+  handleCancel: PropTypes.func,
 }
 
 export default ShippingFrom

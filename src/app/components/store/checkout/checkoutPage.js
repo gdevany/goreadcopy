@@ -333,6 +333,8 @@ class CheckoutPage extends PureComponent {
           <ShippingForm
             shippingInfo={info}
             onChange={this.handleFormsChanges}
+            title='Shipping Address'
+            className='checkoutpage-steps-shipping-address-container'
           />
           {shippingMethods ?
             <ShippingMethods
