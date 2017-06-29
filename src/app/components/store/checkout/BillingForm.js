@@ -1,12 +1,11 @@
 import React, { PropTypes } from 'react'
 
-const ShippingAddress = ({ shippingInfo, onChange }) => {
+const BillingForm = ({ billingInfo, onChange }) => {
   return (
-    <section className='checkoutpage-steps-shipping-address-container'>
-      <h3 className='checkoutpage-steps-shipping-address-title'>
-        Shipping Address
-      </h3>
-      <form className='checkoutpage-steps-shipping-address-form'>
+    <div className='row'>
+      <div className='large-12 columns'>
+        Billing Address
+        <hr/>
         <div className='row'>
           <div className='small-6 columns'>
             <label
@@ -16,9 +15,9 @@ const ShippingAddress = ({ shippingInfo, onChange }) => {
             </label>
             <input
               type='text'
-              onChange={onChange('firstNameShipping')}
+              onChange={onChange('firstNameBilling')}
               className='checkoutpage-steps-shipping-address-form-input'
-              value={shippingInfo.firstNameShipping}
+              value={billingInfo.firstNameBilling}
             />
           </div>
           <div className='small-6 columns'>
@@ -30,8 +29,8 @@ const ShippingAddress = ({ shippingInfo, onChange }) => {
             <input
               type='text'
               className='checkoutpage-steps-shipping-address-form-input'
-              onChange={onChange('lastNameShipping')}
-              value={shippingInfo.lastNameShipping}
+              onChange={onChange('lastNameBilling')}
+              value={billingInfo.lastNameBilling}
             />
           </div>
           <div className='small-12 columns'>
@@ -43,8 +42,8 @@ const ShippingAddress = ({ shippingInfo, onChange }) => {
             <input
               type='text'
               className='checkoutpage-steps-shipping-address-form-input'
-              onChange={onChange('addressShipping')}
-              value={shippingInfo.addressShipping}
+              onChange={onChange('addressBilling')}
+              value={billingInfo.addressBilling}
             />
           </div>
           <div className='small-12 columns'>
@@ -56,8 +55,8 @@ const ShippingAddress = ({ shippingInfo, onChange }) => {
             <input
               type='text'
               className='checkoutpage-steps-shipping-address-form-input'
-              onChange={onChange('address2Shipping')}
-              value={shippingInfo.address2Shipping}
+              onChange={onChange('address2Billing')}
+              value={billingInfo.address2Billing}
             />
           </div>
           <div className='small-6 columns'>
@@ -69,8 +68,8 @@ const ShippingAddress = ({ shippingInfo, onChange }) => {
             <input
               type='text'
               className='checkoutpage-steps-shipping-address-form-input'
-              onChange={onChange('countryShipping')}
-              value={shippingInfo.countryShipping}
+              onChange={onChange('countryBilling')}
+              value={billingInfo.countryBilling}
             />
           </div>
           <div className='small-6 columns'>
@@ -82,8 +81,8 @@ const ShippingAddress = ({ shippingInfo, onChange }) => {
             <input
               type='text'
               className='checkoutpage-steps-shipping-address-form-input'
-              onChange={onChange('cityShipping')}
-              value={shippingInfo.cityShipping}
+              onChange={onChange('cityBilling')}
+              value={billingInfo.cityBilling}
             />
           </div>
           <div className='small-6 columns'>
@@ -95,8 +94,8 @@ const ShippingAddress = ({ shippingInfo, onChange }) => {
             <input
               type='text'
               className='checkoutpage-steps-shipping-address-form-input'
-              onChange={onChange('stateShipping')}
-              value={shippingInfo.stateShipping}
+              onChange={onChange('stateBilling')}
+              value={billingInfo.stateBilling}
             />
           </div>
           <div className='small-6 columns'>
@@ -108,19 +107,19 @@ const ShippingAddress = ({ shippingInfo, onChange }) => {
             <input
               type='text'
               className='checkoutpage-steps-shipping-address-form-input'
-              onChange={onChange('zipcodeShipping')}
-              value={shippingInfo.zipcodeShipping}
+              onChange={onChange('zipcodeBilling')}
+              value={billingInfo.zipcodeBilling}
             />
           </div>
         </div>
-      </form>
-    </section>
+      </div>
+    </div>
   )
 }
 
-ShippingAddress.propTypes = {
-  shippingInfo: PropTypes.object.isRequired,
+BillingForm.propTypes = {
+  billingInfo: PropTypes.object.isRequired,
   onChange: PropTypes.func
 }
 
-export default ShippingAddress
+export default BillingForm

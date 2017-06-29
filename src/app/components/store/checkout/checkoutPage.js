@@ -2,10 +2,15 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { Store } from '../../../redux/actions'
-import OrderSummary from './OrderSummary'
-import CartItems from './CartItems'
-import ReviewOrder from './ReviewOrder'
-import ShippingAddress from './ShippingAddress'
+import {
+  OrderSummary,
+  CartItems,
+  ReviewOrder,
+  ShippingForm,
+  CardForm,
+  BillingForm
+} from './'
+
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
 import LockIcon from 'material-ui/svg-icons/action/lock-outline'
 import R from 'ramda'
@@ -326,7 +331,7 @@ class CheckoutPage extends PureComponent {
     return (
       <div className='row'>
         <div className='large-7 columns'>
-          <ShippingAddress
+          <ShippingForm
             shippingInfo={info}
             onChange={this.handleFormsChanges}
           />
@@ -409,7 +414,32 @@ class CheckoutPage extends PureComponent {
       cardNumber,
       cardCVC,
       fullExpDate,
+      sameShippingAddress,
+      firstNameBilling,
+      lastNameBilling,
+      addressBilling,
+      address2Billing,
+      countryBilling,
+      cityBilling,
+      stateBilling,
+      zipcodeBilling
     } = this.state
+    const cardInfo = {
+      nameOnCard,
+      cardNumber,
+      cardCVC,
+      fullExpDate,
+    }
+    const billingFields = {
+      firstNameBilling,
+      lastNameBilling,
+      addressBilling,
+      address2Billing,
+      countryBilling,
+      cityBilling,
+      stateBilling,
+      zipcodeBilling
+    }
     return (
       <div className='row'>
         <div className='large-7 columns'>
@@ -447,208 +477,17 @@ class CheckoutPage extends PureComponent {
                     Secure and encrypted
                   </span>
                 </div>
-                <div className='checkoutpage-payment-card-form'>
-                  <div className='row'>
-                    <div className='large-12 columns'>
-                      <div className='checkoutpage-payment-card-inputs'>
-                        <label className='checkoutpage-payment-card-inputs-label'>
-                          Name on Card
-                        </label>
-                        <input
-                          type='text'
-                          className='checkoutpage-payment-card-single-input'
-                          onChange={this.handleFormsChanges('nameOnCard')}
-                          value={nameOnCard}
-                        />
-                      </div>
-                    </div>
-                    <div className='large-12 columns'>
-                      <div className='checkoutpage-payment-card-inputs'>
-                        <label className='checkoutpage-payment-card-inputs-label'>
-                          Card Number
-                        </label>
-                        <input
-                          type='text'
-                          className='checkoutpage-payment-card-single-input'
-                          onChange={this.handleFormsChanges('cardNumber')}
-                          value={cardNumber}
-                        />
-                      </div>
-                    </div>
-                    <div className='large-8 columns'>
-                      <div className='checkoutpage-payment-card-inputs'>
-                        <label className='checkoutpage-payment-card-inputs-label'>
-                          Expiration Date (MM/YY)
-                        </label>
-                        <input
-                          type='text'
-                          className='checkoutpage-payment-card-single-input'
-                          onChange={this.handleFormsChanges('fullExpDate')}
-                          value={fullExpDate}
-                        />
-                      </div>
-                    </div>
-                    <div className='large-4 columns'>
-                      <div className='checkoutpage-payment-card-inputs'>
-                        <label className='checkoutpage-payment-card-inputs-label'>
-                          CVC
-                        </label>
-                        <input
-                          type='number'
-                          min='100'
-                          min='999'
-                          className='checkoutpage-payment-card-single-input has-lock'
-                          onChange={this.handleFormsChanges('cardCVC')}
-                          value={cardCVC}
-                        />
-                        <LockIcon
-                          className='checkoutpage-payment-card-single-input-lock'
-                        />
-                      </div>
-                    </div>
-                    {/* <div className='large-12 columns'>
-                      <div className='checkoutpage-payment-card-inputs'>
-                        <input
-                          type='checkbox'
-                          className='checkoutpage-payment-card-single-input-check'
-                          onChange={this.handleCheckSave}
-                          checked={this.state.saveCard}
-                        />
-                        <label className='checkoutpage-payment-card-inputs-label-check'>
-                          Save card for future use
-                        </label>
-                      </div>
-                    </div> */}
-                    <div className='large-12 columns'>
-                      <div className='checkoutpage-payment-card-inputs'>
-                        <input
-                          type='checkbox'
-                          className='checkoutpage-payment-card-single-input-check'
-                          onChange={this.handleCheckSame}
-                          checked={this.state.sameShippingAddress}
-                        />
-                        <label className='checkoutpage-payment-card-inputs-label-check'>
-                          Use shipping address
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {!this.state.sameShippingAddress ?
-                  (
-                    <div className='row'>
-                      <div className='large-12 columns'>
-                        Billing Address
-                        <hr/>
-                        <div className='row'>
-                          <div className='small-6 columns'>
-                            <label
-                              className='checkoutpage-steps-shipping-address-form-label'
-                            >
-                              First Name
-                            </label>
-                            <input
-                              type='text'
-                              onChange={this.handleFormsChanges('firstNameBilling')}
-                              className='checkoutpage-steps-shipping-address-form-input'
-                              value={this.state.firstNameBilling}
-                            />
-                          </div>
-                          <div className='small-6 columns'>
-                            <label
-                              className='checkoutpage-steps-shipping-address-form-label'
-                            >
-                              Last Name
-                            </label>
-                            <input
-                              type='text'
-                              className='checkoutpage-steps-shipping-address-form-input'
-                              onChange={this.handleFormsChanges('lastNameBilling')}
-                              value={this.state.lastNameBilling}
-                            />
-                          </div>
-                          <div className='small-12 columns'>
-                            <label
-                              className='checkoutpage-steps-shipping-address-form-label'
-                            >
-                              Address
-                            </label>
-                            <input
-                              type='text'
-                              className='checkoutpage-steps-shipping-address-form-input'
-                              onChange={this.handleFormsChanges('addressBilling')}
-                              value={this.state.addressBilling}
-                            />
-                          </div>
-                          <div className='small-12 columns'>
-                            <label
-                              className='checkoutpage-steps-shipping-address-form-label'
-                            >
-                              Address Line 2 *Optional
-                            </label>
-                            <input
-                              type='text'
-                              className='checkoutpage-steps-shipping-address-form-input'
-                              onChange={this.handleFormsChanges('address2Billing')}
-                              value={this.state.address2Billing}
-                            />
-                          </div>
-                          <div className='small-6 columns'>
-                            <label
-                              className='checkoutpage-steps-shipping-address-form-label'
-                            >
-                              Country
-                            </label>
-                            <input
-                              type='text'
-                              className='checkoutpage-steps-shipping-address-form-input'
-                              onChange={this.handleFormsChanges('countryBilling')}
-                              value={this.state.countryBilling}
-                            />
-                          </div>
-                          <div className='small-6 columns'>
-                            <label
-                              className='checkoutpage-steps-shipping-address-form-label'
-                            >
-                              City
-                            </label>
-                            <input
-                              type='text'
-                              className='checkoutpage-steps-shipping-address-form-input'
-                              onChange={this.handleFormsChanges('cityBilling')}
-                              value={this.state.cityBilling}
-                            />
-                          </div>
-                          <div className='small-6 columns'>
-                            <label
-                              className='checkoutpage-steps-shipping-address-form-label'
-                            >
-                              State
-                            </label>
-                            <input
-                              type='text'
-                              className='checkoutpage-steps-shipping-address-form-input'
-                              onChange={this.handleFormsChanges('stateBilling')}
-                              value={this.state.stateBilling}
-                            />
-                          </div>
-                          <div className='small-6 columns'>
-                            <label
-                              className='checkoutpage-steps-shipping-address-form-label'
-                            >
-                              Zipcode
-                            </label>
-                            <input
-                              type='text'
-                              className='checkoutpage-steps-shipping-address-form-input'
-                              onChange={this.handleFormsChanges('zipcodeBilling')}
-                              value={this.state.zipcodeBilling}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : null
+                <CardForm
+                  cardInfo={cardInfo}
+                  onChange={this.handleFormsChanges}
+                  handleCheckSame={this.handleCheckSame}
+                  isSameShippingChecked={sameShippingAddress}
+                />
+                {!sameShippingAddress ?
+                  <BillingForm
+                    billingInfo={billingFields}
+                    onChange={this.handleFormsChanges}
+                  /> : null
                 }
               </div>
             </section>
