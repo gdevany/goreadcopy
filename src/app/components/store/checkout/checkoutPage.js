@@ -8,7 +8,8 @@ import {
   ReviewOrder,
   ShippingForm,
   CardForm,
-  BillingForm
+  BillingForm,
+  UseLitcoins
 } from './'
 
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
@@ -111,10 +112,6 @@ class CheckoutPage extends PureComponent {
       if (cardLast4) this.setState({ cardStored: true })
     }
   }
-
-  // componentWillUpdate = (nextProps, nextState) => {
-  //   debugger
-  // }
 
   splitFullName = (fullname) => {
     return fullname.split(' ')
@@ -422,7 +419,8 @@ class CheckoutPage extends PureComponent {
       countryBilling,
       cityBilling,
       stateBilling,
-      zipcodeBilling
+      zipcodeBilling,
+      useLitcoins
     } = this.state
     const cardInfo = {
       nameOnCard,
@@ -513,31 +511,10 @@ class CheckoutPage extends PureComponent {
               </div>
             </section>
           </section>
-          <section className='checkoutpage-litcoins-use-container'>
-            <h3>Litcoins</h3>
-            <div className='checkoutpage-litcoins-use-main'>
-              <input
-                className='checkoutpage-litcoins-useinput'
-                type='checkbox'
-                onChange={this.handleUseLitcoins}
-                checked={this.state.useLitcoins}
-              />
-              <label className='checkoutpage-litcoins-use-label'>
-                <span className='checkoutpage-litcoins-use-label-span'>
-                  Use my Litcoins
-                </span>
-                <div className='checkoutpage-litcoins-use-details'>
-                  <span className='checkoutpage-litcoins-use-text'>
-                    <b>$6.00</b> (8,000
-                    <img
-                      className='checkoutpage-litcoins-use-img'
-                      src='/image/litcoin.png'
-                    /> available)
-                  </span>
-                </div>
-              </label>
-            </div>
-          </section>
+          <UseLitcoins
+            onChange={this.handleUseLitcoins}
+            boxChecked={useLitcoins}
+          />
           <a
             onClick={this.continueToReviewClick}
             className='checkoutpage-review-order-btn'
@@ -564,6 +541,7 @@ class CheckoutPage extends PureComponent {
       })
     }
   }
+
   renderStepThree = () => {
     const { shippingId, shippingMethod } = this.state
     return (
