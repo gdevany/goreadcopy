@@ -440,6 +440,7 @@ class CheckoutPage extends PureComponent {
                   onChange={this.handleFormsChanges}
                   handleCheckSame={this.handleCheckSame}
                   isSameShippingChecked={sameShippingAddress}
+                  context='firstStep'
                 />
                 {!sameShippingAddress ?
                   <BillingForm

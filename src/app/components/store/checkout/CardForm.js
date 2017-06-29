@@ -1,9 +1,21 @@
 import React, { PropTypes } from 'react'
 import LockIcon from 'material-ui/svg-icons/action/lock-outline'
 
-const CardFrom = ({ cardInfo, onChange, handleCheckSame, isSameShippingChecked }) => {
+const CardFrom = ({
+  cardInfo,
+  onChange,
+  handleCheckSame,
+  isSameShippingChecked,
+  handleSave,
+  handleCancel,
+  context
+}) => {
   return (
-    <div className='checkoutpage-payment-card-form'>
+    <div className={context === 'firstStep' ?
+      'checkoutpage-payment-card-form' :
+      'checkoutpage-edit-payment-card-form'
+      }
+    >
       <div className='row'>
         <div className='large-12 columns'>
           <div className='checkoutpage-payment-card-inputs'>
@@ -75,19 +87,47 @@ const CardFrom = ({ cardInfo, onChange, handleCheckSame, isSameShippingChecked }
             </label>
           </div>
         </div> */}
-        <div className='large-12 columns'>
-          <div className='checkoutpage-payment-card-inputs'>
-            <input
-              type='checkbox'
-              className='checkoutpage-payment-card-single-input-check'
-              onChange={handleCheckSame}
-              checked={isSameShippingChecked}
-            />
-            <label className='checkoutpage-payment-card-inputs-label-check'>
-              Use shipping address
-            </label>
-          </div>
-        </div>
+        {context === 'firstStep' ?
+          (
+            <div className='large-12 columns'>
+              <div className='checkoutpage-payment-card-inputs'>
+                <input
+                  type='checkbox'
+                  className='checkoutpage-payment-card-single-input-check'
+                  onChange={handleCheckSame}
+                  checked={isSameShippingChecked}
+                />
+                <label className='checkoutpage-payment-card-inputs-label-check'>
+                  Use shipping address
+                </label>
+              </div>
+            </div>
+          ) : null
+        }
+        {context === 'editModal' ?
+          (
+            <div className='checkoutpage-edit-payment-card-form'>
+              <div className='row'>
+                <div className='large-12 columns'>
+                  <div className='chekoutpage-edit-payment-btns-container'>
+                    <a
+                      onClick={handleSave}
+                      className='chekoutpage-edit-payment-btn-save'
+                    >
+                      Save Address
+                    </a>
+                    <a
+                      onClick={handleCancel}
+                      className='chekoutpage-edit-payment-btn-cancel'
+                    >
+                      Cancel
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : null
+        }
       </div>
     </div>
   )
@@ -98,6 +138,9 @@ CardFrom.propTypes = {
   onChange: PropTypes.func,
   handleCheckSame: PropTypes.func,
   isSameShippingChecked: PropTypes.bool,
+  handleSave: PropTypes.func,
+  handleCancel: PropTypes.func,
+  context: PropTypes.string,
 }
 
 export default CardFrom

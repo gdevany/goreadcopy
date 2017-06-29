@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Store } from '../../../redux/actions'
 import { Dialog } from 'material-ui'
+import { CardForm } from './'
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
 import LockIcon from 'material-ui/svg-icons/action/lock-outline'
 import R from 'ramda'
@@ -366,6 +367,12 @@ class EditElementsModal extends PureComponent {
       cardCVC,
       fullExpDate,
     } = this.state
+    const cardInfo = {
+      nameOnCard,
+      cardNumber,
+      cardCVC,
+      fullExpDate,
+    }
 
     return (
       <div className='row'>
@@ -470,81 +477,13 @@ class EditElementsModal extends PureComponent {
                     Secure and encrypted
                   </span>
                 </div>
-                <div className='checkoutpage-edit-payment-card-form'>
-                  <div className='row'>
-                    <div className='large-12 columns'>
-                      <div className='checkoutpage-payment-card-inputs'>
-                        <label className='checkoutpage-payment-card-inputs-label'>
-                          Name on Card
-                        </label>
-                        <input
-                          type='text'
-                          className='checkoutpage-payment-card-single-input'
-                          onChange={this.handleFormsChanges('nameOnCard')}
-                          value={nameOnCard}
-                        />
-                      </div>
-                    </div>
-                    <div className='large-12 columns'>
-                      <div className='checkoutpage-payment-card-inputs'>
-                        <label className='checkoutpage-payment-card-inputs-label'>
-                          Card Number
-                        </label>
-                        <input
-                          type='text'
-                          className='checkoutpage-payment-card-single-input'
-                          onChange={this.handleFormsChanges('cardNumber')}
-                          value={cardNumber}
-                        />
-                      </div>
-                    </div>
-                    <div className='large-8 columns'>
-                      <div className='checkoutpage-payment-card-inputs'>
-                        <label className='checkoutpage-payment-card-inputs-label'>
-                          Expiration Date (MM/YY)
-                        </label>
-                        <input
-                          type='text'
-                          className='checkoutpage-payment-card-single-input'
-                          onChange={this.handleFormsChanges('fullExpDate')}
-                          value={fullExpDate}
-                        />
-                      </div>
-                    </div>
-                    <div className='large-4 columns'>
-                      <div className='checkoutpage-payment-card-inputs'>
-                        <label className='checkoutpage-payment-card-inputs-label'>
-                          CVC
-                        </label>
-                        <input
-                          type='number'
-                          className='checkoutpage-payment-card-single-input has-lock'
-                          onChange={this.handleFormsChanges('cardCVC')}
-                          value={cardCVC}
-                        />
-                        <LockIcon
-                          className='checkoutpage-payment-card-single-input-lock'
-                        />
-                      </div>
-                    </div>
-                    <div className='large-12 columns'>
-                      <div className='chekoutpage-edit-payment-btns-container'>
-                        <a
-                          onClick={this.handleSaveCard}
-                          className='chekoutpage-edit-payment-btn-save'
-                        >
-                          Save Address
-                        </a>
-                        <a
-                          onClick={this.handleCancel}
-                          className='chekoutpage-edit-payment-btn-cancel'
-                        >
-                          Cancel
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <CardForm
+                  cardInfo={cardInfo}
+                  onChange={this.handleFormsChanges}
+                  handleSave={this.handleSaveCard}
+                  handleCancel={this.handleCancel}
+                  context='editModal'
+                />
               </div>
             </section>
           </section>
