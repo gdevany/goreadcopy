@@ -9,7 +9,8 @@ import {
   ShippingForm,
   CardForm,
   BillingForm,
-  UseLitcoins
+  UseLitcoins,
+  ShippingMethods
 } from './'
 
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
@@ -325,6 +326,7 @@ class CheckoutPage extends PureComponent {
       stateShipping,
       zipcodeShipping,
     }
+    const { shippingMethods } = this.props
     return (
       <div className='row'>
         <div className='large-7 columns'>
@@ -332,7 +334,12 @@ class CheckoutPage extends PureComponent {
             shippingInfo={info}
             onChange={this.handleFormsChanges}
           />
-          {this.renderShippingMethod()}
+          {shippingMethods ?
+            <ShippingMethods
+              shippingMethods={shippingMethods}
+              onClick={this.setShippingMethod}
+            /> : null
+          }
           <a
             onClick={this.continueToBillingClick}
             className='checkoutpage-shipping-submit-form-btn'
@@ -349,53 +356,6 @@ class CheckoutPage extends PureComponent {
   }
 
   setShippingMethod = (shippingMethod) => this.setState({ shippingMethod })
-
-  mapShippingMethods = (shippingMethods) => {
-    return shippingMethods.map((method, index) => {
-      return (
-        <div className='small-6 columns' key={`shipping_method_${index}`}>
-          <div className='checkoutpage-steps-delivery-method'>
-            <input
-              className='checkoutpage-steps-delivery-method-input'
-              name='delivery-method'
-              type='radio'
-              onClick={() => this.setShippingMethod(method.name)}
-            />
-            <label className='checkoutpage-steps-delivery-method-label'>
-              <span className='checkoutpage-steps-delivery-method-vendor'>
-                {method.title}
-              </span>
-              <span className='checkoutpage-steps-delivery-method-days'>
-                5 - 7 business days
-              </span>
-              {method.cost ?
-                (
-                  <spam className='checkoutpage-steps-delivery-method-price'>
-                    ${method.cost}
-                  </spam>
-                ) : null
-              }
-            </label>
-          </div>
-        </div>
-      )
-    })
-  }
-
-  renderShippingMethod = () => {
-    return (
-      <section className='checkoutpage-steps-delivery-method-container'>
-        <h3 className='checkoutpage-steps-delivery-method-title'>
-          Delivery
-        </h3>
-        <div className='row'>
-          {this.props.shippingMethods ?
-            this.mapShippingMethods(this.props.shippingMethods) : null
-          }
-        </div>
-      </section>
-    )
-  }
 
   handleCheckSave = (event) => this.setState({ saveCard: event.target.checked })
 

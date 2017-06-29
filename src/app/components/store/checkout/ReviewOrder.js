@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import EditElementsModal from './EditElementsModal'
-import { UseLitcoins } from './'
+import { UseLitcoins, ShippingMethods } from './'
 
 class ReviewOrder extends PureComponent {
   constructor(props) {
@@ -33,39 +33,6 @@ class ReviewOrder extends PureComponent {
   handleUseLitcoins = (event) => this.setState({ isUsingLitcoins: event.target.checked })
 
   setShippingMethod = (shippingMethod) => this.setState({ shippingMethod })
-
-  mapShippingMethods = (shippingMethods) => {
-    return shippingMethods.map((method, index) => {
-      return (
-        <div className='small-6 columns' key={`shipping_method_${index}`}>
-          <div className='checkoutpage-steps-delivery-method'>
-            <input
-              className='checkoutpage-steps-delivery-method-input'
-              name='delivery-method'
-              type='radio'
-              value={method.name}
-              onClick={() => this.setShippingMethod(method.name)}
-            />
-            <label className='checkoutpage-steps-delivery-method-label'>
-              <span className='checkoutpage-steps-delivery-method-vendor'>
-                {method.title}
-              </span>
-              <span className='checkoutpage-steps-delivery-method-days'>
-                5 - 7 business days
-              </span>
-              {method.cost ?
-                (
-                  <spam className='checkoutpage-steps-delivery-method-price'>
-                    ${method.cost}
-                  </spam>
-                ) : null
-              }
-            </label>
-          </div>
-        </div>
-      )
-    })
-  }
 
   render() {
     const { data, isPaypal } = this.props
@@ -171,14 +138,12 @@ class ReviewOrder extends PureComponent {
           </div>
         </article>
         <hr className='checkoutpage-order-review-divider'/>
-        <article className='checkoutpage-order-delivery-main'>
-          <h4>Delivery</h4>
-          <div className='row'>
-            {this.props.shippingMethods ?
-              this.mapShippingMethods(this.props.shippingMethods) : null
-            }
-          </div>
-        </article>
+        {this.props.shippingMethods ?
+          <ShippingMethods
+            shippingMethods={this.props.shippingMethods}
+            onClick={this.setShippingMethod}
+          /> : null
+        }
         <hr className='checkoutpage-order-review-divider'/>
         <UseLitcoins
           onChange={this.handleUseLitcoins}
