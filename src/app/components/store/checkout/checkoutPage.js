@@ -132,6 +132,13 @@ class CheckoutPage extends PureComponent {
     return text.length >= limit ? `${text.slice(0, limit)}...` : text
   }
 
+  showAlert = (message) => {
+    this.setState({
+      alertOpen: true,
+      alertText: message,
+    })
+  }
+
   handleAlertClose = () => {
     this.setState({
       alertOpen: false,
@@ -198,24 +205,15 @@ class CheckoutPage extends PureComponent {
     } else {
       if (!(cityShipping || countryShipping || addressShipping ||
         zipcodeShipping || stateShipping) && shippingMethod === '') {
-        this.setState({
-          alertOpen: true,
-          alertText: 'Please fill all fields',
-        })
+        this.showAlert('Please fill all fields')
       }
       if ((cityShipping || countryShipping || addressShipping ||
         zipcodeShipping || stateShipping) && shippingMethod === '') {
-        this.setState({
-          alertOpen: true,
-          alertText: 'Please select a Shipping Method',
-        })
+        this.showAlert('Please select a Shipping Method')
       }
       if (!cityShipping || !countryShipping || !addressShipping ||
         !zipcodeShipping || !stateShipping && shippingMethod !== '') {
-        this.setState({
-          alertOpen: true,
-          alertText: 'Please Fill all Shipping address Form',
-        })
+        this.showAlert('Please Fill all Shipping address Form')
       }
     }
   }
@@ -228,6 +226,15 @@ class CheckoutPage extends PureComponent {
       stepOneComplete: true,
       stepTwoComplete: true,
     })
+  }
+
+  isUsingOtherCard = () => {
+    const { cardExpMonth, cardExpYear, cardLast4 } = this.props.order
+    const { fullExpDate, cardNumber } = this.state
+    const fullDate = `${cardExpMonth}/${cardExpYear}`
+    const lastNums = cardNumber.split(' ')
+    if (fullExpDate !== fullDate || cardLast4 !== lastNums[3]) return true
+    return false
   }
 
   continueToReviewClick = (event) => {
@@ -247,7 +254,44 @@ class CheckoutPage extends PureComponent {
       })
       this.passToReview()
     } else if (isCardClicked) {
-      if (cardStored) {
+      if (cardStored && this.isUsingOtherCard()) {
+        if (nameOnCard && cardNumber && cardCVC && fullExpDate) {
+          if (!sameShippingAddress) {
+            if (cityBilling && countryBilling && addressBilling &&
+              address2Billing && zipcodeBilling && stateBilling) {
+              setUserAddress({
+                city: cityBilling,
+                name: `${firstNameBilling} ${lastNameBilling}`,
+                country: countryBilling,
+                address: addressBilling,
+                address2: address2Billing,
+                zipcode: zipcodeBilling,
+                state: stateBilling,
+                addressType: 'billing',
+                sameBillingAndShipping: false,
+              })
+              this.passToReview()
+            } else {
+              this.showAlert('Please Complete all Billing Fields')
+            }
+          } else {
+            const expDate = this.splitCardExp(fullExpDate)
+            setBilling({
+              cardExpYear: expDate[1],
+              shippingMethod: this.state.shippingMethod,
+              cardExpMonth: expDate[0],
+              paymentMethod: 'cc',
+              shippingAddressId: shippingId,
+              cardCvc: cardCVC,
+              cardNumber: cardNumber,
+              billingAddressId: billingId,
+              litcoins: this.state.useLitcoins,
+              avoidCheckCardData: this.state.cardStored,
+            })
+            this.passToReview()
+          }
+        } else this.showAlert('Please Complete all your card info')
+      } else if (cardStored) {
         if (!sameShippingAddress) {
           if (cityBilling && countryBilling && addressBilling &&
             address2Billing && zipcodeBilling && stateBilling) {
@@ -270,10 +314,7 @@ class CheckoutPage extends PureComponent {
             })
             this.passToReview()
           } else {
-            this.setState({
-              alertOpen: true,
-              alertText: 'Please Complete all Billing Fields',
-            })
+            this.showAlert('Please Complete all Billing Fields')
           }
         } else {
           setBilling({
@@ -301,10 +342,7 @@ class CheckoutPage extends PureComponent {
             })
             this.passToReview()
           } else {
-            this.setState({
-              alertOpen: true,
-              alertText: 'Please Complete all Billing Fields',
-            })
+            this.showAlert('Please Complete all Billing Fields')
           }
         } else {
           const expDate = this.splitCardExp(fullExpDate)
@@ -322,12 +360,7 @@ class CheckoutPage extends PureComponent {
           })
           this.passToReview()
         }
-      } else {
-        this.setState({
-          alertOpen: true,
-          alertText: 'Please Complete all your card info',
-        })
-      }
+      } else this.showAlert('Please Complete all your card info')
     }
   }
 
@@ -408,22 +441,10 @@ class CheckoutPage extends PureComponent {
 
   renderStepTwo = () => {
     const {
-      isPaypalClicked,
-      isCardClicked,
-      nameOnCard,
-      cardNumber,
-      cardCVC,
-      fullExpDate,
-      sameShippingAddress,
-      firstNameBilling,
-      lastNameBilling,
-      addressBilling,
-      address2Billing,
-      countryBilling,
-      cityBilling,
-      stateBilling,
-      zipcodeBilling,
-      useLitcoins
+      isPaypalClicked, isCardClicked, nameOnCard, cardNumber, cardCVC,
+      fullExpDate, sameShippingAddress, firstNameBilling, lastNameBilling,
+      addressBilling, address2Billing, countryBilling, cityBilling,
+      stateBilling, zipcodeBilling, useLitcoins
     } = this.state
 
     const cardInfo = {
