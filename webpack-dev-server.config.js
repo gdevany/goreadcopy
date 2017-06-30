@@ -73,7 +73,10 @@ module.exports = {
            return module.context && module.context.indexOf('node_modules') !== -1;
         }
     }),
-    new BundleAnalyzerPlugin(),
+    //--------------------------------------------------
+    // Only enable when you want to use the Analyzer!!!!
+    //--------------------------------------------------
+    //new BundleAnalyzerPlugin(),
   ],
   /*
   externals: { // necessary for tests(when we create them) to run properly
