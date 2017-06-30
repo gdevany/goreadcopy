@@ -26,6 +26,9 @@ const styles = {
   categoriesMenu: {
     left: 0,
   },
+  mobileMenu: {
+    left: 0,
+  }
 }
 
 class BookStoreNavBar extends PureComponent {
@@ -733,6 +736,7 @@ class BookStoreNavBar extends PureComponent {
                       customCrossIcon={false}
                       id={'bookclub-nav-menu'}
                       isOpen={this.state.isMobileLoggedMenuOpen}
+                      style={styles.mobileMenu}
                     >
                       <section className='bookstore-mobile-menu-container'>
                         <div className='bookstore-mobile-menu-profile-container'>

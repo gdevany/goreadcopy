@@ -100,7 +100,7 @@ class EditElementsModal extends PureComponent {
         shippingMethod: this.props.shippingMethod,
         paymentMethod: 'paypal',
       })
-      this.props.handleClose()
+      this.setState({ selectedPayment: 'paypal' })
     }
   }
 
@@ -123,7 +123,7 @@ class EditElementsModal extends PureComponent {
 
   handleSave = (event) => {
     event.preventDefault()
-    const { setUserAddress, shippingAddress } = this.props
+    const { setUserAddress, shippingAddress, handleClose } = this.props
     const {
       firstNameShipping,
       lastNameShipping,
@@ -155,9 +155,10 @@ class EditElementsModal extends PureComponent {
           addressType: 'shipping',
           sameBillingAndShipping: true,
         })
-        this.props.handleClose()
-      } else this.props.handleClose()
+        handleClose()
+      } else handleClose()
     }
+    this.handleCancel()
   }
 
   handleSaveCard = (event) => {
@@ -177,6 +178,7 @@ class EditElementsModal extends PureComponent {
       shippingMethod: this.props.shippingMethod,
     })
     this.props.handleClose()
+    this.handleCancel()
   }
 
   handleCancel = () => {
@@ -425,16 +427,4 @@ class EditElementsModal extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    shippingAddress: state.store.order.shippingAddress,
-    cardDetails: {
-      cardExpYear: state.store.order.cardExpYear,
-      cardExpMonth: state.store.order.cardExpMonth,
-      cardLast4: state.store.order.cardLast4,
-      cardType: state.store.order.cardType,
-      billing: state.store.order.billingAddress,
-    },
-  }
-}
-export default connect(mapStateToProps, { setUserAddress, setBilling })(EditElementsModal)
+export default connect(null, { setUserAddress, setBilling })(EditElementsModal)

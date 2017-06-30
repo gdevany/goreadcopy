@@ -36,6 +36,13 @@ class ReviewOrder extends PureComponent {
 
   render() {
     const { data, isPaypal } = this.props
+    const cardDetails = {
+      cardExpYear: data.cardExpYear,
+      cardExpMonth: data.cardExpMonth,
+      cardLast4: data.cardLast4,
+      cardType: data.cardType,
+      billing: data.billingAddress,
+    }
     return (
       <section className='checkoutpage-order-review'>
         <h3> Review your order</h3>
@@ -155,6 +162,8 @@ class ReviewOrder extends PureComponent {
           refference={this.state.modalRefference}
           isPaypal={isPaypal}
           shippingMethod={this.state.shippingMethod}
+          shippingAddress={data.shippingAddress}
+          cardDetails={cardDetails}
         />
       </section>
     )
