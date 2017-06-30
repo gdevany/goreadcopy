@@ -56,11 +56,14 @@ module.exports = {
       {from: 'client'},
     ], path.resolve(__dirname, 'src')),
     new HtmlWebpackPlugin({
+        // Params
         alwaysWriteToDisk: true,
-        title: 'GoRead',
         template: 'src/client/index.ejs',
         filesname: 'index.html',
         showErrors: true,
+        // Variables
+        title: 'GoRead',
+        env: process.env.NODE_ENV,
     }),
     new HtmlWebpackHarddiskPlugin({
         outputPath: path.resolve(__dirname, 'src/client')

@@ -63,11 +63,14 @@ module.exports = {
       inlineManifest: true
     }),
     new HtmlWebpackPlugin({
+        // Params
         hash: false,
         showErrors: true,
-        title: 'GoRead',
         template: 'src/client/index.ejs',
         chunksSortMode: 'dependency',
+        // Variables
+        title: 'GoRead',
+        env: process.env.NODE_ENV,
     }),
     new webpack.NamedModulesPlugin(),
     new webpack.NamedChunksPlugin((chunk) => {
