@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { StyleRoot } from 'radium'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import 'foundation/foundation.min.css'
@@ -51,7 +52,7 @@ class App extends Component {
 }
 
 App.childContextTypes = {
-  muiTheme: React.PropTypes.object.isRequired
+  muiTheme: PropTypes.object.isRequired
 }
 
 export default App

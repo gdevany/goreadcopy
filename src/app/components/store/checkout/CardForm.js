@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import LockIcon from 'material-ui/svg-icons/action/lock-outline'
 
 const CardFrom = ({

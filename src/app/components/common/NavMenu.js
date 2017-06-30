@@ -1,4 +1,5 @@
-import React, { PureComponent, PropTypes } from 'react'
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import { stack as MobileMenu } from 'react-burger-menu'
 import { Link } from 'react-router'
 import { Auth, CurrentReader, Chat, Notifications as NotifActions } from '../../redux/actions'

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Env from '../../constants/env'
 class ChatFrame extends Component {
   render() {
@@ -21,8 +22,8 @@ class ChatFrame extends Component {
 }
 
 ChatFrame.propTypes = {
-  modalOpen: React.PropTypes.bool,
-  handleClose: React.PropTypes.func
+  modalOpen: PropTypes.bool,
+  handleClose: PropTypes.func
 }
 
 ChatFrame.defaultProps = {

@@ -1,4 +1,5 @@
-import React, { PureComponent } from 'react'
+import { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import { debounce } from 'lodash'
 import R from 'ramda'
 
@@ -58,11 +59,11 @@ class Scroller extends PureComponent {
 }
 
 Scroller.propTypes = {
-  onScroll: React.PropTypes.func,
-  debounced: React.PropTypes.bool,
-  delay: React.PropTypes.number,
-  enabled: React.PropTypes.bool,
-  scrollParent: React.PropTypes.object
+  onScroll: PropTypes.func,
+  debounced: PropTypes.bool,
+  delay: PropTypes.number,
+  enabled: PropTypes.bool,
+  scrollParent: PropTypes.object
 }
 
 Scroller.defaultProps = {
