@@ -30,8 +30,8 @@ module.exports = {
     'webpack-hot-middleware/client',
     path.join(__dirname, '/src/app/index.js'),
   ],
-  /*
   devtool: 'eval-source-map',
+  /*
   devtool: 'inline-source-map',
   */
   output: {
