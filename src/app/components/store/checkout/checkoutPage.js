@@ -2,24 +2,31 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { Store } from '../../../redux/actions'
-import OrderSummary from './OrderSummary'
-import CartItems from './CartItems'
-import ReviewOrder from './ReviewOrder'
+import {
+  OrderSummary, CartItems, ReviewOrder, ShippingForm, CardForm,
+  BillingForm, UseLitcoins, ShippingMethods,
+} from './'
+
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
 import LockIcon from 'material-ui/svg-icons/action/lock-outline'
+import Snackbar from 'material-ui/Snackbar'
 import R from 'ramda'
 
 const {
-  setOrder,
-  getOrder,
-  getCurrentOrder,
-  getShippingMethods,
-  setUserAddress,
-  setShipping,
-  setBilling,
-  placeOrder,
-  setUserAddressAndShipping
+  setOrder, getOrder, getCurrentOrder, getShippingMethods, setUserAddress,
+  setUserAddressAndShipping, setShipping, setBilling, placeOrder,
 } = Store
+
+const styles = {
+  snackBar: {
+    backgroundColor: '#EC6464',
+    textAlign: 'center',
+    height: 50,
+  },
+  contentStyle: {
+    fontSize: 16,
+  }
+}
 
 class CheckoutPage extends PureComponent {
   constructor(props) {
@@ -61,6 +68,8 @@ class CheckoutPage extends PureComponent {
       zipcodeBilling: '',
       useLitcoins: false,
       cardStored: false,
+      alertOpen: false,
+      alertText: '',
     }
     this.continueToBillingClick = this.continueToBillingClick.bind(this)
     this.continueToReviewClick = this.continueToReviewClick.bind(this)
@@ -79,29 +88,35 @@ class CheckoutPage extends PureComponent {
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.order) {
       const {
-        shippingAddress,
-        billingAddress,
-        cardLast4,
-        cardExpMonth,
-        cardExpYear
+        shippingAddress, billingAddress, cardLast4, cardExpMonth, cardExpYear,
+        billingMethod, litcoinsRedeemed,
       } = nextProps.order
-      const fullname = this.splitFullName(shippingAddress.name)
-      this.setState({
-        firstNameShipping: fullname[0],
-        lastNameShipping: fullname[1],
-        addressShipping: shippingAddress.address,
-        address2Shipping: shippingAddress.address2,
-        countryShipping: shippingAddress.country,
-        stateShipping: shippingAddress.state,
-        cityShipping: shippingAddress.city,
-        zipcodeShipping: shippingAddress.zipcode,
-        shippingId: shippingAddress.id,
-        billingId: billingAddress.id,
-        nameOnCard: shippingAddress.name || '',
-        cardNumber: `**** **** **** ${cardLast4}` || '',
-        fullExpDate: `${cardExpMonth}/${cardExpYear}` || '',
-      })
-      if (cardLast4) this.setState({ cardStored: true })
+      if (shippingAddress) {
+        const fullname = this.splitFullName(shippingAddress.name)
+        this.setState({
+          firstNameShipping: fullname[0],
+          lastNameShipping: fullname[1],
+          addressShipping: shippingAddress.address,
+          address2Shipping: shippingAddress.address2,
+          countryShipping: shippingAddress.country,
+          stateShipping: shippingAddress.state,
+          cityShipping: shippingAddress.city,
+          zipcodeShipping: shippingAddress.zipcode,
+          shippingId: shippingAddress.id,
+          billingId: billingAddress.id,
+          useLitcoins: (litcoinsRedeemed > 0),
+        })
+      }
+      if (cardLast4) {
+        this.setState({
+          cardStored: true,
+          nameOnCard: shippingAddress.name || '',
+          cardNumber: `**** **** **** ${cardLast4}` || '',
+          fullExpDate: `${cardExpMonth}/${cardExpYear}` || '',
+          billingMethod: billingMethod || '',
+          cardCVC: '***',
+        })
+      }
     }
   }
 
@@ -115,6 +130,20 @@ class CheckoutPage extends PureComponent {
 
   truncInfo = (text, limit) => {
     return text.length >= limit ? `${text.slice(0, limit)}...` : text
+  }
+
+  showAlert = (message) => {
+    this.setState({
+      alertOpen: true,
+      alertText: message,
+    })
+  }
+
+  handleAlertClose = () => {
+    this.setState({
+      alertOpen: false,
+      alertText: '',
+    })
   }
 
   handleFormsChanges = R.curry((field, event) => {
@@ -151,19 +180,11 @@ class CheckoutPage extends PureComponent {
   continueToBillingClick = (event) => {
     event.preventDefault()
     const {
-      firstNameShipping,
-      lastNameShipping,
-      addressShipping,
-      address2Shipping,
-      countryShipping,
-      stateShipping,
-      cityShipping,
-      zipcodeShipping,
-      shippingId,
-      shippingMethod,
+      firstNameShipping, lastNameShipping, addressShipping, address2Shipping,
+      countryShipping, stateShipping, cityShipping, zipcodeShipping, shippingMethod,
     } = this.state
     if (cityShipping && countryShipping && addressShipping &&
-      address2Shipping && zipcodeShipping && stateShipping && shippingMethod !== '') {
+      zipcodeShipping && stateShipping && shippingMethod !== '') {
       this.setState({
         isStepOneActive: false,
         isStepTwoActive: true,
@@ -180,72 +201,152 @@ class CheckoutPage extends PureComponent {
         state: stateShipping,
         addressType: 'shipping',
         sameBillingAndShipping: true,
-      }, {
-        shippingAddressId: shippingId,
-        shippingMethod: shippingMethod,
-      })
-      // this.props.setShipping({
-      //
-      // })
-    } else alert('Fill everything')
+      }, shippingMethod)
+    } else {
+      if (!(cityShipping || countryShipping || addressShipping ||
+        zipcodeShipping || stateShipping) && shippingMethod === '') {
+        this.showAlert('Please fill all fields')
+      }
+      if ((cityShipping || countryShipping || addressShipping ||
+        zipcodeShipping || stateShipping) && shippingMethod === '') {
+        this.showAlert('Please select a Shipping Method')
+      }
+      if (!cityShipping || !countryShipping || !addressShipping ||
+        !zipcodeShipping || !stateShipping && shippingMethod !== '') {
+        this.showAlert('Please Fill all Shipping address Form')
+      }
+    }
+  }
+
+  passToReview = () => {
+    this.setState({
+      isStepOneActive: false,
+      isStepTwoActive: false,
+      isStepThreeActive: true,
+      stepOneComplete: true,
+      stepTwoComplete: true,
+    })
+  }
+
+  isUsingOtherCard = () => {
+    const { cardExpMonth, cardExpYear, cardLast4 } = this.props.order
+    const { fullExpDate, cardNumber } = this.state
+    const fullDate = `${cardExpMonth}/${cardExpYear}`
+    const lastNums = cardNumber.split(' ')
+    if (fullExpDate !== fullDate || cardLast4 !== lastNums[3]) return true
+    return false
   }
 
   continueToReviewClick = (event) => {
     event.preventDefault()
-    const { setUserAddress } = this.props
+    const { setUserAddress, setBilling } = this.props
     const {
-      nameOnCard,
-      cardNumber,
-      cardCVC,
-      fullExpDate,
-      isCardClicked,
-      shippingId,
-      billingId,
+      nameOnCard, cardNumber, cardCVC, fullExpDate, isCardClicked, isPaypalClicked,
+      shippingId, billingId, cardStored, sameShippingAddress, firstNameBilling,
+      lastNameBilling, addressBilling, address2Billing, countryBilling, stateBilling,
+      cityBilling, zipcodeBilling, shippingMethod, useLitcoins
     } = this.state
-    if (isCardClicked && nameOnCard && cardNumber && cardCVC && fullExpDate) {
-      if (!this.state.sameShippingAddress) {
-        const {
-          firstNameBilling,
-          lastNameBilling,
-          addressBilling,
-          address2Billing,
-          countryBilling,
-          stateBilling,
-          cityBilling,
-          zipcodeBilling,
-        } = this.state
-        if (cityBilling && countryBilling && addressBilling &&
-          address2Billing && zipcodeBilling && stateBilling) {
-          this.setState({
-            isStepOneActive: false,
-            isStepTwoActive: false,
-            isStepThreeActive: true,
-            stepOneComplete: true,
-            stepTwoComplete: true,
-          })
-          setUserAddress({
-            city: cityBilling,
-            name: `${firstNameBilling} ${lastNameBilling}`,
-            country: countryBilling,
-            address: addressBilling,
-            address2: address2Billing,
-            zipcode: zipcodeBilling,
-            state: stateBilling,
-            addressType: 'billing',
-            sameBillingAndShipping: false,
-          })
-        } else alert('Complete all billing fields')
-      } else {
-        const expDate = this.splitCardExp(fullExpDate)
-        if (this.state.cardStored) {
-          this.props.setBilling({
-            shippingMethod: this.state.shippingMethod,
-            paymentMethod: 'cc',
-            litcoins: this.state.useLitcoins,
-            avoidCheckCardData: this.state.cardStored,
-          })
+    if (isPaypalClicked) {
+      setBilling({
+        shippingMethod: shippingMethod,
+        paymentMethod: 'paypal',
+        litcoins: useLitcoins,
+      })
+      this.passToReview()
+    } else if (isCardClicked) {
+      if (cardStored && this.isUsingOtherCard()) {
+        if (nameOnCard && cardNumber && cardCVC && fullExpDate) {
+          if (!sameShippingAddress) {
+            if (cityBilling && countryBilling && addressBilling &&
+              address2Billing && zipcodeBilling && stateBilling) {
+              setUserAddress({
+                city: cityBilling,
+                name: `${firstNameBilling} ${lastNameBilling}`,
+                country: countryBilling,
+                address: addressBilling,
+                address2: address2Billing,
+                zipcode: zipcodeBilling,
+                state: stateBilling,
+                addressType: 'billing',
+                sameBillingAndShipping: false,
+              })
+              this.passToReview()
+            } else {
+              this.showAlert('Please Complete all Billing Fields')
+            }
+          } else {
+            const expDate = this.splitCardExp(fullExpDate)
+            setBilling({
+              cardExpYear: expDate[1],
+              shippingMethod: this.state.shippingMethod,
+              cardExpMonth: expDate[0],
+              paymentMethod: 'cc',
+              shippingAddressId: shippingId,
+              cardCvc: cardCVC,
+              cardNumber: cardNumber,
+              billingAddressId: billingId,
+              litcoins: this.state.useLitcoins,
+              avoidCheckCardData: this.state.cardStored,
+            })
+            this.passToReview()
+          }
+        } else this.showAlert('Please Complete all your card info')
+      } else if (cardStored) {
+        if (!sameShippingAddress) {
+          if (cityBilling && countryBilling && addressBilling &&
+            address2Billing && zipcodeBilling && stateBilling) {
+            setUserAddress({
+              city: cityBilling,
+              name: `${firstNameBilling} ${lastNameBilling}`,
+              country: countryBilling,
+              address: addressBilling,
+              address2: address2Billing,
+              zipcode: zipcodeBilling,
+              state: stateBilling,
+              addressType: 'billing',
+              sameBillingAndShipping: false,
+            })
+            setBilling({
+              shippingMethod: shippingMethod,
+              paymentMethod: 'cc',
+              litcoins: useLitcoins,
+              avoidCheckCardData: cardStored,
+            })
+            this.passToReview()
+          } else {
+            this.showAlert('Please Complete all Billing Fields')
+          }
         } else {
-          this.props.setBilling({
+          setBilling({
+            shippingMethod: shippingMethod,
+            paymentMethod: 'cc',
+            litcoins: useLitcoins,
+            avoidCheckCardData: cardStored,
+          })
+          this.passToReview()
+        }
+      } else if (nameOnCard && cardNumber && cardCVC && fullExpDate) {
+        if (!sameShippingAddress) {
+          if (cityBilling && countryBilling && addressBilling &&
+            address2Billing && zipcodeBilling && stateBilling) {
+            setUserAddress({
+              city: cityBilling,
+              name: `${firstNameBilling} ${lastNameBilling}`,
+              country: countryBilling,
+              address: addressBilling,
+              address2: address2Billing,
+              zipcode: zipcodeBilling,
+              state: stateBilling,
+              addressType: 'billing',
+              sameBillingAndShipping: false,
+            })
+            this.passToReview()
+          } else {
+            this.showAlert('Please Complete all Billing Fields')
+          }
+        } else {
+          const expDate = this.splitCardExp(fullExpDate)
+          setBilling({
             cardExpYear: expDate[1],
             shippingMethod: this.state.shippingMethod,
             cardExpMonth: expDate[0],
@@ -257,30 +358,10 @@ class CheckoutPage extends PureComponent {
             litcoins: this.state.useLitcoins,
             avoidCheckCardData: this.state.cardStored,
           })
+          this.passToReview()
         }
-
-        this.setState({
-          isStepOneActive: false,
-          isStepTwoActive: false,
-          isStepThreeActive: true,
-          stepOneComplete: true,
-          stepTwoComplete: true,
-        })
-      }
-    } else if (this.state.isPaypalClicked) {
-      this.setState({
-        isStepOneActive: false,
-        isStepTwoActive: false,
-        isStepThreeActive: true,
-        stepOneComplete: true,
-        stepTwoComplete: true,
-      })
-      this.props.setBilling({
-        shippingMethod: this.state.shippingMethod,
-        paymentMethod: 'paypal',
-        litcoins: this.state.useLitcoins,
-      })
-    } else alert('Complete all card fields')
+      } else this.showAlert('Please Complete all your card info')
+    }
   }
 
   handlePaymentClick = (type) => {
@@ -299,11 +380,42 @@ class CheckoutPage extends PureComponent {
   }
 
   renderStepOne = () => {
+    const {
+      firstNameShipping,
+      lastNameShipping,
+      addressShipping,
+      address2Shipping,
+      countryShipping,
+      cityShipping,
+      stateShipping,
+      zipcodeShipping,
+    } = this.state
+    const info = {
+      firstNameShipping,
+      lastNameShipping,
+      addressShipping,
+      address2Shipping,
+      countryShipping,
+      cityShipping,
+      stateShipping,
+      zipcodeShipping,
+    }
+    const { shippingMethods } = this.props
     return (
       <div className='row'>
         <div className='large-7 columns'>
-          {this.renderShippingAddress()}
-          {this.renderShippingMethod()}
+          <ShippingForm
+            shippingInfo={info}
+            onChange={this.handleFormsChanges}
+            title='Shipping Address'
+            className='checkoutpage-steps-shipping-address-container'
+          />
+          {shippingMethods ?
+            <ShippingMethods
+              shippingMethods={shippingMethods}
+              onClick={this.setShippingMethod}
+            /> : null
+          }
           <a
             onClick={this.continueToBillingClick}
             className='checkoutpage-shipping-submit-form-btn'
@@ -321,180 +433,6 @@ class CheckoutPage extends PureComponent {
 
   setShippingMethod = (shippingMethod) => this.setState({ shippingMethod })
 
-  mapShippingMethods = (shippingMethods) => {
-    return shippingMethods.map((method, index) => {
-      return (
-        <div className='small-6 columns' key={`shipping_method_${index}`}>
-          <div className='checkoutpage-steps-delivery-method'>
-            <input
-              className='checkoutpage-steps-delivery-method-input'
-              name='delivery-method'
-              type='radio'
-              onClick={() => this.setShippingMethod(method.name)}
-            />
-            <label className='checkoutpage-steps-delivery-method-label'>
-              <span className='checkoutpage-steps-delivery-method-vendor'>
-                {method.title}
-              </span>
-              <span className='checkoutpage-steps-delivery-method-days'>
-                5 - 7 business days
-              </span>
-              {method.cost ?
-                (
-                  <spam className='checkoutpage-steps-delivery-method-price'>
-                    ${method.cost}
-                  </spam>
-                ) : null
-              }
-            </label>
-          </div>
-        </div>
-      )
-    })
-  }
-  renderShippingMethod = () => {
-    return (
-      <section className='checkoutpage-steps-delivery-method-container'>
-        <h3 className='checkoutpage-steps-delivery-method-title'>
-          Delivery
-        </h3>
-        <div className='row'>
-          {this.props.shippingMethods ?
-            this.mapShippingMethods(this.props.shippingMethods) : null
-          }
-        </div>
-      </section>
-    )
-  }
-
-  renderShippingAddress = () => {
-    const {
-      firstNameShipping,
-      lastNameShipping,
-      addressShipping,
-      address2Shipping,
-      countryShipping,
-      cityShipping,
-      stateShipping,
-      zipcodeShipping,
-    } = this.state
-    return (
-      <section className='checkoutpage-steps-shipping-address-container'>
-        <h3 className='checkoutpage-steps-shipping-address-title'>
-          Shipping Address
-        </h3>
-        <form className='checkoutpage-steps-shipping-address-form'>
-          <div className='row'>
-            <div className='small-6 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                First Name
-              </label>
-              <input
-                type='text'
-                onChange={this.handleFormsChanges('firstNameShipping')}
-                className='checkoutpage-steps-shipping-address-form-input'
-                value={firstNameShipping}
-              />
-            </div>
-            <div className='small-6 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                Last Name
-              </label>
-              <input
-                type='text'
-                className='checkoutpage-steps-shipping-address-form-input'
-                onChange={this.handleFormsChanges('lastNameShipping')}
-                value={lastNameShipping}
-              />
-            </div>
-            <div className='small-12 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                Address
-              </label>
-              <input
-                type='text'
-                className='checkoutpage-steps-shipping-address-form-input'
-                onChange={this.handleFormsChanges('addressShipping')}
-                value={addressShipping}
-              />
-            </div>
-            <div className='small-12 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                Address Line 2 *Optional
-              </label>
-              <input
-                type='text'
-                className='checkoutpage-steps-shipping-address-form-input'
-                onChange={this.handleFormsChanges('address2Shipping')}
-                value={address2Shipping}
-              />
-            </div>
-            <div className='small-6 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                Country
-              </label>
-              <input
-                type='text'
-                className='checkoutpage-steps-shipping-address-form-input'
-                onChange={this.handleFormsChanges('countryShipping')}
-                value={countryShipping}
-              />
-            </div>
-            <div className='small-6 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                City
-              </label>
-              <input
-                type='text'
-                className='checkoutpage-steps-shipping-address-form-input'
-                onChange={this.handleFormsChanges('cityShipping')}
-                value={cityShipping}
-              />
-            </div>
-            <div className='small-6 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                State
-              </label>
-              <input
-                type='text'
-                className='checkoutpage-steps-shipping-address-form-input'
-                onChange={this.handleFormsChanges('stateShipping')}
-                value={stateShipping}
-              />
-            </div>
-            <div className='small-6 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                Zipcode
-              </label>
-              <input
-                type='text'
-                className='checkoutpage-steps-shipping-address-form-input'
-                onChange={this.handleFormsChanges('zipcodeShipping')}
-                value={zipcodeShipping}
-              />
-            </div>
-          </div>
-        </form>
-      </section>
-    )
-  }
-
   handleCheckSave = (event) => this.setState({ saveCard: event.target.checked })
 
   handleCheckSame = (event) => this.setState({ sameShippingAddress: event.target.checked })
@@ -503,13 +441,28 @@ class CheckoutPage extends PureComponent {
 
   renderStepTwo = () => {
     const {
-      isPaypalClicked,
-      isCardClicked,
+      isPaypalClicked, isCardClicked, nameOnCard, cardNumber, cardCVC,
+      fullExpDate, sameShippingAddress, firstNameBilling, lastNameBilling,
+      addressBilling, address2Billing, countryBilling, cityBilling,
+      stateBilling, zipcodeBilling, useLitcoins
+    } = this.state
+
+    const cardInfo = {
       nameOnCard,
       cardNumber,
       cardCVC,
       fullExpDate,
-    } = this.state
+    }
+    const billingFields = {
+      firstNameBilling,
+      lastNameBilling,
+      addressBilling,
+      address2Billing,
+      countryBilling,
+      cityBilling,
+      stateBilling,
+      zipcodeBilling
+    }
     return (
       <div className='row'>
         <div className='large-7 columns'>
@@ -547,208 +500,18 @@ class CheckoutPage extends PureComponent {
                     Secure and encrypted
                   </span>
                 </div>
-                <div className='checkoutpage-payment-card-form'>
-                  <div className='row'>
-                    <div className='large-12 columns'>
-                      <div className='checkoutpage-payment-card-inputs'>
-                        <label className='checkoutpage-payment-card-inputs-label'>
-                          Name on Card
-                        </label>
-                        <input
-                          type='text'
-                          className='checkoutpage-payment-card-single-input'
-                          onChange={this.handleFormsChanges('nameOnCard')}
-                          value={nameOnCard}
-                        />
-                      </div>
-                    </div>
-                    <div className='large-12 columns'>
-                      <div className='checkoutpage-payment-card-inputs'>
-                        <label className='checkoutpage-payment-card-inputs-label'>
-                          Card Number
-                        </label>
-                        <input
-                          type='text'
-                          className='checkoutpage-payment-card-single-input'
-                          onChange={this.handleFormsChanges('cardNumber')}
-                          value={cardNumber}
-                        />
-                      </div>
-                    </div>
-                    <div className='large-8 columns'>
-                      <div className='checkoutpage-payment-card-inputs'>
-                        <label className='checkoutpage-payment-card-inputs-label'>
-                          Expiration Date (MM/YY)
-                        </label>
-                        <input
-                          type='text'
-                          className='checkoutpage-payment-card-single-input'
-                          onChange={this.handleFormsChanges('fullExpDate')}
-                          value={fullExpDate}
-                        />
-                      </div>
-                    </div>
-                    <div className='large-4 columns'>
-                      <div className='checkoutpage-payment-card-inputs'>
-                        <label className='checkoutpage-payment-card-inputs-label'>
-                          CVC
-                        </label>
-                        <input
-                          type='number'
-                          min='100'
-                          min='999'
-                          className='checkoutpage-payment-card-single-input has-lock'
-                          onChange={this.handleFormsChanges('cardCVC')}
-                          value={cardCVC}
-                        />
-                        <LockIcon
-                          className='checkoutpage-payment-card-single-input-lock'
-                        />
-                      </div>
-                    </div>
-                    {/* <div className='large-12 columns'>
-                      <div className='checkoutpage-payment-card-inputs'>
-                        <input
-                          type='checkbox'
-                          className='checkoutpage-payment-card-single-input-check'
-                          onChange={this.handleCheckSave}
-                          checked={this.state.saveCard}
-                        />
-                        <label className='checkoutpage-payment-card-inputs-label-check'>
-                          Save card for future use
-                        </label>
-                      </div>
-                    </div> */}
-                    <div className='large-12 columns'>
-                      <div className='checkoutpage-payment-card-inputs'>
-                        <input
-                          type='checkbox'
-                          className='checkoutpage-payment-card-single-input-check'
-                          onChange={this.handleCheckSame}
-                          checked={this.state.sameShippingAddress}
-                        />
-                        <label className='checkoutpage-payment-card-inputs-label-check'>
-                          Use shipping address
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {!this.state.sameShippingAddress ?
-                  (
-                    <div className='row'>
-                      <div className='large-12 columns'>
-                        Billing Address
-                        <hr/>
-                        <div className='row'>
-                          <div className='small-6 columns'>
-                            <label
-                              className='checkoutpage-steps-shipping-address-form-label'
-                            >
-                              First Name
-                            </label>
-                            <input
-                              type='text'
-                              onChange={this.handleFormsChanges('firstNameBilling')}
-                              className='checkoutpage-steps-shipping-address-form-input'
-                              value={this.state.firstNameBilling}
-                            />
-                          </div>
-                          <div className='small-6 columns'>
-                            <label
-                              className='checkoutpage-steps-shipping-address-form-label'
-                            >
-                              Last Name
-                            </label>
-                            <input
-                              type='text'
-                              className='checkoutpage-steps-shipping-address-form-input'
-                              onChange={this.handleFormsChanges('lastNameBilling')}
-                              value={this.state.lastNameBilling}
-                            />
-                          </div>
-                          <div className='small-12 columns'>
-                            <label
-                              className='checkoutpage-steps-shipping-address-form-label'
-                            >
-                              Address
-                            </label>
-                            <input
-                              type='text'
-                              className='checkoutpage-steps-shipping-address-form-input'
-                              onChange={this.handleFormsChanges('addressBilling')}
-                              value={this.state.addressBilling}
-                            />
-                          </div>
-                          <div className='small-12 columns'>
-                            <label
-                              className='checkoutpage-steps-shipping-address-form-label'
-                            >
-                              Address Line 2 *Optional
-                            </label>
-                            <input
-                              type='text'
-                              className='checkoutpage-steps-shipping-address-form-input'
-                              onChange={this.handleFormsChanges('address2Billing')}
-                              value={this.state.address2Billing}
-                            />
-                          </div>
-                          <div className='small-6 columns'>
-                            <label
-                              className='checkoutpage-steps-shipping-address-form-label'
-                            >
-                              Country
-                            </label>
-                            <input
-                              type='text'
-                              className='checkoutpage-steps-shipping-address-form-input'
-                              onChange={this.handleFormsChanges('countryBilling')}
-                              value={this.state.countryBilling}
-                            />
-                          </div>
-                          <div className='small-6 columns'>
-                            <label
-                              className='checkoutpage-steps-shipping-address-form-label'
-                            >
-                              City
-                            </label>
-                            <input
-                              type='text'
-                              className='checkoutpage-steps-shipping-address-form-input'
-                              onChange={this.handleFormsChanges('cityBilling')}
-                              value={this.state.cityBilling}
-                            />
-                          </div>
-                          <div className='small-6 columns'>
-                            <label
-                              className='checkoutpage-steps-shipping-address-form-label'
-                            >
-                              State
-                            </label>
-                            <input
-                              type='text'
-                              className='checkoutpage-steps-shipping-address-form-input'
-                              onChange={this.handleFormsChanges('stateBilling')}
-                              value={this.state.stateBilling}
-                            />
-                          </div>
-                          <div className='small-6 columns'>
-                            <label
-                              className='checkoutpage-steps-shipping-address-form-label'
-                            >
-                              Zipcode
-                            </label>
-                            <input
-                              type='text'
-                              className='checkoutpage-steps-shipping-address-form-input'
-                              onChange={this.handleFormsChanges('zipcodeBilling')}
-                              value={this.state.zipcodeBilling}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : null
+                <CardForm
+                  cardInfo={cardInfo}
+                  onChange={this.handleFormsChanges}
+                  handleCheckSame={this.handleCheckSame}
+                  isSameShippingChecked={sameShippingAddress}
+                  context='firstStep'
+                />
+                {!sameShippingAddress ?
+                  <BillingForm
+                    billingInfo={billingFields}
+                    onChange={this.handleFormsChanges}
+                  /> : null
                 }
               </div>
             </section>
@@ -774,31 +537,10 @@ class CheckoutPage extends PureComponent {
               </div>
             </section>
           </section>
-          <section className='checkoutpage-litcoins-use-container'>
-            <h3>Litcoins</h3>
-            <div className='checkoutpage-litcoins-use-main'>
-              <input
-                className='checkoutpage-litcoins-useinput'
-                type='checkbox'
-                onChange={this.handleUseLitcoins}
-                checked={this.state.useLitcoins}
-              />
-              <label className='checkoutpage-litcoins-use-label'>
-                <span className='checkoutpage-litcoins-use-label-span'>
-                  Use my Litcoins
-                </span>
-                <div className='checkoutpage-litcoins-use-details'>
-                  <span className='checkoutpage-litcoins-use-text'>
-                    <b>$6.00</b> (8,000
-                    <img
-                      className='checkoutpage-litcoins-use-img'
-                      src='/image/litcoin.png'
-                    /> available)
-                  </span>
-                </div>
-              </label>
-            </div>
-          </section>
+          <UseLitcoins
+            onChange={this.handleUseLitcoins}
+            boxChecked={useLitcoins}
+          />
           <a
             onClick={this.continueToReviewClick}
             className='checkoutpage-review-order-btn'
@@ -825,6 +567,7 @@ class CheckoutPage extends PureComponent {
       })
     }
   }
+
   renderStepThree = () => {
     const { shippingId, shippingMethod } = this.state
     return (
@@ -940,6 +683,14 @@ class CheckoutPage extends PureComponent {
             </div>
           </div>
         </section>
+        <Snackbar
+          open={this.state.alertOpen}
+          message={this.state.alertText}
+          autoHideDuration={3000}
+          onRequestClose={this.handleAlertClose}
+          bodyStyle={styles.snackBar}
+          contentStyle={styles.contentStyle}
+        />
       </section>
     )
   }
@@ -958,10 +709,10 @@ const mapDistpachToProps = {
   getCurrentOrder,
   getShippingMethods,
   setUserAddress,
+  setUserAddressAndShipping,
   setShipping,
   setBilling,
-  placeOrder,
-  setUserAddressAndShipping
+  placeOrder
 }
 
 export default connect(mapStateToProps, mapDistpachToProps)(CheckoutPage)

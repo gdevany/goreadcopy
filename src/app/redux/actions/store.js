@@ -210,20 +210,21 @@ export function addGiftData(params) {
   }
 }
 
-export function setUserAddress(params) {
+export function setUserAddress(params, shippingMethod) {
   return dispatch => {
     Store.setUserAddress(params)
-      .then(res => dispatch({ type: A.SET_NEW_SHIPPING, payload: res.data }))
       .catch(err => console.error(`Error in setUserAddress ${err}`))
   }
 }
 
-export function setUserAddressAndShipping(address, shipping) {
+export function setUserAddressAndShipping(params, shippingMethod) {
   return dispatch => {
-    Store.setUserAddress(address)
-      .then(res => dispatch({ type: A.SET_NEW_SHIPPING, payload: res.data }))
-      .then(() => dispatch(setShipping(shipping)))
-      .catch(err => console.error(`Error in setUserAddress ${err}`))
+    Store.setUserAddress(params)
+      .then(res => dispatch(setShipping({
+        shippingAddressId: res.data.id,
+        shippingMethod: shippingMethod,
+      })))
+      .catch(err => console.error(`Error in setUserAddressAndShipping ${err}`))
   }
 }
 
@@ -309,6 +310,7 @@ export default {
   convertToGift,
   addGiftData,
   setUserAddress,
+  setUserAddressAndShipping,
   setOrder,
   getOrder,
   getCurrentOrder,
@@ -317,5 +319,4 @@ export default {
   setShipping,
   reviewOrder,
   placeOrder,
-  setUserAddressAndShipping,
 }

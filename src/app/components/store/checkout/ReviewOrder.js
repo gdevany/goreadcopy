@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import EditElementsModal from './EditElementsModal'
+import { UseLitcoins, ShippingMethods } from './'
 
 class ReviewOrder extends PureComponent {
   constructor(props) {
@@ -33,41 +34,15 @@ class ReviewOrder extends PureComponent {
 
   setShippingMethod = (shippingMethod) => this.setState({ shippingMethod })
 
-  mapShippingMethods = (shippingMethods) => {
-    return shippingMethods.map((method, index) => {
-      return (
-        <div className='small-6 columns' key={`shipping_method_${index}`}>
-          <div className='checkoutpage-steps-delivery-method'>
-            <input
-              className='checkoutpage-steps-delivery-method-input'
-              name='delivery-method'
-              type='radio'
-              value={method.name}
-              onClick={() => this.setShippingMethod(method.name)}
-            />
-            <label className='checkoutpage-steps-delivery-method-label'>
-              <span className='checkoutpage-steps-delivery-method-vendor'>
-                {method.title}
-              </span>
-              <span className='checkoutpage-steps-delivery-method-days'>
-                5 - 7 business days
-              </span>
-              {method.cost ?
-                (
-                  <spam className='checkoutpage-steps-delivery-method-price'>
-                    ${method.cost}
-                  </spam>
-                ) : null
-              }
-            </label>
-          </div>
-        </div>
-      )
-    })
-  }
-
   render() {
     const { data, isPaypal } = this.props
+    const cardDetails = {
+      cardExpYear: data.cardExpYear,
+      cardExpMonth: data.cardExpMonth,
+      cardLast4: data.cardLast4,
+      cardType: data.cardType,
+      billing: data.billingAddress,
+    }
     return (
       <section className='checkoutpage-order-review'>
         <h3> Review your order</h3>
@@ -170,46 +145,25 @@ class ReviewOrder extends PureComponent {
           </div>
         </article>
         <hr className='checkoutpage-order-review-divider'/>
-        <article className='checkoutpage-order-delivery-main'>
-          <h4>Delivery</h4>
-          <div className='row'>
-            {this.props.shippingMethods ?
-              this.mapShippingMethods(this.props.shippingMethods) : null
-            }
-          </div>
-        </article>
+        {this.props.shippingMethods ?
+          <ShippingMethods
+            shippingMethods={this.props.shippingMethods}
+            onClick={this.setShippingMethod}
+          /> : null
+        }
         <hr className='checkoutpage-order-review-divider'/>
-        <section className='checkoutpage-litcoins-use-container'>
-          <h3>Litcoins</h3>
-          <div className='checkoutpage-litcoins-use-main'>
-            <input
-              className='checkoutpage-litcoins-useinput'
-              type='checkbox'
-              onChange={this.handleUseLitcoins}
-              checked={this.state.isUsingLitcoins}
-            />
-            <label className='checkoutpage-litcoins-use-label'>
-              <span className='checkoutpage-litcoins-use-label-span'>
-                Use my Litcoins
-              </span>
-              <div className='checkoutpage-litcoins-use-details'>
-                <span className='checkoutpage-litcoins-use-text'>
-                  <b>$6.00</b> (8,000
-                  <img
-                    className='checkoutpage-litcoins-use-img'
-                    src='/image/litcoin.png'
-                  /> available)
-                </span>
-              </div>
-            </label>
-          </div>
-        </section>
+        <UseLitcoins
+          onChange={this.handleUseLitcoins}
+          boxChecked={this.state.isUsingLitcoins}
+        />
         <EditElementsModal
           modalOpen={this.state.editModalOpen}
           handleClose={this.handleEditModalClose}
           refference={this.state.modalRefference}
           isPaypal={isPaypal}
           shippingMethod={this.state.shippingMethod}
+          shippingAddress={data.shippingAddress}
+          cardDetails={cardDetails}
         />
       </section>
     )
