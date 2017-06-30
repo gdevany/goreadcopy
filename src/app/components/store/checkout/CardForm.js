@@ -62,9 +62,7 @@ const CardFrom = ({
               CVC
             </label>
             <input
-              type='number'
-              min='100'
-              min='999'
+              type='text'
               className='checkoutpage-payment-card-single-input has-lock'
               onChange={onChange('cardCVC')}
               value={cardInfo.cardCVC}

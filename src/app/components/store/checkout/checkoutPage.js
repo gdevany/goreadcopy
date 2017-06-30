@@ -3,30 +3,30 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { Store } from '../../../redux/actions'
 import {
-  OrderSummary,
-  CartItems,
-  ReviewOrder,
-  ShippingForm,
-  CardForm,
-  BillingForm,
-  UseLitcoins,
-  ShippingMethods
+  OrderSummary, CartItems, ReviewOrder, ShippingForm, CardForm,
+  BillingForm, UseLitcoins, ShippingMethods,
 } from './'
 
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
 import LockIcon from 'material-ui/svg-icons/action/lock-outline'
+import Snackbar from 'material-ui/Snackbar'
 import R from 'ramda'
 
 const {
-  setOrder,
-  getOrder,
-  getCurrentOrder,
-  getShippingMethods,
-  setUserAddress,
-  setShipping,
-  setBilling,
-  placeOrder
+  setOrder, getOrder, getCurrentOrder, getShippingMethods, setUserAddress,
+  setUserAddressAndShipping, setShipping, setBilling, placeOrder,
 } = Store
+
+const styles = {
+  snackBar: {
+    backgroundColor: '#EC6464',
+    textAlign: 'center',
+    height: 50,
+  },
+  contentStyle: {
+    fontSize: 16,
+  }
+}
 
 class CheckoutPage extends PureComponent {
   constructor(props) {
@@ -68,6 +68,8 @@ class CheckoutPage extends PureComponent {
       zipcodeBilling: '',
       useLitcoins: false,
       cardStored: false,
+      alertOpen: false,
+      alertText: '',
     }
     this.continueToBillingClick = this.continueToBillingClick.bind(this)
     this.continueToReviewClick = this.continueToReviewClick.bind(this)
@@ -86,31 +88,35 @@ class CheckoutPage extends PureComponent {
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.order) {
       const {
-        shippingAddress,
-        billingAddress,
-        cardLast4,
-        cardExpMonth,
-        cardExpYear,
-        billingMethod
+        shippingAddress, billingAddress, cardLast4, cardExpMonth, cardExpYear,
+        billingMethod, litcoinsRedeemed,
       } = nextProps.order
-      const fullname = this.splitFullName(shippingAddress.name)
-      this.setState({
-        firstNameShipping: fullname[0],
-        lastNameShipping: fullname[1],
-        addressShipping: shippingAddress.address,
-        address2Shipping: shippingAddress.address2,
-        countryShipping: shippingAddress.country,
-        stateShipping: shippingAddress.state,
-        cityShipping: shippingAddress.city,
-        zipcodeShipping: shippingAddress.zipcode,
-        shippingId: shippingAddress.id,
-        billingId: billingAddress.id,
-        nameOnCard: shippingAddress.name || '',
-        cardNumber: `**** **** **** ${cardLast4}` || '',
-        fullExpDate: `${cardExpMonth}/${cardExpYear}` || '',
-        billingMethod: billingMethod || '',
-      })
-      if (cardLast4) this.setState({ cardStored: true })
+      if (shippingAddress) {
+        const fullname = this.splitFullName(shippingAddress.name)
+        this.setState({
+          firstNameShipping: fullname[0],
+          lastNameShipping: fullname[1],
+          addressShipping: shippingAddress.address,
+          address2Shipping: shippingAddress.address2,
+          countryShipping: shippingAddress.country,
+          stateShipping: shippingAddress.state,
+          cityShipping: shippingAddress.city,
+          zipcodeShipping: shippingAddress.zipcode,
+          shippingId: shippingAddress.id,
+          billingId: billingAddress.id,
+          useLitcoins: (litcoinsRedeemed > 0),
+        })
+      }
+      if (cardLast4) {
+        this.setState({
+          cardStored: true,
+          nameOnCard: shippingAddress.name || '',
+          cardNumber: `**** **** **** ${cardLast4}` || '',
+          fullExpDate: `${cardExpMonth}/${cardExpYear}` || '',
+          billingMethod: billingMethod || '',
+          cardCVC: '***',
+        })
+      }
     }
   }
 
@@ -124,6 +130,13 @@ class CheckoutPage extends PureComponent {
 
   truncInfo = (text, limit) => {
     return text.length >= limit ? `${text.slice(0, limit)}...` : text
+  }
+
+  handleAlertClose = () => {
+    this.setState({
+      alertOpen: false,
+      alertText: '',
+    })
   }
 
   handleFormsChanges = R.curry((field, event) => {
@@ -160,26 +173,18 @@ class CheckoutPage extends PureComponent {
   continueToBillingClick = (event) => {
     event.preventDefault()
     const {
-      firstNameShipping,
-      lastNameShipping,
-      addressShipping,
-      address2Shipping,
-      countryShipping,
-      stateShipping,
-      cityShipping,
-      zipcodeShipping,
-      shippingId,
-      shippingMethod,
+      firstNameShipping, lastNameShipping, addressShipping, address2Shipping,
+      countryShipping, stateShipping, cityShipping, zipcodeShipping, shippingMethod,
     } = this.state
     if (cityShipping && countryShipping && addressShipping &&
-      address2Shipping && zipcodeShipping && stateShipping && shippingMethod !== '') {
+      zipcodeShipping && stateShipping && shippingMethod !== '') {
       this.setState({
         isStepOneActive: false,
         isStepTwoActive: true,
         isStepThreeActive: false,
         stepOneComplete: true,
       })
-      this.props.setUserAddress({
+      this.props.setUserAddressAndShipping({
         city: cityShipping,
         name: `${firstNameShipping} ${lastNameShipping}`,
         country: countryShipping,
@@ -189,70 +194,121 @@ class CheckoutPage extends PureComponent {
         state: stateShipping,
         addressType: 'shipping',
         sameBillingAndShipping: true,
-      })
-      this.props.setShipping({
-        shippingAddressId: shippingId,
-        shippingMethod: shippingMethod,
-      })
-    } else alert('Fill everything')
+      }, shippingMethod)
+    } else {
+      if (!(cityShipping || countryShipping || addressShipping ||
+        zipcodeShipping || stateShipping) && shippingMethod === '') {
+        this.setState({
+          alertOpen: true,
+          alertText: 'Please fill all fields',
+        })
+      }
+      if ((cityShipping || countryShipping || addressShipping ||
+        zipcodeShipping || stateShipping) && shippingMethod === '') {
+        this.setState({
+          alertOpen: true,
+          alertText: 'Please select a Shipping Method',
+        })
+      }
+      if (!cityShipping || !countryShipping || !addressShipping ||
+        !zipcodeShipping || !stateShipping && shippingMethod !== '') {
+        this.setState({
+          alertOpen: true,
+          alertText: 'Please Fill all Shipping address Form',
+        })
+      }
+    }
+  }
+
+  passToReview = () => {
+    this.setState({
+      isStepOneActive: false,
+      isStepTwoActive: false,
+      isStepThreeActive: true,
+      stepOneComplete: true,
+      stepTwoComplete: true,
+    })
   }
 
   continueToReviewClick = (event) => {
     event.preventDefault()
-    const { setUserAddress } = this.props
+    const { setUserAddress, setBilling } = this.props
     const {
-      nameOnCard,
-      cardNumber,
-      cardCVC,
-      fullExpDate,
-      isCardClicked,
-      shippingId,
-      billingId,
+      nameOnCard, cardNumber, cardCVC, fullExpDate, isCardClicked, isPaypalClicked,
+      shippingId, billingId, cardStored, sameShippingAddress, firstNameBilling,
+      lastNameBilling, addressBilling, address2Billing, countryBilling, stateBilling,
+      cityBilling, zipcodeBilling, shippingMethod, useLitcoins
     } = this.state
-    if (isCardClicked && nameOnCard && cardNumber && cardCVC && fullExpDate) {
-      if (!this.state.sameShippingAddress) {
-        const {
-          firstNameBilling,
-          lastNameBilling,
-          addressBilling,
-          address2Billing,
-          countryBilling,
-          stateBilling,
-          cityBilling,
-          zipcodeBilling,
-        } = this.state
-        if (cityBilling && countryBilling && addressBilling &&
-          address2Billing && zipcodeBilling && stateBilling) {
-          this.setState({
-            isStepOneActive: false,
-            isStepTwoActive: false,
-            isStepThreeActive: true,
-            stepOneComplete: true,
-            stepTwoComplete: true,
-          })
-          setUserAddress({
-            city: cityBilling,
-            name: `${firstNameBilling} ${lastNameBilling}`,
-            country: countryBilling,
-            address: addressBilling,
-            address2: address2Billing,
-            zipcode: zipcodeBilling,
-            state: stateBilling,
-            addressType: 'billing',
-            sameBillingAndShipping: false,
-          })
-        } else alert('Complete all billing fields')
-      } else {
-        const expDate = this.splitCardExp(fullExpDate)
-        if (this.state.cardStored) {
-          this.props.setBilling({
-            shippingMethod: this.state.shippingMethod,
-            paymentMethod: 'cc',
-            litcoins: this.state.useLitcoins,
-            avoidCheckCardData: this.state.cardStored,
-          })
+    if (isPaypalClicked) {
+      setBilling({
+        shippingMethod: shippingMethod,
+        paymentMethod: 'paypal',
+        litcoins: useLitcoins,
+      })
+      this.passToReview()
+    } else if (isCardClicked) {
+      if (cardStored) {
+        if (!sameShippingAddress) {
+          if (cityBilling && countryBilling && addressBilling &&
+            address2Billing && zipcodeBilling && stateBilling) {
+            setUserAddress({
+              city: cityBilling,
+              name: `${firstNameBilling} ${lastNameBilling}`,
+              country: countryBilling,
+              address: addressBilling,
+              address2: address2Billing,
+              zipcode: zipcodeBilling,
+              state: stateBilling,
+              addressType: 'billing',
+              sameBillingAndShipping: false,
+            })
+            setBilling({
+              shippingMethod: shippingMethod,
+              paymentMethod: 'cc',
+              litcoins: useLitcoins,
+              avoidCheckCardData: cardStored,
+            })
+            this.passToReview()
+          } else {
+            this.setState({
+              alertOpen: true,
+              alertText: 'Please Complete all Billing Fields',
+            })
+          }
         } else {
-          this.props.setBilling({
+          setBilling({
+            shippingMethod: shippingMethod,
+            paymentMethod: 'cc',
+            litcoins: useLitcoins,
+            avoidCheckCardData: cardStored,
+          })
+          this.passToReview()
+        }
+      } else if (nameOnCard && cardNumber && cardCVC && fullExpDate) {
+        if (!sameShippingAddress) {
+          if (cityBilling && countryBilling && addressBilling &&
+            address2Billing && zipcodeBilling && stateBilling) {
+            setUserAddress({
+              city: cityBilling,
+              name: `${firstNameBilling} ${lastNameBilling}`,
+              country: countryBilling,
+              address: addressBilling,
+              address2: address2Billing,
+              zipcode: zipcodeBilling,
+              state: stateBilling,
+              addressType: 'billing',
+              sameBillingAndShipping: false,
+            })
+            this.passToReview()
+          } else {
+            this.setState({
+              alertOpen: true,
+              alertText: 'Please Complete all Billing Fields',
+            })
+          }
+        } else {
+          const expDate = this.splitCardExp(fullExpDate)
+          setBilling({
             cardExpYear: expDate[1],
             shippingMethod: this.state.shippingMethod,
             cardExpMonth: expDate[0],
@@ -264,30 +320,15 @@ class CheckoutPage extends PureComponent {
             litcoins: this.state.useLitcoins,
             avoidCheckCardData: this.state.cardStored,
           })
+          this.passToReview()
         }
-
+      } else {
         this.setState({
-          isStepOneActive: false,
-          isStepTwoActive: false,
-          isStepThreeActive: true,
-          stepOneComplete: true,
-          stepTwoComplete: true,
+          alertOpen: true,
+          alertText: 'Please Complete all your card info',
         })
       }
-    } else if (this.state.isPaypalClicked) {
-      this.setState({
-        isStepOneActive: false,
-        isStepTwoActive: false,
-        isStepThreeActive: true,
-        stepOneComplete: true,
-        stepTwoComplete: true,
-      })
-      this.props.setBilling({
-        shippingMethod: this.state.shippingMethod,
-        paymentMethod: 'paypal',
-        litcoins: this.state.useLitcoins,
-      })
-    } else alert('Complete all card fields')
+    }
   }
 
   handlePaymentClick = (type) => {
@@ -384,6 +425,7 @@ class CheckoutPage extends PureComponent {
       zipcodeBilling,
       useLitcoins
     } = this.state
+
     const cardInfo = {
       nameOnCard,
       cardNumber,
@@ -620,6 +662,14 @@ class CheckoutPage extends PureComponent {
             </div>
           </div>
         </section>
+        <Snackbar
+          open={this.state.alertOpen}
+          message={this.state.alertText}
+          autoHideDuration={3000}
+          onRequestClose={this.handleAlertClose}
+          bodyStyle={styles.snackBar}
+          contentStyle={styles.contentStyle}
+        />
       </section>
     )
   }
@@ -638,6 +688,7 @@ const mapDistpachToProps = {
   getCurrentOrder,
   getShippingMethods,
   setUserAddress,
+  setUserAddressAndShipping,
   setShipping,
   setBilling,
   placeOrder
