@@ -19,7 +19,7 @@
   <body>
     <div class='container'></div>
     <%= htmlWebpackPlugin.files.webpackManifest %>
-    <% console.log(htmlWebpackPlugin.options.env); if ( /production/.test(htmlWebpackPlugin.options.env) ) { %>
+    <% if ( /production/.test(htmlWebpackPlugin.options.env) ) { %>
       <!-- Facebook Pixel Code -->
       <script>
         !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
