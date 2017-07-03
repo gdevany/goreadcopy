@@ -213,6 +213,7 @@ export function addGiftData(params) {
 export function setUserAddress(params, shippingMethod) {
   return dispatch => {
     Store.setUserAddress(params)
+      .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
       .catch(err => console.error(`Error in setUserAddress ${err}`))
   }
 }
@@ -289,6 +290,14 @@ export function placeOrder(params) {
   }
 }
 
+export function getPaypalConfig() {
+  return dispatch => {
+    Store.getPaypalConfig()
+    .then(res => dispatch({ type: A.GET_PAYPAL_CONFIG, payload: res.data }))
+    .catch(err => console.error(`Error in getPaypalConfig ${err}`))
+  }
+}
+
 export default {
   getCategories,
   getChildCategories,
@@ -319,4 +328,5 @@ export default {
   setShipping,
   reviewOrder,
   placeOrder,
+  getPaypalConfig
 }

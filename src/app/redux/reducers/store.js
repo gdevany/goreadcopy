@@ -46,6 +46,8 @@ export default (state = initialState.store, { type, payload }) => {
       )
     case A.GET_SHIPPING_METHODS:
       return R.merge(state, { shippingMethods: payload })
+    case A.GET_PAYPAL_CONFIG:
+      return R.merge(state, { paypalConfig: payload })
     default:
       return state
   }

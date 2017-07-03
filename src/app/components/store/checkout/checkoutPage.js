@@ -11,10 +11,11 @@ import CheckIcon from 'material-ui/svg-icons/navigation/check'
 import LockIcon from 'material-ui/svg-icons/action/lock-outline'
 import Snackbar from 'material-ui/Snackbar'
 import R from 'ramda'
+import PaypalExpressBtn from 'react-paypal-express-checkout'
 
 const {
   setOrder, getOrder, getCurrentOrder, getShippingMethods, setUserAddress,
-  setUserAddressAndShipping, setShipping, setBilling, placeOrder,
+  setUserAddressAndShipping, setShipping, setBilling, placeOrder, getPaypalConfig,
 } = Store
 
 const styles = {
@@ -70,6 +71,7 @@ class CheckoutPage extends PureComponent {
       cardStored: false,
       alertOpen: false,
       alertText: '',
+      paypalConfig: false,
     }
     this.continueToBillingClick = this.continueToBillingClick.bind(this)
     this.continueToReviewClick = this.continueToReviewClick.bind(this)
@@ -117,6 +119,10 @@ class CheckoutPage extends PureComponent {
           cardCVC: '***',
         })
       }
+    }
+    if (nextProps.paypalConfig) {
+      this.setState({ paypalConfig: nextProps.paypalConfig })
+      this.inputElement.click()
     }
   }
 
@@ -575,16 +581,46 @@ class CheckoutPage extends PureComponent {
   }
 
   handlePlaceOrder = () => {
-    if (this.state.isCardClicked) {
+    if (this.state.isCardClicked && !this.state.isPaypalClicked) {
       this.props.placeOrder({
         shippingMethod: this.state.shippingMethod,
         paymentMethod: 'cc'
       })
+    } else if (this.state.isPaypalClicked && !this.state.isCardClicked) {
+      this.props.getPaypalConfig()
     }
   }
 
+  onSuccess = (payment) => {
+    // Congratulation, it came here means everything's fine!
+    console.log('The payment was succeeded!', payment)
+    // You can bind the "payment" object's value to your state or props or
+    //whatever here, please see below for sample returned data
+  }
+
+  onCancel = (data) => {
+    // User pressed "cancel" or close Paypal's popup!
+    console.log('The payment was cancelled!', data)
+    // You can bind the "data" object's value to your state or props or
+    //whatever here, please see below for sample returned data
+  }
+
+  onError = (err) => {
+    // The main Paypal's script cannot be loaded or somethings block the loading of that script!
+    console.log('Error!', err)
+    // Because the Paypal's main script is loaded asynchronously from
+    //"https://www.paypalobjects.com/api/checkout.js" sometimes it may take about
+    // => 0.5 second for everything to get set, or for the button to appear
+  }
+
   renderStepThree = () => {
-    const { shippingId, shippingMethod } = this.state
+    const { shippingId, shippingMethod, paypalConfig } = this.state
+    let client = {}
+    if (paypalConfig) {
+      client = {
+        sandbox: paypalConfig.clientId,
+      }
+    }
     return (
       <div className='row'>
         <div className='large-7 columns'>
@@ -606,6 +642,20 @@ class CheckoutPage extends PureComponent {
           >
             Place Order
           </a>
+          {paypalConfig ?
+            (
+              <PaypalExpressBtn
+                env={'sandbox'}
+                client={client}
+                currency={paypalConfig.currency}
+                total={this.props.order.orderTotal}
+                onError={this.onError}
+                onSuccess={this.onSuccess}
+                onCancel={this.onCancel}
+                ref={input => this.inputElement}
+              />
+            ) : null
+          }
           <OrderSummary />
         </div>
       </div>
@@ -716,6 +766,7 @@ const mapStateToProps = (state) => {
   return {
     order: state.store.order,
     shippingMethods: state.store.shippingMethods,
+    paypalConfig: state.store.paypalConfig,
   }
 }
 
@@ -728,7 +779,8 @@ const mapDistpachToProps = {
   setUserAddressAndShipping,
   setShipping,
   setBilling,
-  placeOrder
+  placeOrder,
+  getPaypalConfig,
 }
 
 export default connect(mapStateToProps, mapDistpachToProps)(CheckoutPage)

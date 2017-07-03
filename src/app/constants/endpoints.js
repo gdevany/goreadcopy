@@ -103,7 +103,7 @@ const Endpoints = () => {
       getCurrentOrder: (params) => apiUrl('store/order/current', params),
       setBilling: (params) => apiUrl('store/order/billing', params),
       reviewOrder: (params) => apiUrl('store/order/review', params),
-      placeOrder: (params) => apiUrl('store/order/place', params),
+      getPaypalConfig: () => apiUrl('store/order/paypal/configuration'),
     },
     rates: {
       getStarsInfo: (modelName, id) => apiUrl(`rate/${modelName}/${id}/stars`),
