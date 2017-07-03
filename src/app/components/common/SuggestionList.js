@@ -112,10 +112,10 @@ const renderSuggestion = (entry, type, ctype) => {
   }
 }
 
-const SuggestionList = ({ entries, onMentionListClick }) => {
+const SuggestionList = ({ entries, onMentionListClick, position }) => {
   const { readers, authors, books, publishers, ctypes } = entries
   return (
-    <ul className='suggestion-list' onClick={onMentionListClick}>
+    <ul className='suggestion-list' onClick={onMentionListClick} style={position}>
       {readers.map((reader) => renderSuggestion(reader, 'Reader', ctypes.readers))}
       {authors.map((author) => renderSuggestion(author, 'Author', ctypes.authors))}
       {books.map((book) => renderSuggestion(book, 'Book', ctypes.books))}

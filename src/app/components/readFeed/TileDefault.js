@@ -10,6 +10,7 @@ import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import { Auth } from '../../services'
 import { Search } from '../../services/api'
 import SuggestionList from '../common/SuggestionList'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
 import Linkify from 'react-linkify'
 import { TileEdit } from './tiles'
 import {
@@ -178,6 +179,10 @@ const styles = {
     padding: '20px 20px 15px',
     textAlign: 'left',
   },
+  refresh: {
+    display: 'inline-block',
+    position: 'relative',
+  },
 }
 
 /*
@@ -223,6 +228,7 @@ class TileDefault extends PureComponent {
       isPostEditing: false,
       isPostDeleted: false,
       actionMenuOpen: false,
+      loadSuggestions: false,
     }
 
     this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
@@ -652,7 +658,10 @@ class TileDefault extends PureComponent {
       showSuggestions: false,
       onProcessMentions: latestBody.match(mentionPattern) || ''
     }
+    const pos = 60 + (parseInt(latestBody.length / 65, 10) * 20)
+    this.setState({ listPosition: pos >= 150 ? 150 : pos })
     if (result.onProcessMentions && result.onProcessMentions.length > 0) {
+      this.setState({ loadSuggestions: true })
       this.getMentions(R.last(result.onProcessMentions).replace('@', ''))
     }
     return result
@@ -667,7 +676,8 @@ class TileDefault extends PureComponent {
         publisher: query
       }).then((res) => this.setState({
         suggestions: res.data,
-        showSuggestions: true
+        showSuggestions: true,
+        loadSuggestions: false,
       }))
     } else {
       this.setState({ showSuggestions: false })
@@ -717,6 +727,22 @@ class TileDefault extends PureComponent {
     const updatedBody = commentInput.replace(lastMention, `@${type}:${display} `)
     return updatedBody
   }
+
+  setLoading = () => {
+    return (
+      <div className='statuspost-loader'>
+        <RefreshIndicator
+          size={30}
+          left={0}
+          top={0}
+          loadingColor={Colors.blue}
+          status='loading'
+          style={styles.refresh}
+        />
+      </div>
+    )
+  }
+
   handleEditPost = () => {
     this.handleActionMenuHide()
     this.setState({ isPostEditing: true })
@@ -759,6 +785,10 @@ class TileDefault extends PureComponent {
 
   renderPostBox = (buttonType) => {
     const {
+      suggestions,
+      showSuggestions,
+      loadSuggestions,
+      listPosition,
       commentInput,
       shareInput,
       commentParentId,
@@ -767,6 +797,7 @@ class TileDefault extends PureComponent {
     const { profileImage } = this.props
     const isComment = buttonType === 'comment'
     const inputType = isComment ? 'commentInput' : 'shareInput'
+    const listStyle = listPosition ? { top: listPosition + 'px', left: 100 } : null
     return (
       <div className='input-post-box comments-tile-container'>
         <div className='comments-elelemnts'>
@@ -790,10 +821,16 @@ class TileDefault extends PureComponent {
             rows='3'
             autoFocus
           />
-          {this.state.showSuggestions ?
+          {loadSuggestions ?
+            (<ul className='suggestion-list-loader' style={listStyle}>
+              { this.setLoading() }
+            </ul>) : null
+          }
+          {showSuggestions ?
             (<SuggestionList
-              entries={this.state.suggestions}
+              entries={suggestions}
               onMentionListClick={this.handleSuggestionClick}
+              position={listStyle}
              />
             ) : null
           }
