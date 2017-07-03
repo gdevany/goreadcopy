@@ -146,6 +146,20 @@ class CheckoutPage extends PureComponent {
     })
   }
 
+  handleChangePaymentMethod = (type) => {
+    if (type === 'paypal') {
+      this.setState({
+        isPaypalClicked: true,
+        isCardClicked: false,
+      })
+    } else if (type === 'card') {
+      this.setState({
+        isPaypalClicked: false,
+        isCardClicked: true,
+      })
+    }
+  }
+
   handleFormsChanges = R.curry((field, event) => {
     event.preventDefault()
     if (field === 'cardCVC' && event.target.value.length <= 4) {
@@ -251,6 +265,7 @@ class CheckoutPage extends PureComponent {
         shippingMethod: shippingMethod,
         paymentMethod: 'paypal',
         litcoins: useLitcoins,
+        avoidCheckCardData: true,
       })
       this.passToReview()
     } else if (isCardClicked) {
@@ -580,6 +595,7 @@ class CheckoutPage extends PureComponent {
             usingLitcoins={this.state.useLitcoins}
             shippingMethod={shippingMethod}
             shippingId={shippingId}
+            changePayment={this.handleChangePaymentMethod}
           />
           <CartItems />
         </div>
