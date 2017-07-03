@@ -360,6 +360,7 @@ const TilesWrapper = ({ feed }) => {
             socialPostComment: (tile.mentions || tile.shareComment || ''),
             mentionsPostList: (tile.mentionArray || []),
             activeContent: (tileContent.activeUrl || null),
+            tileType: (tile.tileType || ''),
           }
           result.push(
             <StatusPostTile
