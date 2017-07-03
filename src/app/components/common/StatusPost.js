@@ -107,6 +107,7 @@ class StatusPost extends PureComponent {
       imageInfo: null,
       suggestions: [],
       showSuggestions: false,
+      loadSuggestions: false,
       showImagePreview: false,
       showVideoPreview: false,
       textareaOpen: false,
@@ -157,18 +158,26 @@ class StatusPost extends PureComponent {
   }
 
   checkMentions(latestBody) {
+    let heightLimit
     const result = {
       showSuggestions: false,
       onProcessMentions: latestBody.match(mentionPattern)
     }
+    const pos = 60 + (parseInt(latestBody.length / 65, 10) * 20)
+    if (window.screen.width >= 768) {
+      heightLimit = 200
+    } else {
+      heightLimit = 100
+    }
+    this.setState({ listPosition: pos >= heightLimit ? heightLimit : pos })
     if (result.onProcessMentions && result.onProcessMentions.length > 0) {
+      this.setState({ loadSuggestions: true })
       this.getMentions(R.last(result.onProcessMentions).replace('@', ''))
     }
     return result
   }
 
   checkVideoUrl(latestBody) {
-
     const videoUrls = latestBody.match(videoPattern)
     let activeContent = '', videoInfo = '', showVideoPreview = false
     if (videoUrls && videoUrls.length > 0 && !this.state.imageInfo) {
@@ -191,7 +200,8 @@ class StatusPost extends PureComponent {
       publisher: query
     }).then((res) => this.setState({
       suggestions: res.data,
-      showSuggestions: true
+      showSuggestions: true,
+      loadSuggestions: false,
     }))
   }
 
@@ -320,12 +330,25 @@ class StatusPost extends PureComponent {
 
   render() {
     const { currentReader } = this.props
-    const { showErrorOnPost } = this.state
+    const {
+      body,
+      image,
+      imageInfo,
+      suggestions,
+      listPosition,
+      showErrorOnPost,
+      showVideoPreview,
+      showSuggestions,
+      loadSuggestions,
+      textareaOpen,
+      loadingPost,
+    } = this.state
+    const listStyle = listPosition ? { top: listPosition + 'px' } : null
     return (
       <div className='statuspost'>
         <div className='status-post-text-container'>
           {
-            !this.state.showVideoPreview && !this.state.imageInfo ? (
+            !showVideoPreview && !imageInfo ? (
               <a
                 className='status-post-upload-icon-container'
                 href='javascript:void(0)'
@@ -335,11 +358,11 @@ class StatusPost extends PureComponent {
               </a>
             ) : null
           }
-          { this.state.textareaOpen ? (
+          { textareaOpen ? (
             <div>
               <a
                 className={
-                  this.state.loadingPost ?
+                  loadingPost ?
                   'statuspost-action-btn statuspost-action-disabled' :
                   'statuspost-action-btn'
                 }
@@ -347,7 +370,7 @@ class StatusPost extends PureComponent {
               >
                 Post
               </a>
-              { this.state.loadingPost ? this.setLoading() : null }
+              { loadingPost ? this.setLoading() : null }
               <a
                 className='statuspost-close-btn'
                 onClick={this.handleTextAreaClose}
@@ -367,7 +390,7 @@ class StatusPost extends PureComponent {
             rows='4'
             maxLength='10000'
             ref='statuspost'
-            className={this.state.textareaOpen ?
+            className={textareaOpen ?
               (
                 `${showErrorOnPost ? 'statuspost-error' : ''} status-post-textarea-open`
               ) : (
@@ -375,12 +398,18 @@ class StatusPost extends PureComponent {
               )}
             placeholder={showErrorOnPost ? 'Something happened, please try again' : 'Comment here'}
             onClick={this.handleTextAreaClick}
-            onChange={this.handleTextChange} value={this.state.body}
+            onChange={this.handleTextChange} value={body}
           />
-          {this.state.showSuggestions ?
+          {loadSuggestions ?
+            (<ul className='suggestion-list-loader' style={listStyle}>
+              { this.setLoading() }
+            </ul>) : null
+          }
+          {showSuggestions ?
             (<SuggestionList
-              entries={this.state.suggestions}
+              entries={suggestions}
               onMentionListClick={this.handleSuggestionClick}
+              position={listStyle}
              />
             ) : null
           }
@@ -395,10 +424,10 @@ class StatusPost extends PureComponent {
             maxSize={10485760}
           />
           {
-            this.state.image ? (
+            image ? (
               <div className='row'>
                 <div className='columns small-4 image-preview-statuspost'>
-                  <img src={this.state.imageInfo.file.preview} alt='Preview Image'/>
+                  <img src={imageInfo.file.preview} alt='Preview Image'/>
                   <a
                     className='statuspost-image-preview-discard-btn'
                     href='javascript:void(0)'
@@ -411,7 +440,7 @@ class StatusPost extends PureComponent {
             ) : (
               <div>
                 {
-                  this.state.imageInfo ?
+                  imageInfo ?
                   (
                     <div className='columns small-12'>
                       <div className='loading-animation'/>
