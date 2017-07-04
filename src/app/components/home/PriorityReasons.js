@@ -66,7 +66,9 @@ const PriorityReasons = () => {
         >
           <LandingReasons
             statement={'Earn your favorite books'}
-            description={'Get any book shipped to you by just hanging out with other on GoRead'}
+            description={
+              'Get any book shipped to you by just hanging out with other readers on GoRead'
+            }
           />
         </div>
         <div
