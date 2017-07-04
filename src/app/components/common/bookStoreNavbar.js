@@ -16,7 +16,6 @@ import Book from '../store/common/Book'
 import { stack as MobileMenu, slide as CategoriesMenu } from 'react-burger-menu'
 import R from 'ramda'
 
-const isUserLoggedIn = AuthService.currentUserExists()
 const { mainSearch, updateSearch } = Search
 const { verifyUserToken, processUserLogout } = Auth
 const { usePlatformAs, getCurrentReader, logoutCurrentReader } = CurrentReader
@@ -66,7 +65,7 @@ class BookStoreNavBar extends PureComponent {
   }
 
   componentWillMount = () => {
-
+    const isUserLoggedIn = AuthService.currentUserExists()
     if (!this.state.readerFetched && isUserLoggedIn) {
       this.props.getCurrentReader()
       this.setState({
@@ -78,7 +77,8 @@ class BookStoreNavBar extends PureComponent {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    if (nextProps.isUserLogged && !this.state.readerFetched) {
+    const isUserLoggedIn = AuthService.currentUserExists()
+    if (isUserLoggedIn && !this.state.readerFetched) {
       this.props.getCurrentReader()
       this.setState({
         readerFetched: true
@@ -543,6 +543,7 @@ class BookStoreNavBar extends PureComponent {
   }
 
   render() {
+    const isUserLoggedIn = AuthService.currentUserExists()
     const { currentReader } = this.props
     const { searchResults, isSearchResultsOpen } = this.state
     return (

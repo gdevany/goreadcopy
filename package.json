@@ -115,7 +115,6 @@
     "url-loader": "^0.5.7",
     "webpack": "^3.0.0",
     "webpack-dev-middleware": "^1.9.0",
-    "webpack-fail-plugin": "^1.0.6",
     "webpack-hot-middleware": "^2.15.0",
     "webpack-isomorphic-tools": "^2.6.6"
   }
