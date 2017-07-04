@@ -27,6 +27,7 @@ const {
     setShipping,
     reviewOrder,
     placeOrder,
+    getPaypalConfig,
   }
 } = Endpoints
 
@@ -55,6 +56,7 @@ const Store = () => {
     setShipping: (params) => authenticated().post(setShipping(), params),
     placeOrder: (params) => authenticated().post(placeOrder(), params),
     reviewOrder: (params) => authenticated().post(reviewOrder(), params),
+    getPaypalConfig: () => authenticated().get(getPaypalConfig()),
   }
 }
 

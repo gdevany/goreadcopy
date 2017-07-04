@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import { Scroller } from './'
 
 class PageScroller extends PureComponent {
@@ -80,13 +81,13 @@ class PageScroller extends PureComponent {
 }
 
 PageScroller.propTypes = {
-  clsName: React.PropTypes.string,
-  fetchHandler: React.PropTypes.func,
-  fetchOnLoad: React.PropTypes.bool,
-  isLocked: React.PropTypes.bool,
-  currentPage: React.PropTypes.number,
-  onTopScroll: React.PropTypes.bool,
-  onBottomScroll: React.PropTypes.bool,
+  clsName: PropTypes.string,
+  fetchHandler: PropTypes.func,
+  fetchOnLoad: PropTypes.bool,
+  isLocked: PropTypes.bool,
+  currentPage: PropTypes.number,
+  onTopScroll: PropTypes.bool,
+  onBottomScroll: PropTypes.bool,
 }
 
 PageScroller.defaultProps = {

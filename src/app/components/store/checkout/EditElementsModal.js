@@ -95,12 +95,20 @@ class EditElementsModal extends PureComponent {
   })
 
   handlePaymentSwitch = (type) => {
-    if (type === 'paypal') {
+    const { selectedPayment } = this.state
+    if (type === 'paypal' && selectedPayment !== 'paypal') {
       this.props.setBilling({
         shippingMethod: this.props.shippingMethod,
         paymentMethod: 'paypal',
+        avoidCheckCardData: true,
       })
       this.setState({ selectedPayment: 'paypal' })
+      this.props.changePayment(type)
+      this.props.handleClose()
+    } else if (type === 'card') {
+      this.setState({ selectedPayment: 'card' })
+      this.props.changePayment(type)
+      this.props.handleClose()
     }
   }
 
@@ -284,7 +292,10 @@ class EditElementsModal extends PureComponent {
                 'chekoutpage-edit-payment-container'
               }
             >
-              <CheckIcon className='chekoutpage-edit-payment-icon'/>
+              <CheckIcon
+                onClick={() => this.handlePaymentSwitch('card')}
+                className='chekoutpage-edit-payment-icon'
+              />
               <div className='chekoutpage-edit-payment-overview'>
                 <div className='checkoutpage-order-review-card-details'>
                   <div className='checkoutpage-order-review-card-nums'>
@@ -427,4 +438,9 @@ class EditElementsModal extends PureComponent {
   }
 }
 
-export default connect(null, { setUserAddress, setBilling })(EditElementsModal)
+const mapDistpachToProps = {
+  setUserAddress,
+  setBilling,
+}
+
+export default connect(null, mapDistpachToProps)(EditElementsModal)

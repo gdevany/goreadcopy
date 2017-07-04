@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Dialog } from 'material-ui'
 import SingleGiftElement from './singleGiftElement'
 import { Store } from '../../../redux/actions'
+import { ShippingForm } from './'
 import R from 'ramda'
 
 const styles = {
@@ -28,13 +29,15 @@ class ShippingGiftAddressModal extends PureComponent {
     super(props)
     this.state = {
       sendToSamePerson: false,
-      city: '',
-      country: '',
-      address: '',
-      address2: '',
-      zipcode: '',
-      phone: '',
-      state: '',
+      firstNameShipping: '',
+      lastNameShipping: '',
+      cityShipping: '',
+      countryShipping: '',
+      addressShipping: '',
+      address2Shipping: '',
+      zipcodeShipping: '',
+      phoneShipping: '',
+      stateShipping: '',
       giftMessage: '',
     }
     this.handleOnChange = this.handleOnChange.bind(this)
@@ -68,24 +71,28 @@ class ShippingGiftAddressModal extends PureComponent {
     event.preventDefault()
     const { addGiftData } = this.props
     const {
-      city,
-      country,
-      address,
-      address2,
-      zipcode,
-      phone,
-      state,
+      firstNameShipping,
+      lastNameShipping,
+      cityShipping,
+      countryShipping,
+      addressShipping,
+      address2Shipping,
+      zipcodeShipping,
+      phoneShipping,
+      stateShipping,
       giftMessage,
     } = this.state
     addGiftData({
       cartItems: this.giftIdsHandler(),
-      city,
-      country,
-      address,
-      address2,
-      zipcode,
-      phone,
-      state,
+      firstName: firstNameShipping,
+      lastName: lastNameShipping,
+      city: cityShipping,
+      country: countryShipping,
+      address: addressShipping,
+      address2: address2Shipping,
+      zipcode: zipcodeShipping,
+      phone: phoneShipping,
+      state: stateShipping,
       giftMessage
     })
     this.props.handleClose()
@@ -100,86 +107,46 @@ class ShippingGiftAddressModal extends PureComponent {
   }
 
   renderForm = () => {
+    const {
+      firstNameShipping,
+      lastNameShipping,
+      cityShipping,
+      countryShipping,
+      addressShipping,
+      address2Shipping,
+      zipcodeShipping,
+      phoneShipping,
+      stateShipping,
+    } = this.state
+    const formInfo = {
+      firstNameShipping,
+      lastNameShipping,
+      cityShipping,
+      countryShipping,
+      addressShipping,
+      address2Shipping,
+      zipcodeShipping,
+      phoneShipping,
+      stateShipping,
+    }
     return (
       <div>
         <div className='row'>
-          <div className='large-8 columns'>
-            <div className='row'>
-              <div className='large-6 columns'>
-                <label>Country</label>
-                <input
-                  type='text'
-                  onChange={this.handleOnChange('country')}
-                  value={this.state.country}
-                />
-              </div>
-              <div className='large-6 columns'>
-                <label>State</label>
-                <input
-                  type='text'
-                  onChange={this.handleOnChange('state')}
-                  value={this.state.state}
-                />
-              </div>
-              <div className='large-12 columns'>
-                <label>Address</label>
-                <input
-                  type='text'
-                  onChange={this.handleOnChange('address')}
-                  value={this.state.address}
-                />
-              </div>
-              <div className='large-12 columns'>
-                <label>Address 2</label>
-                <input
-                  type='text'
-                  onChange={this.handleOnChange('address2')}
-                  value={this.state.address2}
-                />
-              </div>
-              <div className='large-4 columns'>
-                <label>Phone</label>
-                <input
-                  type='text'
-                  onChange={this.handleOnChange('phone')}
-                  value={this.state.phone}
-                />
-              </div>
-              <div className='large-4 columns'>
-                <label>City</label>
-                <input
-                  type='text'
-                  onChange={this.handleOnChange('city')}
-                  value={this.state.city}
-                />
-              </div>
-              <div className='large-4 columns'>
-                <label>Zipcode</label>
-                <input
-                  type='text'
-                  onChange={this.handleOnChange('zipcode')}
-                  value={this.state.zipcode}
-                />
-              </div>
-            </div>
-          </div>
-          <div className='large-4 columns'>
+          <div className='large-12 columns'>
             <label>Gift Messagge</label>
             <textarea
               onChange={this.handleOnChange('giftMessage')}
               value={this.state.giftMessage}
             />
           </div>
-        </div>
-        <div className='row'>
-          <div className='large-3 large-offset-4 columns'>
-            <a
-              className='checkoutpage-place-order-btn'
-              onClick={this.handleShippingSubmit}
-            >
-                Save Address
-            </a>
-          </div>
+          <ShippingForm
+            shippingInfo={formInfo}
+            onChange={this.handleOnChange}
+            title='Add Gift Shipping address'
+            className='chekoutpage-edit-shipping-address-form'
+            handleSave={this.handleShippingSubmit}
+            handleCancel={this.props.handleClose}
+          />
         </div>
       </div>
     )

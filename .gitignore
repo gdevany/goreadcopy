@@ -18,6 +18,7 @@ service.json
 dist/
 build/
 bundle.js
+.vscode/
 .env
 source-context.json
 source-contexts.json
