@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router'
 import { Follow, Store, Social } from '../../../redux/actions'
 import { Search } from '../../../services/api'
 import Rating from 'react-rating'
@@ -663,17 +664,17 @@ class BookInfo extends PureComponent {
             <div className='bookpage-book-add-to-cart-container'>
               {isUserLogged ?
                 (
-                  <a
+                  <Link
                     className='bookpage-book-add-to-cart-btn'
                     onClick={!addToCartClicked ?
-                      this.handleAddToCart : this.handleShowAlert
+                      this.handleAddToCart : null
                     }
-                    href={!addToCartClicked ? null : '/shop/cart'}
+                    to={!addToCartClicked ? null : '/shop/cart'}
                   >
                     {!addToCartClicked ?
                       'Add to Cart' : 'View Cart & Proceed to checkout'
                     }
-                  </a>
+                  </Link>
                 ) : (
                   <a className='bookpage-book-add-to-cart-btn'>
                     Add to Cart

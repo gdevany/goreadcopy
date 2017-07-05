@@ -65,11 +65,11 @@ class CartItems extends PureComponent {
                 Hardcover
               </span> */}
               <span className='checkoutpage-cart-single-element-price'>
-                ${elem.product.unitPrice}
+                ${elem.product.unitPrice.toLocaleString()}
               </span>
               <div className='checkoutpage-cart-single-element-litcoins'>
                 <span className='checkoutpage-cart-single-element-litcoins-count'>
-                  {elem.product.litcoinsPrice}
+                  {elem.product.litcoinsPrice.toLocaleString()}
                 </span>
                 <img
                   className='checkoutpage-cart-single-element-litcoins-img'

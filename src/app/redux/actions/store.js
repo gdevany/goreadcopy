@@ -222,7 +222,7 @@ export function setUserAddressAndShipping(params, shippingMethod) {
   return dispatch => {
     Store.setUserAddress(params)
       .then(res => dispatch(setShipping({
-        shippingAddressId: res.data.id,
+        shippingAddressId: res.data.shippingAddress.id,
         shippingMethod: shippingMethod,
       })))
       .catch(err => console.error(`Error in setUserAddressAndShipping ${err}`))

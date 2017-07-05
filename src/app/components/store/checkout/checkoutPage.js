@@ -122,7 +122,6 @@ class CheckoutPage extends PureComponent {
     }
     if (nextProps.paypalConfig) {
       this.setState({ paypalConfig: nextProps.paypalConfig })
-      this.inputElement.click()
     }
   }
 
@@ -592,33 +591,32 @@ class CheckoutPage extends PureComponent {
   }
 
   onSuccess = (payment) => {
-    // Congratulation, it came here means everything's fine!
-    console.log('The payment was succeeded!', payment)
-    // You can bind the "payment" object's value to your state or props or
-    //whatever here, please see below for sample returned data
+    if (payment.paid) {
+      this.props.placeOrder({
+        shippingMethod: this.state.shippingMethod,
+        paymentMethod: 'paypal',
+        paymentId: payment.paymentID,
+        payerId: payment.payerID,
+      })
+    }
   }
 
   onCancel = (data) => {
-    // User pressed "cancel" or close Paypal's popup!
-    console.log('The payment was cancelled!', data)
-    // You can bind the "data" object's value to your state or props or
-    //whatever here, please see below for sample returned data
+    this.showAlert('The payment was cancelled')
+    console.log('Payment canceled!', data)
   }
 
   onError = (err) => {
-    // The main Paypal's script cannot be loaded or somethings block the loading of that script!
+    this.showAlert('Error')
     console.log('Error!', err)
-    // Because the Paypal's main script is loaded asynchronously from
-    //"https://www.paypalobjects.com/api/checkout.js" sometimes it may take about
-    // => 0.5 second for everything to get set, or for the button to appear
   }
 
   renderStepThree = () => {
-    const { shippingId, shippingMethod, paypalConfig } = this.state
+    const { shippingId, shippingMethod, paypalConfig, isPaypalClicked, isCardClicked } = this.state
     let client = {}
     if (paypalConfig) {
       client = {
-        sandbox: paypalConfig.clientId,
+        [paypalConfig.mode]: paypalConfig.clientId,
       }
     }
     return (
@@ -636,23 +634,27 @@ class CheckoutPage extends PureComponent {
           <CartItems />
         </div>
         <div className='large-4 large-offset-1 columns end'>
-          <a
-            onClick={this.handlePlaceOrder}
-            className='checkoutpage-place-order-btn'
-          >
-            Place Order
-          </a>
-          {paypalConfig ?
+          {!paypalConfig || isCardClicked ?
+            (
+              <a
+                onClick={this.handlePlaceOrder}
+                className='checkoutpage-place-order-btn'
+              >
+                Place Order
+              </a>
+            ) : null
+          }
+
+          {paypalConfig && isPaypalClicked ?
             (
               <PaypalExpressBtn
-                env={'sandbox'}
+                env={paypalConfig.mode}
                 client={client}
                 currency={paypalConfig.currency}
                 total={this.props.order.orderTotal}
                 onError={this.onError}
                 onSuccess={this.onSuccess}
                 onCancel={this.onCancel}
-                ref={input => this.inputElement}
               />
             ) : null
           }
@@ -668,7 +670,7 @@ class CheckoutPage extends PureComponent {
       isStepTwoActive,
       isStepThreeActive,
       stepOneComplete,
-      stepTwoComplete
+      stepTwoComplete,
     } = this.state
     return (
       <section className='checkoutpage-main-container'>

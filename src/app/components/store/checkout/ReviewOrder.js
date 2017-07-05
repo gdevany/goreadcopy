@@ -92,7 +92,7 @@ class ReviewOrder extends PureComponent {
                         />
                       ) : null
                     }
-                    {data.cardType === 'Master' ?
+                    {data.cardType === 'MasterCard' ?
                       (
                         <img
                           src='/image/master-black.png'
@@ -101,7 +101,7 @@ class ReviewOrder extends PureComponent {
                       ) : null
                     }
 
-                    {data.cardType === 'American' ?
+                    {data.cardType === 'AmericanExpress' ?
                       (
                         <img
                           src='/image/american-black.png'
