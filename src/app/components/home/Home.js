@@ -9,6 +9,7 @@ import TestimonialCarousel from './TestimonialCarousel'
 import ReactPlayer from 'react-player'
 
 const Home = () => {
+
   return (
     <div className='home'>
       <Helmet>
@@ -36,7 +37,17 @@ const Home = () => {
         <meta property='og:image:width' content='281' />
         <meta property='og:image:height' content='281' />
         <meta property='og:image:type' content='image/png' />
-
+        <script id='proof-script'>
+          {`
+            !function(){function b(){var a=(new Date).getTime(),
+            b=document.createElement('script');
+            b.type='text/javascript',b.async=!0,
+            b.src='https://cdn.getmoreproof.com/embed/latest/proof.js?'+a;
+            var c=document.getElementsByTagName('script')[0];c.parentNode.insertBefore(b,c)}
+            var a=window;a.attachEvent?a.attachEvent('onload',b):a.addEventListener('load',b,!1),
+            window.proof_config={acc:'GjbSn61NgrXSpzXkmaKLmwra6eC2', v:'1.1'}}()
+          `}
+        </script>
       </Helmet>
       <NavMenu />
       <CallToActionTop />
