@@ -26,4 +26,3 @@ firebasecreds.json
 *.DS_Store
 /public/*
 /src/client/index.html
-.vscode/
