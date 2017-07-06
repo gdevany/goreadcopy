@@ -27,8 +27,8 @@ class ChatTabWrapper extends PureComponent {
   }
 
   render() {
-    const { conversations, contacts, isUserLoggedIn } = this.props
-    return isUserLoggedIn ? (
+    const { conversations, contacts } = this.props
+    return (
       <div className='main-conversation-container'>
         {
           ready(conversations) && ready(contacts) ?
@@ -37,7 +37,7 @@ class ChatTabWrapper extends PureComponent {
         }
         <ContactsPopupWindow />
       </div>
-    ) : null
+    )
   }
 }
 
