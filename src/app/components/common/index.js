@@ -1,4 +1,5 @@
 export AuthedRedirect from './AuthedRedirect'
+export * as Auth from './auth'
 export Footer from './Footer'
 export LitcoinBalance from './LitcoinBalance'
 export NavMenu from './NavMenu'
