@@ -1,9 +1,38 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { Store } from '../../../redux/actions'
+
+const { setPromoCode } = Store
 
 class OrderSummary extends PureComponent {
   constructor(props) {
     super(props)
+    this.state = {
+      promoCode: '',
+    }
+    this.handleChange = this.handleChange.bind(this)
+    this.handlePromoApply = this.handlePromoApply.bind(this)
+  }
+
+  handleEnterButton = (event) => {
+    if (event.which === 13) {
+      event.preventDefault()
+    }
+  }
+
+  handleChange = (event) => {
+    event.preventDefault()
+    this.setState({ promoCode: event.target.value })
+  }
+
+  handlePromoApply = (event) => {
+    event.preventDefault()
+    const { orderSummary, setPromoCode } = this.props
+    const { promoCode } = this.state
+
+    if (promoCode.length >= 4) {
+      setPromoCode(orderSummary.id, promoCode)
+    }
   }
 
   render() {
@@ -65,13 +94,21 @@ class OrderSummary extends PureComponent {
               </span>
             </div>
             <hr className='checkoutpage-order-summary-divider'/>
-            <form className='checkoutpage-order-summary-coupon-form'>
+            <form
+              className='checkoutpage-order-summary-coupon-form'
+              onKeyPress={this.handleEnterButton}
+            >
               <input
                 type='text'
                 placeholder='Apply promo code'
+                onChange={this.handleChange}
+                value={this.state.promoCode}
                 className='checkoutpage-order-summary-coupon-input'
               />
-              <a className='checkoutpage-order-summary-coupon-submit'>
+              <a
+                onClick={this.handlePromoApply}
+                className='checkoutpage-order-summary-coupon-submit'
+              >
                 Apply
               </a>
             </form>
@@ -103,4 +140,4 @@ const mapStateToProps = (state) => {
     orderSummary: state.store.order
   }
 }
-export default connect(mapStateToProps, null)(OrderSummary)
+export default connect(mapStateToProps, { setPromoCode })(OrderSummary)

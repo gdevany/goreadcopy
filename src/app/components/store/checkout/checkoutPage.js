@@ -14,7 +14,7 @@ import R from 'ramda'
 import PaypalExpressBtn from 'react-paypal-express-checkout'
 
 const {
-  setOrder, getOrder, getCurrentOrder, getShippingMethods, setUserAddress,
+  setOrder, getOrder, getCurrentOrder, setUserAddress,
   setUserAddressAndShipping, setShipping, setBilling, placeOrder, getPaypalConfig,
 } = Store
 
@@ -52,7 +52,6 @@ class CheckoutPage extends PureComponent {
       shippingMethod: '',
       shippingId: '',
       billingId: '',
-      setShippingMethod: '',
       nameOnCard: '',
       cardNumber: '',
       cardCVC: '',
@@ -84,7 +83,6 @@ class CheckoutPage extends PureComponent {
 
   componentWillMount = () => {
     this.props.getCurrentOrder()
-    this.props.getShippingMethods()
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -776,7 +774,6 @@ const mapDistpachToProps = {
   setOrder,
   getOrder,
   getCurrentOrder,
-  getShippingMethods,
   setUserAddress,
   setUserAddressAndShipping,
   setShipping,

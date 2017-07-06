@@ -248,6 +248,7 @@ export function getCurrentOrder(params) {
   return dispatch => {
     Store.getCurrentOrder(params)
       .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
+      .then(() => Store.getShippingMethods())
       .catch(err => console.error(`Error in getCurrentOrder ${err}`))
   }
 }
@@ -256,7 +257,7 @@ export function getShippingMethods() {
   return dispatch => {
     Store.getShippingMethods()
       .then(res => dispatch({ type: A.GET_SHIPPING_METHODS, payload: res.data }))
-      .catch(err => console.error(`Error in getCurrentOrder ${err}`))
+      .catch(err => console.error(`Error in getShippingMethods ${err}`))
   }
 }
 
@@ -279,22 +280,29 @@ export function setShipping(params) {
 export function reviewOrder(params) {
   return dispatch => {
     Store.reviewOrder(params)
-    .catch(err => console.error(`Error in reviewOrder ${err}`))
+      .catch(err => console.error(`Error in reviewOrder ${err}`))
   }
 }
 
 export function placeOrder(params) {
   return dispatch => {
     Store.placeOrder(params)
-    .catch(err => console.error(`Error in placeOrder ${err}`))
+      .catch(err => console.error(`Error in placeOrder ${err}`))
   }
 }
 
 export function getPaypalConfig() {
   return dispatch => {
     Store.getPaypalConfig()
-    .then(res => dispatch({ type: A.GET_PAYPAL_CONFIG, payload: res.data }))
-    .catch(err => console.error(`Error in getPaypalConfig ${err}`))
+      .then(res => dispatch({ type: A.GET_PAYPAL_CONFIG, payload: res.data }))
+      .catch(err => console.error(`Error in getPaypalConfig ${err}`))
+  }
+}
+
+export function setPromoCode(id, code) {
+  return dispatch => {
+    Store.setPromoCode(id, { code })
+      .catch(err => console.error(`Error in getPaypalConfig ${err}`))
   }
 }
 
@@ -328,5 +336,6 @@ export default {
   setShipping,
   reviewOrder,
   placeOrder,
-  getPaypalConfig
+  getPaypalConfig,
+  setPromoCode
 }
