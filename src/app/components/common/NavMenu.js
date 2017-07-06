@@ -16,6 +16,7 @@ import MenuIcon from 'material-ui/svg-icons/navigation/menu'
 import Badge from 'material-ui/Badge'
 import LitcoinStatus from './LitcoinStatus'
 import { Notifications, ChatsContainer } from './chatNotifications'
+import { Helmet } from 'react-helmet'
 
 import './styles/mobile-menu.scss'
 
@@ -654,6 +655,17 @@ class NavMenu extends PureComponent {
     return 0
   }
 
+  UserProofIframe = (isUserLoggedIn) => {
+    const frame = document.getElementById('proof')
+    if (frame) {
+      if (isUserLoggedIn) {
+        frame.style.visibility = 'hidden'
+      } else {
+        frame.style.visibility = 'visible'
+      }
+    }
+  }
+
   renderLogInMenu = () => {
     const { currentReader, notifications } = this.props
     const { socialFollowers, socialFollowed, isReadFeed, usePlatformAs } = this.state
@@ -1073,6 +1085,8 @@ class NavMenu extends PureComponent {
   render() {
     const { isUserLoggedIn, currentReader } = this.props
 
+    this.UserProofIframe(isUserLoggedIn)
+
     if (isUserLoggedIn || currentReader.litcoinBalance) {
       return (
         this.renderLogInMenu()
@@ -1080,6 +1094,19 @@ class NavMenu extends PureComponent {
     }
     return (
       <div className='slide-down'>
+        <Helmet>
+          <script id='proof-script'>
+            {`
+              !function(){function b(){var a=(new Date).getTime(),
+              b=document.createElement('script');
+              b.type='text/javascript',b.async=!0,
+              b.src='https://cdn.getmoreproof.com/embed/latest/proof.js?'+a;
+              var c=document.getElementsByTagName('script')[0];c.parentNode.insertBefore(b,c)}
+              var a=window;a.attachEvent?a.attachEvent('onload',b):a.addEventListener('load',b,!1),
+              window.proof_config={acc:'GjbSn61NgrXSpzXkmaKLmwra6eC2', v:'1.1'}}()
+            `}
+          </script>
+        </Helmet>
         <div style={styles.mobileNavContainer} className='top-bar-mobile'>
           <MobileMenu id={'mobile-menu-container'}>
             <ul className='mobile-menu'>
