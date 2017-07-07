@@ -249,6 +249,7 @@ export function getCurrentOrder(params) {
     Store.getCurrentOrder(params)
       .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
       .then(() => Store.getShippingMethods())
+      .then(res => dispatch({ type: A.GET_SHIPPING_METHODS, payload: res.data }))
       .catch(err => console.error(`Error in getCurrentOrder ${err}`))
   }
 }
@@ -287,6 +288,7 @@ export function reviewOrder(params) {
 export function placeOrder(params) {
   return dispatch => {
     Store.placeOrder(params)
+      .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
       .catch(err => console.error(`Error in placeOrder ${err}`))
   }
 }
