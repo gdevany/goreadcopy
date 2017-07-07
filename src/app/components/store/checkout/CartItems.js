@@ -12,6 +12,7 @@ class CartItems extends PureComponent {
     super(props)
     this.state = {
       cart: false,
+      status: false,
     }
   }
 
@@ -30,6 +31,7 @@ class CartItems extends PureComponent {
         cart: nextProps.cart
       })
     }
+    if (nextProps.order) this.setState({ status: nextProps.order.status })
   }
 
   truncInfo = (text, limit) => {
@@ -88,18 +90,23 @@ class CartItems extends PureComponent {
   }
 
   render() {
+    const { status } = this.state
     return (
       <section className='checkoutpage-cart-elements-container'>
         <div className='checkoutpage-cart-elements-heading'>
           <h3 className='checkoutpage-cart-elements-heading-title'>
             Cart
           </h3>
-          <Link
-            className='checkoutpage-cart-elements-heading-anchor'
-            to='/shop/cart'
-          >
-            Edit Cart
-          </Link>
+          {status !== 40 ?
+            (
+              <Link
+                className='checkoutpage-cart-elements-heading-anchor'
+                to='/shop/cart'
+              >
+                Edit Cart
+              </Link>
+            ) : null
+          }
         </div>
         <section className='checkoutpage-cart-elements'>
           {this.renderCart()}
@@ -112,6 +119,7 @@ class CartItems extends PureComponent {
 const mapStateToProps = (state) => {
   return {
     cart: state.store.cartItems,
+    order: state.store.order,
   }
 }
 

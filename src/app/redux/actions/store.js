@@ -304,7 +304,16 @@ export function getPaypalConfig() {
 export function setPromoCode(id, code) {
   return dispatch => {
     Store.setPromoCode(id, { code })
-      .catch(err => console.error(`Error in getPaypalConfig ${err}`))
+      .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
+      .catch(err => console.error(`Error in setPromoCode ${err}`))
+  }
+}
+
+export function cleanPromoCode(id, code) {
+  return dispatch => {
+    Store.cleanPromoCode(id, { code })
+      .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
+      .catch(err => console.error(`Error in cleanPromoCode ${err}`))
   }
 }
 

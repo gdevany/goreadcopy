@@ -93,42 +93,52 @@ class OrderSummary extends PureComponent {
                 ${orderSummary.orderTotal}
               </span>
             </div>
-            <hr className='checkoutpage-order-summary-divider'/>
-            <form
-              className='checkoutpage-order-summary-coupon-form'
-              onKeyPress={this.handleEnterButton}
-            >
-              <input
-                type='text'
-                placeholder='Apply promo code'
-                onChange={this.handleChange}
-                value={this.state.promoCode}
-                className='checkoutpage-order-summary-coupon-input'
-              />
-              <a
-                onClick={this.handlePromoApply}
-                className='checkoutpage-order-summary-coupon-submit'
-              >
-                Apply
-              </a>
-            </form>
-          </section>
-          <section className='checkoutpage-order-litcoins-to-earn-container'>
-            <span className='checkoutpage-order-litcoins-to-earn-main-text'>
-               Yo'll earn <b> ${orderSummary.dollarsToEarn} </b>
-              <span className='checkoutpage-order-litcoins-to-earn-litcoins-amount'>
-                ({orderSummary.litcoinsToEarn ?
-                  orderSummary.litcoinsToEarn.toLocaleString() : null
-                }
-                  <img
-                    className='checkoutpage-order-litcoins-to-earn-litcoins-img'
-                    src='/image/litcoin.png'
+            {orderSummary.status !== 40 ?
+              (<hr className='checkoutpage-order-summary-divider'/>) : null
+            }
+            {orderSummary.status !== 40 ?
+              (
+                <form
+                  className='checkoutpage-order-summary-coupon-form'
+                  onKeyPress={this.handleEnterButton}
+                >
+                  <input
+                    type='text'
+                    placeholder='Apply promo code'
+                    onChange={this.handleChange}
+                    value={this.state.promoCode}
+                    className='checkoutpage-order-summary-coupon-input'
                   />
-                )
-              </span>
-              with this purchase
-            </span>
+                  <a
+                    onClick={this.handlePromoApply}
+                    className='checkoutpage-order-summary-coupon-submit'
+                  >
+                    Apply
+                  </a>
+                </form>
+              ) : null
+            }
           </section>
+          {orderSummary.status !== 40 ?
+            (
+              <section className='checkoutpage-order-litcoins-to-earn-container'>
+                <span className='checkoutpage-order-litcoins-to-earn-main-text'>
+                  Yo'll earn <b> ${orderSummary.dollarsToEarn} </b>
+                  <span className='checkoutpage-order-litcoins-to-earn-litcoins-amount'>
+                    ({orderSummary.litcoinsToEarn ?
+                      orderSummary.litcoinsToEarn.toLocaleString() : null
+                    }
+                      <img
+                        className='checkoutpage-order-litcoins-to-earn-litcoins-img'
+                        src='/image/litcoin.png'
+                      />
+                    )
+                  </span>
+                  with this purchase
+                </span>
+              </section>
+            ) : null
+          }
         </section>
       )
     }
