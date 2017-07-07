@@ -3,13 +3,13 @@ import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import Home from './Home'
 import { ReadFeed } from '../readFeed'
-import { Auth } from '../../redux/actions'
-import { Auth as CurrentToken } from '../../services'
+import { Auth as AuthActions } from '../../redux/actions'
+import { Auth as AuthServices } from '../../services'
 import { General } from '../../services/api'
 
 const { timesRendered } = General
-const { verifyUserToken } = Auth
-const isUserLogged = CurrentToken.currentUserExists()
+const { verifyUserToken } = AuthActions
+const isUserLogged = AuthServices.currentUserExists()
 
 class HomeWrapper extends PureComponent {
   constructor(props) {
@@ -17,7 +17,7 @@ class HomeWrapper extends PureComponent {
   }
 
   componentWillMount = () => {
-    const token = CurrentToken.token()
+    const token = AuthServices.token()
     if (token) {
       this.props.verifyUserToken({
         token,
@@ -34,7 +34,7 @@ class HomeWrapper extends PureComponent {
   }
 
   render() {
-    return CurrentToken.currentUserExists() ?
+    return AuthServices.currentUserExists() ?
       <ReadFeed isMyReadFeed={true}/> :
       <Home/>
   }
