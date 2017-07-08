@@ -1,4 +1,5 @@
 import { STORE as A } from '../const/actionTypes'
+import { browserHistory } from 'react-router'
 import Store from '../../services/api/store'
 import Books from '../../services/api/books'
 import ProfilePage from '../../services/api/profilePage'
@@ -168,7 +169,13 @@ export function filterBooks(params) {
 export function getCartItems(params) {
   return dispatch => {
     Store.getCartItems(params)
-      .then(res => dispatch({ type: A.GET_CART_ITEMS, payload: res.data }))
+      .then(res => {
+        if (res.data.itemsCount === 0) {
+          browserHistory.push('/browse')
+        } else {
+          dispatch({ type: A.GET_CART_ITEMS, payload: res.data })
+        }
+      })
       .catch(err => console.error(`Error in getCartItems ${err}`))
   }
 }
@@ -250,7 +257,13 @@ export function getCurrentOrder(params) {
       .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
       .then(() => Store.getShippingMethods())
       .then(res => dispatch({ type: A.GET_SHIPPING_METHODS, payload: res.data }))
-      .catch(err => console.error(`Error in getCurrentOrder ${err}`))
+      .catch((err) => {
+        const { data } = err.response
+        if (data.errors.order && data.errors.order.message === 'Order not found') {
+          browserHistory.push('/browse')
+        }
+        console.error(`Error in getCurrentOrder ${err}`)
+      })
   }
 }
 
@@ -288,7 +301,12 @@ export function reviewOrder(params) {
 export function placeOrder(params) {
   return dispatch => {
     Store.placeOrder(params)
-      .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
+      .then(res => {
+        if (res.data.status === 40) {
+          browserHistory.push('/shop/success')
+        }
+        dispatch({ type: A.SET_ORDER, payload: res.data })
+      })
       .catch(err => console.error(`Error in placeOrder ${err}`))
   }
 }

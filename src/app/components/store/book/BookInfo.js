@@ -665,7 +665,7 @@ class BookInfo extends PureComponent {
               {isUserLogged ?
                 (
                   <Link
-                    className='bookpage-book-add-to-cart-btn'
+                    className='store-primary-button float-right'
                     onClick={!addToCartClicked ?
                       this.handleAddToCart : null
                     }

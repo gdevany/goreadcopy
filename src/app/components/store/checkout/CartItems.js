@@ -20,9 +20,6 @@ class CartItems extends PureComponent {
     if (!isUserLoggedIn) {
       browserHistory.push('/')
     }
-    this.props.getCartItems({
-      perPage: 50,
-    })
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -83,9 +80,7 @@ class CartItems extends PureComponent {
         )
       })
     } return (
-      <div>
-        No elements in the cart
-      </div>
+      <div className='loading-animation-store'/>
     )
   }
 

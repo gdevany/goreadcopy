@@ -95,7 +95,7 @@ const StepTwo = ({
         />
         <a
           onClick={next}
-          className='checkoutpage-review-order-btn'
+          className='store-primary-button float-left'
         >
           Review Order
         </a>

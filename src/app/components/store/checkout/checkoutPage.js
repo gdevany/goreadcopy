@@ -66,6 +66,7 @@ class CheckoutPage extends PureComponent {
       alertText: '',
       paypalConfig: false,
       orderStatus: false,
+      showOverlay: false,
     }
     this.continueToBillingClick = this.continueToBillingClick.bind(this)
     this.continueToReviewClick = this.continueToReviewClick.bind(this)
@@ -403,6 +404,7 @@ class CheckoutPage extends PureComponent {
 
   handlePlaceOrder = () => {
     if (this.state.isCardClicked && !this.state.isPaypalClicked) {
+      this.setState({ showOverlay: true })
       this.props.placeOrder({
         shippingMethod: this.state.shippingMethod,
         paymentMethod: 'cc'
@@ -421,6 +423,7 @@ class CheckoutPage extends PureComponent {
         payerId: payment.payerID,
       })
     }
+    this.setState({ showOverlay: true })
   }
 
   onCancel = (data) => {
@@ -462,6 +465,13 @@ class CheckoutPage extends PureComponent {
     }
     return (
       <section className='checkoutpage-main-container'>
+        {this.state.showOverlay ?
+          (
+            <div className='overlay-on-order-place'>
+              <div className='loading-animation-store-big'/>
+            </div>
+          ) : null
+        }
         <header className='chekoutpage-header slide-down'>
           <figure className='checkoutpage-header-logo-figure'>
             <Link to='/'>
@@ -471,7 +481,7 @@ class CheckoutPage extends PureComponent {
         </header>
         <section className='row'>
           <div className='large-12 columns'>
-            {this.props.order && this.props.order.status !== 40 ?
+            {this.props.order ?
               (
                 <div className='chekoutpage-steps-container'>
                   <div className={this.state.isStepOneActive || this.state.stepOneComplete ?

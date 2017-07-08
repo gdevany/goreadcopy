@@ -19,7 +19,7 @@ const StepOne = ({ shippingInfo, shippingMethods, onChange, setShipping, next })
         }
         <a
           onClick={next}
-          className='checkoutpage-shipping-submit-form-btn'
+          className='store-primary-button float-left'
         >
           Continue to Billing
         </a>

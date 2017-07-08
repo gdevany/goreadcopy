@@ -42,7 +42,7 @@ const StepThree = ({
           (
             <a
               onClick={place}
-              className='checkoutpage-place-order-btn'
+              className='store-primary-button float-left'
             >
               Place Order
             </a>

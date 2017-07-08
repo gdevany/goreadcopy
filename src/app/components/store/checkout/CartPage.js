@@ -85,7 +85,7 @@ class CartPage extends PureComponent {
   render() {
     const { cart, anyGift } = this.state
     return (
-      <div>
+      <div className='root-cart-page'>
         <BookStoreNavBar/>
         <div className='cartpage-main-container'>
           <section className='cartpage-main-element-container'>
@@ -129,7 +129,7 @@ class CartPage extends PureComponent {
                       (
                         <Link
                           onClick={this.props.setOrder()}
-                          className='cartpage-action-primary-btn'
+                          className='store-primary-button float-right'
                           to='/shop/checkout'
                         >
                           Checkout
