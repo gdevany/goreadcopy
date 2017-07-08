@@ -54,7 +54,7 @@ class LitcoinStatus extends PureComponent {
   render() {
     const { currentBalance, litcoinDifference } = this.state
     return (
-      <div>
+      <div className='litcoins-status-container'>
         <a className='rf-nav-link' href={litcoins()}>
           <span>{currentBalance ? currentBalance.toLocaleString() : null}</span>
         </a>

@@ -949,7 +949,7 @@ class NavMenu extends PureComponent {
                     </Link>
                   </li>
 
-                  <li style={styles.loggedInNavLi} className='loged-menu-item'>
+                  <li style={styles.loggedInNavLi} className='logged-menu-item'>
                     <Badge
                       onClick={this.handleChatsContainerShow}
                       badgeContent={chatNotifications}

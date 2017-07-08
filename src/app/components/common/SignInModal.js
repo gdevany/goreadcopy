@@ -59,7 +59,7 @@ class SignInModal extends Component {
       .then(() => { this.props.loadNotifications() })
       .then(() => {
         this.setState({ showLoader: false })
-        this.props.handleClose
+        this.props.handleClose()
       })
   }
 

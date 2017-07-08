@@ -9,8 +9,6 @@ import BestSellers from '../common/BestSellers'
 import TrendingBooks from '../common/TrendingBooks'
 import { Auth } from '../../../services'
 
-const isUserLoggedIn = Auth.currentUserExists()
-
 class BookStore extends PureComponent {
   constructor(props) {
     super(props)
@@ -45,6 +43,7 @@ class BookStore extends PureComponent {
 
   render() {
     const { randomCategory } = this.state
+    const isUserLoggedIn = Auth.currentUserExists()
     return (
       <div>
         <BookStoreNavBar/>

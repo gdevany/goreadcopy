@@ -63,14 +63,18 @@ class ReviewOrder extends PureComponent {
               </span>
             </div>
           </div>
-          <div className='checkoutpage-order-review-edit'>
-            <a
-              onClick={(event) => this.handleEditModalOpen(event, 'shipping')}
-              className='checkoutpage-order-review-edit-btn'
-            >
-              Edit
-            </a>
-          </div>
+          {data.status !== 40 ?
+            (
+              <div className='checkoutpage-order-review-edit'>
+                <a
+                  onClick={(event) => this.handleEditModalOpen(event, 'shipping')}
+                  className='checkoutpage-order-review-edit-btn'
+                >
+                  Edit
+                </a>
+              </div>
+            ) : null
+          }
         </article>
         <hr className='checkoutpage-order-review-divider'/>
         <article className='checkoutpage-order-review-card-main'>
@@ -92,7 +96,7 @@ class ReviewOrder extends PureComponent {
                         />
                       ) : null
                     }
-                    {data.cardType === 'Master' ?
+                    {data.cardType === 'MasterCard' ?
                       (
                         <img
                           src='/image/master-black.png'
@@ -101,7 +105,7 @@ class ReviewOrder extends PureComponent {
                       ) : null
                     }
 
-                    {data.cardType === 'American' ?
+                    {data.cardType === 'AmericanExpress' ?
                       (
                         <img
                           src='/image/american-black.png'
@@ -135,23 +139,29 @@ class ReviewOrder extends PureComponent {
               )
             }
           </div>
-          <div className='checkoutpage-order-review-edit'>
-            <a
-              onClick={(event) => this.handleEditModalOpen(event, 'card')}
-              className='checkoutpage-order-review-edit-btn'
-            >
-              Edit
-            </a>
-          </div>
+          {data.status !== 40 ?
+            (
+              <div className='checkoutpage-order-review-edit'>
+                <a
+                  onClick={(event) => this.handleEditModalOpen(event, 'card')}
+                  className='checkoutpage-order-review-edit-btn'
+                >
+                  Edit
+                </a>
+              </div>
+            ) : null
+          }
         </article>
         <hr className='checkoutpage-order-review-divider'/>
-        {this.props.shippingMethods ?
+        {this.props.shippingMethods && data.status !== 40 ?
           <ShippingMethods
             shippingMethods={this.props.shippingMethods}
             onClick={this.setShippingMethod}
           /> : null
         }
-        <hr className='checkoutpage-order-review-divider'/>
+        {data.status !== 40 ?
+          (<hr className='checkoutpage-order-review-divider'/>) : null
+        }
         <UseLitcoins
           onChange={this.handleUseLitcoins}
           boxChecked={this.state.isUsingLitcoins}

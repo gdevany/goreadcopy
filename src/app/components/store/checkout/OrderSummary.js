@@ -1,9 +1,38 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { Store } from '../../../redux/actions'
+
+const { setPromoCode } = Store
 
 class OrderSummary extends PureComponent {
   constructor(props) {
     super(props)
+    this.state = {
+      promoCode: '',
+    }
+    this.handleChange = this.handleChange.bind(this)
+    this.handlePromoApply = this.handlePromoApply.bind(this)
+  }
+
+  handleEnterButton = (event) => {
+    if (event.which === 13) {
+      event.preventDefault()
+    }
+  }
+
+  handleChange = (event) => {
+    event.preventDefault()
+    this.setState({ promoCode: event.target.value })
+  }
+
+  handlePromoApply = (event) => {
+    event.preventDefault()
+    const { orderSummary, setPromoCode } = this.props
+    const { promoCode } = this.state
+
+    if (promoCode.length >= 4) {
+      setPromoCode(orderSummary.id, promoCode)
+    }
   }
 
   render() {
@@ -64,34 +93,52 @@ class OrderSummary extends PureComponent {
                 ${orderSummary.orderTotal}
               </span>
             </div>
-            <hr className='checkoutpage-order-summary-divider'/>
-            <form className='checkoutpage-order-summary-coupon-form'>
-              <input
-                type='text'
-                placeholder='Apply promo code'
-                className='checkoutpage-order-summary-coupon-input'
-              />
-              <a className='checkoutpage-order-summary-coupon-submit'>
-                Apply
-              </a>
-            </form>
-          </section>
-          <section className='checkoutpage-order-litcoins-to-earn-container'>
-            <span className='checkoutpage-order-litcoins-to-earn-main-text'>
-               Yo'll earn <b> ${orderSummary.dollarsToEarn} </b>
-              <span className='checkoutpage-order-litcoins-to-earn-litcoins-amount'>
-                ({orderSummary.litcoinsToEarn ?
-                  orderSummary.litcoinsToEarn.toLocaleString() : null
-                }
-                  <img
-                    className='checkoutpage-order-litcoins-to-earn-litcoins-img'
-                    src='/image/litcoin.png'
+            {orderSummary.status !== 40 ?
+              (<hr className='checkoutpage-order-summary-divider'/>) : null
+            }
+            {orderSummary.status !== 40 ?
+              (
+                <form
+                  className='checkoutpage-order-summary-coupon-form'
+                  onKeyPress={this.handleEnterButton}
+                >
+                  <input
+                    type='text'
+                    placeholder='Apply promo code'
+                    onChange={this.handleChange}
+                    value={this.state.promoCode}
+                    className='checkoutpage-order-summary-coupon-input'
                   />
-                )
-              </span>
-              with this purchase
-            </span>
+                  <a
+                    onClick={this.handlePromoApply}
+                    className='checkoutpage-order-summary-coupon-submit'
+                  >
+                    Apply
+                  </a>
+                </form>
+              ) : null
+            }
           </section>
+          {orderSummary.status !== 40 ?
+            (
+              <section className='checkoutpage-order-litcoins-to-earn-container'>
+                <span className='checkoutpage-order-litcoins-to-earn-main-text'>
+                  Yo'll earn <b> ${orderSummary.dollarsToEarn} </b>
+                  <span className='checkoutpage-order-litcoins-to-earn-litcoins-amount'>
+                    ({orderSummary.litcoinsToEarn ?
+                      orderSummary.litcoinsToEarn.toLocaleString() : null
+                    }
+                      <img
+                        className='checkoutpage-order-litcoins-to-earn-litcoins-img'
+                        src='/image/litcoin.png'
+                      />
+                    )
+                  </span>
+                  with this purchase
+                </span>
+              </section>
+            ) : null
+          }
         </section>
       )
     }
@@ -103,4 +150,4 @@ const mapStateToProps = (state) => {
     orderSummary: state.store.order
   }
 }
-export default connect(mapStateToProps, null)(OrderSummary)
+export default connect(mapStateToProps, { setPromoCode })(OrderSummary)

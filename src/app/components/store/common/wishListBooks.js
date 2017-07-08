@@ -55,6 +55,9 @@ class WishListBooks extends PureComponent {
 
   render() {
     const { profilePage } = this.props
+    if (profilePage.wishList === 'User has no books in the wish list') {
+      return null
+    }
     return (
       <section className='wishlist-books-main-container'>
         <div className='wishlist-columns-container'>

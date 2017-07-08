@@ -12,6 +12,7 @@ class CartItems extends PureComponent {
     super(props)
     this.state = {
       cart: false,
+      status: false,
     }
   }
 
@@ -19,9 +20,6 @@ class CartItems extends PureComponent {
     if (!isUserLoggedIn) {
       browserHistory.push('/')
     }
-    this.props.getCartItems({
-      perPage: 50,
-    })
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -30,6 +28,7 @@ class CartItems extends PureComponent {
         cart: nextProps.cart
       })
     }
+    if (nextProps.order) this.setState({ status: nextProps.order.status })
   }
 
   truncInfo = (text, limit) => {
@@ -65,11 +64,11 @@ class CartItems extends PureComponent {
                 Hardcover
               </span> */}
               <span className='checkoutpage-cart-single-element-price'>
-                ${elem.product.unitPrice}
+                ${elem.product.unitPrice.toLocaleString()}
               </span>
               <div className='checkoutpage-cart-single-element-litcoins'>
                 <span className='checkoutpage-cart-single-element-litcoins-count'>
-                  {elem.product.litcoinsPrice}
+                  {elem.product.litcoinsPrice.toLocaleString()}
                 </span>
                 <img
                   className='checkoutpage-cart-single-element-litcoins-img'
@@ -81,25 +80,28 @@ class CartItems extends PureComponent {
         )
       })
     } return (
-      <div>
-        No elements in the cart
-      </div>
+      <div className='loading-animation-store'/>
     )
   }
 
   render() {
+    const { status } = this.state
     return (
       <section className='checkoutpage-cart-elements-container'>
         <div className='checkoutpage-cart-elements-heading'>
           <h3 className='checkoutpage-cart-elements-heading-title'>
             Cart
           </h3>
-          <Link
-            className='checkoutpage-cart-elements-heading-anchor'
-            to='/shop/cart'
-          >
-            Edit Cart
-          </Link>
+          {status !== 40 ?
+            (
+              <Link
+                className='checkoutpage-cart-elements-heading-anchor'
+                to='/shop/cart'
+              >
+                Edit Cart
+              </Link>
+            ) : null
+          }
         </div>
         <section className='checkoutpage-cart-elements'>
           {this.renderCart()}
@@ -112,6 +114,7 @@ class CartItems extends PureComponent {
 const mapStateToProps = (state) => {
   return {
     cart: state.store.cartItems,
+    order: state.store.order,
   }
 }
 

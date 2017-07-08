@@ -307,7 +307,7 @@ class EditElementsModal extends PureComponent {
                         />
                       ) : null
                     }
-                    {cardDetails.cardType === 'Master' ?
+                    {cardDetails.cardType === 'MasterCard' ?
                       (
                         <img
                           src='/image/master-black.png'
@@ -316,7 +316,7 @@ class EditElementsModal extends PureComponent {
                       ) : null
                     }
 
-                    {cardDetails.cardType === 'American' ?
+                    {cardDetails.cardType === 'AmericanExpress' ?
                       (
                         <img
                           src='/image/american-black.png'

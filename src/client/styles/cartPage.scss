@@ -192,7 +192,7 @@
         margin-bottom: 0;
       }
       &:hover{
-        background-color: $store-blue;
+        background-image: linear-gradient(to right, rgb(44, 208, 243), $store-blue);
         color: $white;
         border: solid 1px transparent;
       }
@@ -201,7 +201,7 @@
       display: block;
       text-align: center;
       padding: 15px 25px;
-      background-color: $store-blue;
+      background-image: linear-gradient(to right, rgb(44, 208, 243), $store-blue);
       color: $white;
       border-radius: 25px;
       min-width: 200px;
@@ -357,7 +357,7 @@
 .checkoutpage-shipping-submit-form-btn{
   display: block;
   padding: 15px 25px;
-  background-color: $store-blue;
+  background-image: linear-gradient(to right, rgb(44, 208, 243), $store-blue);
   color: $white;
   font-weight: 200;
   text-align: center;
@@ -370,6 +370,7 @@
 }
 
 .checkoutpage-order-summary-container{
+  display: inline-block;
   padding: 35px 0;
   width: 100%;
   border-radius: 10px;
@@ -470,7 +471,6 @@
       width: 30%;
       transition: all .3s ease;
       &:hover{
-        border: solid 1px transparent;
         background-color: $store-blue;
         color: $white;
       }
@@ -517,7 +517,7 @@
       &:hover{
         border: solid 1px transparent;
         color: $white;
-        background-color: $store-blue;
+        background-image: linear-gradient(to right, rgb(44, 208, 243), $store-blue);
       }
     }
   }
@@ -550,7 +550,7 @@
           display: flex;
           top: -5px;
           color: #fff;
-          background-color: $store-blue;
+          background-image: linear-gradient(to right, rgb(44, 208, 243), $store-blue);
           padding: 5px;
           border-radius: 10px;
           font-size: 11px;
@@ -851,22 +851,9 @@
   }
 }
 
-.checkoutpage-review-order-btn{
-  display: block;
-  padding: 15px 25px;
-  background-color: $store-blue;
-  color: $white;
-  font-weight: 200;
-  text-align: center;
-  margin-top: 15px;
-  border-radius: 30px;
-  max-width: 200px;
-  &:hover{
-    color: $white;
-  }
-}
 .checkoutpage-review-order-text{
-  display: block;
+  display: flex;
+  width: 100%;
   font-size: 14px;
   margin-top: 10px;
   color: #949494;
@@ -977,21 +964,6 @@
     &:hover{
       color: $light-med-grey;
     }
-  }
-}
-
-.checkoutpage-place-order-btn{
-  display: block;
-  padding: 10px 20px;
-  background-color: $store-blue;
-  color: $white;
-  font-weight: 200;
-  text-align: center;
-  margin-bottom: 15px;
-  border-radius: 30px;
-  max-width: 200px;
-  &:hover{
-    color: $white;
   }
 }
 
@@ -1118,7 +1090,7 @@
     align-items: center;
     padding: 10px 25px;
     color: $white;
-    background-color: $store-blue;
+    background-image: linear-gradient(to right, rgb(44, 208, 243), $store-blue);
     font-size: 16px;
     border-radius: 23px;
     margin-right: 15px;
@@ -1198,6 +1170,40 @@
       path{
         fill: $white;
       }
+    }
+  }
+}
+
+.overlay-on-order-place{
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: $white;
+  opacity: .6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkout-order-completed-container{
+  width: 100%;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  background-image: linear-gradient(-134deg, #f8fffe, #f7fcff 99%);
+  padding: 2em;
+  .checkout-order-completed{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    .checkout-order-completed-title{
+      text-align: center;
+      max-width: 400px;
+    }
+    .checkout-order-completed-description{
+      max-width: 650px;
+      text-align: center;
     }
   }
 }

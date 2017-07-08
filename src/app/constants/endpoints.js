@@ -102,8 +102,10 @@ const Endpoints = () => {
       setShipping: (params) => apiUrl('store/order/shipping', params),
       getCurrentOrder: (params) => apiUrl('store/order/current', params),
       setBilling: (params) => apiUrl('store/order/billing', params),
-      reviewOrder: (params) => apiUrl('store/order/review', params),
+      placeOrder: (params) => apiUrl('store/order/place', params),
       getPaypalConfig: () => apiUrl('store/order/paypal/configuration'),
+      setPromoCode: (id, params) => apiUrl(`store/order/${id}/apply_code`, params),
+      cleanPromoCode: (id, params) => apiUrl(`store/order/${id}/clean_code`, params),
     },
     rates: {
       getStarsInfo: (modelName, id) => apiUrl(`rate/${modelName}/${id}/stars`),

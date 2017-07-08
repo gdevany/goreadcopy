@@ -11,6 +11,7 @@ import {
   CategoriesPage,
   CartPage,
   CheckoutPage,
+  orderSuccess,
 } from './components/store'
 
 import { ReferralHome } from './components/referral'
@@ -32,6 +33,7 @@ const Routes = (
     <Route path='/categories/:slug/:subCategory' component={CategoriesPage} />
     <Route path='/shop/cart' component={CartPage} />
     <Route path='/shop/checkout' component={CheckoutPage} />
+    <Route path='/shop/success' component={orderSuccess} />
     <Route path='/signup' component={SignUpFlow} />
     <Route path='/redirect' component={IncomingRedirect} />
   </Route>

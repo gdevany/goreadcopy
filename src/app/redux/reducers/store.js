@@ -48,6 +48,10 @@ export default (state = initialState.store, { type, payload }) => {
       return R.merge(state, { shippingMethods: payload })
     case A.GET_PAYPAL_CONFIG:
       return R.merge(state, { paypalConfig: payload })
+    case A.SET_PROMO_CODE:
+      return R.merge(state, { promoCode: payload })
+    case A.CLEAN_PROMO_CODE:
+      return R.merge(state, { promoCode: {} })
     default:
       return state
   }
