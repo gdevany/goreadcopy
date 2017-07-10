@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { Auth } from '../../../services'
 import { Store } from '../../../redux/actions'
 
-const isUserLoggedIn = Auth.currentUserExists()
 const { getCartItems } = Store
 
 class CartItems extends PureComponent {
@@ -13,12 +11,6 @@ class CartItems extends PureComponent {
     this.state = {
       cart: false,
       status: false,
-    }
-  }
-
-  componentWillMount = () => {
-    if (!isUserLoggedIn) {
-      browserHistory.push('/')
     }
   }
 

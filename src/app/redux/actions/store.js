@@ -257,10 +257,15 @@ export function getCurrentOrder(params) {
       .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
       .then(() => Store.getShippingMethods())
       .then(res => dispatch({ type: A.GET_SHIPPING_METHODS, payload: res.data }))
+      .then(res => dispatch(getCartItems({
+        perPage: 50,
+      })))
       .catch((err) => {
-        const { data } = err.response
-        if (data.errors.order && data.errors.order.message === 'Order not found') {
-          browserHistory.push('/browse')
+        if (err.response !== undefined) {
+          const { data } = err.response
+          if (data.errors.order && data.errors.order.message === 'Order not found') {
+            browserHistory.push('/browse')
+          }
         }
         console.error(`Error in getCurrentOrder ${err}`)
       })
@@ -366,5 +371,6 @@ export default {
   reviewOrder,
   placeOrder,
   getPaypalConfig,
-  setPromoCode
+  setPromoCode,
+  cleanPromoCode,
 }

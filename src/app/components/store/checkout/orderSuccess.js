@@ -10,8 +10,12 @@ const styles = {
     padding: '1em',
   },
 }
-
 class orderSuccess extends PureComponent {
+
+  componentWillMount = () => {
+    console.log(this.props)
+  }
+
   render() {
     return (
       <div>

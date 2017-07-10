@@ -13,8 +13,13 @@ const {
 } = Store
 
 const styles = {
-  snackBar: {
+  snackBarError: {
     backgroundColor: '#EC6464',
+    textAlign: 'center',
+    height: 50,
+  },
+  snackBarSuccess: {
+    backgroundColor: '#32BB65',
     textAlign: 'center',
     height: 50,
   },
@@ -62,8 +67,11 @@ class CheckoutPage extends PureComponent {
       zipcodeBilling: '',
       useLitcoins: false,
       cardStored: false,
-      alertOpen: false,
-      alertText: '',
+      snackbar: {
+        open: false,
+        text: '',
+        type: '',
+      },
       paypalConfig: false,
       orderStatus: false,
       showOverlay: false,
@@ -132,17 +140,23 @@ class CheckoutPage extends PureComponent {
     return text.length >= limit ? `${text.slice(0, limit)}...` : text
   }
 
-  showAlert = (message) => {
+  showAlert = (message, type) => {
     this.setState({
-      alertOpen: true,
-      alertText: message,
+      snackbar: {
+        open: true,
+        text: message,
+        type,
+      },
     })
   }
 
   handleAlertClose = () => {
     this.setState({
-      alertOpen: false,
-      alertText: '',
+      snackbar: {
+        open: false,
+        text: '',
+        type: '',
+      },
     })
   }
 
@@ -219,15 +233,15 @@ class CheckoutPage extends PureComponent {
     } else {
       if (!(cityShipping || countryShipping || addressShipping ||
         zipcodeShipping || stateShipping) && shippingMethod === '') {
-        this.showAlert('Please fill all fields')
+        this.showAlert('Please fill all fields', 'error')
       }
       if ((cityShipping || countryShipping || addressShipping ||
         zipcodeShipping || stateShipping) && shippingMethod === '') {
-        this.showAlert('Please select a Shipping Method')
+        this.showAlert('Please select a Shipping Method', 'error')
       }
       if (!cityShipping || !countryShipping || !addressShipping ||
         !zipcodeShipping || !stateShipping && shippingMethod !== '') {
-        this.showAlert('Please Fill all Shipping address Form')
+        this.showAlert('Please Fill all Shipping address Form', 'error')
       }
     }
   }
@@ -287,7 +301,7 @@ class CheckoutPage extends PureComponent {
               })
               this.passToReview()
             } else {
-              this.showAlert('Please Complete all Billing Fields')
+              this.showAlert('Please Complete all Billing Fields', 'error')
             }
           } else {
             const expDate = this.splitCardExp(fullExpDate)
@@ -305,7 +319,7 @@ class CheckoutPage extends PureComponent {
             })
             this.passToReview()
           }
-        } else this.showAlert('Please Complete all your card info')
+        } else this.showAlert('Please Complete all your card info', 'error')
       } else if (cardStored) {
         if (!sameShippingAddress) {
           if (cityBilling && countryBilling && addressBilling &&
@@ -329,7 +343,7 @@ class CheckoutPage extends PureComponent {
             })
             this.passToReview()
           } else {
-            this.showAlert('Please Complete all Billing Fields')
+            this.showAlert('Please Complete all Billing Fields', 'error')
           }
         } else {
           setBilling({
@@ -357,7 +371,7 @@ class CheckoutPage extends PureComponent {
             })
             this.passToReview()
           } else {
-            this.showAlert('Please Complete all Billing Fields')
+            this.showAlert('Please Complete all Billing Fields', 'error')
           }
         } else {
           const expDate = this.splitCardExp(fullExpDate)
@@ -375,7 +389,7 @@ class CheckoutPage extends PureComponent {
           })
           this.passToReview()
         }
-      } else this.showAlert('Please Complete all your card info')
+      } else this.showAlert('Please Complete all your card info', 'error')
     }
   }
 
@@ -427,12 +441,12 @@ class CheckoutPage extends PureComponent {
   }
 
   onCancel = (data) => {
-    this.showAlert('The payment was cancelled')
+    this.showAlert('The payment was cancelled', 'error')
     console.log('Payment canceled!', data)
   }
 
   onError = (err) => {
-    this.showAlert('Error')
+    this.showAlert('Error', 'error')
     console.log('Error!', err)
   }
 
@@ -601,11 +615,13 @@ class CheckoutPage extends PureComponent {
           </div>
         </section>
         <Snackbar
-          open={this.state.alertOpen}
-          message={this.state.alertText}
+          open={this.state.snackbar.open}
+          message={this.state.snackbar.text}
           autoHideDuration={3000}
           onRequestClose={this.handleAlertClose}
-          bodyStyle={styles.snackBar}
+          bodyStyle={this.state.snackbar.type === 'error' ?
+            styles.snackBarError : styles.snackBarSuccess
+          }
           contentStyle={styles.contentStyle}
         />
       </section>

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Store } from '../../../redux/actions'
 
-const { setPromoCode } = Store
+const { setPromoCode, cleanPromoCode } = Store
 
 class OrderSummary extends PureComponent {
   constructor(props) {
@@ -12,6 +12,7 @@ class OrderSummary extends PureComponent {
     }
     this.handleChange = this.handleChange.bind(this)
     this.handlePromoApply = this.handlePromoApply.bind(this)
+    this.handlePromoClean = this.handlePromoClean.bind(this)
   }
 
   handleEnterButton = (event) => {
@@ -33,6 +34,12 @@ class OrderSummary extends PureComponent {
     if (promoCode.length >= 4) {
       setPromoCode(orderSummary.id, promoCode)
     }
+  }
+
+  handlePromoClean = (event) => {
+    event.preventDefault()
+    const { orderSummary, cleanPromoCode } = this.props
+    cleanPromoCode(orderSummary.id, orderSummary.promotionCodes[0].code)
   }
 
   render() {
@@ -69,6 +76,21 @@ class OrderSummary extends PureComponent {
                   ${orderSummary.taxes.toLocaleString()}
                 </span>
               </div>
+              {orderSummary.promotionCodes.length ?
+                (
+                  <div className='checkoutpage-order-summary-list-single'>
+                    <span className='checkoutpage-order-summary-list-description'>
+                      {orderSummary.promotionCodes[0].discountType === 'percentage' ?
+                        `Promo Code -${orderSummary.promotionCodes[0].discount}%` :
+                        'Promo Code'
+                      }
+                    </span>
+                    <span className='checkoutpage-order-summary-list-price'>
+                      {`-$${orderSummary.promotionCodes[0].discountAmount.toLocaleString()}`}
+                    </span>
+                  </div>
+                ) : null
+              }
               <div className='checkoutpage-order-summary-list-single'>
                 <span className='checkoutpage-order-summary-list-description has-litcoins'>
                   Litcoins
@@ -96,7 +118,7 @@ class OrderSummary extends PureComponent {
             {orderSummary.status !== 40 ?
               (<hr className='checkoutpage-order-summary-divider'/>) : null
             }
-            {orderSummary.status !== 40 ?
+            {orderSummary.status !== 40 && !orderSummary.promotionCodes.length ?
               (
                 <form
                   className='checkoutpage-order-summary-coupon-form'
@@ -116,6 +138,15 @@ class OrderSummary extends PureComponent {
                     Apply
                   </a>
                 </form>
+              ) : null
+            }
+            {orderSummary.promotionCodes.length ?
+              (
+                <div className='checkoutpage-order-summary-total'>
+                  <a onClick={this.handlePromoClean}>
+                    Remove promo code discount
+                  </a>
+                </div>
               ) : null
             }
           </section>
@@ -150,4 +181,4 @@ const mapStateToProps = (state) => {
     orderSummary: state.store.order
   }
 }
-export default connect(mapStateToProps, { setPromoCode })(OrderSummary)
+export default connect(mapStateToProps, { setPromoCode, cleanPromoCode })(OrderSummary)
