@@ -5,7 +5,6 @@ const testPath = path.resolve(__dirname, 'test');
 const TransferWebpackPlugin = require('transfer-webpack-plugin')
 const dotenv = require('dotenv')
 const CompressionPlugin = require('compression-webpack-plugin')
-const failPlugin = require('webpack-fail-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin')
@@ -36,7 +35,6 @@ module.exports = {
     publicPath: '/',
   },
   plugins: [
-    failPlugin,
     new webpack.DefinePlugin({
       'process.env.SOCKET_URL' : JSON.stringify(process.env.SOCKET_URL),
       'process.env.API_URL' : JSON.stringify(process.env.API_URL),
@@ -63,11 +61,14 @@ module.exports = {
       inlineManifest: true
     }),
     new HtmlWebpackPlugin({
+        // Params
         hash: false,
         showErrors: true,
-        title: 'GoRead',
         template: 'src/client/index.ejs',
         chunksSortMode: 'dependency',
+        // Variables
+        title: 'GoRead',
+        env: process.env.NODE_ENV,
     }),
     new webpack.NamedModulesPlugin(),
     new webpack.NamedChunksPlugin((chunk) => {

@@ -116,16 +116,17 @@
               width: 80px;
               transition: all .3s ease;
               &:hover{
-                background: $store-blue;
+                background-image: linear-gradient(to right, rgb(44, 208, 243), $store-blue);
+                border: solid 1px transparent;
                 color: $white;
               }
             }
             .bookpage-author-follow-action-active{
-              background: $store-blue;
+              background-image: linear-gradient(to right, rgb(44, 208, 243), $store-blue);
               color: $white;
               border-radius: 23px;
               font-size: 14px;
-              border: solid 1px $store-blue;
+              border: solid 1px transparent;
               text-align: center;
               width: 80px;
               transition: all .3s ease;
@@ -582,7 +583,7 @@
         &:hover{
           transition: all .3s ease;
           color: $white;
-          background: $store-blue;
+          background-image: linear-gradient(to right, rgb(44, 208, 243), $store-blue);
         }
       }
     }
@@ -1061,8 +1062,8 @@
       transition: all .3s ease;
       &:hover{
         color: $white;
-        background: $store-blue;
-        border: solid 1px $store-blue;
+        background-image: linear-gradient(to right, rgb(44, 208, 243), $store-blue);
+        border: solid 1px transparent;
       }
     }
     .bookpage-review-post-anchor-disabled{

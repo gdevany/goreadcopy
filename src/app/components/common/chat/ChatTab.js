@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Chat as ChatActions } from '../../../redux/actions'
 import { Chat as ChatServices } from '../../../services/api/currentReader'
@@ -382,9 +383,9 @@ class ChatTab extends PureComponent {
 }
 
 ChatTab.propTypes = {
-  id: React.PropTypes.number.isRequired,
-  history: React.PropTypes.object.isRequired,
-  isOpen: React.PropTypes.bool,
+  id: PropTypes.number.isRequired,
+  history: PropTypes.object.isRequired,
+  isOpen: PropTypes.bool,
 }
 
 ChatTab.defaultProps = {

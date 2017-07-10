@@ -30,8 +30,8 @@ module.exports = {
     'webpack-hot-middleware/client',
     path.join(__dirname, '/src/app/index.js'),
   ],
-  /*
   devtool: 'eval-source-map',
+  /*
   devtool: 'inline-source-map',
   */
   output: {
@@ -56,11 +56,14 @@ module.exports = {
       {from: 'client'},
     ], path.resolve(__dirname, 'src')),
     new HtmlWebpackPlugin({
+        // Params
         alwaysWriteToDisk: true,
-        title: 'GoRead',
         template: 'src/client/index.ejs',
         filesname: 'index.html',
         showErrors: true,
+        // Variables
+        title: 'GoRead',
+        env: process.env.NODE_ENV,
     }),
     new HtmlWebpackHarddiskPlugin({
         outputPath: path.resolve(__dirname, 'src/client')
@@ -73,7 +76,10 @@ module.exports = {
            return module.context && module.context.indexOf('node_modules') !== -1;
         }
     }),
-    new BundleAnalyzerPlugin(),
+    //--------------------------------------------------
+    // Only enable when you want to use the Analyzer!!!!
+    //--------------------------------------------------
+    //new BundleAnalyzerPlugin(),
   ],
   /*
   externals: { // necessary for tests(when we create them) to run properly

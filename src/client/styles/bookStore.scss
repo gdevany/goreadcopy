@@ -506,3 +506,28 @@
   background: #333333;
   width: 100%;
 }
+
+.store-primary-button{
+  display: block;
+  text-align: center;
+  padding: 15px 25px;
+  background-image: linear-gradient(to right, rgb(44, 208, 243), $store-blue);
+  color: $white;
+  border-radius: 25px;
+  min-width: 200px;
+  max-width: 300px;
+  margin: 1em 0;
+  &:hover{
+    color: $white;
+  }
+}
+
+.store-primary-button.centered{
+  margin: 1em auto;
+}
+.store-primary-button.float-left{
+  float: left;
+}
+.store-primary-button.float-right{
+  float: right;
+}

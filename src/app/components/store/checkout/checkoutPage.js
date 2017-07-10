@@ -2,24 +2,31 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { Store } from '../../../redux/actions'
-import OrderSummary from './OrderSummary'
-import CartItems from './CartItems'
-import ReviewOrder from './ReviewOrder'
+import { StepOne, StepTwo, StepThree } from './orderSteps'
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
-import LockIcon from 'material-ui/svg-icons/action/lock-outline'
+import Snackbar from 'material-ui/Snackbar'
 import R from 'ramda'
 
 const {
-  setOrder,
-  getOrder,
-  getCurrentOrder,
-  getShippingMethods,
-  setUserAddress,
-  setShipping,
-  setBilling,
-  placeOrder,
-  setUserAddressAndShipping
+  setOrder, getOrder, getCurrentOrder, setUserAddress, setUserAddressAndShipping,
+  setShipping, setBilling, placeOrder, getPaypalConfig,
 } = Store
+
+const styles = {
+  snackBarError: {
+    backgroundColor: '#EC6464',
+    textAlign: 'center',
+    height: 50,
+  },
+  snackBarSuccess: {
+    backgroundColor: '#32BB65',
+    textAlign: 'center',
+    height: 50,
+  },
+  contentStyle: {
+    fontSize: 16,
+  }
+}
 
 class CheckoutPage extends PureComponent {
   constructor(props) {
@@ -44,7 +51,6 @@ class CheckoutPage extends PureComponent {
       shippingMethod: '',
       shippingId: '',
       billingId: '',
-      setShippingMethod: '',
       nameOnCard: '',
       cardNumber: '',
       cardCVC: '',
@@ -61,6 +67,14 @@ class CheckoutPage extends PureComponent {
       zipcodeBilling: '',
       useLitcoins: false,
       cardStored: false,
+      snackbar: {
+        open: false,
+        text: '',
+        type: '',
+      },
+      paypalConfig: false,
+      orderStatus: false,
+      showOverlay: false,
     }
     this.continueToBillingClick = this.continueToBillingClick.bind(this)
     this.continueToReviewClick = this.continueToReviewClick.bind(this)
@@ -73,35 +87,44 @@ class CheckoutPage extends PureComponent {
 
   componentWillMount = () => {
     this.props.getCurrentOrder()
-    this.props.getShippingMethods()
   }
 
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.order) {
       const {
-        shippingAddress,
-        billingAddress,
-        cardLast4,
-        cardExpMonth,
-        cardExpYear
+        shippingAddress, billingAddress, cardLast4, cardExpMonth, cardExpYear,
+        billingMethod, litcoinsRedeemed,
       } = nextProps.order
-      const fullname = this.splitFullName(shippingAddress.name)
-      this.setState({
-        firstNameShipping: fullname[0],
-        lastNameShipping: fullname[1],
-        addressShipping: shippingAddress.address,
-        address2Shipping: shippingAddress.address2,
-        countryShipping: shippingAddress.country,
-        stateShipping: shippingAddress.state,
-        cityShipping: shippingAddress.city,
-        zipcodeShipping: shippingAddress.zipcode,
-        shippingId: shippingAddress.id,
-        billingId: billingAddress.id,
-        nameOnCard: shippingAddress.name || '',
-        cardNumber: `**** **** **** ${cardLast4}` || '',
-        fullExpDate: `${cardExpMonth}/${cardExpYear}` || '',
-      })
-      if (cardLast4) this.setState({ cardStored: true })
+      if (shippingAddress) {
+        const fullname = this.splitFullName(shippingAddress.name)
+        this.setState({
+          firstNameShipping: fullname[0],
+          lastNameShipping: fullname[1],
+          addressShipping: shippingAddress.address,
+          address2Shipping: shippingAddress.address2,
+          countryShipping: shippingAddress.country,
+          stateShipping: shippingAddress.state,
+          cityShipping: shippingAddress.city,
+          zipcodeShipping: shippingAddress.zipcode,
+          shippingId: shippingAddress.id,
+          billingId: billingAddress.id,
+          useLitcoins: (litcoinsRedeemed > 0),
+        })
+      }
+      if (cardLast4) {
+        this.setState({
+          cardStored: true,
+          nameOnCard: shippingAddress.name || '',
+          cardNumber: `**** **** **** ${cardLast4}` || '',
+          fullExpDate: `${cardExpMonth}/${cardExpYear}` || '',
+          billingMethod: billingMethod || '',
+          cardCVC: '***',
+        })
+      }
+      this.setState({ status: nextProps.order.status })
+    }
+    if (nextProps.paypalConfig) {
+      this.setState({ paypalConfig: nextProps.paypalConfig })
     }
   }
 
@@ -115,6 +138,40 @@ class CheckoutPage extends PureComponent {
 
   truncInfo = (text, limit) => {
     return text.length >= limit ? `${text.slice(0, limit)}...` : text
+  }
+
+  showAlert = (message, type) => {
+    this.setState({
+      snackbar: {
+        open: true,
+        text: message,
+        type,
+      },
+    })
+  }
+
+  handleAlertClose = () => {
+    this.setState({
+      snackbar: {
+        open: false,
+        text: '',
+        type: '',
+      },
+    })
+  }
+
+  handleChangePaymentMethod = (type) => {
+    if (type === 'paypal') {
+      this.setState({
+        isPaypalClicked: true,
+        isCardClicked: false,
+      })
+    } else if (type === 'card') {
+      this.setState({
+        isPaypalClicked: false,
+        isCardClicked: true,
+      })
+    }
   }
 
   handleFormsChanges = R.curry((field, event) => {
@@ -151,19 +208,11 @@ class CheckoutPage extends PureComponent {
   continueToBillingClick = (event) => {
     event.preventDefault()
     const {
-      firstNameShipping,
-      lastNameShipping,
-      addressShipping,
-      address2Shipping,
-      countryShipping,
-      stateShipping,
-      cityShipping,
-      zipcodeShipping,
-      shippingId,
-      shippingMethod,
+      firstNameShipping, lastNameShipping, addressShipping, address2Shipping,
+      countryShipping, stateShipping, cityShipping, zipcodeShipping, shippingMethod,
     } = this.state
     if (cityShipping && countryShipping && addressShipping &&
-      address2Shipping && zipcodeShipping && stateShipping && shippingMethod !== '') {
+      zipcodeShipping && stateShipping && shippingMethod !== '') {
       this.setState({
         isStepOneActive: false,
         isStepTwoActive: true,
@@ -180,72 +229,153 @@ class CheckoutPage extends PureComponent {
         state: stateShipping,
         addressType: 'shipping',
         sameBillingAndShipping: true,
-      }, {
-        shippingAddressId: shippingId,
-        shippingMethod: shippingMethod,
-      })
-      // this.props.setShipping({
-      //
-      // })
-    } else alert('Fill everything')
+      }, shippingMethod)
+    } else {
+      if (!(cityShipping || countryShipping || addressShipping ||
+        zipcodeShipping || stateShipping) && shippingMethod === '') {
+        this.showAlert('Please fill all fields', 'error')
+      }
+      if ((cityShipping || countryShipping || addressShipping ||
+        zipcodeShipping || stateShipping) && shippingMethod === '') {
+        this.showAlert('Please select a Shipping Method', 'error')
+      }
+      if (!cityShipping || !countryShipping || !addressShipping ||
+        !zipcodeShipping || !stateShipping && shippingMethod !== '') {
+        this.showAlert('Please Fill all Shipping address Form', 'error')
+      }
+    }
+  }
+
+  passToReview = () => {
+    this.setState({
+      isStepOneActive: false,
+      isStepTwoActive: false,
+      isStepThreeActive: true,
+      stepOneComplete: true,
+      stepTwoComplete: true,
+    })
+  }
+
+  isUsingOtherCard = () => {
+    const { cardExpMonth, cardExpYear, cardLast4 } = this.props.order
+    const { fullExpDate, cardNumber } = this.state
+    const fullDate = `${cardExpMonth}/${cardExpYear}`
+    const lastNums = cardNumber.split(' ')
+    if (fullExpDate !== fullDate || cardLast4 !== lastNums[3]) return true
+    return false
   }
 
   continueToReviewClick = (event) => {
     event.preventDefault()
-    const { setUserAddress } = this.props
+    const { setUserAddress, setBilling } = this.props
     const {
-      nameOnCard,
-      cardNumber,
-      cardCVC,
-      fullExpDate,
-      isCardClicked,
-      shippingId,
-      billingId,
+      nameOnCard, cardNumber, cardCVC, fullExpDate, isCardClicked, isPaypalClicked,
+      shippingId, billingId, cardStored, sameShippingAddress, firstNameBilling,
+      lastNameBilling, addressBilling, address2Billing, countryBilling, stateBilling,
+      cityBilling, zipcodeBilling, shippingMethod, useLitcoins
     } = this.state
-    if (isCardClicked && nameOnCard && cardNumber && cardCVC && fullExpDate) {
-      if (!this.state.sameShippingAddress) {
-        const {
-          firstNameBilling,
-          lastNameBilling,
-          addressBilling,
-          address2Billing,
-          countryBilling,
-          stateBilling,
-          cityBilling,
-          zipcodeBilling,
-        } = this.state
-        if (cityBilling && countryBilling && addressBilling &&
-          address2Billing && zipcodeBilling && stateBilling) {
-          this.setState({
-            isStepOneActive: false,
-            isStepTwoActive: false,
-            isStepThreeActive: true,
-            stepOneComplete: true,
-            stepTwoComplete: true,
-          })
-          setUserAddress({
-            city: cityBilling,
-            name: `${firstNameBilling} ${lastNameBilling}`,
-            country: countryBilling,
-            address: addressBilling,
-            address2: address2Billing,
-            zipcode: zipcodeBilling,
-            state: stateBilling,
-            addressType: 'billing',
-            sameBillingAndShipping: false,
-          })
-        } else alert('Complete all billing fields')
-      } else {
-        const expDate = this.splitCardExp(fullExpDate)
-        if (this.state.cardStored) {
-          this.props.setBilling({
-            shippingMethod: this.state.shippingMethod,
-            paymentMethod: 'cc',
-            litcoins: this.state.useLitcoins,
-            avoidCheckCardData: this.state.cardStored,
-          })
+    if (isPaypalClicked) {
+      setBilling({
+        shippingMethod: shippingMethod,
+        paymentMethod: 'paypal',
+        litcoins: useLitcoins,
+        avoidCheckCardData: true,
+      })
+      this.passToReview()
+    } else if (isCardClicked) {
+      if (cardStored && this.isUsingOtherCard()) {
+        if (nameOnCard && cardNumber && cardCVC && fullExpDate) {
+          if (!sameShippingAddress) {
+            if (cityBilling && countryBilling && addressBilling &&
+              address2Billing && zipcodeBilling && stateBilling) {
+              setUserAddress({
+                city: cityBilling,
+                name: `${firstNameBilling} ${lastNameBilling}`,
+                country: countryBilling,
+                address: addressBilling,
+                address2: address2Billing,
+                zipcode: zipcodeBilling,
+                state: stateBilling,
+                addressType: 'billing',
+                sameBillingAndShipping: false,
+              })
+              this.passToReview()
+            } else {
+              this.showAlert('Please Complete all Billing Fields', 'error')
+            }
+          } else {
+            const expDate = this.splitCardExp(fullExpDate)
+            setBilling({
+              cardExpYear: expDate[1],
+              shippingMethod: this.state.shippingMethod,
+              cardExpMonth: expDate[0],
+              paymentMethod: 'cc',
+              shippingAddressId: shippingId,
+              cardCvc: cardCVC,
+              cardNumber: cardNumber,
+              billingAddressId: billingId,
+              litcoins: this.state.useLitcoins,
+              avoidCheckCardData: this.state.cardStored,
+            })
+            this.passToReview()
+          }
+        } else this.showAlert('Please Complete all your card info', 'error')
+      } else if (cardStored) {
+        if (!sameShippingAddress) {
+          if (cityBilling && countryBilling && addressBilling &&
+            address2Billing && zipcodeBilling && stateBilling) {
+            setUserAddress({
+              city: cityBilling,
+              name: `${firstNameBilling} ${lastNameBilling}`,
+              country: countryBilling,
+              address: addressBilling,
+              address2: address2Billing,
+              zipcode: zipcodeBilling,
+              state: stateBilling,
+              addressType: 'billing',
+              sameBillingAndShipping: false,
+            })
+            setBilling({
+              shippingMethod: shippingMethod,
+              paymentMethod: 'cc',
+              litcoins: useLitcoins,
+              avoidCheckCardData: cardStored,
+            })
+            this.passToReview()
+          } else {
+            this.showAlert('Please Complete all Billing Fields', 'error')
+          }
         } else {
-          this.props.setBilling({
+          setBilling({
+            shippingMethod: shippingMethod,
+            paymentMethod: 'cc',
+            litcoins: useLitcoins,
+            avoidCheckCardData: cardStored,
+          })
+          this.passToReview()
+        }
+      } else if (nameOnCard && cardNumber && cardCVC && fullExpDate) {
+        if (!sameShippingAddress) {
+          if (cityBilling && countryBilling && addressBilling &&
+            address2Billing && zipcodeBilling && stateBilling) {
+            setUserAddress({
+              city: cityBilling,
+              name: `${firstNameBilling} ${lastNameBilling}`,
+              country: countryBilling,
+              address: addressBilling,
+              address2: address2Billing,
+              zipcode: zipcodeBilling,
+              state: stateBilling,
+              addressType: 'billing',
+              sameBillingAndShipping: false,
+            })
+            this.passToReview()
+          } else {
+            this.showAlert('Please Complete all Billing Fields', 'error')
+          }
+        } else {
+          const expDate = this.splitCardExp(fullExpDate)
+          setBilling({
             cardExpYear: expDate[1],
             shippingMethod: this.state.shippingMethod,
             cardExpMonth: expDate[0],
@@ -257,30 +387,10 @@ class CheckoutPage extends PureComponent {
             litcoins: this.state.useLitcoins,
             avoidCheckCardData: this.state.cardStored,
           })
+          this.passToReview()
         }
-
-        this.setState({
-          isStepOneActive: false,
-          isStepTwoActive: false,
-          isStepThreeActive: true,
-          stepOneComplete: true,
-          stepTwoComplete: true,
-        })
-      }
-    } else if (this.state.isPaypalClicked) {
-      this.setState({
-        isStepOneActive: false,
-        isStepTwoActive: false,
-        isStepThreeActive: true,
-        stepOneComplete: true,
-        stepTwoComplete: true,
-      })
-      this.props.setBilling({
-        shippingMethod: this.state.shippingMethod,
-        paymentMethod: 'paypal',
-        litcoins: this.state.useLitcoins,
-      })
-    } else alert('Complete all card fields')
+      } else this.showAlert('Please Complete all your card info', 'error')
+    }
   }
 
   handlePaymentClick = (type) => {
@@ -298,202 +408,7 @@ class CheckoutPage extends PureComponent {
     }
   }
 
-  renderStepOne = () => {
-    return (
-      <div className='row'>
-        <div className='large-7 columns'>
-          {this.renderShippingAddress()}
-          {this.renderShippingMethod()}
-          <a
-            onClick={this.continueToBillingClick}
-            className='checkoutpage-shipping-submit-form-btn'
-          >
-            Continue to Billing
-          </a>
-        </div>
-        <div className='large-4 large-offset-1 columns end'>
-          <OrderSummary />
-          <CartItems />
-        </div>
-      </div>
-    )
-  }
-
   setShippingMethod = (shippingMethod) => this.setState({ shippingMethod })
-
-  mapShippingMethods = (shippingMethods) => {
-    return shippingMethods.map((method, index) => {
-      return (
-        <div className='small-6 columns' key={`shipping_method_${index}`}>
-          <div className='checkoutpage-steps-delivery-method'>
-            <input
-              className='checkoutpage-steps-delivery-method-input'
-              name='delivery-method'
-              type='radio'
-              onClick={() => this.setShippingMethod(method.name)}
-            />
-            <label className='checkoutpage-steps-delivery-method-label'>
-              <span className='checkoutpage-steps-delivery-method-vendor'>
-                {method.title}
-              </span>
-              <span className='checkoutpage-steps-delivery-method-days'>
-                5 - 7 business days
-              </span>
-              {method.cost ?
-                (
-                  <spam className='checkoutpage-steps-delivery-method-price'>
-                    ${method.cost}
-                  </spam>
-                ) : null
-              }
-            </label>
-          </div>
-        </div>
-      )
-    })
-  }
-  renderShippingMethod = () => {
-    return (
-      <section className='checkoutpage-steps-delivery-method-container'>
-        <h3 className='checkoutpage-steps-delivery-method-title'>
-          Delivery
-        </h3>
-        <div className='row'>
-          {this.props.shippingMethods ?
-            this.mapShippingMethods(this.props.shippingMethods) : null
-          }
-        </div>
-      </section>
-    )
-  }
-
-  renderShippingAddress = () => {
-    const {
-      firstNameShipping,
-      lastNameShipping,
-      addressShipping,
-      address2Shipping,
-      countryShipping,
-      cityShipping,
-      stateShipping,
-      zipcodeShipping,
-    } = this.state
-    return (
-      <section className='checkoutpage-steps-shipping-address-container'>
-        <h3 className='checkoutpage-steps-shipping-address-title'>
-          Shipping Address
-        </h3>
-        <form className='checkoutpage-steps-shipping-address-form'>
-          <div className='row'>
-            <div className='small-6 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                First Name
-              </label>
-              <input
-                type='text'
-                onChange={this.handleFormsChanges('firstNameShipping')}
-                className='checkoutpage-steps-shipping-address-form-input'
-                value={firstNameShipping}
-              />
-            </div>
-            <div className='small-6 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                Last Name
-              </label>
-              <input
-                type='text'
-                className='checkoutpage-steps-shipping-address-form-input'
-                onChange={this.handleFormsChanges('lastNameShipping')}
-                value={lastNameShipping}
-              />
-            </div>
-            <div className='small-12 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                Address
-              </label>
-              <input
-                type='text'
-                className='checkoutpage-steps-shipping-address-form-input'
-                onChange={this.handleFormsChanges('addressShipping')}
-                value={addressShipping}
-              />
-            </div>
-            <div className='small-12 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                Address Line 2 *Optional
-              </label>
-              <input
-                type='text'
-                className='checkoutpage-steps-shipping-address-form-input'
-                onChange={this.handleFormsChanges('address2Shipping')}
-                value={address2Shipping}
-              />
-            </div>
-            <div className='small-6 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                Country
-              </label>
-              <input
-                type='text'
-                className='checkoutpage-steps-shipping-address-form-input'
-                onChange={this.handleFormsChanges('countryShipping')}
-                value={countryShipping}
-              />
-            </div>
-            <div className='small-6 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                City
-              </label>
-              <input
-                type='text'
-                className='checkoutpage-steps-shipping-address-form-input'
-                onChange={this.handleFormsChanges('cityShipping')}
-                value={cityShipping}
-              />
-            </div>
-            <div className='small-6 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                State
-              </label>
-              <input
-                type='text'
-                className='checkoutpage-steps-shipping-address-form-input'
-                onChange={this.handleFormsChanges('stateShipping')}
-                value={stateShipping}
-              />
-            </div>
-            <div className='small-6 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                Zipcode
-              </label>
-              <input
-                type='text'
-                className='checkoutpage-steps-shipping-address-form-input'
-                onChange={this.handleFormsChanges('zipcodeShipping')}
-                value={zipcodeShipping}
-              />
-            </div>
-          </div>
-        </form>
-      </section>
-    )
-  }
 
   handleCheckSave = (event) => this.setState({ saveCard: event.target.checked })
 
@@ -501,368 +416,76 @@ class CheckoutPage extends PureComponent {
 
   handleUseLitcoins = (event) => this.setState({ useLitcoins: event.target.checked })
 
-  renderStepTwo = () => {
-    const {
-      isPaypalClicked,
-      isCardClicked,
-      nameOnCard,
-      cardNumber,
-      cardCVC,
-      fullExpDate,
-    } = this.state
-    return (
-      <div className='row'>
-        <div className='large-7 columns'>
-          <section className='checkoutpage-payment-selection-container'>
-            <section
-              className={isCardClicked ?
-                'checkoutpage-payment-card-container payment-selected' :
-                'checkoutpage-payment-card-container'
-              }
-            >
-              <div className='checkoutpage-payment-selector'>
-                <div
-                  className={isCardClicked ?
-                    'checkoutpage-payment-selector-element selected-payment' :
-                    'checkoutpage-payment-selector-element'
-                  }
-                  onClick={() => this.handlePaymentClick('card')}
-                >
-                  <a className='checkoutpage-payment-selector-anchor'/>
-                </div>
-              </div>
-              <div className='checkoutpage-payment-card'>
-                <div className='checkoutpage-payment-card-head'>
-                  <span className='checkoutpage-payment-card-head-title'>
-                    Card / Credit Card
-                  </span>
-                  <img
-                    className='checkoutpage-payment-card-head-img'
-                    src='/image/credit-cards.png'
-                  />
-                </div>
-                <div className='checkoutpage-payment-card-subhead'>
-                  <LockIcon className='checkoutpage-payment-card-subhead-icon'/>
-                  <span className='checkoutpage-payment-card-subhead-text'>
-                    Secure and encrypted
-                  </span>
-                </div>
-                <div className='checkoutpage-payment-card-form'>
-                  <div className='row'>
-                    <div className='large-12 columns'>
-                      <div className='checkoutpage-payment-card-inputs'>
-                        <label className='checkoutpage-payment-card-inputs-label'>
-                          Name on Card
-                        </label>
-                        <input
-                          type='text'
-                          className='checkoutpage-payment-card-single-input'
-                          onChange={this.handleFormsChanges('nameOnCard')}
-                          value={nameOnCard}
-                        />
-                      </div>
-                    </div>
-                    <div className='large-12 columns'>
-                      <div className='checkoutpage-payment-card-inputs'>
-                        <label className='checkoutpage-payment-card-inputs-label'>
-                          Card Number
-                        </label>
-                        <input
-                          type='text'
-                          className='checkoutpage-payment-card-single-input'
-                          onChange={this.handleFormsChanges('cardNumber')}
-                          value={cardNumber}
-                        />
-                      </div>
-                    </div>
-                    <div className='large-8 columns'>
-                      <div className='checkoutpage-payment-card-inputs'>
-                        <label className='checkoutpage-payment-card-inputs-label'>
-                          Expiration Date (MM/YY)
-                        </label>
-                        <input
-                          type='text'
-                          className='checkoutpage-payment-card-single-input'
-                          onChange={this.handleFormsChanges('fullExpDate')}
-                          value={fullExpDate}
-                        />
-                      </div>
-                    </div>
-                    <div className='large-4 columns'>
-                      <div className='checkoutpage-payment-card-inputs'>
-                        <label className='checkoutpage-payment-card-inputs-label'>
-                          CVC
-                        </label>
-                        <input
-                          type='number'
-                          min='100'
-                          min='999'
-                          className='checkoutpage-payment-card-single-input has-lock'
-                          onChange={this.handleFormsChanges('cardCVC')}
-                          value={cardCVC}
-                        />
-                        <LockIcon
-                          className='checkoutpage-payment-card-single-input-lock'
-                        />
-                      </div>
-                    </div>
-                    {/* <div className='large-12 columns'>
-                      <div className='checkoutpage-payment-card-inputs'>
-                        <input
-                          type='checkbox'
-                          className='checkoutpage-payment-card-single-input-check'
-                          onChange={this.handleCheckSave}
-                          checked={this.state.saveCard}
-                        />
-                        <label className='checkoutpage-payment-card-inputs-label-check'>
-                          Save card for future use
-                        </label>
-                      </div>
-                    </div> */}
-                    <div className='large-12 columns'>
-                      <div className='checkoutpage-payment-card-inputs'>
-                        <input
-                          type='checkbox'
-                          className='checkoutpage-payment-card-single-input-check'
-                          onChange={this.handleCheckSame}
-                          checked={this.state.sameShippingAddress}
-                        />
-                        <label className='checkoutpage-payment-card-inputs-label-check'>
-                          Use shipping address
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {!this.state.sameShippingAddress ?
-                  (
-                    <div className='row'>
-                      <div className='large-12 columns'>
-                        Billing Address
-                        <hr/>
-                        <div className='row'>
-                          <div className='small-6 columns'>
-                            <label
-                              className='checkoutpage-steps-shipping-address-form-label'
-                            >
-                              First Name
-                            </label>
-                            <input
-                              type='text'
-                              onChange={this.handleFormsChanges('firstNameBilling')}
-                              className='checkoutpage-steps-shipping-address-form-input'
-                              value={this.state.firstNameBilling}
-                            />
-                          </div>
-                          <div className='small-6 columns'>
-                            <label
-                              className='checkoutpage-steps-shipping-address-form-label'
-                            >
-                              Last Name
-                            </label>
-                            <input
-                              type='text'
-                              className='checkoutpage-steps-shipping-address-form-input'
-                              onChange={this.handleFormsChanges('lastNameBilling')}
-                              value={this.state.lastNameBilling}
-                            />
-                          </div>
-                          <div className='small-12 columns'>
-                            <label
-                              className='checkoutpage-steps-shipping-address-form-label'
-                            >
-                              Address
-                            </label>
-                            <input
-                              type='text'
-                              className='checkoutpage-steps-shipping-address-form-input'
-                              onChange={this.handleFormsChanges('addressBilling')}
-                              value={this.state.addressBilling}
-                            />
-                          </div>
-                          <div className='small-12 columns'>
-                            <label
-                              className='checkoutpage-steps-shipping-address-form-label'
-                            >
-                              Address Line 2 *Optional
-                            </label>
-                            <input
-                              type='text'
-                              className='checkoutpage-steps-shipping-address-form-input'
-                              onChange={this.handleFormsChanges('address2Billing')}
-                              value={this.state.address2Billing}
-                            />
-                          </div>
-                          <div className='small-6 columns'>
-                            <label
-                              className='checkoutpage-steps-shipping-address-form-label'
-                            >
-                              Country
-                            </label>
-                            <input
-                              type='text'
-                              className='checkoutpage-steps-shipping-address-form-input'
-                              onChange={this.handleFormsChanges('countryBilling')}
-                              value={this.state.countryBilling}
-                            />
-                          </div>
-                          <div className='small-6 columns'>
-                            <label
-                              className='checkoutpage-steps-shipping-address-form-label'
-                            >
-                              City
-                            </label>
-                            <input
-                              type='text'
-                              className='checkoutpage-steps-shipping-address-form-input'
-                              onChange={this.handleFormsChanges('cityBilling')}
-                              value={this.state.cityBilling}
-                            />
-                          </div>
-                          <div className='small-6 columns'>
-                            <label
-                              className='checkoutpage-steps-shipping-address-form-label'
-                            >
-                              State
-                            </label>
-                            <input
-                              type='text'
-                              className='checkoutpage-steps-shipping-address-form-input'
-                              onChange={this.handleFormsChanges('stateBilling')}
-                              value={this.state.stateBilling}
-                            />
-                          </div>
-                          <div className='small-6 columns'>
-                            <label
-                              className='checkoutpage-steps-shipping-address-form-label'
-                            >
-                              Zipcode
-                            </label>
-                            <input
-                              type='text'
-                              className='checkoutpage-steps-shipping-address-form-input'
-                              onChange={this.handleFormsChanges('zipcodeBilling')}
-                              value={this.state.zipcodeBilling}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : null
-                }
-              </div>
-            </section>
-            <section
-              className={isPaypalClicked ?
-                'checkoutpage-payment-paypal-container payment-selected' :
-                'checkoutpage-payment-paypal-container'
-              }
-            >
-              <div className='checkoutpage-payment-selector'>
-                <div
-                  className={isPaypalClicked ?
-                    'checkoutpage-payment-selector-element selected-payment' :
-                    'checkoutpage-payment-selector-element'
-                  }
-                  onClick={() => this.handlePaymentClick('paypal')}
-                >
-                  <a className='checkoutpage-payment-selector-anchor'/>
-                </div>
-              </div>
-              <div className='checkoutpage-payment-paypal'>
-                <img src='/image/paypal-logo.png'/>
-              </div>
-            </section>
-          </section>
-          <section className='checkoutpage-litcoins-use-container'>
-            <h3>Litcoins</h3>
-            <div className='checkoutpage-litcoins-use-main'>
-              <input
-                className='checkoutpage-litcoins-useinput'
-                type='checkbox'
-                onChange={this.handleUseLitcoins}
-                checked={this.state.useLitcoins}
-              />
-              <label className='checkoutpage-litcoins-use-label'>
-                <span className='checkoutpage-litcoins-use-label-span'>
-                  Use my Litcoins
-                </span>
-                <div className='checkoutpage-litcoins-use-details'>
-                  <span className='checkoutpage-litcoins-use-text'>
-                    <b>$6.00</b> (8,000
-                    <img
-                      className='checkoutpage-litcoins-use-img'
-                      src='/image/litcoin.png'
-                    /> available)
-                  </span>
-                </div>
-              </label>
-            </div>
-          </section>
-          <a
-            onClick={this.continueToReviewClick}
-            className='checkoutpage-review-order-btn'
-          >
-            Review Order
-          </a>
-          <span className='checkoutpage-review-order-text'>
-            You will not be charged ultil you confirm your order
-          </span>
-        </div>
-        <div className='large-4 large-offset-1 columns end'>
-          <OrderSummary />
-          <CartItems />
-        </div>
-      </div>
-    )
-  }
-
   handlePlaceOrder = () => {
-    if (this.state.isCardClicked) {
+    if (this.state.isCardClicked && !this.state.isPaypalClicked) {
+      this.setState({ showOverlay: true })
       this.props.placeOrder({
         shippingMethod: this.state.shippingMethod,
         paymentMethod: 'cc'
       })
+    } else if (this.state.isPaypalClicked && !this.state.isCardClicked) {
+      this.props.getPaypalConfig()
     }
   }
-  renderStepThree = () => {
-    const { shippingId, shippingMethod } = this.state
-    return (
-      <div className='row'>
-        <div className='large-7 columns'>
-          <ReviewOrder
-            data={this.props.order}
-            isPaypal={this.state.isPaypalClicked}
-            shippingMethods={this.props.shippingMethods}
-            usingLitcoins={this.state.useLitcoins}
-            shippingMethod={shippingMethod}
-            shippingId={shippingId}
-          />
-          <CartItems />
-        </div>
-        <div className='large-4 large-offset-1 columns end'>
-          <a
-            onClick={this.handlePlaceOrder}
-            className='checkoutpage-place-order-btn'
-          >
-            Place Order
-          </a>
-          <OrderSummary />
-        </div>
-      </div>
-    )
+
+  onSuccess = (payment) => {
+    if (payment.paid) {
+      this.props.placeOrder({
+        shippingMethod: this.state.shippingMethod,
+        paymentMethod: 'paypal',
+        paymentId: payment.paymentID,
+        payerId: payment.payerID,
+      })
+    }
+    this.setState({ showOverlay: true })
+  }
+
+  onCancel = (data) => {
+    this.showAlert('The payment was cancelled', 'error')
+    console.log('Payment canceled!', data)
+  }
+
+  onError = (err) => {
+    this.showAlert('Error', 'error')
+    console.log('Error!', err)
   }
 
   render() {
-    const {
-      isStepOneActive,
-      isStepTwoActive,
-      isStepThreeActive,
-      stepOneComplete,
-      stepTwoComplete
-    } = this.state
+    const shippingInfo = {
+      firstNameShipping: this.state.firstNameShipping,
+      lastNameShipping: this.state.lastNameShipping,
+      addressShipping: this.state.addressShipping,
+      address2Shipping: this.state.address2Shipping,
+      countryShipping: this.state.countryShipping,
+      cityShipping: this.state.cityShipping,
+      stateShipping: this.state.stateShipping,
+      zipcodeShipping: this.state.zipcodeShipping,
+    }
+    const cardInfo = {
+      nameOnCard: this.state.nameOnCard,
+      cardNumber: this.state.cardNumber,
+      cardCVC: this.state.cardCVC,
+      fullExpDate: this.state.fullExpDate,
+    }
+    const billingInfo = {
+      firstNameBilling: this.state.firstNameBilling,
+      lastNameBilling: this.state.lastNameBilling,
+      addressBilling: this.state.addressBilling,
+      address2Billing: this.state.address2Billing,
+      countryBilling: this.state.countryBilling,
+      cityBilling: this.state.cityBilling,
+      stateBilling: this.state.stateBilling,
+      zipcodeBilling: this.state.zipcodeBilling,
+    }
     return (
       <section className='checkoutpage-main-container'>
+        {this.state.showOverlay ?
+          (
+            <div className='overlay-on-order-place'>
+              <div className='loading-animation-store-big'/>
+            </div>
+          ) : null
+        }
         <header className='chekoutpage-header slide-down'>
           <figure className='checkoutpage-header-logo-figure'>
             <Link to='/'>
@@ -872,74 +495,135 @@ class CheckoutPage extends PureComponent {
         </header>
         <section className='row'>
           <div className='large-12 columns'>
-            <div className='chekoutpage-steps-container'>
-              <div className={isStepOneActive || stepOneComplete ?
-                'chekoutpage-single-step-container-active' : 'chekoutpage-single-step-container'
-                }
-              >
-                <div className='checkoutpage-single-step-count'>
-                  {stepOneComplete ?
-                    (
+            {this.props.order ?
+              (
+                <div className='chekoutpage-steps-container'>
+                  <div className={this.state.isStepOneActive || this.state.stepOneComplete ?
+                    'chekoutpage-single-step-container-active' :
+                    'chekoutpage-single-step-container'
+                    }
+                  >
+                    <div className='checkoutpage-single-step-count'>
+                      {this.state.stepOneComplete ?
+                        (
+                          <span className='checkoutpage-single-step-number'>
+                            <CheckIcon />
+                          </span>
+                        ) : (
+                          <span className='checkoutpage-single-step-number'>
+                            1
+                          </span>
+                        )
+                      }
+                    </div>
+                    <span className='checkoutpage-single-step-title'>
+                      Shipping
+                    </span>
+                  </div>
+                  <div className={this.state.isStepTwoActive || this.state.stepTwoComplete ?
+                    'chekoutpage-single-step-container-active' :
+                    'chekoutpage-single-step-container'
+                    }
+                  >
+                    <div className='checkoutpage-single-step-count'>
+                      {this.state.stepTwoComplete ?
+                        (
+                          <span className='checkoutpage-single-step-number'>
+                            <CheckIcon />
+                          </span>
+                        ) : (
+                          <span className='checkoutpage-single-step-number'>
+                            2
+                          </span>
+                        )
+                      }
+                    </div>
+                    <span className='checkoutpage-single-step-title'>
+                      Billing
+                    </span>
+                  </div>
+                  <div className={this.state.isStepThreeActive ?
+                    'chekoutpage-single-step-container-active' :
+                    'chekoutpage-single-step-container'
+                    }
+                  >
+                    <div className='checkoutpage-single-step-count'>
                       <span className='checkoutpage-single-step-number'>
-                        <CheckIcon />
+                        3
                       </span>
-                    ) : (
-                      <span className='checkoutpage-single-step-number'>
-                        1
-                      </span>
-                    )
-                  }
+                    </div>
+                    <span className='checkoutpage-single-step-title'>
+                      Review
+                    </span>
+                  </div>
                 </div>
-                <span className='checkoutpage-single-step-title'>
-                  Shipping
-                </span>
-              </div>
-              <div className={isStepTwoActive || stepTwoComplete ?
-                'chekoutpage-single-step-container-active' : 'chekoutpage-single-step-container'
-                }
-              >
-                <div className='checkoutpage-single-step-count'>
-                  {stepTwoComplete ?
-                    (
-                      <span className='checkoutpage-single-step-number'>
-                        <CheckIcon />
-                      </span>
-                    ) : (
-                      <span className='checkoutpage-single-step-number'>
-                        2
-                      </span>
-                    )
-                  }
-                </div>
-                <span className='checkoutpage-single-step-title'>
-                  Billing
-                </span>
-              </div>
-              <div className={isStepThreeActive ?
-                'chekoutpage-single-step-container-active' : 'chekoutpage-single-step-container'
-                }
-              >
-                <div className='checkoutpage-single-step-count'>
-                  <span className='checkoutpage-single-step-number'>
-                    3
-                  </span>
-                </div>
-                <span className='checkoutpage-single-step-title'>
-                  Review
-                </span>
-              </div>
-            </div>
+              ) : null
+            }
             <div className='row'>
               <div className='large-10 columns large-offset-1'>
                 <div className='chekoutpage-steps-main-container'>
-                  {isStepOneActive ? this.renderStepOne() : null}
-                  {isStepTwoActive ? this.renderStepTwo() : null}
-                  {isStepThreeActive ? this.renderStepThree() : null}
+                  {this.state.isStepOneActive ?
+                    (
+                      <StepOne
+                        shippingInfo={shippingInfo}
+                        shippingMethods={this.props.shippingMethods}
+                        onChange={this.handleFormsChanges}
+                        setShipping={this.setShippingMethod}
+                        next={this.continueToBillingClick}
+                      />
+                    ) : null
+                  }
+                  {this.state.isStepTwoActive ?
+                    (
+                      <StepTwo
+                        isCard={this.state.isCardClicked}
+                        isPaypal={this.state.isPaypalClicked}
+                        handleSwitch={this.handlePaymentClick}
+                        cardInfo={cardInfo}
+                        billingInfo={billingInfo}
+                        onChange={this.handleFormsChanges}
+                        isSameShipping={this.state.sameShippingAddress}
+                        handleCheckSame={this.handleCheckSame}
+                        handleUseLitcoins={this.handleUseLitcoins}
+                        useLitcoins={this.state.useLitcoins}
+                        next={this.continueToReviewClick}
+                      />
+                    ) : null
+                  }
+                  {this.state.isStepThreeActive ?
+                    (
+                      <StepThree
+                        order={this.props.order}
+                        isPaypal={this.state.isPaypalClicked}
+                        isCard={this.state.isCardClicked}
+                        shippingMethods={this.props.shippingMethods}
+                        useLitcoins={this.state.useLitcoins}
+                        selectedShipping={this.state.shippingMethod}
+                        shippingId={this.state.shippingId}
+                        changePayment={this.handleChangePaymentMethod}
+                        paypalConfig={this.props.paypalConfig}
+                        onError={this.onError}
+                        onSuccess={this.onSuccess}
+                        onCancel={this.onCancel}
+                        place={this.handlePlaceOrder}
+                      />
+                    ) : null
+                  }
                 </div>
               </div>
             </div>
           </div>
         </section>
+        <Snackbar
+          open={this.state.snackbar.open}
+          message={this.state.snackbar.text}
+          autoHideDuration={3000}
+          onRequestClose={this.handleAlertClose}
+          bodyStyle={this.state.snackbar.type === 'error' ?
+            styles.snackBarError : styles.snackBarSuccess
+          }
+          contentStyle={styles.contentStyle}
+        />
       </section>
     )
   }
@@ -949,6 +633,7 @@ const mapStateToProps = (state) => {
   return {
     order: state.store.order,
     shippingMethods: state.store.shippingMethods,
+    paypalConfig: state.store.paypalConfig,
   }
 }
 
@@ -956,12 +641,12 @@ const mapDistpachToProps = {
   setOrder,
   getOrder,
   getCurrentOrder,
-  getShippingMethods,
   setUserAddress,
+  setUserAddressAndShipping,
   setShipping,
   setBilling,
   placeOrder,
-  setUserAddressAndShipping
+  getPaypalConfig,
 }
 
 export default connect(mapStateToProps, mapDistpachToProps)(CheckoutPage)

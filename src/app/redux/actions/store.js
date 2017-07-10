@@ -1,4 +1,5 @@
 import { STORE as A } from '../const/actionTypes'
+import { browserHistory } from 'react-router'
 import Store from '../../services/api/store'
 import Books from '../../services/api/books'
 import ProfilePage from '../../services/api/profilePage'
@@ -168,7 +169,13 @@ export function filterBooks(params) {
 export function getCartItems(params) {
   return dispatch => {
     Store.getCartItems(params)
-      .then(res => dispatch({ type: A.GET_CART_ITEMS, payload: res.data }))
+      .then(res => {
+        if (res.data.itemsCount === 0) {
+          browserHistory.push('/browse')
+        } else {
+          dispatch({ type: A.GET_CART_ITEMS, payload: res.data })
+        }
+      })
       .catch(err => console.error(`Error in getCartItems ${err}`))
   }
 }
@@ -210,20 +217,22 @@ export function addGiftData(params) {
   }
 }
 
-export function setUserAddress(params) {
+export function setUserAddress(params, shippingMethod) {
   return dispatch => {
     Store.setUserAddress(params)
-      .then(res => dispatch({ type: A.SET_NEW_SHIPPING, payload: res.data }))
+      .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
       .catch(err => console.error(`Error in setUserAddress ${err}`))
   }
 }
 
-export function setUserAddressAndShipping(address, shipping) {
+export function setUserAddressAndShipping(params, shippingMethod) {
   return dispatch => {
-    Store.setUserAddress(address)
-      .then(res => dispatch({ type: A.SET_NEW_SHIPPING, payload: res.data }))
-      .then(() => dispatch(setShipping(shipping)))
-      .catch(err => console.error(`Error in setUserAddress ${err}`))
+    Store.setUserAddress(params)
+      .then(res => dispatch(setShipping({
+        shippingAddressId: res.data.shippingAddress.id,
+        shippingMethod: shippingMethod,
+      })))
+      .catch(err => console.error(`Error in setUserAddressAndShipping ${err}`))
   }
 }
 
@@ -246,7 +255,20 @@ export function getCurrentOrder(params) {
   return dispatch => {
     Store.getCurrentOrder(params)
       .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
-      .catch(err => console.error(`Error in getCurrentOrder ${err}`))
+      .then(() => Store.getShippingMethods())
+      .then(res => dispatch({ type: A.GET_SHIPPING_METHODS, payload: res.data }))
+      .then(res => dispatch(getCartItems({
+        perPage: 50,
+      })))
+      .catch((err) => {
+        if (err.response !== undefined) {
+          const { data } = err.response
+          if (data.errors.order && data.errors.order.message === 'Order not found') {
+            browserHistory.push('/browse')
+          }
+        }
+        console.error(`Error in getCurrentOrder ${err}`)
+      })
   }
 }
 
@@ -254,7 +276,7 @@ export function getShippingMethods() {
   return dispatch => {
     Store.getShippingMethods()
       .then(res => dispatch({ type: A.GET_SHIPPING_METHODS, payload: res.data }))
-      .catch(err => console.error(`Error in getCurrentOrder ${err}`))
+      .catch(err => console.error(`Error in getShippingMethods ${err}`))
   }
 }
 
@@ -277,14 +299,44 @@ export function setShipping(params) {
 export function reviewOrder(params) {
   return dispatch => {
     Store.reviewOrder(params)
-    .catch(err => console.error(`Error in reviewOrder ${err}`))
+      .catch(err => console.error(`Error in reviewOrder ${err}`))
   }
 }
 
 export function placeOrder(params) {
   return dispatch => {
     Store.placeOrder(params)
-    .catch(err => console.error(`Error in placeOrder ${err}`))
+      .then(res => {
+        if (res.data.status === 40) {
+          browserHistory.push('/shop/success')
+        }
+        dispatch({ type: A.SET_ORDER, payload: res.data })
+      })
+      .catch(err => console.error(`Error in placeOrder ${err}`))
+  }
+}
+
+export function getPaypalConfig() {
+  return dispatch => {
+    Store.getPaypalConfig()
+      .then(res => dispatch({ type: A.GET_PAYPAL_CONFIG, payload: res.data }))
+      .catch(err => console.error(`Error in getPaypalConfig ${err}`))
+  }
+}
+
+export function setPromoCode(id, code) {
+  return dispatch => {
+    Store.setPromoCode(id, { code })
+      .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
+      .catch(err => console.error(`Error in setPromoCode ${err}`))
+  }
+}
+
+export function cleanPromoCode(id, code) {
+  return dispatch => {
+    Store.cleanPromoCode(id, { code })
+      .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
+      .catch(err => console.error(`Error in cleanPromoCode ${err}`))
   }
 }
 
@@ -309,6 +361,7 @@ export default {
   convertToGift,
   addGiftData,
   setUserAddress,
+  setUserAddressAndShipping,
   setOrder,
   getOrder,
   getCurrentOrder,
@@ -317,5 +370,7 @@ export default {
   setShipping,
   reviewOrder,
   placeOrder,
-  setUserAddressAndShipping,
+  getPaypalConfig,
+  setPromoCode,
+  cleanPromoCode,
 }
