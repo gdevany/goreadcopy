@@ -16,7 +16,8 @@ import AuthedRedirect from '../AuthedRedirect'
 import MenuIcon from 'material-ui/svg-icons/navigation/menu'
 import Badge from 'material-ui/Badge'
 import LitcoinStatus from '../LitcoinStatus'
-import { Notifications, ChatsContainer } from '../chatNotifications'
+import { LatestMessagePopupWindow } from '../chat'
+import { NotificationPopupWindow } from '../notifications'
 
 import '../styles/mobile-menu.scss'
 
@@ -1059,9 +1060,9 @@ class NavMenu extends PureComponent {
             handleClose={this.handleSearchClose}
           />
         </div>
-        <Notifications isOpen={this.state.notificationsOpen} />
+        <NotificationPopupWindow isOpen={this.state.notificationsOpen} />
         { this.props.chat.isMessagesOpen ?
-          <ChatsContainer showMethod={this.handleChatsContainerShow}/> : null
+          <LatestMessagePopupWindow showMethod={this.handleChatsContainerShow}/> : null
         }
       </div>
     )
