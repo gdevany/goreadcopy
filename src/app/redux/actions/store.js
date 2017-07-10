@@ -371,5 +371,6 @@ export default {
   reviewOrder,
   placeOrder,
   getPaypalConfig,
-  setPromoCode
+  setPromoCode,
+  cleanPromoCode,
 }
