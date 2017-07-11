@@ -297,13 +297,6 @@ export function setShipping(params) {
   }
 }
 
-export function reviewOrder(params) {
-  return dispatch => {
-    Store.reviewOrder(params)
-      .catch(err => console.error(`Error in reviewOrder ${err}`))
-  }
-}
-
 export function placeOrder(params) {
   return dispatch => {
     Store.placeOrder(params)
@@ -314,6 +307,21 @@ export function placeOrder(params) {
         dispatch({ type: A.SET_ORDER, payload: res.data })
       })
       .catch(err => console.error(`Error in placeOrder ${err}`))
+  }
+}
+
+export function placeOrderWithChanges(reviewParams, placeParams) {
+  return dispatch => {
+    Store.reviewOrder(reviewParams)
+      .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
+      .then(() => Store.placeOrder(placeParams))
+      .then(res => {
+        if (res.data.status === 40) {
+          browserHistory.push('/shop/success')
+        }
+        dispatch({ type: A.SET_ORDER, payload: res.data })
+      })
+      .catch(err => console.error(`Error in placeOrderWithChanges ${err}`))
   }
 }
 
@@ -369,8 +377,8 @@ export default {
   getShippingMethods,
   setBilling,
   setShipping,
-  reviewOrder,
   placeOrder,
+  placeOrderWithChanges,
   getPaypalConfig,
   setPromoCode,
   cleanPromoCode,

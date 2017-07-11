@@ -15,6 +15,7 @@ import ratesReducer from './rates'
 import sidebarAdsReducer from './ads'
 import chatReducer from './chat'
 import notificationReducer from './notifications'
+import commonReducer from './common'
 
 const rootReducer = combineReducers({
   books: booksReducer,
@@ -33,6 +34,7 @@ const rootReducer = combineReducers({
   store: storeReducer,
   rates: ratesReducer,
   notifications: notificationReducer,
+  common: commonReducer,
 })
 
 export default rootReducer
