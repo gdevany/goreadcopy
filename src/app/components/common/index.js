@@ -1,6 +1,7 @@
 export * as Auth from './auth'
 export * as Chat from './chat'
 export * as Navs from './navs'
+export * as Alerts from './alerts'
 export AnchoredParagraph from './AnchoredParagraph'
 export AuthedRedirect from './AuthedRedirect'
 export AuthorRecSummary from './AuthorRecSummary'
