@@ -93,6 +93,7 @@ class CartPage extends PureComponent {
           authorFullName={item.product.seller}
           paperType={false}
           isGift={item.isGiftItem}
+          giftData={item.giftcartitemdata}
           bookCount={item.quantity}
           bookPrice={item.product.unitPrice}
           litcoinsPrice={item.product.litcoinsPrice}

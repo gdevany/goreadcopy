@@ -61,6 +61,8 @@ class CartElement extends PureComponent {
       paperType,
       bookPrice,
       litcoinsPrice,
+      isGift,
+      giftcartitemdata,
     } = this.props
 
     const { bookCount } = this.state
@@ -95,6 +97,12 @@ class CartElement extends PureComponent {
               />
               <span className='bookpage-book-gift-text'>Gift</span>
               <GiftIcon className='bookpage-book-gift-icon'/>
+              { isGift && !giftcartitemdata ?
+                  <span className='error'>
+                    &nbsp;Gift has not shipping address!
+                  </span> :
+                  null
+              }
             </div>
           </div>
         </div>
