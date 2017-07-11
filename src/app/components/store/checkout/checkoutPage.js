@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { Store, Common } from '../../../redux/actions'
+import { Store } from '../../../redux/actions'
 import { StepOne, StepTwo, StepThree } from './orderSteps'
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
 import Snackbar from 'material-ui/Snackbar'
@@ -11,8 +11,6 @@ const {
   setOrder, getOrder, getCurrentOrder, setUserAddress, setUserAddressAndShipping,
   setShipping, setBilling, placeOrder, getPaypalConfig, placeOrderWithChanges,
 } = Store
-
-const { getCountries, getStates } = Common
 
 const styles = {
   snackBarError: {
@@ -89,7 +87,6 @@ class CheckoutPage extends PureComponent {
 
   componentWillMount = () => {
     this.props.getCurrentOrder()
-    this.props.getCountries()
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -585,7 +582,6 @@ class CheckoutPage extends PureComponent {
                       <StepOne
                         shippingInfo={shippingInfo}
                         shippingMethods={this.props.shippingMethods}
-                        countries={this.props.countries}
                         onChange={this.handleFormsChanges}
                         setShipping={this.setShippingMethod}
                         next={this.continueToBillingClick}
@@ -653,8 +649,6 @@ class CheckoutPage extends PureComponent {
 const mapStateToProps = (state) => {
   return {
     order: state.store.order,
-    countries: state.common.countries,
-    states: state.common.states,
     shippingMethods: state.store.shippingMethods,
     paypalConfig: state.store.paypalConfig,
   }
@@ -671,8 +665,6 @@ const mapDistpachToProps = {
   placeOrder,
   placeOrderWithChanges,
   getPaypalConfig,
-  getCountries,
-  getStates,
 }
 
 export default connect(mapStateToProps, mapDistpachToProps)(CheckoutPage)

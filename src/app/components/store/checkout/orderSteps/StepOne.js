@@ -1,14 +1,13 @@
 import React from 'react'
 import { OrderSummary, CartItems, ShippingMethods, ShippingForm } from '../'
 
-const StepOne = ({ shippingInfo, shippingMethods, onChange, setShipping, countries, next }) => {
+const StepOne = ({ shippingInfo, shippingMethods, onChange, setShipping, next }) => {
   return (
     <div className='row'>
       <div className='large-7 columns'>
         <ShippingForm
           shippingInfo={shippingInfo}
           onChange={onChange}
-          countries={countries}
           title='Shipping Address'
           className='checkoutpage-steps-shipping-address-container'
         />
