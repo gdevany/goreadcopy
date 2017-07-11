@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { Store } from '../../../redux/actions'
+import { Store, Common } from '../../../redux/actions'
 import { StepOne, StepTwo, StepThree } from './orderSteps'
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
 import Snackbar from 'material-ui/Snackbar'
@@ -9,8 +9,10 @@ import R from 'ramda'
 
 const {
   setOrder, getOrder, getCurrentOrder, setUserAddress, setUserAddressAndShipping,
-  setShipping, setBilling, placeOrder, getPaypalConfig,
+  setShipping, setBilling, placeOrder, getPaypalConfig, placeOrderWithChanges,
 } = Store
+
+const { getCountries, getStates } = Common
 
 const styles = {
   snackBarError: {
@@ -87,6 +89,7 @@ class CheckoutPage extends PureComponent {
 
   componentWillMount = () => {
     this.props.getCurrentOrder()
+    this.props.getCountries()
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -174,7 +177,7 @@ class CheckoutPage extends PureComponent {
     }
   }
 
-  handleFormsChanges = R.curry((field, event) => {
+  handleFormsChanges = R.curry((field, event, index, value) => {
     event.preventDefault()
     if (field === 'cardCVC' && event.target.value.length <= 4) {
       this.setState({
@@ -200,7 +203,13 @@ class CheckoutPage extends PureComponent {
       }
     }
 
-    if (field !== 'cardNumber' && field !== 'fullExpDate' && field !== 'cardCVC') {
+    if (field === 'countryShipping') {
+      this.props.getStates(value)
+      this.setState({ countryShipping: value })
+    }
+
+    if (field !== 'cardNumber' && field !== 'fullExpDate' && field !== 'cardCVC' &&
+        field !== 'countryShipping') {
       this.setState({ [field]: event.target.value })
     }
   })
@@ -419,10 +428,18 @@ class CheckoutPage extends PureComponent {
   handlePlaceOrder = () => {
     if (this.state.isCardClicked && !this.state.isPaypalClicked) {
       this.setState({ showOverlay: true })
-      this.props.placeOrder({
+      this.props.placeOrderWithChanges({
+        litcoins: this.state.useLitcoins,
         shippingMethod: this.state.shippingMethod,
-        paymentMethod: 'cc'
+        paymentMethod: 'cc',
+      }, {
+        shippingMethod: this.state.shippingMethod,
+        paymentMethod: 'cc',
       })
+      //   this.props.placeOrder({
+      //     shippingMethod: this.state.shippingMethod,
+      //     paymentMethod: 'cc',
+      //   })
     } else if (this.state.isPaypalClicked && !this.state.isCardClicked) {
       this.props.getPaypalConfig()
     }
@@ -567,6 +584,7 @@ class CheckoutPage extends PureComponent {
                       <StepOne
                         shippingInfo={shippingInfo}
                         shippingMethods={this.props.shippingMethods}
+                        countries={this.props.countries}
                         onChange={this.handleFormsChanges}
                         setShipping={this.setShippingMethod}
                         next={this.continueToBillingClick}
@@ -597,8 +615,10 @@ class CheckoutPage extends PureComponent {
                         isPaypal={this.state.isPaypalClicked}
                         isCard={this.state.isCardClicked}
                         shippingMethods={this.props.shippingMethods}
+                        handleUseLitcoins={this.handleUseLitcoins}
                         useLitcoins={this.state.useLitcoins}
                         selectedShipping={this.state.shippingMethod}
+                        setShipping={this.setShippingMethod}
                         shippingId={this.state.shippingId}
                         changePayment={this.handleChangePaymentMethod}
                         paypalConfig={this.props.paypalConfig}
@@ -632,6 +652,8 @@ class CheckoutPage extends PureComponent {
 const mapStateToProps = (state) => {
   return {
     order: state.store.order,
+    countries: state.common.countries,
+    states: state.common.states,
     shippingMethods: state.store.shippingMethods,
     paypalConfig: state.store.paypalConfig,
   }
@@ -646,7 +668,10 @@ const mapDistpachToProps = {
   setShipping,
   setBilling,
   placeOrder,
+  placeOrderWithChanges,
   getPaypalConfig,
+  getCountries,
+  getStates,
 }
 
 export default connect(mapStateToProps, mapDistpachToProps)(CheckoutPage)

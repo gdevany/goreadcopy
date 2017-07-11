@@ -1,7 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import SelectField from 'material-ui/SelectField'
+import MenuItem from 'material-ui/MenuItem'
 
-const ShippingFrom = ({ shippingInfo, onChange, title, className, handleSave, handleCancel }) => {
+const ShippingFrom = ({
+  shippingInfo,
+  onChange,
+  title,
+  className,
+  handleSave,
+  handleCancel,
+  countries,
+}) => {
+
+  const renderCountries = (countries) => {
+    if (countries) {
+      return countries.map((country, index) => {
+        return <MenuItem key={country.pk} value={country.pk} primaryText={country.name} />
+      })
+    }
+    return false
+  }
+
   return (
     <section className={className}>
       <h3 className='checkoutpage-steps-shipping-address-title'>
@@ -62,17 +82,13 @@ const ShippingFrom = ({ shippingInfo, onChange, title, className, handleSave, ha
             />
           </div>
           <div className='small-6 columns'>
-            <label
-              className='checkoutpage-steps-shipping-address-form-label'
-            >
-              Country
-            </label>
-            <input
-              type='text'
-              className='checkoutpage-steps-shipping-address-form-input'
-              onChange={onChange('countryShipping')}
+            <SelectField
+              floatingLabelText='Country'
               value={shippingInfo.countryShipping}
-            />
+              onChange={onChange('countryShipping')}
+            >
+              {renderCountries(countries)}
+            </SelectField>
           </div>
           <div className='small-6 columns'>
             <label
