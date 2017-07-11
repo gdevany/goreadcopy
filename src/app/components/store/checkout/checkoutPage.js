@@ -451,32 +451,33 @@ class CheckoutPage extends PureComponent {
   }
 
   render() {
-    const shippingInfo = {
-      firstNameShipping: this.state.firstNameShipping,
-      lastNameShipping: this.state.lastNameShipping,
-      addressShipping: this.state.addressShipping,
-      address2Shipping: this.state.address2Shipping,
-      countryShipping: this.state.countryShipping,
-      cityShipping: this.state.cityShipping,
-      stateShipping: this.state.stateShipping,
-      zipcodeShipping: this.state.zipcodeShipping,
-    }
-    const cardInfo = {
-      nameOnCard: this.state.nameOnCard,
-      cardNumber: this.state.cardNumber,
-      cardCVC: this.state.cardCVC,
-      fullExpDate: this.state.fullExpDate,
-    }
-    const billingInfo = {
-      firstNameBilling: this.state.firstNameBilling,
-      lastNameBilling: this.state.lastNameBilling,
-      addressBilling: this.state.addressBilling,
-      address2Billing: this.state.address2Billing,
-      countryBilling: this.state.countryBilling,
-      cityBilling: this.state.cityBilling,
-      stateBilling: this.state.stateBilling,
-      zipcodeBilling: this.state.zipcodeBilling,
-    }
+    const shippingInfo = R.pick([
+      'firstNameShipping',
+      'lastNameShipping',
+      'addressShipping',
+      'address2Shipping',
+      'countryShipping',
+      'cityShipping',
+      'stateShipping',
+      'zipcodeShipping',
+    ], this.state)
+    const cardInfo = R.pick([
+      'nameOnCard',
+      'cardNumber',
+      'cardCVC',
+      'fullExpDate',
+    ], this.state)
+    const billingInfo = R.pick([
+      'firstNameBilling',
+      'lastNameBilling',
+      'addressBilling',
+      'address2Billing',
+      'countryBilling',
+      'cityBilling',
+      'stateBilling',
+      'zipcodeBilling',
+    ], this.state)
+
     return (
       <section className='checkoutpage-main-container'>
         {this.state.showOverlay ?

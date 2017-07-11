@@ -2,6 +2,19 @@ import R from 'ramda'
 import { STORE as A } from '../const/actionTypes'
 import initialState from '../../initialState'
 
+function setGiftShipping(
+  { cartItems: { items } },
+  { cartItems, giftMessage, shippingAddress }
+) {
+  return R.map(item => {
+    if (R.contains(item.id, cartItems)) {
+      item.giftcartitemdata.shippingAddress = shippingAddress.id
+      console.log(item)
+    }
+    return item
+  }, items)
+}
+
 export default (state = initialState.store, { type, payload }) => {
   switch (type) {
     case A.GET_CATEGORIES:
@@ -52,6 +65,13 @@ export default (state = initialState.store, { type, payload }) => {
       return R.merge(state, { promoCode: payload })
     case A.CLEAN_PROMO_CODE:
       return R.merge(state, { promoCode: {} })
+    case A.SET_GIFT_SHIPPING:
+      return R.merge(state, {
+        cartItems: {
+          ...state.cartItems,
+          items: setGiftShipping(state, payload)
+        }
+      })
     default:
       return state
   }

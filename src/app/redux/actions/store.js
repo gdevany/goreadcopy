@@ -213,6 +213,7 @@ export function convertToGift(id, params) {
 export function addGiftData(params) {
   return dispatch => {
     Store.addGiftData(params)
+      .then(res => dispatch({ type: A.SET_GIFT_SHIPPING, payload: res.data }))
       .catch(err => console.error(`Error in addGiftData ${err}`))
   }
 }
