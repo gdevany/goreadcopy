@@ -119,7 +119,7 @@ class SingleGiftElement extends PureComponent {
             </div>
           </div>
           <div className='cartpage-gift-address-gift-messagge'>
-            <label>Gift Messagge</label>
+            <label>Gift Message</label>
             <textarea
               onChange={this.handleOnChange('giftMessage')}
               value={this.state.giftMessage}
