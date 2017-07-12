@@ -167,6 +167,7 @@ class ReviewOrder extends PureComponent {
           shippingMethod={this.state.shippingMethod}
           shippingAddress={data.shippingAddress}
           cardDetails={cardDetails}
+          selectChange={this.props.selectChange}
           changePayment={this.props.changePayment}
         />
       </section>

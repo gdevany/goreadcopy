@@ -10,21 +10,37 @@ const { getCountries, getStates } = Common
 class ShippingForm extends PureComponent {
   constructor(props) {
     super(props)
+    this.onChange = this.onChange.bind(this)
   }
 
   componentWillMount() {
+    const { getCountries } = this.props
     if (!this.props.countries) {
-      this.props.getCountries()
+      getCountries()
     }
   }
 
-  renderCountries(countries) {
-    if (countries) {
-      return countries.map((country, index) => {
-        return <MenuItem key={country.pk} value={country.pk} primaryText={country.name} />
+  componentWillReceiveProps(nextProps) {
+    const { getStates, shippingInfo } = this.props
+
+    if (nextProps.shippingInfo.countryShipping &&
+      nextProps.shippingInfo.countryShipping !== shippingInfo.countryShipping) {
+      getStates(nextProps.shippingInfo.countryShipping)
+    }
+  }
+
+  renderSelects(elems) {
+    if (elems) {
+      return elems.map((elem, index) => {
+        return <MenuItem key={elem.pk} value={elem.pk} primaryText={elem.name} />
       })
     }
     return false
+  }
+
+  onChange(context, evt, value) {
+    evt.preventDefault()
+    this.props.selectChange(context, evt, value)
   }
 
   render() {
@@ -36,7 +52,7 @@ class ShippingForm extends PureComponent {
       handleSave,
       handleCancel,
       countries,
-      selectChange,
+      states,
     } = this.props
 
     return (
@@ -104,10 +120,10 @@ class ShippingForm extends PureComponent {
                 floatingLabelText='Country'
                 value={shippingInfo.countryShipping}
                 onChange={(evt, index, value) => {
-                  selectChange('countryShipping', evt, value)
+                  this.onChange('countryShipping', evt, value)
                 }}
               >
-                {this.renderCountries(countries)}
+                {this.renderSelects(countries)}
               </SelectField>
             </div>
             <div className='small-6 columns'>
@@ -124,17 +140,16 @@ class ShippingForm extends PureComponent {
               />
             </div>
             <div className='small-6 columns'>
-              <label
-                className='checkoutpage-steps-shipping-address-form-label'
-              >
-                State
-              </label>
-              <input
-                type='text'
-                className='checkoutpage-steps-shipping-address-form-input'
-                onChange={onChange('stateShipping')}
+              <SelectField
+                name='State'
+                floatingLabelText='State'
                 value={shippingInfo.stateShipping}
-              />
+                onChange={(evt, index, value) => {
+                  this.onChange('stateShipping', evt, value)
+                }}
+              >
+                {this.renderSelects(states)}
+              </SelectField>
             </div>
             <div className='small-6 columns'>
               <label

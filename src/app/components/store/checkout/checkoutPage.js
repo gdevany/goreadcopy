@@ -83,6 +83,7 @@ class CheckoutPage extends PureComponent {
     this.handlePaymentClick = this.handlePaymentClick.bind(this)
     this.handlePlaceOrder = this.handlePlaceOrder.bind(this)
     this.handleUseLitcoins = this.handleUseLitcoins.bind(this)
+    this.handleSelectChange = this.handleSelectChange.bind(this)
   }
 
   componentWillMount = () => {
@@ -200,16 +201,16 @@ class CheckoutPage extends PureComponent {
       }
     }
 
-    if (field === 'countryShipping') {
-      this.props.getStates(value)
-      this.setState({ countryShipping: value })
-    }
-
     if (field !== 'cardNumber' && field !== 'fullExpDate' && field !== 'cardCVC' &&
         field !== 'countryShipping') {
       this.setState({ [field]: event.target.value })
     }
   })
+
+  handleSelectChange = (type, event, value) => {
+    event.preventDefault()
+    this.setState({ [type]: value })
+  }
 
   continueToBillingClick = (event) => {
     event.preventDefault()
@@ -583,6 +584,7 @@ class CheckoutPage extends PureComponent {
                         shippingInfo={shippingInfo}
                         shippingMethods={this.props.shippingMethods}
                         onChange={this.handleFormsChanges}
+                        selectChange={this.handleSelectChange}
                         setShipping={this.setShippingMethod}
                         next={this.continueToBillingClick}
                       />

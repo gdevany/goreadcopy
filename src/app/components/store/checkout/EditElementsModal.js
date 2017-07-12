@@ -49,6 +49,7 @@ class EditElementsModal extends PureComponent {
     this.handleCancel = this.handleCancel.bind(this)
     this.handleFormsChanges = this.handleFormsChanges.bind(this)
     this.handlePaymentSwitch = this.handlePaymentSwitch.bind(this)
+    this.handleSelectChange = this.handleSelectChange.bind(this)
   }
 
   truncInfo = (text, limit) => {
@@ -93,6 +94,11 @@ class EditElementsModal extends PureComponent {
       this.setState({ [field]: event.target.value })
     }
   })
+
+  handleSelectChange = (type, event, value) => {
+    event.preventDefault()
+    this.setState({ [type]: value })
+  }
 
   handlePaymentSwitch = (type) => {
     const { selectedPayment } = this.state
@@ -253,6 +259,7 @@ class EditElementsModal extends PureComponent {
             <ShippingForm
               shippingInfo={formInfo}
               onChange={this.handleFormsChanges}
+              selectChange={this.handleSelectChange}
               title={this.state.editClicked ? 'Edit Shipping Address' : 'Add new Shipping Address'}
               className='chekoutpage-edit-shipping-address-form'
               handleSave={this.handleSave}
