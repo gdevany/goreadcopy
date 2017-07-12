@@ -114,7 +114,7 @@ class SingleGiftElement extends PureComponent {
                 {gift.product.name}
               </span>
               <span className='cartpage-gift-address-product-price'>
-                Unit Price: ${gift.product.unitPrice}
+                Unit Price: ${gift.product.unitPrice.toFixed(2)}
               </span>
             </div>
           </div>

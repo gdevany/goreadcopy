@@ -114,7 +114,7 @@ class CartElement extends PureComponent {
             X
           </a>
           <div className='bookstore-book-price-info'>
-            <span className='bookpage-book-price'> $ {bookPrice}</span>
+            <span className='bookpage-book-price'> $ {bookPrice.toFixed(2)}</span>
             <div className='bookpage-book-litcoin-price-container'>
               <span className='bookpage-book-litcoin-price'>
                 {litcoinsPrice ? litcoinsPrice.toLocaleString() : null}

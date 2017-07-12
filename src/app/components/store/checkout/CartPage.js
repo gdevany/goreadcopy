@@ -151,7 +151,7 @@ class CartPage extends PureComponent {
                   <div className='cartpage-subtotal-container'>
                     <span className='bookpage-subtotal-title'>Subtotal</span>
                     <h3 className='bookpage-subtotal-price'>
-                      ${cart ? cart.subtotalPrice : 0.00}
+                      ${cart ? cart.subtotalPrice.toFixed(2) : 0.00}
                     </h3>
                   </div>
                   <div className='cartpage-action-btns-container'>
