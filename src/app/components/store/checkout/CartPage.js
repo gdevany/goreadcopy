@@ -193,9 +193,11 @@ class CartPage extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({
+  store
+}) => {
   return {
-    cart: state.store.cartItems,
+    cart: store.cartItems,
   }
 }
 
