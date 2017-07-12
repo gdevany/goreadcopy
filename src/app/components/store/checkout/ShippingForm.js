@@ -35,10 +35,10 @@ class ShippingForm extends PureComponent {
       className,
       handleSave,
       handleCancel,
-      countries
+      countries,
+      selectChange,
     } = this.props
 
-    console.log(shippingInfo)
     return (
       <section className={className}>
         <h3 className='checkoutpage-steps-shipping-address-title'>
@@ -100,9 +100,12 @@ class ShippingForm extends PureComponent {
             </div>
             <div className='small-6 columns'>
               <SelectField
+                name='Country'
                 floatingLabelText='Country'
                 value={shippingInfo.countryShipping}
-                onChange={onChange('countryShipping')}
+                onChange={(evt, index, value) => {
+                  selectChange('countryShipping', evt, value)
+                }}
               >
                 {this.renderCountries(countries)}
               </SelectField>
@@ -174,6 +177,7 @@ class ShippingForm extends PureComponent {
 ShippingForm.propTypes = {
   shippingInfo: PropTypes.object.isRequired,
   onChange: PropTypes.func,
+  selectChange: PropTypes.func,
   title: PropTypes.string,
   className: PropTypes.string,
   handleSave: PropTypes.func,

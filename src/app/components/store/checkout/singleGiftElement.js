@@ -25,6 +25,7 @@ class SingleGiftElement extends PureComponent {
     }
     this.handleOpenAddress = this.handleOpenAddress.bind(this)
     this.handleOnChange = this.handleOnChange.bind(this)
+    this.handleSelectChange = this.handleSelectChange.bind(this)
     this.handleShippingSubmit = this.handleShippingSubmit.bind(this)
   }
 
@@ -37,6 +38,11 @@ class SingleGiftElement extends PureComponent {
     event.preventDefault()
     this.setState({ [field]: event.target.value })
   })
+
+  handleSelectChange = (type, event, value) => {
+    event.preventDefault()
+    this.setState({ [type]: value })
+  }
 
   handleShippingSubmit = (event) => {
     event.preventDefault()
@@ -134,6 +140,7 @@ class SingleGiftElement extends PureComponent {
           <ShippingForm
             shippingInfo={formInfo}
             onChange={this.handleOnChange}
+            selectChange={this.handleSelectChange}
             title='Add Gift Shipping address'
             className='chekoutpage-edit-shipping-address-form'
             handleSave={this.handleShippingSubmit}
