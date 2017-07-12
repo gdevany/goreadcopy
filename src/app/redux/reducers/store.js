@@ -8,6 +8,7 @@ function setGiftShipping(
 ) {
   return R.map(item => {
     if (R.contains(item.id, cartItems)) {
+      item.giftcartitemdata.giftMessage = giftMessage
       item.giftcartitemdata.shippingAddress = shippingAddress
     }
     return item

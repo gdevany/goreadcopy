@@ -139,7 +139,7 @@ class ShippingGiftAddressModal extends PureComponent {
       <div>
         <div className='row'>
           <div className='large-12 columns'>
-            <label>Gift Messagge</label>
+            <label>Gift Message</label>
             <textarea
               onChange={this.handleOnChange('giftMessage')}
               value={this.state.giftMessage}

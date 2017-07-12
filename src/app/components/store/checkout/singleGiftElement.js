@@ -9,19 +9,20 @@ const { addGiftData } = Store
 class SingleGiftElement extends PureComponent {
   constructor(props) {
     super(props)
+    const giftData = props.giftItem.giftcartitemdata
     this.state = {
       gift: props.giftItem,
       isAddressClicked: false,
-      firstNameShipping: '',
+      firstNameShipping: giftData.shippingAddress.name || '',
       lastNameShipping: '',
-      cityShipping: '',
-      countryShipping: '',
-      addressShipping: '',
-      address2Shipping: '',
-      zipcodeShipping: '',
-      phoneShipping: '',
-      stateShipping: '',
-      giftMessage: '',
+      cityShipping: giftData.shippingAddress.city || '',
+      countryShipping: giftData.shippingAddress.country || '',
+      addressShipping: giftData.shippingAddress.address || '',
+      address2Shipping: giftData.shippingAddress.address2 || '',
+      zipcodeShipping: giftData.shippingAddress.zipcode || '',
+      phoneShipping: giftData.shippingAddress.address || '',
+      stateShipping: giftData.shippingAddress.state || '',
+      giftMessage: giftData.giftMessage || '',
     }
     this.handleOpenAddress = this.handleOpenAddress.bind(this)
     this.handleOnChange = this.handleOnChange.bind(this)
