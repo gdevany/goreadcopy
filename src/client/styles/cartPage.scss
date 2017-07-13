@@ -1207,3 +1207,54 @@
     }
   }
 }
+
+.order-success-left-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: #757575;
+  .order-success-details{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    padding: 1em 0;
+    border-bottom: 2px solid rgba(204, 204, 204, 0.18);
+    .order-success-title{
+      font-size: 22px;
+    }
+    .order-success-num, .order-success-date{
+      color: #757575;
+    }
+  }
+  .order-success-shipping{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    padding: 1em 0;
+    border-bottom: 2px solid rgba(204, 204, 204, 0.18);
+  }
+  .order-success-payment{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    padding: 1em 0;
+    border-bottom: 2px solid rgba(204, 204, 204, 0.18);
+  }
+  .order-success-delivery{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    padding: 1em 0;
+  }
+}
+
+.order-success-heading{
+  font-size: 14px;
+  color: $black;
+  font-weight: 700;
+  text-transform: uppercase;
+}
