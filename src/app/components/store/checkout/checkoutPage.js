@@ -175,7 +175,7 @@ class CheckoutPage extends PureComponent {
     }
   }
 
-  handleFormsChanges = R.curry((field, event, index, value) => {
+  handleFormsChanges = R.curry((field, event) => {
     event.preventDefault()
     if (field === 'cardCVC' && event.target.value.length <= 4) {
       this.setState({
