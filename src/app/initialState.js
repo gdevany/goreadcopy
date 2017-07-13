@@ -25,4 +25,5 @@ export default {
     isContactsOpen: false,
   }),
   notifications: emptyState(),
+  common: emptyState(),
 }

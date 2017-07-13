@@ -19,8 +19,6 @@ import LitcoinStatus from '../LitcoinStatus'
 import { LatestMessagePopupWindow } from '../chat'
 import { NotificationPopupWindow } from '../notifications'
 
-import '../styles/mobile-menu.scss'
-
 const { toggleMessagePopup } = Chat
 const { loadNotifications } = NotifActions
 const { CATEGORIES, GENRES } = PopularTopics

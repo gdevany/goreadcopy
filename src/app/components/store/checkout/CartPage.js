@@ -3,13 +3,14 @@ import { connect } from 'react-redux'
 import { browserHistory, Link } from 'react-router'
 import WishListBooks from '../common/wishListBooks'
 import CartElement from './cartElement'
-import { BookStoreNavBar, Footer } from '../../common'
+import { BookStoreNavBar, Footer, Alerts } from '../../common'
 import { Auth } from '../../../services'
 import { Store } from '../../../redux/actions'
 import ShippingGiftAddressModal from './ShippingGiftAddressModal'
 
 const isUserLoggedIn = Auth.currentUserExists()
 const { getCartItems, setOrder } = Store
+const { SnackBarAlert } = Alerts
 
 class CartPage extends PureComponent {
 
@@ -19,8 +20,11 @@ class CartPage extends PureComponent {
       cart: false,
       anyGift: false,
       modalOpen: false,
+      alert: null,
     }
     this.handleModalClose = this.handleModalClose.bind(this)
+    this.handleCheckout = this.handleCheckout.bind(this)
+    this.createAlert = this.createAlert.bind(this)
   }
 
   componentWillMount = () => {
@@ -51,6 +55,22 @@ class CartPage extends PureComponent {
     })
   }
 
+  handleCheckout = (ev) => {
+    // Validate gifting
+    let allGiftsReady = true
+    this.props.cart.items.map((item) => {
+      if (item.isGiftItem && !item.giftcartitemdata.shippingAddress) {
+        allGiftsReady = false
+      }
+    })
+    if (allGiftsReady) {
+      this.props.setOrder()
+    } else {
+      this.createAlert('A gift is pending address...', 'error')
+      ev.preventDefault()
+    }
+  }
+
   checkGifts = (items) => {
     for (let i = 0; i < items.length ; i++) {
       if (items[i].isGiftItem) {
@@ -61,6 +81,7 @@ class CartPage extends PureComponent {
       } else this.setState({ anyGift: false })
     }
   }
+
   mapCartItems = () => {
     const { cart } = this.state
     return cart.items.map((item, index) => {
@@ -72,6 +93,7 @@ class CartPage extends PureComponent {
           authorFullName={item.product.seller}
           paperType={false}
           isGift={item.isGiftItem}
+          giftData={item.giftcartitemdata}
           bookCount={item.quantity}
           bookPrice={item.product.unitPrice}
           litcoinsPrice={item.product.litcoinsPrice}
@@ -80,6 +102,17 @@ class CartPage extends PureComponent {
         />
       )
     })
+  }
+
+  createAlert = (message, type) => {
+    if (!this.state.alert) {
+      this.setState({
+        alert: {
+          message,
+          type,
+        }
+      })
+    }
   }
 
   render() {
@@ -118,7 +151,7 @@ class CartPage extends PureComponent {
                   <div className='cartpage-subtotal-container'>
                     <span className='bookpage-subtotal-title'>Subtotal</span>
                     <h3 className='bookpage-subtotal-price'>
-                      ${cart ? cart.subtotalPrice : 0.00}
+                      ${cart ? cart.subtotalPrice.toFixed(2) : 0.00}
                     </h3>
                   </div>
                   <div className='cartpage-action-btns-container'>
@@ -128,7 +161,7 @@ class CartPage extends PureComponent {
                     {cart && cart.itemsCount > 0 ?
                       (
                         <Link
-                          onClick={this.props.setOrder()}
+                          onClick={this.handleCheckout}
                           className='store-primary-button float-right'
                           to='/shop/checkout'
                         >
@@ -146,14 +179,25 @@ class CartPage extends PureComponent {
         <div className='bookstore-footer-container'>
           <Footer />
         </div>
+        { this.state.alert ?
+          <SnackBarAlert
+            open={true}
+            message={this.state.alert.message}
+            autoHideDuration={3000}
+            onRequestClose={()=>{this.setState({ alert: null })}}
+            type={this.state.alert.type}
+          /> : null
+        }
       </div>
     )
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({
+  store
+}) => {
   return {
-    cart: state.store.cartItems,
+    cart: store.cartItems,
   }
 }
 

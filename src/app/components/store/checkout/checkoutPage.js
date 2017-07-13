@@ -9,7 +9,7 @@ import R from 'ramda'
 
 const {
   setOrder, getOrder, getCurrentOrder, setUserAddress, setUserAddressAndShipping,
-  setShipping, setBilling, placeOrder, getPaypalConfig,
+  setShipping, setBilling, placeOrder, getPaypalConfig, placeOrderWithChanges,
 } = Store
 
 const styles = {
@@ -83,6 +83,7 @@ class CheckoutPage extends PureComponent {
     this.handlePaymentClick = this.handlePaymentClick.bind(this)
     this.handlePlaceOrder = this.handlePlaceOrder.bind(this)
     this.handleUseLitcoins = this.handleUseLitcoins.bind(this)
+    this.handleSelectChange = this.handleSelectChange.bind(this)
   }
 
   componentWillMount = () => {
@@ -174,7 +175,7 @@ class CheckoutPage extends PureComponent {
     }
   }
 
-  handleFormsChanges = R.curry((field, event) => {
+  handleFormsChanges = R.curry((field, event, index, value) => {
     event.preventDefault()
     if (field === 'cardCVC' && event.target.value.length <= 4) {
       this.setState({
@@ -200,10 +201,16 @@ class CheckoutPage extends PureComponent {
       }
     }
 
-    if (field !== 'cardNumber' && field !== 'fullExpDate' && field !== 'cardCVC') {
+    if (field !== 'cardNumber' && field !== 'fullExpDate' && field !== 'cardCVC' &&
+        field !== 'countryShipping') {
       this.setState({ [field]: event.target.value })
     }
   })
+
+  handleSelectChange = (type, event, value) => {
+    event.preventDefault()
+    this.setState({ [type]: value })
+  }
 
   continueToBillingClick = (event) => {
     event.preventDefault()
@@ -419,10 +426,18 @@ class CheckoutPage extends PureComponent {
   handlePlaceOrder = () => {
     if (this.state.isCardClicked && !this.state.isPaypalClicked) {
       this.setState({ showOverlay: true })
-      this.props.placeOrder({
+      this.props.placeOrderWithChanges({
+        litcoins: this.state.useLitcoins,
         shippingMethod: this.state.shippingMethod,
-        paymentMethod: 'cc'
+        paymentMethod: 'cc',
+      }, {
+        shippingMethod: this.state.shippingMethod,
+        paymentMethod: 'cc',
       })
+      //   this.props.placeOrder({
+      //     shippingMethod: this.state.shippingMethod,
+      //     paymentMethod: 'cc',
+      //   })
     } else if (this.state.isPaypalClicked && !this.state.isCardClicked) {
       this.props.getPaypalConfig()
     }
@@ -451,32 +466,33 @@ class CheckoutPage extends PureComponent {
   }
 
   render() {
-    const shippingInfo = {
-      firstNameShipping: this.state.firstNameShipping,
-      lastNameShipping: this.state.lastNameShipping,
-      addressShipping: this.state.addressShipping,
-      address2Shipping: this.state.address2Shipping,
-      countryShipping: this.state.countryShipping,
-      cityShipping: this.state.cityShipping,
-      stateShipping: this.state.stateShipping,
-      zipcodeShipping: this.state.zipcodeShipping,
-    }
-    const cardInfo = {
-      nameOnCard: this.state.nameOnCard,
-      cardNumber: this.state.cardNumber,
-      cardCVC: this.state.cardCVC,
-      fullExpDate: this.state.fullExpDate,
-    }
-    const billingInfo = {
-      firstNameBilling: this.state.firstNameBilling,
-      lastNameBilling: this.state.lastNameBilling,
-      addressBilling: this.state.addressBilling,
-      address2Billing: this.state.address2Billing,
-      countryBilling: this.state.countryBilling,
-      cityBilling: this.state.cityBilling,
-      stateBilling: this.state.stateBilling,
-      zipcodeBilling: this.state.zipcodeBilling,
-    }
+    const shippingInfo = R.pick([
+      'firstNameShipping',
+      'lastNameShipping',
+      'addressShipping',
+      'address2Shipping',
+      'countryShipping',
+      'cityShipping',
+      'stateShipping',
+      'zipcodeShipping',
+    ], this.state)
+    const cardInfo = R.pick([
+      'nameOnCard',
+      'cardNumber',
+      'cardCVC',
+      'fullExpDate',
+    ], this.state)
+    const billingInfo = R.pick([
+      'firstNameBilling',
+      'lastNameBilling',
+      'addressBilling',
+      'address2Billing',
+      'countryBilling',
+      'cityBilling',
+      'stateBilling',
+      'zipcodeBilling',
+    ], this.state)
+
     return (
       <section className='checkoutpage-main-container'>
         {this.state.showOverlay ?
@@ -568,6 +584,7 @@ class CheckoutPage extends PureComponent {
                         shippingInfo={shippingInfo}
                         shippingMethods={this.props.shippingMethods}
                         onChange={this.handleFormsChanges}
+                        selectChange={this.handleSelectChange}
                         setShipping={this.setShippingMethod}
                         next={this.continueToBillingClick}
                       />
@@ -597,8 +614,10 @@ class CheckoutPage extends PureComponent {
                         isPaypal={this.state.isPaypalClicked}
                         isCard={this.state.isCardClicked}
                         shippingMethods={this.props.shippingMethods}
+                        handleUseLitcoins={this.handleUseLitcoins}
                         useLitcoins={this.state.useLitcoins}
                         selectedShipping={this.state.shippingMethod}
+                        setShipping={this.setShippingMethod}
                         shippingId={this.state.shippingId}
                         changePayment={this.handleChangePaymentMethod}
                         paypalConfig={this.props.paypalConfig}
@@ -646,6 +665,7 @@ const mapDistpachToProps = {
   setShipping,
   setBilling,
   placeOrder,
+  placeOrderWithChanges,
   getPaypalConfig,
 }
 
