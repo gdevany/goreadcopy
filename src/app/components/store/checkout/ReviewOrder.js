@@ -8,11 +8,8 @@ class ReviewOrder extends PureComponent {
     this.state = {
       editModalOpen: false,
       modalRefference: false,
-      shippingMethod: props.shippingMethod,
       shippingId: props.shippingId,
-      isUsingLitcoins: props.usingLitcoins,
     }
-    this.handleUseLitcoins = this.handleUseLitcoins.bind(this)
     this.handleEditModalClose = this.handleEditModalClose.bind(this)
   }
 
@@ -29,10 +26,6 @@ class ReviewOrder extends PureComponent {
       modalRefference: false,
     })
   }
-
-  handleUseLitcoins = (event) => this.setState({ isUsingLitcoins: event.target.checked })
-
-  setShippingMethod = (shippingMethod) => this.setState({ shippingMethod })
 
   render() {
     const { data, isPaypal } = this.props
@@ -156,15 +149,15 @@ class ReviewOrder extends PureComponent {
         {this.props.shippingMethods && data.status !== 40 ?
           <ShippingMethods
             shippingMethods={this.props.shippingMethods}
-            onClick={this.setShippingMethod}
+            onClick={this.props.setShipping}
           /> : null
         }
         {data.status !== 40 ?
           (<hr className='checkoutpage-order-review-divider'/>) : null
         }
         <UseLitcoins
-          onChange={this.handleUseLitcoins}
-          boxChecked={this.state.isUsingLitcoins}
+          onChange={this.props.handleUseLitcoins}
+          boxChecked={this.props.usingLitcoins}
         />
         <EditElementsModal
           modalOpen={this.state.editModalOpen}
@@ -174,6 +167,7 @@ class ReviewOrder extends PureComponent {
           shippingMethod={this.state.shippingMethod}
           shippingAddress={data.shippingAddress}
           cardDetails={cardDetails}
+          selectChange={this.props.selectChange}
           changePayment={this.props.changePayment}
         />
       </section>

@@ -61,6 +61,8 @@ class CartElement extends PureComponent {
       paperType,
       bookPrice,
       litcoinsPrice,
+      isGift,
+      giftData,
     } = this.props
 
     const { bookCount } = this.state
@@ -95,6 +97,12 @@ class CartElement extends PureComponent {
               />
               <span className='bookpage-book-gift-text'>Gift</span>
               <GiftIcon className='bookpage-book-gift-icon'/>
+              { isGift && giftData && !giftData.shippingAddress.id ?
+                  <span className='error'>
+                    &nbsp;Gift has not shipping address!
+                  </span> :
+                  null
+              }
             </div>
           </div>
         </div>
@@ -106,7 +114,7 @@ class CartElement extends PureComponent {
             X
           </a>
           <div className='bookstore-book-price-info'>
-            <span className='bookpage-book-price'> $ {bookPrice}</span>
+            <span className='bookpage-book-price'> $ {bookPrice.toFixed(2)}</span>
             <div className='bookpage-book-litcoin-price-container'>
               <span className='bookpage-book-litcoin-price'>
                 {litcoinsPrice ? litcoinsPrice.toLocaleString() : null}
@@ -122,9 +130,18 @@ class CartElement extends PureComponent {
   }
 }
 
+const mapStatetoProps = ({
+  store
+}) => {
+  return {
+    store
+  }
+}
+
 const mapDispachToProps = {
   updateCartItems,
   removeItemFromCart,
   convertToGift
 }
-export default connect(null, mapDispachToProps)(CartElement)
+
+export default connect(mapStatetoProps, mapDispachToProps)(CartElement)

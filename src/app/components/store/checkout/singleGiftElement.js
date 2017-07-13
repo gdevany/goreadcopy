@@ -9,22 +9,24 @@ const { addGiftData } = Store
 class SingleGiftElement extends PureComponent {
   constructor(props) {
     super(props)
+    const giftData = props.giftItem.giftcartitemdata
     this.state = {
       gift: props.giftItem,
       isAddressClicked: false,
-      firstNameShipping: '',
+      firstNameShipping: giftData.shippingAddress.name || '',
       lastNameShipping: '',
-      cityShipping: '',
-      countryShipping: '',
-      addressShipping: '',
-      address2Shipping: '',
-      zipcodeShipping: '',
-      phoneShipping: '',
-      stateShipping: '',
-      giftMessage: '',
+      cityShipping: giftData.shippingAddress.city || '',
+      countryShipping: giftData.shippingAddress.country || '',
+      addressShipping: giftData.shippingAddress.address || '',
+      address2Shipping: giftData.shippingAddress.address2 || '',
+      zipcodeShipping: giftData.shippingAddress.zipcode || '',
+      phoneShipping: giftData.shippingAddress.address || '',
+      stateShipping: giftData.shippingAddress.state || '',
+      giftMessage: giftData.giftMessage || '',
     }
     this.handleOpenAddress = this.handleOpenAddress.bind(this)
     this.handleOnChange = this.handleOnChange.bind(this)
+    this.handleSelectChange = this.handleSelectChange.bind(this)
     this.handleShippingSubmit = this.handleShippingSubmit.bind(this)
   }
 
@@ -37,6 +39,11 @@ class SingleGiftElement extends PureComponent {
     event.preventDefault()
     this.setState({ [field]: event.target.value })
   })
+
+  handleSelectChange = (type, event, value) => {
+    event.preventDefault()
+    this.setState({ [type]: value })
+  }
 
   handleShippingSubmit = (event) => {
     event.preventDefault()
@@ -107,12 +114,12 @@ class SingleGiftElement extends PureComponent {
                 {gift.product.name}
               </span>
               <span className='cartpage-gift-address-product-price'>
-                Unit Price: ${gift.product.unitPrice}
+                Unit Price: ${gift.product.unitPrice.toFixed(2)}
               </span>
             </div>
           </div>
           <div className='cartpage-gift-address-gift-messagge'>
-            <label>Gift Messagge</label>
+            <label>Gift Message</label>
             <textarea
               onChange={this.handleOnChange('giftMessage')}
               value={this.state.giftMessage}
@@ -134,6 +141,7 @@ class SingleGiftElement extends PureComponent {
           <ShippingForm
             shippingInfo={formInfo}
             onChange={this.handleOnChange}
+            selectChange={this.handleSelectChange}
             title='Add Gift Shipping address'
             className='chekoutpage-edit-shipping-address-form'
             handleSave={this.handleShippingSubmit}

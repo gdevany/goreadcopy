@@ -41,6 +41,7 @@ class ShippingGiftAddressModal extends PureComponent {
       giftMessage: '',
     }
     this.handleOnChange = this.handleOnChange.bind(this)
+    this.handleSelectChange = this.handleSelectChange.bind(this)
     this.handleSamePersonClick = this.handleSamePersonClick.bind(this)
     this.handleShippingSubmit = this.handleShippingSubmit.bind(this)
   }
@@ -55,6 +56,11 @@ class ShippingGiftAddressModal extends PureComponent {
     event.preventDefault()
     this.setState({ [field]: event.target.value })
   })
+
+  handleSelectChange = (type, event, value) => {
+    event.preventDefault()
+    this.setState({ [type]: value })
+  }
 
   giftIdsHandler = () => {
     const { cartElements } = this.props
@@ -133,7 +139,7 @@ class ShippingGiftAddressModal extends PureComponent {
       <div>
         <div className='row'>
           <div className='large-12 columns'>
-            <label>Gift Messagge</label>
+            <label>Gift Message</label>
             <textarea
               onChange={this.handleOnChange('giftMessage')}
               value={this.state.giftMessage}
@@ -142,6 +148,7 @@ class ShippingGiftAddressModal extends PureComponent {
           <ShippingForm
             shippingInfo={formInfo}
             onChange={this.handleOnChange}
+            selectChange={this.handleSelectChange}
             title='Add Gift Shipping address'
             className='chekoutpage-edit-shipping-address-form'
             handleSave={this.handleShippingSubmit}

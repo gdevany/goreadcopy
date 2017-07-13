@@ -1,6 +1,6 @@
-import { ONBOARDING, LITCOIN_TYPES as L } from '../../../constants/litcoins'
+import { ONBOARDING, LITCOIN_TYPES as L } from '../constants/litcoins'
 import R from 'ramda'
-import Auth from '../../../services/auth'
+import Auth from './auth'
 
 const LitcoinCalculator = () => {
   const getCumulativeBalance = ({

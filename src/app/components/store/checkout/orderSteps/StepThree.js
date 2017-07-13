@@ -8,7 +8,9 @@ const StepThree = ({
   isCard,
   shippingMethods,
   useLitcoins,
+  handleUseLitcoins,
   selectedShipping,
+  setShipping,
   shippingId,
   changePayment,
   paypalConfig,
@@ -30,8 +32,10 @@ const StepThree = ({
           data={order}
           isPaypal={isPaypal}
           shippingMethods={shippingMethods}
+          handleUseLitcoins={handleUseLitcoins}
           usingLitcoins={useLitcoins}
           shippingMethod={selectedShipping}
+          setShipping={setShipping}
           shippingId={shippingId}
           changePayment={changePayment}
         />

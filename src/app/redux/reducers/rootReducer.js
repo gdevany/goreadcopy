@@ -16,6 +16,7 @@ import chatReducer from './chat'
 import notificationReducer from './notifications'
 import sidebarAdsReducer from './ads'
 import { CURRENT_READER as C } from '../const/actionTypes'
+import commonReducer from './common'
 
 const appReducer = combineReducers({
   books: booksReducer,
@@ -34,6 +35,7 @@ const appReducer = combineReducers({
   store: storeReducer,
   rates: ratesReducer,
   notifications: notificationReducer,
+  common: commonReducer,
 })
 
 const rootReducer = (state, action) => {

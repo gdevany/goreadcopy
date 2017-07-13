@@ -89,6 +89,7 @@ export const STORE = {
   GET_PAYPAL_CONFIG: 'GET_PAYPAL_CONFIG',
   SET_PROMO_CODE: 'SET_PROMO_CODE',
   CLEAN_PROMO_CODE: 'CLEAN_PROMO_CODE',
+  SET_GIFT_SHIPPING: 'SET_GIFT_SHIPPING',
 }
 
 export const RATES = {
@@ -132,6 +133,11 @@ export const NOTIFICATIONS = {
   SET_REQUESTING_STATE: 'SET_REQUESTING_STATE',
 }
 
+export const COMMON = {
+  GET_CONTRIES: 'GET_CONTRIES',
+  GET_STATES: 'GET_STATES',
+}
+
 export default {
   BOOKS,
   CHAT,
@@ -144,4 +150,5 @@ export default {
   STORE,
   RATES,
   NOTIFICATIONS,
+  COMMON,
 }
