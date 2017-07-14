@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
+import Scroll from 'react-scroll'
 import { ExternalRoutes as routes } from '../../constants'
 import {
   Auth,
@@ -31,6 +32,7 @@ const { usePlatformAs, getCurrentReader, logoutCurrentReader } = CurrentReader
 const { getCategories, getPopularCategories } = Store
 const { toggleMessagePopup } = Chat
 const { loadNotifications } = NotifActions
+const Anchor = Scroll.Link
 
 const styles = {
   categoriesMenu: {
@@ -652,12 +654,16 @@ class BookStoreNavBar extends PureComponent {
                   {isUserLoggedIn ?
                     (
                       <li className='bookstore-navbar-menu-list'>
-                        <a
+                        <Anchor
+                          to='wishlist'
+                          spy={true}
+                          smooth={true}
+                          offset={-100}
+                          duration={500}
                           className='bookstore-navbar-menu-anchor'
-                          href='#'
                         >
                           My Wishlist
-                        </a>
+                        </Anchor>
                       </li>
                     ) : (
                       <li className='bookstore-navbar-menu-list'>
@@ -859,11 +865,16 @@ class BookStoreNavBar extends PureComponent {
                               </a>
                             </li>
                             <li className='bookstore-mobile-menu-list'>
-                              <a
+                              <Anchor
+                                to='wishlist'
+                                spy={true}
+                                smooth={true}
+                                offset={50}
+                                duration={500}
                                 className='bookstore-mobile-menu-anchor'
                               >
                                 My Wishlist
-                              </a>
+                              </Anchor>
                             </li>
                             <li className='bookstore-mobile-menu-title'>
                               Account
