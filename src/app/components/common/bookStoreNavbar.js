@@ -656,7 +656,8 @@ class BookStoreNavBar extends PureComponent {
                       {this.mapCategoriesMenuList()}
                     </CategoriesMenu>
                   </li>
-                  {isUserLoggedIn && wishlist && wishlist.length >= 0 ?
+                  {isUserLoggedIn && wishlist &&
+                    wishlist !== 'User has no books in the wish list' ?
                     (
                       <li className='bookstore-navbar-menu-list'>
                         <Anchor
@@ -872,7 +873,8 @@ class BookStoreNavBar extends PureComponent {
                                 Categories
                               </a>
                             </li>
-                            {isUserLoggedIn && wishlist && wishlist.length >= 0 ?
+                            {isUserLoggedIn && wishlist &&
+                              wishlist !== 'User has no books in the wish list' ?
                               (
                                 <li className='bookstore-mobile-menu-list'>
                                   <Anchor
