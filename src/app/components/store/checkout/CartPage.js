@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { browserHistory, Link } from 'react-router'
 import WishListBooks from '../common/wishListBooks'
 import CartElement from './cartElement'
-import { BookStoreNavBar, Footer, Alerts } from '../../common'
+import { Footer, Alerts } from '../../common'
+import { StoreNavView } from '../../views'
 import { Auth } from '../../../services'
 import { Store } from '../../../redux/actions'
 import ShippingGiftAddressModal from './ShippingGiftAddressModal'
@@ -118,77 +119,78 @@ class CartPage extends PureComponent {
   render() {
     const { cart, anyGift } = this.state
     return (
-      <div className='root-cart-page'>
-        <BookStoreNavBar/>
-        <div className='cartpage-main-container'>
-          <section className='cartpage-main-element-container'>
-            <div className='row'>
-              <div className='large-6 large-offset-3 columns'>
-                <section className='cartpage-container'>
-                  <h2 className='cartpage-title'>Your Cart</h2>
-                  <div className='cartpage-elements-container'>
-                    {cart && cart.itemsCount > 0 ?
-                      this.mapCartItems() : null
-                    }
-                    {anyGift ?
-                      (
-                        <div className='cartpage-set-gifts-shipping'>
-                          <a
-                            onClick={this.handleModalOpen}
-                            className='cartpage-set-gifts-btn'
+      <StoreNavView>
+        <div className='root-cart-page'>
+          <div className='cartpage-main-container'>
+            <section className='cartpage-main-element-container'>
+              <div className='row'>
+                <div className='large-6 large-offset-3 columns'>
+                  <section className='cartpage-container'>
+                    <h2 className='cartpage-title'>Your Cart</h2>
+                    <div className='cartpage-elements-container'>
+                      {cart && cart.itemsCount > 0 ?
+                        this.mapCartItems() : null
+                      }
+                      {anyGift ?
+                        (
+                          <div className='cartpage-set-gifts-shipping'>
+                            <a
+                              onClick={this.handleModalOpen}
+                              className='cartpage-set-gifts-btn'
+                            >
+                              Set Gifts Shipping Address
+                            </a>
+                            <ShippingGiftAddressModal
+                              modalOpen={this.state.modalOpen}
+                              handleClose={this.handleModalClose}
+                              cartElements={cart.items}
+                            />
+                          </div>
+                        ) : null
+                      }
+                    </div>
+                    <div className='cartpage-subtotal-container'>
+                      <span className='bookpage-subtotal-title'>Subtotal</span>
+                      <h3 className='bookpage-subtotal-price'>
+                        ${cart ? cart.subtotalPrice.toFixed(2) : 0.00}
+                      </h3>
+                    </div>
+                    <div className='cartpage-action-btns-container'>
+                      <a className='cartpage-action-secondary-btn' href='/browse'>
+                        Continue shopping
+                      </a>
+                      {cart && cart.itemsCount > 0 ?
+                        (
+                          <Link
+                            onClick={this.handleCheckout}
+                            className='store-primary-button float-right'
+                            to='/shop/checkout'
                           >
-                            Set Gifts Shipping Address
-                          </a>
-                          <ShippingGiftAddressModal
-                            modalOpen={this.state.modalOpen}
-                            handleClose={this.handleModalClose}
-                            cartElements={cart.items}
-                          />
-                        </div>
-                      ) : null
-                    }
-                  </div>
-                  <div className='cartpage-subtotal-container'>
-                    <span className='bookpage-subtotal-title'>Subtotal</span>
-                    <h3 className='bookpage-subtotal-price'>
-                      ${cart ? cart.subtotalPrice.toFixed(2) : 0.00}
-                    </h3>
-                  </div>
-                  <div className='cartpage-action-btns-container'>
-                    <a className='cartpage-action-secondary-btn' href='/browse'>
-                      Continue shopping
-                    </a>
-                    {cart && cart.itemsCount > 0 ?
-                      (
-                        <Link
-                          onClick={this.handleCheckout}
-                          className='store-primary-button float-right'
-                          to='/shop/checkout'
-                        >
-                          Checkout
-                        </Link>
-                      ) : null
-                    }
-                  </div>
-                </section>
+                            Checkout
+                          </Link>
+                        ) : null
+                      }
+                    </div>
+                  </section>
+                </div>
               </div>
-            </div>
-          </section>
-          {isUserLoggedIn ? <WishListBooks/> : null}
+            </section>
+            {isUserLoggedIn ? <WishListBooks/> : null}
+          </div>
+          <div className='bookstore-footer-container'>
+            <Footer />
+          </div>
+          { this.state.alert ?
+            <SnackBarAlert
+              open={true}
+              message={this.state.alert.message}
+              autoHideDuration={3000}
+              onRequestClose={()=>{this.setState({ alert: null })}}
+              type={this.state.alert.type}
+            /> : null
+          }
         </div>
-        <div className='bookstore-footer-container'>
-          <Footer />
-        </div>
-        { this.state.alert ?
-          <SnackBarAlert
-            open={true}
-            message={this.state.alert.message}
-            autoHideDuration={3000}
-            onRequestClose={()=>{this.setState({ alert: null })}}
-            type={this.state.alert.type}
-          /> : null
-        }
-      </div>
+      </StoreNavView>
     )
   }
 }
