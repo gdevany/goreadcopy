@@ -67,6 +67,7 @@ class BookStoreNavBar extends PureComponent {
       isSearchResultsOpen: false,
       notificationsOpen: false,
       chatsContainerOpen: false,
+      wishlist: false,
     }
     this.handleSignUpModalClose = this.handleSignUpModalClose.bind(this)
     this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
@@ -125,6 +126,9 @@ class BookStoreNavBar extends PureComponent {
         searchResults: nextProps.searchResults,
         isSearchResultsOpen: true
       })
+    }
+    if (nextProps.wishList) {
+      this.setState({ wishlist: nextProps.wishList })
     }
   }
 
@@ -616,7 +620,8 @@ class BookStoreNavBar extends PureComponent {
     const isUserLoggedIn = AuthService.currentUserExists()
     const chatNotifications = this.countChatNotifications()
     const { currentReader, notifications } = this.props
-    const { searchResults, isSearchResultsOpen } = this.state
+    const { searchResults, isSearchResultsOpen, wishlist } = this.state
+
     return (
       <div className='relative-top-menu'>
         <header className='main-bookstore-navbar-container slide-down'>
@@ -651,7 +656,7 @@ class BookStoreNavBar extends PureComponent {
                       {this.mapCategoriesMenuList()}
                     </CategoriesMenu>
                   </li>
-                  {isUserLoggedIn ?
+                  {isUserLoggedIn && wishlist && wishlist.length >= 0 ?
                     (
                       <li className='bookstore-navbar-menu-list'>
                         <Anchor
@@ -665,7 +670,10 @@ class BookStoreNavBar extends PureComponent {
                           My Wishlist
                         </Anchor>
                       </li>
-                    ) : (
+                    ) : null
+                  }
+                  {!isUserLoggedIn ?
+                    (
                       <li className='bookstore-navbar-menu-list'>
                         <a
                           className='bookstore-navbar-menu-anchor'
@@ -674,7 +682,7 @@ class BookStoreNavBar extends PureComponent {
                           Join Community
                         </a>
                       </li>
-                    )
+                    ) : null
                   }
                 </ul>
                 <form onKeyPress={this.handleEnterButton} className='bookstore-search-form'>
@@ -864,18 +872,22 @@ class BookStoreNavBar extends PureComponent {
                                 Categories
                               </a>
                             </li>
-                            <li className='bookstore-mobile-menu-list'>
-                              <Anchor
-                                to='wishlist'
-                                spy={true}
-                                smooth={true}
-                                offset={50}
-                                duration={500}
-                                className='bookstore-mobile-menu-anchor'
-                              >
-                                My Wishlist
-                              </Anchor>
-                            </li>
+                            {isUserLoggedIn && wishlist && wishlist.length >= 0 ?
+                              (
+                                <li className='bookstore-mobile-menu-list'>
+                                  <Anchor
+                                    to='wishlist'
+                                    spy={true}
+                                    smooth={true}
+                                    offset={50}
+                                    duration={500}
+                                    className='bookstore-mobile-menu-anchor'
+                                  >
+                                    My Wishlist
+                                  </Anchor>
+                                </li>
+                              ) : null
+                            }
                             <li className='bookstore-mobile-menu-title'>
                               Account
                             </li>
@@ -1052,6 +1064,9 @@ const mapStateToProps = ({
   },
   chat,
   notifications,
+  profilePage: {
+    wishList,
+  },
 }) => {
   return {
     currentReader,
@@ -1060,6 +1075,7 @@ const mapStateToProps = ({
     searchResults: books,
     chat,
     notifications,
+    wishList,
   }
 }
 
