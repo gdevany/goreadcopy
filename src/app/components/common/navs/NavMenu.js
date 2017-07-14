@@ -140,6 +140,7 @@ class NavMenu extends PureComponent {
     this.handleLogoutClick = this.handleLogoutClick.bind(this)
     this.handleClickSearch = this.handleClickSearch.bind(this)
     this.handleNotificationsShow = this.handleNotificationsShow.bind(this)
+    this.handleHideNotifications = this.handleHideNotifications.bind(this)
     this.handleChatsContainerShow = this.handleChatsContainerShow.bind(this)
     this.loadNotifications = this.loadNotifications.bind(this)
   }
@@ -231,6 +232,13 @@ class NavMenu extends PureComponent {
     }
   }
 
+  handleHideNotifications = (event) => {
+    event.preventDefault()
+    this.setState({
+      notificationsOpen: false,
+    })
+  }
+
   handleChatsContainerShow = () => {
     this.props.toggleMessagePopup()
   }
@@ -243,7 +251,9 @@ class NavMenu extends PureComponent {
     if (!this.state.profileMenuOpen) {
       this.setState({
         profileMenuOpen: true,
+        notificationsOpen: false,
       })
+      this.props.handleChatsContainerShow()
     } else {
       this.setState({ profileMenuOpen: false })
     }
@@ -1075,9 +1085,24 @@ class NavMenu extends PureComponent {
             handleClose={this.handleSearchClose}
           />
         </div>
-        <NotificationPopupWindow isOpen={this.state.notificationsOpen} />
+        <div onMouseLeave={this.handleHideNotifications}>
+          <NotificationPopupWindow
+            wrapperClass='notifications-main-frame-container'
+            mainClass='notifications-frame-container'
+            isOpen={this.state.notificationsOpen}
+          />
+        </div>
+
         { this.props.chat.isMessagesOpen ?
-          <LatestMessagePopupWindow showMethod={this.handleChatsContainerShow}/> : null
+          (
+            <div onMouseLeave={this.handleChatsContainerShow}>
+              <LatestMessagePopupWindow
+                wrapperClass='chat-frame-main-container'
+                mainClass='chats-frame-container'
+                showMethod={this.handleChatsContainerShow}
+              />
+            </div>
+          ) : null
         }
       </div>
     )

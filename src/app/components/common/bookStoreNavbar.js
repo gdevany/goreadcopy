@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
+import Scroll from 'react-scroll'
 import { ExternalRoutes as routes } from '../../constants'
 import {
   Auth,
@@ -31,6 +32,7 @@ const { usePlatformAs, getCurrentReader, logoutCurrentReader } = CurrentReader
 const { getCategories, getPopularCategories } = Store
 const { toggleMessagePopup } = Chat
 const { loadNotifications } = NotifActions
+const Anchor = Scroll.Link
 
 const styles = {
   categoriesMenu: {
@@ -65,6 +67,7 @@ class BookStoreNavBar extends PureComponent {
       isSearchResultsOpen: false,
       notificationsOpen: false,
       chatsContainerOpen: false,
+      wishlist: false,
     }
     this.handleSignUpModalClose = this.handleSignUpModalClose.bind(this)
     this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
@@ -78,6 +81,7 @@ class BookStoreNavBar extends PureComponent {
     this.countChatNotifications = this.countChatNotifications.bind(this)
     this.handleChatsContainerShow = this.handleChatsContainerShow.bind(this)
     this.handleNotificationsShow = this.handleNotificationsShow.bind(this)
+    this.handleHideNotifications = this.handleHideNotifications.bind(this)
     this.handleMenuStateChange = this.handleMenuStateChange.bind(this)
   }
 
@@ -123,6 +127,9 @@ class BookStoreNavBar extends PureComponent {
         isSearchResultsOpen: true
       })
     }
+    if (nextProps.wishList) {
+      this.setState({ wishlist: nextProps.wishList })
+    }
   }
 
   componentDidMount() {
@@ -166,7 +173,11 @@ class BookStoreNavBar extends PureComponent {
 
   handleProfileMenuShow = () => {
     if (!this.state.profileMenuOpen) {
-      this.setState({ profileMenuOpen: true })
+      this.setState({
+        profileMenuOpen: true,
+        notificationsOpen: false,
+      })
+      this.props.handleChatsContainerShow()
     } else {
       this.setState({ profileMenuOpen: false })
     }
@@ -257,6 +268,13 @@ class BookStoreNavBar extends PureComponent {
     } else {
       this.setState({ notificationsOpen: false })
     }
+  }
+
+  handleHideNotifications = (event) => {
+    event.preventDefault()
+    this.setState({
+      notificationsOpen: false,
+    })
   }
 
   handleChatsContainerShow = () => {
@@ -602,7 +620,8 @@ class BookStoreNavBar extends PureComponent {
     const isUserLoggedIn = AuthService.currentUserExists()
     const chatNotifications = this.countChatNotifications()
     const { currentReader, notifications } = this.props
-    const { searchResults, isSearchResultsOpen } = this.state
+    const { searchResults, isSearchResultsOpen, wishlist } = this.state
+
     return (
       <div className='relative-top-menu'>
         <header className='main-bookstore-navbar-container slide-down'>
@@ -637,17 +656,25 @@ class BookStoreNavBar extends PureComponent {
                       {this.mapCategoriesMenuList()}
                     </CategoriesMenu>
                   </li>
-                  {isUserLoggedIn ?
+                  {isUserLoggedIn && wishlist &&
+                    wishlist !== 'User has no books in the wish list' ?
                     (
                       <li className='bookstore-navbar-menu-list'>
-                        <a
+                        <Anchor
+                          to='wishlist'
+                          spy={true}
+                          smooth={true}
+                          offset={-100}
+                          duration={500}
                           className='bookstore-navbar-menu-anchor'
-                          href='#'
                         >
                           My Wishlist
-                        </a>
+                        </Anchor>
                       </li>
-                    ) : (
+                    ) : null
+                  }
+                  {!isUserLoggedIn ?
+                    (
                       <li className='bookstore-navbar-menu-list'>
                         <a
                           className='bookstore-navbar-menu-anchor'
@@ -656,7 +683,7 @@ class BookStoreNavBar extends PureComponent {
                           Join Community
                         </a>
                       </li>
-                    )
+                    ) : null
                   }
                 </ul>
                 <form onKeyPress={this.handleEnterButton} className='bookstore-search-form'>
@@ -846,13 +873,23 @@ class BookStoreNavBar extends PureComponent {
                                 Categories
                               </a>
                             </li>
-                            <li className='bookstore-mobile-menu-list'>
-                              <a
-                                className='bookstore-mobile-menu-anchor'
-                              >
-                                My Wishlist
-                              </a>
-                            </li>
+                            {isUserLoggedIn && wishlist &&
+                              wishlist !== 'User has no books in the wish list' ?
+                              (
+                                <li className='bookstore-mobile-menu-list'>
+                                  <Anchor
+                                    to='wishlist'
+                                    spy={true}
+                                    smooth={true}
+                                    offset={50}
+                                    duration={500}
+                                    className='bookstore-mobile-menu-anchor'
+                                  >
+                                    My Wishlist
+                                  </Anchor>
+                                </li>
+                              ) : null
+                            }
                             <li className='bookstore-mobile-menu-title'>
                               Account
                             </li>
@@ -995,9 +1032,23 @@ class BookStoreNavBar extends PureComponent {
             handleClose={this.handleLogInModalClose}
           />
         </header>
-        <NotificationPopupWindow isOpen={this.state.notificationsOpen} />
+        <div onMouseLeave={this.handleHideNotifications}>
+          <NotificationPopupWindow
+            wrapperClass='store-notifications-main-frame-container'
+            mainClass='store-notifications-frame-container'
+            isOpen={this.state.notificationsOpen}
+          />
+        </div>
         { this.props.chat.isMessagesOpen ?
-          <LatestMessagePopupWindow showMethod={this.handleChatsContainerShow}/> : null
+          (
+            <div onMouseLeave={this.handleChatsContainerShow}>
+              <LatestMessagePopupWindow
+                wrapperClass='store-chat-frame-main-container'
+                mainClass='store-chats-frame-container'
+                showMethod={this.handleChatsContainerShow}
+              />
+            </div>
+          ) : null
         }
       </div>
     )
@@ -1015,6 +1066,9 @@ const mapStateToProps = ({
   },
   chat,
   notifications,
+  profilePage: {
+    wishList,
+  },
 }) => {
   return {
     currentReader,
@@ -1023,6 +1077,7 @@ const mapStateToProps = ({
     searchResults: books,
     chat,
     notifications,
+    wishList,
   }
 }
 

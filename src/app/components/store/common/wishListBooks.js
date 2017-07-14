@@ -1,9 +1,11 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import Scroll from 'react-scroll'
 import { ProfilePage } from '../../../redux/actions'
 import Book from './Book'
 
 const { getProfileBookInfo } = ProfilePage
+const { Element } = Scroll
 
 class WishListBooks extends PureComponent {
 
@@ -59,7 +61,10 @@ class WishListBooks extends PureComponent {
       return null
     }
     return (
-      <section className='wishlist-books-main-container'>
+      <Element
+        name='wishlist'
+        className='wishlist-books-main-container'
+      >
         <div className='wishlist-columns-container'>
           <h4 className='wishlist-books-title'>
             Books in your wish list
@@ -68,7 +73,7 @@ class WishListBooks extends PureComponent {
             {profilePage && profilePage.wishList ? this.renderWishList() : null}
           </div>
         </div>
-      </section>
+      </Element>
     )
   }
 }
