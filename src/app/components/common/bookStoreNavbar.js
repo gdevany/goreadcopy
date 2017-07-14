@@ -77,6 +77,7 @@ class BookStoreNavBar extends PureComponent {
     this.countChatNotifications = this.countChatNotifications.bind(this)
     this.handleChatsContainerShow = this.handleChatsContainerShow.bind(this)
     this.handleNotificationsShow = this.handleNotificationsShow.bind(this)
+    this.handleHideNotifications = this.handleHideNotifications.bind(this)
     this.handleMenuStateChange = this.handleMenuStateChange.bind(this)
   }
 
@@ -165,7 +166,11 @@ class BookStoreNavBar extends PureComponent {
 
   handleProfileMenuShow = () => {
     if (!this.state.profileMenuOpen) {
-      this.setState({ profileMenuOpen: true })
+      this.setState({
+        profileMenuOpen: true,
+        notificationsOpen: false,
+      })
+      this.props.handleChatsContainerShow()
     } else {
       this.setState({ profileMenuOpen: false })
     }
@@ -256,6 +261,13 @@ class BookStoreNavBar extends PureComponent {
     } else {
       this.setState({ notificationsOpen: false })
     }
+  }
+
+  handleHideNotifications = (event) => {
+    event.preventDefault()
+    this.setState({
+      notificationsOpen: false,
+    })
   }
 
   handleChatsContainerShow = () => {
@@ -994,9 +1006,23 @@ class BookStoreNavBar extends PureComponent {
             handleClose={this.handleLogInModalClose}
           />
         </header>
-        <NotificationPopupWindow isOpen={this.state.notificationsOpen} />
+        <div onMouseLeave={this.handleHideNotifications}>
+          <NotificationPopupWindow
+            wrapperClass='store-notifications-main-frame-container'
+            mainClass='store-notifications-frame-container'
+            isOpen={this.state.notificationsOpen}
+          />
+        </div>
         { this.props.chat.isMessagesOpen ?
-          <LatestMessagePopupWindow showMethod={this.handleChatsContainerShow}/> : null
+          (
+            <div onMouseLeave={this.handleChatsContainerShow}>
+              <LatestMessagePopupWindow
+                wrapperClass='store-chat-frame-main-container'
+                mainClass='store-chats-frame-container'
+                showMethod={this.handleChatsContainerShow}
+              />
+            </div>
+          ) : null
         }
       </div>
     )

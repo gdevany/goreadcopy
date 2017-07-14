@@ -111,9 +111,9 @@ class NotificationPopupWindow extends PureComponent {
   render() {
     const { isOpen, notifications: { results } } = this.props
     return isOpen ? (
-      <section className='notifications-main-frame-container'>
+      <section className={this.props.wrapperClass}>
         <section
-          className='notifications-frame-container'
+          className={this.props.mainClass}
           onWheel={e=>{this.handleWheelScroll(e)}}
           ref={cont=>{this.locals.container = cont}}
         >
