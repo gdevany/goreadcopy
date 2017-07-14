@@ -30,6 +30,15 @@
   .bm-overlay{
     left: 0;
   }
+  .profile-menu-container{
+    top: 63px;
+    &:before{
+      right: 20px;
+    }
+    &:after{
+      right: 21px;
+    }
+  }
 }
 
 .categories-list-menu-container{
