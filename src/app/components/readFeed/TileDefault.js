@@ -873,15 +873,13 @@ class TileDefault extends PureComponent {
       isPostEditable,
       readFeed,
       fullname,
+      tileType,
     } = this.props
 
     const splitActionrRegex = /(?:[^\s{]+|{[^{]*})+/g
     const splittedAction = action ? action.match(splitActionrRegex) : null
     const isReadFeedPage = readFeed !== undefined
-    const isPostPersonal =
-      isReadFeedPage ?
-      author.name === fullname : author && target ?
-      author.name === target.name : false
+    const isPostPersonal = author.name === fullname && tileType === 'status'
 
     return (
       <div>
