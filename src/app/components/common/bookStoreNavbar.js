@@ -23,6 +23,7 @@ import { stack as MobileMenu, slide as CategoriesMenu } from 'react-burger-menu'
 import R from 'ramda'
 import { NotificationPopupWindow } from './notifications'
 import { LatestMessagePopupWindow } from './chat'
+import { RestrictedScrollContainer } from './scrollers'
 
 const { mainSearch, updateSearch } = Search
 const { verifyUserToken, processUserLogout } = Auth
@@ -77,6 +78,7 @@ class BookStoreNavBar extends PureComponent {
     this.countChatNotifications = this.countChatNotifications.bind(this)
     this.handleChatsContainerShow = this.handleChatsContainerShow.bind(this)
     this.handleNotificationsShow = this.handleNotificationsShow.bind(this)
+    this.handleMenuStateChange = this.handleMenuStateChange.bind(this)
   }
 
   componentWillMount = () => {
@@ -347,6 +349,14 @@ class BookStoreNavBar extends PureComponent {
     })
   }
 
+  handleMenuStateChange = (state)=> {
+    const { isOpen } = state
+    const { categoriesMenuOpen } = this.state
+    if (!isOpen && categoriesMenuOpen) {
+      this.setState({ categoriesMenuOpen: isOpen })
+    }
+  }
+
   mapMobileCategoriesList = () => {
     return (
       <div
@@ -544,10 +554,8 @@ class BookStoreNavBar extends PureComponent {
 
   mapCategoriesMenuList = () => {
     return (
-      <section
-        className='categories-list-menu-container'
-        onWheel={this.handleWheelScroll}
-        ref={container=>{this.locals.container = container}}
+      <RestrictedScrollContainer
+        classes='categories-list-menu-container'
       >
         <ul className='categories-list-menu'>
           <li className='categories-list-item-title'>
@@ -559,7 +567,7 @@ class BookStoreNavBar extends PureComponent {
           </li>
           {this.props.categories ? this.mapMainCategories() : null}
         </ul>
-      </section>
+      </RestrictedScrollContainer>
     )
   }
 
@@ -623,6 +631,7 @@ class BookStoreNavBar extends PureComponent {
                       customCrossIcon={false}
                       id={'bookclub-categories-nav-menu'}
                       isOpen={this.state.categoriesMenuOpen}
+                      onStateChange={this.handleMenuStateChange}
                       style={styles.categoriesMenu}
                     >
                       {this.mapCategoriesMenuList()}
@@ -672,9 +681,11 @@ class BookStoreNavBar extends PureComponent {
                   }
                   {searchResults && isSearchResultsOpen ?
                     (
-                      <div className='bookstore-search-results-container'>
+                      <RestrictedScrollContainer
+                        classes='bookstore-search-results-container'
+                      >
                         {this.renderSearchResults()}
-                      </div>
+                      </RestrictedScrollContainer>
                     ) : null
                   }
                 </form>
