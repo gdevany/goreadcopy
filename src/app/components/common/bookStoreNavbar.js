@@ -77,6 +77,7 @@ class BookStoreNavBar extends PureComponent {
     this.countChatNotifications = this.countChatNotifications.bind(this)
     this.handleChatsContainerShow = this.handleChatsContainerShow.bind(this)
     this.handleNotificationsShow = this.handleNotificationsShow.bind(this)
+    this.handleMenuStateChange = this.handleMenuStateChange.bind(this)
   }
 
   componentWillMount = () => {
@@ -345,6 +346,14 @@ class BookStoreNavBar extends PureComponent {
         </li>
       )
     })
+  }
+
+  handleMenuStateChange = (state)=> {
+    const { isOpen } = state
+    const { categoriesMenuOpen } = this.state
+    if (!isOpen && categoriesMenuOpen) {
+      this.setState({ categoriesMenuOpen: isOpen })
+    }
   }
 
   mapMobileCategoriesList = () => {
@@ -623,6 +632,7 @@ class BookStoreNavBar extends PureComponent {
                       customCrossIcon={false}
                       id={'bookclub-categories-nav-menu'}
                       isOpen={this.state.categoriesMenuOpen}
+                      onStateChange={this.handleMenuStateChange}
                       style={styles.categoriesMenu}
                     >
                       {this.mapCategoriesMenuList()}
