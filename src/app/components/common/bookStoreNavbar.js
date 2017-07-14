@@ -23,6 +23,7 @@ import { stack as MobileMenu, slide as CategoriesMenu } from 'react-burger-menu'
 import R from 'ramda'
 import { NotificationPopupWindow } from './notifications'
 import { LatestMessagePopupWindow } from './chat'
+import { RestrictedScrollContainer } from './scrollers'
 
 const { mainSearch, updateSearch } = Search
 const { verifyUserToken, processUserLogout } = Auth
@@ -553,10 +554,8 @@ class BookStoreNavBar extends PureComponent {
 
   mapCategoriesMenuList = () => {
     return (
-      <section
-        className='categories-list-menu-container'
-        onWheel={this.handleWheelScroll}
-        ref={container=>{this.locals.container = container}}
+      <RestrictedScrollContainer
+        classes='categories-list-menu-container'
       >
         <ul className='categories-list-menu'>
           <li className='categories-list-item-title'>
@@ -568,7 +567,7 @@ class BookStoreNavBar extends PureComponent {
           </li>
           {this.props.categories ? this.mapMainCategories() : null}
         </ul>
-      </section>
+      </RestrictedScrollContainer>
     )
   }
 
@@ -682,9 +681,11 @@ class BookStoreNavBar extends PureComponent {
                   }
                   {searchResults && isSearchResultsOpen ?
                     (
-                      <div className='bookstore-search-results-container'>
+                      <RestrictedScrollContainer
+                        classes='bookstore-search-results-container'
+                      >
                         {this.renderSearchResults()}
-                      </div>
+                      </RestrictedScrollContainer>
                     ) : null
                   }
                 </form>
