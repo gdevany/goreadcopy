@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { BookStoreNavBar, Footer } from '../../common'
+import { Footer } from '../../common'
+import { StoreNavView } from '../../views'
 import BookStoreHero from './bookStoreHero'
 import CategoriesCarousel from './categoriesCarousel'
 import WishListBooks from '../common/wishListBooks'
@@ -44,8 +45,7 @@ class BookStore extends PureComponent {
     const { randomCategory } = this.state
     const isUserLoggedIn = Auth.currentUserExists()
     return (
-      <div>
-        <BookStoreNavBar/>
+      <StoreNavView>
         <BookStoreHero isUserLogged={isUserLoggedIn}/>
         <div className='row'>
           <div className='large-12 columns'>
@@ -88,7 +88,7 @@ class BookStore extends PureComponent {
         <div className='bookstore-footer-container'>
           <Footer />
         </div>
-      </div>
+      </StoreNavView>
     )
   }
 }
