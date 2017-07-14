@@ -21,17 +21,16 @@ class BookStore extends PureComponent {
 
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.categories) {
-      this.setState({
-        categories: nextProps.categories
-      })
-      if (!this.state.isRandomSelected && nextProps.categories.length > 40) {
-        this.setRandomCategory()
+      if (!this.state.isRandomSelected && nextProps.categories.length > 5) {
+        this.setState({
+          categories: nextProps.categories
+        })
+        this.setRandomCategory(nextProps.categories)
       }
     }
   }
 
-  setRandomCategory = () => {
-    const { categories } = this.state
+  setRandomCategory = (categories) => {
     if (categories) {
       const catLength = categories.length
       this.setState({
@@ -96,7 +95,7 @@ class BookStore extends PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    categories: state.store.categories,
+    categories: state.store.popularCategories,
   }
 }
 
