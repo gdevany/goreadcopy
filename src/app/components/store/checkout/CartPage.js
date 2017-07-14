@@ -60,7 +60,7 @@ class CartPage extends PureComponent {
     // Validate gifting
     let allGiftsReady = true
     this.props.cart.items.map((item) => {
-      if (item.isGiftItem && !item.giftcartitemdata.shippingAddress) {
+      if (item.isGiftItem && !item.giftcartitemdata.shippingAddress.id) {
         allGiftsReady = false
       }
     })
