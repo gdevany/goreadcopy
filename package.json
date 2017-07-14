@@ -107,6 +107,7 @@
     "redux": "^3.7.1",
     "redux-thunk": "^2.2.0",
     "sass-loader": "^6.0.6",
+    "serve-favicon": "^2.4.3",
     "slick-carousel": "^1.6.0",
     "stats-webpack-plugin": "^0.6.1",
     "style-loader": "^0.18.2",
