@@ -924,10 +924,8 @@ class TileDefault extends PureComponent {
                 </div>
               </div>
               {
-                ((isProfilePage && isMyProfile) ||
-                isReadFeedPage) &&
-                isPostEditable &&
-                isPostPersonal ?
+                (isProfilePage && isMyProfile) ||
+                (isReadFeedPage && isPostEditable && isPostPersonal) ?
                 (
                   <div className='tile-action-container'>
                     <ArrowDownIcon onClick={this.handleActionMenuShow} />
@@ -937,14 +935,20 @@ class TileDefault extends PureComponent {
                           className='tile-action-pop-menu'
                           onMouseLeave={this.handleActionMenuHide}
                         >
-                          <li className='tile-action-element-container'>
-                            <a
-                              className='tile-action-anchor'
-                              onClick={this.handleEditPost}
-                            >
-                              Edit
-                            </a>
-                          </li>
+                          {
+                            isPostEditable &&
+                            isPostPersonal ?
+                            (
+                              <li className='tile-action-element-container'>
+                                <a
+                                  className='tile-action-anchor'
+                                  onClick={this.handleEditPost}
+                                >
+                                  Edit
+                                </a>
+                              </li>
+                            ) : null
+                          }
                           <li className='tile-action-element-container'>
                             <a
                               className='tile-action-anchor'
