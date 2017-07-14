@@ -614,7 +614,12 @@ class NavMenu extends PureComponent {
             ) : null
           }
         </li>
-        <hr className='profile-menu-divider' />
+        {currentReader.hasAuthorBuzz ||
+         (currentReader.hasPublisherBuzz && currentReader.isPublisher) ?
+          (
+            <hr className='profile-menu-divider' />
+          ) : null
+        }
         <li className='profile-menu-element'>
           <Link
             to={`/profile/${currentReader.slug}`}
@@ -714,7 +719,7 @@ class NavMenu extends PureComponent {
                         }
                       primary={true}
                       badgeStyle={notifications.unreadCount ? {
-                        top: -5,
+                        top: 0,
                         right: -7,
                         width: '20px',
                         height: '20px',
@@ -942,7 +947,7 @@ class NavMenu extends PureComponent {
                       badgeContent={chatNotifications}
                       primary={true}
                       badgeStyle={chatNotifications > 0 ? {
-                        top: -7,
+                        top: 0,
                         left: 7,
                         width: '20px',
                         height: '20px',

@@ -135,6 +135,15 @@
 .litcoins-status-container{
   display: flex;
   align-items: center;
+  .rf-nav-link{
+    padding: 0;
+  }
+  .litcoin-balance-anchor{
+    padding: 0;
+    .litcoin-img{
+      margin-bottom: 0;
+    }
+  }
 }
 
 .menu-badge-container > div{
@@ -183,7 +192,7 @@
     .profile-menu-element{
       .profile-menu-anchor{
         display: block;
-        padding: .5em 2em;
+        padding: 1em 2em;
         font-weight: 200;
       }
     }
@@ -277,6 +286,7 @@
       width: 100%;
       margin-top: .5em;
       .litcoin-balance-anchor{
+        padding: 0;
         span{
           color:$black;
           font-size: 16px;
