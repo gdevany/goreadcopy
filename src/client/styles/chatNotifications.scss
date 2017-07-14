@@ -1028,7 +1028,8 @@
       }
     }
     .conversation-extrange-chat-container{
-      width: 80%;
+      width: auto;
+      max-width: 80%;
       margin-left: 10px;
       .conversation-extrange-pharagraph{
         background: #F5F5F5;
@@ -1061,7 +1062,8 @@
     padding: 10px;
     width: 100%;
     .conversation-me-chat-container{
-      width: 84%;
+      width: auto;
+      max-width: 84%;
       margin-left: 10px;
       .conversation-me-pharagraph{
         background: #0092FF;
