@@ -29,6 +29,12 @@
       padding: .25em 1em;
       font-size: 14px;
       border-radius: 5px;
+      @media (max-width: 768px){
+        left: 120px;
+      }
+      @media (max-width: 480px){
+        left: 15px;
+      }
     }
     .statuspost-action-btn:hover{
       color: $white;
@@ -43,6 +49,36 @@
       left: 140px;
       bottom: 5px;
     }
+    .suggestion-list-loader{
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+      margin: 0;
+      list-style: none;
+      position: absolute;
+      top: 60px;
+      left: 15px;
+      max-width: 300px;
+      background-color: $white;
+      padding: 1em;
+      border: solid 1px $light-med-grey;
+      border-radius: 5px;
+      z-index: 99;
+      transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      box-shadow: rgba(222, 222, 222, 0.498039) 0px 4px 20px 0px;
+      max-height: 300px;
+      @media (min-width: 768px){
+        left: 80px;
+      }
+      .statuspost-loader{
+        position: relative;
+        left: 0;
+        bottom: 0;
+      }
+    }
     .statuspost-close-btn{
       position: absolute;
       top: 8px;
@@ -50,6 +86,9 @@
       right: 18px;
       color:$light-med-grey;
       display: block;
+      &:hover{
+        color: #0042D6;
+      }
     }
     .current-reader-badge{
       display: none;
@@ -108,9 +147,6 @@
         border: 1px solid $red;
       }
     }
-    .statuspost-error{
-
-    }
   }
 }
 
@@ -131,8 +167,8 @@
   margin: 0;
   list-style: none;
   position: absolute;
-  top: 50px;
-  left: 80px;
+  top: 60px;
+  left: 15px;
   max-width: 300px;
   background-color: $white;
   padding: 1em;
@@ -145,20 +181,51 @@
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   box-shadow: rgba(222, 222, 222, 0.498039) 0px 4px 20px 0px;
   max-height: 300px;
-  overflow: scroll;
-  .suggestion-list-element{
+  overflow-x: hidden;
+  overflow-y: scroll;
+  @media (min-width: 768px){
+    left: 80px;
+  }
+  .suggestion-list-element {
     align-self: flex-start;
     margin-bottom: .5em;
+    white-space: nowrap;
     &:hover{
       cursor: pointer;
+      .suggestion-list-name{
+        color: #0042D6;
+      }
     }
-     .sugestion-list-image{
+    .sugestion-list-image {
        width: 50px;
        border-radius: 5px;
-     }
-     .suggestion-list-name{
+    }
+    .suggestion-list-name {
        margin-left: .5em;
-     }
+    }
+    .tooltiptext {
+      opacity: 0;
+      width: 150px;
+      background-color: black;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 2px 10px;
+      font-size: 12px;
+      white-space: normal;
+      pointer-events: none;
+      /* Position the tooltip */
+      position: absolute;
+      z-index: 1;
+      top: 40px;
+      left: 60px;
+    }
+  }
+  .suggestion-list-element:hover {
+    .tooltiptext {
+      opacity: 1;
+      transition: opacity 0s linear 1s;
+    }
   }
 }
 

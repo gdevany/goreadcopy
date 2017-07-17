@@ -1,12 +1,18 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router'
 import { connect } from 'react-redux'
+import { debounce } from 'lodash'
 import { Tiles } from '../../redux/actions'
 import { PrimaryButton } from '../common'
 import { RegisterSignInModal } from '../common'
 import { Colors } from '../../constants/style'
 import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import { Auth } from '../../services'
+import { Search } from '../../services/api'
+import SuggestionList from '../common/SuggestionList'
+import RefreshIndicator from 'material-ui/RefreshIndicator'
+import Linkify from 'react-linkify'
 import { TileEdit } from './tiles'
 import {
   Card,
@@ -29,11 +35,13 @@ const {
 } = ShareButtons
 
 const isUserLoggedIn = Auth.currentUserExists()
-
 const FacebookIcon = generateShareIcon('facebook')
 const TwitterIcon = generateShareIcon('twitter')
 const GooglePlusIcon = generateShareIcon('google')
 const LinkedinIcon = generateShareIcon('linkedin')
+const { search } = Search
+const mentionPattern = /\B@(?!Reader|Author|Publisher|Book)\w+\s?\w+/gi
+const mentionRegex = /(\@\[\d+\:\d+\])/gi
 
 const {
   updateLikes,
@@ -172,6 +180,10 @@ const styles = {
     padding: '20px 20px 15px',
     textAlign: 'left',
   },
+  refresh: {
+    display: 'inline-block',
+    position: 'relative',
+  },
 }
 
 /*
@@ -205,17 +217,29 @@ class TileDefault extends PureComponent {
       replyPlaceholder: false,
       modalLogInOpen: false,
       userLogged: false,
+      body: '',
+      mentions: '',
+      suggestions: [],
+      onProcessMentions: [],
+      processedMentions: [],
+      showSuggestions: false,
+      isTextComment: false,
       isProfilePage: false,
       isMyProfile: false,
       isPostEditing: false,
       isPostDeleted: false,
       actionMenuOpen: false,
+      loadSuggestions: false,
     }
 
     this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
     this.handleActionMenuShow = this.handleActionMenuShow.bind(this)
     this.handleActionMenuHide = this.handleActionMenuHide.bind(this)
-
+    this.checkMentions = this.checkMentions.bind(this)
+    this.handleSuggestionClick = this.handleSuggestionClick.bind(this)
+    this.refreshMentions = this.refreshMentions.bind(this)
+    this.getMentions = debounce(this.getMentions, 250)
+    this.replaceMention = this.replaceMention.bind(this)
   }
 
   static contextTypes = {
@@ -345,6 +369,7 @@ class TileDefault extends PureComponent {
         this.setState({
           sharePostOpen: false,
           commentPostOpen: true,
+          isTextComment: true,
         })
       } else {
         this.setState({
@@ -363,6 +388,7 @@ class TileDefault extends PureComponent {
       this.setState({
         commentsOpen: true,
         commentPostOpen: true,
+        isTextComment: true,
       })
     }
   }
@@ -428,6 +454,8 @@ class TileDefault extends PureComponent {
     const { feedComments } = this.props
     const foundComments = this.findCommentsForThisTile(feedComments)
     return foundComments ? foundComments.comments.map(comment => {
+      const currentComment = comment.mentions || comment.comment
+      const splittedContent = this.splitContent(currentComment)
       return (
         <Card
           key={`${comment.id}`}
@@ -454,8 +482,12 @@ class TileDefault extends PureComponent {
               </div>
             </div>
           </div>
-          <CardText style={styles.commentContent}>
-            {comment.comment}
+          <CardText style={styles.commentContent} className='commentContent'>
+            {
+              splittedContent.map((entry, index) => {
+                return this.renderContentWithMentions(entry, index, comment.mentionArray)
+              })
+            }
           </CardText>
           <CardActions style={styles.commentActions}>
             <div style={styles.socialContainer} className='row'>
@@ -478,6 +510,42 @@ class TileDefault extends PureComponent {
     }) : null
   }
 
+  renderContentWithMentions(entry, index, mentionList) {
+    if (mentionRegex.test(entry)) {
+      for (let i = 0; i < mentionList.length; i++) {
+        if (mentionList[i].mention === entry) {
+          const splitResult = this.splitMention(mentionList[i].url)
+          if (splitResult && splitResult[3] === 'profile') {
+            return (
+              <Link key={index} to={`profile/${splitResult[splitResult.length - 2]}`}>
+                {mentionList[i].name}
+              </Link>
+            )
+          }
+          return (
+            <a key={index} href={mentionList[i].url}>
+              {mentionList[i].name}
+            </a>
+          )
+        }
+      }
+    }
+    return (
+      <span key={index}>
+        <Linkify properties={{ target: '_blank' }}>
+          {entry}
+        </Linkify>
+      </span>)
+  }
+
+  splitContent(content) {
+    return content.split(mentionRegex)
+  }
+
+  splitMention(content) {
+    return content.split('/')
+  }
+
   handleReplyComment = (tileId) => {
     this.setState({
       commentParentId: tileId,
@@ -491,7 +559,8 @@ class TileDefault extends PureComponent {
       commented,
       commentedCount,
       commentInput,
-      commentParentId
+      commentParentId,
+      mentions,
     } = this.state
     const {
       tileId,
@@ -513,12 +582,20 @@ class TileDefault extends PureComponent {
       commentInput: '',
       replyPlaceholder: false
     })
-    updateComments(tileId, commentInput, commentParentId, datetime, profile)
+    updateComments(tileId, commentInput, commentParentId, mentions, datetime, profile)
   }
 
   handleShareSubmit = (shareType) => {
-    const { sharedCount, shareInput } = this.state
-    const { tileId, shareTile } = this.props
+    const {
+      sharedCount,
+      shareInput,
+      mentions
+    } = this.state
+    const {
+      tileId,
+      shareTile
+    } = this.props
+    this.handleShareClose
     if (shareType === 5) {
       this.setState({
         sharePostOpen: false,
@@ -528,13 +605,13 @@ class TileDefault extends PureComponent {
         commentsOpen: false,
         commentPostOpen: false,
       })
-      shareTile(tileId, shareType, shareInput)
+      shareTile(tileId, shareType, shareInput, mentions)
     } else {
       this.setState({
         sharedOpen: false,
         sharedCount: sharedCount + 1,
       })
-      shareTile(tileId, shareType, null)
+      shareTile(tileId, shareType, null, null)
     }
   }
 
@@ -550,16 +627,122 @@ class TileDefault extends PureComponent {
     if (!commentsOpen && sharedOpen) {
       this.setState({
         commentsOpen: true,
-        sharedOpen: false
       })
     }
     if (commentPostOpen) this.setState({ commentPostOpen: false })
-    this.setState({ sharePostOpen: true })
+    this.setState({
+      sharePostOpen: true,
+      isTextComment: false,
+      sharedOpen: false,
+    })
   }
 
   handleInputOnChange = R.curry((field, event) => {
-    this.setState({ [field]: event.target.value })
+    const commentInput = event.target.value
+    const { showSuggestions, onProcessMentions } = this.checkMentions(commentInput)
+    const {
+      processedMentions,
+      mentions
+    } = this.refreshMentions(commentInput, this.state.processedMentions)
+    this.setState({
+      [field]: event.target.value,
+      commentInput,
+      mentions,
+      showSuggestions,
+      onProcessMentions,
+      processedMentions,
+    })
   })
+
+  checkMentions(latestBody) {
+    const result = {
+      showSuggestions: false,
+      onProcessMentions: latestBody.match(mentionPattern) || ''
+    }
+    const pos = 60 + (parseInt(latestBody.length / 65, 10) * 20)
+    this.setState({ listPosition: pos >= 150 ? 150 : pos })
+    if (result.onProcessMentions && result.onProcessMentions.length > 0) {
+      this.setState({ loadSuggestions: true })
+      this.getMentions(R.last(result.onProcessMentions).replace('@', ''))
+    }
+    return result
+  }
+
+  getMentions(query) {
+    if (query) {
+      search({
+        author: query,
+        reader: query,
+        book: query,
+        publisher: query
+      }).then((res) => this.setState({
+        suggestions: res.data,
+        showSuggestions: true,
+        loadSuggestions: false,
+      }))
+    } else {
+      this.setState({ showSuggestions: false })
+    }
+  }
+
+  refreshMentions(updatedBody, updatedProcessedMentions) {
+    let processedMentions = R.clone(updatedProcessedMentions)
+    let mentions = updatedBody
+    // Beware of indexOf 0 in the next line
+    processedMentions = processedMentions.filter((el) => mentions.indexOf(el.display) >= 0)
+    processedMentions.map(function (el) {
+      mentions = mentions.replace(el.display, el.mention)
+    })
+    return {
+      processedMentions,
+      mentions
+    }
+  }
+
+  handleSuggestionClick(event) {
+    event.stopPropagation()
+    const { type, display, contenttype, id } = event.target.dataset
+    const textInput = this.replaceMention(type, display, contenttype, id)
+    const { showSuggestions, onProcessMentions } = this.checkMentions(textInput)
+    const { processedMentions, mentions } = this.refreshMentions(textInput, R.concat(
+      this.state.processedMentions,
+      [{
+        display: `@${type}:${display}`,
+        mention: `@[${contenttype}:${id}]`
+      }]
+    ))
+    this.setState({
+      commentInput: textInput,
+      shareInput: textInput,
+      mentions,
+      processedMentions,
+      showSuggestions,
+      onProcessMentions,
+    })
+    this.postInput.focus()
+  }
+
+  replaceMention(type, display, contentType, id) {
+    const { commentInput, onProcessMentions } = this.state
+    const lastMention = R.last(onProcessMentions)
+    const updatedBody = commentInput.replace(lastMention, `@${type}:${display} `)
+    return updatedBody
+  }
+
+  setLoading = () => {
+    return (
+      <div className='statuspost-loader'>
+        <RefreshIndicator
+          size={30}
+          left={0}
+          top={0}
+          loadingColor={Colors.blue}
+          status='loading'
+          style={styles.refresh}
+        />
+      </div>
+    )
+  }
 
   handleEditPost = () => {
     this.handleActionMenuHide()
@@ -603,6 +786,10 @@ class TileDefault extends PureComponent {
 
   renderPostBox = (buttonType) => {
     const {
+      suggestions,
+      showSuggestions,
+      loadSuggestions,
+      listPosition,
       commentInput,
       shareInput,
       commentParentId,
@@ -611,6 +798,7 @@ class TileDefault extends PureComponent {
     const { profileImage } = this.props
     const isComment = buttonType === 'comment'
     const inputType = isComment ? 'commentInput' : 'shareInput'
+    const listStyle = listPosition ? { top: listPosition + 'px', left: 100 } : null
     return (
       <div className='input-post-box comments-tile-container'>
         <div className='comments-elelemnts'>
@@ -626,6 +814,7 @@ class TileDefault extends PureComponent {
           }
           <textarea
             type='text'
+            ref={(input) => {this.postInput = input}}
             className='search-input comments-textarea'
             placeholder={replyPlaceholder ? replyPlaceholder : 'Share your thoughts'}
             onChange={this.handleInputOnChange(`${inputType}`)}
@@ -633,6 +822,19 @@ class TileDefault extends PureComponent {
             rows='3'
             autoFocus
           />
+          {loadSuggestions ?
+            (<ul className='suggestion-list-loader' style={listStyle}>
+              { this.setLoading() }
+            </ul>) : null
+          }
+          {showSuggestions ?
+            (<SuggestionList
+              entries={suggestions}
+              onMentionListClick={this.handleSuggestionClick}
+              position={listStyle}
+             />
+            ) : null
+          }
         </div>
         <div>
           <PrimaryButton
@@ -653,6 +855,7 @@ class TileDefault extends PureComponent {
       commentsOpen,
       sharePostOpen,
       sharedCount,
+      isTextComment,
       isMyProfile,
       isProfilePage,
       isPostEditing,
@@ -671,15 +874,13 @@ class TileDefault extends PureComponent {
       isPostEditable,
       readFeed,
       fullname,
+      tileType,
     } = this.props
 
     const splitActionrRegex = /(?:[^\s{]+|{[^{]*})+/g
     const splittedAction = action ? action.match(splitActionrRegex) : null
     const isReadFeedPage = readFeed !== undefined
-    const isPostPersonal =
-      isReadFeedPage ?
-      author.name === fullname : author && target ?
-      author.name === target.name : false
+    const isPostPersonal = author.name === fullname && tileType === 'status'
 
     return (
       <div>
@@ -722,10 +923,8 @@ class TileDefault extends PureComponent {
                 </div>
               </div>
               {
-                ((isProfilePage && isMyProfile) ||
-                isReadFeedPage) &&
-                isPostEditable &&
-                isPostPersonal ?
+                (isProfilePage && isMyProfile) ||
+                (isReadFeedPage && isPostEditable && isPostPersonal) ?
                 (
                   <div className='tile-action-container'>
                     <ArrowDownIcon onClick={this.handleActionMenuShow} />
@@ -735,14 +934,20 @@ class TileDefault extends PureComponent {
                           className='tile-action-pop-menu'
                           onMouseLeave={this.handleActionMenuHide}
                         >
-                          <li className='tile-action-element-container'>
-                            <a
-                              className='tile-action-anchor'
-                              onClick={this.handleEditPost}
-                            >
-                              Edit
-                            </a>
-                          </li>
+                          {
+                            isPostEditable &&
+                            isPostPersonal ?
+                            (
+                              <li className='tile-action-element-container'>
+                                <a
+                                  className='tile-action-anchor'
+                                  onClick={this.handleEditPost}
+                                >
+                                  Edit
+                                </a>
+                              </li>
+                            ) : null
+                          }
                           <li className='tile-action-element-container'>
                             <a
                               className='tile-action-anchor'
@@ -787,7 +992,6 @@ class TileDefault extends PureComponent {
 
                   </div>
                 </div>
-
                 <div className='small-4 columns' style={styles.commentIconContainer}>
                   <div
                     className='comments-count'
@@ -826,7 +1030,7 @@ class TileDefault extends PureComponent {
               style={styles.commentContainer}
             >
               <div className='comments'>
-                {feedComments ? this.handleRenderComments(feedComments) : null}
+                {isTextComment && feedComments ? this.handleRenderComments(feedComments) : null}
               </div>
               {
                 sharePostOpen ?

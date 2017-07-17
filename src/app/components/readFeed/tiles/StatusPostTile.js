@@ -68,7 +68,10 @@ class StatusPostTile extends PureComponent {
     const splittedContent = content.description ?
     this.splitContent(content.description) : null
     const splittedPostContent = this.splitContent(content.socialPostComment)
-
+    const sharePostStyle =
+      content.mentionsPostList.length > 0 ||
+      content.socialPostComment.length > 0 ?
+      'shared' : ''
     let videoInfo = ''
     if (content.activeContent && content.activeContent.providerName === 'Dailymotion') {
       videoInfo = UrlParser.parse(content.activeContent.url)
@@ -87,12 +90,13 @@ class StatusPostTile extends PureComponent {
         isPostEditable={true}
         mentionsList={content.mentionsList}
         activeContent={content.activeContent}
+        tileType={content.tileType}
       >
         <div className='statuspost-tile-container'>
-          <div className='post-excerpt-container'>
-            <p className='post-excerpt-pharagraph'>
+          <div className='sharepost-excerpt-container'>
+            <p className='sharepost-excerpt-pharagraph'>
               {
-                content.mentionsPostList !== null || content.socialPostComment !== 'None' ?
+                content.mentionsPostList.length > 0 || content.socialPostComment !== 'None' ?
                   (
                     splittedPostContent.map((entry, index) => {
                       return this.renderContentWithMentions(entry, index, content.mentionsPostList)
@@ -167,7 +171,7 @@ class StatusPostTile extends PureComponent {
             ) : null
           }
           <div className='statuspost-content'>
-            <div className='post-excerpt-container'>
+            <div className={`post-excerpt-container ${sharePostStyle}`}>
               <p className='post-excerpt-pharagraph'>
                 {
                   splittedContent ?
