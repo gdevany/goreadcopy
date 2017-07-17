@@ -31,7 +31,7 @@ class BookProductTile extends PureComponent {
   }
 
   renderContentWithMentions(entry, index, mentionList) {
-    if (mentionRegex.test(entry)) {
+    if (mentionRegex.test(entry) && mentionList) {
       for (let i = 0; i < mentionList.length; i++) {
         if (mentionList[i].mention === entry) {
           const splitResult = this.splitMention(mentionList[i].url)
