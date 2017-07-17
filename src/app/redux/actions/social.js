@@ -8,6 +8,16 @@ export function sharePost(data, contentId) {
       .catch(err => console.error(`Error in sharePost ${err}`))
   }
 }
+
+export function shareBook(data, contentId) {
+  return dispatch => {
+    Social.shareBook(contentId, data)
+      .then(res => dispatch(getCurrentReader()))
+      .catch(err => console.error(`Error in sharePost ${err}`))
+  }
+}
+
 export default {
   sharePost,
+  shareBook,
 }
