@@ -33,6 +33,9 @@ const renderSuggestion = (entry, type, ctype) => {
           <span className='suggestion-list-name'>
             Reader: {`${entry.firstName} ${entry.lastName}`}
           </span>
+          <span className='tooltiptext'>
+            {`${entry.firstName} ${entry.lastName}`}
+          </span>
         </li>
       )
     case 'Author':
@@ -53,6 +56,9 @@ const renderSuggestion = (entry, type, ctype) => {
           <span className='suggestion-list-name'>
             Author: {`${entry.firstName} ${entry.lastName}`}
           </span>
+          <span className='tooltiptext'>
+            {`${entry.firstName} ${entry.lastName}`}
+          </span>
         </li>
       )
     case 'Book':
@@ -70,7 +76,12 @@ const renderSuggestion = (entry, type, ctype) => {
             style={styles.layer}
           />
           <img className='sugestion-list-image' src={entry.image} alt='User image'/>
-          <span className='suggestion-list-name'>Book: {entry.title}</span>
+          <span className='suggestion-list-name'>
+            Book: {entry.title}
+          </span>
+          <span className='tooltiptext'>
+            {entry.title}
+          </span>
         </li>
       )
     case 'Publisher':
@@ -88,7 +99,12 @@ const renderSuggestion = (entry, type, ctype) => {
             style={styles.layer}
           />
           <img className='sugestion-list-image' src={entry.image} alt='User image'/>
-          <span className='suggestion-list-name'>Publisher: {entry.title}</span>
+          <span className='suggestion-list-name'>
+            Publisher: {entry.title}
+          </span>
+          <span className='tooltiptext'>
+            {entry.title}
+          </span>
         </li>
       )
     default:
@@ -96,10 +112,10 @@ const renderSuggestion = (entry, type, ctype) => {
   }
 }
 
-const SuggestionList = ({ entries, onMentionListClick }) => {
+const SuggestionList = ({ entries, onMentionListClick, position }) => {
   const { readers, authors, books, publishers, ctypes } = entries
   return (
-    <ul className='suggestion-list' onClick={onMentionListClick}>
+    <ul className='suggestion-list' onClick={onMentionListClick} style={position}>
       {readers.map((reader) => renderSuggestion(reader, 'Reader', ctypes.readers))}
       {authors.map((author) => renderSuggestion(author, 'Author', ctypes.authors))}
       {books.map((book) => renderSuggestion(book, 'Book', ctypes.books))}

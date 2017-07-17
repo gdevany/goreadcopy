@@ -18,6 +18,7 @@ import Badge from 'material-ui/Badge'
 import LitcoinStatus from '../LitcoinStatus'
 import { LatestMessagePopupWindow } from '../chat'
 import { NotificationPopupWindow } from '../notifications'
+import { Helmet } from 'react-helmet'
 
 const { toggleMessagePopup } = Chat
 const { loadNotifications } = NotifActions
@@ -139,6 +140,7 @@ class NavMenu extends PureComponent {
     this.handleLogoutClick = this.handleLogoutClick.bind(this)
     this.handleClickSearch = this.handleClickSearch.bind(this)
     this.handleNotificationsShow = this.handleNotificationsShow.bind(this)
+    this.handleHideNotifications = this.handleHideNotifications.bind(this)
     this.handleChatsContainerShow = this.handleChatsContainerShow.bind(this)
     this.loadNotifications = this.loadNotifications.bind(this)
   }
@@ -230,6 +232,13 @@ class NavMenu extends PureComponent {
     }
   }
 
+  handleHideNotifications = (event) => {
+    event.preventDefault()
+    this.setState({
+      notificationsOpen: false,
+    })
+  }
+
   handleChatsContainerShow = () => {
     this.props.toggleMessagePopup()
   }
@@ -242,7 +251,9 @@ class NavMenu extends PureComponent {
     if (!this.state.profileMenuOpen) {
       this.setState({
         profileMenuOpen: true,
+        notificationsOpen: false,
       })
+      this.props.handleChatsContainerShow()
     } else {
       this.setState({ profileMenuOpen: false })
     }
@@ -614,7 +625,12 @@ class NavMenu extends PureComponent {
             ) : null
           }
         </li>
-        <hr className='profile-menu-divider' />
+        {currentReader.hasAuthorBuzz ||
+         (currentReader.hasPublisherBuzz && currentReader.isPublisher) ?
+          (
+            <hr className='profile-menu-divider' />
+          ) : null
+        }
         <li className='profile-menu-element'>
           <Link
             to={`/profile/${currentReader.slug}`}
@@ -648,6 +664,17 @@ class NavMenu extends PureComponent {
       return R.reduce((acc, c)=>{ return acc + c.unreadMessages }, 0, contacts)
     }
     return 0
+  }
+
+  UserProofIframe = (isUserLoggedIn) => {
+    const frame = document.getElementById('proof')
+    if (frame) {
+      if (isUserLoggedIn) {
+        frame.style.visibility = 'hidden'
+      } else {
+        frame.style.visibility = 'visible'
+      }
+    }
   }
 
   renderLogInMenu = () => {
@@ -714,7 +741,7 @@ class NavMenu extends PureComponent {
                         }
                       primary={true}
                       badgeStyle={notifications.unreadCount ? {
-                        top: -5,
+                        top: 0,
                         right: -7,
                         width: '20px',
                         height: '20px',
@@ -942,7 +969,7 @@ class NavMenu extends PureComponent {
                       badgeContent={chatNotifications}
                       primary={true}
                       badgeStyle={chatNotifications > 0 ? {
-                        top: -7,
+                        top: 0,
                         left: 7,
                         width: '20px',
                         height: '20px',
@@ -1058,9 +1085,24 @@ class NavMenu extends PureComponent {
             handleClose={this.handleSearchClose}
           />
         </div>
-        <NotificationPopupWindow isOpen={this.state.notificationsOpen} />
+        <div onMouseLeave={this.handleHideNotifications}>
+          <NotificationPopupWindow
+            wrapperClass='notifications-main-frame-container'
+            mainClass='notifications-frame-container'
+            isOpen={this.state.notificationsOpen}
+          />
+        </div>
+
         { this.props.chat.isMessagesOpen ?
-          <LatestMessagePopupWindow showMethod={this.handleChatsContainerShow}/> : null
+          (
+            <div onMouseLeave={this.handleChatsContainerShow}>
+              <LatestMessagePopupWindow
+                wrapperClass='chat-frame-main-container'
+                mainClass='chats-frame-container'
+                showMethod={this.handleChatsContainerShow}
+              />
+            </div>
+          ) : null
         }
       </div>
     )
@@ -1069,6 +1111,8 @@ class NavMenu extends PureComponent {
   render() {
     const { isUserLoggedIn, currentReader } = this.props
 
+    this.UserProofIframe(isUserLoggedIn)
+
     if (isUserLoggedIn || currentReader.litcoinBalance) {
       return (
         this.renderLogInMenu()
@@ -1076,6 +1120,19 @@ class NavMenu extends PureComponent {
     }
     return (
       <div className='slide-down'>
+        <Helmet>
+          <script id='proof-script'>
+            {`
+              !function(){function b(){var a=(new Date).getTime(),
+              b=document.createElement('script');
+              b.type='text/javascript',b.async=!0,
+              b.src='https://cdn.getmoreproof.com/embed/latest/proof.js?'+a;
+              var c=document.getElementsByTagName('script')[0];c.parentNode.insertBefore(b,c)}
+              var a=window;a.attachEvent?a.attachEvent('onload',b):a.addEventListener('load',b,!1),
+              window.proof_config={acc:'GjbSn61NgrXSpzXkmaKLmwra6eC2', v:'1.1'}}()
+            `}
+          </script>
+        </Helmet>
         <div style={styles.mobileNavContainer} className='top-bar-mobile'>
           <MobileMenu id={'mobile-menu-container'}>
             <ul className='mobile-menu'>
