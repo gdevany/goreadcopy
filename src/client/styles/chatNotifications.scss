@@ -204,18 +204,23 @@
       border-radius: 23px;
     }
   }
-  &.blank-state{
-    p{
-      margin: 0 auto;
-      color: #9E9E9E;
-    }
+}
+.notifications-blank-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 50px 1em;
+  .notifications-blank-state-figure{
+    width: 100px;
+    opacity: .5;
+  }
+  p {
+    color: #999;
   }
 }
 .single-notification-element:last-child{
   padding-bottom: 50px;
-  &.blank-state{
-    padding-bottom: 20px;
-  }
 }
 .notification-container{
   display: flex;
