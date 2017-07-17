@@ -101,6 +101,7 @@
     "react-slick": "^0.14.6",
     "react-sound": "^0.6.1",
     "react-swipeable-views": "^0.12.3",
+    "react-table": "^6.5.1",
     "react-tap-event-plugin": "^2.0.1",
     "react-title-component": "^1.0.1",
     "react-tooltip": "^3.2.7",

@@ -97,7 +97,7 @@ const Endpoints = () => {
       addGiftData: (params) => apiUrl('store/cart/gift_item_data', params),
       setUserAddress: (params) => apiUrl('store/cart/user_address', params),
       setOrder: (params) => apiUrl('store/order', params),
-      getOrder: (params) => apiUrl('store/order', params),
+      getOrders: (params) => apiUrl('store/order', params),
       getShippingMethods: () => apiUrl('store/shipping_methods'),
       setShipping: (params) => apiUrl('store/order/shipping', params),
       getCurrentOrder: (params) => apiUrl('store/order/current', params),
