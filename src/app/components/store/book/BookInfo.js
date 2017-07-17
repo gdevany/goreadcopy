@@ -74,7 +74,7 @@ class BookInfo extends PureComponent {
   }
 
   calculateSaving = (shopPrice, listPrice) => {
-    return Math.round((((listPrice - shopPrice) * 100) / listPrice))
+    return Math.round((((listPrice - shopPrice) * 100) / listPrice)).toFixed(2)
   }
 
   renderRating = (rating) => {
@@ -592,13 +592,17 @@ class BookInfo extends PureComponent {
           <div className='bookpage-info-right-element-main-container'>
             {/* <span className='bookpage-book-details-cover'> Paperback </span> */}
             <h3 className='bookpage-book-details-price'>
-              {bookInfo.isOnSale ? `$${bookInfo.onSalePrice}` : `$${bookInfo.shopPrice}`}
+              {
+                bookInfo.isOnSale ?
+                `$${bookInfo.onSalePrice.toFixed(2)}` :
+                `$${bookInfo.shopPrice.toFixed(2)}`
+              }
               </h3>
             {bookInfo.isOnSale ?
               (
                 <div className='bookpage-book-details-saving-container'>
                   <span className='bookpage-book-details-saving-old-price'>
-                    {`$${bookInfo.shopPrice}`}
+                    {`$${bookInfo.shopPrice.toFixed(2)}`}
                   </span>
                       |
                       <span className='bookpage-book-details-saving-percentage'>
@@ -612,7 +616,7 @@ class BookInfo extends PureComponent {
               </span>
               <div className='bookpage-book-details-litcoin-price'>
                 <span className='bookpage-book-details-litcoin-price-text'>
-                  {bookInfo.listPrice ? `$${bookInfo.listPrice.toLocaleString()}` : null}
+                  {bookInfo.listPrice ? `$${bookInfo.listPrice.toFixed(2).toLocaleString()}` : null}
                 </span>
               </div>
             </div>
