@@ -141,7 +141,13 @@ class NotificationPopupWindow extends PureComponent {
               ) :
             results.length === 0 ?
               (
-                <div className='single-notification-element blank-state'>
+                <div className='single-notification-element notifications-blank-state'>
+                  <figure className='notifications-blank-state-figure'>
+                    <img
+                      src='/image/notifications_blank.png'
+                      alt='Notifications Blank state'
+                    />
+                  </figure>
                   <p> You don't have any notifications right now. </p>
                 </div>
               ) :
