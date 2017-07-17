@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Store } from '../../../redux/actions'
-import { BookStoreNavBar, Footer } from '../../common'
+import { Footer } from '../../common'
+import { StoreNavView } from '../../views'
 import CategoriesHero from './CategoriesHero'
 import CategoriesFilters from './CategoriesFilters'
 import SubCategories from './SubCategories'
@@ -59,8 +60,7 @@ class CategoriesPage extends PureComponent {
   render() {
     const { selectedCategory, subCategories, isSubCategory, subCategoryObject } = this.state
     return (
-      <div>
-        <BookStoreNavBar/>
+      <StoreNavView>
         <div className='categorypage-main-container'>
           {selectedCategory && selectedCategory !== '' ?
             <CategoriesHero
@@ -96,7 +96,7 @@ class CategoriesPage extends PureComponent {
         <div className='bookstore-footer-container'>
           <Footer />
         </div>
-      </div>
+      </StoreNavView>
     )
   }
 }

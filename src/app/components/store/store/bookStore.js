@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { BookStoreNavBar, Footer } from '../../common'
+import { Footer } from '../../common'
+import { StoreNavView } from '../../views'
 import BookStoreHero from './bookStoreHero'
 import CategoriesCarousel from './categoriesCarousel'
 import WishListBooks from '../common/wishListBooks'
@@ -21,17 +22,16 @@ class BookStore extends PureComponent {
 
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.categories) {
-      this.setState({
-        categories: nextProps.categories
-      })
-      if (!this.state.isRandomSelected && nextProps.categories.length > 40) {
-        this.setRandomCategory()
+      if (!this.state.isRandomSelected && nextProps.categories.length > 5) {
+        this.setState({
+          categories: nextProps.categories
+        })
+        this.setRandomCategory(nextProps.categories)
       }
     }
   }
 
-  setRandomCategory = () => {
-    const { categories } = this.state
+  setRandomCategory = (categories) => {
     if (categories) {
       const catLength = categories.length
       this.setState({
@@ -45,8 +45,7 @@ class BookStore extends PureComponent {
     const { randomCategory } = this.state
     const isUserLoggedIn = Auth.currentUserExists()
     return (
-      <div>
-        <BookStoreNavBar/>
+      <StoreNavView>
         <BookStoreHero isUserLogged={isUserLoggedIn}/>
         <div className='row'>
           <div className='large-12 columns'>
@@ -89,14 +88,14 @@ class BookStore extends PureComponent {
         <div className='bookstore-footer-container'>
           <Footer />
         </div>
-      </div>
+      </StoreNavView>
     )
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    categories: state.store.categories,
+    categories: state.store.popularCategories,
   }
 }
 

@@ -139,6 +139,7 @@ class NavMenu extends PureComponent {
     this.handleLogoutClick = this.handleLogoutClick.bind(this)
     this.handleClickSearch = this.handleClickSearch.bind(this)
     this.handleNotificationsShow = this.handleNotificationsShow.bind(this)
+    this.handleHideNotifications = this.handleHideNotifications.bind(this)
     this.handleChatsContainerShow = this.handleChatsContainerShow.bind(this)
     this.loadNotifications = this.loadNotifications.bind(this)
   }
@@ -230,6 +231,13 @@ class NavMenu extends PureComponent {
     }
   }
 
+  handleHideNotifications = (event) => {
+    event.preventDefault()
+    this.setState({
+      notificationsOpen: false,
+    })
+  }
+
   handleChatsContainerShow = () => {
     this.props.toggleMessagePopup()
   }
@@ -242,7 +250,9 @@ class NavMenu extends PureComponent {
     if (!this.state.profileMenuOpen) {
       this.setState({
         profileMenuOpen: true,
+        notificationsOpen: false,
       })
+      this.props.handleChatsContainerShow()
     } else {
       this.setState({ profileMenuOpen: false })
     }
@@ -614,7 +624,12 @@ class NavMenu extends PureComponent {
             ) : null
           }
         </li>
-        <hr className='profile-menu-divider' />
+        {currentReader.hasAuthorBuzz ||
+         (currentReader.hasPublisherBuzz && currentReader.isPublisher) ?
+          (
+            <hr className='profile-menu-divider' />
+          ) : null
+        }
         <li className='profile-menu-element'>
           <Link
             to={`/profile/${currentReader.slug}`}
@@ -714,7 +729,7 @@ class NavMenu extends PureComponent {
                         }
                       primary={true}
                       badgeStyle={notifications.unreadCount ? {
-                        top: -5,
+                        top: 0,
                         right: -7,
                         width: '20px',
                         height: '20px',
@@ -942,7 +957,7 @@ class NavMenu extends PureComponent {
                       badgeContent={chatNotifications}
                       primary={true}
                       badgeStyle={chatNotifications > 0 ? {
-                        top: -7,
+                        top: 0,
                         left: 7,
                         width: '20px',
                         height: '20px',
@@ -1058,9 +1073,24 @@ class NavMenu extends PureComponent {
             handleClose={this.handleSearchClose}
           />
         </div>
-        <NotificationPopupWindow isOpen={this.state.notificationsOpen} />
+        <div onMouseLeave={this.handleHideNotifications}>
+          <NotificationPopupWindow
+            wrapperClass='notifications-main-frame-container'
+            mainClass='notifications-frame-container'
+            isOpen={this.state.notificationsOpen}
+          />
+        </div>
+
         { this.props.chat.isMessagesOpen ?
-          <LatestMessagePopupWindow showMethod={this.handleChatsContainerShow}/> : null
+          (
+            <div onMouseLeave={this.handleChatsContainerShow}>
+              <LatestMessagePopupWindow
+                wrapperClass='chat-frame-main-container'
+                mainClass='chats-frame-container'
+                showMethod={this.handleChatsContainerShow}
+              />
+            </div>
+          ) : null
         }
       </div>
     )

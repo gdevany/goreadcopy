@@ -156,8 +156,8 @@ class LatestMessagePopupWindow extends PureComponent {
   render() {
     const { contacts } = this.props
     return (
-      <section className='chat-frame-main-container'>
-        <section className='chats-frame-container'>
+      <section className={this.props.wrapperClass}>
+        <section className={this.props.mainClass}>
           <div className='search-users-container'>
             <form className='search-users-form'>
               <input
