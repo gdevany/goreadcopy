@@ -11,7 +11,7 @@ import R from 'ramda'
 import { debounce } from 'lodash'
 
 const { followOrUnfollow } = Follow
-const { sharePost } = Social
+const { shareBook } = Social
 const {
   addToCart,
   addToLibrary,
@@ -57,7 +57,7 @@ class BookInfo extends PureComponent {
     this.handleAddToWishList = this.handleAddToWishList.bind(this)
     this.handleRemoveFromWishList = this.handleRemoveFromWishList.bind(this)
     this.handleFollowOrUnFollow = this.handleFollowOrUnFollow.bind(this)
-    this.handleSharePost = this.handleSharePost.bind(this)
+    this.handleShareBook = this.handleShareBook.bind(this)
     this.handleBookTypeSelect = this.handleBookTypeSelect.bind(this)
     this.handleShowAlert = this.handleShowAlert.bind(this)
     this.handleShareClick = this.handleShareClick.bind(this)
@@ -155,12 +155,16 @@ class BookInfo extends PureComponent {
 
   handleHideShareClick = (event) => this.setState({ isSharePopUpDisplayed: false })
 
-  handleSharePost = (shareType, contentType, contentId, shareComment) => {
+  handleShareBook = (shareType, contentType, contentId, shareComment) => {
     let data = {}
     if (shareComment) {
+      const {
+          mentions
+        } = this.refreshMentions(shareComment, this.state.processedMentions)
       data = {
         shareType,
         comment: shareComment,
+        mentions: mentions,
         contentType,
       }
     } else {
@@ -172,7 +176,7 @@ class BookInfo extends PureComponent {
     if (shareType === 5) {
       this.setState({ isGoReadShareClicked: false, })
     }
-    this.props.sharePost(data, contentId)
+    this.props.shareBook(data, contentId)
   }
 
   handleGoReadClick = (event) => {
@@ -440,7 +444,7 @@ class BookInfo extends PureComponent {
                   >
                     <li
                       className='bookpage-share-buttons-li'
-                      onClick={() => this.handleSharePost(1, 'bookpage', bookInfo.id)}
+                      onClick={() => this.handleShareBook(1, 'bookpage', bookInfo.id)}
                     >
                       <FacebookShareButton
                         url={bookInfo.url}
@@ -457,7 +461,7 @@ class BookInfo extends PureComponent {
 
                     <li
                       className='bookpage-share-buttons-li'
-                      onClick={() => this.handleSharePost(2, 'bookpage', bookInfo.id)}
+                      onClick={() => this.handleShareBook(2, 'bookpage', bookInfo.id)}
                     >
                       <TwitterShareButton
                         url={bookInfo.url}
@@ -473,7 +477,7 @@ class BookInfo extends PureComponent {
 
                     <li
                       className='bookpage-share-buttons-li'
-                      onClick={() => this.handleSharePost(4, 'bookpage', bookInfo.id)}
+                      onClick={() => this.handleShareBook(4, 'bookpage', bookInfo.id)}
                     >
                       <LinkedinShareButton
                         url={bookInfo.url}
@@ -491,7 +495,7 @@ class BookInfo extends PureComponent {
                     </li>
 
                     <li
-                      onClick={() => this.handleSharePost(3, 'bookpage', bookInfo.id)}
+                      onClick={() => this.handleShareBook(3, 'bookpage', bookInfo.id)}
                       className='bookpage-share-buttons-li'
                     >
                       <GooglePlusShareButton
@@ -575,7 +579,7 @@ class BookInfo extends PureComponent {
                   </p>
                 </div>
                 <a
-                  onClick={() => this.handleSharePost(5, 'bookpage', bookInfo.id, commentText)}
+                  onClick={() => this.handleShareBook(5, 'bookpage', bookInfo.id, commentText)}
                   className='goread-share-popup-comment-submit'
                 >
                   Share it!
@@ -710,6 +714,6 @@ const mapDistpachToProps = {
   removeFromWishList,
   addToCart,
   followOrUnfollow,
-  sharePost
+  shareBook
 }
 export default connect(null, mapDistpachToProps)(BookInfo)

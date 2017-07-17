@@ -26,6 +26,7 @@ const Endpoints = () => {
     getCurrentWishList: (id) => apiUrl(`social/reader/${id}/wish_list`),
     libraryUpload: (params) => apiUrl('current_reader/import_library'),
     sharePost: (id) => apiUrl(`social/posts/${id}/shares`),
+    shareBook: (id) => apiUrl(`books/${id}/share`),
     getSocialAccounts: () => apiUrl('socialaccounts'),
     selectSocialAccount: () => apiUrl('socialaccounts/select_account'),
     unSelectSocialAccount: (params) => apiUrl('socialaccounts/unselect_account', params),
