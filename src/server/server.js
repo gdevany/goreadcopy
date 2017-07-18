@@ -61,7 +61,7 @@ if (ENV.isDevelopment()) {
   app.use(webpackDevMiddleware(compiler, serverConfig))
   app.use(webpackHotMiddleware(compiler));
   app.use(express.static('build'));
-  app.use(favicon(path.join(__dirname + '/../client/image/favicon.png')));
+  app.use(favicon(path.join(__dirname + '/../client/image/favicon.png'), {maxAge: 1000}));
   app.get('*', (req, res) => res.sendFile(path.join(__dirname + '/../client/index.html')))
 
 } else {
@@ -79,7 +79,7 @@ if (ENV.isDevelopment()) {
   });
 
   app.use(express.static('public'));
-  app.use(favicon(path.join(__dirname + '/../../public/image/favicon.png')));
+  app.use(favicon(path.join(__dirname + '/../../public/image/favicon.png'), {maxAge: 1000}));
   app.get('*', (req, res) => res.sendFile(path.join(__dirname + '/../../public/index.html')))
 }
 
