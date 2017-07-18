@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { Follow, Store, Social } from '../../../redux/actions'
+import { Follow, Store, Social, Common } from '../../../redux/actions'
 import { Search } from '../../../services/api'
 import Rating from 'react-rating'
 import SuggestionList from '../../common/SuggestionList'
@@ -10,6 +10,7 @@ import { ShareButtons, generateShareIcon } from 'react-share'
 import R from 'ramda'
 import { debounce } from 'lodash'
 
+const { showAlert } = Common
 const { followOrUnfollow } = Follow
 const { shareBook } = Social
 const {
@@ -184,6 +185,18 @@ class BookInfo extends PureComponent {
       this.setState({ isGoReadShareClicked: false, })
     }
     this.props.shareBook(data, contentId)
+      .then(res => {
+        this.props.showAlert({
+          message: 'Your book was shared successfully!',
+          type: 'success'
+        })
+      })
+      .catch(() => {
+        this.props.showAlert({
+          message: 'Your book share failed! Please, try again',
+          type: 'error'
+        })
+      })
   }
 
   handleGoReadClick = (event) => {
@@ -735,6 +748,7 @@ const mapDistpachToProps = {
   removeFromWishList,
   addToCart,
   followOrUnfollow,
-  shareBook
+  shareBook,
+  showAlert,
 }
 export default connect(null, mapDistpachToProps)(BookInfo)
