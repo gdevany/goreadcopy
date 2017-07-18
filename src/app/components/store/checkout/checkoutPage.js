@@ -18,11 +18,6 @@ const styles = {
     textAlign: 'center',
     height: 50,
   },
-  snackBarSuccess: {
-    backgroundColor: '#32BB65',
-    textAlign: 'center',
-    height: 50,
-  },
   contentStyle: {
     fontSize: 16,
   }
@@ -201,8 +196,7 @@ class CheckoutPage extends PureComponent {
       }
     }
 
-    if (field !== 'cardNumber' && field !== 'fullExpDate' && field !== 'cardCVC' &&
-        field !== 'countryShipping') {
+    if (field !== 'cardNumber' && field !== 'fullExpDate' && field !== 'cardCVC') {
       this.setState({ [field]: event.target.value })
     }
   })
@@ -212,42 +206,58 @@ class CheckoutPage extends PureComponent {
     this.setState({ [type]: value })
   }
 
-  continueToBillingClick = (event) => {
-    event.preventDefault()
+  passToBilling = () => {
     const {
       firstNameShipping, lastNameShipping, addressShipping, address2Shipping,
       countryShipping, stateShipping, cityShipping, zipcodeShipping, shippingMethod,
     } = this.state
+    this.setState({
+      isStepOneActive: false,
+      isStepTwoActive: true,
+      isStepThreeActive: false,
+      stepOneComplete: true,
+    })
+    this.props.setUserAddressAndShipping({
+      city: cityShipping,
+      name: `${firstNameShipping} ${lastNameShipping}`,
+      country: countryShipping,
+      address: addressShipping,
+      address2: address2Shipping,
+      zipcode: zipcodeShipping,
+      state: stateShipping,
+      addressType: 'shipping',
+      sameBillingAndShipping: true,
+    }, shippingMethod)
+  }
+
+  continueToBillingClick = (event) => {
+    event.preventDefault()
+    const {
+      addressShipping, countryShipping, stateShipping, cityShipping,
+      zipcodeShipping, shippingMethod,
+    } = this.state
     if (cityShipping && countryShipping && addressShipping &&
-      zipcodeShipping && stateShipping && shippingMethod !== '') {
-      this.setState({
-        isStepOneActive: false,
-        isStepTwoActive: true,
-        isStepThreeActive: false,
-        stepOneComplete: true,
-      })
-      this.props.setUserAddressAndShipping({
-        city: cityShipping,
-        name: `${firstNameShipping} ${lastNameShipping}`,
-        country: countryShipping,
-        address: addressShipping,
-        address2: address2Shipping,
-        zipcode: zipcodeShipping,
-        state: stateShipping,
-        addressType: 'shipping',
-        sameBillingAndShipping: true,
-      }, shippingMethod)
+      zipcodeShipping && shippingMethod !== '') {
+      if ((countryShipping === 'US' || countryShipping === 'CA')) {
+        if (stateShipping !== '') {
+          this.passToBilling()
+        } else {
+          this.showAlert('Please selet an State', 'error')
+        }
+      } else {
+        this.passToBilling()
+      }
     } else {
       if (!(cityShipping || countryShipping || addressShipping ||
-        zipcodeShipping || stateShipping) && shippingMethod === '') {
+        zipcodeShipping) && shippingMethod === '') {
         this.showAlert('Please fill all fields', 'error')
       }
       if ((cityShipping || countryShipping || addressShipping ||
-        zipcodeShipping || stateShipping) && shippingMethod === '') {
+        zipcodeShipping) && shippingMethod === '') {
         this.showAlert('Please select a Shipping Method', 'error')
       }
       if (!cityShipping || !countryShipping || !addressShipping ||
-        !zipcodeShipping || !stateShipping && shippingMethod !== '') {
+        !zipcodeShipping && shippingMethod !== '') {
         this.showAlert('Please Fill all Shipping address Form', 'error')
       }
     }
@@ -638,9 +648,7 @@ class CheckoutPage extends PureComponent {
           message={this.state.snackbar.text}
           autoHideDuration={3000}
           onRequestClose={this.handleAlertClose}
-          bodyStyle={this.state.snackbar.type === 'error' ?
-            styles.snackBarError : styles.snackBarSuccess
-          }
+          bodyStyle={styles.snackBarError}
           contentStyle={styles.contentStyle}
         />
       </section>

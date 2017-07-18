@@ -69,12 +69,19 @@ class BookInfo extends PureComponent {
     this.getMentions = debounce(this.getMentions, 250)
   }
 
+  componentWillMount() {
+    const { bookInfo } = this.props
+    if (bookInfo && bookInfo.isOnCart) {
+      this.setState({ addToCartClicked: true })
+    }
+  }
+
   truncInfo = (text, limit) => {
     return text.length >= limit ? `${text.slice(0, limit)}...` : text
   }
 
   calculateSaving = (shopPrice, listPrice) => {
-    return Math.round((((listPrice - shopPrice) * 100) / listPrice))
+    return Math.round((((listPrice - shopPrice) * 100) / listPrice)).toFixed(2)
   }
 
   renderRating = (rating) => {
@@ -373,35 +380,38 @@ class BookInfo extends PureComponent {
             </p>
           </div>
           <div className='bookpage-info-left-bottom'>
-            {bookInfo.isOnWishlist ?
-              (
-                <div
-                  className={isWishlistHover ?
-                    'bookpage-bottom-action-btn-active' : 'bookpage-bottom-action-btn'
-                  }
-                  onClick={this.handleRemoveFromWishList}
-                  onMouseEnter={this.handleWishlistHover}
-                  onMouseLeave={this.handleWishlistNoHover}
-                >
-                  <figure>
-                    <img
-                      src={isWishlistHover ?
-                        '/image/add-to-wishlist.svg' : '/image/wish-list-icon.svg'
+            {
+              bookInfo.isOnStock ?
+                bookInfo.isOnWishlist ?
+                  (
+                    <div
+                      className={isWishlistHover ?
+                        'bookpage-bottom-action-btn-active' : 'bookpage-bottom-action-btn'
                       }
-                    />
-                  </figure>
-                  <span className='bookpage-action-btn-active-text'>
-                    {isWishlistHover ? 'Remove from Wish List' : 'Book in Wish List'}
-                  </span>
-                </div>
-              ) : (
-                <div className='bookpage-bottom-action-btn' onClick={this.handleAddToWishList}>
-                  <figure>
-                    <img src='/image/add-to-wishlist.svg'/>
-                  </figure>
-                  <span>Add to Wish List</span>
-                </div>
-              )
+                      onClick={this.handleRemoveFromWishList}
+                      onMouseEnter={this.handleWishlistHover}
+                      onMouseLeave={this.handleWishlistNoHover}
+                    >
+                      <figure>
+                        <img
+                          src={isWishlistHover ?
+                            '/image/add-to-wishlist.svg' : '/image/wish-list-icon.svg'
+                          }
+                        />
+                      </figure>
+                      <span className='bookpage-action-btn-active-text'>
+                        {isWishlistHover ? 'Remove from Wish List' : 'Book in Wish List'}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className='bookpage-bottom-action-btn' onClick={this.handleAddToWishList}>
+                      <figure>
+                        <img src='/image/add-to-wishlist.svg'/>
+                      </figure>
+                      <span>Add to Wish List</span>
+                    </div>
+                  ) :
+                null
             }
             {bookInfo.isOnLibrary ?
               (
@@ -592,13 +602,17 @@ class BookInfo extends PureComponent {
           <div className='bookpage-info-right-element-main-container'>
             {/* <span className='bookpage-book-details-cover'> Paperback </span> */}
             <h3 className='bookpage-book-details-price'>
-              {bookInfo.isOnSale ? `$${bookInfo.onSalePrice}` : `$${bookInfo.shopPrice}`}
+              {
+                bookInfo.isOnSale ?
+                `$${bookInfo.onSalePrice.toFixed(2)}` :
+                `$${bookInfo.shopPrice.toFixed(2)}`
+              }
               </h3>
             {bookInfo.isOnSale ?
               (
                 <div className='bookpage-book-details-saving-container'>
                   <span className='bookpage-book-details-saving-old-price'>
-                    {`$${bookInfo.shopPrice}`}
+                    {`$${bookInfo.shopPrice.toFixed(2)}`}
                   </span>
                       |
                       <span className='bookpage-book-details-saving-percentage'>
@@ -612,7 +626,7 @@ class BookInfo extends PureComponent {
               </span>
               <div className='bookpage-book-details-litcoin-price'>
                 <span className='bookpage-book-details-litcoin-price-text'>
-                  {bookInfo.listPrice ? `$${bookInfo.listPrice.toLocaleString()}` : null}
+                  {bookInfo.listPrice ? `$${bookInfo.listPrice.toFixed(2).toLocaleString()}` : null}
                 </span>
               </div>
             </div>
@@ -666,24 +680,31 @@ class BookInfo extends PureComponent {
               {/* </ul> */}
             </div>
             <div className='bookpage-book-add-to-cart-container'>
-              {isUserLogged ?
-                (
-                  <Link
-                    className='store-primary-button float-right'
-                    onClick={!addToCartClicked ?
-                      this.handleAddToCart : null
-                    }
-                    to={!addToCartClicked ? null : '/shop/cart'}
-                  >
-                    {!addToCartClicked ?
-                      'Add to Cart' : 'View Cart & Proceed to checkout'
-                    }
-                  </Link>
-                ) : (
-                  <a className='bookpage-book-add-to-cart-btn'>
-                    Add to Cart
-                  </a>
-                )
+              {
+                bookInfo.isOnStock ?
+                  isUserLogged ?
+                    (
+                      <Link
+                        className='store-primary-button float-right'
+                        onClick={!addToCartClicked ?
+                          this.handleAddToCart : null
+                        }
+                        to={!addToCartClicked ? null : '/shop/cart'}
+                      >
+                        {!addToCartClicked ?
+                          'Add to Cart' : 'View Cart & Proceed to checkout'
+                        }
+                      </Link>
+                    ) : (
+                      <a className='bookpage-book-add-to-cart-btn'>
+                        Add to Cart
+                      </a>
+                    ) :
+                  <span className='error'>
+                    Sorry!
+                    <br/>
+                    This item is Out of Stock.
+                  </span>
               }
             </div>
             <div className='bookpage-book-piggy-bank-container'>

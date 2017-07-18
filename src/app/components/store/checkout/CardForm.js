@@ -63,7 +63,7 @@ const CardFrom = ({
               CVC
             </label>
             <input
-              type='text'
+              type='password'
               className='checkoutpage-payment-card-single-input has-lock'
               onChange={onChange('cardCVC')}
               value={cardInfo.cardCVC}
@@ -97,7 +97,7 @@ const CardFrom = ({
                   checked={isSameShippingChecked}
                 />
                 <label className='checkoutpage-payment-card-inputs-label-check'>
-                  Use shipping address
+                  Use shipping address as Billing Address
                 </label>
               </div>
             </div>
