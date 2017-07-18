@@ -304,19 +304,38 @@ class CheckoutPage extends PureComponent {
         if (nameOnCard && cardNumber && cardCVC && fullExpDate) {
           if (!sameShippingAddress) {
             if (cityBilling && countryBilling && addressBilling &&
-              address2Billing && zipcodeBilling && stateBilling) {
-              setUserAddress({
-                city: cityBilling,
-                name: `${firstNameBilling} ${lastNameBilling}`,
-                country: countryBilling,
-                address: addressBilling,
-                address2: address2Billing,
-                zipcode: zipcodeBilling,
-                state: stateBilling,
-                addressType: 'billing',
-                sameBillingAndShipping: false,
-              })
-              this.passToReview()
+              address2Billing && zipcodeBilling) {
+              if (countryBilling === 'US' || countryBilling === 'CA') {
+                if (stateBilling !== '') {
+                  setUserAddress({
+                    city: cityBilling,
+                    name: `${firstNameBilling} ${lastNameBilling}`,
+                    country: countryBilling,
+                    address: addressBilling,
+                    address2: address2Billing,
+                    zipcode: zipcodeBilling,
+                    state: stateBilling,
+                    addressType: 'billing',
+                    sameBillingAndShipping: false,
+                  })
+                  this.passToReview()
+                } else {
+                  this.showAlert('Please Complete all Billing Fields', 'error')
+                }
+              } else {
+                setUserAddress({
+                  city: cityBilling,
+                  name: `${firstNameBilling} ${lastNameBilling}`,
+                  country: countryBilling,
+                  address: addressBilling,
+                  address2: address2Billing,
+                  zipcode: zipcodeBilling,
+                  state: stateBilling,
+                  addressType: 'billing',
+                  sameBillingAndShipping: false,
+                })
+                this.passToReview()
+              }
             } else {
               this.showAlert('Please Complete all Billing Fields', 'error')
             }
@@ -340,25 +359,50 @@ class CheckoutPage extends PureComponent {
       } else if (cardStored) {
         if (!sameShippingAddress) {
           if (cityBilling && countryBilling && addressBilling &&
-            address2Billing && zipcodeBilling && stateBilling) {
-            setUserAddress({
-              city: cityBilling,
-              name: `${firstNameBilling} ${lastNameBilling}`,
-              country: countryBilling,
-              address: addressBilling,
-              address2: address2Billing,
-              zipcode: zipcodeBilling,
-              state: stateBilling,
-              addressType: 'billing',
-              sameBillingAndShipping: false,
-            })
-            setBilling({
-              shippingMethod: shippingMethod,
-              paymentMethod: 'cc',
-              litcoins: useLitcoins,
-              avoidCheckCardData: cardStored,
-            })
-            this.passToReview()
+            address2Billing && zipcodeBilling) {
+            if (countryBilling === 'US' || countryBilling === 'CA') {
+              if (stateBilling !== '') {
+                setUserAddress({
+                  city: cityBilling,
+                  name: `${firstNameBilling} ${lastNameBilling}`,
+                  country: countryBilling,
+                  address: addressBilling,
+                  address2: address2Billing,
+                  zipcode: zipcodeBilling,
+                  state: stateBilling,
+                  addressType: 'billing',
+                  sameBillingAndShipping: false,
+                })
+                setBilling({
+                  shippingMethod: shippingMethod,
+                  paymentMethod: 'cc',
+                  litcoins: useLitcoins,
+                  avoidCheckCardData: cardStored,
+                })
+                this.passToReview()
+              } else {
+                this.showAlert('Please Complete all Billing Fields', 'error')
+              }
+            } else {
+              setUserAddress({
+                city: cityBilling,
+                name: `${firstNameBilling} ${lastNameBilling}`,
+                country: countryBilling,
+                address: addressBilling,
+                address2: address2Billing,
+                zipcode: zipcodeBilling,
+                state: stateBilling,
+                addressType: 'billing',
+                sameBillingAndShipping: false,
+              })
+              setBilling({
+                shippingMethod: shippingMethod,
+                paymentMethod: 'cc',
+                litcoins: useLitcoins,
+                avoidCheckCardData: cardStored,
+              })
+              this.passToReview()
+            }
           } else {
             this.showAlert('Please Complete all Billing Fields', 'error')
           }
@@ -374,19 +418,38 @@ class CheckoutPage extends PureComponent {
       } else if (nameOnCard && cardNumber && cardCVC && fullExpDate) {
         if (!sameShippingAddress) {
           if (cityBilling && countryBilling && addressBilling &&
-            address2Billing && zipcodeBilling && stateBilling) {
-            setUserAddress({
-              city: cityBilling,
-              name: `${firstNameBilling} ${lastNameBilling}`,
-              country: countryBilling,
-              address: addressBilling,
-              address2: address2Billing,
-              zipcode: zipcodeBilling,
-              state: stateBilling,
-              addressType: 'billing',
-              sameBillingAndShipping: false,
-            })
-            this.passToReview()
+            address2Billing && zipcodeBilling) {
+            if (countryBilling === 'US' || countryBilling === 'CA') {
+              if (stateBilling !== '') {
+                setUserAddress({
+                  city: cityBilling,
+                  name: `${firstNameBilling} ${lastNameBilling}`,
+                  country: countryBilling,
+                  address: addressBilling,
+                  address2: address2Billing,
+                  zipcode: zipcodeBilling,
+                  state: stateBilling,
+                  addressType: 'billing',
+                  sameBillingAndShipping: false,
+                })
+                this.passToReview()
+              } else {
+                this.showAlert('Please Complete all Billing Fields', 'error')
+              }
+            } else {
+              setUserAddress({
+                city: cityBilling,
+                name: `${firstNameBilling} ${lastNameBilling}`,
+                country: countryBilling,
+                address: addressBilling,
+                address2: address2Billing,
+                zipcode: zipcodeBilling,
+                state: stateBilling,
+                addressType: 'billing',
+                sameBillingAndShipping: false,
+              })
+              this.passToReview()
+            }
           } else {
             this.showAlert('Please Complete all Billing Fields', 'error')
           }
@@ -609,6 +672,7 @@ class CheckoutPage extends PureComponent {
                         cardInfo={cardInfo}
                         billingInfo={billingInfo}
                         onChange={this.handleFormsChanges}
+                        selectChange={this.handleSelectChange}
                         isSameShipping={this.state.sameShippingAddress}
                         handleCheckSame={this.handleCheckSame}
                         handleUseLitcoins={this.handleUseLitcoins}

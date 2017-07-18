@@ -9,6 +9,7 @@ const StepTwo = ({
   cardInfo,
   billingInfo,
   onChange,
+  selectChange,
   isSameShipping,
   handleCheckSame,
   handleUseLitcoins,
@@ -63,6 +64,7 @@ const StepTwo = ({
                 <BillingForm
                   billingInfo={billingInfo}
                   onChange={onChange}
+                  selectChange={selectChange}
                 /> : null
               }
             </div>
