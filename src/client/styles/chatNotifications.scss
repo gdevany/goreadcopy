@@ -211,12 +211,14 @@
   align-items: center;
   flex-direction: column;
   padding: 50px 1em;
+  width: 100%;
   .notifications-blank-state-figure{
     width: 100px;
     opacity: .5;
   }
   p {
     color: #999;
+    text-align: center;
   }
 }
 .single-notification-element:last-child{

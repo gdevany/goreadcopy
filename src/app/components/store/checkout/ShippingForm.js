@@ -139,18 +139,36 @@ class ShippingForm extends PureComponent {
                 value={shippingInfo.cityShipping}
               />
             </div>
-            <div className='small-6 columns'>
-              <SelectField
-                name='State'
-                floatingLabelText='State'
-                value={shippingInfo.stateShipping}
-                onChange={(evt, index, value) => {
-                  this.onChange('stateShipping', evt, value)
-                }}
-              >
-                {this.renderSelects(states)}
-              </SelectField>
-            </div>
+            {shippingInfo.countryShipping === 'CA' || shippingInfo.countryShipping === 'US' ?
+              (
+                <div className='small-6 columns'>
+                  <SelectField
+                    name='State'
+                    floatingLabelText='State'
+                    value={shippingInfo.stateShipping}
+                    onChange={(evt, index, value) => {
+                      this.onChange('stateShipping', evt, value)
+                    }}
+                  >
+                    {this.renderSelects(states)}
+                  </SelectField>
+                </div>
+              ) : (
+                <div className='small-6 columns'>
+                  <label
+                    className='checkoutpage-steps-shipping-address-form-label'
+                  >
+                    State
+                  </label>
+                  <input
+                    type='text'
+                    className='checkoutpage-steps-shipping-address-form-input'
+                    onChange={onChange('stateShipping')}
+                    value={shippingInfo.stateShipping}
+                  />
+                </div>
+              )
+            }
             <div className='small-6 columns'>
               <label
                 className='checkoutpage-steps-shipping-address-form-label'
