@@ -606,14 +606,33 @@ class BookStoreNavBar extends PureComponent {
         )
       })
     }
-    return null
+    return (
+      <div className='notifications-blank-state'>
+        <figure className='notifications-blank-state-figure'>
+          <img
+            src='/image/notifications_blank.png'
+            alt='Notifications Blank state'
+          />
+        </figure>
+        <p>
+          Sorry, we didn't find anything with the term:
+          <b>{this.state.searchTerm}</b>.
+        </p>
+      </div>
+    )
   }
 
   handleShowHideSearchResuls = () => {
-    const { isSearchResultsOpen } = this.state
-    this.setState({
-      isSearchResultsOpen: !isSearchResultsOpen
-    })
+    if (this.state.isSearchResultsOpen) {
+      this.setState({
+        isSearchResultsOpen: false,
+        searchTerm: '',
+      })
+    } else {
+      this.setState({
+        isSearchResultsOpen: true,
+      })
+    }
   }
 
   render() {
@@ -695,7 +714,7 @@ class BookStoreNavBar extends PureComponent {
                     onClick={this.handleShowHideSearchResuls}
                     value={this.state.searchTerm}
                   />
-                  {isSearchResultsOpen && this.state.searchTerm.length > 3 ?
+                  {isSearchResultsOpen && this.state.searchTerm.length > 1 ?
                     (
                       <img
                         onClick={this.handleShowHideSearchResuls}
