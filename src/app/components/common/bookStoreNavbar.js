@@ -714,14 +714,17 @@ class BookStoreNavBar extends PureComponent {
                     onClick={this.handleShowHideSearchResuls}
                     value={this.state.searchTerm}
                   />
-                  {isSearchResultsOpen && this.state.searchTerm.length > 3 ?
-                    (
-                      <img
-                        onClick={this.handleShowHideSearchResuls}
-                        src='/image/close.png'
-                        className='bookstore-close-results-icon'
-                      />
-                    ) : (
+                  {isSearchResultsOpen && this.state.searchTerm.length >= 1 ?
+                    searchResults ?
+                      (
+                        <img
+                          onClick={this.handleShowHideSearchResuls}
+                          src='/image/close.png'
+                          className='bookstore-close-results-icon'
+                        />
+                      ) : (
+                        <div className='loading-animation-store-search' />
+                      ) : (
                         <img src='/image/search-icon.svg' className='bookstore-search-icon'/>
                     )
                   }
