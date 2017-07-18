@@ -714,7 +714,7 @@ class BookStoreNavBar extends PureComponent {
                     onClick={this.handleShowHideSearchResuls}
                     value={this.state.searchTerm}
                   />
-                  {isSearchResultsOpen && this.state.searchTerm.length > 1 ?
+                  {isSearchResultsOpen && this.state.searchTerm.length > 3 ?
                     (
                       <img
                         onClick={this.handleShowHideSearchResuls}
