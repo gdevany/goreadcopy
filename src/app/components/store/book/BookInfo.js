@@ -9,6 +9,7 @@ import ReplyIcon from 'material-ui/svg-icons/content/reply'
 import { ShareButtons, generateShareIcon } from 'react-share'
 import R from 'ramda'
 import { debounce } from 'lodash'
+import { LoadingSpinner } from '../../common'
 
 const { showAlert } = Common
 const { followOrUnfollow } = Follow
@@ -51,6 +52,10 @@ class BookInfo extends PureComponent {
       showSuggestions: false,
       isWishlistHover: false,
       isLibraryHover: false,
+      // Transition states
+      isModifyingLibrary: false,
+      isModifyingWishlist: false,
+      isModifyingFollow: false,
     }
     this.handleAddToCart = this.handleAddToCart.bind(this)
     this.handleAddToLibrary = this.handleAddToLibrary.bind(this)
@@ -107,33 +112,46 @@ class BookInfo extends PureComponent {
   handleAddToLibrary = (event) => {
     event.preventDefault()
     const { bookInfo, isUserLogged } = this.props
+    this.setState({ isModifyingLibrary: true })
     this.props.addToLibrary(bookInfo.ean, bookInfo.slug, isUserLogged)
+      .then(()=>{this.setState({ isModifyingLibrary: false })})
+      .catch(()=>{this.setState({ isModifyingLibrary: false })})
     this.setState({ isLibraryHover: false })
   }
 
   handleRemoveFromLibrary = (event) => {
     event.preventDefault()
     const { bookInfo, isUserLogged } = this.props
+    this.setState({ isModifyingLibrary: true })
     this.props.removeFromLibrary(bookInfo.id, bookInfo.slug, isUserLogged)
+      .then(()=>{this.setState({ isModifyingLibrary: false })})
+      .catch(()=>{this.setState({ isModifyingLibrary: false })})
   }
 
   handleAddToWishList = (event) => {
     event.preventDefault()
     const { bookInfo, isUserLogged } = this.props
+    this.setState({ isModifyingWishlist: true })
     this.props.addToWishList(bookInfo.ean, bookInfo.slug, isUserLogged)
+      .then(()=>{this.setState({ isModifyingWishlist: false })})
+      .catch(()=>{this.setState({ isModifyingWishlist: false })})
     this.setState({ isWishlistHover: false })
   }
 
   handleRemoveFromWishList = (event) => {
     event.preventDefault()
     const { bookInfo, isUserLogged } = this.props
+    this.setState({ isModifyingWishlist: true })
     this.props.removeFromWishList(bookInfo.ean, bookInfo.slug, isUserLogged)
+      .then(()=>{this.setState({ isModifyingWishlist: false })})
+      .catch(()=>{this.setState({ isModifyingWishlist: false })})
   }
 
   handleFollowOrUnFollow = (event) => {
     event.preventDefault()
     const { bookInfo } = this.props
     if (bookInfo.authors.length) {
+      this.setState({ isModifyingFollow: true })
       this.props.followOrUnfollow({
         follow: !bookInfo.authors[0].userIsFollower,
         context: 'bookpage',
@@ -141,6 +159,8 @@ class BookInfo extends PureComponent {
         ids: [bookInfo.authors[0].id],
         slug: bookInfo.slug
       })
+        .then(()=>{this.setState({ isModifyingFollow: false })})
+        .catch(()=>{this.setState({ isModifyingFollow: false })})
     }
   }
 
@@ -339,22 +359,33 @@ class BookInfo extends PureComponent {
                     </a>
                   </h5>
                   { isUserLogged ?
-                    bookInfo.authors.length && bookInfo.authors[0].userIsFollower ?
-                      (
-                        <a
-                          className='bookpage-author-follow-action-active'
-                          onClick={this.handleFollowOrUnFollow}
-                        >
-                          Following
-                        </a>
-                      ) : (
-                      <a
-                        className='bookpage-author-follow-action'
-                        onClick={this.handleFollowOrUnFollow}
-                      >
-                        Follow
-                      </a>
-                    ) : <a className='bookpage-author-follow-action'> Follow</a>
+                      this.state.isModifyingFollow ?
+                        <LoadingSpinner
+                          size={30}
+                          containerStyle={{
+                            width: 'auto',
+                            height: 'auto',
+                            justifyContent: 'auto',
+                          }}
+                        /> :
+                        bookInfo.authors.length && bookInfo.authors[0].userIsFollower ?
+                          (
+                            <a
+                              className='bookpage-author-follow-action-active'
+                              onClick={this.handleFollowOrUnFollow}
+                            >
+                              Following
+                            </a>
+                          ) :
+                          (
+                            <a
+                              className='bookpage-author-follow-action'
+                              onClick={this.handleFollowOrUnFollow}
+                            >
+                              Follow
+                            </a>
+                          ) :
+                        <a className='bookpage-author-follow-action'> Follow</a>
                   }
                 </div>
               </div>
@@ -406,11 +437,15 @@ class BookInfo extends PureComponent {
                       onMouseLeave={this.handleWishlistNoHover}
                     >
                       <figure>
-                        <img
-                          src={isWishlistHover ?
-                            '/image/add-to-wishlist.svg' : '/image/wish-list-icon.svg'
-                          }
-                        />
+                        {
+                          this.state.isModifyingWishlist ?
+                            <LoadingSpinner size={44}/> :
+                            <img
+                              src={isWishlistHover ?
+                                '/image/add-to-wishlist.svg' : '/image/wish-list-icon.svg'
+                              }
+                            />
+                        }
                       </figure>
                       <span className='bookpage-action-btn-active-text'>
                         {isWishlistHover ? 'Remove from Wish List' : 'Book in Wish List'}
@@ -419,42 +454,57 @@ class BookInfo extends PureComponent {
                   ) : (
                     <div className='bookpage-bottom-action-btn' onClick={this.handleAddToWishList}>
                       <figure>
-                        <img src='/image/add-to-wishlist.svg'/>
+                        {
+                          this.state.isModifyingWishlist ?
+                            <LoadingSpinner size={44}/> :
+                            <img src='/image/add-to-wishlist.svg'/>
+                        }
                       </figure>
                       <span>Add to Wish List</span>
                     </div>
                   ) :
                 null
             }
-            {bookInfo.isOnLibrary ?
-              (
-                <div
-                  className={isLibraryHover ?
-                    'bookpage-bottom-action-btn-active' : 'bookpage-bottom-action-btn'
-                  }
-                  onClick={this.handleRemoveFromLibrary}
-                  onMouseEnter={this.handleLibraryHover}
-                  onMouseLeave={this.handleLibraryNoHover}
-                >
-                  <figure>
-                    <img
-                      src={isLibraryHover ?
-                        '/image/add-to-library.svg' : '/image/added-to-library.svg'
+            {
+              bookInfo.isOnLibrary ?
+                (
+                  <div
+                    className={isLibraryHover ?
+                      'bookpage-bottom-action-btn-active' :
+                      'bookpage-bottom-action-btn'
+                    }
+                    onClick={this.handleRemoveFromLibrary}
+                    onMouseEnter={this.handleLibraryHover}
+                    onMouseLeave={this.handleLibraryNoHover}
+                  >
+                    <figure>
+                      {
+                        this.state.isModifyingLibrary ?
+                          <LoadingSpinner size={44}/> :
+                          <img
+                            src={isLibraryHover ?
+                              '/image/add-to-library.svg' :
+                              '/image/added-to-library.svg'
+                            }
+                          />
                       }
-                    />
-                  </figure>
-                  <span className='bookpage-action-btn-active-text'>
-                    {isLibraryHover ? 'Remove from Library' : 'In Your Library'}
-                  </span>
-                </div>
-              ) : (
-                <div className='bookpage-bottom-action-btn' onClick={this.handleAddToLibrary}>
-                  <figure>
-                    <img src='/image/add-to-library.svg'/>
-                  </figure>
-                  <span>Add to Library</span>
-                </div>
-              )
+                    </figure>
+                    <span className='bookpage-action-btn-active-text'>
+                      {isLibraryHover ? 'Remove from Library' : 'In Your Library'}
+                    </span>
+                  </div>
+                ) : (
+                  <div className='bookpage-bottom-action-btn' onClick={this.handleAddToLibrary}>
+                    <figure>
+                      {
+                        this.state.isModifyingLibrary ?
+                          <LoadingSpinner size={44}/> :
+                          <img src='/image/add-to-library.svg'/>
+                      }
+                    </figure>
+                    <span>Add to Library</span>
+                  </div>
+                )
             }
             <div className='bookpage-bottom-action-btn' onClick={this.handleShareClick}>
               <ReplyIcon />
