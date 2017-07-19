@@ -9,7 +9,7 @@ import ReplyIcon from 'material-ui/svg-icons/content/reply'
 import { ShareButtons, generateShareIcon } from 'react-share'
 import R from 'ramda'
 import { debounce } from 'lodash'
-import { LoadingSpinner } from '../../common'
+import { Loaders } from '../../common'
 
 const { showAlert } = Common
 const { followOrUnfollow } = Follow
@@ -33,6 +33,7 @@ const TwitterIcon = generateShareIcon('twitter')
 const GooglePlusIcon = generateShareIcon('google')
 const LinkedinIcon = generateShareIcon('linkedin')
 const mentionPattern = /\B@(?!Reader|Author|Publisher|Book)\w+\s?\w+/gi
+const { StoreSpinner } = Loaders
 
 class BookInfo extends PureComponent {
 
@@ -359,33 +360,23 @@ class BookInfo extends PureComponent {
                     </a>
                   </h5>
                   { isUserLogged ?
-                      this.state.isModifyingFollow ?
-                        <LoadingSpinner
-                          size={30}
-                          containerStyle={{
-                            width: 'auto',
-                            height: 'auto',
-                            justifyContent: 'auto',
-                          }}
-                        /> :
-                        bookInfo.authors.length && bookInfo.authors[0].userIsFollower ?
-                          (
-                            <a
-                              className='bookpage-author-follow-action-active'
-                              onClick={this.handleFollowOrUnFollow}
-                            >
-                              Following
-                            </a>
-                          ) :
-                          (
-                            <a
-                              className='bookpage-author-follow-action'
-                              onClick={this.handleFollowOrUnFollow}
-                            >
-                              Follow
-                            </a>
-                          ) :
-                        <a className='bookpage-author-follow-action'> Follow</a>
+                      <a
+                        className={
+                          bookInfo.authors.length && bookInfo.authors[0].userIsFollower ?
+                            'bookpage-author-follow-action-active' :
+                            'bookpage-author-follow-action'
+                        }
+                        onClick={this.handleFollowOrUnFollow}
+                      >
+                        {
+                          this.state.isModifyingFollow ?
+                            <StoreSpinner /> :
+                            bookInfo.authors.length && bookInfo.authors[0].userIsFollower ?
+                              'Following' :
+                              'Follow'
+                        }
+                      </a> :
+                      <a className='bookpage-author-follow-action'>Follow</a>
                   }
                 </div>
               </div>
@@ -426,85 +417,121 @@ class BookInfo extends PureComponent {
           <div className='bookpage-info-left-bottom'>
             {
               bookInfo.isOnStock ?
-                bookInfo.isOnWishlist ?
-                  (
-                    <div
-                      className={isWishlistHover ?
-                        'bookpage-bottom-action-btn-active' : 'bookpage-bottom-action-btn'
-                      }
-                      onClick={this.handleRemoveFromWishList}
-                      onMouseEnter={this.handleWishlistHover}
-                      onMouseLeave={this.handleWishlistNoHover}
-                    >
-                      <figure>
-                        {
-                          this.state.isModifyingWishlist ?
-                            <LoadingSpinner size={44}/> :
-                            <img
-                              src={isWishlistHover ?
-                                '/image/add-to-wishlist.svg' : '/image/wish-list-icon.svg'
-                              }
-                            />
-                        }
-                      </figure>
-                      <span className='bookpage-action-btn-active-text'>
-                        {isWishlistHover ? 'Remove from Wish List' : 'Book in Wish List'}
-                      </span>
-                    </div>
-                  ) : (
-                    <div className='bookpage-bottom-action-btn' onClick={this.handleAddToWishList}>
-                      <figure>
-                        {
-                          this.state.isModifyingWishlist ?
-                            <LoadingSpinner size={44}/> :
-                            <img src='/image/add-to-wishlist.svg'/>
-                        }
-                      </figure>
-                      <span>Add to Wish List</span>
-                    </div>
-                  ) :
+                <div
+                  className={
+                    bookInfo.isOnWishlist ?
+                      isWishlistHover ?
+                        'bookpage-bottom-action-btn-active' :
+                        'bookpage-bottom-action-btn' :
+                      'bookpage-bottom-action-btn'
+                  }
+                  onClick={
+                    bookInfo.isOnWishlist ?
+                      this.handleRemoveFromWishList :
+                      this.handleAddToWishList
+                  }
+                  onMouseEnter={
+                    bookInfo.isOnWishlist ?
+                      this.handleWishlistHover :
+                      null
+                  }
+                  onMouseLeave={
+                    bookInfo.isOnWishlist ?
+                      this.handleWishlistNoHover :
+                      null
+                  }
+                >
+                  <figure>
+                    {
+                      this.state.isModifyingWishlist ?
+                        <StoreSpinner /> :
+                        <img
+                          src={
+                            bookInfo.isOnWishlist ?
+                              isWishlistHover ?
+                                '/image/add-to-wishlist.svg' :
+                                '/image/wish-list-icon.svg' :
+                              '/image/add-to-wishlist.svg'
+                          }
+                        />
+                    }
+                  </figure>
+                  <span
+                    className={
+                      bookInfo.isOnWishlist ?
+                        'bookpage-action-btn-active-text' :
+                        isWishlistHover ?
+                          'bookpage-action-btn-active-text' :
+                          ''
+                    }
+                  >
+                    {
+                      bookInfo.isOnWishlist ?
+                        isWishlistHover ?
+                          'Remove from Wish List' :
+                          'Book in Wish List' :
+                        'Add to Wish List'
+                    }
+                  </span>
+                </div> :
                 null
             }
             {
-              bookInfo.isOnLibrary ?
-                (
-                  <div
-                    className={isLibraryHover ?
+              <div
+                className={
+                  bookInfo.isOnLibrary ?
+                    isLibraryHover ?
                       'bookpage-bottom-action-btn-active' :
-                      'bookpage-bottom-action-btn'
-                    }
-                    onClick={this.handleRemoveFromLibrary}
-                    onMouseEnter={this.handleLibraryHover}
-                    onMouseLeave={this.handleLibraryNoHover}
-                  >
-                    <figure>
-                      {
-                        this.state.isModifyingLibrary ?
-                          <LoadingSpinner size={44}/> :
-                          <img
-                            src={isLibraryHover ?
+                      'bookpage-bottom-action-btn' :
+                    'bookpage-bottom-action-btn'
+                }
+                onClick={
+                  bookInfo.isOnLibrary ?
+                    this.handleRemoveFromLibrary :
+                    this.handleAddToLibrary
+                }
+                onMouseEnter={
+                  bookInfo.isOnLibrary ?
+                    this.handleLibraryHover :
+                    null
+                }
+                onMouseLeave={
+                  bookInfo.isOnLibrary ?
+                    this.handleLibraryNoHover :
+                    null
+                }
+              >
+                <figure>
+                  {
+                    this.state.isModifyingLibrary ?
+                      <StoreSpinner /> :
+                      <img
+                        src={
+                          bookInfo.isOnLibrary ?
+                            isLibraryHover ?
                               '/image/add-to-library.svg' :
-                              '/image/added-to-library.svg'
-                            }
-                          />
-                      }
-                    </figure>
-                    <span className='bookpage-action-btn-active-text'>
-                      {isLibraryHover ? 'Remove from Library' : 'In Your Library'}
-                    </span>
-                  </div>
-                ) : (
-                  <div className='bookpage-bottom-action-btn' onClick={this.handleAddToLibrary}>
-                    <figure>
-                      {
-                        this.state.isModifyingLibrary ?
-                          <LoadingSpinner size={44}/> :
-                          <img src='/image/add-to-library.svg'/>
-                      }
-                    </figure>
-                    <span>Add to Library</span>
-                  </div>
-                )
+                              '/image/added-to-library.svg' :
+                            '/image/add-to-library.svg'
+                        }
+                      />
+                  }
+                </figure>
+                <span
+                  className={
+                    bookInfo.isOnLibrary ?
+                     'bookpage-action-btn-active-text' :
+                     ''
+                  }
+                >
+                  {
+                    bookInfo.isOnLibrary ?
+                      isLibraryHover ?
+                       'Remove from Library' :
+                       'In Your Library' :
+                      'Add to Library'
+                  }
+                </span>
+              </div>
             }
             <div className='bookpage-bottom-action-btn' onClick={this.handleShareClick}>
               <ReplyIcon />
