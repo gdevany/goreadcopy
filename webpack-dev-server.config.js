@@ -8,6 +8,7 @@ const dotenv = require('dotenv')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 
 const nodeModulesPath = path.resolve(__dirname, 'node_modules')
 const testPath = path.resolve(__dirname, 'test')
@@ -55,6 +56,28 @@ module.exports = {
     new TransferWebpackPlugin([ // moves files
       {from: 'client'},
     ], path.resolve(__dirname, 'src')),
+    new FaviconsWebpackPlugin({
+        logo: path.join(__dirname + '/src/client/image/favicon.png'),
+        prefix: 'icons-[hash]/',
+        emitStats: false,
+        statsFilename: 'iconstats-[hash].json',
+        persistentCache: true,
+        inject: true,
+        background: '#fff',
+        title: 'GoRead',
+        icons: {
+          android: false,
+          appleIcon: false,
+          appleStartup: false,
+          coast: false,
+          favicons: true,
+          firefox: true,
+          opengraph: false,
+          twitter: false,
+          yandex: false,
+          windows: false
+        }
+    }),
     new HtmlWebpackPlugin({
         // Params
         alwaysWriteToDisk: true,

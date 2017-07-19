@@ -9,6 +9,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin')
 const NameAllModulesPlugin = require('name-all-modules-plugin')
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 
 process.env.dotenv_config_file ?
     dotenv.config({path: path.join(__dirname, process.env.dotenv_config_file)}) : dotenv.config()
@@ -59,6 +60,28 @@ module.exports = {
       filename: 'manifest.json',
       manifestVariable: 'webpackManifest',
       inlineManifest: true
+    }),
+    new FaviconsWebpackPlugin({
+        logo: path.join(__dirname + '/src/client/image/favicon.png'),
+        prefix: 'icons-[hash]/',
+        emitStats: false,
+        statsFilename: 'iconstats-[hash].json',
+        persistentCache: true,
+        inject: true,
+        background: '#fff',
+        title: 'GoRead',
+        icons: {
+          android: false,
+          appleIcon: false,
+          appleStartup: false,
+          coast: false,
+          favicons: true,
+          firefox: true,
+          opengraph: false,
+          twitter: false,
+          yandex: false,
+          windows: false
+        }
     }),
     new HtmlWebpackPlugin({
         // Params
