@@ -1,9 +1,18 @@
 import React, { PureComponent, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import SidebarAd from './SidebarAd'
+import Scroller from './Scroller'
 import { Ads } from '../../redux/actions'
 
 const { getSidebarAds } = Ads
+const style = {
+  sidebarStyle: {
+    position: 'fixed',
+    background: 'white',
+    width: 270,
+    top: 64,
+  }
+}
 
 class SidebarAdWrapper extends PureComponent {
 
@@ -15,7 +24,9 @@ class SidebarAdWrapper extends PureComponent {
     super(props)
     this.state = {
       isProfileAd: false,
+      scrollY: null,
     }
+    this.getScrollPosition = this.getScrollPosition.bind(this)
   }
 
   componentWillMount = () => {
@@ -37,11 +48,30 @@ class SidebarAdWrapper extends PureComponent {
     return null
   }
 
+  getScrollPosition() {
+    const content = window.scrollY >= 1900 ? style.sidebarStyle : null
+    console.log('Sidebar style:')
+    console.log(content)
+    this.setState({
+      scrollY: content,
+    })
+  }
+
   render() {
+    console.log('Scroll Render Position:')
+    console.log(window.scrollY)
     return (
-      <div>
-        {this.mapSidebarAds()}
-      </div>
+      <Scroller
+        onScroll={this.getScrollPosition}
+        debounced
+        delay={250}
+        enabled
+        scrollParent={window}
+      >
+        <div className='sidebarAd' style={this.state.scrollY}>
+          {this.mapSidebarAds()}
+        </div>
+      </Scroller>
     )
   }
 }

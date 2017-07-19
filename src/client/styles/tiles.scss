@@ -736,6 +736,7 @@
       color: $blue;
     }
     .post-readmore-anchor{
+      display: inherit;
       text-decoration: underline;
       color: $black;
       margin-left: .5em;
