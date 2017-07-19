@@ -26,3 +26,4 @@ firebasecreds.json
 /public/*
 /src/client/index.html
 .vscode/
+.nvmrc
