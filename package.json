@@ -58,6 +58,7 @@
     "basil.js": "^0.4.4",
     "bluebird": "^3.4.7",
     "body-parser": "^1.16.0",
+    "card-validator": "^4.1.0",
     "compression": "^1.6.2",
     "compression-webpack-plugin": "^0.4.0",
     "concurrently": "^3.1.0",

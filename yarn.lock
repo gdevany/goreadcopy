@@ -1353,6 +1353,12 @@ caniuse-lite@^1.0.30000670, caniuse-lite@^1.0.30000684:
   version "1.0.30000696"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000696.tgz#30f2695d2a01a0dfd779a26ab83f4d134b3da5cc"
 
+card-validator@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/card-validator/-/card-validator-4.1.0.tgz#1d60ef09dad06432e6c2c0bbc63383ffc126b0e8"
+  dependencies:
+    credit-card-type "^5.0.0"
+
 caseless@~0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.11.0.tgz#715b96ea9841593cc33067923f5ec60ebda4f7d7"
@@ -1760,6 +1766,10 @@ create-react-class@^15.5.1, create-react-class@^15.5.2, create-react-class@^15.5
     fbjs "^0.8.9"
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
+
+credit-card-type@^5.0.0:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/credit-card-type/-/credit-card-type-5.0.3.tgz#2122f0191920e278c15518dd43ef3abb3f69359d"
 
 cross-spawn@^3.0.0:
   version "3.0.1"
