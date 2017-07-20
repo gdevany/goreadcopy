@@ -1036,6 +1036,14 @@
     flex-direction: column;
     margin-top: 15px;
     margin-bottom: 15px;
+    .bookpage-review-post-limit-info{
+      font-size: 15px;
+      font-weight: 200;
+      color: #cacaca;
+      &.complete{
+        color: #4CAF50;
+      }
+    }
     .bookpage-review-post-textarea{
       width: 100%;
       min-height: 150px;
