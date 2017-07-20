@@ -118,7 +118,7 @@ export function addToLibrary(id, slug, isLogged) {
     ean: id
   }
   return dispatch => {
-    ProfilePage.updateLibrary(terms)
+    return ProfilePage.updateLibrary(terms)
       .then(res => dispatch(getBookInfo(slug, isLogged)))
       .catch(err => console.error(`Error in addToLibrary ${err}`))
   }
@@ -129,7 +129,7 @@ export function removeFromLibrary(id, slug, isLogged) {
     id: id
   }
   return dispatch => {
-    ProfilePage.deleteBookLibrary(terms)
+    return ProfilePage.deleteBookLibrary(terms)
       .then(res => dispatch(getBookInfo(slug, isLogged)))
       .catch(err => console.log(`Error in removeFromLibrary ${err}`))
   }
@@ -140,7 +140,7 @@ export function addToWishList(id, slug, isLogged) {
     ean: id
   }
   return dispatch => {
-    ProfilePage.updateWishList(terms)
+    return ProfilePage.updateWishList(terms)
       .then(res => dispatch(getBookInfo(slug, isLogged)))
       .catch(err => console.error(`Error in addToWishList ${err}`))
   }
@@ -151,7 +151,7 @@ export function removeFromWishList(id, slug, isLogged) {
     ean: id
   }
   return dispatch => {
-    ProfilePage.deleteFromWishList(terms)
+    return ProfilePage.deleteFromWishList(terms)
       .then(res => dispatch(getBookInfo(slug, isLogged)))
       .catch(err => console.log(`Error in removeFromWishList ${err}`))
   }

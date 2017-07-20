@@ -8,16 +8,21 @@ const innerStyle = {
 }
 
 export default function LoadingSpinner(props) {
-  const { size } = props
+  const { size, containerStyle } = props
   return (
-    <div className='spinner-loader'>
+    <div
+      className='spinner-loader'
+      style={containerStyle || {}}
+    >
       <RefreshIndicator
         size={size || 40}
         left={0}
         top={0}
         loadingColor={Colors.blue}
         status='loading'
-        style={innerStyle}
+        style={{
+          ...innerStyle,
+        }}
       />
     </div>
   )

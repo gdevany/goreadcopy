@@ -1,13 +1,17 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import SnackBar from 'material-ui/Snackbar'
+import { Common } from '../../../redux/actions'
+
+const { clearAlert } = Common
 
 const styles = {
-  snackBarError: {
+  error: {
     backgroundColor: '#EC6464',
     textAlign: 'center',
     height: 50,
   },
-  snackBarSuccess: {
+  success: {
     backgroundColor: '#32BB65',
     textAlign: 'center',
     height: 50,
@@ -19,24 +23,39 @@ const styles = {
 
 function SnackBarAlert(props) {
   const {
-    open,
-    message,
-    onRequestClose,
-    type
+    alerts: {
+      isOpen,
+      message,
+      type
+    }
   } = props
   return (
     <SnackBar
-      open={open}
-      message={message}
+      open={isOpen || false}
+      message={message || ''}
       autoHideDuration={3000}
-      onRequestClose={onRequestClose}
+      onRequestClose={()=>{ props.clearAlert() }}
       bodyStyle={type === 'error' ?
-        styles.snackBarError :
-        styles.snackBarSuccess
+        styles.error :
+        styles.success
       }
       contentStyle={styles.contentStyle}
     />
   )
 }
 
-export default SnackBarAlert
+const mapStateToProps = ({
+  common: {
+    alerts
+  }
+}) => {
+  return {
+    alerts
+  }
+}
+
+const mapDispatchToProps = {
+  clearAlert,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SnackBarAlert)

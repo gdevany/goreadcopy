@@ -1,14 +1,16 @@
 import React, { PureComponent } from 'react'
 import {
   Auth as AuthComponents,
+  Alerts,
   Navs,
   Chat,
   SocketHandler
 } from '../common'
 
+const { SnackBarAlert } = Alerts
+const { AuthWrapper, AuthView } = AuthComponents
 const { ChatTabWrapper } = Chat
 const { NavMenu } = Navs
-const { AuthWrapper, AuthView } = AuthComponents
 
 class BaseNavView extends PureComponent {
   render() {
@@ -22,6 +24,7 @@ class BaseNavView extends PureComponent {
         <AuthView>
           <SocketHandler />
         </AuthView>
+        <SnackBarAlert />
       </AuthWrapper>
     )
   }
