@@ -2,6 +2,7 @@ import { CURRENT_READER as A } from '../const/actionTypes'
 import { CONTEXTS as C } from '../../constants/litcoins'
 import CurrentReaderSocial from '../../services/api/currentReader/social'
 import CurrentReaderRecommendation from '../../services/api/currentReader/recommendation'
+import { getBookInfo } from './store'
 import Users from '../../services/users'
 import Promise from '../../services/promise'
 
@@ -48,9 +49,16 @@ export function getFollowersAndFollowed(id) {
   }
 }
 
-export function updateFollowedAuthors({ authorIds, context }) {
+export function updateFollowedAuthors({ authorIds, context, slug }) {
   context = context || C.READ_FEED
-
+  if (context === 'bookpage' && slug) {
+    return dispatch => {
+      return CurrentReaderRecommendation.likedAuthors({ authorIds, context })
+        .then((res) => dispatch({ type: A.UPDATE_FOLLOWED_AUTHORS, payload: authorIds }))
+        .then(res => dispatch(getBookInfo(slug, true)))
+        .catch(err => console.error(`Error in updateFollowedAuthors ${err}`))
+    }
+  }
   return dispatch => {
     return CurrentReaderRecommendation.likedAuthors({ authorIds, context })
       .then((res) => dispatch({ type: A.UPDATE_FOLLOWED_AUTHORS, payload: authorIds }))
@@ -58,9 +66,17 @@ export function updateFollowedAuthors({ authorIds, context }) {
   }
 }
 
-export function removeFollowedAuthors({ authorIds, context }) {
+export function removeFollowedAuthors({ authorIds, context, slug }) {
   context = context || C.READ_FEED
 
+  if (context === 'bookpage' && slug) {
+    return dispatch => {
+      return CurrentReaderRecommendation.unlikedAuthors({ authorIds, context })
+        .then((res) => dispatch({ type: A.REMOVE_FOLLOWED_AUTHORS, payload: authorIds }))
+        .then(res => dispatch(getBookInfo(slug, true)))
+        .catch(err => console.error(`Error in removeFollowedAuthors ${err}`))
+    }
+  }
   return dispatch => {
     return CurrentReaderRecommendation.unlikedAuthors({ authorIds, context })
       .then((res) => dispatch({ type: A.REMOVE_FOLLOWED_AUTHORS, payload: authorIds }))
@@ -130,7 +146,7 @@ const chooseFollowAction = (userType, follow) => {
   }
 }
 
-const followOrUnfollowAction = ({ context, userType, follow, ids }) => {
+const followOrUnfollowAction = ({ context, userType, follow, ids, slug }) => {
   const action = chooseFollowAction(userType, follow)
   switch (action) {
     case FOLLOW_READER:
@@ -138,9 +154,9 @@ const followOrUnfollowAction = ({ context, userType, follow, ids }) => {
     case UNFOLLOW_READER:
       return removeFollowedReaders({ readerIds: ids, context })
     case FOLLOW_AUTHOR:
-      return updateFollowedAuthors({ authorIds: ids, context })
+      return updateFollowedAuthors({ authorIds: ids, context, slug })
     case UNFOLLOW_AUTHOR:
-      return removeFollowedAuthors({ authorIds: ids, context })
+      return removeFollowedAuthors({ authorIds: ids, context, slug })
     default:
       return null
   }

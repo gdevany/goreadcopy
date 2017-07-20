@@ -42,10 +42,10 @@ class SearchBookModal extends PureComponent {
       return (
         <Book
           key={`${book.id}_edit_library_${index}`}
-          url={book.link}
           image={book.imageUrl}
           id={book.id}
           title={book.title}
+          slug={book.slug}
           authors={book.authors}
           rating={book.rating}
           bookType='topBooksModal'
