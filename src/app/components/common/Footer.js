@@ -133,6 +133,9 @@ class Footer extends PureComponent {
                 Terms
               </AuthedRedirect.Link>
             </li>
+            <li>
+              <a href='/antispam'>Antispam</a>
+            </li>
           </ul>
         </div>
 
