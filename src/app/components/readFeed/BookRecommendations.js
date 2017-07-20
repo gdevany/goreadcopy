@@ -38,8 +38,10 @@ class BookRecommendations extends PureComponent {
     const books = recommended ? recommended.books : null
 
     return (
-      <div className='left-container box small-12 columns'>
-
+      <div
+        id='book-recommendations'
+        className='left-container box small-12 columns'
+      >
         <div className='rec-header'>
           <h4> {"We think you'll love these books"} </h4>
         </div>

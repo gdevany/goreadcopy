@@ -56,7 +56,11 @@ class BookClubRecommendations extends PureComponent {
     const bookClubs = recommended ? recommended.bookClubs : null
 
     return (
-      <div className='left-container small-12 box columns' style={styles.recContainer}>
+      <div
+        id='bookclub-recommendations'
+        className='left-container small-12 box columns'
+        style={styles.recContainer}
+      >
         <div className='rec-header'>
           <h4> Check out these Book Clubs </h4>
         </div>

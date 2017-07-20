@@ -10,7 +10,6 @@ const style = {
     position: 'fixed',
     background: 'white',
     width: 270,
-    top: 64,
   }
 }
 
@@ -24,6 +23,7 @@ class SidebarAdWrapper extends PureComponent {
     super(props)
     this.state = {
       isProfileAd: false,
+      scrollHeight: 99999,
       scrollY: null,
     }
     this.getScrollPosition = this.getScrollPosition.bind(this)
@@ -49,12 +49,22 @@ class SidebarAdWrapper extends PureComponent {
   }
 
   getScrollPosition() {
-    const content = window.scrollY >= 1900 ? style.sidebarStyle : null
-    console.log('Sidebar style:')
-    console.log(content)
-    this.setState({
-      scrollY: content,
-    })
+    const content = window.scrollY >= this.state.scrollHeight ? style.sidebarStyle : null
+    const navbarOffset = document.getElementsByClassName('top-bar')[0].clientHeight
+    const bookRecomOffset = document.getElementById('book-recommendations').clientHeight
+    const authorRecomOffset = document.getElementById('author-recommendations').clientHeight
+    const bookclubRecomOffset = document.getElementById('bookclub-recommendations').clientHeight
+    const sidebarOffset = navbarOffset + bookRecomOffset + authorRecomOffset + bookclubRecomOffset
+    if (content === null) {
+      //console.log('Sidebar Height:')
+      //console.log(sidebarOffset)
+      this.setState({
+        scrollHeight: sidebarOffset,
+        scrollY: content,
+      })
+    } else {
+      this.setState({ scrollY: content })
+    }
   }
 
   render() {
@@ -64,11 +74,15 @@ class SidebarAdWrapper extends PureComponent {
       <Scroller
         onScroll={this.getScrollPosition}
         debounced
-        delay={250}
+        delay={0}
         enabled
         scrollParent={window}
       >
-        <div className='sidebarAd' style={this.state.scrollY}>
+        <div
+          className='sidebarAd'
+          style={this.state.scrollY}
+          ref='sidebarScroll'
+        >
           {this.mapSidebarAds()}
         </div>
       </Scroller>
