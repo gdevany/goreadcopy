@@ -12,10 +12,41 @@ const mapAlert = (state, { message, type }) => {
   }
 }
 
+const listCountries = (state, { result }) => {
+  const specialCountries = ['US', 'CA']
+  return R.compose(
+    R.insert(
+      specialCountries.length,
+      { pk: ' ', name: '-------------' }
+    ),
+    R.sort((prev, next) => {
+      // Process special countries
+      const prevIs = R.contains(prev.pk, specialCountries)
+      const nextIs = R.contains(next.pk, specialCountries)
+      if (prevIs && nextIs) {
+        const prevIndex = R.indexOf(prev.pk, specialCountries)
+        const nextIndex = R.indexOf(next.pk, specialCountries)
+        if (prevIndex < nextIndex) { return -1 }
+        return 1
+      }
+      if (prevIs) { return -1 }
+      if (nextIs) { return 1 }
+      // Process other countries
+      if (prev.name < next.name) { return -1 }
+      if (prev.name === next.name) { return 0 }
+      return 1
+    })
+  )(result)
+}
+
 export default (state = initialState.common, { type, payload, errors }) => {
   switch (type) {
     case A.GET_CONTRIES:
-      return R.merge(state, { countries: payload.result })
+      diff = {
+        ...state,
+        countries: listCountries(state, payload)
+      }
+      return R.merge(state, diff)
     case A.GET_STATES:
       return R.merge(state, { states: payload.result })
     case A.SHOW_ALERT_BAR:
