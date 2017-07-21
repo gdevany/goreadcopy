@@ -9,20 +9,21 @@ const { addGiftData } = Store
 class SingleGiftElement extends PureComponent {
   constructor(props) {
     super(props)
-    const giftData = props.giftItem.giftcartitemdata
+    const { giftMessage, shippingAddress } = props.giftItem.giftcartitemdata
     this.state = {
       gift: props.giftItem,
       isAddressClicked: false,
-      firstNameShipping: giftData.shippingAddress.name || '',
+      firstNameShipping: shippingAddress.name || '',
       lastNameShipping: '',
-      cityShipping: giftData.shippingAddress.city || '',
-      countryShipping: giftData.shippingAddress.country || '',
-      addressShipping: giftData.shippingAddress.address || '',
-      address2Shipping: giftData.shippingAddress.address2 || '',
-      zipcodeShipping: giftData.shippingAddress.zipcode || '',
-      phoneShipping: giftData.shippingAddress.address || '',
-      stateShipping: giftData.shippingAddress.state || '',
-      giftMessage: giftData.giftMessage || '',
+      cityShipping: shippingAddress.city || '',
+      countryShipping: shippingAddress.country || '',
+      addressShipping: shippingAddress.address || '',
+      address2Shipping: shippingAddress.address2 || '',
+      zipcodeShipping: shippingAddress.zipcode || '',
+      phoneShipping: shippingAddress.address || '',
+      stateShipping: shippingAddress.state || '',
+      giftMessage: giftMessage || '',
+      hasSavedAddress: shippingAddress.id || false,
     }
     this.handleOpenAddress = this.handleOpenAddress.bind(this)
     this.handleOnChange = this.handleOnChange.bind(this)
@@ -74,7 +75,10 @@ class SingleGiftElement extends PureComponent {
       state: stateShipping,
       giftMessage
     })
-    this.setState({ isAddressClicked: false, })
+    this.setState({
+      isAddressClicked: false,
+      hasSavedAddress: true,
+    })
   }
 
   render() {
@@ -90,6 +94,7 @@ class SingleGiftElement extends PureComponent {
       zipcodeShipping,
       phoneShipping,
       stateShipping,
+      hasSavedAddress,
     } = this.state
     const formInfo = {
       firstNameShipping,
@@ -124,17 +129,15 @@ class SingleGiftElement extends PureComponent {
               onChange={this.handleOnChange('giftMessage')}
               value={this.state.giftMessage}
             />
-            {isAddressClicked ?
-              (
-                <a onClick={this.handleOpenAddress}>
-                  Hide Shipping Address Form
-                </a>
-              ) : (
-                <a onClick={this.handleOpenAddress}>
-                  Add a Shipping Address
-                </a>
-              )
-            }
+            <a onClick={this.handleOpenAddress}>
+              {
+                isAddressClicked ?
+                  'Hide Shipping Address Form' :
+                  hasSavedAddress ?
+                    'Update Shipping Address' :
+                    'Add a Shipping Address'
+              }
+            </a>
           </div>
         </article>
         {isAddressClicked ?
@@ -153,4 +156,8 @@ class SingleGiftElement extends PureComponent {
   }
 }
 
-export default connect(null, { addGiftData })(SingleGiftElement)
+const mapDispatchToProps = {
+  addGiftData
+}
+
+export default connect(null, mapDispatchToProps)(SingleGiftElement)

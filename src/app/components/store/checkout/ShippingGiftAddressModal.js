@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Dialog } from 'material-ui'
-import SingleGiftElement from './singleGiftElement'
+import SingleGiftElement from './SingleGiftElement'
 import { Store } from '../../../redux/actions'
 import { ShippingForm } from './'
 import R from 'ramda'
