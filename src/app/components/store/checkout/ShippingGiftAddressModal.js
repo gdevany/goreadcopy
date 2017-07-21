@@ -46,6 +46,45 @@ class ShippingGiftAddressModal extends PureComponent {
     this.handleShippingSubmit = this.handleShippingSubmit.bind(this)
   }
 
+  componentWillMount() {
+    const { cartElements } = this.props
+    const sameGifts = this.checkSameAddressForGiftList(cartElements)
+    if (sameGifts.isTrue) {
+      this.setState({
+        sendToSamePerson: true,
+        firstNameShipping: sameGifts.addressInfo.name,
+        //lastNameShipping: sameGifts.addressInfo.,
+        cityShipping: sameGifts.addressInfo.city,
+        countryShipping: sameGifts.addressInfo.country,
+        addressShipping: sameGifts.addressInfo.address,
+        address2Shipping: sameGifts.addressInfo.address2,
+        zipcodeShipping: sameGifts.addressInfo.zipcode,
+        //phoneShipping: sameGifts.addressInfo.,
+        stateShipping: sameGifts.addressInfo.state,
+        giftMessage: sameGifts.message,
+      })
+    }
+  }
+
+  checkSameAddressForGiftList = (itemList) => {
+    const giftList = itemList.length > 0 ?
+      R.filter(item => item.isGiftItem)(itemList) :
+      null
+    if (giftList && giftList.length > 0) {
+      const shippingIdList = R.compose(
+        R.pluck('id'),
+        R.pluck('shippingAddress'),
+        R.pluck('giftcartitemdata'),
+      )(giftList)
+      return {
+        isTrue: R.all(R.equals(R.head(shippingIdList)), shippingIdList),
+        addressInfo: R.head(giftList).giftcartitemdata.shippingAddress,
+        message: R.head(giftList).giftcartitemdata.giftMessage,
+      }
+    }
+    return { isTrue: false }
+  }
+
   handleSamePersonClick = (event) => {
     this.setState({
       sendToSamePerson: event.target.checked
