@@ -1,5 +1,4 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component, PropTypes } from 'react'
 import R from 'ramda'
 import { Dialog, } from 'material-ui'
 import { connect } from 'react-redux'

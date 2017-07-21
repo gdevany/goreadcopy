@@ -51,9 +51,9 @@ class Book extends PureComponent {
   render() {
 
     const {
+      url,
       image,
       title,
-      slug,
       authors,
       rating,
       bookType,
@@ -72,7 +72,7 @@ class Book extends PureComponent {
             </div>
           ) : null
         }
-        <a href={`/book/${slug}`}>
+        <a href={url}>
           <img className='book' src={image} />
         </a>
         <div className='book-info-container'>

@@ -1,5 +1,4 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
+import React, { PureComponent, PropTypes } from 'react'
 import Radium from 'radium'
 import { connect } from 'react-redux'
 import { Follow } from '../../redux/actions'

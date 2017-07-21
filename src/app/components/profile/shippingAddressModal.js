@@ -92,6 +92,28 @@ class shippingAddressModal extends PureComponent {
     this.setState({ state: value })
   })
 
+  /*handleCleanModal = () => {
+    this.setState({
+      name: '',
+      address: '',
+      address2: '',
+      city: '',
+      state: '',
+      country: 0,
+      phone: '',
+      zipcode: '',
+      nameError: '',
+      addressError: '',
+      cityError: '',
+      stateError: '',
+      countryError: '',
+      phoneError: '',
+      zipcodeError: '',
+      isContentRenderInput: true,
+      isContentRenderList: false,
+    })
+  }*/
+
   handleRenderCountry = () => {
     getCountries()
       .then(res => this.displayCountryList(res))
@@ -256,8 +278,6 @@ class shippingAddressModal extends PureComponent {
       country,
       phone,
       zipcode,
-      addressType: 'shipping',
-      sameBillingAndShipping: true,
     }
     if (this.handleValidation(readerData) === true) {
       this.props.updateShippingAddress(readerData)

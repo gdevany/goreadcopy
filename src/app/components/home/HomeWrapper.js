@@ -1,15 +1,16 @@
 import React, { PureComponent } from 'react'
 import { browserHistory } from 'react-router'
+import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import Home from './Home'
 import { ReadFeed } from '../readFeed'
-import { Auth as AuthActions } from '../../redux/actions'
-import { Auth as AuthServices } from '../../services'
+import { Auth } from '../../redux/actions'
+import { Auth as CurrentToken } from '../../services'
 import { General } from '../../services/api'
 
 const { timesRendered } = General
-const { verifyUserToken } = AuthActions
-const isUserLogged = AuthServices.currentUserExists()
+const { verifyUserToken } = Auth
+const isUserLogged = CurrentToken.currentUserExists()
 
 class HomeWrapper extends PureComponent {
   constructor(props) {
@@ -17,7 +18,7 @@ class HomeWrapper extends PureComponent {
   }
 
   componentWillMount = () => {
-    const token = AuthServices.token()
+    const token = CurrentToken.token()
     if (token) {
       this.props.verifyUserToken({
         token,
@@ -34,9 +35,38 @@ class HomeWrapper extends PureComponent {
   }
 
   render() {
-    return AuthServices.currentUserExists() ?
-      <ReadFeed isMyReadFeed={true}/> :
-      <Home/>
+    return CurrentToken.currentUserExists() ?
+      (
+        <div>
+          <Helmet>
+            <title>{`GoRead | Home | Welcome back ${this.props.currentReader.fullname}`}</title>
+            <meta
+              name='description'
+              content='Earn Litcoins sharing your favorite books with others.'
+            />
+            <meta name='twitter:card' content='summary' />
+            <meta name='twitter:site' content='@TheRealGoRead' />
+            <meta name='twitter:title' content='GoRead | Home' />
+            <meta
+              name='twitter:description'
+              content='Earn Litcoins sharing your favorite books with others.'
+            />
+            <meta name='twitter:image' content='https://goread.com/image/281x281.png'/>
+            <meta content='1528633757403356' property='fb:app_id' />
+            <meta property='og:url' content='https://www.goread.com/' />
+            <meta property='og:title' content='GoRead | Home' />
+            <meta
+              property='og:description'
+              content='Earn Litcoins sharing your favorite books with others.'
+            />
+            <meta property='og:image' content='https://goread.com/image/281x281.png' />
+            <meta property='og:image:width' content='281' />
+            <meta property='og:image:height' content='281' />
+            <meta property='og:image:type' content='image/png' />
+          </Helmet>
+          <ReadFeed isMyReadFeed={true}/>
+        </div>
+      ) : <Home/>
   }
 }
 

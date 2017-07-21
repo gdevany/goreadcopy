@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
 import { Scroller } from './'
 import TilesWrapper from '../readFeed/TilesWrapper'
 import R from 'ramda'
@@ -70,10 +69,10 @@ class TileScroller extends PureComponent {
 }
 
 TileScroller.proptypes = {
-  tiles: PropTypes.array,
-  fetchTiles: PropTypes.func,
-  isLocked: PropTypes.bool,
-  fetchOnMount: PropTypes.bool,
+  tiles: React.PropTypes.array,
+  fetchTiles: React.PropTypes.func,
+  isLocked: React.PropTypes.bool,
+  fetchOnMount: React.PropTypes.bool,
 }
 
 TileScroller.defaultProps = {

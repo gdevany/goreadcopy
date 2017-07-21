@@ -72,9 +72,10 @@
         .search-result-figure{
           margin: 0;
           width: 70px;
+          height: 70px;
           .search-result-image{
             width: 100%;
-            margin-bottom: 5px;
+            border-radius: 100%;
           }
         }
       }

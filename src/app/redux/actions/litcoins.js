@@ -1,5 +1,5 @@
 import { CURRENT_READER as A } from '../const/actionTypes'
-import LitcoinCalculator from '../../services/litcoinsCalculator'
+import LitcoinCalculator from '../../components/common/services/litcoinsCalculator'
 const { getCumulativeBalance, getSelectedBalance } = LitcoinCalculator
 
 export function updateLitcoinBalance(litcoinAction) {

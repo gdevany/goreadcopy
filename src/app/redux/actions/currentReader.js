@@ -132,7 +132,7 @@ export function updateCurrentReaderRecommendation(recommendation) {
 export function logoutCurrentReader() {
   return dispatch => {
     CurrentReader.logoutCurrentReader()
-      .then(res => dispatch({ type: A.USER_LOGOUT }))
+      .then(res => dispatch(res.data))
       .catch(err => console.log(`Error in getCurrentReader ${err}`))
   }
 }

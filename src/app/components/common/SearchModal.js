@@ -118,7 +118,7 @@ class SearchModal extends Component {
               <a href={book.url}>
                 <figure className='search-result-figure'>
                   <img
-                    src={book.imageUrl}
+                    src={book.image}
                     className='search-result-image'
                     alt={book.slug}
                   />

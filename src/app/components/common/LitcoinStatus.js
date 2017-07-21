@@ -17,7 +17,7 @@ class LitcoinStatus extends PureComponent {
     super(props)
 
     this.state = {
-      currentBalance: props.litcoinBalance,
+      currentBalance: this.props.litcoinBalance,
       litcoinClass: 'invisible',
       litcoinsDifference: 0,
     }
@@ -54,9 +54,9 @@ class LitcoinStatus extends PureComponent {
   render() {
     const { currentBalance, litcoinDifference } = this.state
     return (
-      <div className='litcoins-status-container'>
+      <div>
         <a className='rf-nav-link' href={litcoins()}>
-          <span>{currentBalance ? currentBalance.toLocaleString() : 0}</span>
+          <span>{currentBalance ? currentBalance.toLocaleString() : null}</span>
         </a>
         <a className='litcoin-balance-anchor' href={litcoinsProfile()}>
           <img className='litcoin-img' src='/image/litcoin.png' />

@@ -101,18 +101,10 @@
     justify-content: center;
     align-items: center;
   }
-  .menu {
-    display: flex;
-    .logged-menu-item{
-      display: flex;
-      align-items: center;
-    }
-  }
 }
 
 .logged-menu-item{
   display: flex;
-  align-content: center;
   @media all and (min-width: 1200px){
     height: 64px;
   }
@@ -130,20 +122,6 @@
   }
 
 
-}
-
-.litcoins-status-container{
-  display: flex;
-  align-items: center;
-  .rf-nav-link{
-    padding: 0;
-  }
-  .litcoin-balance-anchor{
-    padding: 0;
-    .litcoin-img{
-      margin-bottom: 0;
-    }
-  }
 }
 
 .menu-badge-container > div{
@@ -169,7 +147,7 @@
     &:before{
       position: absolute;
       top: -11px;
-      right: 30px;
+      right: 20px;
       border-right: 11px solid transparent;
       border-bottom: 11px solid #ccc;
       border-left: 11px solid transparent;
@@ -179,7 +157,7 @@
     &:after{
       position: absolute;
       top: -10px;
-      right: 31px;
+      right: 21px;
       border-right: 10px solid transparent;
       border-bottom: 10px solid #ffffff;
       border-left: 10px solid transparent;
@@ -192,7 +170,7 @@
     .profile-menu-element{
       .profile-menu-anchor{
         display: block;
-        padding: 1em 2em;
+        padding: .5em 2em;
         font-weight: 200;
       }
     }
@@ -286,7 +264,6 @@
       width: 100%;
       margin-top: .5em;
       .litcoin-balance-anchor{
-        padding: 0;
         span{
           color:$black;
           font-size: 16px;

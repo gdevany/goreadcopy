@@ -3,13 +3,10 @@ const path = require('path')
 const nodeModulesPath = path.resolve(__dirname, 'node_modules')
 const testPath = path.resolve(__dirname, 'test');
 const TransferWebpackPlugin = require('transfer-webpack-plugin')
-const dotenv = require('dotenv')
-const CompressionPlugin = require('compression-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin')
-const NameAllModulesPlugin = require('name-all-modules-plugin')
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const dotenv = require('dotenv');
+const CompressionPlugin = require('compression-webpack-plugin');
+const failPlugin = require('webpack-fail-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 process.env.dotenv_config_file ?
     dotenv.config({path: path.join(__dirname, process.env.dotenv_config_file)}) : dotenv.config()
@@ -31,89 +28,25 @@ module.exports = {
   ],
   devtool: 'source-map',
   output: {
-    filename: '[name].[chunkhash].js',
+    filename: '[name].js',
     path: path.join(process.cwd(), 'public'),
     publicPath: '/',
   },
   plugins: [
+    failPlugin,
     new webpack.DefinePlugin({
-      'process.env.SOCKET_URL' : JSON.stringify(process.env.SOCKET_URL),
-      'process.env.API_URL' : JSON.stringify(process.env.API_URL),
-      'process.env.REDIRECT_BASE_URL' : JSON.stringify(process.env.REDIRECT_BASE_URL),
-      'process.env.NODE_ENV' : JSON.stringify(process.env.NODE_ENV),
-      'process.env.SESSION_COOKIE_DOMAIN' : JSON.stringify(process.env.SESSION_COOKIE_DOMAIN),
-      'process.env.PORT' : JSON.stringify(process.env.PORT),
+      'process.env' : JSON.stringify(process.env)
     }),
+    new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
       minimize: true,
       compress: {
         warnings: false,
       },
     }),
+    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new TransferWebpackPlugin([
-      {from: 'client'},
-    ], path.resolve(__dirname, 'src')),
-    new ChunkManifestPlugin({
-      filename: 'manifest.json',
-      manifestVariable: 'webpackManifest',
-      inlineManifest: true
-    }),
-    new FaviconsWebpackPlugin({
-        logo: path.join(__dirname + '/src/client/image/favicon.png'),
-        prefix: 'icons-[hash]/',
-        emitStats: false,
-        statsFilename: 'iconstats-[hash].json',
-        persistentCache: true,
-        inject: true,
-        background: '#fff',
-        title: 'GoRead',
-        icons: {
-          android: false,
-          appleIcon: false,
-          appleStartup: false,
-          coast: false,
-          favicons: true,
-          firefox: true,
-          opengraph: false,
-          twitter: false,
-          yandex: false,
-          windows: false
-        }
-    }),
-    new HtmlWebpackPlugin({
-        // Params
-        hash: false,
-        showErrors: true,
-        template: 'src/client/index.ejs',
-        chunksSortMode: 'dependency',
-        // Variables
-        title: 'GoRead',
-        env: process.env.NODE_ENV,
-    }),
-    new webpack.NamedModulesPlugin(),
-    new webpack.NamedChunksPlugin((chunk) => {
-        if (chunk.name) {
-            return chunk.name;
-        }
-        return chunk.mapModules(m => path.relative(m.context, m.request)).join("_");
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-        name: 'vendor',
-        filename: 'vendor.[chunkhash].js',
-        minChunks: function (module) {
-           // this assumes your vendor imports exist in the node_modules directory
-           return module.context && module.context.indexOf('node_modules') !== -1;
-        }
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-        name: 'runtime',
-        filename: 'runtime.[hash].js',
-        minChunks: Infinity,
-    }),
-    new NameAllModulesPlugin(),
     new CompressionPlugin({
       asset: "[path].gz[query]",
       algorithm: "gzip",
@@ -121,51 +54,58 @@ module.exports = {
       threshold: 10240,
       minRatio: 0.8
     }),
-    //--------------------------------------------------
-    // Only enable when you want to use the Analyzer!!!!
-    //--------------------------------------------------
-    //new BundleAnalyzerPlugin(),
+    new webpack.NoErrorsPlugin(),
+    new TransferWebpackPlugin([
+      {from: 'client'},
+    ], path.resolve(__dirname, 'src')),
+    new HtmlWebpackPlugin({
+        hash: true,
+        showErrors: true,
+        title: 'GoRead',
+        template: 'src/client/index.ejs',
+    }),
   ],
   module: {
-    rules: [
+    preLoaders: [
       {
-        test: /\.js$/,
-        enforce: 'pre',
-        loader: 'eslint-loader',
+        test: /\.js$/, // All .js files
+        loaders: ['eslint'],
         exclude: [nodeModulesPath, testPath],
-      },
+      }
+    ],
+    loaders: [
       {
         test: /\.js$/,
-        use: ['react-hot-loader', 'babel-loader'], // react-hot is like browser sync and babel loads jsx and es6-7
+        loaders: ['react-hot', 'babel'], // react-hot is like browser sync and babel loads jsx and es6-7
         exclude: [nodeModulesPath],
       },
       {
         test: /\.(png|jpg|gif)$/,
-        loader: 'url-loader'
+        loaders: ['url-loader']
       },
       {
         test: /\.(css|scss)$/,
-        use: ['style-loader', 'css-loader', 'sass-loader']
+        loaders: ['style', 'css', 'sass']
       },
       {
         test: /\.(woff|woff2)$/,
-        loader: "url-loader?limit=10000&mimetype=application/font-woff"
+        loader: "url?limit=10000&mimetype=application/font-woff"
       },
       {
         test: /\.ttf$/,
-        loader: "url-loader?limit=10000&mimetype=application/octet-stream"
-      },
+        loader: "url?limit=10000&mimetype=application/octet-stream"
+       },
       {
         test: /\.eot$/,
-        loader: "file-loader"
+        loader: "file"
       },
       {
         test: /\.svg$/,
-        loader: "url-loader?limit=10000&mimetype=image/svg+xml"
+        loader: "url?limit=10000&mimetype=image/svg+xml"
       },
       {
         test: /\.mp3$/,
-        loader: 'file-loader'
+        loader: 'file-loader?name=[name].[ext]'
       }
     ],
   }

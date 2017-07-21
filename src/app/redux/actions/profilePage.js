@@ -185,5 +185,4 @@ export default {
   updateTopBooks,
   addToWishList,
   removeFromWishList,
-
 }

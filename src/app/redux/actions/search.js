@@ -15,7 +15,10 @@ export function mainSearch(searchTerm, searchType) {
   }
   if (searchType === 'book-search') {
     terms = {
+      author: '',
+      reader: '',
       book: searchTerm,
+      publisher: '',
     }
   }
   const debounceSearch = () => {

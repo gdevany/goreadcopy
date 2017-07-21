@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import { Helmet } from 'react-helmet'
-import { Footer } from '../common'
-import { BaseNavView } from '../views'
+import { NavMenu, Footer } from '../common'
 import { connect } from 'react-redux'
 import { Auth } from '../../services'
 import { ProfilePage, CurrentReader } from '../../redux/actions'
@@ -106,19 +105,18 @@ class ReferralHome extends PureComponent {
 
   renderReferralSignup = (referrer) => {
     return (
-      <BaseNavView>
+      <div className='home'>
         <Helmet>
           <title>GoRead</title>
         </Helmet>
-        <div className='home'>
-          <ReferralCallToActionTop referrerName={referrer.fullname}/>
-          <BookLanding />
-          <PriorityReasons />
-          <TestimonialCarousel />
-          <CallToActionBottom />
-          <Footer />
-        </div>
-      </BaseNavView>
+        <NavMenu />
+        <ReferralCallToActionTop referrerName={referrer.fullname}/>
+        <BookLanding />
+        <PriorityReasons />
+        <TestimonialCarousel />
+        <CallToActionBottom />
+        <Footer />
+      </div>
     )
   }
 
