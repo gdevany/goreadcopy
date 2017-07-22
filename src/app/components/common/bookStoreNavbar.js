@@ -616,7 +616,8 @@ class BookStoreNavBar extends PureComponent {
         </figure>
         <p>
           Sorry, we didn't find anything with the term:
-          <b>{this.state.searchTerm}</b>.
+          &nbsp;
+          <b>{this.state.searchTerm}</b>
         </p>
       </div>
     )
