@@ -2,9 +2,12 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Litcoins } from '../../redux/actions'
 import { ExternalRoutes as routes } from '../../constants'
+import { Numbers } from '../../utils'
 
 const { litcoins, litcoinsProfile } = routes
 const { updateLitcoinBalance } = Litcoins
+const { parseIntToLocale } = Numbers
+
 const styles = {
   container: {
     position: 'absolute',
@@ -56,7 +59,7 @@ class LitcoinStatus extends PureComponent {
     return (
       <div className='litcoins-status-container'>
         <a className='rf-nav-link' href={litcoins()}>
-          <span>{currentBalance ? currentBalance.toLocaleString() : 0}</span>
+          <span>{currentBalance ? parseIntToLocale(currentBalance) : 0}</span>
         </a>
         <a className='litcoin-balance-anchor' href={litcoinsProfile()}>
           <img className='litcoin-img' src='/image/litcoin.png' />

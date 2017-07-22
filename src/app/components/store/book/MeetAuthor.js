@@ -1,5 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Numbers } from '../../../utils'
+
+const { parseIntToLocale } = Numbers
 
 const MeetAuthor = ({ profilePic, description, followers, books, fullname, url }) => {
 
@@ -24,7 +27,7 @@ const MeetAuthor = ({ profilePic, description, followers, books, fullname, url }
                     Followers
                   </span>
                   <span className='bookpage-meet-author-numbers'>
-                    {followers.toLocaleString()}
+                    {parseIntToLocale(followers)}
                   </span>
                 </div>
                 <div className='bookpage-meet-author-numbers-section'>

@@ -7,11 +7,13 @@ import { Footer } from '../../common'
 import { StoreNavView } from '../../views'
 import { Auth } from '../../../services'
 import { Store, Common } from '../../../redux/actions'
+import { Numbers } from '../../../utils'
 import ShippingGiftAddressModal from './ShippingGiftAddressModal'
 
 const isUserLoggedIn = Auth.currentUserExists()
 const { showAlert } = Common
 const { getCartItems, setOrder } = Store
+const { parseFloatToUSD } = Numbers
 
 class CartPage extends PureComponent {
 
@@ -144,7 +146,7 @@ class CartPage extends PureComponent {
                     <div className='cartpage-subtotal-container'>
                       <span className='bookpage-subtotal-title'>Subtotal</span>
                       <h3 className='bookpage-subtotal-price'>
-                        ${cart ? cart.subtotalPrice.toFixed(2) : 0.00}
+                        {cart ? parseFloatToUSD(cart.subtotalPrice) : parseFloatToUSD(0)}
                       </h3>
                     </div>
                     <div className='cartpage-action-btns-container'>

@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { Follow, Store, Social, Common } from '../../../redux/actions'
+import { Numbers } from '../../../utils'
 import { Search } from '../../../services/api'
 import Rating from 'react-rating'
 import SuggestionList from '../../common/SuggestionList'
@@ -34,6 +35,7 @@ const GooglePlusIcon = generateShareIcon('google')
 const LinkedinIcon = generateShareIcon('linkedin')
 const mentionPattern = /\B@(?!Reader|Author|Publisher|Book)\w+\s?\w+/gi
 const { StoreSpinner } = Loaders
+const { parseFloatToUSD, parseIntToLocale } = Numbers
 
 class BookInfo extends PureComponent {
 
@@ -88,7 +90,7 @@ class BookInfo extends PureComponent {
   }
 
   calculateSaving = (shopPrice, listPrice) => {
-    return Math.round((((listPrice - shopPrice) * 100) / listPrice)).toFixed(2)
+    return parseFloatToUSD(Math.round((((listPrice - shopPrice) * 100) / listPrice)))
   }
 
   renderRating = (rating) => {
@@ -694,15 +696,15 @@ class BookInfo extends PureComponent {
             <h3 className='bookpage-book-details-price'>
               {
                 bookInfo.isOnSale ?
-                `$${bookInfo.onSalePrice.toFixed(2)}` :
-                `$${bookInfo.shopPrice.toFixed(2)}`
+                `${parseFloatToUSD(bookInfo.onSalePrice)}` :
+                `${parseFloatToUSD(bookInfo.shopPrice)}`
               }
               </h3>
             {bookInfo.isOnSale ?
               (
                 <div className='bookpage-book-details-saving-container'>
                   <span className='bookpage-book-details-saving-old-price'>
-                    {`$${bookInfo.shopPrice.toFixed(2)}`}
+                    {`${parseFloatToUSD(bookInfo.shopPrice)}`}
                   </span>
                       |
                       <span className='bookpage-book-details-saving-percentage'>
@@ -716,7 +718,7 @@ class BookInfo extends PureComponent {
               </span>
               <div className='bookpage-book-details-litcoin-price'>
                 <span className='bookpage-book-details-litcoin-price-text'>
-                  {bookInfo.listPrice ? `$${bookInfo.listPrice.toFixed(2).toLocaleString()}` : null}
+                  {bookInfo.listPrice ? `${parseFloatToUSD(bookInfo.listPrice)}` : null}
                 </span>
               </div>
             </div>
@@ -726,7 +728,7 @@ class BookInfo extends PureComponent {
               </span>
               <div className='bookpage-book-details-litcoin-price'>
                 <span className='bookpage-book-details-litcoin-price-text'>
-                  {bookInfo.priceInLitcoins ? bookInfo.priceInLitcoins.toLocaleString() : null}
+                  {bookInfo.priceInLitcoins ? parseIntToLocale(bookInfo.priceInLitcoins) : null}
                 </span>
                 <img className='litcoin-img' src='/image/litcoin.png' />
               </div>
@@ -803,9 +805,8 @@ class BookInfo extends PureComponent {
               </figure>
               <div className='bookpage-book-piggy-bank-text-container'>
                 Receive
-                {/*<b> ${bookInfo.dollarsSaving.toLocaleString()} </b>*/}
                 <span className='bookpage-book-piggy-bank-text-lit'>
-                  <b>{bookInfo.litcoinsSaving.toLocaleString()}</b>
+                  <b>{parseIntToLocale(bookInfo.litcoinsSaving)}</b>
                   <img className='litcoin-img' src='/image/litcoin.png' />
                 </span>
                 back when buying with us.

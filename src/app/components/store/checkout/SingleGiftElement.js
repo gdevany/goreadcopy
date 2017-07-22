@@ -1,10 +1,12 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Store } from '../../../redux/actions'
+import { Numbers } from '../../../utils'
 import { ShippingForm } from './'
 import R from 'ramda'
 
 const { addGiftData } = Store
+const { parseFloatToUSD } = Numbers
 
 class SingleGiftElement extends PureComponent {
   constructor(props) {
@@ -119,7 +121,7 @@ class SingleGiftElement extends PureComponent {
                 {gift.product.name}
               </span>
               <span className='cartpage-gift-address-product-price'>
-                Unit Price: ${gift.product.unitPrice.toFixed(2)}
+                Unit Price: {parseFloatToUSD(gift.product.unitPrice)}
               </span>
             </div>
           </div>
