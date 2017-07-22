@@ -164,19 +164,23 @@ class OrderSummary extends PureComponent {
             (
               <section className='checkoutpage-order-litcoins-to-earn-container'>
                 <span className='checkoutpage-order-litcoins-to-earn-main-text'>
-                  Yo'll earn <b> {parseFloatToUSD(orderSummary.dollarsToEarn)} </b>
+                  {'You\'ll earn '}
                   <span className='checkoutpage-order-litcoins-to-earn-litcoins-amount'>
-                    {
-                      orderSummary.litcoinsToEarn ?
-                        parseIntToLocale(orderSummary.litcoinsToEarn) :
-                        null
-                    }
+                    <b>
+                      {
+                        orderSummary.litcoinsToEarn ?
+                          parseIntToLocale(orderSummary.litcoinsToEarn) :
+                          null
+                      }
+                    </b>
                     <img
                       className='checkoutpage-order-litcoins-to-earn-litcoins-img'
                       src='/image/litcoin.png'
                     />
                   </span>
-                  with this purchase
+                  {'(equal to '}
+                  <b>{parseFloatToUSD(orderSummary.dollarsToEarn)}</b>
+                  {') with this purchase!'}
                 </span>
               </section>
             ) : null
