@@ -47,11 +47,6 @@ class OrderSummary extends PureComponent {
   render() {
     const { orderSummary } = this.props
     if (orderSummary) {
-      console.log(
-        typeof orderSummary.shippingCost,
-        orderSummary.shippingCost,
-        parseFloatToUSD(orderSummary.shippingCost)
-      )
       return (
         <section>
           <section className='checkoutpage-order-summary-container'>
@@ -77,6 +72,14 @@ class OrderSummary extends PureComponent {
               </div>
               <div className='checkoutpage-order-summary-list-single'>
                 <span className='checkoutpage-order-summary-list-description'>
+                  Shipping discount
+                </span>
+                <span className='checkoutpage-order-summary-list-price'>
+                  {`- ${parseFloatToUSD(orderSummary.shippingDiscount)}`}
+                </span>
+              </div>
+              <div className='checkoutpage-order-summary-list-single'>
+                <span className='checkoutpage-order-summary-list-description'>
                   Tax
                 </span>
                 <span className='checkoutpage-order-summary-list-price'>
@@ -93,7 +96,7 @@ class OrderSummary extends PureComponent {
                       }
                     </span>
                     <span className='checkoutpage-order-summary-list-price'>
-                      {`-${parseFloatToUSD(orderSummary.promotionCodes[0].discountAmount)}`}
+                      {`- ${parseFloatToUSD(orderSummary.promotionCodes[0].discountAmount)}`}
                     </span>
                   </div>
                 ) : null
