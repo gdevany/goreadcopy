@@ -19,7 +19,7 @@ const Privacy = () => {
             Information about your use of this website;
           </li>
           <li>
-            Information that you provide using for the purpose of
+            Information that you provide for the purpose of
             registering with the website;
           </li>
           <li>
