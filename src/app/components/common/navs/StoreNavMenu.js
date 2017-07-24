@@ -2,29 +2,29 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import Scroll from 'react-scroll'
-import { ExternalRoutes as routes } from '../../constants'
+import { ExternalRoutes as routes } from '../../../constants'
 import {
   Auth,
   CurrentReader,
   Store,
   Chat,
   Notifications as NotifActions
-} from '../../redux/actions'
-import { Auth as AuthService } from '../../services'
-import SignUpModal from './SignUpModal'
-import LogInModal from './SignInModal'
-import LitcoinStatus from './LitcoinStatus'
-import { Colors } from '../../constants/style'
+} from '../../../redux/actions'
+import { Auth as AuthService } from '../../../services'
+import SignUpModal from '../SignUpModal'
+import LogInModal from '../SignInModal'
+import LitcoinStatus from '../LitcoinStatus'
+import { Colors } from '../../../constants/style'
 import MenuIcon from 'material-ui/svg-icons/navigation/menu'
 import Badge from 'material-ui/Badge'
-import { Search } from '../../redux/actions'
+import { Search } from '../../../redux/actions'
 import { debounce } from 'lodash'
-import Book from '../store/common/Book'
+import Book from '../../store/common/Book'
 import { stack as MobileMenu, slide as CategoriesMenu } from 'react-burger-menu'
 import R from 'ramda'
-import { NotificationPopupWindow } from './notifications'
-import { LatestMessagePopupWindow } from './chat'
-import { RestrictedScrollContainer } from './scrollers'
+import { NotificationPopupWindow } from '../notifications'
+import { LatestMessagePopupWindow } from '../chat'
+import { RestrictedScrollContainer } from '../scrollers'
 
 const { mainSearch, updateSearch } = Search
 const { verifyUserToken, processUserLogout } = Auth
@@ -616,7 +616,8 @@ class BookStoreNavBar extends PureComponent {
         </figure>
         <p>
           Sorry, we didn't find anything with the term:
-          <b>{this.state.searchTerm}</b>.
+          &nbsp;
+          <b>{this.state.searchTerm}</b>
         </p>
       </div>
     )
@@ -714,14 +715,17 @@ class BookStoreNavBar extends PureComponent {
                     onClick={this.handleShowHideSearchResuls}
                     value={this.state.searchTerm}
                   />
-                  {isSearchResultsOpen && this.state.searchTerm.length > 3 ?
-                    (
-                      <img
-                        onClick={this.handleShowHideSearchResuls}
-                        src='/image/close.png'
-                        className='bookstore-close-results-icon'
-                      />
-                    ) : (
+                  {isSearchResultsOpen && this.state.searchTerm.length >= 1 ?
+                    searchResults ?
+                      (
+                        <img
+                          onClick={this.handleShowHideSearchResuls}
+                          src='/image/close.png'
+                          className='bookstore-close-results-icon'
+                        />
+                      ) : (
+                        <div className='loading-animation-store-search' />
+                      ) : (
                         <img src='/image/search-icon.svg' className='bookstore-search-icon'/>
                     )
                   }

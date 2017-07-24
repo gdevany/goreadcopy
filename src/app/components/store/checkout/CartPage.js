@@ -3,15 +3,17 @@ import { connect } from 'react-redux'
 import { browserHistory, Link } from 'react-router'
 import WishListBooks from '../common/wishListBooks'
 import CartElement from './cartElement'
-import { Footer, Alerts } from '../../common'
+import { Footer } from '../../common'
 import { StoreNavView } from '../../views'
 import { Auth } from '../../../services'
-import { Store } from '../../../redux/actions'
+import { Store, Common } from '../../../redux/actions'
+import { Numbers } from '../../../utils'
 import ShippingGiftAddressModal from './ShippingGiftAddressModal'
 
 const isUserLoggedIn = Auth.currentUserExists()
+const { showAlert } = Common
 const { getCartItems, setOrder } = Store
-const { SnackBarAlert } = Alerts
+const { parseFloatToUSD } = Numbers
 
 class CartPage extends PureComponent {
 
@@ -21,7 +23,6 @@ class CartPage extends PureComponent {
       cart: false,
       anyGift: false,
       modalOpen: false,
-      alert: null,
     }
     this.handleModalClose = this.handleModalClose.bind(this)
     this.handleCheckout = this.handleCheckout.bind(this)
@@ -106,14 +107,7 @@ class CartPage extends PureComponent {
   }
 
   createAlert = (message, type) => {
-    if (!this.state.alert) {
-      this.setState({
-        alert: {
-          message,
-          type,
-        }
-      })
-    }
+    this.props.showAlert({ message, type })
   }
 
   render() {
@@ -152,7 +146,7 @@ class CartPage extends PureComponent {
                     <div className='cartpage-subtotal-container'>
                       <span className='bookpage-subtotal-title'>Subtotal</span>
                       <h3 className='bookpage-subtotal-price'>
-                        ${cart ? cart.subtotalPrice.toFixed(2) : 0.00}
+                        {cart ? parseFloatToUSD(cart.subtotalPrice) : parseFloatToUSD(0)}
                       </h3>
                     </div>
                     <div className='cartpage-action-btns-container'>
@@ -180,15 +174,6 @@ class CartPage extends PureComponent {
           <div className='bookstore-footer-container'>
             <Footer />
           </div>
-          { this.state.alert ?
-            <SnackBarAlert
-              open={true}
-              message={this.state.alert.message}
-              autoHideDuration={3000}
-              onRequestClose={()=>{this.setState({ alert: null })}}
-              type={this.state.alert.type}
-            /> : null
-          }
         </div>
       </StoreNavView>
     )
@@ -203,4 +188,10 @@ const mapStateToProps = ({
   }
 }
 
-export default connect(mapStateToProps, { getCartItems, setOrder })(CartPage)
+const mapDispatchToProps = ({
+  getCartItems,
+  setOrder,
+  showAlert,
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartPage)

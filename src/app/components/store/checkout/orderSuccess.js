@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import Paper from 'material-ui/Paper'
-import { BookStoreNavBar, Footer } from '../../common'
+import { Footer } from '../../common'
+import { StoreNavView } from '../../views'
 import { SuccessBanner, OrderSummary } from './'
 
 const styles = {
@@ -10,6 +11,7 @@ const styles = {
     padding: '1em',
   },
 }
+
 class orderSuccess extends PureComponent {
 
   render() {
@@ -17,8 +19,7 @@ class orderSuccess extends PureComponent {
     if (order) {
       const { shippingAddress, billingAddress } = order
       return (
-        <div>
-          <BookStoreNavBar />
+        <StoreNavView>
           <SuccessBanner />
           <Paper zDepth={1} className='row' style={styles.orderPaper}>
             <div className='large-7 columns'>
@@ -80,7 +81,7 @@ class orderSuccess extends PureComponent {
           <div className='bookstore-footer-container'>
             <Footer />
           </div>
-        </div>
+        </StoreNavView>
       )
     }
     return null

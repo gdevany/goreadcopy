@@ -1,10 +1,12 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Store } from '../../../redux/actions'
+import { Numbers } from '../../../utils'
 import { debounce } from 'lodash'
 import GiftIcon from 'material-ui/svg-icons/action/card-giftcard'
 
 const { updateCartItems, removeItemFromCart, convertToGift } = Store
+const { parseFloatToUSD, parseIntToLocale } = Numbers
 
 class CartElement extends PureComponent {
 
@@ -114,10 +116,10 @@ class CartElement extends PureComponent {
             X
           </a>
           <div className='bookstore-book-price-info'>
-            <span className='bookpage-book-price'> $ {bookPrice.toFixed(2)}</span>
+            <span className='bookpage-book-price'>{parseFloatToUSD(bookPrice)}</span>
             <div className='bookpage-book-litcoin-price-container'>
               <span className='bookpage-book-litcoin-price'>
-                {litcoinsPrice ? litcoinsPrice.toLocaleString() : null}
+                {litcoinsPrice ? parseIntToLocale(litcoinsPrice) : null}
                 </span>
               {litcoinsPrice ?
                 <img className='bookpage-book-litcoin-img' src='/image/litcoin.png'/> : null

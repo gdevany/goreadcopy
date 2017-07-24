@@ -6,7 +6,13 @@ import reducers from './redux/reducers/rootReducer'
 import thunk from 'redux-thunk'
 
 const routeMiddleware = routerMiddleware(browserHistory)
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+let composeEnhancers
+
+if (process.env.NODE_ENV === 'production') {
+  composeEnhancers = compose
+} else {
+  composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+}
 const store = createStore(reducers, initialState,
   composeEnhancers(
     applyMiddleware(

@@ -6,6 +6,7 @@ import { StepOne, StepTwo, StepThree } from './orderSteps'
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
 import Snackbar from 'material-ui/Snackbar'
 import R from 'ramda'
+import CV from 'card-validator'
 
 const {
   setOrder, getOrder, getCurrentOrder, setUserAddress, setUserAddressAndShipping,
@@ -304,7 +305,100 @@ class CheckoutPage extends PureComponent {
         if (nameOnCard && cardNumber && cardCVC && fullExpDate) {
           if (!sameShippingAddress) {
             if (cityBilling && countryBilling && addressBilling &&
-              address2Billing && zipcodeBilling && stateBilling) {
+              address2Billing && zipcodeBilling) {
+              if (countryBilling === 'US' || countryBilling === 'CA') {
+                if (stateBilling !== '') {
+                  setUserAddress({
+                    city: cityBilling,
+                    name: `${firstNameBilling} ${lastNameBilling}`,
+                    country: countryBilling,
+                    address: addressBilling,
+                    address2: address2Billing,
+                    zipcode: zipcodeBilling,
+                    state: stateBilling,
+                    addressType: 'billing',
+                    sameBillingAndShipping: false,
+                  })
+                  this.passToReview()
+                } else {
+                  this.showAlert('Please Complete all Billing Fields', 'error')
+                }
+              } else {
+                setUserAddress({
+                  city: cityBilling,
+                  name: `${firstNameBilling} ${lastNameBilling}`,
+                  country: countryBilling,
+                  address: addressBilling,
+                  address2: address2Billing,
+                  zipcode: zipcodeBilling,
+                  state: stateBilling,
+                  addressType: 'billing',
+                  sameBillingAndShipping: false,
+                })
+                this.passToReview()
+              }
+            } else {
+              this.showAlert('Please Complete all Billing Fields', 'error')
+            }
+          } else {
+            const validatedNum = CV.number(cardNumber)
+            const validatedDate = CV.expirationDate(fullExpDate)
+            const validatedCvv = CV.cvv(cardCVC)
+            if (validatedNum.isValid && validatedDate.isValid && validatedCvv.isValid) {
+              setBilling({
+                cardExpYear: validatedDate.year,
+                shippingMethod: this.state.shippingMethod,
+                cardExpMonth: validatedDate.month,
+                paymentMethod: 'cc',
+                shippingAddressId: shippingId,
+                cardCvc: cardCVC,
+                cardNumber: cardNumber,
+                billingAddressId: billingId,
+                litcoins: this.state.useLitcoins,
+                avoidCheckCardData: this.state.cardStored,
+              })
+              this.passToReview()
+            } else {
+              if (!validatedNum.isValid) {
+                this.showAlert('Invalid Card Number', 'error')
+              }
+              if (!validatedDate.isValid) {
+                this.showAlert('Invalid Expiration Date', 'error')
+              }
+              if (!validatedCvv.isValid) {
+                this.showAlert('Invalid CVC', 'error')
+              }
+            }
+          }
+        } else this.showAlert('Please Complete all your card info', 'error')
+      } else if (cardStored) {
+        if (!sameShippingAddress) {
+          if (cityBilling && countryBilling && addressBilling &&
+            address2Billing && zipcodeBilling) {
+            if (countryBilling === 'US' || countryBilling === 'CA') {
+              if (stateBilling !== '') {
+                setUserAddress({
+                  city: cityBilling,
+                  name: `${firstNameBilling} ${lastNameBilling}`,
+                  country: countryBilling,
+                  address: addressBilling,
+                  address2: address2Billing,
+                  zipcode: zipcodeBilling,
+                  state: stateBilling,
+                  addressType: 'billing',
+                  sameBillingAndShipping: false,
+                })
+                setBilling({
+                  shippingMethod: shippingMethod,
+                  paymentMethod: 'cc',
+                  litcoins: useLitcoins,
+                  avoidCheckCardData: cardStored,
+                })
+                this.passToReview()
+              } else {
+                this.showAlert('Please Complete all Billing Fields', 'error')
+              }
+            } else {
               setUserAddress({
                 city: cityBilling,
                 name: `${firstNameBilling} ${lastNameBilling}`,
@@ -316,49 +410,14 @@ class CheckoutPage extends PureComponent {
                 addressType: 'billing',
                 sameBillingAndShipping: false,
               })
+              setBilling({
+                shippingMethod: shippingMethod,
+                paymentMethod: 'cc',
+                litcoins: useLitcoins,
+                avoidCheckCardData: cardStored,
+              })
               this.passToReview()
-            } else {
-              this.showAlert('Please Complete all Billing Fields', 'error')
             }
-          } else {
-            const expDate = this.splitCardExp(fullExpDate)
-            setBilling({
-              cardExpYear: expDate[1],
-              shippingMethod: this.state.shippingMethod,
-              cardExpMonth: expDate[0],
-              paymentMethod: 'cc',
-              shippingAddressId: shippingId,
-              cardCvc: cardCVC,
-              cardNumber: cardNumber,
-              billingAddressId: billingId,
-              litcoins: this.state.useLitcoins,
-              avoidCheckCardData: this.state.cardStored,
-            })
-            this.passToReview()
-          }
-        } else this.showAlert('Please Complete all your card info', 'error')
-      } else if (cardStored) {
-        if (!sameShippingAddress) {
-          if (cityBilling && countryBilling && addressBilling &&
-            address2Billing && zipcodeBilling && stateBilling) {
-            setUserAddress({
-              city: cityBilling,
-              name: `${firstNameBilling} ${lastNameBilling}`,
-              country: countryBilling,
-              address: addressBilling,
-              address2: address2Billing,
-              zipcode: zipcodeBilling,
-              state: stateBilling,
-              addressType: 'billing',
-              sameBillingAndShipping: false,
-            })
-            setBilling({
-              shippingMethod: shippingMethod,
-              paymentMethod: 'cc',
-              litcoins: useLitcoins,
-              avoidCheckCardData: cardStored,
-            })
-            this.passToReview()
           } else {
             this.showAlert('Please Complete all Billing Fields', 'error')
           }
@@ -374,37 +433,70 @@ class CheckoutPage extends PureComponent {
       } else if (nameOnCard && cardNumber && cardCVC && fullExpDate) {
         if (!sameShippingAddress) {
           if (cityBilling && countryBilling && addressBilling &&
-            address2Billing && zipcodeBilling && stateBilling) {
-            setUserAddress({
-              city: cityBilling,
-              name: `${firstNameBilling} ${lastNameBilling}`,
-              country: countryBilling,
-              address: addressBilling,
-              address2: address2Billing,
-              zipcode: zipcodeBilling,
-              state: stateBilling,
-              addressType: 'billing',
-              sameBillingAndShipping: false,
-            })
-            this.passToReview()
+            address2Billing && zipcodeBilling) {
+            if (countryBilling === 'US' || countryBilling === 'CA') {
+              if (stateBilling !== '') {
+                setUserAddress({
+                  city: cityBilling,
+                  name: `${firstNameBilling} ${lastNameBilling}`,
+                  country: countryBilling,
+                  address: addressBilling,
+                  address2: address2Billing,
+                  zipcode: zipcodeBilling,
+                  state: stateBilling,
+                  addressType: 'billing',
+                  sameBillingAndShipping: false,
+                })
+                this.passToReview()
+              } else {
+                this.showAlert('Please Complete all Billing Fields', 'error')
+              }
+            } else {
+              setUserAddress({
+                city: cityBilling,
+                name: `${firstNameBilling} ${lastNameBilling}`,
+                country: countryBilling,
+                address: addressBilling,
+                address2: address2Billing,
+                zipcode: zipcodeBilling,
+                state: stateBilling,
+                addressType: 'billing',
+                sameBillingAndShipping: false,
+              })
+              this.passToReview()
+            }
           } else {
             this.showAlert('Please Complete all Billing Fields', 'error')
           }
         } else {
-          const expDate = this.splitCardExp(fullExpDate)
-          setBilling({
-            cardExpYear: expDate[1],
-            shippingMethod: this.state.shippingMethod,
-            cardExpMonth: expDate[0],
-            paymentMethod: 'cc',
-            shippingAddressId: shippingId,
-            cardCvc: cardCVC,
-            cardNumber: cardNumber,
-            billingAddressId: billingId,
-            litcoins: this.state.useLitcoins,
-            avoidCheckCardData: this.state.cardStored,
-          })
-          this.passToReview()
+          const validatedNum = CV.number(cardNumber)
+          const validatedDate = CV.expirationDate(fullExpDate)
+          const validatedCvv = CV.cvv(cardCVC)
+          if (validatedNum.isValid && validatedDate.isValid && validatedCvv.isValid) {
+            setBilling({
+              cardExpYear: validatedDate.year,
+              shippingMethod: this.state.shippingMethod,
+              cardExpMonth: validatedDate.month,
+              paymentMethod: 'cc',
+              shippingAddressId: shippingId,
+              cardCvc: cardCVC,
+              cardNumber: cardNumber,
+              billingAddressId: billingId,
+              litcoins: this.state.useLitcoins,
+              avoidCheckCardData: this.state.cardStored,
+            })
+            this.passToReview()
+          } else {
+            if (!validatedNum.isValid) {
+              this.showAlert('Invalid Card Number', 'error')
+            }
+            if (!validatedDate.isValid) {
+              this.showAlert('Invalid Expiration Date', 'error')
+            }
+            if (!validatedCvv.isValid) {
+              this.showAlert('Invalid CVC', 'error')
+            }
+          }
         }
       } else this.showAlert('Please Complete all your card info', 'error')
     }
@@ -514,7 +606,7 @@ class CheckoutPage extends PureComponent {
         }
         <header className='chekoutpage-header slide-down'>
           <figure className='checkoutpage-header-logo-figure'>
-            <Link to='/'>
+            <Link to='/browse'>
               <img src='/image/book-store-logo-mobile.png'/>
             </Link>
           </figure>
@@ -609,6 +701,7 @@ class CheckoutPage extends PureComponent {
                         cardInfo={cardInfo}
                         billingInfo={billingInfo}
                         onChange={this.handleFormsChanges}
+                        selectChange={this.handleSelectChange}
                         isSameShipping={this.state.sameShippingAddress}
                         handleCheckSame={this.handleCheckSame}
                         handleUseLitcoins={this.handleUseLitcoins}

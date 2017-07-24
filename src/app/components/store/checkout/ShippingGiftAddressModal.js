@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Dialog } from 'material-ui'
-import SingleGiftElement from './singleGiftElement'
-import { Store } from '../../../redux/actions'
+import SingleGiftElement from './SingleGiftElement'
+import { Store, Common } from '../../../redux/actions'
 import { ShippingForm } from './'
 import R from 'ramda'
 
@@ -22,6 +22,7 @@ const styles = {
 }
 
 const { addGiftData } = Store
+const { showAlert } = Common
 
 class ShippingGiftAddressModal extends PureComponent {
 
@@ -44,6 +45,45 @@ class ShippingGiftAddressModal extends PureComponent {
     this.handleSelectChange = this.handleSelectChange.bind(this)
     this.handleSamePersonClick = this.handleSamePersonClick.bind(this)
     this.handleShippingSubmit = this.handleShippingSubmit.bind(this)
+  }
+
+  componentWillMount() {
+    const { cartElements } = this.props
+    const sameGifts = this.checkSameAddressForGiftList(cartElements)
+    if (sameGifts.isTrue) {
+      this.setState({
+        sendToSamePerson: true,
+        firstNameShipping: sameGifts.addressInfo.name,
+        //lastNameShipping: sameGifts.addressInfo.,
+        cityShipping: sameGifts.addressInfo.city,
+        countryShipping: sameGifts.addressInfo.country,
+        addressShipping: sameGifts.addressInfo.address,
+        address2Shipping: sameGifts.addressInfo.address2,
+        zipcodeShipping: sameGifts.addressInfo.zipcode,
+        //phoneShipping: sameGifts.addressInfo.,
+        stateShipping: sameGifts.addressInfo.state,
+        giftMessage: sameGifts.message,
+      })
+    }
+  }
+
+  checkSameAddressForGiftList = (itemList) => {
+    const giftList = itemList.length > 0 ?
+      R.filter(item => item.isGiftItem)(itemList) :
+      null
+    if (giftList && giftList.length > 0) {
+      const shippingIdList = R.compose(
+        R.pluck('id'),
+        R.pluck('shippingAddress'),
+        R.pluck('giftcartitemdata'),
+      )(giftList)
+      return {
+        isTrue: R.all(R.equals(R.head(shippingIdList)), shippingIdList),
+        addressInfo: R.head(giftList).giftcartitemdata.shippingAddress,
+        message: R.head(giftList).giftcartitemdata.giftMessage,
+      }
+    }
+    return { isTrue: false }
   }
 
   handleSamePersonClick = (event) => {
@@ -73,35 +113,57 @@ class ShippingGiftAddressModal extends PureComponent {
     return giftIds
   }
 
+  sendShippingInfo() {
+    const { addGiftData } = this.props
+    addGiftData({
+      cartItems: this.giftIdsHandler(),
+      firstName: this.state.firstNameShipping,
+      lastName: this.state.lastNameShipping,
+      city: this.state.cityShipping,
+      country: this.state.countryShipping,
+      address: this.state.addressShipping,
+      address2: this.state.address2Shipping,
+      zipcode: this.state.zipcodeShipping,
+      phone: this.state.phoneShipping,
+      state: this.state.stateShipping,
+      giftMessage: this.state.giftMessage,
+    })
+    this.props.handleClose()
+  }
+
   handleShippingSubmit = (event) => {
     event.preventDefault()
-    const { addGiftData } = this.props
     const {
       firstNameShipping,
       lastNameShipping,
       cityShipping,
       countryShipping,
       addressShipping,
-      address2Shipping,
       zipcodeShipping,
-      phoneShipping,
       stateShipping,
       giftMessage,
     } = this.state
-    addGiftData({
-      cartItems: this.giftIdsHandler(),
-      firstName: firstNameShipping,
-      lastName: lastNameShipping,
-      city: cityShipping,
-      country: countryShipping,
-      address: addressShipping,
-      address2: address2Shipping,
-      zipcode: zipcodeShipping,
-      phone: phoneShipping,
-      state: stateShipping,
-      giftMessage
-    })
-    this.props.handleClose()
+    if (firstNameShipping !== '' && lastNameShipping !== '' && cityShipping !== '' &&
+      countryShipping !== '' && addressShipping !== '' && zipcodeShipping !== '' &&
+      giftMessage !== '') {
+      if (countryShipping === 'US' || countryShipping === 'CA') {
+        if (stateShipping !== '') {
+          sendShippingInfo()
+        } else {
+          this.props.showAlert({
+            message: 'Please add a State',
+            type: 'error'
+          })
+        }
+      } else {
+        sendShippingInfo()
+      }
+    } else {
+      this.props.showAlert({
+        message: 'Please complete all the fields',
+        type: 'error'
+      })
+    }
   }
 
   renderGiftCartItems = () => {
@@ -206,4 +268,4 @@ class ShippingGiftAddressModal extends PureComponent {
   }
 }
 
-export default connect(null, { addGiftData })(ShippingGiftAddressModal)
+export default connect(null, { addGiftData, showAlert })(ShippingGiftAddressModal)

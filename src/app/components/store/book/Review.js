@@ -107,7 +107,7 @@ class Review extends PureComponent {
       })
     } else {
       if (!calledCommentEndpoint) {
-        if (rateInfo.comments.count > 0) {
+        if (rateInfo.comments && rateInfo.comments.count > 0) {
           getComments(rateInfo.id)
           this.setState({ calledCommentEndpoint: true })
         }

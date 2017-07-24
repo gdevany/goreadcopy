@@ -17,7 +17,21 @@ export function getStates(id) {
   }
 }
 
+export function showAlert(payload) {
+  return dispatch => {
+    return Promise.resolve(dispatch({ type: A.SHOW_ALERT_BAR, payload }))
+  }
+}
+
+export function clearAlert() {
+  return dispatch => {
+    return Promise.resolve(dispatch({ type: A.CLEAR_ALERT_BAR }))
+  }
+}
+
 export default {
+  clearAlert,
   getCountries,
   getStates,
+  showAlert,
 }

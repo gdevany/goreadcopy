@@ -1,10 +1,14 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import Review from './Review'
-import { Rates } from '../../../redux/actions'
+import { Rates, Common } from '../../../redux/actions'
 import { RegisterSignInModal } from '../../common'
 
 const { getRates, postRateAndReview } = Rates
+const { showAlert } = Common
+
+const minLimit = 50
+const maxLimit = 5000
 
 class ReviewsContainer extends PureComponent {
 
@@ -71,22 +75,38 @@ class ReviewsContainer extends PureComponent {
   }
 
   handleReviewPost = () => {
-    const { bookInfo, postRateAndReview } = this.props
+    const { bookInfo: { id } } = this.props
     const { reviewBody, starClicked } = this.state
-    let rateData = {}
-    if (starClicked > 0 && reviewBody !== '') {
-      rateData = {
-        rate: starClicked,
-        id: bookInfo.id,
-        body: reviewBody,
-        book: bookInfo.id
-      }
-      postRateAndReview('book', rateData)
+
+    if (!starClicked) {
+      this.props.showAlert({ type: 'error', message: 'Please, select a rate value!' })
+      return false
     }
-    this.setState({
-      reviewBody: '',
-      starClicked: 0
+
+    if (reviewBody && reviewBody.length < minLimit) {
+      this.props.showAlert({
+        type: 'error',
+        message: `Please, write at least ${minLimit} characters!`
+      })
+      return false
+    }
+
+    this.props.postRateAndReview('book', {
+      rate: starClicked,
+      id,
+      body: reviewBody,
+      book: id,
     })
+      .then(()=>{
+        this.props.showAlert({
+          type: 'success',
+          message: 'Your review has been posted succesfully!'
+        })
+        this.setState({ reviewBody: '', starClicked: 0 })
+      })
+      .catch(()=>{this.setState({ reviewBody: '', starClicked: 0 })})
+
+    return true
   }
 
   render() {
@@ -162,23 +182,23 @@ class ReviewsContainer extends PureComponent {
                     className='bookpage-review-post-textarea'
                     placeholder='Write your review here'
                     value={reviewBody}
+                    maxLength={maxLimit}
                   />
-                  {starClicked > 0 && reviewBody !== '' ?
-                    (
-                      <a
-                        onClick={this.handleReviewPost}
-                        className='bookpage-review-post-anchor'
-                      >
-                        Post
-                      </a>
-                    ) : (
-                      <a
-                        className='bookpage-review-post-anchor-disabled'
-                      >
-                        Post
-                      </a>
-                    )
-                  }
+                  <p
+                    className={reviewBody.length >= minLimit ?
+                      'bookpage-review-post-limit-info complete' :
+                      'bookpage-review-post-limit-info'
+                    }
+                  >
+                    {`Minimum ${minLimit} characters. Write a review and gain 50 litcoins: `}
+                    <span>{reviewBody.length}</span>
+                  </p>
+                  <a
+                    onClick={this.handleReviewPost}
+                    className='bookpage-review-post-anchor'
+                  >
+                    Post
+                  </a>
                 </div>
               </div>
             ) : (
@@ -215,6 +235,7 @@ const mapStateToProps = (state) => {
 const mapDistpatchToProps = {
   getRates,
   postRateAndReview,
+  showAlert,
 }
 
 export default connect(mapStateToProps, mapDistpatchToProps)(ReviewsContainer)

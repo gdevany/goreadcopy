@@ -2,8 +2,10 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { Store } from '../../../redux/actions'
+import { Numbers } from '../../../utils'
 
 const { getCartItems } = Store
+const { parseFloatToUSD, parseIntToLocale } = Numbers
 
 class CartItems extends PureComponent {
   constructor(props) {
@@ -56,11 +58,11 @@ class CartItems extends PureComponent {
                 Hardcover
               </span> */}
               <span className='checkoutpage-cart-single-element-price'>
-                ${elem.product.unitPrice.toLocaleString()}
+                { parseFloatToUSD(elem.product.unitPrice) }
               </span>
               <div className='checkoutpage-cart-single-element-litcoins'>
                 <span className='checkoutpage-cart-single-element-litcoins-count'>
-                  {elem.product.litcoinsPrice.toLocaleString()}
+                  { parseIntToLocale(elem.product.litcoinsPrice) }
                 </span>
                 <img
                   className='checkoutpage-cart-single-element-litcoins-img'

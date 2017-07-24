@@ -1,19 +1,22 @@
 import React, { PureComponent } from 'react'
 import {
   Auth as AuthComponents,
-  BookStoreNavBar,
+  Alerts,
+  Navs,
   Chat,
   SocketHandler
 } from '../common'
 
+const { SnackBarAlert } = Alerts
 const { ChatTabWrapper } = Chat
 const { AuthWrapper, AuthView } = AuthComponents
+const { StoreNavMenu } = Navs
 
 class StoreNavView extends PureComponent {
   render() {
     return (
       <AuthWrapper>
-        <BookStoreNavBar />
+        <StoreNavMenu />
         {this.props.children}
         <AuthView>
           <ChatTabWrapper />
@@ -21,6 +24,7 @@ class StoreNavView extends PureComponent {
         <AuthView>
           <SocketHandler />
         </AuthView>
+        <SnackBarAlert />
       </AuthWrapper>
     )
   }

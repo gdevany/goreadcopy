@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Store } from '../../../redux/actions'
+import { Numbers } from '../../../utils'
 
 const { setPromoCode, cleanPromoCode } = Store
+const { parseFloatToUSD, parseIntToLocale } = Numbers
 
 class OrderSummary extends PureComponent {
   constructor(props) {
@@ -57,7 +59,7 @@ class OrderSummary extends PureComponent {
                   Subtotal
                 </span>
                 <span className='checkoutpage-order-summary-list-price'>
-                  ${orderSummary.orderSubtotal}
+                  {parseFloatToUSD(orderSummary.orderSubtotal)}
                 </span>
               </div>
               <div className='checkoutpage-order-summary-list-single'>
@@ -65,7 +67,15 @@ class OrderSummary extends PureComponent {
                   Shipping
                 </span>
                 <span className='checkoutpage-order-summary-list-price'>
-                  ${orderSummary.shippingCost.toLocaleString()}
+                  {parseFloatToUSD(orderSummary.shippingCost)}
+                </span>
+              </div>
+              <div className='checkoutpage-order-summary-list-single'>
+                <span className='checkoutpage-order-summary-list-description'>
+                  Shipping discount
+                </span>
+                <span className='checkoutpage-order-summary-list-price'>
+                  {`- ${parseFloatToUSD(orderSummary.shippingDiscount)}`}
                 </span>
               </div>
               <div className='checkoutpage-order-summary-list-single'>
@@ -73,7 +83,7 @@ class OrderSummary extends PureComponent {
                   Tax
                 </span>
                 <span className='checkoutpage-order-summary-list-price'>
-                  ${orderSummary.taxes.toLocaleString()}
+                  {parseFloatToUSD(orderSummary.taxes)}
                 </span>
               </div>
               {orderSummary.promotionCodes.length ?
@@ -86,7 +96,7 @@ class OrderSummary extends PureComponent {
                       }
                     </span>
                     <span className='checkoutpage-order-summary-list-price'>
-                      {`-$${orderSummary.promotionCodes[0].discountAmount.toLocaleString()}`}
+                      {`- ${parseFloatToUSD(orderSummary.promotionCodes[0].discountAmount)}`}
                     </span>
                   </div>
                 ) : null
@@ -96,13 +106,13 @@ class OrderSummary extends PureComponent {
                   Litcoins
                   <div className='has-litcoins-container'>
                     <span className='has-litcoins-ammount'>
-                      ({orderSummary.litcoinsRedeemed.toLocaleString()})
+                      ({parseIntToLocale(orderSummary.litcoinsRedeemed)})
                     </span>
                     <img className='has-litcoins-img' src='/image/litcoin.png'/>
                   </div>
                 </span>
                 <span className='checkoutpage-order-summary-list-price'>
-                  - ${orderSummary.dollarsRedeemed.toLocaleString()}
+                  - {parseFloatToUSD(orderSummary.dollarsRedeemed)}
                 </span>
               </div>
             </div>
@@ -112,7 +122,7 @@ class OrderSummary extends PureComponent {
                 Total
               </span>
               <span className='checkoutpage-order-summary-total-count'>
-                ${orderSummary.orderTotal}
+                {parseFloatToUSD(orderSummary.orderTotal)}
               </span>
             </div>
             {orderSummary.status !== 40 ?
@@ -154,18 +164,23 @@ class OrderSummary extends PureComponent {
             (
               <section className='checkoutpage-order-litcoins-to-earn-container'>
                 <span className='checkoutpage-order-litcoins-to-earn-main-text'>
-                  Yo'll earn <b> ${orderSummary.dollarsToEarn} </b>
+                  {'You\'ll earn '}
                   <span className='checkoutpage-order-litcoins-to-earn-litcoins-amount'>
-                    ({orderSummary.litcoinsToEarn ?
-                      orderSummary.litcoinsToEarn.toLocaleString() : null
-                    }
-                      <img
-                        className='checkoutpage-order-litcoins-to-earn-litcoins-img'
-                        src='/image/litcoin.png'
-                      />
-                    )
+                    <b>
+                      {
+                        orderSummary.litcoinsToEarn ?
+                          parseIntToLocale(orderSummary.litcoinsToEarn) :
+                          null
+                      }
+                    </b>
+                    <img
+                      className='checkoutpage-order-litcoins-to-earn-litcoins-img'
+                      src='/image/litcoin.png'
+                    />
                   </span>
-                  with this purchase
+                  {'(equal to '}
+                  <b>{parseFloatToUSD(orderSummary.dollarsToEarn)}</b>
+                  {') with this purchase!'}
                 </span>
               </section>
             ) : null

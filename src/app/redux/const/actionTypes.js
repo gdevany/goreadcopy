@@ -136,6 +136,8 @@ export const NOTIFICATIONS = {
 export const COMMON = {
   GET_CONTRIES: 'GET_CONTRIES',
   GET_STATES: 'GET_STATES',
+  SHOW_ALERT_BAR: 'SHOW_ALERT_BAR',
+  CLEAR_ALERT_BAR: 'CLEAR_ALERT_BAR',
 }
 
 export default {

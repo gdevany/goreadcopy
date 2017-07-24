@@ -1,5 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Numbers } from '../../../utils'
+
+const { parseIntToLocale } = Numbers
 
 const CategoriesHero = ({ isSubCategory, subCategoryObject, category }) => {
   return (
@@ -44,8 +47,8 @@ const CategoriesHero = ({ isSubCategory, subCategoryObject, category }) => {
               </span>
               <span className='categorypage-hero-bottom-right-data-number'>
                 {isSubCategory ?
-                  subCategoryObject.favoritedCount.toLocaleString() :
-                  category.favoritedCount.toLocaleString()
+                  parseIntToLocale(subCategoryObject.favoritedCount) :
+                  parseIntToLocale(category.favoritedCount)
                 }
               </span>
             </div>
@@ -55,8 +58,8 @@ const CategoriesHero = ({ isSubCategory, subCategoryObject, category }) => {
               </span>
               <span className='categorypage-hero-bottom-right-data-number'>
                 {isSubCategory ?
-                  subCategoryObject.booksCount.toLocaleString() :
-                  category.booksCount.toLocaleString()
+                  parseIntToLocale(subCategoryObject.booksCount) :
+                  parseIntToLocale(category.booksCount)
                 }
               </span>
             </div>
