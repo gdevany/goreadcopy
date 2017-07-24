@@ -37,8 +37,11 @@ class Orders extends PureComponent {
     const { userOrders } = this.props
     return (
       <BaseNavView>
-        <div className='row center-text read-feed'>
-          <OrdersTable orders={userOrders} />
+        <div className='row orders-page'>
+          <h3> Past Orders </h3>
+          <div className='center-text'>
+            <OrdersTable orders={userOrders} />
+          </div>
         </div>
       </BaseNavView>
     )
