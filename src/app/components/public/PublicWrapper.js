@@ -21,6 +21,7 @@ class PublicWrapper extends Component {
     const { context } = this.props.route
     return (
       <div>
+        {/* TODO:  BaseNav Component to be added on merge on July 31th */}
         <NavMenu isUserLoggedIn={isUserLoggedIn} />
         <div className='row center-text public-container'>
           <div className='small-3 columns'>
