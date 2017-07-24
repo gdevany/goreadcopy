@@ -1,0 +1,56 @@
+.orders-page {
+    padding-top: 80px;
+    padding-bottom: 50px;
+    @media all and (min-width: 1200px){
+      padding-top: 84px;
+    }
+    .orders-table {
+        margin-top: 20px;
+        border: none !important;
+        
+        .rt-thead {
+            .rt-tr {
+                .rt-resizable-header-content {
+                    font-weight: bold;
+                }
+                .rt-th {
+                    border: none;
+                }
+            }
+        }
+        .rt-tbody {
+            padding-top: 20px;
+            padding-bottom: 20px;
+            .rt-tr-group {
+                .rt-tr {
+                    .rt-td {
+                        border: none;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+        .pagination-bottom {
+            .-pagination {
+                justify-content: flex-end;
+                .-previous, .-next {
+                    .-btn {
+                       color: black;
+                       background: none; 
+                    }
+                    .-btn:hover {
+                       background-color: none; 
+                       color: black;
+                    }
+                    .-btn:not([disabled]):hover {
+                       text-decoration: underline;
+                    }
+                    flex: 0.1;
+                }
+                .-center {
+                    flex: 0.1;
+                }
+            }
+        }
+    }
+}

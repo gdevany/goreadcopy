@@ -245,10 +245,11 @@ export function setOrder(params) {
   }
 }
 
-export function getOrder(params) {
+export function getOrders(params) {
   return dispatch => {
-    Store.getOrder(params)
-      .catch(err => console.error(`Error in getOrder ${err}`))
+    Store.getOrders(params)
+      .then(res => dispatch({ type: A.GET_ORDERS, payload: res.data }))
+      .catch(err => console.error(`Error in getOrders ${err}`))
   }
 }
 
@@ -365,7 +366,7 @@ export default {
   setUserAddress,
   setUserAddressAndShipping,
   setOrder,
-  getOrder,
+  getOrders,
   getCurrentOrder,
   getShippingMethods,
   setBilling,

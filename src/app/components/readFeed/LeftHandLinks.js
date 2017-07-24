@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { ExternalRoutes as routes } from '../../constants'
+import { Link } from 'react-router'
 import R from 'ramda'
 import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import ArrowUpIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
@@ -25,25 +26,35 @@ class LeftHandLinks extends PureComponent {
 
   handleMapMenuItems = () => {
     const {
-      myOrders,
       news,
       articles,
     } = routes
 
     const leftMenuRoutes = [
-      ['My Orders', myOrders],
+      ['My Orders', '/store/orders', true],
       ['News', news],
       ['Articles', articles],
     ]
 
-    const leftMenuItem = ([title, routeFn], index) => (
+    const leftMenuItem = ([title, routeFn, routeType], index) => (
       <li className='left-hand-menu-item' key={title + index}>
-        <a
-          className='left-hand-menu-anchor'
-          href={routeFn()}
-        >
-          {title}
-        </a>
+        { routeType ?
+          (
+            <Link
+              className='left-hand-menu-anchor'
+              to={routeFn}
+            >
+              {title}
+            </Link>
+          ) : (
+            <a
+              className='left-hand-menu-anchor'
+              href={routeFn()}
+            >
+              {title}
+            </a>
+          )
+        }
       </li>
     )
     return R.map(leftMenuItem, leftMenuRoutes)

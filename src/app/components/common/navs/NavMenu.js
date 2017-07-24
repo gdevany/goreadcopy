@@ -515,7 +515,6 @@ class NavMenu extends PureComponent {
     const anchorClass = 'links-anchor'
     const {
       myBookClubs,
-      myOrders,
       news,
       articles,
       goReadBooks,
@@ -529,7 +528,7 @@ class NavMenu extends PureComponent {
     if (type === 'Explore') {
       nonMenuRoutes = [
         ['My Book Clubs', myBookClubs],
-        ['My Orders', myOrders],
+        ['My Orders', '/store/orders', true],
         ['News', news],
         ['Articles', articles],
         ['GoRead Books', goReadBooks],

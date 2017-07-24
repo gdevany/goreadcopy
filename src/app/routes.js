@@ -12,6 +12,7 @@ import {
   CartPage,
   CheckoutPage,
   orderSuccess,
+  Orders,
 } from './components/store'
 import { ReferralHome } from './components/referral'
 import { Settings } from './components/settings'
@@ -30,6 +31,7 @@ const Routes = (
     <Route path='/shop/cart' component={CartPage} />
     <Route path='/shop/checkout' component={CheckoutPage} />
     <Route path='/shop/success' component={orderSuccess} />
+    <Route path='/store/orders' component={Orders} />
     <Route path='/signup' component={SignUpFlow} />
     <Route path='/redirect' component={IncomingRedirect} />
   </Route>
