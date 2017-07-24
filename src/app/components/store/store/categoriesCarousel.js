@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import Slider from 'react-slick'
 
@@ -52,13 +53,13 @@ class CategoriesCarousel extends PureComponent {
     const { categories } = this.state
     return categories.map((category, index) => {
       return (
-        <a key={category.id} href={`/categories/${category.slug}`}>
+        <Link key={category.id} to={`/categories/${category.slug}`}>
           <div className='category-on-carousel-square'>
             <span className='category-on-carousel-name'>
                 {category.name}
             </span>
           </div>
-        </a>
+        </Link>
       )
     })
   }

@@ -530,8 +530,8 @@ class BookStoreNavBar extends PureComponent {
           key={`${index}_${category.id}`}
           className='categories-list-item'
         >
-          <a
-            href={`/categories/${category.slug}`}
+          <Link
+            to={`/categories/${category.slug}`}
             className='categories-list-anchor'
           >
               <span className='categories-list-name'>
@@ -540,7 +540,7 @@ class BookStoreNavBar extends PureComponent {
             <span className='categories-list-icon'>
                 &gt;
               </span>
-          </a>
+          </Link>
         </li>
       )
     })
@@ -554,8 +554,8 @@ class BookStoreNavBar extends PureComponent {
           key={`${index}_${category.id}`}
           className='categories-list-item'
         >
-          <a
-            href={`/categories/${category.slug}`}
+          <Link
+            to={`/categories/${category.slug}`}
             className='categories-list-anchor'
           >
               <span className='categories-list-name'>
@@ -564,7 +564,7 @@ class BookStoreNavBar extends PureComponent {
             <span className='categories-list-icon'>
                 &gt;
               </span>
-          </a>
+          </Link>
         </li>
       )
     })
