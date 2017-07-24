@@ -606,7 +606,7 @@ class CheckoutPage extends PureComponent {
         }
         <header className='chekoutpage-header slide-down'>
           <figure className='checkoutpage-header-logo-figure'>
-            <Link to='/'>
+            <Link to='/browse'>
               <img src='/image/book-store-logo-mobile.png'/>
             </Link>
           </figure>
