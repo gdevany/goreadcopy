@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { Link } from 'react-router'
 import { ExternalRoutes as routes } from '../../constants'
 import AuthedRedirect from './AuthedRedirect'
 import SignUpModal from './SignUpModal'
@@ -36,8 +37,6 @@ class Footer extends PureComponent {
   render() {
     const {
       support,
-      privacy,
-      terms,
       authors,
       publishers,
       advertisers,
@@ -120,21 +119,13 @@ class Footer extends PureComponent {
               </AuthedRedirect.Link>
             </li>
             <li>
-              <AuthedRedirect.Link
-                href={privacy()}
-              >
-                Privacy
-              </AuthedRedirect.Link>
+              <Link to='/privacy'>Privacy</Link>
             </li>
             <li>
-              <AuthedRedirect.Link
-                href={terms()}
-              >
-                Terms
-              </AuthedRedirect.Link>
+              <Link to='/terms'>Terms</Link>
             </li>
             <li>
-              <a href='/antispam'>Antispam</a>
+              <Link to='/antispam'>Antispam</Link>
             </li>
           </ul>
         </div>

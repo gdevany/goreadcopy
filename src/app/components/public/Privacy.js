@@ -13,7 +13,7 @@ const Privacy = () => {
         Personal information collection
       </h5>
       <p>
-        GoRead may collect and use the following kindsof personal information:
+        GoRead may collect and use the following kinds of personal information:
         <ul>
           <li>
             Information about your use of this website;
