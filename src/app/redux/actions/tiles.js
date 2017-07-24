@@ -1,6 +1,7 @@
-import { CURRENT_READER as A, READERS as B } from '../const/actionTypes'
+import { CURRENT_READER as A, READERS as B, default as C } from '../const/actionTypes'
 import CurrentReaderTiles from '../../services/api/currentReader/tiles'
 import ReaderTiles from '../../services/api/tiles'
+import SidebarAds from '../../services/api/ads'
 import R from 'ramda'
 
 export function getReadFeedTiles({ adsense, lastAd, timestamp }) {
@@ -10,6 +11,16 @@ export function getReadFeedTiles({ adsense, lastAd, timestamp }) {
       .then(res => dispatch({ type: A.GET_READFEED_TILES, payload: res.data.results }))
       .then(() => dispatch({ type: A.LOCK_READFEED, payload: false }))
       .catch(err => console.error(`Error in getReadFeedTiles: ${err}`))
+    SidebarAds.getSidebarAds()
+    .then(res => { dispatch(getSidebarSuccess(res.data))})
+    .catch(err => console.error(`Error on Get Sidebar ${err}`))
+  }
+}
+
+export function getSidebarSuccess(payload) {
+  return {
+    type: C.GET_SIDEBAR_ADS,
+    payload,
   }
 }
 
@@ -204,4 +215,5 @@ export default {
   prependProfileTile,
   prependReadFeedTile,
   emptyTiles,
+  getSidebarSuccess,
 }

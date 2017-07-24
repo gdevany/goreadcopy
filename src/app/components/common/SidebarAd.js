@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react'
 
 class SidebarAd extends PureComponent {
   render() {
-    const { content, isProfileAd } = this.props
+    const { content, isProfileAd, adClass } = this.props
     return (
-      <div className={isProfileAd ?
+      <div style={adClass} className={isProfileAd ?
         'base-tile-sidebar-container' : 'base-tile-sidebar-container box'}
       >
         <div className='adv-sidebar-container'>

@@ -10,6 +10,7 @@ const style = {
     position: 'fixed',
     background: 'white',
     width: 270,
+    top: 68,
   }
 }
 
@@ -40,9 +41,17 @@ class SidebarAdWrapper extends PureComponent {
 
   mapSidebarAds = () => {
     const { sidebarAds } = this.props
+    const { isProfileAd, scrollY } = this.state
     if (sidebarAds.results) {
       return sidebarAds.results.map((ad, idx) => {
-        return <SidebarAd key={idx} content={ad} isProfileAd={this.state.isProfileAd}/>
+        return (
+        <SidebarAd
+          key={idx}
+          content={ad}
+          isProfileAd={isProfileAd}
+          adClass={idx > 0 ? scrollY : null}
+        />
+        )
       })
     }
     return null
@@ -54,10 +63,13 @@ class SidebarAdWrapper extends PureComponent {
     const bookRecomOffset = document.getElementById('book-recommendations').clientHeight
     const authorRecomOffset = document.getElementById('author-recommendations').clientHeight
     const bookclubRecomOffset = document.getElementById('bookclub-recommendations').clientHeight
-    const sidebarOffset = navbarOffset + bookRecomOffset + authorRecomOffset + bookclubRecomOffset
+    const firstadOffset = document.getElementsByClassName('sidebarAd')[0].firstChild.clientHeight
+    const sidebarOffset = navbarOffset +
+                          bookRecomOffset +
+                          authorRecomOffset +
+                          bookclubRecomOffset +
+                          firstadOffset
     if (content === null) {
-      //console.log('Sidebar Height:')
-      //console.log(sidebarOffset)
       this.setState({
         scrollHeight: sidebarOffset,
         scrollY: content,
@@ -68,8 +80,6 @@ class SidebarAdWrapper extends PureComponent {
   }
 
   render() {
-    console.log('Scroll Render Position:')
-    console.log(window.scrollY)
     return (
       <Scroller
         onScroll={this.getScrollPosition}
@@ -78,11 +88,7 @@ class SidebarAdWrapper extends PureComponent {
         enabled
         scrollParent={window}
       >
-        <div
-          className='sidebarAd'
-          style={this.state.scrollY}
-          ref='sidebarScroll'
-        >
+        <div className='sidebarAd'>
           {this.mapSidebarAds()}
         </div>
       </Scroller>
