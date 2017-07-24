@@ -53,6 +53,11 @@ class PublicWrapper extends Component {
                 </Link>
               </li>
             </ul>
+            <div className='copyright-container'>
+              <span className='copyright-element'>
+                GoRead (copyright) 2017
+              </span>
+            </div>
           </div>
           <div className='small-6 columns public-main-row'>
             {context === 'antispam' ?

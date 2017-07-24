@@ -390,6 +390,14 @@ input[type="checkbox"]:focus{
   margin-right: .5em;
 }
 
+.copyright-container{
+  text-align: left;
+  .copyright-element{
+    font-size: 13px;
+    color: #979797;
+  }
+}
+
 .video-player-landing {
   padding: 10px;
   background-color: $white;

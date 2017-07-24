@@ -52,6 +52,11 @@ class LeftContainer extends PureComponent {
             </Link>
           </li>
         </ul>
+        <div className='copyright-container'>
+          <span className='copyright-element'>
+            GoRead (copyright) 2017
+          </span>
+        </div>
       </div>
     )
   }
