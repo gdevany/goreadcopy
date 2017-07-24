@@ -99,6 +99,9 @@ input[type="checkbox"]:focus{
     .left-hand-menu-anchor{
       font-size: 14px;
       color: #979797;
+      &:hover{
+        color: rgba(10, 10, 10, 0.79);
+      }
     }
   }
 }
