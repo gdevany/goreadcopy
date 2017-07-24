@@ -148,7 +148,7 @@ class ShippingGiftAddressModal extends PureComponent {
       giftMessage !== '') {
       if (countryShipping === 'US' || countryShipping === 'CA') {
         if (stateShipping !== '') {
-          sendShippingInfo()
+          this.sendShippingInfo()
         } else {
           this.props.showAlert({
             message: 'Please add a State',
@@ -156,7 +156,7 @@ class ShippingGiftAddressModal extends PureComponent {
           })
         }
       } else {
-        sendShippingInfo()
+        this.sendShippingInfo()
       }
     } else {
       this.props.showAlert({

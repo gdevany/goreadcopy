@@ -44,6 +44,18 @@ class OrderSummary extends PureComponent {
     cleanPromoCode(orderSummary.id, orderSummary.promotionCodes[0].code)
   }
 
+  calculateOrderTotal() {
+    const { orderSummary } = this.props
+    if (orderSummary.childOrders) {
+      let acum = orderSummary.orderTotal
+      orderSummary.childOrders.map((elem, index) => {
+        acum += elem.orderTotal
+      })
+      return acum
+    }
+    return orderSummary.orderTotal
+  }
+
   render() {
     const { orderSummary } = this.props
     if (orderSummary) {
@@ -122,7 +134,7 @@ class OrderSummary extends PureComponent {
                 Total
               </span>
               <span className='checkoutpage-order-summary-total-count'>
-                {parseFloatToUSD(orderSummary.orderTotal)}
+                {parseFloatToUSD(this.calculateOrderTotal())}
               </span>
             </div>
             {orderSummary.status !== 40 ?

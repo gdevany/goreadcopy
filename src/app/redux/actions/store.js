@@ -301,10 +301,10 @@ export function placeOrder(params) {
   return dispatch => {
     Store.placeOrder(params)
       .then(res => {
+        dispatch({ type: A.SET_ORDER, payload: res.data })
         if (res.data.status === 40) {
           browserHistory.push('/shop/success')
         }
-        dispatch({ type: A.SET_ORDER, payload: res.data })
       })
       .catch(err => console.error(`Error in placeOrder ${err}`))
   }
@@ -313,7 +313,6 @@ export function placeOrder(params) {
 export function placeOrderWithChanges(reviewParams, placeParams) {
   return dispatch => {
     Store.reviewOrder(reviewParams)
-      .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
       .then(() => dispatch(placeOrder(placeParams)))
       .catch(err => console.error(`Error in placeOrderWithChanges ${err}`))
   }

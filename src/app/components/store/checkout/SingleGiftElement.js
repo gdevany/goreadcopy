@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Store } from '../../../redux/actions'
+import { Store, Common } from '../../../redux/actions'
 import { Numbers } from '../../../utils'
 import { ShippingForm } from './'
 import R from 'ramda'
 
 const { addGiftData } = Store
+const { showAlert } = Common
 const { parseFloatToUSD } = Numbers
 
 class SingleGiftElement extends PureComponent {
@@ -48,39 +49,60 @@ class SingleGiftElement extends PureComponent {
     this.setState({ [type]: value })
   }
 
+  sendShippingInfo() {
+    const { addGiftData } = this.props
+    addGiftData({
+      cartItems: [this.state.gift.id],
+      firstName: this.state.firstNameShipping,
+      lastName: this.state.lastNameShipping,
+      city: this.state.cityShipping,
+      country: this.state.countryShipping,
+      address: this.state.addressShipping,
+      address2: this.state.address2Shipping,
+      zipcode: this.state.zipcodeShipping,
+      phone: this.state.phoneShipping,
+      state: this.state.stateShipping,
+      giftMessage: this.state.giftMessage,
+    })
+    this.setState({
+      isAddressClicked: false,
+      hasSavedAddress: true,
+    })
+  }
+
   handleShippingSubmit = (event) => {
     event.preventDefault()
-    const { addGiftData } = this.props
     const {
       firstNameShipping,
       lastNameShipping,
       cityShipping,
       countryShipping,
       addressShipping,
-      address2Shipping,
       zipcodeShipping,
-      phoneShipping,
       stateShipping,
       giftMessage,
-      gift
     } = this.state
-    addGiftData({
-      cartItems: [gift.id],
-      firstName: firstNameShipping,
-      lastName: lastNameShipping,
-      city: cityShipping,
-      country: countryShipping,
-      address: addressShipping,
-      address2: address2Shipping,
-      zipcode: zipcodeShipping,
-      phone: phoneShipping,
-      state: stateShipping,
-      giftMessage
-    })
-    this.setState({
-      isAddressClicked: false,
-      hasSavedAddress: true,
-    })
+    if (firstNameShipping !== '' && lastNameShipping !== '' && cityShipping !== '' &&
+      countryShipping !== '' && addressShipping !== '' && zipcodeShipping !== '' &&
+      giftMessage !== '') {
+      if (countryShipping === 'US' || countryShipping === 'CA') {
+        if (stateShipping !== '') {
+          this.sendShippingInfo()
+        } else {
+          this.props.showAlert({
+            message: 'Please add a State',
+            type: 'error'
+          })
+        }
+      } else {
+        this.sendShippingInfo()
+      }
+    } else {
+      this.props.showAlert({
+        message: 'Please complete all the fields',
+        type: 'error'
+      })
+    }
   }
 
   render() {
@@ -159,7 +181,8 @@ class SingleGiftElement extends PureComponent {
 }
 
 const mapDispatchToProps = {
-  addGiftData
+  addGiftData,
+  showAlert,
 }
 
 export default connect(null, mapDispatchToProps)(SingleGiftElement)
