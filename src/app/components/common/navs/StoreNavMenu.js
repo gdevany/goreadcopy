@@ -280,8 +280,10 @@ class BookStoreNavBar extends PureComponent {
     const { notificationsOpen, chatsContainerOpen } = this.state
     notificationsOpen ?
     this.handleHideNotifications(event) : null
-    chatsContainerOpen ? null :
-    this.setState({ chatsContainerOpen: true })
+    chatsContainerOpen ?
+    this.setState({ chatsContainerOpen: false }) : (
+      this.setState({ chatsContainerOpen: true })
+    )
     this.props.toggleMessagePopup()
   }
 
