@@ -259,25 +259,29 @@ class BookStoreNavBar extends PureComponent {
     }
   }
 
-  handleNotificationsShow = () => {
-    if (!this.state.notificationsOpen) {
+  handleNotificationsShow = (event) => {
+    const { chatsContainerOpen, notificationsOpen } = this.state
+    chatsContainerOpen === true ?
+    this.handleChatsContainerShow(event) : null
+    !notificationsOpen ?
       this.setState({
         notificationsOpen: true,
         chatsContainerOpen: false
-      })
-    } else {
+      }) :
       this.setState({ notificationsOpen: false })
-    }
   }
 
   handleHideNotifications = (event) => {
     event.preventDefault()
-    this.setState({
-      notificationsOpen: false,
-    })
+    this.setState({ notificationsOpen: false })
   }
 
-  handleChatsContainerShow = () => {
+  handleChatsContainerShow = (event) => {
+    const { notificationsOpen, chatsContainerOpen } = this.state
+    notificationsOpen ?
+    this.handleHideNotifications(event) : null
+    chatsContainerOpen ? null :
+    this.setState({ chatsContainerOpen: true })
     this.props.toggleMessagePopup()
   }
 
