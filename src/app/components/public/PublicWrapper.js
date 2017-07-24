@@ -55,7 +55,7 @@ class PublicWrapper extends Component {
             </ul>
             <div className='copyright-container'>
               <span className='copyright-element'>
-                GoRead (copyright) 2017
+                GoRead © 2017
               </span>
             </div>
           </div>
