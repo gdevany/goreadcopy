@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Dialog } from 'material-ui'
 import SingleGiftElement from './SingleGiftElement'
-import { Store } from '../../../redux/actions'
+import { Store, Common } from '../../../redux/actions'
 import { ShippingForm } from './'
 import R from 'ramda'
 
@@ -22,6 +22,7 @@ const styles = {
 }
 
 const { addGiftData } = Store
+const { showAlert } = Common
 
 class ShippingGiftAddressModal extends PureComponent {
 
@@ -112,35 +113,57 @@ class ShippingGiftAddressModal extends PureComponent {
     return giftIds
   }
 
+  sendShippingInfo() {
+    const { addGiftData } = this.props
+    addGiftData({
+      cartItems: this.giftIdsHandler(),
+      firstName: this.state.firstNameShipping,
+      lastName: this.state.lastNameShipping,
+      city: this.state.cityShipping,
+      country: this.state.countryShipping,
+      address: this.state.addressShipping,
+      address2: this.state.address2Shipping,
+      zipcode: this.state.zipcodeShipping,
+      phone: this.state.phoneShipping,
+      state: this.state.stateShipping,
+      giftMessage: this.state.giftMessage,
+    })
+    this.props.handleClose()
+  }
+
   handleShippingSubmit = (event) => {
     event.preventDefault()
-    const { addGiftData } = this.props
     const {
       firstNameShipping,
       lastNameShipping,
       cityShipping,
       countryShipping,
       addressShipping,
-      address2Shipping,
       zipcodeShipping,
-      phoneShipping,
       stateShipping,
       giftMessage,
     } = this.state
-    addGiftData({
-      cartItems: this.giftIdsHandler(),
-      firstName: firstNameShipping,
-      lastName: lastNameShipping,
-      city: cityShipping,
-      country: countryShipping,
-      address: addressShipping,
-      address2: address2Shipping,
-      zipcode: zipcodeShipping,
-      phone: phoneShipping,
-      state: stateShipping,
-      giftMessage
-    })
-    this.props.handleClose()
+    if (firstNameShipping !== '' && lastNameShipping !== '' && cityShipping !== '' &&
+      countryShipping !== '' && addressShipping !== '' && zipcodeShipping !== '' &&
+      giftMessage !== '') {
+      if (countryShipping === 'US' || countryShipping === 'CA') {
+        if (stateShipping !== '') {
+          sendShippingInfo()
+        } else {
+          this.props.showAlert({
+            message: 'Please add a State',
+            type: 'error'
+          })
+        }
+      } else {
+        sendShippingInfo()
+      }
+    } else {
+      this.props.showAlert({
+        message: 'Please complete all the fields',
+        type: 'error'
+      })
+    }
   }
 
   renderGiftCartItems = () => {
@@ -245,4 +268,4 @@ class ShippingGiftAddressModal extends PureComponent {
   }
 }
 
-export default connect(null, { addGiftData })(ShippingGiftAddressModal)
+export default connect(null, { addGiftData, showAlert })(ShippingGiftAddressModal)
