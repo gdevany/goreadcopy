@@ -1,5 +1,8 @@
 import React, { PureComponent } from 'react'
 import { Auth } from '../../../services'
+import R from 'ramda'
+
+const isBlackListed = ['div', 'section']
 
 class AuthWrapper extends PureComponent {
   render() {
@@ -9,7 +12,7 @@ class AuthWrapper extends PureComponent {
         {
           React.Children.map(this.props.children, child => {
             if (!child) { return null }
-            if (child.type === 'div') {
+            if (R.contains(child.type, isBlackListed)) {
               return React.cloneElement(child)
             }
             return React.cloneElement(child, {

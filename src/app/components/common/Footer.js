@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
 import { ExternalRoutes as routes } from '../../constants'
 import AuthedRedirect from './AuthedRedirect'
 import SignUpModal from './SignUpModal'
+import { AuthView } from './auth'
 
 const styles = {
   columnUl: {
@@ -48,23 +50,21 @@ class Footer extends PureComponent {
 
     return (
       <div className='row footer-links' style={styles.footerContainer}>
-
         <div className='small-12 medium-3 medium-offset-1 columns'>
-          <ul style={styles.columnUl}>
-
-            <li>
-              <a href='#'> Log in </a>
-              {/** TODO: Need to link this to modal after modal merge**/}
-            </li>
-            <li>
-              <a onClick={this.handleOpen}> Sign up </a>
-            </li>
-          </ul>
+          <AuthView forLoggedOut={true}>
+            <ul style={styles.columnUl}>
+              <li>
+                <a href='#'> Log in </a>
+                {/** TODO: Need to link this to modal after modal merge**/}
+              </li>
+              <li>
+                <a onClick={this.handleOpen}> Sign up </a>
+              </li>
+            </ul>
+          </AuthView>
         </div>
-
         <div className='small-12 medium-3 medium-offset-1 columns'>
           <ul style={styles.columnUl}>
-
             <li>
               <AuthedRedirect.Link
                 href={authors()}
@@ -109,7 +109,6 @@ class Footer extends PureComponent {
             </li>
           </ul>
         </div>
-
         <div className='small-12 medium-3 medium-offset-1 columns'>
           <ul style={styles.columnUl}>
             <li>
@@ -135,7 +134,6 @@ class Footer extends PureComponent {
             </li>
           </ul>
         </div>
-
         <SignUpModal
           modalOpen={this.state.modalOpen}
           handleClose={this.handleClose}
@@ -145,4 +143,12 @@ class Footer extends PureComponent {
   }
 }
 
-export default Footer
+const mapStateToProps = ({
+  currentReader
+}) => {
+  return {
+    currentReader
+  }
+}
+
+export default connect(mapStateToProps, null)(Footer)
