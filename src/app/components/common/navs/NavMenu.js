@@ -221,15 +221,15 @@ class NavMenu extends PureComponent {
     })
   }
 
-  handleNotificationsShow = () => {
-    if (!this.state.notificationsOpen) {
-      this.setState({
-        notificationsOpen: true,
-        chatsContainerOpen: false
-      })
-    } else {
-      this.setState({ notificationsOpen: false })
-    }
+  handleNotificationsShow = (event) => {
+    const { chatsContainerOpen, notificationsOpen } = this.state
+    chatsContainerOpen ? this.handleChatsContainerShow(event) : null
+    !notificationsOpen ?
+    this.setState({
+      notificationsOpen: true,
+      profileMenuOpen: false,
+    }) :
+    this.setState({ notificationsOpen: false })
   }
 
   handleHideNotifications = (event) => {
@@ -239,7 +239,16 @@ class NavMenu extends PureComponent {
     })
   }
 
-  handleChatsContainerShow = () => {
+  handleChatsContainerShow = (event) => {
+    const { chatsContainerOpen } = this.state
+    !chatsContainerOpen ?
+    this.setState({
+      chatsContainerOpen: true,
+      notificationsOpen: false,
+      profileMenuOpen: false,
+    }) : (
+    this.setState({ chatsContainerOpen: false })
+    )
     this.props.toggleMessagePopup()
   }
 
@@ -248,9 +257,12 @@ class NavMenu extends PureComponent {
   }
 
   handleProfileMenuShow = () => {
-    if (!this.state.profileMenuOpen) {
+    const { profileMenuOpen, chatsContainerOpen } = this.state
+    chatsContainerOpen ? this.handleChatsContainerShow(event) : null
+    if (!profileMenuOpen) {
       this.setState({
         profileMenuOpen: true,
+        chatsContainerOpen: false,
         notificationsOpen: false,
       })
       this.props.handleChatsContainerShow()
