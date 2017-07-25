@@ -1,5 +1,5 @@
 export BookStore from './store/bookStore'
-export Orders from './store/Orders'
+export Orders from './orders/Orders'
 export BookPage from './book/BookPage'
 export CategoriesPage from './categories/CategoriesPage'
 export CartPage from './checkout/CartPage'

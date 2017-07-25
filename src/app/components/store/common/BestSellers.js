@@ -61,7 +61,7 @@ class BestSellers extends PureComponent {
         </section>
       )
     }
-    return null
+    return <div className='loading-animation-store' />
   }
 }
 

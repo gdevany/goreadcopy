@@ -56,15 +56,30 @@ class ReviewsContainer extends PureComponent {
 
   handleMapRates = () => {
     const { rates, isLogged } = this.state
-    return rates.map((rate, index) => {
-      return (
-        <Review
-          key={index}
-          rateInfo={rate}
-          currentReader={isLogged ? this.props.currentReader : null}
-        />
-      )
-    })
+    if (rates.length) {
+      return rates.map((rate, index) => {
+        return (
+          <Review
+            key={index}
+            rateInfo={rate}
+            currentReader={isLogged ? this.props.currentReader : null}
+          />
+        )
+      })
+    }
+    return (
+      <div className='bookpage-review-post-blank-state-container'>
+        <figure className='bookpage-review-post-blank-state-figure'>
+          <img
+            src='/image/notifications_blank.png'
+            className='bookpage-review-post-blank-state-img'
+          />
+        </figure>
+        <p className='bookpage-review-post-blank-state-text'>
+          This book still has not a review! Be the first to write one and win 50 litcoins!
+        </p>
+      </div>
+    )
   }
 
   handleStarClick = (starClicked) => this.setState({ starClicked })

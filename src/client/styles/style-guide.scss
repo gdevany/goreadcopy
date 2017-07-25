@@ -341,6 +341,16 @@ input[type="checkbox"]:focus{
   margin: .25em auto;
 }
 
+.loading-animation-store-inverted {
+  border: 1.5px solid $store-blue;
+  border-radius: 50%;
+  border-top: 1.5px solid #f3f3f3;
+  width: 15px;
+  height: 15px;
+  animation: spin 2s linear infinite;
+  margin: .25em auto;
+}
+
 .loading-animation-store-search{
   border: 2.5px solid #f3f3f3;
   border-radius: 50%;
