@@ -50,7 +50,10 @@ class BookPage extends PureComponent {
       <StoreNavView>
         <div>
           <div className='bookpage-main-container'>
-            {bookInfo ? <BookInfo bookInfo={bookInfo} isUserLogged={isUserLoggedIn} /> : null}
+            {bookInfo ?
+              <BookInfo bookInfo={bookInfo} isUserLogged={isUserLoggedIn} /> :
+              <div className='loading-animation-store' />
+            }
             <div className='bookpage-announcement-container'>
               <div className='bookpage-announcement-details'>
                 <h3>End of watch Thread</h3>
@@ -107,7 +110,8 @@ class BookPage extends PureComponent {
             }
             <hr className='bookpage-hr-separator'/>
             {bookInfo ?
-              <ReviewsContainer isLogged={isUserLoggedIn} bookInfo={bookInfo} /> : null
+              <ReviewsContainer isLogged={isUserLoggedIn} bookInfo={bookInfo} /> :
+              null
             }
             <hr className='bookpage-hr-separator'/>
             {isUserLoggedIn ? null : <NewsLetter />}

@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { Link } from 'react-router'
 import Rating from 'react-rating'
 
 class Book extends PureComponent {
@@ -37,14 +38,14 @@ class Book extends PureComponent {
       <div
         className='book-container'
       >
-        <a href={url}>
+        <Link to={url}>
           <img className='book' src={image} />
           {/* <div className='favorite-badge'>
             <figure>
               <img src='/image/wish-list-icon.svg'/>
             </figure>
           </div> */}
-        </a>
+        </Link>
         <div className='book-info-container'>
           <span className='book-info-title'>
             {title ? this.truncInfo(title, 15) : <i> unknown </i>}

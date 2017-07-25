@@ -66,12 +66,14 @@ class BookStore extends PureComponent {
         <div className='row'>
           <div className='large-12 columns'>
             {randomCategory && randomCategory !== undefined ?
-              <BestSellers category={randomCategory} /> : null
+              <BestSellers category={randomCategory} /> :
+              <div className='loading-animation-store'/>
             }
           </div>
         </div>
         {randomCategory && randomCategory !== undefined ?
-          <TrendingBooks category={randomCategory} /> : null
+          <TrendingBooks category={randomCategory} /> :
+          <div className='loading-animation-store' />
         }
         {isUserLoggedIn ?
           null : (

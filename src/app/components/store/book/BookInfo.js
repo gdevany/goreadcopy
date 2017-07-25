@@ -372,7 +372,7 @@ class BookInfo extends PureComponent {
                       >
                         {
                           this.state.isModifyingFollow ?
-                            <StoreSpinner /> :
+                            <div className='loading-animation-store-inverted' /> :
                             bookInfo.authors.length && bookInfo.authors[0].userIsFollower ?
                               'Following' :
                               'Follow'

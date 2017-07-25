@@ -529,6 +529,7 @@ class CategoriesFilters extends PureComponent {
           <div className='categorypage-filter-price-row-element'>
             <input
               id='zero-to-ten'
+              name='filter_price'
               className='categorypage-filter-price-row-checkbox'
               type='radio'
               value='zero-to-ten'
@@ -544,6 +545,7 @@ class CategoriesFilters extends PureComponent {
           <div className='categorypage-filter-price-row-element'>
             <input
               id='ten-to-twentyfive'
+              name='filter_price'
               className='categorypage-filter-price-row-checkbox'
               type='radio'
               value='ten-to-twentyfive'
@@ -559,6 +561,7 @@ class CategoriesFilters extends PureComponent {
           <div className='categorypage-filter-price-row-element'>
             <input
               id='twentyfive-to-fifty'
+              name='filter_price'
               className='categorypage-filter-price-row-checkbox'
               type='radio'
               value='twentyfive-to-fifty'
@@ -574,6 +577,7 @@ class CategoriesFilters extends PureComponent {
           <div className='categorypage-filter-price-row-element'>
             <input
               id='fifty-above'
+              name='filter_price'
               className='categorypage-filter-price-row-checkbox'
               type='radio'
               value='fifty-above'

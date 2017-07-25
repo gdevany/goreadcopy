@@ -31,7 +31,7 @@ class BestSellers extends PureComponent {
   renderBestSellers = () => {
     const { bestSellers } = this.state
     return bestSellers.results.slice(1, 6).map((book, index) => {
-      if (book.slug) {
+      if (book && book.slug) {
         return (
           <Book
             key={`${index}_${book.id}`}
