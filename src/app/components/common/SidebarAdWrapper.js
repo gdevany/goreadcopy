@@ -58,7 +58,9 @@ class SidebarAdWrapper extends PureComponent {
   }
 
   getScrollPosition() {
-    const content = window.scrollY >= this.state.scrollHeight ? style.sidebarStyle : null
+    const content = window.scrollY ||
+      document.documentElement.scrollTop >=
+      this.state.scrollHeight ? style.sidebarStyle : null
     const navbarOffset = document.getElementsByClassName('top-bar')[0].clientHeight
     const bookRecomOffset = document.getElementById('book-recommendations').clientHeight
     const authorRecomOffset = document.getElementById('author-recommendations').clientHeight
@@ -69,6 +71,7 @@ class SidebarAdWrapper extends PureComponent {
                           authorRecomOffset +
                           bookclubRecomOffset +
                           firstadOffset
+    console.log(content === null)
     if (content === null) {
       this.setState({
         scrollHeight: sidebarOffset,
