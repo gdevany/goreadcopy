@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import { Store } from '../../../redux/actions'
 
@@ -59,9 +60,9 @@ class RecommendedBooks extends PureComponent {
                 of your friends purchased this book
               </p>
               <figure className='bookstore-recommended-book-figure'>
-                <a href={`/book/${mostPurchased.results[0].slug}`}>
+                <Link to={`/book/${mostPurchased.results.length}`}>
                   <img src={mostPurchased.results[0].imageUrl}/>
-                </a>
+                </Link>
               </figure>
             </article>
           ) : bestSeller && bestSeller.count > 0 ? (
@@ -70,12 +71,12 @@ class RecommendedBooks extends PureComponent {
                   Some People purchased this book
                 </p>
                 <figure className='bookstore-recommended-book-figure'>
-                  <a href={`/book/${bestSeller.results[1].slug}`}>
+                  <Link to={`/book/${bestSeller.results[1].slug}`}>
                     <img src={bestSeller.results[1].imageUrl}/>
-                  </a>
+                  </Link>
                 </figure>
               </article>
-            ) : null
+            ) : <div className='loading-animation-store' />
         }
         {recommendedByAuthorFans && recommendedByAuthorFans.count > 0 ?
           (
@@ -87,9 +88,9 @@ class RecommendedBooks extends PureComponent {
                 }
               </p>
               <figure className='bookstore-recommended-book-figure'>
-                <a href={`/book/${recommendedByAuthorFans.results[0].slug}`}>
+                <Link to={`/book/${recommendedByAuthorFans.results[0].slug}`}>
                   <img src={recommendedByAuthorFans.results[0].imageUrl}/>
-                </a>
+                </Link>
               </figure>
             </article>
           ) : recommendedByAuthorFans && recommendedByAuthorFans.count > 1 ?
@@ -102,12 +103,12 @@ class RecommendedBooks extends PureComponent {
                   }
                 </p>
                 <figure className='bookstore-recommended-book-figure'>
-                  <a href={`/book/${recommendedByAuthorFans.results[1].slug}`}>
+                  <Link to={`/book/${recommendedByAuthorFans.results[1].slug}`}>
                     <img src={recommendedByAuthorFans.results[1].imageUrl}/>
-                  </a>
+                  </Link>
                 </figure>
               </article>
-            ) : null
+            ) : <div className='loading-animation-store' />
         }
         {bestSeller && bestSeller.count > 0 ?
           (
@@ -116,9 +117,9 @@ class RecommendedBooks extends PureComponent {
                 Best selling book in the category {this.props.category.name}
               </p>
               <figure className='bookstore-recommended-book-figure'>
-                <a href={`/book/${bestSeller.results[0].slug}`}>
+                <Link to={`/book/${bestSeller.results[0].slug}`}>
                   <img src={bestSeller.results[0].imageUrl}/>
-                </a>
+                </Link>
               </figure>
             </article>
           ) : recommendedByAuthorFans && recommendedByAuthorFans.count > 1 ?
@@ -131,9 +132,9 @@ class RecommendedBooks extends PureComponent {
                     }
                   </p>
                   <figure className='bookstore-recommended-book-figure'>
-                    <a href={`/book/${recommendedByAuthorFans.results[1].slug}`}>
-                      <img src={recommendedByAuthorFans.results[1 ].imageUrl}/>
-                    </a>
+                    <Link to={`/book/${recommendedByAuthorFans.results[1].slug}`}>
+                      <img src={recommendedByAuthorFans.results[1].imageUrl}/>
+                    </Link>
                   </figure>
                 </article>
               ) : null

@@ -171,11 +171,15 @@ class BookStoreNavBar extends PureComponent {
     this.setState({ modalLogInOpen: false })
   }
 
-  handleProfileMenuShow = () => {
-    if (!this.state.profileMenuOpen) {
+  handleProfileMenuShow = (event) => {
+    const { profileMenuOpen, chatsContainerOpen } = this.state
+    chatsContainerOpen ? this.handleChatsContainerShow(event) : null
+    if (!profileMenuOpen) {
       this.setState({
         profileMenuOpen: true,
+        chatsContainerOpen: false,
         notificationsOpen: false,
+        categoriesMenuOpen: false,
       })
       this.props.handleChatsContainerShow()
     } else {
@@ -195,13 +199,15 @@ class BookStoreNavBar extends PureComponent {
 
   handleCategoriesMenuClick = (event) => {
     event.preventDefault()
-    if (this.state.categoriesMenuOpen) {
-      this.setState({
-        categoriesMenuOpen: false,
-      })
-    } else {
-      this.setState({ categoriesMenuOpen: true })
-    }
+    const { categoriesMenuOpen, chatsContainerOpen } = this.state
+    chatsContainerOpen ? this.handleChatsContainerShow(event) : null
+    !categoriesMenuOpen ?
+    this.setState({
+      categoriesMenuOpen: true,
+      notificationsOpen: false,
+      profileMenuOpen: false,
+    }) :
+    this.setState({ categoriesMenuOpen: false })
   }
 
   handleMenuClick = (event) => {
@@ -227,11 +233,10 @@ class BookStoreNavBar extends PureComponent {
 
   handleCategoriesClick = (event) => {
     event.preventDefault()
-    if (this.state.categoriesOpen) {
-      this.setState({ categoriesOpen: false })
-    } else {
-      this.setState({ categoriesOpen: true })
-    }
+    const { categoriesOpen } = this.state
+    !categoriesOpen ?
+    this.setState({ categoriesOpen: true }) :
+    this.setState({ categoriesOpen: false })
   }
 
   handlePlatformUse(platformUse) {
@@ -261,12 +266,12 @@ class BookStoreNavBar extends PureComponent {
 
   handleNotificationsShow = (event) => {
     const { chatsContainerOpen, notificationsOpen } = this.state
-    chatsContainerOpen === true ?
-    this.handleChatsContainerShow(event) : null
+    chatsContainerOpen ? this.handleChatsContainerShow(event) : null
     !notificationsOpen ?
       this.setState({
         notificationsOpen: true,
-        chatsContainerOpen: false
+        profileMenuOpen: false,
+        categoriesMenuOpen: false,
       }) :
       this.setState({ notificationsOpen: false })
   }
@@ -277,12 +282,15 @@ class BookStoreNavBar extends PureComponent {
   }
 
   handleChatsContainerShow = (event) => {
-    const { notificationsOpen, chatsContainerOpen } = this.state
-    notificationsOpen ?
-    this.handleHideNotifications(event) : null
-    chatsContainerOpen ?
-    this.setState({ chatsContainerOpen: false }) : (
-      this.setState({ chatsContainerOpen: true })
+    const { chatsContainerOpen } = this.state
+    !chatsContainerOpen ?
+    this.setState({
+      chatsContainerOpen: true,
+      notificationsOpen: false,
+      profileMenuOpen: false,
+      categoriesMenuOpen: false,
+    }) : (
+    this.setState({ chatsContainerOpen: false })
     )
     this.props.toggleMessagePopup()
   }
