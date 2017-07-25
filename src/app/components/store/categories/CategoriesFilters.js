@@ -1,13 +1,15 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Store } from '../../../redux/actions'
+import { Store, Common } from '../../../redux/actions'
 import Book from '../common/Book'
 import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import ArrowUpIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
 import { slide as FiltersMenu } from 'react-burger-menu'
 
 const { filterBooks } = Store
+const { showAlert } = Common
+
 const styles = {
   filtersMenu: {
     left: 0,
@@ -170,6 +172,8 @@ class CategoriesFilters extends PureComponent {
 
   handleSelectedPrice = (minFilter, maxFilter) => {
     this.setState({
+      customMinPrice: '',
+      customMaxPrice: '',
       selectedMinPrice: minFilter,
       selectedMaxPrice: maxFilter,
       filtersMenuOpen: false,
@@ -179,21 +183,52 @@ class CategoriesFilters extends PureComponent {
   handleCustomPriceChange = (event, priceType) => {
     event.preventDefault()
     if (priceType === 1) {
-      this.setState({ customMinPrice: event.target.value })
+      this.setState({ customMinPrice: Number(event.target.value) })
     }
     if (priceType === 2) {
-      this.setState({ customMaxPrice: event.target.value })
+      this.setState({ customMaxPrice: Number(event.target.value) })
     }
   }
 
   handleCustomPriceClick = (event) => {
     event.preventDefault()
-    this.setState({
-      selectedMinPrice: this.state.customMinPrice,
-      selectedMaxPrice: this.state.customMaxPrice,
+    const {
+      customMinPrice,
+      customMaxPrice,
+    } = this.state
+
+    if (customMinPrice === '') {
+      this.props.showAlert({ message: 'Please, set a minimum price!', type: 'error' })
+      return false
+    }
+
+    if (customMaxPrice === '') {
+      this.props.showAlert({ message: 'Please, set a maximum price!', type: 'error' })
+      return false
+    }
+
+    if (customMinPrice >= customMaxPrice) {
+      this.props.showAlert({ message: 'Maximum price should have a greater value!', type: 'error' })
+      return false
+    }
+
+    return this.setState({
+      selectedMinPrice: customMinPrice,
+      selectedMaxPrice: customMaxPrice,
       isPriceOpen: false,
       filtersMenuOpen: false,
     })
+  }
+
+  handleKeyPressOnFilter = (event) => {
+    event = event || window.event
+    const charCode = (typeof event.which === 'undefined') ? event.keyCode : event.which
+    const charStr = String.fromCharCode(charCode)
+    if (/\d/.test(charStr)) {
+      return true
+    }
+    event.preventDefault()
+    return false
   }
 
   handleFilter = (selectedSubCategory, selectedRating, selectedMinPrice, selectedMaxPrice) => {
@@ -602,6 +637,7 @@ class CategoriesFilters extends PureComponent {
               </span>
               <input
                 onChange={(event) => this.handleCustomPriceChange(event, 1)}
+                onKeyPress={this.handleKeyPressOnFilter}
                 className='categorypage-filter-custom-input'
                 type='number'
                 min='0'
@@ -615,6 +651,7 @@ class CategoriesFilters extends PureComponent {
               </span>
               <input
                 onChange={(event) => this.handleCustomPriceChange(event, 2)}
+                onKeyPress={this.handleKeyPressOnFilter}
                 className='categorypage-filter-custom-input'
                 type='number'
                 min='0'
@@ -788,4 +825,9 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { filterBooks })(CategoriesFilters)
+const mapDispatchToProps = {
+  filterBooks,
+  showAlert,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CategoriesFilters)
