@@ -56,6 +56,18 @@ class OrderSummary extends PureComponent {
     return orderSummary.orderTotal
   }
 
+  calculateSubTotal() {
+    const { orderSummary } = this.props
+    if (orderSummary.childOrders) {
+      let acum = orderSummary.orderSubtotal
+      orderSummary.childOrders.map((elem, index) => {
+        acum += elem.orderSubtotal
+      })
+      return acum
+    }
+    return orderSummary.orderSubtotal
+  }
+
   render() {
     const { orderSummary } = this.props
     if (orderSummary) {
@@ -71,7 +83,7 @@ class OrderSummary extends PureComponent {
                   Subtotal
                 </span>
                 <span className='checkoutpage-order-summary-list-price'>
-                  {parseFloatToUSD(orderSummary.orderSubtotal)}
+                  {parseFloatToUSD(this.calculateSubTotal())}
                 </span>
               </div>
               <div className='checkoutpage-order-summary-list-single'>

@@ -116,12 +116,12 @@ class LeftHandLinks extends PureComponent {
             </a>
           </li>
           <li className='left-hand-menu-item'>
-            <a
+            <Link
               className='left-hand-menu-anchor'
-              href='/browse'
+              to='/browse'
             >
               Book Store
-            </a>
+            </Link>
           </li>
           { this.handleMapMenuItems() }
           {

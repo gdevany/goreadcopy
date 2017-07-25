@@ -372,9 +372,9 @@ class NavMenu extends PureComponent {
     const bookStoreItem = (
       <li key={'popover-nav-item'} style={styles.navLinks} className='link nav-item'>
 
-        <a onMouseEnter={this.handleNavHover} href='/browse'>
+        <Link onMouseEnter={this.handleNavHover} to='/browse'>
           Book Store
-        </a>
+        </Link>
 
         <Popover
           open={this.state.open}

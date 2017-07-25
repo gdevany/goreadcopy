@@ -60,7 +60,7 @@ class RecommendedBooks extends PureComponent {
                 of your friends purchased this book
               </p>
               <figure className='bookstore-recommended-book-figure'>
-                <Link to={`/book/${mostPurchased.results[0].slug}`}>
+                <Link to={`/book/${mostPurchased.results.length}`}>
                   <img src={mostPurchased.results[0].imageUrl}/>
                 </Link>
               </figure>
@@ -133,11 +133,11 @@ class RecommendedBooks extends PureComponent {
                   </p>
                   <figure className='bookstore-recommended-book-figure'>
                     <Link to={`/book/${recommendedByAuthorFans.results[1].slug}`}>
-                      <img src={recommendedByAuthorFans.results[1 ].imageUrl}/>
+                      <img src={recommendedByAuthorFans.results[1].imageUrl}/>
                     </Link>
                   </figure>
                 </article>
-              ) : <div className='loading-animation-store' />
+              ) : null
         }
       </section>
     )

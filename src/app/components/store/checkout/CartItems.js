@@ -49,7 +49,7 @@ class CartItems extends PureComponent {
             </figure>
             <div className='checkoutpage-cart-single-element-info'>
               <span className='checkoutpage-cart-single-element-title'>
-                {elem.product.name ? this.truncInfo(elem.product.name, 100) : null}
+                {elem.product.name ? this.truncInfo(elem.product.name, 50) : null}
               </span>
               <span className='checkoutpage-cart-single-element-author'>
                 by {elem.product.seller ? this.truncInfo(elem.product.seller, 50) : null}
