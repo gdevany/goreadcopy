@@ -61,7 +61,7 @@ class BookPage extends PureComponent {
             }
             <div className='bookpage-announcement-container'>
               <div className='bookpage-announcement-details'>
-                <h3>End of watch Thread</h3>
+                <h3>{bookInfo ? `${bookInfo.title} Thread` : null}</h3>
                 <div className='bookpage-announcement-posts'>
                   <figure className='bookpage-announcement-posts-figure'>
                     <img src='/image/commented-bookstore-icon.svg'/>
