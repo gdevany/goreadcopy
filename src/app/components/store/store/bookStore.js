@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Footer } from '../../common'
 import { StoreNavView } from '../../views'
+import SignUpModal from '../../common/SignUpModal'
 import BookStoreHero from './bookStoreHero'
 import CategoriesCarousel from './categoriesCarousel'
 import WishListBooks from '../common/wishListBooks'
@@ -17,7 +18,10 @@ class BookStore extends PureComponent {
       categories: null,
       randomCategory: null,
       isRandomSelected: false,
+      modalOpen: false,
     }
+    this.handleModalClose = this.handleModalClose.bind(this)
+    this.handleModalOpen = this.handleModalOpen.bind(this)
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -29,6 +33,14 @@ class BookStore extends PureComponent {
         this.setRandomCategory(nextProps.categories)
       }
     }
+  }
+
+  handleModalOpen = () => {
+    this.setState({ modalOpen: true })
+  }
+
+  handleModalClose = () => {
+    this.setState({ modalOpen: false })
   }
 
   setRandomCategory = (categories) => {
@@ -46,7 +58,10 @@ class BookStore extends PureComponent {
     const isUserLoggedIn = Auth.currentUserExists()
     return (
       <StoreNavView>
-        <BookStoreHero isUserLogged={isUserLoggedIn}/>
+        <BookStoreHero
+          isUserLogged={isUserLoggedIn}
+          openModal={this.handleModalOpen}
+        />
         <div className='row'>
           <div className='large-12 columns'>
             <CategoriesCarousel />
@@ -87,6 +102,10 @@ class BookStore extends PureComponent {
             </section>
           )
         }
+        <SignUpModal
+          modalOpen={this.state.modalOpen}
+          handleClose={this.handleModalClose}
+        />
         <div className='bookstore-footer-container'>
           <Footer />
         </div>

@@ -8,7 +8,7 @@ import BookInfo from './BookInfo'
 import MeetAuthor from './MeetAuthor'
 import ReviewsOverview from './ReviewsOverview'
 import ReviewsContainer from './ReviewsContainer'
-import NewsLetter from './NewsLetter'
+// import NewsLetter from './NewsLetter'
 import { Auth } from '../../../services'
 import { Store, Rates } from '../../../redux/actions'
 
@@ -47,6 +47,10 @@ class BookPage extends PureComponent {
     }
   }
 
+  truncInfo = (text, limit) => {
+    return text.length >= limit ? `${text.slice(0, limit)}...` : text
+  }
+
   render() {
     const { bookInfo, starsInfo } = this.state
     const { rates } = this.props
@@ -61,7 +65,7 @@ class BookPage extends PureComponent {
             }
             <div className='bookpage-announcement-container'>
               <div className='bookpage-announcement-details'>
-                <h3>{bookInfo ? `${bookInfo.title} Thread` : null}</h3>
+                <h3>{bookInfo ? `${this.truncInfo(bookInfo.title, 30)} Thread` : null}</h3>
                 <div className='bookpage-announcement-posts'>
                   <figure className='bookpage-announcement-posts-figure'>
                     <img src='/image/commented-bookstore-icon.svg'/>
@@ -128,7 +132,7 @@ class BookPage extends PureComponent {
               }
             </Element>
             <hr className='bookpage-hr-separator'/>
-            {isUserLoggedIn ? null : <NewsLetter />}
+            {/* {isUserLoggedIn ? null : <NewsLetter />} */}
           </div>
           <div className='bookstore-footer-container'>
             <Footer />

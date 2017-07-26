@@ -4,7 +4,7 @@ import Scroll from 'react-scroll'
 
 const Anchor = Scroll.Link
 
-const BookStoreHero = ({ isUserLogged }) => {
+const BookStoreHero = ({ isUserLogged, openModal }) => {
 
   if (isUserLogged) {
     return (
@@ -62,7 +62,12 @@ const BookStoreHero = ({ isUserLogged }) => {
   return (
     <section className='bookstore-hero-anon-container'>
       <h1>Unlock your next adventure</h1>
-      <a href=''>Yes, i'm interested</a>
+      <a
+        className='bookstore-hero-logged-shop-wishlist'
+        onClick={openModal}
+      >
+        Yes, i'm interested
+      </a>
       <div className='books-effect-in-hero-container'>
         <div className='book-effect-column'>
           <figure>
@@ -105,6 +110,7 @@ const BookStoreHero = ({ isUserLogged }) => {
 
 BookStoreHero.propTypes = {
   isUserLogged: PropTypes.bool,
+  openModal: PropTypes.func,
 }
 
 export default BookStoreHero
