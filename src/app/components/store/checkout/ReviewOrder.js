@@ -148,6 +148,7 @@ class ReviewOrder extends PureComponent {
         <hr className='checkoutpage-order-review-divider'/>
         {this.props.shippingMethods && data.status !== 40 ?
           <ShippingMethods
+            shippingMethod={this.props.shippingMethod}
             shippingMethods={this.props.shippingMethods}
             onClick={this.props.setShipping}
           /> : null

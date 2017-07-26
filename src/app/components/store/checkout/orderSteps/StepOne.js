@@ -1,7 +1,15 @@
 import React from 'react'
 import { OrderSummary, CartItems, ShippingMethods, ShippingForm } from '../'
 
-const StepOne = ({ shippingInfo, shippingMethods, onChange, setShipping, selectChange, next }) => {
+const StepOne = ({
+  shippingInfo,
+  shippingMethods,
+  onChange,
+  setShipping,
+  selectedShipping,
+  selectChange,
+  next
+}) => {
   return (
     <div className='row'>
       <div className='large-7 columns'>
@@ -14,6 +22,7 @@ const StepOne = ({ shippingInfo, shippingMethods, onChange, setShipping, selectC
         />
         {shippingMethods ?
           <ShippingMethods
+            shippingMethod={selectedShipping}
             shippingMethods={shippingMethods}
             onClick={setShipping}
           /> : null

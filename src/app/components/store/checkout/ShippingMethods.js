@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react'
 class ShippingMethods extends PureComponent {
 
   mapShippingMethods = (shippingMethods) => {
-    const { onClick } = this.props
+    const { onClick, shippingMethod } = this.props
 
     return shippingMethods.map((method, index) => {
       return (
@@ -14,6 +14,7 @@ class ShippingMethods extends PureComponent {
               name='delivery-method'
               type='radio'
               onClick={() => onClick(method.name)}
+              defaultChecked={shippingMethod === method.name}
             />
             <label className='checkoutpage-steps-delivery-method-label'>
               <span className='checkoutpage-steps-delivery-method-vendor'>

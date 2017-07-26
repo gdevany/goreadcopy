@@ -684,6 +684,7 @@ class CheckoutPage extends PureComponent {
                     (
                       <StepOne
                         shippingInfo={shippingInfo}
+                        selectedShipping={this.state.shippingMethod}
                         shippingMethods={this.props.shippingMethods}
                         onChange={this.handleFormsChanges}
                         selectChange={this.handleSelectChange}
