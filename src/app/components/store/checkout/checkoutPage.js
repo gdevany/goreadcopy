@@ -82,7 +82,7 @@ class CheckoutPage extends PureComponent {
   }
 
   componentWillMount = () => {
-    this.props.getCurrentOrder()
+    this.props.setOrder()
   }
 
   componentWillReceiveProps = (nextProps) => {

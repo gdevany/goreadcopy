@@ -241,6 +241,7 @@ export function setOrder(params) {
   return dispatch => {
     Store.setOrder(params)
       .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
+      .then(dispatch(getCurrentOrder()))
       .catch(err => console.error(`Error in setOrder ${err}`))
   }
 }
@@ -255,13 +256,18 @@ export function getOrders(params) {
 
 export function getCurrentOrder(params) {
   return dispatch => {
-    Store.getCurrentOrder(params)
+    Store.setOrder(params)
       .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
-      .then(() => Store.getShippingMethods())
-      .then(res => dispatch({ type: A.GET_SHIPPING_METHODS, payload: res.data }))
-      .then(res => dispatch(getCartItems({
-        perPage: 50,
-      })))
+      .then(() => {
+        Store.getShippingMethods()
+        .then(res => dispatch({ type: A.GET_SHIPPING_METHODS, payload: res.data }))
+        .then(() => {
+          Store.getCartItems({ perPage: 50 })
+          .then((res) => dispatch({ type: A.GET_CART_ITEMS, payload: res.data }))
+          .catch(err => console.log('Error in getCurrentOrder: getCartItems => ', err))
+        })
+        .catch(err => console.log('Error in getCurrentOrder: getShippingMethods => ', err))
+      })
       .catch((err) => {
         if (err.response !== undefined) {
           const { data } = err.response

@@ -12,7 +12,7 @@ import ShippingGiftAddressModal from './ShippingGiftAddressModal'
 
 const isUserLoggedIn = Auth.currentUserExists()
 const { showAlert } = Common
-const { getCartItems, setOrder } = Store
+const { getCartItems } = Store
 const { parseFloatToUSD } = Numbers
 
 class CartPage extends PureComponent {
@@ -65,9 +65,7 @@ class CartPage extends PureComponent {
         allGiftsReady = false
       }
     })
-    if (allGiftsReady) {
-      this.props.setOrder()
-    } else {
+    if (!allGiftsReady) {
       this.createAlert('A gift is pending address...', 'error')
       ev.preventDefault()
     }
@@ -190,7 +188,6 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = ({
   getCartItems,
-  setOrder,
   showAlert,
 })
 
