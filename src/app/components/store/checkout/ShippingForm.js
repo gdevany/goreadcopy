@@ -66,26 +66,26 @@ class ShippingForm extends PureComponent {
               <label
                 className='checkoutpage-steps-shipping-address-form-label'
               >
-                First Name
+                Name
               </label>
               <input
                 type='text'
-                onChange={onChange('firstNameShipping')}
+                onChange={onChange('nameShipping')}
                 className='checkoutpage-steps-shipping-address-form-input'
-                value={shippingInfo.firstNameShipping}
+                value={shippingInfo.nameShipping}
               />
             </div>
             <div className='small-6 columns'>
               <label
                 className='checkoutpage-steps-shipping-address-form-label'
               >
-                Last Name
+                Phone
               </label>
               <input
                 type='text'
                 className='checkoutpage-steps-shipping-address-form-input'
-                onChange={onChange('lastNameShipping')}
-                value={shippingInfo.lastNameShipping}
+                onChange={onChange('phoneShipping')}
+                value={shippingInfo.phoneShipping}
               />
             </div>
             <div className='small-12 columns'>

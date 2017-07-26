@@ -55,26 +55,26 @@ class BillingForm extends PureComponent {
               <label
                 className='checkoutpage-steps-shipping-address-form-label'
               >
-                First Name
+                Name
               </label>
               <input
                 type='text'
-                onChange={onChange('firstNameBilling')}
+                onChange={onChange('nameBilling')}
                 className='checkoutpage-steps-shipping-address-form-input'
-                value={billingInfo.firstNameBilling}
+                value={billingInfo.nameBilling}
               />
             </div>
             <div className='small-6 columns'>
               <label
                 className='checkoutpage-steps-shipping-address-form-label'
               >
-                Last Name
+                Phone
               </label>
               <input
                 type='text'
                 className='checkoutpage-steps-shipping-address-form-input'
-                onChange={onChange('lastNameBilling')}
-                value={billingInfo.lastNameBilling}
+                onChange={onChange('phoneBilling')}
+                value={billingInfo.phoneBilling}
               />
             </div>
             <div className='small-12 columns'>

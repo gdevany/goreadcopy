@@ -36,8 +36,8 @@ class CheckoutPage extends PureComponent {
       stepThreeComplete: false,
       isCardClicked: true,
       isPaypalClicked: false,
-      firstNameShipping: '',
-      lastNameShipping: '',
+      nameShipping: '',
+      phoneShipping: '',
       addressShipping: '',
       address2Shipping: '',
       countryShipping: '',
@@ -53,8 +53,7 @@ class CheckoutPage extends PureComponent {
       fullExpDate: '',
       saveCard: false,
       sameShippingAddress: true,
-      firstNameBilling: '',
-      lastNameBilling: '',
+      nameBilling: '',
       addressBilling: '',
       address2Billing: '',
       countryBilling: '',
@@ -93,10 +92,9 @@ class CheckoutPage extends PureComponent {
         billingMethod, litcoinsRedeemed,
       } = nextProps.order
       if (shippingAddress) {
-        const fullname = this.splitFullName(shippingAddress.name)
         this.setState({
-          firstNameShipping: fullname[0],
-          lastNameShipping: fullname[1],
+          nameShipping: shippingAddress.name,
+          phoneShipping: shippingAddress.phone,
           addressShipping: shippingAddress.address,
           address2Shipping: shippingAddress.address2,
           countryShipping: shippingAddress.country,
@@ -123,10 +121,6 @@ class CheckoutPage extends PureComponent {
     if (nextProps.paypalConfig) {
       this.setState({ paypalConfig: nextProps.paypalConfig })
     }
-  }
-
-  splitFullName = (fullname) => {
-    return fullname.split(' ')
   }
 
   splitCardExp = (date) => {
@@ -209,7 +203,7 @@ class CheckoutPage extends PureComponent {
 
   passToBilling = () => {
     const {
-      firstNameShipping, lastNameShipping, addressShipping, address2Shipping,
+      nameShipping, phoneShipping, addressShipping, address2Shipping,
       countryShipping, stateShipping, cityShipping, zipcodeShipping, shippingMethod,
     } = this.state
     this.setState({
@@ -220,12 +214,13 @@ class CheckoutPage extends PureComponent {
     })
     this.props.setUserAddressAndShipping({
       city: cityShipping,
-      name: `${firstNameShipping} ${lastNameShipping}`,
+      name: nameShipping,
       country: countryShipping,
       address: addressShipping,
       address2: address2Shipping,
       zipcode: zipcodeShipping,
       state: stateShipping,
+      phone: phoneShipping,
       addressType: 'shipping',
       sameBillingAndShipping: true,
     }, shippingMethod)
@@ -288,8 +283,8 @@ class CheckoutPage extends PureComponent {
     const { setUserAddress, setBilling } = this.props
     const {
       nameOnCard, cardNumber, cardCVC, fullExpDate, isCardClicked, isPaypalClicked,
-      shippingId, billingId, cardStored, sameShippingAddress, firstNameBilling,
-      lastNameBilling, addressBilling, address2Billing, countryBilling, stateBilling,
+      shippingId, billingId, cardStored, sameShippingAddress, nameBilling,
+      phoneBilling, addressBilling, address2Billing, countryBilling, stateBilling,
       cityBilling, zipcodeBilling, shippingMethod, useLitcoins
     } = this.state
     if (isPaypalClicked) {
@@ -310,12 +305,13 @@ class CheckoutPage extends PureComponent {
                 if (stateBilling !== '') {
                   setUserAddress({
                     city: cityBilling,
-                    name: `${firstNameBilling} ${lastNameBilling}`,
+                    name: nameBilling,
                     country: countryBilling,
                     address: addressBilling,
                     address2: address2Billing,
                     zipcode: zipcodeBilling,
                     state: stateBilling,
+                    phone: phoneBilling,
                     addressType: 'billing',
                     sameBillingAndShipping: false,
                   })
@@ -326,7 +322,8 @@ class CheckoutPage extends PureComponent {
               } else {
                 setUserAddress({
                   city: cityBilling,
-                  name: `${firstNameBilling} ${lastNameBilling}`,
+                  name: nameBilling,
+                  phone: phoneBilling,
                   country: countryBilling,
                   address: addressBilling,
                   address2: address2Billing,
@@ -379,7 +376,8 @@ class CheckoutPage extends PureComponent {
               if (stateBilling !== '') {
                 setUserAddress({
                   city: cityBilling,
-                  name: `${firstNameBilling} ${lastNameBilling}`,
+                  name: nameBilling,
+                  phone: phoneBilling,
                   country: countryBilling,
                   address: addressBilling,
                   address2: address2Billing,
@@ -401,7 +399,8 @@ class CheckoutPage extends PureComponent {
             } else {
               setUserAddress({
                 city: cityBilling,
-                name: `${firstNameBilling} ${lastNameBilling}`,
+                name: nameBilling,
+                phone: phoneBilling,
                 country: countryBilling,
                 address: addressBilling,
                 address2: address2Billing,
@@ -438,7 +437,8 @@ class CheckoutPage extends PureComponent {
               if (stateBilling !== '') {
                 setUserAddress({
                   city: cityBilling,
-                  name: `${firstNameBilling} ${lastNameBilling}`,
+                  name: nameBilling,
+                  phone: phoneBilling,
                   country: countryBilling,
                   address: addressBilling,
                   address2: address2Billing,
@@ -454,7 +454,8 @@ class CheckoutPage extends PureComponent {
             } else {
               setUserAddress({
                 city: cityBilling,
-                name: `${firstNameBilling} ${lastNameBilling}`,
+                name: nameBilling,
+                phone: phone,
                 country: countryBilling,
                 address: addressBilling,
                 address2: address2Billing,
@@ -569,8 +570,8 @@ class CheckoutPage extends PureComponent {
 
   render() {
     const shippingInfo = R.pick([
-      'firstNameShipping',
-      'lastNameShipping',
+      'nameShipping',
+      'phoneShipping',
       'addressShipping',
       'address2Shipping',
       'countryShipping',
@@ -585,8 +586,8 @@ class CheckoutPage extends PureComponent {
       'fullExpDate',
     ], this.state)
     const billingInfo = R.pick([
-      'firstNameBilling',
-      'lastNameBilling',
+      'nameBilling',
+      'phoneBilling',
       'addressBilling',
       'address2Billing',
       'countryBilling',

@@ -16,14 +16,13 @@ class SingleGiftElement extends PureComponent {
     this.state = {
       gift: props.giftItem,
       isAddressClicked: false,
-      firstNameShipping: shippingAddress.name || '',
-      lastNameShipping: '',
+      nameShipping: shippingAddress.name || '',
       cityShipping: shippingAddress.city || '',
       countryShipping: shippingAddress.country || '',
       addressShipping: shippingAddress.address || '',
       address2Shipping: shippingAddress.address2 || '',
       zipcodeShipping: shippingAddress.zipcode || '',
-      phoneShipping: shippingAddress.address || '',
+      phoneShipping: shippingAddress.phone || '',
       stateShipping: shippingAddress.state || '',
       giftMessage: giftMessage || '',
       hasSavedAddress: shippingAddress.id || false,
@@ -53,8 +52,7 @@ class SingleGiftElement extends PureComponent {
     const { addGiftData } = this.props
     addGiftData({
       cartItems: [this.state.gift.id],
-      firstName: this.state.firstNameShipping,
-      lastName: this.state.lastNameShipping,
+      name: this.state.nameShipping,
       city: this.state.cityShipping,
       country: this.state.countryShipping,
       address: this.state.addressShipping,
@@ -73,8 +71,7 @@ class SingleGiftElement extends PureComponent {
   handleShippingSubmit = (event) => {
     event.preventDefault()
     const {
-      firstNameShipping,
-      lastNameShipping,
+      nameShipping,
       cityShipping,
       countryShipping,
       addressShipping,
@@ -82,7 +79,7 @@ class SingleGiftElement extends PureComponent {
       stateShipping,
       giftMessage,
     } = this.state
-    if (firstNameShipping !== '' && lastNameShipping !== '' && cityShipping !== '' &&
+    if (nameShipping !== '' && cityShipping !== '' &&
       countryShipping !== '' && addressShipping !== '' && zipcodeShipping !== '' &&
       giftMessage !== '') {
       if (countryShipping === 'US' || countryShipping === 'CA') {
@@ -109,8 +106,7 @@ class SingleGiftElement extends PureComponent {
     const {
       gift,
       isAddressClicked,
-      firstNameShipping,
-      lastNameShipping,
+      nameShipping,
       cityShipping,
       countryShipping,
       addressShipping,
@@ -121,8 +117,7 @@ class SingleGiftElement extends PureComponent {
       hasSavedAddress,
     } = this.state
     const formInfo = {
-      firstNameShipping,
-      lastNameShipping,
+      nameShipping,
       cityShipping,
       countryShipping,
       addressShipping,

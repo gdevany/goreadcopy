@@ -28,8 +28,8 @@ class EditElementsModal extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      firstNameShipping: '',
-      lastNameShipping: '',
+      nameShipping: '',
+      phoneShipping: '',
       addressShipping: '',
       address2Shipping: '',
       countryShipping: '',
@@ -54,10 +54,6 @@ class EditElementsModal extends PureComponent {
 
   truncInfo = (text, limit) => {
     return text.length >= limit ? `${text.slice(0, limit)}...` : text
-  }
-
-  splitFullName = (fullname) => {
-    return fullname.split(' ')
   }
 
   splitCardExp = (date) => {
@@ -121,10 +117,9 @@ class EditElementsModal extends PureComponent {
   editAddressClick = (event) => {
     event.preventDefault()
     const { shippingAddress } = this.props
-    const fullName = this.splitFullName(shippingAddress.name)
     this.setState({
-      firstNameShipping: fullName[0],
-      lastNameShipping: fullName[1],
+      nameShipping: shippingAddress.name,
+      phoneShipping: shippingAddress.phone,
       addressShipping: shippingAddress.address,
       address2Shipping: shippingAddress.address2,
       countryShipping: shippingAddress.country,
@@ -139,8 +134,8 @@ class EditElementsModal extends PureComponent {
     event.preventDefault()
     const { setUserAddress, shippingAddress, handleClose } = this.props
     const {
-      firstNameShipping,
-      lastNameShipping,
+      nameShipping,
+      phoneShipping,
       addressShipping,
       address2Shipping,
       countryShipping,
@@ -148,10 +143,11 @@ class EditElementsModal extends PureComponent {
       stateShipping,
       zipcodeShipping
     } = this.state
-    if (firstNameShipping !== '' && lastNameShipping !== '' &&
+    if (nameShipping !== '' && phoneShipping !== '' &&
       addressShipping !== '' && countryShipping !== '' &&
       cityShipping !== '' && stateShipping !== '' && zipcodeShipping !== '') {
-      if (shippingAddress.name !== `${firstNameShipping} ${lastNameShipping}` ||
+      if (shippingAddress.name !== nameShipping ||
+        shippingAddress.phone !== phoneShipping ||
         shippingAddress.address !== addressShipping ||
         shippingAddress.address2 !== address2Shipping ||
         shippingAddress.country !== countryShipping ||
@@ -160,7 +156,8 @@ class EditElementsModal extends PureComponent {
         shippingAddress.zipcode !== zipcodeShipping) {
         setUserAddress({
           city: cityShipping,
-          name: `${firstNameShipping} ${lastNameShipping}`,
+          name: nameShipping,
+          phone: phoneShipping,
           country: countryShipping,
           address: addressShipping,
           address2: address2Shipping,
@@ -197,8 +194,8 @@ class EditElementsModal extends PureComponent {
 
   handleCancel = () => {
     this.setState({
-      firstNameShipping: '',
-      lastNameShipping: '',
+      nameShipping: '',
+      phoneShipping: '',
       addressShipping: '',
       address2Shipping: '',
       countryShipping: '',
@@ -217,11 +214,11 @@ class EditElementsModal extends PureComponent {
   renderEditShipping = () => {
     const { shippingAddress } = this.props
     const {
-      firstNameShipping, lastNameShipping, addressShipping, address2Shipping,
+      nameShipping, phoneShipping, addressShipping, address2Shipping,
       countryShipping, cityShipping, stateShipping, zipcodeShipping
     } = this.state
     const formInfo = {
-      firstNameShipping, lastNameShipping, addressShipping, address2Shipping,
+      nameShipping, phoneShipping, addressShipping, address2Shipping,
       countryShipping, cityShipping, stateShipping, zipcodeShipping
     }
     return (

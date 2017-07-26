@@ -30,8 +30,7 @@ class ShippingGiftAddressModal extends PureComponent {
     super(props)
     this.state = {
       sendToSamePerson: false,
-      firstNameShipping: '',
-      lastNameShipping: '',
+      nameShipping: '',
       cityShipping: '',
       countryShipping: '',
       addressShipping: '',
@@ -53,14 +52,13 @@ class ShippingGiftAddressModal extends PureComponent {
     if (sameGifts.isTrue) {
       this.setState({
         sendToSamePerson: true,
-        firstNameShipping: sameGifts.addressInfo.name,
-        //lastNameShipping: sameGifts.addressInfo.,
+        nameShipping: sameGifts.addressInfo.name,
         cityShipping: sameGifts.addressInfo.city,
         countryShipping: sameGifts.addressInfo.country,
         addressShipping: sameGifts.addressInfo.address,
         address2Shipping: sameGifts.addressInfo.address2,
         zipcodeShipping: sameGifts.addressInfo.zipcode,
-        //phoneShipping: sameGifts.addressInfo.,
+        phoneShipping: sameGifts.addressInfo.phone,
         stateShipping: sameGifts.addressInfo.state,
         giftMessage: sameGifts.message,
       })
@@ -117,8 +115,7 @@ class ShippingGiftAddressModal extends PureComponent {
     const { addGiftData } = this.props
     addGiftData({
       cartItems: this.giftIdsHandler(),
-      firstName: this.state.firstNameShipping,
-      lastName: this.state.lastNameShipping,
+      name: this.state.nameShipping,
       city: this.state.cityShipping,
       country: this.state.countryShipping,
       address: this.state.addressShipping,
@@ -134,8 +131,7 @@ class ShippingGiftAddressModal extends PureComponent {
   handleShippingSubmit = (event) => {
     event.preventDefault()
     const {
-      firstNameShipping,
-      lastNameShipping,
+      nameShipping,
       cityShipping,
       countryShipping,
       addressShipping,
@@ -143,7 +139,7 @@ class ShippingGiftAddressModal extends PureComponent {
       stateShipping,
       giftMessage,
     } = this.state
-    if (firstNameShipping !== '' && lastNameShipping !== '' && cityShipping !== '' &&
+    if (nameShipping !== '' && cityShipping !== '' &&
       countryShipping !== '' && addressShipping !== '' && zipcodeShipping !== '' &&
       giftMessage !== '') {
       if (countryShipping === 'US' || countryShipping === 'CA') {
@@ -176,8 +172,7 @@ class ShippingGiftAddressModal extends PureComponent {
 
   renderForm = () => {
     const {
-      firstNameShipping,
-      lastNameShipping,
+      nameShipping,
       cityShipping,
       countryShipping,
       addressShipping,
@@ -187,8 +182,7 @@ class ShippingGiftAddressModal extends PureComponent {
       stateShipping,
     } = this.state
     const formInfo = {
-      firstNameShipping,
-      lastNameShipping,
+      nameShipping,
       cityShipping,
       countryShipping,
       addressShipping,
