@@ -77,6 +77,8 @@ export default (state = initialState.store, { type, payload }) => {
           items: setGiftShipping(state, payload)
         }
       })
+    case A.CLEAN_ORDER_AND_CART:
+      return R.omit(['cartItems', 'order'], state)
     default:
       return state
   }

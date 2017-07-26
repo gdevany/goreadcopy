@@ -5,6 +5,9 @@ import Paper from 'material-ui/Paper'
 import { Footer } from '../../common'
 import { StoreNavView } from '../../views'
 import { SuccessBanner, OrderSummary } from './'
+import { Store } from '../../../redux/actions'
+
+const { cleanOrderAndCart } = Store
 
 const styles = {
   orderPaper: {
@@ -14,6 +17,10 @@ const styles = {
 }
 
 class orderSuccess extends PureComponent {
+
+  componentWillUnmount() {
+    this.props.cleanOrderAndCart()
+  }
 
   render() {
     const { order } = this.props
@@ -96,4 +103,8 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, null)(orderSuccess)
+const mapDispatchToProps = {
+  cleanOrderAndCart
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(orderSuccess)

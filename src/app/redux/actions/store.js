@@ -343,6 +343,12 @@ export function cleanPromoCode(id, code) {
   }
 }
 
+export function cleanOrderAndCart() {
+  return dispatch => {
+    Promise.resolve(dispatch({ type: A.CLEAN_ORDER_AND_CART }))
+  }
+}
+
 export default {
   getCategories,
   getChildCategories,
@@ -376,4 +382,5 @@ export default {
   getPaypalConfig,
   setPromoCode,
   cleanPromoCode,
+  cleanOrderAndCart,
 }
