@@ -256,19 +256,14 @@ class NavMenu extends PureComponent {
     this.setState({ open: false })
   }
 
-  handleProfileMenuShow = () => {
+  handleProfileMenuShow = (event) => {
     const { profileMenuOpen, chatsContainerOpen } = this.state
     chatsContainerOpen ? this.handleChatsContainerShow(event) : null
-    if (!profileMenuOpen) {
-      this.setState({
-        profileMenuOpen: true,
-        chatsContainerOpen: false,
-        notificationsOpen: false,
-      })
-      this.props.handleChatsContainerShow()
-    } else {
-      this.setState({ profileMenuOpen: false })
-    }
+    !profileMenuOpen ?
+    this.setState({
+      profileMenuOpen: true,
+      notificationsOpen: false,
+    }) : this.setState({ profileMenuOpen: false })
   }
 
   handleProfileMenuHide = () => {
@@ -763,7 +758,6 @@ class NavMenu extends PureComponent {
                     >
                       <img
                         src='/image/notifications-icon.svg'
-                        onClick={this.handleNotificationsShow}
                       />
                     </Badge>
                   </a>
@@ -1042,7 +1036,6 @@ class NavMenu extends PureComponent {
                       >
                         <img
                           src='/image/notifications-icon.svg'
-                          onClick={this.handleNotificationsShow}
                         />
                       </Badge>
                     </a>

@@ -174,17 +174,13 @@ class BookStoreNavBar extends PureComponent {
   handleProfileMenuShow = (event) => {
     const { profileMenuOpen, chatsContainerOpen } = this.state
     chatsContainerOpen ? this.handleChatsContainerShow(event) : null
-    if (!profileMenuOpen) {
-      this.setState({
-        profileMenuOpen: true,
-        chatsContainerOpen: false,
-        notificationsOpen: false,
-        categoriesMenuOpen: false,
-      })
-      this.props.handleChatsContainerShow()
-    } else {
-      this.setState({ profileMenuOpen: false })
-    }
+    !profileMenuOpen ?
+    this.setState({
+      profileMenuOpen: true,
+      chatsContainerOpen: false,
+      notificationsOpen: false,
+      categoriesMenuOpen: false,
+    }) : this.setState({ profileMenuOpen: false })
   }
 
   handleProfileMenuHide = () => {
