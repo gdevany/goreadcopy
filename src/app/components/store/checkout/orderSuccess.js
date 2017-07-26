@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { browserHistory } from 'react-router'
 import Paper from 'material-ui/Paper'
 import { Footer } from '../../common'
 import { StoreNavView } from '../../views'
@@ -84,6 +85,7 @@ class orderSuccess extends PureComponent {
         </StoreNavView>
       )
     }
+    browserHistory.push('/browse')
     return null
   }
 }
