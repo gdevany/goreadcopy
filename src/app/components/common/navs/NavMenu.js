@@ -280,10 +280,10 @@ class NavMenu extends PureComponent {
   }
 
   handleMapProfileMenuItems = () => {
-    const { orders, referrals } = routes
+    const { referrals } = routes
 
     const nonMenuRoutes = [
-      ['Orders', orders],
+      ['Orders', '/store/orders', true],
       ['Referrals', referrals],
       ['Settings', '/profile/settings', true],
     ]
