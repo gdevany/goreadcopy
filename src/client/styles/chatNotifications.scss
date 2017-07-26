@@ -219,6 +219,8 @@
   p {
     color: #999;
     text-align: center;
+    word-wrap: break-word;
+    width: 100%;
   }
 }
 .single-notification-element:last-child{

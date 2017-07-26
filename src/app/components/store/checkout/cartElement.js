@@ -113,7 +113,7 @@ class CartElement extends PureComponent {
             onClick={this.handleBookRemove}
             className='bookpage-book-remove-item'
           >
-            X
+            <span className='icon-cross' />
           </a>
           <div className='bookstore-book-price-info'>
             <span className='bookpage-book-price'>{parseFloatToUSD(bookPrice)}</span>
