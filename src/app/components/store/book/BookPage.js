@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import Scroll from 'react-scroll'
 import { Footer } from '../../common'
 import { StoreNavView } from '../../views'
 import WishListBooks from '../common/wishListBooks'
@@ -13,6 +14,8 @@ import { Store, Rates } from '../../../redux/actions'
 
 const { getBookInfo } = Store
 const { getStarsInfo } = Rates
+const Anchor = Scroll.Link
+const { Element } = Scroll
 
 const isUserLoggedIn = Auth.currentUserExists()
 
@@ -46,6 +49,8 @@ class BookPage extends PureComponent {
 
   render() {
     const { bookInfo, starsInfo } = this.state
+    const { rates } = this.props
+
     return (
       <StoreNavView>
         <div>
@@ -62,13 +67,20 @@ class BookPage extends PureComponent {
                     <img src='/image/commented-bookstore-icon.svg'/>
                   </figure>
                   <span className='bookpage-announcement-posts-text'>
-                    30 Posts
+                    {rates ? rates.length : 0} {rates && rates.length > 1 ? 'Posts' : 'Post'}
                   </span>
                 </div>
                 <div className='bookpage-announcement-anchor-container'>
-                  <a className='bookpage-announcement-anchor-text'>
+                  <Anchor
+                    to='reviews'
+                    spy={true}
+                    smooth={true}
+                    offset={-100}
+                    duration={500}
+                    className='bookpage-announcement-anchor-text'
+                  >
                     Join the convo
-                  </a>
+                  </Anchor>
                 </div>
               </div>
               <figure className='bookpage-announcement-figure'>
@@ -90,29 +102,31 @@ class BookPage extends PureComponent {
               ) : null
             }
             <hr className='bookpage-hr-separator'/>
-            {bookInfo ?
-              (
-                <ReviewsOverview
-                  reviewsInfo={{
-                    internal: {
-                      rating: bookInfo.rating,
-                      starsInfo
-                    },
-                    goodreads: {
-                      total: 4.3,
-                    },
-                    amazon: {
-                      total: 3.8,
-                    }
-                  }}
-                />
-              ) : null
-            }
-            <hr className='bookpage-hr-separator'/>
-            {bookInfo ?
-              <ReviewsContainer isLogged={isUserLoggedIn} bookInfo={bookInfo} /> :
-              null
-            }
+            <Element name='reviews'>
+              {bookInfo ?
+                (
+                  <ReviewsOverview
+                    reviewsInfo={{
+                      internal: {
+                        rating: bookInfo.rating,
+                        starsInfo
+                      },
+                      goodreads: {
+                        total: 4.3,
+                      },
+                      amazon: {
+                        total: 3.8,
+                      }
+                    }}
+                  />
+                ) : null
+              }
+              <hr className='bookpage-hr-separator'/>
+              {bookInfo ?
+                <ReviewsContainer isLogged={isUserLoggedIn} bookInfo={bookInfo} /> :
+                null
+              }
+            </Element>
             <hr className='bookpage-hr-separator'/>
             {isUserLoggedIn ? null : <NewsLetter />}
           </div>
@@ -128,6 +142,7 @@ const mapStateToProps = (state) => {
   return {
     bookInfo: state.store.bookInfo,
     starsInfo: state.rates.starsInfo,
+    rates: state.rates.bookRates,
   }
 }
 

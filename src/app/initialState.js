@@ -18,7 +18,10 @@ export default {
   tiles: emptyState(),
   sidebarAds: emptyState(),
   store: emptyState(),
-  rates: emptyState(),
+  rates: {
+    bookRates: [],
+    stars: [],
+  },
   chat: emptyState({
     conversations: [],
     isMessagesOpen: false,

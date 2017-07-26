@@ -1,13 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Scroll from 'react-scroll'
+
+const Anchor = Scroll.Link
 
 const BookStoreHero = ({ isUserLogged }) => {
 
   if (isUserLogged) {
     return (
       <section className='bookstore-hero-logged-container'>
-        <h1>Dive into your next adventure</h1>
-        <a href=''>Shop My Wishlist</a>
+        <h1>Shop My Wishlist</h1>
+        <Anchor
+          to='wishlist'
+          spy={true}
+          smooth={true}
+          offset={-100}
+          duration={500}
+          className='bookstore-hero-logged-shop-wishlist'
+        >
+          My Wishlist
+        </Anchor>
         <div className='books-effect-in-hero-container'>
           <div className='book-effect-column'>
             <figure>
