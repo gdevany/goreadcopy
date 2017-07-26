@@ -32,23 +32,17 @@ class SidebarAdWrapper extends PureComponent {
 
   componentWillMount = () => {
     this.props.getSidebarAds()
-    if (this.context.router.params.slug) {
-      this.setState({
-        isProfileAd: true,
-      })
-    }
   }
 
   mapSidebarAds = () => {
     const { sidebarAds } = this.props
-    const { isProfileAd, scrollY } = this.state
+    const { scrollY } = this.state
     if (sidebarAds.results) {
       return sidebarAds.results.map((ad, idx) => {
         return (
         <SidebarAd
           key={idx}
           content={ad}
-          isProfileAd={isProfileAd}
           adClass={idx > 0 ? scrollY : null}
         />
         )
@@ -58,6 +52,7 @@ class SidebarAdWrapper extends PureComponent {
   }
 
   getScrollPosition() {
+    const { view } = this.props
     const scrollComp = window.scrollY || document.documentElement.scrollTop
     const content = scrollComp >= this.state.scrollHeight ? style.sidebarStyle : null
     const navbarOffset = document.getElementsByClassName('top-bar')[0].clientHeight
@@ -65,11 +60,22 @@ class SidebarAdWrapper extends PureComponent {
     const authorRecomOffset = document.getElementById('author-recommendations').clientHeight
     const bookclubRecomOffset = document.getElementById('bookclub-recommendations').clientHeight
     const firstadOffset = document.getElementsByClassName('sidebarAd')[0].firstChild.clientHeight
-    const sidebarOffset = navbarOffset +
-                          bookRecomOffset +
-                          authorRecomOffset +
-                          bookclubRecomOffset +
-                          firstadOffset
+    const overlayOffset = document.getElementsByClassName('overlay')[0].clientHeight
+    let sidebarOffset
+    switch (view) {
+      case 'readfeed':
+        sidebarOffset = navbarOffset +
+                        bookRecomOffset +
+                        authorRecomOffset +
+                        bookclubRecomOffset +
+                        firstadOffset
+        break
+      case 'profile':
+        sidebarOffset = navbarOffset +
+                        overlayOffset +
+                        firstadOffset
+        break
+    }
     if (content === null) {
       this.setState({
         scrollHeight: sidebarOffset,
