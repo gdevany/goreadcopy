@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import Scroll from 'react-scroll'
 import { Footer } from '../../common'
 import { StoreNavView } from '../../views'
 import SignUpModal from '../../common/SignUpModal'
@@ -10,6 +11,8 @@ import RecommendedBooks from './RecommendedBooks'
 import BestSellers from '../common/BestSellers'
 import TrendingBooks from '../common/TrendingBooks'
 import { Auth } from '../../../services'
+
+const { Element } = Scroll
 
 class BookStore extends PureComponent {
   constructor(props) {
@@ -55,12 +58,14 @@ class BookStore extends PureComponent {
 
   render() {
     const { randomCategory } = this.state
+    const { wishList } = this.props
     const isUserLoggedIn = Auth.currentUserExists()
     return (
       <StoreNavView>
         <BookStoreHero
           isUserLogged={isUserLoggedIn}
           openModal={this.handleModalOpen}
+          hasWishlist={(wishList.length === 'User has no books in the wish list')}
         />
         <div className='row'>
           <div className='large-12 columns'>
@@ -68,35 +73,40 @@ class BookStore extends PureComponent {
           </div>
         </div>
         {isUserLoggedIn ? <WishListBooks/> : null}
-        <div className='row'>
-          <div className='large-12 columns'>
-            {randomCategory && randomCategory !== undefined ?
-              <RecommendedBooks
-                category={randomCategory}
-                isUserLogged={isUserLoggedIn}
-              /> : null
-            }
+        <Element name='recommended'>
+          <div className='row'>
+            <div className='large-12 columns'>
+              {randomCategory && randomCategory !== undefined ?
+                <RecommendedBooks
+                  category={randomCategory}
+                  isUserLogged={isUserLoggedIn}
+                /> : null
+              }
+            </div>
           </div>
-        </div>
-        <div className='row'>
-          <div className='large-12 columns'>
-            {randomCategory && randomCategory !== undefined ?
-              <BestSellers category={randomCategory} /> :
-              <div className='loading-animation-store'/>
-            }
+          <div className='row'>
+            <div className='large-12 columns'>
+              {randomCategory && randomCategory !== undefined ?
+                <BestSellers category={randomCategory} /> :
+                <div className='loading-animation-store'/>
+              }
+            </div>
           </div>
-        </div>
-        {randomCategory && randomCategory !== undefined ?
-          <TrendingBooks category={randomCategory} /> :
-          <div className='loading-animation-store' />
-        }
+          {randomCategory && randomCategory !== undefined ?
+            <TrendingBooks category={randomCategory} /> :
+            <div className='loading-animation-store' />
+          }
+        </Element>
         {isUserLoggedIn ?
           null : (
             <section className='bookstore-announcement-container'>
               <p className='bookstore-announcement-text'>
                 Readers Love our book community & it's non fiction
               </p>
-              <a href='#' className='bookstore-announcement-anchor'>
+              <a
+                onClick={this.handleModalOpen}
+                className='bookstore-announcement-anchor'
+              >
                 Ok, i'm sold
               </a>
             </section>
@@ -117,6 +127,7 @@ class BookStore extends PureComponent {
 const mapStateToProps = (state) => {
   return {
     categories: state.store.popularCategories,
+    wishList: state.profilePage.wishList
   }
 }
 

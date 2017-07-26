@@ -13,7 +13,9 @@ export default {
   readerData: emptyState(),
   currentReader: emptyState(),
   litcoins: emptyState(),
-  profilePage: emptyState(),
+  profilePage: {
+    wishList: [],
+  },
   social: emptyState(),
   tiles: emptyState(),
   sidebarAds: emptyState(),
