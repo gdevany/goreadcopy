@@ -455,7 +455,7 @@ class CheckoutPage extends PureComponent {
               setUserAddress({
                 city: cityBilling,
                 name: nameBilling,
-                phone: phone,
+                phone: phoneBilling,
                 country: countryBilling,
                 address: addressBilling,
                 address2: address2Billing,

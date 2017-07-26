@@ -91,7 +91,7 @@ class OrderSummary extends PureComponent {
                   Shipping
                 </span>
                 <span className='checkoutpage-order-summary-list-price'>
-                  {parseFloatToUSD(orderSummary.shippingCosts)}
+                  {parseFloatToUSD(orderSummary.shippingCost)}
                 </span>
               </div>
               <div className='checkoutpage-order-summary-list-single'>
