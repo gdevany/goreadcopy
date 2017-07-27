@@ -7,19 +7,13 @@ export function getProfilePage(slug, isUserLoggedIn) {
     return dispatch => {
       ProfilePage.getAuthProfilePage(slug)
         .then(res => dispatch({ type: A.GET_PROFILE_PAGE, payload: res.data }))
-        .catch(err => {
-          if (err.response.status === 404) browserHistory.push('/')
-          console.error(`Error in getProfilePage ${err}`)
-        })
+        .catch(err => browserHistory.push('/'))
     }
   }
   return dispatch => {
     ProfilePage.getProfilePage(slug)
       .then(res => dispatch({ type: A.GET_PROFILE_PAGE, payload: res.data }))
-      .catch(err => {
-        if (err.response.status === 404) browserHistory.push('/')
-        console.error(`Error in getProfilePage ${err}`)
-      })
+      .catch(err => browserHistory.push('/'))
   }
 }
 
