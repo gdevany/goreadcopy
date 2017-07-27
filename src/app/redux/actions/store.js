@@ -169,13 +169,7 @@ export function filterBooks(params) {
 export function getCartItems(params) {
   return dispatch => {
     Store.getCartItems(params)
-      .then(res => {
-        if (res.data.itemsCount === 0) {
-          browserHistory.push('/browse')
-        } else {
-          dispatch({ type: A.GET_CART_ITEMS, payload: res.data })
-        }
-      })
+      .then(res => dispatch({ type: A.GET_CART_ITEMS, payload: res.data }))
       .catch(err => console.error(`Error in getCartItems ${err}`))
   }
 }
