@@ -34,6 +34,9 @@ class BookPage extends PureComponent {
   }
 
   componentWillReceiveProps = (nextProps) => {
+    if (nextProps.params.slug !== this.props.params.slug) {
+      this.props.getBookInfo(nextProps.params.slug, isUserLoggedIn)
+    }
     if (nextProps.bookInfo !== this.state.bookInfo) {
       this.setState({
         bookInfo: nextProps.bookInfo
@@ -126,9 +129,10 @@ class BookPage extends PureComponent {
                 ) : null
               }
               <hr className='bookpage-hr-separator'/>
-              {bookInfo ?
-                <ReviewsContainer isLogged={isUserLoggedIn} bookInfo={bookInfo} /> :
-                null
+              {
+                bookInfo ?
+                  <ReviewsContainer isLogged={isUserLoggedIn} bookInfo={bookInfo} /> :
+                  null
               }
             </Element>
             <hr className='bookpage-hr-separator'/>
