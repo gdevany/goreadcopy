@@ -9,7 +9,7 @@ import R from 'ramda'
 import CV from 'card-validator'
 
 const {
-  setOrder, getOrder, getCurrentOrder, setUserAddress, setUserAddressAndShipping,
+  getCurrentOrder, setUserAddress, setUserAddressAndShipping,
   setShipping, setBilling, placeOrder, getPaypalConfig, placeOrderWithChanges,
 } = Store
 
@@ -82,7 +82,7 @@ class CheckoutPage extends PureComponent {
   }
 
   componentWillMount = () => {
-    this.props.setOrder()
+    this.props.getCurrentOrder()
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -760,7 +760,6 @@ const mapStateToProps = (state) => {
 }
 
 const mapDistpachToProps = {
-  setOrder,
   getOrder,
   getCurrentOrder,
   setUserAddress,
