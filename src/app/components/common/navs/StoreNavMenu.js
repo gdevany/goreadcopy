@@ -724,28 +724,40 @@ class BookStoreNavBar extends PureComponent {
                     onClick={this.handleShowHideSearchResuls}
                     value={this.state.searchTerm}
                   />
-                  {isSearchResultsOpen && this.state.searchTerm.length >= 1 ?
-                    searchResults ?
+                  {
+                    // Show results only when these are true:
+                    // -- It's flagged to open
+                    // -- There are 3 or more characters to search
+                    isSearchResultsOpen && this.state.searchTerm.length >= 3 ?
+                      searchResults ?
+                        (
+                          <img
+                            onClick={this.handleShowHideSearchResuls}
+                            src='/image/close.png'
+                            className='bookstore-close-results-icon'
+                          />
+                        ) :
+                        (
+                          <div className='loading-animation-store-search' />
+                        ) :
                       (
-                        <img
-                          onClick={this.handleShowHideSearchResuls}
-                          src='/image/close.png'
-                          className='bookstore-close-results-icon'
-                        />
-                      ) : (
-                        <div className='loading-animation-store-search' />
-                      ) : (
                         <img src='/image/search-icon.svg' className='bookstore-search-icon'/>
-                    )
+                      )
                   }
-                  {searchResults && isSearchResultsOpen ?
-                    (
-                      <RestrictedScrollContainer
-                        classes='bookstore-search-results-container'
-                      >
-                        {this.renderSearchResults()}
-                      </RestrictedScrollContainer>
-                    ) : null
+                  {
+                    // Show results only when these are true:
+                    // -- There are results
+                    // -- It's flagged to open
+                    // -- There are 3 or more characters to search
+                    searchResults && isSearchResultsOpen && this.state.searchTerm.length >= 3 ?
+                      (
+                        <RestrictedScrollContainer
+                          classes='bookstore-search-results-container'
+                        >
+                          {this.renderSearchResults()}
+                        </RestrictedScrollContainer>
+                      ) :
+                      null
                   }
                 </form>
               </div>
