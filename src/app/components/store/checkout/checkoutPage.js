@@ -9,7 +9,7 @@ import R from 'ramda'
 import CV from 'card-validator'
 
 const {
-  getCurrentOrder, setUserAddress, setUserAddressAndShipping,
+  getOrder, getCurrentOrder, setUserAddress, setUserAddressAndShipping,
   setShipping, setBilling, placeOrder, getPaypalConfig, placeOrderWithChanges,
 } = Store
 
