@@ -60,7 +60,7 @@ class RecommendedBooks extends PureComponent {
                 of your friends purchased this book
               </p>
               <figure className='bookstore-recommended-book-figure'>
-                <Link to={`/book/${mostPurchased.results.length}`}>
+                <Link to={`/book/${mostPurchased.results[0].slug}`}>
                   <img src={mostPurchased.results[0].imageUrl}/>
                 </Link>
               </figure>
