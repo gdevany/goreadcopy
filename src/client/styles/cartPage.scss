@@ -191,6 +191,7 @@
       color: #616161;
       transition: all .3s ease;
       margin-bottom: 10px;
+      box-shadow: rgba(10, 10, 10, 0.13) 1px 3px 0px 0px;
       @media all and (min-width: 768px){
         margin-bottom: 0;
       }
@@ -986,6 +987,7 @@
     color: #616161;
     transition: all .3s ease;
     margin-bottom: 10px;
+    box-shadow: rgba(10, 10, 10, 0.13) 1px 3px 0px 0px;
     &:hover{
       color: #2f2f2f;
     }
@@ -1037,13 +1039,14 @@
         width: inherit;
         display: block;
         text-align: center;
-        padding: 15px 25px;
+        padding: 10px 15px;
         background-color: #fff;
         border: solid 1px #CCC;
         border-radius: 25px;
         color: #616161;
         transition: all .3s ease;
         margin-bottom: 10px;
+        box-shadow: rgba(10, 10, 10, 0.13) 1px 3px 0px 0px;
         &:hover{
           color: #2f2f2f;
         }
