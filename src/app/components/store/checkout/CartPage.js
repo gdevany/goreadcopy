@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { browserHistory, Link } from 'react-router'
+import { Link } from 'react-router'
 import WishListBooks from '../common/wishListBooks'
 import CartElement from './cartElement'
 import { Footer } from '../../common'
@@ -12,7 +12,7 @@ import ShippingGiftAddressModal from './ShippingGiftAddressModal'
 
 const isUserLoggedIn = Auth.currentUserExists()
 const { showAlert } = Common
-const { getCartItems, setOrder } = Store
+const { getCartItems } = Store
 const { parseFloatToUSD } = Numbers
 
 class CartPage extends PureComponent {
@@ -30,9 +30,6 @@ class CartPage extends PureComponent {
   }
 
   componentWillMount = () => {
-    if (!isUserLoggedIn) {
-      browserHistory.push('/')
-    }
     this.props.getCartItems({
       perPage: 50,
     })
@@ -65,9 +62,7 @@ class CartPage extends PureComponent {
         allGiftsReady = false
       }
     })
-    if (allGiftsReady) {
-      this.props.setOrder()
-    } else {
+    if (!allGiftsReady) {
       this.createAlert('A gift is pending address...', 'error')
       ev.preventDefault()
     }
@@ -123,7 +118,25 @@ class CartPage extends PureComponent {
                     <h2 className='cartpage-title'>Your Cart</h2>
                     <div className='cartpage-elements-container'>
                       {cart && cart.itemsCount > 0 ?
-                        this.mapCartItems() : null
+                        this.mapCartItems() : (
+                          <div className='cart-blank-state'>
+                            <figure>
+                              <img src='/image/sadBook.png' alt='No items in cart'/>
+                            </figure>
+                            <span className='cart-blank-title'>
+                              Your cart is empty!
+                            </span>
+                            <span className='cart-blank-subtitle'>
+                              Go and find something nice to buy :)
+                            </span>
+                            <Link
+                              className='cart-blank-anchor'
+                              to='/browse'
+                            >
+                              Go to store
+                            </Link>
+                          </div>
+                        )
                       }
                       {anyGift ?
                         (
@@ -143,18 +156,22 @@ class CartPage extends PureComponent {
                         ) : null
                       }
                     </div>
-                    <div className='cartpage-subtotal-container'>
-                      <span className='bookpage-subtotal-title'>Subtotal</span>
-                      <h3 className='bookpage-subtotal-price'>
-                        {cart ? parseFloatToUSD(cart.subtotalPrice) : parseFloatToUSD(0)}
-                      </h3>
-                    </div>
-                    <div className='cartpage-action-btns-container'>
-                      <a className='cartpage-action-secondary-btn' href='/browse'>
-                        Continue shopping
-                      </a>
-                      {cart && cart.itemsCount > 0 ?
-                        (
+                    {cart && cart.itemsCount > 0 ?
+                      (
+                        <div className='cartpage-subtotal-container'>
+                          <span className='bookpage-subtotal-title'>Subtotal</span>
+                          <h3 className='bookpage-subtotal-price'>
+                            {cart ? parseFloatToUSD(cart.subtotalPrice) : parseFloatToUSD(0)}
+                          </h3>
+                        </div>
+                      ) : null
+                    }
+                    {cart && cart.itemsCount > 0 ?
+                      (
+                        <div className='cartpage-action-btns-container'>
+                          <Link className='cartpage-action-secondary-btn' to='/browse'>
+                            Continue shopping
+                          </Link>
                           <Link
                             onClick={this.handleCheckout}
                             className='store-primary-button float-right'
@@ -162,9 +179,9 @@ class CartPage extends PureComponent {
                           >
                             Checkout
                           </Link>
-                        ) : null
-                      }
-                    </div>
+                        </div>
+                      ) : null
+                    }
                   </section>
                 </div>
               </div>
@@ -190,7 +207,6 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = ({
   getCartItems,
-  setOrder,
   showAlert,
 })
 

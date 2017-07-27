@@ -4,22 +4,42 @@ import Scroll from 'react-scroll'
 
 const Anchor = Scroll.Link
 
-const BookStoreHero = ({ isUserLogged, openModal }) => {
+const BookStoreHero = ({ isUserLogged, openModal, hasWishlist }) => {
 
   if (isUserLogged) {
     return (
       <section className='bookstore-hero-logged-container'>
-        <h1>Shop My Wishlist</h1>
-        <Anchor
-          to='wishlist'
-          spy={true}
-          smooth={true}
-          offset={-100}
-          duration={500}
-          className='bookstore-hero-logged-shop-wishlist'
-        >
-          My Wishlist
-        </Anchor>
+        {hasWishlist ?
+          (
+            <div className='center-text'>
+              <h1>Shop My Wishlist</h1>
+              <Anchor
+                to='wishlist'
+                spy={true}
+                smooth={true}
+                offset={-100}
+                duration={500}
+                className='bookstore-hero-logged-shop-wishlist'
+              >
+                My Wishlist
+              </Anchor>
+            </div>
+          ) : (
+            <div className='center-text'>
+              <h1>Take a look of our books recommendations</h1>
+              <Anchor
+                to='recommended'
+                spy={true}
+                smooth={true}
+                offset={-100}
+                duration={500}
+                className='bookstore-hero-logged-shop-wishlist'
+              >
+                Take me there
+              </Anchor>
+            </div>
+          )
+        }
         <div className='books-effect-in-hero-container'>
           <div className='book-effect-column'>
             <figure>
@@ -111,6 +131,7 @@ const BookStoreHero = ({ isUserLogged, openModal }) => {
 BookStoreHero.propTypes = {
   isUserLogged: PropTypes.bool,
   openModal: PropTypes.func,
+  hasWishlist: PropTypes.bool,
 }
 
 export default BookStoreHero

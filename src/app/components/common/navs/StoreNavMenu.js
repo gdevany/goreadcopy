@@ -328,7 +328,6 @@ class BookStoreNavBar extends PureComponent {
     const anchorClass = 'profile-menu-anchor'
     const { currentReader } = this.props
     const {
-      orders,
       referrals,
       authorBuzz,
       authorBuzzSettings,
@@ -336,7 +335,7 @@ class BookStoreNavBar extends PureComponent {
       publisherBuzzSettings
     } = routes
     const nonMenuRoutes = [
-      ['Orders', orders],
+      ['Orders', '/store/orders', true],
       ['Referrals', referrals],
       ['Settings', '/profile/settings', true],
     ]

@@ -1284,3 +1284,29 @@
   font-weight: 700;
   text-transform: uppercase;
 }
+
+.cart-blank-state{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  margin: 3em 0;
+  @media all and (min-width: 1400px) {
+    margin: 5em 0;
+  }
+  .cart-blank-title{
+    font-weight: 600;
+    font-size: 20px;
+  }
+  .cart-blank-subtitle{
+    font-size: 18px;
+  }
+  .cart-blank-anchor{
+    display: flex;
+    margin: 1em 0;
+    background-color: $store-blue;
+    color: $white;
+    padding: 1em 2em;
+  }
+}

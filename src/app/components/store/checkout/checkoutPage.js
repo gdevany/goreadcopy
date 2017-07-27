@@ -9,7 +9,7 @@ import R from 'ramda'
 import CV from 'card-validator'
 
 const {
-  setOrder, getOrder, getCurrentOrder, setUserAddress, setUserAddressAndShipping,
+  getOrder, getCurrentOrder, setUserAddress, setUserAddressAndShipping,
   setShipping, setBilling, placeOrder, getPaypalConfig, placeOrderWithChanges,
 } = Store
 
@@ -455,7 +455,7 @@ class CheckoutPage extends PureComponent {
               setUserAddress({
                 city: cityBilling,
                 name: nameBilling,
-                phone: phone,
+                phone: phoneBilling,
                 country: countryBilling,
                 address: addressBilling,
                 address2: address2Billing,
@@ -760,7 +760,6 @@ const mapStateToProps = (state) => {
 }
 
 const mapDistpachToProps = {
-  setOrder,
   getOrder,
   getCurrentOrder,
   setUserAddress,
