@@ -148,7 +148,10 @@ class SingleGiftElement extends PureComponent {
               onChange={this.handleOnChange('giftMessage')}
               value={this.state.giftMessage}
             />
-            <a onClick={this.handleOpenAddress}>
+            <a
+              className='cartpage-set-gifts-btn'
+              onClick={this.handleOpenAddress}
+            >
               {
                 isAddressClicked ?
                   'Hide Shipping Address Form' :
