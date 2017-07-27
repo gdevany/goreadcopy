@@ -89,6 +89,7 @@ const Endpoints = () => {
       getMostPurchased: (params) => apiUrl('store/friends_most_purchased', params),
       getRecommendedByAuthorFans: (params) => apiUrl('store/recommended/books/author_fans', params),
       getBookInfo: (id) => apiUrl(`books/${id}`),
+      validateCategory: (id) => apiUrl(`store/${id}/validate_category`),
       addBookToCart: (id) => apiUrl(`store/${id}/add_book_to_cart`),
       getCartItems: (params) => apiUrl('store/cart', params),
       updateCartItems:

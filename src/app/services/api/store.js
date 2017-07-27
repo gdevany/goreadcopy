@@ -30,6 +30,7 @@ const {
     getPaypalConfig,
     setPromoCode,
     cleanPromoCode,
+    validateCategory,
   }
 } = Endpoints
 
@@ -42,6 +43,7 @@ const Store = () => {
     getMostPurchased: (params) => authenticated().get(getMostPurchased(params)),
     getRecommendedByAuthorFans: (params) => http.get(getRecommendedByAuthorFans(params)),
     getBookInfo: (id) => http.get(getBookInfo(id)),
+    validateCategory: (id) => http.get(validateCategory(id)),
     getAuthBookInfo: (id) => authenticated().get(getBookInfo(id)),
     addBookToCart: (id) => authenticated().post(addBookToCart(id)),
     getCartItems: (params) => authenticated().get(getCartItems(params)),

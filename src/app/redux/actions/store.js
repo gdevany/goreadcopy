@@ -95,13 +95,19 @@ export function getBookInfo(bookSlug, isLogged) {
     return dispatch => {
       Store.getAuthBookInfo(bookSlug)
         .then(res => dispatch({ type: A.GET_BOOK_INFO, payload: res.data }))
-        .catch(err => console.error(`Error in getBookInfo ${err}`))
+        .catch(err => {
+          if (err.response.status === 400) browserHistory.push('/browse')
+          console.error(`Error in getBookInfo ${err}`)
+        })
     }
   }
   return dispatch => {
     Store.getBookInfo(bookSlug)
       .then(res => dispatch({ type: A.GET_BOOK_INFO, payload: res.data }))
-      .catch(err => console.error(`Error in getBookInfo ${err}`))
+      .catch(err => {
+        if (err.response.status === 400) browserHistory.push('/browse')
+        console.error(`Error in getBookInfo ${err}`)
+      })
   }
 }
 

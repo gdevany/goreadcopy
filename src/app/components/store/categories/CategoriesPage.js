@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { browserHistory } from 'react-router'
 import { Store } from '../../../redux/actions'
 import { Footer } from '../../common'
 import { StoreNavView } from '../../views'
@@ -9,6 +10,7 @@ import SubCategories from './SubCategories'
 import WishListBooks from '../common/wishListBooks'
 import BestSellers from '../common/BestSellers'
 import { Auth } from '../../../services'
+import { Store as ApiStore } from '../../../services/api'
 
 const { getChildCategories } = Store
 
@@ -30,7 +32,13 @@ class CategoriesPage extends PureComponent {
 
   componentWillMount = () => {
     const categorySlug = this.props.params.slug
-    this.props.getChildCategories(categorySlug)
+    ApiStore.validateCategory(categorySlug)
+      .then(() => {
+        this.props.getChildCategories(categorySlug)
+      })
+      .catch((err) => {
+        if (err.response.status === 400) browserHistory.push('/browse')
+      })
   }
 
   componentWillReceiveProps = (nextProps) => {
