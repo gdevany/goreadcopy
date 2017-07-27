@@ -95,13 +95,13 @@ export function getBookInfo(bookSlug, isLogged) {
     return dispatch => {
       Store.getAuthBookInfo(bookSlug)
         .then(res => dispatch({ type: A.GET_BOOK_INFO, payload: res.data }))
-        .catch(err => browserHistory.push('/browse'))
+        .catch(() => browserHistory.push('/browse'))
     }
   }
   return dispatch => {
     Store.getBookInfo(bookSlug)
       .then(res => dispatch({ type: A.GET_BOOK_INFO, payload: res.data }))
-      .catch(err => browserHistory.push('/browse'))
+      .catch(() => browserHistory.push('/browse'))
   }
 }
 
@@ -264,7 +264,7 @@ export function getCurrentOrder(params) {
         })
         .catch(err => console.log('Error in getCurrentOrder: getShippingMethods => ', err))
       })
-      .catch((err) => browserHistory.push('/browse'))
+      .catch(() => browserHistory.push('/browse'))
   }
 }
 

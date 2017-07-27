@@ -7,13 +7,13 @@ export function getProfilePage(slug, isUserLoggedIn) {
     return dispatch => {
       ProfilePage.getAuthProfilePage(slug)
         .then(res => dispatch({ type: A.GET_PROFILE_PAGE, payload: res.data }))
-        .catch(err => browserHistory.push('/'))
+        .catch(() => browserHistory.push('/'))
     }
   }
   return dispatch => {
     ProfilePage.getProfilePage(slug)
       .then(res => dispatch({ type: A.GET_PROFILE_PAGE, payload: res.data }))
-      .catch(err => browserHistory.push('/'))
+      .catch(() => browserHistory.push('/'))
   }
 }
 
