@@ -115,7 +115,6 @@ class ProfileWrapper extends PureComponent {
     const { isMyProfile } = this.state
     const { currentReader, profilePage } = this.props
     const profile = (isMyProfile ? currentReader : profilePage)
-
     return (
       <div>
         <Helmet>
@@ -154,6 +153,7 @@ class ProfileWrapper extends PureComponent {
         <BackgroundImageProfileUpload
           backgroundImage={profile.backgroundImage}
           isMyProfile={isMyProfile}
+          isUserLoggedIn={this.state.isLogged}
         />
         <div className='row'>
           {

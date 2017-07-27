@@ -6,10 +6,16 @@ import { Ads } from '../../redux/actions'
 
 const { getSidebarAds } = Ads
 const style = {
-  sidebarStyle: {
+  readfeedStyle: {
     position: 'fixed',
     background: 'white',
     width: 270,
+    top: 68,
+  },
+  profileStyle: {
+    position: 'fixed',
+    background: 'white',
+    width: 184,
     top: 68,
   }
 }
@@ -23,7 +29,6 @@ class SidebarAdWrapper extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      isProfileAd: false,
       scrollHeight: 99999,
       scrollY: null,
     }
@@ -54,16 +59,16 @@ class SidebarAdWrapper extends PureComponent {
   getScrollPosition() {
     const { view } = this.props
     const scrollComp = window.scrollY || document.documentElement.scrollTop
-    const content = scrollComp >= this.state.scrollHeight ? style.sidebarStyle : null
-    const navbarOffset = document.getElementsByClassName('top-bar')[0].clientHeight
-    const bookRecomOffset = document.getElementById('book-recommendations').clientHeight
-    const authorRecomOffset = document.getElementById('author-recommendations').clientHeight
-    const bookclubRecomOffset = document.getElementById('bookclub-recommendations').clientHeight
-    const firstadOffset = document.getElementsByClassName('sidebarAd')[0].firstChild.clientHeight
-    const overlayOffset = document.getElementsByClassName('overlay')[0].clientHeight
-    let sidebarOffset
+    let scrollStyle, sidebarOffset, navbarOffset, bookRecomOffset, authorRecomOffset,
+      bookclubRecomOffset, firstadOffset, overlayOffset
     switch (view) {
       case 'readfeed':
+        navbarOffset = document.getElementsByClassName('top-bar')[0].clientHeight
+        bookRecomOffset = document.getElementById('book-recommendations').clientHeight
+        authorRecomOffset = document.getElementById('author-recommendations').clientHeight
+        bookclubRecomOffset = document.getElementById('bookclub-recommendations').clientHeight
+        firstadOffset = document.getElementsByClassName('sidebarAd')[0].firstChild.clientHeight
+        scrollStyle = style.readfeedStyle
         sidebarOffset = navbarOffset +
                         bookRecomOffset +
                         authorRecomOffset +
@@ -71,11 +76,16 @@ class SidebarAdWrapper extends PureComponent {
                         firstadOffset
         break
       case 'profile':
-        sidebarOffset = navbarOffset +
-                        overlayOffset +
-                        firstadOffset
+        const firstadStyle =
+          getComputedStyle(document.getElementsByClassName('sidebarAd')[0].firstChild)
+        overlayOffset = document.getElementsByClassName('background-image-wrapper')[0].clientHeight
+        firstadOffset = document.getElementsByClassName('sidebarAd')[0].firstChild.clientHeight +
+          parseInt(firstadStyle.marginBottom, 10)
+        scrollStyle = style.profileStyle
+        sidebarOffset = overlayOffset + firstadOffset
         break
     }
+    const content = scrollComp >= this.state.scrollHeight ? scrollStyle : null
     if (content === null) {
       this.setState({
         scrollHeight: sidebarOffset,

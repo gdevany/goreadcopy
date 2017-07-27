@@ -84,12 +84,17 @@ input[type="checkbox"]:focus{
   }
 }
 
-.profile-page-img-wrapper{
+.profile-page-img-wrapper-logged{
   @media all and (min-width: 1200px){
     padding-top: 64px;
   }
 }
 
+.profile-page-img-wrapper-anon{
+  @media all and (min-width: 1200px){
+    padding-top: 78px;
+  }
+}
 
 .box {
   padding: 30px;
