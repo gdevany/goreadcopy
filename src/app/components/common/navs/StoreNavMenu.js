@@ -26,7 +26,7 @@ import { NotificationPopupWindow } from '../notifications'
 import { LatestMessagePopupWindow } from '../chat'
 import { RestrictedScrollContainer } from '../scrollers'
 
-const { mainSearch, updateSearch } = Search
+const { mainSearch, updateSearch, cleanSearchState } = Search
 const { verifyUserToken, processUserLogout } = Auth
 const { usePlatformAs, getCurrentReader, logoutCurrentReader } = CurrentReader
 const { getCategories, getPopularCategories } = Store
@@ -64,6 +64,7 @@ class BookStoreNavBar extends PureComponent {
       categoriesMenuOpen: false,
       searchTerm: '',
       searchResults: '',
+      isFetchingResults: false,
       isSearchResultsOpen: false,
       notificationsOpen: false,
       chatsContainerOpen: false,
@@ -144,13 +145,21 @@ class BookStoreNavBar extends PureComponent {
 
   handleSeach = R.curry((field, e) => {
     e.persist()
-    this.setState({ [field]: e.target.value })
+    this.setState({
+      [field]: e.target.value,
+      isSearchResultsOpen: false,
+    })
     this.debouncedSearch(e)
   })
 
   debouncedSearch = debounce((event) => {
-    if (event.target.value.length > 3) {
-      this.props.mainSearch(event.target.value, 'book-search')
+    const trimmedInput = event.target.value.trim()
+    this.props.cleanSearchState()
+    this.setState({
+      searchResults: '',
+    })
+    if (trimmedInput.length >= 3) {
+      this.props.mainSearch(trimmedInput, 'book-search')
     }
   }, 1000)
 
@@ -600,7 +609,7 @@ class BookStoreNavBar extends PureComponent {
 
   renderSearchResults = () => {
     const { searchResults } = this.props
-    if (searchResults.length) {
+    if (searchResults && searchResults.length) {
       return searchResults.map((book, index) => {
         return (
           <Book
@@ -634,13 +643,9 @@ class BookStoreNavBar extends PureComponent {
 
   handleShowHideSearchResuls = () => {
     if (this.state.isSearchResultsOpen) {
+      this.props.cleanSearchState()
       this.setState({
-        isSearchResultsOpen: false,
-        searchTerm: '',
-      })
-    } else {
-      this.setState({
-        isSearchResultsOpen: true,
+        isSearchResultsOpen: false
       })
     }
   }
@@ -721,24 +726,26 @@ class BookStoreNavBar extends PureComponent {
                     placeholder='Search store...'
                     type='text'
                     onChange={this.handleSeach('searchTerm')}
-                    onClick={this.handleShowHideSearchResuls}
                     value={this.state.searchTerm}
                   />
                   {
                     // Show results only when these are true:
                     // -- It's flagged to open
                     // -- There are 3 or more characters to search
-                    isSearchResultsOpen && this.state.searchTerm.length >= 3 ?
-                      searchResults ?
+                    this.state.searchTerm.length >= 3 ?
+                      !searchResults || !isSearchResultsOpen ?
+                        (
+                          <div className='loading-animation-store-search' />
+                        ) :
                         (
                           <img
-                            onClick={this.handleShowHideSearchResuls}
+                            onClick={(e)=>{
+                              this.handleShowHideSearchResuls(e)
+                              this.setState({ searchTerm: '', searchResults: '' })
+                            }}
                             src='/image/close.png'
                             className='bookstore-close-results-icon'
                           />
-                        ) :
-                        (
-                          <div className='loading-animation-store-search' />
                         ) :
                       (
                         <img src='/image/search-icon.svg' className='bookstore-search-icon'/>
@@ -1137,6 +1144,7 @@ const mapDispatchToProps = {
   updateSearch,
   toggleMessagePopup,
   loadNotifications,
+  cleanSearchState,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookStoreNavBar)

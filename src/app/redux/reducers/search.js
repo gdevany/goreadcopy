@@ -22,6 +22,8 @@ export default (state = initialState.search, { type, payload, errors }) => {
         }
       }
       return R.merge(state, diff)
+    case A.CLEAN_SEARCH:
+      return initialState.search
     default:
       return state
   }
