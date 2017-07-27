@@ -111,10 +111,12 @@ export function getBookInfo(bookSlug, isLogged) {
   }
 }
 
-export function addToCart(bookId) {
+export function addToCart(bookId, logged) {
   return dispatch => {
-    Store.addBookToCart(bookId)
-      .then(res => dispatch(getCurrentReader()))
+    Store.addBookToCart(bookId, logged)
+      .then(res => {
+        if (logged) dispatch(getCurrentReader())
+      })
       .catch(err => console.error(`Error in addToCart ${err}`))
   }
 }
@@ -172,9 +174,9 @@ export function filterBooks(params) {
   }
 }
 
-export function getCartItems(params) {
+export function getCartItems(params, logged) {
   return dispatch => {
-    Store.getCartItems(params)
+    Store.getCartItems(params, logged)
       .then(res => dispatch({ type: A.GET_CART_ITEMS, payload: res.data }))
       .catch(err => console.error(`Error in getCartItems ${err}`))
   }

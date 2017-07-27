@@ -45,8 +45,14 @@ const Store = () => {
     getBookInfo: (id) => http.get(getBookInfo(id)),
     validateCategory: (id) => http.get(validateCategory(id)),
     getAuthBookInfo: (id) => authenticated().get(getBookInfo(id)),
-    addBookToCart: (id) => authenticated().post(addBookToCart(id)),
-    getCartItems: (params) => authenticated().get(getCartItems(params)),
+    addBookToCart: (id, logged) => {
+      if (logged) return authenticated().post(addBookToCart(id))
+      return http.post(addBookToCart(id))
+    },
+    getCartItems: (params, logged) => {
+      if (logged) return authenticated().get(getCartItems(params))
+      return http.get(getCartItems(params))
+    },
     updateCartItems: (id, quantity) => authenticated().post(updateCartItems(id, quantity)),
     removeItemFromCart: (id) => authenticated().delete(removeItemFromCart(id)),
     convertToGift: (id, params) => authenticated().post(convertToGift(id), params),

@@ -988,15 +988,15 @@ class BookStoreNavBar extends PureComponent {
                         </a>
                       </li>
                       <li className='bookstore-navbar-menu-list'>
-                        <a
+                        <Link
                           className='bookstore-navbar-menu-anchor'
-                          href='/shop/cart'
+                          to='/shop/cart'
                         >
                           <img
                             src='/image/cart.svg'
                             placeholder='Search in the Store'
                           />
-                        </a>
+                        </Link>
                       </li>
                       <li className='bookstore-navbar-menu-list on-mobile-only'>
                         <a

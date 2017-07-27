@@ -162,7 +162,7 @@ class OrderSummary extends PureComponent {
                 </form>
               ) : null
             }
-            {orderSummary.promotionCodes.length ?
+            {orderSummary.promotionCodes.length && orderSummary.status ?
               (
                 <div className='checkoutpage-order-summary-total'>
                   <a onClick={this.handlePromoClean}>

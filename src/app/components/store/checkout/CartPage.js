@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import WishListBooks from '../common/wishListBooks'
 import CartElement from './cartElement'
+import SignUpModal from '../../common/SignUpModal'
 import { Footer } from '../../common'
 import { StoreNavView } from '../../views'
 import { Auth } from '../../../services'
@@ -23,16 +24,18 @@ class CartPage extends PureComponent {
       cart: false,
       anyGift: false,
       modalOpen: false,
+      modalSighUpOpen: false,
     }
     this.handleModalClose = this.handleModalClose.bind(this)
     this.handleCheckout = this.handleCheckout.bind(this)
     this.createAlert = this.createAlert.bind(this)
+    this.handleSignUpClose = this.handleSignUpClose.bind(this)
   }
 
   componentWillMount = () => {
     this.props.getCartItems({
       perPage: 50,
-    })
+    }, isUserLoggedIn)
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -42,6 +45,15 @@ class CartPage extends PureComponent {
       })
       if (nextProps.cart.itemsCount > 0) this.checkGifts(nextProps.cart.items)
     }
+  }
+
+  handleSighUpModalOpen = (event) => {
+    event.preventDefault()
+    this.setState({ modalSighUpOpen: true })
+  }
+
+  handleSignUpClose = () => {
+    this.setState({ modalSighUpOpen: false })
   }
 
   handleModalOpen = (event) => {
@@ -173,7 +185,11 @@ class CartPage extends PureComponent {
                             Continue shopping
                           </Link>
                           <Link
-                            onClick={this.handleCheckout}
+                            onClick={
+                              isUserLoggedIn ?
+                              this.handleCheckout :
+                              this.handleSighUpModalOpen
+                            }
                             className='store-primary-button float-right'
                             to='/shop/checkout'
                           >
@@ -187,6 +203,10 @@ class CartPage extends PureComponent {
               </div>
             </section>
             {isUserLoggedIn ? <WishListBooks/> : null}
+            <SignUpModal
+              modalOpen={this.state.modalSighUpOpen}
+              handleClose={this.handleSighUpModalOpen}
+            />
           </div>
           <div className='bookstore-footer-container'>
             <Footer />
