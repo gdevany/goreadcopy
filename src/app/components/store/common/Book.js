@@ -20,7 +20,6 @@ class Book extends PureComponent {
   }
 
   render() {
-
     const {
       url,
       image,
@@ -30,7 +29,7 @@ class Book extends PureComponent {
       bookType,
     } = this.props
 
-    const author = authors.length && bookType !== 'searchResult' ?
+    const author = authors && authors.length && bookType !== 'searchResult' ?
       authors[0].fullname : authors && bookType === 'searchResult' ?
       authors : null
 
@@ -51,10 +50,12 @@ class Book extends PureComponent {
             {title ? this.truncInfo(title, 15) : <i> unknown </i>}
           </span>
           <span className='book-info-author'>
-            {authors[0] ?
+            {
+              authors && authors[0] ?
               (
                 `by ${author}`
-              ) : <i> unknown </i>
+              ) :
+              <i> unknown </i>
             }
           </span>
         </div>

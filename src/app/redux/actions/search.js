@@ -20,7 +20,7 @@ export function mainSearch(searchTerm, searchType) {
   }
   const debounceSearch = () => {
     return debounce(dispatch => {
-      Search.search(terms)
+      return Search.search(terms)
         .then(res => { dispatch(updateSearch(res.data))})
         .catch(err => console.error(`Error in ${searchType} search ${err}`))
     }, 300)
@@ -58,9 +58,16 @@ export function updateSearch(payload) {
   }
 }
 
+export function cleanSearchState() {
+  return dispatch => {
+    return Promise.resolve(dispatch({ type: A.CLEAN_SEARCH }))
+  }
+}
+
 export default {
   mainSearch,
   updateSearch,
   bookSearch,
   updateBookSearch,
+  cleanSearchState,
 }
