@@ -50,12 +50,12 @@ class Review extends PureComponent {
     }
   }
 
-  // componentWillReceiveProps = (nextProps) => {
-  //   if (nextProps.rateInfo !== this.props.rateInfo) {
-  //     console.log(nextProps.rateInfo)
-  //     this.setState({ rateInfo: nextProps.rateInfo })
-  //   }
-  // }
+  componentWillReceiveProps = (nextProps) => {
+    if (nextProps.rateInfo !== this.props.rateInfo) {
+      this.setState({ rateInfo: nextProps.rateInfo })
+    }
+  }
+
   componentDidUpdate = (prevProps, prevState) => {
     const { likedCount, rateInfo } = this.state
     const { updateLikes } = this.props

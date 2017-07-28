@@ -11,7 +11,7 @@ export function getStarsInfo(modelName, id) {
 
 export function getRates(modelName, id) {
   return dispatch => {
-    Rates.getRates(modelName, id)
+    return Rates.getRates(modelName, id)
       .then(res => dispatch({ type: A.GET_RATES, payload: res.data }))
       .catch(err => console.error(`Error in getRates ${err}`))
   }

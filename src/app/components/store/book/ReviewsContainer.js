@@ -16,6 +16,7 @@ class ReviewsContainer extends PureComponent {
     super(props)
     this.state = {
       isLogged: false,
+      isFetchingRates: false,
       modalLogInOpen: false,
       rates: false,
       currentReader: false,
@@ -27,22 +28,29 @@ class ReviewsContainer extends PureComponent {
     this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
     this.handleStarClick = this.handleStarClick.bind(this)
     this.handleReviewPost = this.handleReviewPost.bind(this)
+    this.fetchRates = this.fetchRates.bind(this)
 
   }
+
   componentWillMount = () => {
-    this.setState({
-      isLogged: this.props.isLogged,
-    })
-    this.props.getRates('book', this.props.bookInfo.id)
+    this.setState({ isLogged: this.props.isLogged })
+    this.fetchRates(this.props.bookInfo.id)
   }
 
   componentWillReceiveProps = (nextProps) => {
-    if (nextProps.rates && nextProps.rates !== this.state.rates) {
-      this.setState({ rates: nextProps.rates })
+    if (nextProps.bookInfo.id !== this.props.bookInfo.id) {
+      this.fetchRates(nextProps.bookInfo.id)
     }
     if (this.state.isLogged && nextProps.currentReader) {
       this.setState({ currentReader: nextProps.currentReader })
     }
+  }
+
+  fetchRates = (bookId) => {
+    this.setState({ isFetchingRates: true })
+    this.props.getRates('book', bookId)
+      .then(()=>this.setState({ isFetchingRates: false }))
+      .catch(()=>this.setState({ isFetchingRates: false }))
   }
 
   handleLogInModalClose = () => {
@@ -55,7 +63,8 @@ class ReviewsContainer extends PureComponent {
   }
 
   handleMapRates = () => {
-    const { rates, isLogged } = this.state
+    const { isLogged } = this.state
+    const { rates } = this.props
     if (rates.length) {
       return rates.map((rate, index) => {
         return (
@@ -125,13 +134,18 @@ class ReviewsContainer extends PureComponent {
   }
 
   render() {
-    const { isLogged, rates, currentReader, starClicked, reviewBody } = this.state
+    const { rates } = this.props
+    const { isLogged, currentReader, starClicked, reviewBody, isFetchingRates } = this.state
 
     return (
       <div className='row'>
         <div className='small-12 large-7 columns'>
           <div className='bookage-reviews-container'>
-            {rates ? this.handleMapRates() : null}
+            {
+              rates && !isFetchingRates ?
+                this.handleMapRates() :
+                <div className='loading-animation-store-big'/>
+            }
           </div>
         </div>
         <div className='small-12 large-5 columns end'>
