@@ -28,116 +28,143 @@ class RecommendedBooks extends PureComponent {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    if (nextProps.bestSeller) {
+    if (nextProps.bestSeller && nextProps.bestSeller.count > 0) {
       this.setState({
         bestSeller: nextProps.bestSeller
       })
     }
-    if (nextProps.mostPurchased !== false) {
+    if (nextProps.mostPurchased && nextProps.mostPurchased.count > 0) {
       this.setState({
         mostPurchased: nextProps.mostPurchased,
       })
     }
-    if (nextProps.recommendedByAuthorFans !== false) {
+    if (nextProps.recommendedByAuthorFans && nextProps.recommendedByAuthorFans.count > 0) {
       this.setState({
         recommendedByAuthorFans: nextProps.recommendedByAuthorFans,
       })
     }
   }
 
+  renderLeftItem = () => {
+    const { bestSeller, mostPurchased } = this.state
+    const { isUserLogged } = this.props
+    if (isUserLogged && mostPurchased && mostPurchased.count > 0) {
+      return (
+        <article className='bookstore-recommended-book-element'>
+          <p className='bookstore-recommended-book-text'>
+            {mostPurchased.results.length && mostPurchased.results[0].purchasedTimes > 0 ?
+              `${mostPurchased.results[0].purchasedTimes} ` : 'Some '
+            }
+            of your friends purchased this book
+          </p>
+          <figure className='bookstore-recommended-book-figure'>
+            <Link to={`/book/${mostPurchased.results[0].slug}`}>
+              <img src={mostPurchased.results[0].imageUrl}/>
+            </Link>
+          </figure>
+        </article>
+      )
+    } else if (bestSeller && bestSeller.count > 1) {
+      return (
+        <article className='bookstore-recommended-book-element'>
+          <p className='bookstore-recommended-book-text'>
+            Some People purchased this book
+          </p>
+          <figure className='bookstore-recommended-book-figure'>
+            <Link to={`/book/${bestSeller.results[1].slug}`}>
+              <img src={bestSeller.results[1].imageUrl}/>
+            </Link>
+          </figure>
+        </article>
+      )
+    }
+    return false
+  }
+
+  renderCenterItem = () => {
+    const { recommendedByAuthorFans } = this.state
+    if (recommendedByAuthorFans && recommendedByAuthorFans.count > 1) {
+      return (
+        <article className='bookstore-recommended-book-element'>
+          <p className='bookstore-recommended-book-text'>
+            Recommended for
+            {recommendedByAuthorFans.results[1].authors.length ?
+              ` ${recommendedByAuthorFans.results[1].authors[0].fullname} fans` : null
+            }
+          </p>
+          <figure className='bookstore-recommended-book-figure'>
+            <Link to={`/book/${recommendedByAuthorFans.results[1].slug}`}>
+              <img src={recommendedByAuthorFans.results[1].imageUrl}/>
+            </Link>
+          </figure>
+        </article>
+      )
+    } else if (recommendedByAuthorFans && recommendedByAuthorFans.count > 0) {
+      return (
+        <article className='bookstore-recommended-book-element'>
+          <p className='bookstore-recommended-book-text'>
+            Recommended for
+            {recommendedByAuthorFans.results[0].authors.length ?
+              ` ${recommendedByAuthorFans.results[0].authors[0].fullname} fans` : null
+            }
+          </p>
+          <figure className='bookstore-recommended-book-figure'>
+            <Link to={`/book/${recommendedByAuthorFans.results[0].slug}`}>
+              <img src={recommendedByAuthorFans.results[0].imageUrl}/>
+            </Link>
+          </figure>
+        </article>
+      )
+    }
+    return null
+  }
+
+  renderRightItem = () => {
+    const { bestSeller, recommendedByAuthorFans } = this.state
+    if (bestSeller && bestSeller.count > 0) {
+      return (
+        <article className='bookstore-recommended-book-element'>
+          <p className='bookstore-recommended-book-text'>
+            Best selling book in the category {this.props.category.name}
+          </p>
+          <figure className='bookstore-recommended-book-figure'>
+            <Link to={`/book/${bestSeller.results[0].slug}`}>
+              <img src={bestSeller.results[0].imageUrl}/>
+            </Link>
+          </figure>
+        </article>
+      )
+    } else if (recommendedByAuthorFans && recommendedByAuthorFans.count > 1) {
+      <article className='bookstore-recommended-book-element'>
+        <p className='bookstore-recommended-book-text'>
+          Recommended for
+          {recommendedByAuthorFans.results[1].authors.length ?
+            ` ${recommendedByAuthorFans.results[1].authors[0].fullname} fans` : null
+          }
+        </p>
+        <figure className='bookstore-recommended-book-figure'>
+          <Link to={`/book/${recommendedByAuthorFans.results[1].slug}`}>
+            <img src={recommendedByAuthorFans.results[1].imageUrl}/>
+          </Link>
+        </figure>
+      </article>
+    }
+    return null
+  }
+
   render() {
     const { bestSeller, recommendedByAuthorFans, mostPurchased } = this.state
-    const { isUserLogged } = this.props
     return (
       <section className='bookstore-recommended-books-container'>
-        {isUserLogged && mostPurchased && mostPurchased.count > 0 ?
-          (
-            <article className='bookstore-recommended-book-element'>
-              <p className='bookstore-recommended-book-text'>
-                {mostPurchased.results.length && mostPurchased.results[0].purchasedTimes > 0 ?
-                  `${mostPurchased.results[0].purchasedTimes} ` : 'Some '
-                }
-                of your friends purchased this book
-              </p>
-              <figure className='bookstore-recommended-book-figure'>
-                <Link to={`/book/${mostPurchased.results[0].slug}`}>
-                  <img src={mostPurchased.results[0].imageUrl}/>
-                </Link>
-              </figure>
-            </article>
-          ) : bestSeller && bestSeller.count > 0 ? (
-              <article className='bookstore-recommended-book-element'>
-                <p className='bookstore-recommended-book-text'>
-                  Some People purchased this book
-                </p>
-                <figure className='bookstore-recommended-book-figure'>
-                  <Link to={`/book/${bestSeller.results[1].slug}`}>
-                    <img src={bestSeller.results[1].imageUrl}/>
-                  </Link>
-                </figure>
-              </article>
-            ) : <div className='loading-animation-store' />
+        {mostPurchased || bestSeller ?
+          this.renderLeftItem() :
+          <div className='loading-animation-store' />
         }
-        {recommendedByAuthorFans && recommendedByAuthorFans.count > 0 ?
-          (
-            <article className='bookstore-recommended-book-element'>
-              <p className='bookstore-recommended-book-text'>
-                Recommended for
-                {recommendedByAuthorFans.results[0].authors.length ?
-                  ` ${recommendedByAuthorFans.results[0].authors[0].fullname} fans` : null
-                }
-              </p>
-              <figure className='bookstore-recommended-book-figure'>
-                <Link to={`/book/${recommendedByAuthorFans.results[0].slug}`}>
-                  <img src={recommendedByAuthorFans.results[0].imageUrl}/>
-                </Link>
-              </figure>
-            </article>
-          ) : recommendedByAuthorFans && recommendedByAuthorFans.count > 1 ?
-            (
-              <article className='bookstore-recommended-book-element'>
-                <p className='bookstore-recommended-book-text'>
-                  Recommended for
-                  {recommendedByAuthorFans.results[1].authors.length ?
-                    ` ${recommendedByAuthorFans.results[1].authors[0].fullname} fans` : null
-                  }
-                </p>
-                <figure className='bookstore-recommended-book-figure'>
-                  <Link to={`/book/${recommendedByAuthorFans.results[1].slug}`}>
-                    <img src={recommendedByAuthorFans.results[1].imageUrl}/>
-                  </Link>
-                </figure>
-              </article>
-            ) : <div className='loading-animation-store' />
+        {recommendedByAuthorFans ?
+          this.renderCenterItem() : <div className='loading-animation-store' />
         }
-        {bestSeller && bestSeller.count > 0 ?
-          (
-            <article className='bookstore-recommended-book-element'>
-              <p className='bookstore-recommended-book-text'>
-                Best selling book in the category {this.props.category.name}
-              </p>
-              <figure className='bookstore-recommended-book-figure'>
-                <Link to={`/book/${bestSeller.results[0].slug}`}>
-                  <img src={bestSeller.results[0].imageUrl}/>
-                </Link>
-              </figure>
-            </article>
-          ) : recommendedByAuthorFans && recommendedByAuthorFans.count > 1 ?
-              (
-                <article className='bookstore-recommended-book-element'>
-                  <p className='bookstore-recommended-book-text'>
-                    Recommended for
-                    {recommendedByAuthorFans.results[1].authors.length ?
-                      ` ${recommendedByAuthorFans.results[1].authors[0].fullname} fans` : null
-                    }
-                  </p>
-                  <figure className='bookstore-recommended-book-figure'>
-                    <Link to={`/book/${recommendedByAuthorFans.results[1].slug}`}>
-                      <img src={recommendedByAuthorFans.results[1].imageUrl}/>
-                    </Link>
-                  </figure>
-                </article>
-              ) : null
+        {bestSeller || recommendedByAuthorFans ?
+          this.renderRightItem() : <div className='loading-animation-store' />
         }
       </section>
     )

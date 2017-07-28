@@ -46,11 +46,19 @@ class BookStore extends PureComponent {
     this.setState({ modalOpen: false })
   }
 
+  handleRandom = (categories) => {
+    const catLength = categories.length
+    let rand = false
+    do {
+      rand = categories[Math.floor((Math.random() * catLength) + 1)]
+    } while (!rand)
+    return rand
+  }
+
   setRandomCategory = (categories) => {
     if (categories) {
-      const catLength = categories.length
       this.setState({
-        randomCategory: categories[Math.floor((Math.random() * catLength) + 1)],
+        randomCategory: this.handleRandom(categories),
         isRandomSelected: true,
       })
     }
@@ -76,7 +84,7 @@ class BookStore extends PureComponent {
         <Element name='recommended'>
           <div className='row'>
             <div className='large-12 columns'>
-              {randomCategory && randomCategory !== undefined ?
+              {randomCategory ?
                 <RecommendedBooks
                   category={randomCategory}
                   isUserLogged={isUserLoggedIn}
@@ -86,13 +94,13 @@ class BookStore extends PureComponent {
           </div>
           <div className='row'>
             <div className='large-12 columns'>
-              {randomCategory && randomCategory !== undefined ?
+              {randomCategory ?
                 <BestSellers category={randomCategory} /> :
                 <div className='loading-animation-store'/>
               }
             </div>
           </div>
-          {randomCategory && randomCategory !== undefined ?
+          {randomCategory ?
             <TrendingBooks category={randomCategory} /> :
             <div className='loading-animation-store' />
           }
