@@ -36,9 +36,7 @@ class CategoriesPage extends PureComponent {
       .then(() => {
         this.props.getChildCategories(categorySlug)
       })
-      .catch((err) => {
-        if (err.response.status === 400) browserHistory.push('/browse')
-      })
+      .catch(() => browserHistory.push('/browse'))
   }
 
   componentWillReceiveProps = (nextProps) => {

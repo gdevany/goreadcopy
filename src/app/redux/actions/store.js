@@ -95,26 +95,22 @@ export function getBookInfo(bookSlug, isLogged) {
     return dispatch => {
       Store.getAuthBookInfo(bookSlug)
         .then(res => dispatch({ type: A.GET_BOOK_INFO, payload: res.data }))
-        .catch(err => {
-          if (err.response.status === 400) browserHistory.push('/browse')
-          console.error(`Error in getBookInfo ${err}`)
-        })
+        .catch(() => browserHistory.push('/browse'))
     }
   }
   return dispatch => {
     Store.getBookInfo(bookSlug)
       .then(res => dispatch({ type: A.GET_BOOK_INFO, payload: res.data }))
-      .catch(err => {
-        if (err.response.status === 400) browserHistory.push('/browse')
-        console.error(`Error in getBookInfo ${err}`)
-      })
+      .catch(() => browserHistory.push('/browse'))
   }
 }
 
-export function addToCart(bookId) {
+export function addToCart(bookId, logged) {
   return dispatch => {
-    Store.addBookToCart(bookId)
-      .then(res => dispatch(getCurrentReader()))
+    Store.addBookToCart(bookId, logged)
+      .then(res => {
+        if (logged) dispatch(getCurrentReader())
+      })
       .catch(err => console.error(`Error in addToCart ${err}`))
   }
 }
@@ -172,9 +168,9 @@ export function filterBooks(params) {
   }
 }
 
-export function getCartItems(params) {
+export function getCartItems(params, logged) {
   return dispatch => {
-    Store.getCartItems(params)
+    Store.getCartItems(params, logged)
       .then(res => dispatch({ type: A.GET_CART_ITEMS, payload: res.data }))
       .catch(err => console.error(`Error in getCartItems ${err}`))
   }
@@ -268,15 +264,7 @@ export function getCurrentOrder(params) {
         })
         .catch(err => console.log('Error in getCurrentOrder: getShippingMethods => ', err))
       })
-      .catch((err) => {
-        if (err.response !== undefined) {
-          const { data } = err.response
-          if (data.errors.order && data.errors.order.message === 'Order not found') {
-            browserHistory.push('/browse')
-          }
-        }
-        console.error(`Error in getCurrentOrder ${err}`)
-      })
+      .catch(() => browserHistory.push('/browse'))
   }
 }
 

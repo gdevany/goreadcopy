@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { Store } from '../../../redux/actions'
 import { Numbers } from '../../../utils'
 
-const { getCartItems } = Store
 const { parseFloatToUSD, parseIntToLocale } = Numbers
 
 class CartItems extends PureComponent {
@@ -112,4 +110,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { getCartItems })(CartItems)
+export default connect(mapStateToProps, null)(CartItems)
