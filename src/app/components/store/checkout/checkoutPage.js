@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { Store } from '../../../redux/actions'
 import { StepOne, StepTwo, StepThree } from './orderSteps'
+import { Auth } from '../../../services'
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
 import Snackbar from 'material-ui/Snackbar'
 import R from 'ramda'
@@ -23,6 +24,8 @@ const styles = {
     fontSize: 16,
   }
 }
+
+let isUserLoggedIn = Auth.currentUserExists()
 
 class CheckoutPage extends PureComponent {
   constructor(props) {
@@ -82,7 +85,7 @@ class CheckoutPage extends PureComponent {
   }
 
   componentWillMount = () => {
-    this.props.getCurrentOrder()
+    this.props.getCurrentOrder({}, isUserLoggedIn)
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -569,6 +572,7 @@ class CheckoutPage extends PureComponent {
   }
 
   render() {
+    isUserLoggedIn = Auth.currentUserExists()
     const shippingInfo = R.pick([
       'nameShipping',
       'phoneShipping',
