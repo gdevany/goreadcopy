@@ -14,7 +14,8 @@ const StepTwo = ({
   handleCheckSame,
   handleUseLitcoins,
   useLitcoins,
-  next
+  next,
+  order,
 }) => {
   return (
     <div className='row'>
@@ -92,6 +93,7 @@ const StepTwo = ({
           </section>
         </section>
         <UseLitcoins
+          currentOrder={order}
           onChange={handleUseLitcoins}
           boxChecked={useLitcoins}
         />

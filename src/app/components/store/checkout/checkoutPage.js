@@ -728,6 +728,7 @@ class CheckoutPage extends PureComponent {
                   {this.state.isStepTwoActive ?
                     (
                       <StepTwo
+                        order={this.props.order}
                         isCard={this.state.isCardClicked}
                         isPaypal={this.state.isPaypalClicked}
                         handleSwitch={this.handlePaymentClick}

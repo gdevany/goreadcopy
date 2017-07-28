@@ -1,7 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Numbers from '../../../utils/Numbers'
 
-const UseLitcoins = ({ boxChecked, onChange }) => {
+const { parseFloatToUSD, parseIntToLocale } = Numbers
+
+const UseLitcoins = ({ boxChecked, onChange, currentOrder }) => {
   return (
     <section className='checkoutpage-litcoins-use-container'>
       <h3>Litcoins</h3>
@@ -16,15 +19,21 @@ const UseLitcoins = ({ boxChecked, onChange }) => {
           <span className='checkoutpage-litcoins-use-label-span'>
             Use my Litcoins
           </span>
-          <div className='checkoutpage-litcoins-use-details'>
-            <span className='checkoutpage-litcoins-use-text'>
-              <b>$6.00</b> (8,000
-              <img
-                className='checkoutpage-litcoins-use-img'
-                src='/image/litcoin.png'
-              /> available)
-            </span>
-          </div>
+          {
+            currentOrder && currentOrder.dollarsRedeemed && currentOrder.litcoinsRedeemed ?
+              <div className='checkoutpage-litcoins-use-details'>
+                <span className='checkoutpage-litcoins-use-text'>
+                  <b>{parseFloatToUSD(currentOrder.dollarsRedeemed)}</b>
+                  ({parseIntToLocale(currentOrder.litcoinsRedeemed)}
+                  <img
+                    className='checkoutpage-litcoins-use-img'
+                    src='/image/litcoin.png'
+                  />
+                  will be used!)
+                </span>
+              </div> :
+              null
+          }
         </label>
       </div>
     </section>
