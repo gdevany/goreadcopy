@@ -17,8 +17,11 @@ class ShippingForm extends PureComponent {
     const { getCountries, getStates, shippingInfo, countries, states } = this.props
     if (!countries) {
       getCountries()
-        .then(getStates(shippingInfo.countryShipping))
-    } else if (!states) {
+        .then(
+          shippingInfo ? shippingInfo.countryShipping ?
+          getStates(shippingInfo.countryShipping) : null : null
+        )
+    } else if (!states && shippingInfo && shippingInfo.countryShipping) {
       getStates(shippingInfo.countryShipping)
     }
   }
