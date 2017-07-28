@@ -24,6 +24,7 @@ class CartPage extends PureComponent {
       anyGift: false,
       modalOpen: false,
       modalSighUpOpen: false,
+      isCartLoading: true,
     }
     this.handleModalClose = this.handleModalClose.bind(this)
     this.handleCheckout = this.handleCheckout.bind(this)
@@ -40,7 +41,8 @@ class CartPage extends PureComponent {
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.cart && nextProps.cart.itemsCount >= 0) {
       this.setState({
-        cart: nextProps.cart
+        cart: nextProps.cart,
+        isCartLoading: false,
       })
       if (nextProps.cart.itemsCount > 0) this.checkGifts(nextProps.cart.items)
     }
@@ -117,9 +119,8 @@ class CartPage extends PureComponent {
   }
 
   render() {
-    const { cart, anyGift } = this.state
+    const { cart, anyGift, isCartLoading } = this.state
     isUserLoggedIn = Auth.currentUserExists()
-
     return (
       <StoreNavView>
         <div className='root-cart-page'>
@@ -131,7 +132,8 @@ class CartPage extends PureComponent {
                     <h2 className='cartpage-title'>Your Cart</h2>
                     <div className='cartpage-elements-container'>
                       {cart && cart.itemsCount > 0 ?
-                        this.mapCartItems() : (
+                        this.mapCartItems() : isCartLoading ?
+                          (<div className='loading-animation-store-big'/>) : (
                           <div className='cart-blank-state'>
                             <figure>
                               <img src='/image/sadBook.png' alt='No items in cart'/>

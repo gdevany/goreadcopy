@@ -13,6 +13,7 @@ class WishListBooks extends PureComponent {
     super(props)
     this.state = {
       booksInfoFetched: false,
+      isWishlistLoading: true,
     }
   }
 
@@ -38,7 +39,7 @@ class WishListBooks extends PureComponent {
         <div>
           You don't have books in the wish list
         </div>
-      )
+      ).then(this.setState({ isWishlistLoading: false }))
     }
     return wishList.map((book, index) => {
       return (
@@ -51,16 +52,17 @@ class WishListBooks extends PureComponent {
           authors={book.authors}
           rating={book.rating}
         />
-      )
+      ).then(this.setState({ isWishlistLoading: false }))
     })
   }
 
   render() {
     const { profilePage } = this.props
+    const { isWishlistLoading } = this.state
     if (profilePage.wishList === 'User has no books in the wish list') {
       return null
     }
-    return (
+    return isWishlistLoading ? null : (
       <Element
         name='wishlist'
         className='wishlist-books-main-container'
