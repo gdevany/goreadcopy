@@ -23,7 +23,7 @@ class CartPage extends PureComponent {
       cart: false,
       anyGift: false,
       modalOpen: false,
-      modalSighUpOpen: false,
+      modalSignUpOpen: false,
       isCartLoading: true,
     }
     this.handleModalClose = this.handleModalClose.bind(this)
@@ -48,13 +48,13 @@ class CartPage extends PureComponent {
     }
   }
 
-  handleSighUpModalOpen = (event) => {
+  handleSignUpModalOpen = (event) => {
     event.preventDefault()
-    this.setState({ modalSighUpOpen: true })
+    this.setState({ modalSignUpOpen: true })
   }
 
   handleSignUpClose = () => {
-    this.setState({ modalSighUpOpen: false })
+    this.setState({ modalSignUpOpen: false })
   }
 
   handleModalOpen = (event) => {
@@ -191,7 +191,7 @@ class CartPage extends PureComponent {
                             onClick={
                               isUserLoggedIn ?
                               this.handleCheckout :
-                              this.handleSighUpModalOpen
+                              this.handleSignUpModalOpen
                             }
                             className='store-primary-button float-right'
                             to='/shop/checkout'
@@ -207,7 +207,7 @@ class CartPage extends PureComponent {
             </section>
             {isUserLoggedIn ? <WishListBooks/> : null}
             <SignUpModal
-              modalOpen={this.state.modalSighUpOpen}
+              modalOpen={this.state.modalSignUpOpen}
               handleClose={this.handleSignUpClose}
             />
           </div>

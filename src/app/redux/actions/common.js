@@ -3,9 +3,9 @@ import { ProfilePage } from '../../services/api'
 
 export function getCountries() {
   return dispatch => {
-    ProfilePage.getCountries()
+    return Promise.resolve(ProfilePage.getCountries()
       .then(res => dispatch({ type: A.GET_CONTRIES, payload: res.data }))
-      .catch(err => console.error(`Error in getCountries ${err}`))
+      .catch(err => console.error(`Error in getCountries ${err}`)))
   }
 }
 
