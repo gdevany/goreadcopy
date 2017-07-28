@@ -45,7 +45,7 @@ class CartElement extends PureComponent {
     })
     this.props.convertToGift(this.props.itemId, {
       toGift: event.target.checked,
-    })
+    }, this.props.isUserLoggedIn)
   }
 
   handleBookRemove = (event) => {

@@ -196,12 +196,12 @@ export function removeItemFromCart(id) {
   }
 }
 
-export function convertToGift(id, params) {
+export function convertToGift(id, params, isUserLoggedIn) {
   return dispatch => {
     Store.convertToGift(id, params)
       .then(res => dispatch(getCartItems({
         perPage: 50,
-      })))
+      }, isUserLoggedIn)))
       .catch(err => console.error(`Error in convertToGift ${err}`))
   }
 }
