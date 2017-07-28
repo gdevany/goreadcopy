@@ -176,32 +176,32 @@ export function getCartItems(params, logged) {
   }
 }
 
-export function updateCartItems(id, quantity) {
+export function updateCartItems(id, quantity, logged) {
   return dispatch => {
     Store.updateCartItems(id, quantity)
       .then(res => dispatch(getCartItems({
         perPage: 50,
-      })))
+      }, logged)))
       .catch(err => console.error(`Error in updateCartItems ${err}`))
   }
 }
 
-export function removeItemFromCart(id) {
+export function removeItemFromCart(id, logged) {
   return dispatch => {
     Store.removeItemFromCart(id)
       .then(res => dispatch(getCartItems({
         perPage: 50,
-      })))
+      }, logged)))
       .catch(err => console.error(`Error in removeItemFromCart ${err}`))
   }
 }
 
-export function convertToGift(id, params) {
+export function convertToGift(id, params, isUserLoggedIn) {
   return dispatch => {
     Store.convertToGift(id, params)
       .then(res => dispatch(getCartItems({
         perPage: 50,
-      })))
+      }, isUserLoggedIn)))
       .catch(err => console.error(`Error in convertToGift ${err}`))
   }
 }
@@ -250,7 +250,7 @@ export function getOrders(params) {
   }
 }
 
-export function getCurrentOrder(params) {
+export function getCurrentOrder(params, logged) {
   return dispatch => {
     Store.setOrder(params)
       .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
@@ -258,7 +258,7 @@ export function getCurrentOrder(params) {
         Store.getShippingMethods()
         .then(res => dispatch({ type: A.GET_SHIPPING_METHODS, payload: res.data }))
         .then(() => {
-          Store.getCartItems({ perPage: 50 })
+          Store.getCartItems({ perPage: 50 }, logged)
           .then((res) => dispatch({ type: A.GET_CART_ITEMS, payload: res.data }))
           .catch(err => console.log('Error in getCurrentOrder: getCartItems => ', err))
         })

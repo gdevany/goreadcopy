@@ -36,7 +36,7 @@ class CartElement extends PureComponent {
   handleDebounceUpdate = debounce(() => {
     const { bookCount } = this.state
     const { bookId, updateCartItems } = this.props
-    updateCartItems(bookId, bookCount)
+    updateCartItems(bookId, bookCount, this.props.isUserLoggedIn)
   }, 500)
 
   handleGiftBook = (event) => {
@@ -45,13 +45,13 @@ class CartElement extends PureComponent {
     })
     this.props.convertToGift(this.props.itemId, {
       toGift: event.target.checked,
-    })
+    }, this.props.isUserLoggedIn)
   }
 
   handleBookRemove = (event) => {
     event.preventDefault()
     const { itemId, removeItemFromCart } = this.props
-    removeItemFromCart(itemId)
+    removeItemFromCart(itemId, this.props.isUserLoggedIn)
   }
 
   render() {
