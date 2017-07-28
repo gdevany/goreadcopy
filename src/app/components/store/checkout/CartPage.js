@@ -11,11 +11,10 @@ import { Store, Common } from '../../../redux/actions'
 import { Numbers } from '../../../utils'
 import ShippingGiftAddressModal from './ShippingGiftAddressModal'
 
-const isUserLoggedIn = Auth.currentUserExists()
 const { showAlert } = Common
 const { getCartItems } = Store
 const { parseFloatToUSD } = Numbers
-
+let isUserLoggedIn = Auth.currentUserExists()
 class CartPage extends PureComponent {
 
   constructor(props) {
@@ -119,6 +118,8 @@ class CartPage extends PureComponent {
 
   render() {
     const { cart, anyGift } = this.state
+    isUserLoggedIn = Auth.currentUserExists()
+
     return (
       <StoreNavView>
         <div className='root-cart-page'>
@@ -205,7 +206,7 @@ class CartPage extends PureComponent {
             {isUserLoggedIn ? <WishListBooks/> : null}
             <SignUpModal
               modalOpen={this.state.modalSighUpOpen}
-              handleClose={this.handleSighUpModalOpen}
+              handleClose={this.handleSignUpClose}
             />
           </div>
           <div className='bookstore-footer-container'>
