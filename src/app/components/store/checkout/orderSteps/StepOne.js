@@ -8,24 +8,41 @@ const StepOne = ({
   setShipping,
   selectedShipping,
   selectChange,
-  next
+  next,
+  allGifts
 }) => {
   return (
     <div className='row'>
       <div className='large-7 columns'>
-        <ShippingForm
-          shippingInfo={shippingInfo}
-          onChange={onChange}
-          selectChange={selectChange}
-          title='Shipping Address'
-          className='checkoutpage-steps-shipping-address-container'
-        />
-        {shippingMethods ?
-          <ShippingMethods
-            shippingMethod={selectedShipping}
-            shippingMethods={shippingMethods}
-            onClick={setShipping}
-          /> : null
+        {
+          allGifts ?
+            <div className='cart-blank-state'>
+              <figure>
+                <img src='/image/happyBook.png' alt='Gift addresses are set'/>
+              </figure>
+              <span className='cart-blank-title'>
+                All your gift's addresses are set!
+              </span>
+              <span className='cart-blank-subtitle'>
+                Please, select your delivery method.
+              </span>
+            </div> :
+            <ShippingForm
+              shippingInfo={shippingInfo}
+              onChange={onChange}
+              selectChange={selectChange}
+              title='Shipping Address'
+              className='checkoutpage-steps-shipping-address-container'
+            />
+        }
+        {
+          shippingMethods ?
+            <ShippingMethods
+              shippingMethod={selectedShipping}
+              shippingMethods={shippingMethods}
+              onClick={setShipping}
+            /> :
+            null
         }
         <a
           onClick={next}

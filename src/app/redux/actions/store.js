@@ -224,7 +224,7 @@ export function setUserAddress(params, shippingMethod) {
 
 export function setUserAddressAndShipping(params, shippingMethod) {
   return dispatch => {
-    Store.setUserAddress(params)
+    return Store.setUserAddress(params)
       .then(res => dispatch(setShipping({
         shippingAddressId: res.data.shippingAddress.id,
         shippingMethod: shippingMethod,

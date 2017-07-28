@@ -70,6 +70,7 @@ class CheckoutPage extends PureComponent {
       paypalConfig: false,
       orderStatus: false,
       showOverlay: false,
+      allGifts: false,
     }
     this.continueToBillingClick = this.continueToBillingClick.bind(this)
     this.continueToReviewClick = this.continueToReviewClick.bind(this)
@@ -79,10 +80,12 @@ class CheckoutPage extends PureComponent {
     this.handlePlaceOrder = this.handlePlaceOrder.bind(this)
     this.handleUseLitcoins = this.handleUseLitcoins.bind(this)
     this.handleSelectChange = this.handleSelectChange.bind(this)
+    this.setStep = this.setStep.bind(this)
   }
 
   componentWillMount = () => {
     this.props.getCurrentOrder()
+    this.setState({ allGifts: this.checkIfAllGifts() })
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -121,6 +124,12 @@ class CheckoutPage extends PureComponent {
     if (nextProps.paypalConfig) {
       this.setState({ paypalConfig: nextProps.paypalConfig })
     }
+  }
+
+  checkIfAllGifts = () => {
+    return R.all(R.equals(true), this.props.cart.items.map(item => {
+      return item.isGiftItem
+    }))
   }
 
   splitCardExp = (date) => {
@@ -201,17 +210,22 @@ class CheckoutPage extends PureComponent {
     this.setState({ [type]: value })
   }
 
+  setStep = (step) => {
+    this.setState({
+      isStepOneActive: step === 1,
+      isStepTwoActive: step === 2,
+      isStepThreeActive: step === 3,
+      stepOneComplete: step > 1,
+      stepTwoComplete: step > 2,
+      stepThreeComplete: step > 3,
+    })
+  }
+
   passToBilling = () => {
     const {
       nameShipping, phoneShipping, addressShipping, address2Shipping,
       countryShipping, stateShipping, cityShipping, zipcodeShipping, shippingMethod,
     } = this.state
-    this.setState({
-      isStepOneActive: false,
-      isStepTwoActive: true,
-      isStepThreeActive: false,
-      stepOneComplete: true,
-    })
     this.props.setUserAddressAndShipping({
       city: cityShipping,
       name: nameShipping,
@@ -237,11 +251,13 @@ class CheckoutPage extends PureComponent {
       if ((countryShipping === 'US' || countryShipping === 'CA')) {
         if (stateShipping !== '') {
           this.passToBilling()
+          this.setStep(2)
         } else {
           this.showAlert('Please selet an State', 'error')
         }
       } else {
         this.passToBilling()
+        this.setStep(2)
       }
     } else {
       if (!(cityShipping || countryShipping || addressShipping ||
@@ -260,13 +276,7 @@ class CheckoutPage extends PureComponent {
   }
 
   passToReview = () => {
-    this.setState({
-      isStepOneActive: false,
-      isStepTwoActive: false,
-      isStepThreeActive: true,
-      stepOneComplete: true,
-      stepTwoComplete: true,
-    })
+    this.setStep(3)
   }
 
   isUsingOtherCard = () => {
@@ -518,13 +528,32 @@ class CheckoutPage extends PureComponent {
     }
   }
 
-  setShippingMethod = (shippingMethod) => this.setState({ shippingMethod })
+  setShippingMethod = (shippingMethod) => {
+    this.setState({ shippingMethod }, ()=>{
+      this.passToBilling()
+    })
+  }
 
   handleCheckSave = (event) => this.setState({ saveCard: event.target.checked })
 
   handleCheckSame = (event) => this.setState({ sameShippingAddress: event.target.checked })
 
-  handleUseLitcoins = (event) => this.setState({ useLitcoins: event.target.checked })
+  handleUseLitcoins = (event) => {
+    this.setState({ useLitcoins: event.target.checked }, ()=>{
+      const {
+        shippingMethod,
+        cardStored,
+        useLitcoins,
+        isCardClicked
+      } = this.state
+      this.props.setBilling({
+        shippingMethod,
+        paymentMethod: isCardClicked ? 'cc' : 'paypal',
+        litcoins: useLitcoins,
+        avoidCheckCardData: cardStored,
+      })
+    })
+  }
 
   handlePlaceOrder = () => {
     if (this.state.isCardClicked && !this.state.isPaypalClicked) {
@@ -544,6 +573,7 @@ class CheckoutPage extends PureComponent {
     } else if (this.state.isPaypalClicked && !this.state.isCardClicked) {
       this.props.getPaypalConfig()
     }
+    return true
   }
 
   onSuccess = (payment) => {
@@ -684,6 +714,7 @@ class CheckoutPage extends PureComponent {
                   {this.state.isStepOneActive ?
                     (
                       <StepOne
+                        allGifts={this.state.allGifts}
                         shippingInfo={shippingInfo}
                         selectedShipping={this.state.shippingMethod}
                         shippingMethods={this.props.shippingMethods}
@@ -697,6 +728,7 @@ class CheckoutPage extends PureComponent {
                   {this.state.isStepTwoActive ?
                     (
                       <StepTwo
+                        order={this.props.order}
                         isCard={this.state.isCardClicked}
                         isPaypal={this.state.isPaypalClicked}
                         handleSwitch={this.handlePaymentClick}
@@ -753,6 +785,7 @@ class CheckoutPage extends PureComponent {
 
 const mapStateToProps = (state) => {
   return {
+    cart: state.store.cartItems,
     order: state.store.order,
     shippingMethods: state.store.shippingMethods,
     paypalConfig: state.store.paypalConfig,

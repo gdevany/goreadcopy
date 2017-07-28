@@ -157,6 +157,7 @@ class ReviewOrder extends PureComponent {
           (<hr className='checkoutpage-order-review-divider'/>) : null
         }
         <UseLitcoins
+          currentOrder={data}
           onChange={this.props.handleUseLitcoins}
           boxChecked={this.props.usingLitcoins}
         />
