@@ -14,9 +14,12 @@ class ShippingForm extends PureComponent {
   }
 
   componentWillMount() {
-    const { getCountries } = this.props
-    if (!this.props.countries) {
+    const { getCountries, getStates, shippingInfo, countries, states } = this.props
+    if (!countries) {
       getCountries()
+        .then(getStates(shippingInfo.countryShipping))
+    } else if (!states) {
+      getStates(shippingInfo.countryShipping)
     }
   }
 
