@@ -252,17 +252,17 @@ export function getOrders(params) {
 
 export function getCurrentOrder(params, logged) {
   return dispatch => {
-    Store.setOrder(params)
+    return Store.setOrder(params)
       .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
       .then(() => {
         Store.getShippingMethods()
-        .then(res => dispatch({ type: A.GET_SHIPPING_METHODS, payload: res.data }))
-        .then(() => {
-          Store.getCartItems({ perPage: 50 }, logged)
-          .then((res) => dispatch({ type: A.GET_CART_ITEMS, payload: res.data }))
-          .catch(err => console.log('Error in getCurrentOrder: getCartItems => ', err))
-        })
-        .catch(err => console.log('Error in getCurrentOrder: getShippingMethods => ', err))
+          .then(res => dispatch({ type: A.GET_SHIPPING_METHODS, payload: res.data }))
+          .then(() => {
+            Store.getCartItems({ perPage: 50 }, logged)
+              .then((res) => dispatch({ type: A.GET_CART_ITEMS, payload: res.data }))
+              .catch(err => console.log('Error in getCurrentOrder: getCartItems => ', err))
+          })
+          .catch(err => console.log('Error in getCurrentOrder: getShippingMethods => ', err))
       })
       .catch(() => browserHistory.push('/browse'))
   }
