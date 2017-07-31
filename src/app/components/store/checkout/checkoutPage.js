@@ -34,6 +34,7 @@ class CheckoutPage extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
+      isLoadingCart: true,
       isStepOneActive: true,
       isStepTwoActive: false,
       isStepThreeActive: false,
@@ -91,10 +92,15 @@ class CheckoutPage extends PureComponent {
 
   componentWillMount = () => {
     this.props.getCurrentOrder({}, isUserLoggedIn)
-    this.setState({ allGifts: this.checkIfAllGifts() })
+    if (this.props.cart && this.props.cart.items.length) {
+      this.setState({ allGifts: this.checkIfAllGifts(this.props.cart), isLoadingCart: false })
+    }
   }
 
   componentWillReceiveProps = (nextProps) => {
+    if (nextProps.cart && nextProps.cart.items.length) {
+      this.setState({ allGifts: this.checkIfAllGifts(nextProps.cart), isLoadingCart: false })
+    }
     if (nextProps.order) {
       const {
         shippingAddress, billingAddress, cardLast4, cardExpMonth, cardExpYear,
@@ -132,8 +138,8 @@ class CheckoutPage extends PureComponent {
     }
   }
 
-  checkIfAllGifts = () => {
-    return R.all(R.equals(true), this.props.cart.items.map(item => {
+  checkIfAllGifts = (cart) => {
+    return R.all(R.equals(true), cart.items.map(item => {
       return item.isGiftItem
     }))
   }
@@ -721,6 +727,7 @@ class CheckoutPage extends PureComponent {
                   {this.state.isStepOneActive ?
                     (
                       <StepOne
+                        isLoadingCart={this.state.isLoadingCart}
                         allGifts={this.state.allGifts}
                         shippingInfo={shippingInfo}
                         selectedShipping={this.state.shippingMethod}
