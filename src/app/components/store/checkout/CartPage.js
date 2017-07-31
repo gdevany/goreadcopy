@@ -14,7 +14,9 @@ import ShippingGiftAddressModal from './ShippingGiftAddressModal'
 const { showAlert } = Common
 const { getCartItems } = Store
 const { parseFloatToUSD } = Numbers
+
 let isUserLoggedIn = Auth.currentUserExists()
+
 class CartPage extends PureComponent {
 
   constructor(props) {
@@ -132,27 +134,28 @@ class CartPage extends PureComponent {
                   <section className='cartpage-container'>
                     <h2 className='cartpage-title'>Your Cart</h2>
                     <div className='cartpage-elements-container'>
-                      {cart && cart.itemsCount > 0 ?
-                        this.mapCartItems() : isCartLoading ?
-                          (<div className='loading-animation-store-big'/>) : (
-                          <div className='cart-blank-state'>
-                            <figure>
-                              <img src='/image/sadBook.png' alt='No items in cart'/>
-                            </figure>
-                            <span className='cart-blank-title'>
-                              Your cart is empty!
-                            </span>
-                            <span className='cart-blank-subtitle'>
-                              Go and find something nice to buy :)
-                            </span>
-                            <Link
-                              className='cart-blank-anchor'
-                              to='/browse'
-                            >
-                              Go to store
-                            </Link>
-                          </div>
-                        )
+                      {
+                        cart && cart.itemsCount > 0 ?
+                          this.mapCartItems() :
+                          isCartLoading ?
+                            <div className='loading-animation-store-big'/> :
+                            <div className='cart-blank-state'>
+                              <figure>
+                                <img src='/image/sadBook.png' alt='No items in cart'/>
+                              </figure>
+                              <span className='cart-blank-title'>
+                                Your cart is empty!
+                              </span>
+                              <span className='cart-blank-subtitle'>
+                                Go and find something nice to buy :)
+                              </span>
+                              <Link
+                                className='cart-blank-anchor'
+                                to='/browse'
+                              >
+                                Go to store
+                              </Link>
+                            </div>
                       }
                       {anyGift ?
                         (

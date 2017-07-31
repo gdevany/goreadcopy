@@ -1,9 +1,12 @@
-import { STORE as A } from '../const/actionTypes'
+import { STORE as A, COMMON as C } from '../const/actionTypes'
 import { browserHistory } from 'react-router'
 import Store from '../../services/api/store'
 import Books from '../../services/api/books'
 import ProfilePage from '../../services/api/profilePage'
 import { getCurrentReader } from './currentReader'
+import { Errors } from '../../services'
+
+const { hasErrors, errorsFrom } = Errors
 
 export function getCategories() {
   const data = {
@@ -252,19 +255,26 @@ export function getOrders(params) {
 
 export function getCurrentOrder(params, logged) {
   return dispatch => {
-    Store.setOrder(params)
+    return Store.setOrder(params)
       .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
       .then(() => {
         Store.getShippingMethods()
-        .then(res => dispatch({ type: A.GET_SHIPPING_METHODS, payload: res.data }))
-        .then(() => {
-          Store.getCartItems({ perPage: 50 }, logged)
-          .then((res) => dispatch({ type: A.GET_CART_ITEMS, payload: res.data }))
-          .catch(err => console.log('Error in getCurrentOrder: getCartItems => ', err))
-        })
-        .catch(err => console.log('Error in getCurrentOrder: getShippingMethods => ', err))
+          .then(res => dispatch({ type: A.GET_SHIPPING_METHODS, payload: res.data }))
+          .then(() => {
+            Store.getCartItems({ perPage: 50 }, logged)
+              .then((res) => dispatch({ type: A.GET_CART_ITEMS, payload: res.data }))
+              .catch(err => console.log('Error in getCurrentOrder: getCartItems => ', err))
+          })
+          .catch(err => console.log('Error in getCurrentOrder: getShippingMethods => ', err))
       })
-      .catch(() => browserHistory.push('/browse'))
+      .catch((err) => {
+        const errors = hasErrors(err) ? errorsFrom(err) : null
+        for (const key in errors) {
+          const data = { type: 'error', message: errors[key].message }
+          dispatch({ type: C.SHOW_ALERT_BAR, payload: data })
+        }
+        browserHistory.push('/shop/cart')
+      })
   }
 }
 
