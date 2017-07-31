@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { Link } from 'react-router'
 import Rating from 'react-rating'
 import StarIcon from 'material-ui/svg-icons/toggle/star'
 
@@ -72,9 +73,9 @@ class Book extends PureComponent {
             </div>
           ) : null
         }
-        <a href={`/book/${slug}`}>
+        <Link href={`/book/${slug}`}>
           <img className='book' src={image} />
-        </a>
+        </Link>
         <div className='book-info-container'>
           <span className='book-info-title'>
             {title ? this.truncInfo(title, 15) : <i> unknown </i>}

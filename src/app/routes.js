@@ -14,13 +14,17 @@ import {
   orderSuccess,
   Orders,
 } from './components/store'
+import { PublicWrapper } from './components/public'
 import { ReferralHome } from './components/referral'
 import { Settings } from './components/settings'
+import { Auth } from './services'
+
+const isUserLoggedIn = Auth.currentUserExists()
 
 const Routes = (
   <Route path='/' component={App}>
-    <IndexRoute component={HomeWrapper} />
-    <Route path='/vid' component={HomeWrapper} />
+    <IndexRoute isUserLoggedIn={isUserLoggedIn} component={HomeWrapper} />
+    <Route path='/vid' isUserLoggedIn={isUserLoggedIn} component={HomeWrapper} />
     <Route path='/profile/settings' component={Settings} />
     <Route path='/profile/:slug' component={Profile} />
     <Route path='/me/:slug' component={ReferralHome} />
@@ -34,6 +38,9 @@ const Routes = (
     <Route path='/store/orders' component={Orders} />
     <Route path='/signup' component={SignUpFlow} />
     <Route path='/redirect' component={IncomingRedirect} />
+    <Route path='/antispam' context='antispam' component={PublicWrapper} />
+    <Route path='/terms' context='terms' component={PublicWrapper} />
+    <Route path='/privacy' context='privacy' component={PublicWrapper} />
   </Route>
 )
 

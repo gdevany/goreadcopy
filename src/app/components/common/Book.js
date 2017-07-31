@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router'
 import { Colors } from '../../constants/style'
 import Rating from 'react-rating'
 
@@ -57,12 +58,12 @@ const Book = ({ book }) => {
         style={styles.bookImage}
         className='book-container'
       >
-        <a href={`/book/${book.slug}`}>
+        <Link to={`/book/${book.slug}`}>
           <img className='book' src={book.imageUrl} />
-        </a>
+        </Link>
       </div>
       <div style={styles.tooltip}>
-        <a href={`/book/${book.slug}`}>
+        <Link to={`/book/${book.slug}`}>
           <span className='link'>
             {book.title ? truncInfo(book.title, 30) : null}
           </span>
@@ -73,7 +74,7 @@ const Book = ({ book }) => {
           <span className='rating' >
             {renderRating(Math.round(book.rating.average))}
           </span>
-        </a>
+        </Link>
       </div>
     </div>
   )

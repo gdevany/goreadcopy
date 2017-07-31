@@ -18,7 +18,7 @@ const {
   appendReceivedChatMessage
 } = ChatActions
 
-let pollInterval = null, keepInterval = null
+let socket = null, pollInterval = null, keepInterval = null
 const uri = Env.SOCKET_URL
 const pollDelay = 5000
 const keepDelay = 20000
@@ -35,8 +35,7 @@ class SocketHandler extends PureComponent {
       playStatus: Sound.status.STOPPED
     }
     this.locals = {
-      killHeartBeat: false,
-      socket: null
+      killHeartBeat: false
     }
     this.processStatusDiff = this.processStatusDiff.bind(this)
     this.onConnectionMessage = this.onConnectionMessage.bind(this)
@@ -46,7 +45,6 @@ class SocketHandler extends PureComponent {
     this.onConnectionClose = this.onConnectionClose.bind(this)
     this.keepSocket = this.keepSocket.bind(this)
     this.setSocket = this.setSocket.bind(this)
-    this.unsetSocket = this.unsetSocket.bind(this)
   }
 
   componentDidMount() {
@@ -135,7 +133,6 @@ class SocketHandler extends PureComponent {
   }
 
   keepSocket() {
-    const { socket } = this.locals
     if (!keepInterval && !socket) {
       keepInterval = setInterval(()=>{
         this.setSocket()
@@ -144,13 +141,13 @@ class SocketHandler extends PureComponent {
   }
 
   setSocket() {
-    if (!this.locals.socket) {
+    if (!socket) {
       try {
-        this.locals.socket = new WebSocket(uri)
-        this.locals.socket.onopen = this.onConnectionOpen
-        this.locals.socket.onmessage = this.onConnectionMessage
-        this.locals.socket.onerror = this.onConnectionError
-        this.locals.socket.onclose = this.onConnectionClose
+        socket = new WebSocket(uri)
+        socket.onopen = this.onConnectionOpen
+        socket.onmessage = this.onConnectionMessage
+        socket.onerror = this.onConnectionError
+        socket.onclose = this.onConnectionClose
       } catch (err) {
         throw err
       }
@@ -158,9 +155,9 @@ class SocketHandler extends PureComponent {
   }
 
   unsetSocket() {
-    if (this.locals.socket) {
-      this.locals.socket.close()
-      this.locals.socket = null
+    if (socket) {
+      socket.close()
+      socket = null
     }
   }
 
