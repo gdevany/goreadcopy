@@ -149,7 +149,7 @@ class ReviewsContainer extends PureComponent {
           </div>
         </div>
         <div className='small-12 large-5 columns end'>
-          {isLogged && currentReader ?
+          {isLogged && currentReader && currentReaderId ?
             (
               <div className='bookpage-review-post-area-container'>
                 <span className='bookpage-review-post-area-title'>
@@ -257,7 +257,7 @@ class ReviewsContainer extends PureComponent {
 const mapStateToProps = (state) => {
   return {
     rates: state.rates.bookRates,
-    currentReader: state.currentReader
+    currentReader: state.currentReader,
   }
 }
 

@@ -17,8 +17,6 @@ const { getStarsInfo } = Rates
 const Anchor = Scroll.Link
 const { Element } = Scroll
 
-const isUserLoggedIn = Auth.currentUserExists()
-
 class BookPage extends PureComponent {
 
   constructor(props) {
@@ -26,14 +24,20 @@ class BookPage extends PureComponent {
     this.state = {
       bookInfo: null,
       starsInfo: null,
+      isUserLoggedIn: Auth.currentUserExists(),
     }
   }
   componentWillMount = () => {
+    const { isUserLoggedIn } = this.state
     const bookSlug = this.props.params.slug
     this.props.getBookInfo(bookSlug, isUserLoggedIn)
   }
 
   componentWillReceiveProps = (nextProps) => {
+    const { isUserLoggedIn } = this.state
+    const checkLog = Auth.currentUserExists()
+    isUserLoggedIn !== checkLog ?
+    this.setState({ isUserLoggedIn: checkLog }) : null
     if (nextProps.params.slug !== this.props.params.slug) {
       this.props.getBookInfo(nextProps.params.slug, isUserLoggedIn)
     }
@@ -55,9 +59,8 @@ class BookPage extends PureComponent {
   }
 
   render() {
-    const { bookInfo, starsInfo } = this.state
-    const { rates } = this.props
-
+    const { bookInfo, starsInfo, isUserLoggedIn } = this.state
+    const { rates, currentReader } = this.props
     return (
       <StoreNavView>
         <div>
@@ -94,7 +97,7 @@ class BookPage extends PureComponent {
                 <img src='/image/chat-illustration.png'/>
               </figure>
             </div>
-            {isUserLoggedIn ? <WishListBooks/> : null}
+            {isUserLoggedIn && currentReader ? <WishListBooks/> : null}
             <hr className='bookpage-hr-separator'/>
             { bookInfo && bookInfo.authors[0] ?
               (
@@ -151,6 +154,7 @@ const mapStateToProps = (state) => {
     bookInfo: state.store.bookInfo,
     starsInfo: state.rates.starsInfo,
     rates: state.rates.bookRates,
+    currentReader: state.currentReader.id,
   }
 }
 

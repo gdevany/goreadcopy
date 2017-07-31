@@ -22,12 +22,15 @@ class BookStore extends PureComponent {
       randomCategory: null,
       isRandomSelected: false,
       modalOpen: false,
+      isUserLoggedIn: Auth.currentUserExists(),
     }
     this.handleModalClose = this.handleModalClose.bind(this)
     this.handleModalOpen = this.handleModalOpen.bind(this)
   }
 
   componentWillReceiveProps = (nextProps) => {
+    const { isUserLoggedIn } = this.state
+    const checkLog = Auth.currentUserExists()
     if (nextProps.categories) {
       if (!this.state.isRandomSelected && nextProps.categories.length > 5) {
         this.setState({
@@ -36,6 +39,8 @@ class BookStore extends PureComponent {
         this.setRandomCategory(nextProps.categories)
       }
     }
+    isUserLoggedIn !== checkLog ?
+    this.setState({ isUserLoggedIn: checkLog }) : null
   }
 
   handleModalOpen = () => {
@@ -65,9 +70,8 @@ class BookStore extends PureComponent {
   }
 
   render() {
-    const { randomCategory } = this.state
-    const { wishList } = this.props
-    const isUserLoggedIn = Auth.currentUserExists()
+    const { randomCategory, isUserLoggedIn } = this.state
+    const { wishList, currentReader } = this.props
     return (
       <StoreNavView>
         <BookStoreHero
@@ -80,7 +84,7 @@ class BookStore extends PureComponent {
             <CategoriesCarousel />
           </div>
         </div>
-        {isUserLoggedIn ? <WishListBooks/> : null}
+        {isUserLoggedIn && currentReader ? <WishListBooks/> : null}
         <Element name='recommended'>
           <div className='row'>
             <div className='large-12 columns'>
@@ -135,7 +139,8 @@ class BookStore extends PureComponent {
 const mapStateToProps = (state) => {
   return {
     categories: state.store.popularCategories,
-    wishList: state.profilePage.wishList
+    wishList: state.profilePage.wishList,
+    currentReader: state.currentReader.id
   }
 }
 

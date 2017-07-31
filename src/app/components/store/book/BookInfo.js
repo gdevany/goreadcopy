@@ -816,6 +816,12 @@ class BookInfo extends PureComponent {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    currentReaderId: state.currentReader.id,
+  }
+}
+
 const mapDistpachToProps = {
   addToLibrary,
   removeFromLibrary,
@@ -826,4 +832,4 @@ const mapDistpachToProps = {
   shareBook,
   showAlert,
 }
-export default connect(null, mapDistpachToProps)(BookInfo)
+export default connect(mapStateToProps, mapDistpachToProps)(BookInfo)
