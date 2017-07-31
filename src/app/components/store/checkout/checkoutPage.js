@@ -6,8 +6,11 @@ import { StepOne, StepTwo, StepThree } from './orderSteps'
 import { Auth } from '../../../services'
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
 import Snackbar from 'material-ui/Snackbar'
+import { Alerts } from '../../common'
 import R from 'ramda'
 import CV from 'card-validator'
+
+const { SnackBarAlert } = Alerts
 
 const {
   getOrder, getCurrentOrder, setUserAddress, setUserAddressAndShipping,
@@ -782,6 +785,7 @@ class CheckoutPage extends PureComponent {
           bodyStyle={styles.snackBarError}
           contentStyle={styles.contentStyle}
         />
+        <SnackBarAlert />
       </section>
     )
   }

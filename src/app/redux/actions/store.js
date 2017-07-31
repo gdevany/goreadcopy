@@ -1,9 +1,12 @@
-import { STORE as A } from '../const/actionTypes'
+import { STORE as A, COMMON as C } from '../const/actionTypes'
 import { browserHistory } from 'react-router'
 import Store from '../../services/api/store'
 import Books from '../../services/api/books'
 import ProfilePage from '../../services/api/profilePage'
 import { getCurrentReader } from './currentReader'
+import { Errors } from '../../services'
+
+const { hasErrors, errorsFrom } = Errors
 
 export function getCategories() {
   const data = {
@@ -264,7 +267,14 @@ export function getCurrentOrder(params, logged) {
         })
         .catch(err => console.log('Error in getCurrentOrder: getShippingMethods => ', err))
       })
-      .catch(() => browserHistory.push('/browse'))
+      .catch((err) => {
+        const errors = hasErrors(err) ? errorsFrom(err) : null
+        for (const key in errors) {
+          const data = { type: 'error', message: errors[key].message }
+          dispatch({ type: C.SHOW_ALERT_BAR, payload: data })
+        }
+        browserHistory.push('/shop/cart')
+      })
   }
 }
 
