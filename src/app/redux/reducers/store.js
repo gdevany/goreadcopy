@@ -79,6 +79,13 @@ export default (state = initialState.store, { type, payload }) => {
       })
     case A.CLEAN_ORDER_AND_CART:
       return R.omit(['cartItems', 'order'], state)
+    case A.HAS_REVIEWED:
+      return R.merge(state, {
+        bookInfo: {
+          ...state.bookInfo,
+          isReviewed: true
+        }
+      })
     default:
       return state
   }
