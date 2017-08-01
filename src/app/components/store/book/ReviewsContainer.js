@@ -15,7 +15,6 @@ class ReviewsContainer extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      isLogged: false,
       isFetchingRates: false,
       modalLogInOpen: false,
       rates: false,
@@ -33,15 +32,15 @@ class ReviewsContainer extends PureComponent {
   }
 
   componentWillMount = () => {
-    this.setState({ isLogged: this.props.isLogged })
     this.fetchRates(this.props.bookInfo.id)
   }
 
   componentWillReceiveProps = (nextProps) => {
-    if (nextProps.bookInfo.id !== this.props.bookInfo.id) {
+    const { isLogged, bookInfo } = this.props
+    if (nextProps.bookInfo.id !== bookInfo.id) {
       this.fetchRates(nextProps.bookInfo.id)
     }
-    if (this.state.isLogged && nextProps.currentReader) {
+    if (isLogged && nextProps.currentReader) {
       this.setState({ currentReader: nextProps.currentReader })
     }
   }
@@ -63,8 +62,7 @@ class ReviewsContainer extends PureComponent {
   }
 
   handleMapRates = () => {
-    const { isLogged } = this.state
-    const { rates } = this.props
+    const { rates, isLogged } = this.props
     if (rates.length) {
       return rates.map((rate, index) => {
         return (
@@ -134,8 +132,8 @@ class ReviewsContainer extends PureComponent {
   }
 
   render() {
-    const { rates } = this.props
-    const { isLogged, currentReader, starClicked, reviewBody, isFetchingRates } = this.state
+    const { rates, currentReaderId, isLogged } = this.props
+    const { currentReader, starClicked, reviewBody, isFetchingRates } = this.state
 
     return (
       <div className='row'>
@@ -149,7 +147,7 @@ class ReviewsContainer extends PureComponent {
           </div>
         </div>
         <div className='small-12 large-5 columns end'>
-          {isLogged && currentReader ?
+          {isLogged && currentReaderId ?
             (
               <div className='bookpage-review-post-area-container'>
                 <span className='bookpage-review-post-area-title'>
@@ -258,6 +256,7 @@ const mapStateToProps = (state) => {
   return {
     rates: state.rates.bookRates,
     currentReader: state.currentReader,
+    currentReaderId: state.currentReader.id,
   }
 }
 
