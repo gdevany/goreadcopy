@@ -254,7 +254,7 @@ class Review extends PureComponent {
       commentInput: '',
       replyPlaceholder: false
     })
-    updateComments(rateInfo.id, commentInput, commentParentId, datetime, profile)
+    updateComments(rateInfo.id, commentInput, commentParentId, commentInput, datetime, profile)
   }
 
   handleInputOnChange = R.curry((field, event) => {
