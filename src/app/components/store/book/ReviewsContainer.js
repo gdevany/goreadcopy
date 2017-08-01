@@ -149,7 +149,7 @@ class ReviewsContainer extends PureComponent {
           </div>
         </div>
         <div className='small-12 large-5 columns end'>
-          {isLogged && currentReader && currentReaderId ?
+          {isLogged && currentReader ?
             (
               <div className='bookpage-review-post-area-container'>
                 <span className='bookpage-review-post-area-title'>

@@ -41,7 +41,7 @@ class BookPage extends PureComponent {
     if (nextProps.params.slug !== this.props.params.slug) {
       this.props.getBookInfo(nextProps.params.slug, isUserLoggedIn)
     }
-    if (nextProps.bookInfo !== this.state.bookInfo) {
+    if (nextProps.bookInfo && nextProps.bookInfo !== this.state.bookInfo) {
       this.setState({
         bookInfo: nextProps.bookInfo
       })
