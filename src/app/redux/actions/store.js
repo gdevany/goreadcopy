@@ -1,4 +1,4 @@
-import { STORE as A, COMMON as C } from '../const/actionTypes'
+import { STORE as A, PROFILE_PAGE as B, COMMON as C } from '../const/actionTypes'
 import { browserHistory } from 'react-router'
 import Store from '../../services/api/store'
 import Books from '../../services/api/books'
@@ -140,12 +140,22 @@ export function removeFromLibrary(id, slug, isLogged) {
   }
 }
 
+export function getWishList(id) {
+  return dispatch => {
+    ProfilePage.getWishList(id)
+      .then(res => dispatch({ type: B.GET_WISH_LIST, payload: res.data }))
+      .catch(err => console.error(`Error in getWishList ${err}`))
+  }
+}
+
 export function addToWishList(id, slug, isLogged) {
   const terms = {
     ean: id
   }
   return dispatch => {
     return ProfilePage.updateWishList(terms)
+      .then(() => ProfilePage.getWishList(id))
+      .then(res => dispatch({ type: B.GET_WISH_LIST, payload: res.data }))
       .then(res => dispatch(getBookInfo(slug, isLogged)))
       .catch(err => console.error(`Error in addToWishList ${err}`))
   }
