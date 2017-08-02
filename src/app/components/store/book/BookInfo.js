@@ -421,28 +421,32 @@ class BookInfo extends PureComponent {
                   {/*</a>*/}
                 </p>
               </div>
-              <div className='bookpage-trailer-btn'>
-                <a onClick={this.showDialog}>
-                  Watch the trailer
-                </a>
-                <Dialog
-                  title={`${this.truncInfo(bookInfo.title, 25)} trailer`}
-                  onRequestClose={this.handleClose}
-                  modal={true}
-                  open={this.state.dialogOpen}
-                  onRequestClose={this.hideDialog}
-                >
-                  <div
-                    onClick={this.hideDialog}
-                    className='icon-cross close-vid-dialog'
-                  />
-                  <ReactPlayer
-                    className='video-player-trailer'
-                    controls={true}
-                    url='https://www.youtube.com/watch?v=WXdnwdTrBEA'
-                  />
-                </Dialog>
-              </div>
+              {bookInfo.video ?
+                (
+                  <div className='bookpage-trailer-btn'>
+                    <a onClick={this.showDialog}>
+                      Watch the trailer
+                    </a>
+                    <Dialog
+                      title={`${this.truncInfo(bookInfo.title, 25)} trailer`}
+                      onRequestClose={this.handleClose}
+                      modal={true}
+                      open={this.state.dialogOpen}
+                      onRequestClose={this.hideDialog}
+                    >
+                      <div
+                        onClick={this.hideDialog}
+                        className='icon-cross close-vid-dialog'
+                      />
+                      <ReactPlayer
+                        className='video-player-trailer'
+                        controls={true}
+                        url={bookInfo.video}
+                      />
+                    </Dialog>
+                  </div>
+                ) : null
+              }
             </div>
           </div>
           <div className='bookpage-book-excerpt-container-mobile'>
