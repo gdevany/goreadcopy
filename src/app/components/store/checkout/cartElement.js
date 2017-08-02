@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Store } from '../../../redux/actions'
 import { Numbers } from '../../../utils'
 import { debounce } from 'lodash'
+import { Link } from 'react-router'
 import GiftIcon from 'material-ui/svg-icons/action/card-giftcard'
 
 const { updateCartItems, removeItemFromCart, convertToGift } = Store
@@ -72,9 +73,13 @@ class CartElement extends PureComponent {
     return (
       <div className='cargpage-single-element'>
         <div className='bookpage-book-info-left'>
-          <figure className='cartpage-book-figure'>
-            <img src={bookImage}/>
-          </figure>
+          <Link
+            className='cartpage-book-url'
+          >
+            <figure className='cartpage-book-figure'>
+              <img src={bookImage}/>
+            </figure>
+          </Link>
           <div className='bookpage-book-information'>
             <span className='bookpage-book-info-title'>{bookTile}</span>
             <span className='bookpage-book-info-author'>by {authorFullName}</span>
