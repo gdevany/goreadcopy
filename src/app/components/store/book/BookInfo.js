@@ -138,9 +138,9 @@ class BookInfo extends PureComponent {
 
   handleAddToWishList = (event) => {
     event.preventDefault()
-    const { bookInfo, isUserLogged } = this.props
+    const { bookInfo, isUserLogged, currentReaderId } = this.props
     this.setState({ isModifyingWishlist: true })
-    this.props.addToWishList(bookInfo.ean, bookInfo.slug, isUserLogged)
+    this.props.addToWishList(bookInfo.ean, currentReaderId, bookInfo.slug, isUserLogged)
       .then(()=>{this.setState({ isModifyingWishlist: false })})
       .catch(()=>{this.setState({ isModifyingWishlist: false })})
     this.setState({ isWishlistHover: false })
@@ -148,9 +148,9 @@ class BookInfo extends PureComponent {
 
   handleRemoveFromWishList = (event) => {
     event.preventDefault()
-    const { bookInfo, isUserLogged } = this.props
+    const { bookInfo, isUserLogged, currentReaderId } = this.props
     this.setState({ isModifyingWishlist: true })
-    this.props.removeFromWishList(bookInfo.ean, bookInfo.slug, isUserLogged)
+    this.props.removeFromWishList(bookInfo.ean, currentReaderId, bookInfo.slug, isUserLogged)
       .then(()=>{this.setState({ isModifyingWishlist: false })})
       .catch(()=>{this.setState({ isModifyingWishlist: false })})
   }
