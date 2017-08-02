@@ -48,7 +48,7 @@ class BookRecommendations extends PureComponent {
           }
         </div>
         <div className='sub-link'>
-          <Link to='/browse'>
+          <Link to='/store'>
             See more books
           </Link>
         </div>
