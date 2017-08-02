@@ -134,7 +134,9 @@ class BookPage extends PureComponent {
               <hr className='bookpage-hr-separator'/>
               {
                 bookInfo ?
-                  <ReviewsContainer isLogged={isUserLoggedIn} bookInfo={bookInfo} /> :
+                  <Element name='ratesAndReviews'>
+                    <ReviewsContainer isLogged={isUserLoggedIn} bookInfo={bookInfo} />
+                  </Element> :
                   null
               }
             </Element>
