@@ -224,7 +224,11 @@ class ReviewsContainer extends PureComponent {
                     </p>
                     <a
                       onClick={this.handleReviewPost}
-                      className='bookpage-review-post-anchor'
+                      className={
+                        reviewBody.length >= minLimit ?
+                          'bookpage-review-post-anchor active' :
+                          'bookpage-review-post-anchor'
+                      }
                     >
                       Post
                     </a>
