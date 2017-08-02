@@ -663,7 +663,7 @@ class BookStoreNavBar extends PureComponent {
             <nav className='bookstore-navbar'>
               <div className='bookstore-navbar-left-container'>
                 <figure className='bookstore-navbar-logo-figure'>
-                  <Link to='/browse' className='bookstore-navbar-menu-logo-anchor'>
+                  <Link to='/store' className='bookstore-navbar-menu-logo-anchor'>
                     <img src='/image/book-store-logo-mobile.png' className='bookstore-mobile-logo'/>
                     <img src='/image/book-store-logo.svg' className='bookstore-desktop-logo'/>
                   </Link>
