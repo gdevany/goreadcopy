@@ -15,7 +15,6 @@ class ReviewsContainer extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      isLogged: false,
       isFetchingRates: false,
       modalLogInOpen: false,
       rates: false,
@@ -33,15 +32,15 @@ class ReviewsContainer extends PureComponent {
   }
 
   componentWillMount = () => {
-    this.setState({ isLogged: this.props.isLogged })
     this.fetchRates(this.props.bookInfo.id)
   }
 
   componentWillReceiveProps = (nextProps) => {
-    if (nextProps.bookInfo.id !== this.props.bookInfo.id) {
+    const { isLogged, bookInfo } = this.props
+    if (nextProps.bookInfo.id !== bookInfo.id) {
       this.fetchRates(nextProps.bookInfo.id)
     }
-    if (this.state.isLogged && nextProps.currentReader) {
+    if (isLogged && nextProps.currentReader) {
       this.setState({ currentReader: nextProps.currentReader })
     }
   }
@@ -63,8 +62,7 @@ class ReviewsContainer extends PureComponent {
   }
 
   handleMapRates = () => {
-    const { isLogged } = this.state
-    const { rates } = this.props
+    const { rates, isLogged } = this.props
     if (rates.length) {
       return rates.map((rate, index) => {
         return (
@@ -134,8 +132,8 @@ class ReviewsContainer extends PureComponent {
   }
 
   render() {
-    const { rates } = this.props
-    const { isLogged, currentReader, starClicked, reviewBody, isFetchingRates } = this.state
+    const { rates, isReviewed, isLogged, currentReaderId } = this.props
+    const { currentReader, starClicked, reviewBody, isFetchingRates } = this.state
 
     return (
       <div className='row'>
@@ -149,88 +147,102 @@ class ReviewsContainer extends PureComponent {
           </div>
         </div>
         <div className='small-12 large-5 columns end'>
-          {isLogged && currentReader ?
-            (
-              <div className='bookpage-review-post-area-container'>
-                <span className='bookpage-review-post-area-title'>
-                  Post Your Review
-                </span>
-                <div className='bookpage-review-post-user-info'>
-                  <figure className='bookpage-review-post-user-figure'>
-                    <img src={currentReader.profileImage} />
-                  </figure>
-                  <span className='bookpage-review-post-user-name'>
-                    {`${currentReader.firstName} ${currentReader.lastName}`}
+          { isLogged && currentReader && currentReaderId ?
+              !isReviewed ?
+                <div className='bookpage-review-post-area-container'>
+                  <span className='bookpage-review-post-area-title'>
+                    Post Your Review
                   </span>
-                </div>
-                <div className='bookpage-review-post-stars-container'>
-                  <span className='bookpage-review-post-stars-title'>
-                    Your Book Rating:
-                  </span>
-                  <div className='bookpage-review-post-stars'>
-                    <a
-                      onClick={() => this.handleStarClick(1)}
-                      className={starClicked >= 1 ?
-                        'bookpage-review-post-single-star-clicked' :
-                        'bookpage-review-post-single-star'
-                      }
-                    />
-                    <a
-                      onClick={() => this.handleStarClick(2)}
-                      className={starClicked >= 2 ?
-                        'bookpage-review-post-single-star-clicked' :
-                        'bookpage-review-post-single-star'
-                      }
-                    />
-                    <a
-                      onClick={() => this.handleStarClick(3)}
-                      className={starClicked >= 3 ?
-                        'bookpage-review-post-single-star-clicked' :
-                        'bookpage-review-post-single-star'
-                      }
-                    />
-                    <a
-                      onClick={() => this.handleStarClick(4)}
-                      className={starClicked >= 4 ?
-                        'bookpage-review-post-single-star-clicked' :
-                        'bookpage-review-post-single-star'
-                      }
-                    />
-                    <a
-                      onClick={() => this.handleStarClick(5)}
-                      className={starClicked === 5 ?
-                        'bookpage-review-post-single-star-clicked' :
-                        'bookpage-review-post-single-star'
-                      }
-                    />
+                  <div className='bookpage-review-post-user-info'>
+                    <figure className='bookpage-review-post-user-figure'>
+                      <img src={currentReader.profileImage} />
+                    </figure>
+                    <span className='bookpage-review-post-user-name'>
+                      {`${currentReader.firstName} ${currentReader.lastName}`}
+                    </span>
                   </div>
-                </div>
-                <div className='bookpage-review-post-comments-area'>
-                  <textarea
-                    onChange={this.handleTextChange}
-                    className='bookpage-review-post-textarea'
-                    placeholder='Write your review here'
-                    value={reviewBody}
-                    maxLength={maxLimit}
-                  />
-                  <p
-                    className={reviewBody.length >= minLimit ?
-                      'bookpage-review-post-limit-info complete' :
-                      'bookpage-review-post-limit-info'
-                    }
-                  >
-                    {`Minimum ${minLimit} characters. Write a review and gain 50 litcoins: `}
-                    <span>{reviewBody.length}</span>
-                  </p>
-                  <a
-                    onClick={this.handleReviewPost}
-                    className='bookpage-review-post-anchor'
-                  >
-                    Post
-                  </a>
-                </div>
-              </div>
-            ) : (
+                  <div className='bookpage-review-post-stars-container'>
+                    <span className='bookpage-review-post-stars-title'>
+                      Your Book Rating:
+                    </span>
+                    <div className='bookpage-review-post-stars'>
+                      <a
+                        onClick={() => this.handleStarClick(1)}
+                        className={starClicked >= 1 ?
+                          'bookpage-review-post-single-star-clicked' :
+                          'bookpage-review-post-single-star'
+                        }
+                      />
+                      <a
+                        onClick={() => this.handleStarClick(2)}
+                        className={starClicked >= 2 ?
+                          'bookpage-review-post-single-star-clicked' :
+                          'bookpage-review-post-single-star'
+                        }
+                      />
+                      <a
+                        onClick={() => this.handleStarClick(3)}
+                        className={starClicked >= 3 ?
+                          'bookpage-review-post-single-star-clicked' :
+                          'bookpage-review-post-single-star'
+                        }
+                      />
+                      <a
+                        onClick={() => this.handleStarClick(4)}
+                        className={starClicked >= 4 ?
+                          'bookpage-review-post-single-star-clicked' :
+                          'bookpage-review-post-single-star'
+                        }
+                      />
+                      <a
+                        onClick={() => this.handleStarClick(5)}
+                        className={starClicked === 5 ?
+                          'bookpage-review-post-single-star-clicked' :
+                          'bookpage-review-post-single-star'
+                        }
+                      />
+                    </div>
+                  </div>
+                  <div className='bookpage-review-post-comments-area'>
+                    <textarea
+                      onChange={this.handleTextChange}
+                      className='bookpage-review-post-textarea'
+                      placeholder='Write your review here'
+                      value={reviewBody}
+                      maxLength={maxLimit}
+                    />
+                    <p
+                      className={reviewBody.length >= minLimit ?
+                        'bookpage-review-post-limit-info complete' :
+                        'bookpage-review-post-limit-info'
+                      }
+                    >
+                      {`Minimum ${minLimit} characters. Write a review and gain 50 litcoins: `}
+                      <span>{reviewBody.length}</span>
+                    </p>
+                    <a
+                      onClick={this.handleReviewPost}
+                      className={
+                        reviewBody.length >= minLimit ?
+                          'bookpage-review-post-anchor active' :
+                          'bookpage-review-post-anchor'
+                      }
+                    >
+                      Post
+                    </a>
+                  </div>
+                </div> :
+                <div className='cart-blank-state'>
+                  <figure>
+                    <img src='/image/happyBook.png' alt='Book is reviewed!'/>
+                  </figure>
+                  <span className='cart-blank-title'>
+                    Great!
+                  </span>
+                  <span className='cart-blank-subtitle'>
+                    Your review has been submitted!
+                  </span>
+                </div> :
               <div className='bookpage-reviews-sign-up-message-container'>
                 <span className='bookpage-reviews-sign-up-message'>
                   Sign up to post your review
@@ -246,7 +258,6 @@ class ReviewsContainer extends PureComponent {
                   handleClose={this.handleLogInModalClose}
                 />
               </div>
-            )
           }
         </div>
       </div>
@@ -254,10 +265,22 @@ class ReviewsContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({
+  rates: {
+    bookRates
+  },
+  currentReader,
+  store: {
+    bookInfo: {
+      isReviewed
+    }
+  }
+}) => {
   return {
-    rates: state.rates.bookRates,
-    currentReader: state.currentReader,
+    rates: bookRates,
+    currentReader,
+    currentReaderId: currentReader.id,
+    isReviewed
   }
 }
 

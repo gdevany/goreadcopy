@@ -379,7 +379,7 @@ class NavMenu extends PureComponent {
     const bookStoreItem = (
       <li key={'popover-nav-item'} style={styles.navLinks} className='link nav-item'>
 
-        <Link onMouseEnter={this.handleNavHover} to='/browse'>
+        <Link onMouseEnter={this.handleNavHover} to='/store'>
           Book Store
         </Link>
 
@@ -438,7 +438,7 @@ class NavMenu extends PureComponent {
                     )
                   })
                 }
-                <MenuItem primaryText='See More >' href='/browse' />
+                <MenuItem primaryText='See More >' href='/store' />
               </Menu>
             </div>
 
@@ -1142,7 +1142,7 @@ class NavMenu extends PureComponent {
             <ul className='mobile-menu'>
               <li style={styles.navLinks} className='link nav-item'>
                 <Link
-                  to='/browse'
+                  to='/store'
                 >
                   Book Store
                 </Link>

@@ -11,6 +11,7 @@ import { ShareButtons, generateShareIcon } from 'react-share'
 import R from 'ramda'
 import { debounce } from 'lodash'
 import { Loaders } from '../../common'
+import Scroll from 'react-scroll'
 
 const { showAlert } = Common
 const { followOrUnfollow } = Follow
@@ -29,13 +30,16 @@ const {
   LinkedinShareButton,
   TwitterShareButton,
 } = ShareButtons
+const { StoreSpinner } = Loaders
+const { parseFloatToUSD, parseIntToLocale } = Numbers
+
 const FacebookIcon = generateShareIcon('facebook')
 const TwitterIcon = generateShareIcon('twitter')
 const GooglePlusIcon = generateShareIcon('google')
 const LinkedinIcon = generateShareIcon('linkedin')
 const mentionPattern = /\B@(?!Reader|Author|Publisher|Book)\w+\s?\w+/gi
-const { StoreSpinner } = Loaders
-const { parseFloatToUSD, parseIntToLocale } = Numbers
+
+const ScrollLink = Scroll.Link
 
 class BookInfo extends PureComponent {
 
@@ -383,19 +387,27 @@ class BookInfo extends PureComponent {
                   }
                 </div>
               </div>
-              <div className='bookpage-rating-container'>
-                <span className='rating'>
-                  {this.renderRating(Math.round(bookInfo.rating.average))}
-                </span>
-                <span className='review-counts'>
-                  {bookInfo.rating.count}
-                </span>
-                <span className='review-counts'>
-                  {bookInfo.rating.count === 0 || bookInfo.rating.count > 1 ?
-                    'Reviews' : 'Review'
-                  }
-                </span>
-              </div>
+              <ScrollLink
+                to='ratesAndReviews'
+                smooth={true}
+                offset={-100}
+                duration={500}
+                style={{ cursor: 'pointer' }}
+              >
+                <div className='bookpage-rating-container'>
+                  <span className='rating'>
+                    {this.renderRating(Math.round(bookInfo.rating.average))}
+                  </span>
+                  <span className='review-counts'>
+                    {bookInfo.rating.count}
+                  </span>
+                  <span className='review-counts'>
+                    {bookInfo.rating.count === 0 || bookInfo.rating.count > 1 ?
+                      'Reviews' : 'Review'
+                    }
+                  </span>
+                </div>
+              </ScrollLink>
               <div className='bookpage-book-excerpt-container-desktop'>
                 <p className='bookpage-book-excerpt'>
                   {this.truncInfo(bookInfo.description, 350)}

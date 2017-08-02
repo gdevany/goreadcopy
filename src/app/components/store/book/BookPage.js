@@ -36,14 +36,13 @@ class BookPage extends PureComponent {
   componentWillReceiveProps = (nextProps) => {
     const { isUserLoggedIn } = this.state
     const checkLog = Auth.currentUserExists()
-    isUserLoggedIn !== checkLog ?
-    this.setState({ isUserLoggedIn: checkLog }) : null
-    if (nextProps.params.slug !== this.props.params.slug) {
-      this.props.getBookInfo(nextProps.params.slug, isUserLoggedIn)
+    if (nextProps.params.slug !== this.props.params.slug || isUserLoggedIn !== checkLog) {
+      this.props.getBookInfo(nextProps.params.slug, checkLog)
     }
-    if (nextProps.bookInfo !== this.state.bookInfo) {
+    if (nextProps.bookInfo && nextProps.bookInfo !== this.state.bookInfo) {
       this.setState({
-        bookInfo: nextProps.bookInfo
+        bookInfo: nextProps.bookInfo,
+        isUserLoggedIn: checkLog
       })
       this.props.getStarsInfo('book', nextProps.bookInfo.id)
     }
@@ -134,7 +133,9 @@ class BookPage extends PureComponent {
               <hr className='bookpage-hr-separator'/>
               {
                 bookInfo ?
-                  <ReviewsContainer isLogged={isUserLoggedIn} bookInfo={bookInfo} /> :
+                  <Element name='ratesAndReviews'>
+                    <ReviewsContainer isLogged={isUserLoggedIn} bookInfo={bookInfo} />
+                  </Element> :
                   null
               }
             </Element>

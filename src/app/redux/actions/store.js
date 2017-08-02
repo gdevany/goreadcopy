@@ -98,13 +98,13 @@ export function getBookInfo(bookSlug, isLogged) {
     return dispatch => {
       Store.getAuthBookInfo(bookSlug)
         .then(res => dispatch({ type: A.GET_BOOK_INFO, payload: res.data }))
-        .catch(() => browserHistory.push('/browse'))
+        .catch(() => browserHistory.push('/store'))
     }
   }
   return dispatch => {
     Store.getBookInfo(bookSlug)
       .then(res => dispatch({ type: A.GET_BOOK_INFO, payload: res.data }))
-      .catch(() => browserHistory.push('/browse'))
+      .catch(() => browserHistory.push('/store'))
   }
 }
 

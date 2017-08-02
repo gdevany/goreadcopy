@@ -92,7 +92,7 @@ class orderSuccess extends PureComponent {
         </StoreNavView>
       )
     }
-    browserHistory.push('/browse')
+    browserHistory.push('/store')
     return null
   }
 }

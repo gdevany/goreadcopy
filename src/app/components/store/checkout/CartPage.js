@@ -151,7 +151,7 @@ class CartPage extends PureComponent {
                               </span>
                               <Link
                                 className='cart-blank-anchor'
-                                to='/browse'
+                                to='/store'
                               >
                                 Go to store
                               </Link>
@@ -188,7 +188,7 @@ class CartPage extends PureComponent {
                     {cart && cart.itemsCount > 0 ?
                       (
                         <div className='cartpage-action-btns-container'>
-                          <Link className='cartpage-action-secondary-btn' to='/browse'>
+                          <Link className='cartpage-action-secondary-btn' to='/store'>
                             Continue shopping
                           </Link>
                           <Link

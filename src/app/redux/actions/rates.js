@@ -1,4 +1,4 @@
-import { RATES as A } from '../const/actionTypes'
+import { RATES as A, STORE as S } from '../const/actionTypes'
 import Rates from '../../services/api/rates'
 
 export function getStarsInfo(modelName, id) {
@@ -21,6 +21,7 @@ export function postRateAndReview(modelName, rateData) {
   return dispatch => {
     return Rates.postRate(modelName, rateData)
       .then(res => dispatch({ type: A.PREPEND_REVIEW, payload: res.data }))
+      .then(res => dispatch({ type: S.HAS_REVIEWED }))
       .catch(err => console.error(`Error in postRateAndReview ${err}`))
   }
 }

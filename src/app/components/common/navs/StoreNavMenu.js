@@ -663,12 +663,20 @@ class BookStoreNavBar extends PureComponent {
             <nav className='bookstore-navbar'>
               <div className='bookstore-navbar-left-container'>
                 <figure className='bookstore-navbar-logo-figure'>
-                  <Link to='/browse' className='bookstore-navbar-menu-logo-anchor'>
+                  <Link to='/store' className='bookstore-navbar-menu-logo-anchor'>
                     <img src='/image/book-store-logo-mobile.png' className='bookstore-mobile-logo'/>
                     <img src='/image/book-store-logo.svg' className='bookstore-desktop-logo'/>
                   </Link>
                 </figure>
                 <ul className='bookstore-navbar-menu-elements'>
+                  <li className='bookstore-navbar-menu-list'>
+                    <Link
+                      className='bookstore-navbar-menu-anchor'
+                      to='/'
+                    >
+                      Home
+                    </Link>
+                  </li>
                   <li className='bookstore-navbar-menu-list'>
                     <a
                       className={this.state.categoriesMenuOpen ?
@@ -1035,6 +1043,14 @@ class BookStoreNavBar extends PureComponent {
                           <ul className='bookstore-mobile-elements-container'>
                             <li className='bookstore-mobile-menu-title'>
                               Store
+                            </li>
+                            <li className='bookstore-mobile-menu-list'>
+                              <Link
+                                to='/'
+                                className='bookstore-mobile-menu-anchor'
+                              >
+                                Home
+                              </Link>
                             </li>
                             <li className='bookstore-mobile-menu-list'>
                               <a
