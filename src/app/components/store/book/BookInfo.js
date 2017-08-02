@@ -5,13 +5,14 @@ import { Follow, Store, Social, Common } from '../../../redux/actions'
 import { Numbers } from '../../../utils'
 import { Search } from '../../../services/api'
 import Rating from 'react-rating'
-import SuggestionList from '../../common/SuggestionList'
 import ReplyIcon from 'material-ui/svg-icons/content/reply'
 import { ShareButtons, generateShareIcon } from 'react-share'
 import R from 'ramda'
 import { debounce } from 'lodash'
-import { Loaders } from '../../common'
+import { Loaders, SuggestionList } from '../../common'
 import Scroll from 'react-scroll'
+import ReactPlayer from 'react-player'
+import Dialog from 'material-ui/Dialog'
 
 const { showAlert } = Common
 const { followOrUnfollow } = Follow
@@ -59,10 +60,10 @@ class BookInfo extends PureComponent {
       showSuggestions: false,
       isWishlistHover: false,
       isLibraryHover: false,
-      // Transition states
       isModifyingLibrary: false,
       isModifyingWishlist: false,
       isModifyingFollow: false,
+      dialogOpen: false,
     }
     this.handleAddToCart = this.handleAddToCart.bind(this)
     this.handleAddToLibrary = this.handleAddToLibrary.bind(this)
@@ -80,6 +81,8 @@ class BookInfo extends PureComponent {
     this.handleSuggestionClick = this.handleSuggestionClick.bind(this)
     this.replaceMention = this.replaceMention.bind(this)
     this.getMentions = debounce(this.getMentions, 250)
+    this.showDialog = this.showDialog.bind(this)
+    this.hideDialog = this.hideDialog.bind(this)
   }
 
   componentWillMount() {
@@ -88,6 +91,10 @@ class BookInfo extends PureComponent {
       this.setState({ addToCartClicked: true })
     }
   }
+
+  showDialog = () => this.setState({ dialogOpen: true })
+
+  hideDialog = () => this.setState({ dialogOpen: false })
 
   truncInfo = (text, limit) => {
     return text.length >= limit ? `${text.slice(0, limit)}...` : text
@@ -336,8 +343,6 @@ class BookInfo extends PureComponent {
     const { bookInfo, isUserLogged } = this.props
     const {
       addToCartClicked,
-      // isBookTypeSelected,
-      // isAlertDisplayed,
       isSharePopUpDisplayed,
       commentText,
       isWishlistHover,
@@ -416,17 +421,37 @@ class BookInfo extends PureComponent {
                   {/*</a>*/}
                 </p>
               </div>
-              {/* <div className='bookpage-trailer-btn'>
-                Watch the trailer
-              </div> */}
+              {bookInfo.video ?
+                (
+                  <div className='bookpage-trailer-btn'>
+                    <a onClick={this.showDialog}>
+                      Watch the trailer
+                    </a>
+                    <Dialog
+                      title={`${this.truncInfo(bookInfo.title, 25)} trailer`}
+                      onRequestClose={this.handleClose}
+                      modal={true}
+                      open={this.state.dialogOpen}
+                      onRequestClose={this.hideDialog}
+                    >
+                      <div
+                        onClick={this.hideDialog}
+                        className='icon-cross close-vid-dialog'
+                      />
+                      <ReactPlayer
+                        className='video-player-trailer'
+                        controls={true}
+                        url={bookInfo.video}
+                      />
+                    </Dialog>
+                  </div>
+                ) : null
+              }
             </div>
           </div>
           <div className='bookpage-book-excerpt-container-mobile'>
             <p className='bookpage-book-excerpt'>
               {this.truncInfo(bookInfo.description, 350)}
-              {/*<a className='bookpage-book-excerpt-readmore-btn'>*/}
-                {/*See more*/}
-              {/*</a>*/}
             </p>
           </div>
           <div className='bookpage-info-left-bottom'>
