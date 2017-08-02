@@ -28,7 +28,7 @@ const Routes = (
     <Route path='/profile/settings' component={Settings} />
     <Route path='/profile/:slug' component={Profile} />
     <Route path='/me/:slug' component={ReferralHome} />
-    <Route path='/browse' component={BookStore} />
+    <Route path='/store' component={BookStore} />
     <Route path='/book/:slug' component={BookPage} />
     <Route path='/categories/:slug' component={CategoriesPage} />
     <Route path='/categories/:slug/:subCategory' component={CategoriesPage} />
