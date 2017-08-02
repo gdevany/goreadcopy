@@ -18,7 +18,7 @@ const SuccessBanner = () => (
       </p>
       <div className='checkout-order-completed-anchor-container'>
         <Link
-          to='/browse'
+          to='/store'
           className='store-primary-button'
         >
           Go to book store
