@@ -148,20 +148,21 @@ export function getWishList(id) {
   }
 }
 
-export function addToWishList(id, slug, isLogged) {
+export function addToWishList(id, readerId, slug, isLogged) {
   const terms = {
     ean: id
   }
   return dispatch => {
     return ProfilePage.updateWishList(terms)
-      .then(() => ProfilePage.getWishList(id))
-      .then(res => dispatch({ type: B.GET_WISH_LIST, payload: res.data }))
       .then(res => dispatch(getBookInfo(slug, isLogged)))
       .catch(err => console.error(`Error in addToWishList ${err}`))
+      .then(() => ProfilePage.getWishList(readerId))
+      .then(res => dispatch({ type: B.GET_WISH_LIST, payload: res.data }))
+      .catch(err => console.error(`Error in getWishList ${err}`))
   }
 }
 
-export function removeFromWishList(id, slug, isLogged) {
+export function removeFromWishList(id, readerId, slug, isLogged) {
   const terms = {
     ean: id
   }
@@ -169,6 +170,9 @@ export function removeFromWishList(id, slug, isLogged) {
     return ProfilePage.deleteFromWishList(terms)
       .then(res => dispatch(getBookInfo(slug, isLogged)))
       .catch(err => console.log(`Error in removeFromWishList ${err}`))
+      .then(() => ProfilePage.getWishList(readerId))
+      .then(res => dispatch({ type: B.GET_WISH_LIST, payload: res.data }))
+      .catch(err => console.error(`Error in getWishList ${err}`))
   }
 }
 
@@ -375,6 +379,7 @@ export default {
   addToCart,
   addToLibrary,
   removeFromLibrary,
+  getWishList,
   addToWishList,
   removeFromWishList,
   filterBooks,
