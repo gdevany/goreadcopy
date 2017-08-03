@@ -118,7 +118,7 @@ class ReviewsContainer extends PureComponent {
       id,
       body: reviewBody,
       book: id,
-    })
+    }, this.props.bookInfo.slug)
       .then(()=>{
         this.props.showAlert({
           type: 'success',
