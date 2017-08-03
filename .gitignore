@@ -28,3 +28,4 @@ firebasecreds.json
 /src/client/index.html
 .vscode/
 .nvmrc
+yarn.lock
