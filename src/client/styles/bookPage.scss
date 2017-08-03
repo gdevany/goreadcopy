@@ -171,6 +171,15 @@
             }
           }
         }
+        .bookpage-trailer-btn{
+          margin-top: 1em;
+          a{
+            display: flex;
+            font-size: 14px;
+            color: #808080;
+            font-weight: 500;
+          }
+        }
       }
     }
     .bookpage-info-left-bottom{
@@ -1261,5 +1270,37 @@
   }
   .bookpage-review-post-blank-state-text{
     color: $light-med-grey;
+  }
+}
+
+
+.close-vid-dialog{
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  &:hover{
+    cursor: pointer;
+  }
+}
+
+.video-player-trailer{
+  width: 100% !important;
+  height: 180px  !important;
+  margin: 0 auto;
+  @media all and (min-width: 600px){
+    width: 100% !important;
+    height: 186px !important;
+  }
+  @media all and (min-width: 768px){
+    width: 100% !important;
+    height: 210px !important;
+  }
+  @media all and (min-width: 1024px){
+    width: 100% !important;
+    height: 254px !important;
+  }
+  @media all and (min-width: 1200px){
+    width: 100% !important;
+    height: 300px !important;
   }
 }
