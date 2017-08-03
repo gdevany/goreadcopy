@@ -11,6 +11,7 @@ import {
   Notifications as NotifActions
 } from '../../../redux/actions'
 import { Auth as AuthService } from '../../../services'
+import SearchModal from '../SearchModal'
 import SignUpModal from '../SignUpModal'
 import LogInModal from '../SignInModal'
 import LitcoinStatus from '../LitcoinStatus'
@@ -18,8 +19,8 @@ import { Colors } from '../../../constants/style'
 import MenuIcon from 'material-ui/svg-icons/navigation/menu'
 import Badge from 'material-ui/Badge'
 import { Search } from '../../../redux/actions'
-import { debounce } from 'lodash'
-import Book from '../../store/common/Book'
+// import { debounce } from 'lodash'
+// import Book from '../../store/common/Book'
 import { stack as MobileMenu, slide as CategoriesMenu } from 'react-burger-menu'
 import R from 'ramda'
 import { NotificationPopupWindow } from '../notifications'
@@ -69,6 +70,7 @@ class BookStoreNavBar extends PureComponent {
       notificationsOpen: false,
       chatsContainerOpen: false,
       wishlist: false,
+      searchModalOpen: false,
     }
     this.handleSignUpModalClose = this.handleSignUpModalClose.bind(this)
     this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
@@ -77,13 +79,14 @@ class BookStoreNavBar extends PureComponent {
     this.handleLogoutClick = this.handleLogoutClick.bind(this)
     this.handleCategoriesClick = this.handleCategoriesClick.bind(this)
     this.handleWheelScroll = this.handleWheelScroll.bind(this)
-    this.handleSeach = this.handleSeach.bind(this)
-    this.debouncedSearch = this.debouncedSearch.bind(this)
+    // this.handleSeach = this.handleSeach.bind(this)
+    // this.debouncedSearch = this.debouncedSearch.bind(this)
     this.countChatNotifications = this.countChatNotifications.bind(this)
     this.handleChatsContainerShow = this.handleChatsContainerShow.bind(this)
     this.handleNotificationsShow = this.handleNotificationsShow.bind(this)
     this.handleHideNotifications = this.handleHideNotifications.bind(this)
     this.handleMenuStateChange = this.handleMenuStateChange.bind(this)
+    this.handleClickSearch = this.handleClickSearch.bind(this)
   }
 
   componentWillMount = () => {
@@ -143,25 +146,34 @@ class BookStoreNavBar extends PureComponent {
     }
   }
 
-  handleSeach = R.curry((field, e) => {
-    e.persist()
-    this.setState({
-      [field]: e.target.value,
-      isSearchResultsOpen: false,
-    })
-    this.debouncedSearch(e)
-  })
+  handleClickSearch = (event) => {
+    event.preventDefault()
+    this.setState({ searchModalOpen: true })
+  }
 
-  debouncedSearch = debounce((event) => {
-    const trimmedInput = event.target.value.trim()
-    this.props.cleanSearchState()
-    this.setState({
-      searchResults: '',
-    })
-    if (trimmedInput.length >= 3) {
-      this.props.mainSearch(trimmedInput, 'book-search')
-    }
-  }, 1000)
+  handleSearchClose = () => {
+    this.setState({ searchModalOpen: false })
+  }
+
+  // handleSeach = R.curry((field, e) => {
+  //   e.persist()
+  //   this.setState({
+  //     [field]: e.target.value,
+  //     isSearchResultsOpen: false,
+  //   })
+  //   this.debouncedSearch(e)
+  // })
+
+  // debouncedSearch = debounce((event) => {
+  //   const trimmedInput = event.target.value.trim()
+  //   this.props.cleanSearchState()
+  //   this.setState({
+  //     searchResults: '',
+  //   })
+  //   if (trimmedInput.length >= 3) {
+  //     this.props.mainSearch(trimmedInput, 'book-search')
+  //   }
+  // }, 1000)
 
   handleSignUpModalOpen = () => {
     this.setState({ modalSignUpOpen: true })
@@ -607,54 +619,54 @@ class BookStoreNavBar extends PureComponent {
     )
   }
 
-  renderSearchResults = () => {
-    const { searchResults } = this.props
-    if (searchResults && searchResults.length) {
-      return searchResults.map((book, index) => {
-        return (
-          <Book
-            key={`${index}_${book.id}`}
-            url={book.slug ? `/book/${book.slug}` : '/#'}
-            image={book.imageUrl}
-            title={book.title}
-            authors={book.writtenBy ? book.writtenBy : null}
-            rating={book.rating ? book.rating : null}
-            bookType='searchResult'
-          />
-        )
-      })
-    }
-    return (
-      <div className='notifications-blank-state'>
-        <figure className='notifications-blank-state-figure'>
-          <img
-            src='/image/notifications_blank.png'
-            alt='Notifications Blank state'
-          />
-        </figure>
-        <p>
-          Sorry, we didn't find anything with the term:
-          &nbsp;
-          <b>{this.state.searchTerm}</b>
-        </p>
-      </div>
-    )
-  }
+  // renderSearchResults = () => {
+  //   const { searchResults } = this.props
+  //   if (searchResults && searchResults.length) {
+  //     return searchResults.map((book, index) => {
+  //       return (
+  //         <Book
+  //           key={`${index}_${book.id}`}
+  //           url={book.slug ? `/book/${book.slug}` : '/#'}
+  //           image={book.imageUrl}
+  //           title={book.title}
+  //           authors={book.writtenBy ? book.writtenBy : null}
+  //           rating={book.rating ? book.rating : null}
+  //           bookType='searchResult'
+  //         />
+  //       )
+  //     })
+  //   }
+  //   return (
+  //     <div className='notifications-blank-state'>
+  //       <figure className='notifications-blank-state-figure'>
+  //         <img
+  //           src='/image/notifications_blank.png'
+  //           alt='Notifications Blank state'
+  //         />
+  //       </figure>
+  //       <p>
+  //         Sorry, we didn't find anything with the term:
+  //         &nbsp;
+  //         <b>{this.state.searchTerm}</b>
+  //       </p>
+  //     </div>
+  //   )
+  // }
 
-  handleShowHideSearchResuls = () => {
-    if (this.state.isSearchResultsOpen) {
-      this.props.cleanSearchState()
-      this.setState({
-        isSearchResultsOpen: false
-      })
-    }
-  }
+  // handleShowHideSearchResuls = () => {
+  //   if (this.state.isSearchResultsOpen) {
+  //     this.props.cleanSearchState()
+  //     this.setState({
+  //       isSearchResultsOpen: false
+  //     })
+  //   }
+  // }
 
   render() {
     const isUserLoggedIn = AuthService.currentUserExists()
     const chatNotifications = this.countChatNotifications()
     const { currentReader, notifications } = this.props
-    const { searchResults, isSearchResultsOpen, wishlist } = this.state
+    const { wishlist } = this.state
 
     return (
       <div className='relative-top-menu'>
@@ -668,6 +680,55 @@ class BookStoreNavBar extends PureComponent {
                     <img src='/image/book-store-logo.svg' className='bookstore-desktop-logo'/>
                   </Link>
                 </figure>
+                {/* <form onKeyPress={this.handleEnterButton} className='bookstore-search-form'>
+                  <input
+                    className='bookstore-search-input'
+                    placeholder='Search store...'
+                    type='text'
+                    onChange={this.handleSeach('searchTerm')}
+                    value={this.state.searchTerm}
+                  />
+                  {
+                    // Show results only when these are true:
+                    // -- It's flagged to open
+                    // -- There are 3 or more characters to search
+                    this.state.searchTerm.length >= 3 ?
+                      !searchResults || !isSearchResultsOpen ?
+                        (
+                          <div className='loading-animation-store-search' />
+                        ) :
+                        (
+                          <img
+                            onClick={(e)=>{
+                              this.handleShowHideSearchResuls(e)
+                              this.setState({ searchTerm: '', searchResults: '' })
+                            }}
+                            src='/image/close.png'
+                            className='bookstore-close-results-icon'
+                          />
+                        ) :
+                      (
+                        <img src='/image/search-icon.svg' className='bookstore-search-icon'/>
+                      )
+                  }
+                  {
+                    // Show results only when these are true:
+                    // -- There are results
+                    // -- It's flagged to open
+                    // -- There are 3 or more characters to search
+                    searchResults && isSearchResultsOpen && this.state.searchTerm.length >= 3 ?
+                      (
+                        <RestrictedScrollContainer
+                          classes='bookstore-search-results-container'
+                        >
+                          {this.renderSearchResults()}
+                        </RestrictedScrollContainer>
+                      ) :
+                      null
+                  }
+                </form> */}
+              </div>
+              <div className='bookstore-navbar-center-container'>
                 <ul className='bookstore-navbar-menu-elements'>
                   <li className='bookstore-navbar-menu-list'>
                     <Link
@@ -727,54 +788,15 @@ class BookStoreNavBar extends PureComponent {
                       </li>
                     ) : null
                   }
+                  <li className='bookstore-navbar-menu-list'>
+                    <a
+                      className='bookstore-navbar-menu-anchor'
+                      onClick={this.handleClickSearch}
+                    >
+                      Search
+                    </a>
+                  </li>
                 </ul>
-                <form onKeyPress={this.handleEnterButton} className='bookstore-search-form'>
-                  <input
-                    className='bookstore-search-input'
-                    placeholder='Search store...'
-                    type='text'
-                    onChange={this.handleSeach('searchTerm')}
-                    value={this.state.searchTerm}
-                  />
-                  {
-                    // Show results only when these are true:
-                    // -- It's flagged to open
-                    // -- There are 3 or more characters to search
-                    this.state.searchTerm.length >= 3 ?
-                      !searchResults || !isSearchResultsOpen ?
-                        (
-                          <div className='loading-animation-store-search' />
-                        ) :
-                        (
-                          <img
-                            onClick={(e)=>{
-                              this.handleShowHideSearchResuls(e)
-                              this.setState({ searchTerm: '', searchResults: '' })
-                            }}
-                            src='/image/close.png'
-                            className='bookstore-close-results-icon'
-                          />
-                        ) :
-                      (
-                        <img src='/image/search-icon.svg' className='bookstore-search-icon'/>
-                      )
-                  }
-                  {
-                    // Show results only when these are true:
-                    // -- There are results
-                    // -- It's flagged to open
-                    // -- There are 3 or more characters to search
-                    searchResults && isSearchResultsOpen && this.state.searchTerm.length >= 3 ?
-                      (
-                        <RestrictedScrollContainer
-                          classes='bookstore-search-results-container'
-                        >
-                          {this.renderSearchResults()}
-                        </RestrictedScrollContainer>
-                      ) :
-                      null
-                  }
-                </form>
               </div>
               <div className='bookstore-navbar-right-container'>
                 {isUserLoggedIn ?
@@ -1089,6 +1111,10 @@ class BookStoreNavBar extends PureComponent {
                 }
               </div>
             </nav>
+            <SearchModal
+              modalOpen={this.state.searchModalOpen}
+              handleClose={this.handleSearchClose}
+            />
           </section>
           <SignUpModal
             modalOpen={this.state.modalSignUpOpen}

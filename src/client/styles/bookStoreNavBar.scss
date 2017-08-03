@@ -234,38 +234,20 @@
         justify-content: space-between;
         align-items: center;
         flex-direction: row;
-        width: 65%;
-        padding-left: 10px;
-
+        width: 10%;
+        padding-left: 15px;
         @media all and (min-width: 768px){
           justify-content: space-around;
+          width: 20%;
         }
         @media all and (min-width: 1024px) {
-          width: 60%;
+          width: 15%;
           padding-left: 0;
         }
         @media all and (min-width: 1200px) {
-          width: 65%;
-        }
-        .bookstore-navbar-logo-figure{
-          width: 30px;
-          @media all and (min-width: 1024px){
-            width: 150px;
-          }
-          .bookstore-navbar-menu-logo-anchor{
-            .bookstore-mobile-logo{
-              @media all and (min-width: 1024px) {
-                display: none;
-              }
-            }
-            .bookstore-desktop-logo{
-              display: none;
-              @media all and (min-width: 1024px) {
-                display: flex;
-                margin: 0 auto;
-              }
-            }
-          }
+          width: 28%;
+          justify-content: flex-start;
+          margin-left: 5%;
         }
         .bookstore-search-form{
           margin-left: 10px;
@@ -296,38 +278,18 @@
             right: 10px;
           }
         }
-        .bookstore-navbar-menu-elements{
-          display: none;
-          @media all and (min-width: 768px){
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            flex-direction: row;
-            margin: 0;
-            padding: 0;
-            list-style: none;
-            width: 320px;
-            .bookstore-navbar-menu-list{
-              .bookstore-navbar-menu-anchor{
-                font-size: 16px;
-                display: flex;
-                padding: 17.5px 10px;
-                transition: all .1s ease-in-out;
-                &:hover{
-                  background: $store-blue;
-                  color: white;
-                }
-              }
-              .bookstore-navbar-menu-anchor-active{
-                font-size: 16px;
-                display: flex;
-                padding: 17.5px 10px;
-                transition: all .1s ease-in-out;
-                background: $store-blue;
-                color: white;
-              }
-            }
-          }
+      }
+      .bookstore-navbar-center-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        width: 60%;
+        @media all and (min-width: 1024px) {
+          width: 40%;
+        }
+        @media all and (min-width: 1200px) {
+          width: 33%;
         }
       }
       .bookstore-navbar-right-container{
@@ -335,18 +297,18 @@
         justify-content: flex-start;
         align-items: center;
         flex-direction: row;
-        width: 35%;
+        width: 19%;
         @media all and (min-width: 1024px) {
           width: 40%;
         }
         @media all and (min-width: 1200px) {
-          width: 35%;
+          width: 33%;
         }
         .bookstore-navbar-menu-elements{
           padding: 0;
           margin: 0;
           display: flex;
-          justify-content: flex-end;
+          justify-content: center;
           align-items: center;
           flex-direction: row;
           list-style: none;
@@ -507,5 +469,60 @@
         text-align: left;
       }
      }
+  }
+}
+
+.bookstore-navbar-logo-figure{
+  width: 30px;
+  @media all and (min-width: 1024px){
+    width: 150px;
+  }
+  .bookstore-navbar-menu-logo-anchor{
+    .bookstore-mobile-logo{
+      @media all and (min-width: 1024px) {
+        display: none;
+      }
+    }
+    .bookstore-desktop-logo{
+      display: none;
+      @media all and (min-width: 1024px) {
+        display: flex;
+        margin: 0 auto;
+      }
+    }
+  }
+}
+
+.bookstore-navbar-menu-elements{
+  display: none;
+  @media all and (min-width: 768px){
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    width: 100%;
+    .bookstore-navbar-menu-list{
+      .bookstore-navbar-menu-anchor{
+        font-size: 16px;
+        display: flex;
+        padding: 17.5px 10px;
+        transition: all .1s ease-in-out;
+        &:hover{
+          background: $store-blue;
+          color: white;
+        }
+      }
+      .bookstore-navbar-menu-anchor-active{
+        font-size: 16px;
+        display: flex;
+        padding: 17.5px 10px;
+        transition: all .1s ease-in-out;
+        background: $store-blue;
+        color: white;
+      }
+    }
   }
 }
