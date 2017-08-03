@@ -55,10 +55,41 @@ class CartElement extends PureComponent {
     removeItemFromCart(itemId, this.props.isUserLoggedIn)
   }
 
-  render() {
-
+  handleBookProductImage = () => {
     const {
+      slug,
+      contentType,
       bookImage,
+      url,
+    } = this.props
+    return contentType === 'bookitem' ?
+      (
+        <Link
+          className='cartpage-book-url'
+          to={'/book/' + slug + '/'}
+        >
+          <figure className='cartpage-book-figure'>
+            <img src={bookImage}/>
+          </figure>
+        </Link>
+      ) : contentType === 'buzzproduct' ? (
+        <a
+          className='cartpage-book-url'
+          href={url}
+        >
+          <figure className='cartpage-book-figure'>
+            <img src={bookImage}/>
+          </figure>
+        </a>
+      ) : (
+        <figure className='cartpage-book-figure'>
+          <img src={bookImage}/>
+        </figure>
+      )
+  }
+
+  render() {
+    const {
       bookTile,
       authorFullName,
       paperType,
@@ -67,19 +98,12 @@ class CartElement extends PureComponent {
       isGift,
       giftData,
     } = this.props
-
     const { bookCount } = this.state
 
     return (
       <div className='cargpage-single-element'>
         <div className='bookpage-book-info-left'>
-          <Link
-            className='cartpage-book-url'
-          >
-            <figure className='cartpage-book-figure'>
-              <img src={bookImage}/>
-            </figure>
-          </Link>
+          {this.handleBookProductImage()}
           <div className='bookpage-book-information'>
             <span className='bookpage-book-info-title'>{bookTile}</span>
             <span className='bookpage-book-info-author'>by {authorFullName}</span>

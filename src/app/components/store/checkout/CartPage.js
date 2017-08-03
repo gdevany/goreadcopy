@@ -111,6 +111,9 @@ class CartPage extends PureComponent {
           litcoinsPrice={item.product.litcoinsPrice}
           bookId={item.product.id}
           itemId={item.id}
+          url={item.product.url}
+          slug={item.product.slug}
+          contentType={item.product.contentType}
           isUserLoggedIn={isUserLoggedIn}
         />
       )
