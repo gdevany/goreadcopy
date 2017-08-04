@@ -178,7 +178,7 @@ class ProfileWrapper extends PureComponent {
           <MiddleProfileContainer
             id={profile.id}
             isProfilePage={true}
-            isUserLoggedIn={this.state.isLogged}
+            isUserLoggedIn={isUserLoggedIn}
           />
           <RightProfileContainer />
         </div>

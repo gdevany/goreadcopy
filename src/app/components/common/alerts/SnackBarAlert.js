@@ -35,9 +35,10 @@ function SnackBarAlert(props) {
       message={message || ''}
       autoHideDuration={3000}
       onRequestClose={()=>{ props.clearAlert() }}
-      bodyStyle={type === 'error' ?
-        styles.error :
-        styles.success
+      bodyStyle={
+        type === 'error' ?
+          styles.error :
+          styles.success
       }
       contentStyle={styles.contentStyle}
     />

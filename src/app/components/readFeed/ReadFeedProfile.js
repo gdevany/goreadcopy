@@ -99,7 +99,7 @@ class ReadFeedProfile extends PureComponent {
   }
 
   renderImage = (hasImage, upload, imageType) => {
-    const { isUserLoggedIn } = this.props
+    const isUserLoggedIn = Auth.currentUserExists()
     const isProfile = imageType === 'profile'
     const type = isProfile ? 'profile-image' : 'background-image'
     const result = []
