@@ -809,9 +809,9 @@ class BookStoreNavBar extends PureComponent {
                         <a
                           className='bookstore-navbar-menu-anchor bookstore-badge-container'
                           href='#'
+                          onClick={this.handleNotificationsShow}
                         >
                           <Badge
-                            onClick={this.handleNotificationsShow}
                             badgeContent={
                               notifications.unreadCount ?
                                 notifications.unreadCount :
@@ -839,9 +839,9 @@ class BookStoreNavBar extends PureComponent {
                         <a
                           className='bookstore-navbar-menu-anchor bookstore-badge-container'
                           href='#'
+                          onClick={this.handleChatsContainerShow}
                         >
                           <Badge
-                            onClick={this.handleChatsContainerShow}
                             badgeContent={3}
                             primary={true}
                             badgeStyle={chatNotifications > 0 ? {

@@ -31,20 +31,32 @@ class CategoriesPage extends PureComponent {
   }
 
   componentWillMount = () => {
-    const categorySlug = this.props.params.slug
+    const { params, getChildCategories } = this.props
+    const categorySlug = params.slug
     ApiStore.validateCategory(categorySlug)
       .then(() => {
-        this.props.getChildCategories(categorySlug)
+        getChildCategories(categorySlug)
       })
       .catch(() => browserHistory.push('/store'))
   }
 
-  componentWillReceiveProps = (nextProps) => {
+  componentWillUpdate = () => {
+    const { params, getChildCategories } = this.props
+    const categorySlug = params.slug
+    ApiStore.validateCategory(categorySlug)
+      .then(() => {
+        getChildCategories(categorySlug)
+      })
+      .catch(() => browserHistory.push('/store'))
+  }
+
+  componentDidUpdate = (nextProps) => {
+    const { params } = this.props
     if (nextProps.childCategories) {
       this.setState({ subCategories: nextProps.childCategories })
-      if (this.props.params.subCategory) {
+      if (params.subCategory) {
         for (let i = 0; i < nextProps.childCategories.length; i++) {
-          if (nextProps.childCategories[i].slug === this.props.params.subCategory) {
+          if (nextProps.childCategories[i].slug === params.subCategory) {
             this.setState({
               subCategoryObject: nextProps.childCategories[i],
               isSubCategory: true,
@@ -56,7 +68,7 @@ class CategoriesPage extends PureComponent {
     if (nextProps.categories) {
       this.setState({ categories: nextProps.categories })
       for (let i = 0; i < nextProps.categories.length; i++) {
-        if (nextProps.categories[i].slug === this.props.params.slug) {
+        if (nextProps.categories[i].slug === params.slug) {
           this.setState({ selectedCategory: nextProps.categories[i] })
         }
       }
