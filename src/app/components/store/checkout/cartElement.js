@@ -66,7 +66,7 @@ class CartElement extends PureComponent {
       (
         <Link
           className='cartpage-book-url'
-          to={'/book/' + slug + '/'}
+          to={`/book/${slug}/`}
         >
           <figure className='cartpage-book-figure'>
             <img src={bookImage}/>
