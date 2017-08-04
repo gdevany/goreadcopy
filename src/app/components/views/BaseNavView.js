@@ -15,8 +15,10 @@ const { NavMenu } = Navs
 class BaseNavView extends PureComponent {
   render() {
     return (
-      <AuthWrapper>
-        <NavMenu />
+      <div>
+        <AuthWrapper>
+          <NavMenu />
+        </AuthWrapper>
         {this.props.children}
         <AuthView>
           <ChatTabWrapper />
@@ -25,7 +27,7 @@ class BaseNavView extends PureComponent {
           <SocketHandler />
         </AuthView>
         <SnackBarAlert />
-      </AuthWrapper>
+      </div>
     )
   }
 }
