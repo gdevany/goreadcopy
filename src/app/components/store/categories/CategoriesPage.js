@@ -40,16 +40,6 @@ class CategoriesPage extends PureComponent {
       .catch(() => browserHistory.push('/store'))
   }
 
-  componentWillUpdate = () => {
-    const { params, getChildCategories } = this.props
-    const categorySlug = params.slug
-    ApiStore.validateCategory(categorySlug)
-      .then(() => {
-        getChildCategories(categorySlug)
-      })
-      .catch(() => browserHistory.push('/store'))
-  }
-
   componentDidUpdate = (nextProps) => {
     const { params } = this.props
     if (nextProps.childCategories) {

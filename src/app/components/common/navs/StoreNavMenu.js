@@ -91,30 +91,33 @@ class BookStoreNavBar extends PureComponent {
 
   componentWillMount = () => {
     const isUserLoggedIn = AuthService.currentUserExists()
-    if (!this.state.readerFetched && isUserLoggedIn) {
-      this.props.getCurrentReader()
+    const { getCurrentReader, getCategories, getPopularCategories } = this.props
+    const { readerFetched } = this.state
+    if (!readerFetched && isUserLoggedIn) {
+      getCurrentReader()
       this.setState({
         readerFetched: true
       })
     }
-    this.props.getCategories()
-    this.props.getPopularCategories()
+    getCategories()
+    getPopularCategories()
   }
 
   componentWillReceiveProps = (nextProps) => {
     const isUserLoggedIn = AuthService.currentUserExists()
-    if (isUserLoggedIn && !this.state.readerFetched) {
-      this.props.getCurrentReader()
+    const { getCurrentReader } = this.props
+    const { readerFetched, usePlatformAs, currentReader } = this.state
+    if (isUserLoggedIn && !readerFetched) {
+      getCurrentReader()
       this.setState({
         readerFetched: true
       })
     }
-
-    if (!this.state.usePlatformAs && nextProps.currentReader.publishingAs) {
+    if (!usePlatformAs && nextProps.currentReader.publishingAs) {
       this.setState({ usePlatformAs: nextProps.currentReader.publishingAs })
     }
     if (nextProps.currentReader && nextProps.currentReader.cartItems &&
-      (nextProps.currentReader.cartItems !== this.state.currentReader.cartItems)) {
+      (nextProps.currentReader.cartItems !== currentReader.cartItems)) {
       this.setState({
         currentReader: nextProps.currentReader
       })
@@ -559,6 +562,7 @@ class BookStoreNavBar extends PureComponent {
         <li
           key={`${index}_${category.id}`}
           className='categories-list-item'
+          onClick={this.handleCategoriesMenuClick}
         >
           <Link
             to={`/categories/${category.slug}`}
@@ -583,6 +587,7 @@ class BookStoreNavBar extends PureComponent {
         <li
           key={`${index}_${category.id}`}
           className='categories-list-item'
+          onClick={this.handleCategoriesMenuClick}
         >
           <Link
             to={`/categories/${category.slug}`}

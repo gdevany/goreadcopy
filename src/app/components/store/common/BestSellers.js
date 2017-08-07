@@ -15,12 +15,18 @@ class BestSellers extends PureComponent {
   }
 
   componentWillMount = () => {
-    if (this.props.category) {
-      this.props.getBestSellers(this.props.category.id)
+    const { category, getBestSellers } = this.props
+    if (category) {
+      getBestSellers(category.id)
     }
   }
 
   componentWillReceiveProps = (nextProps) => {
+    const { category, getBestSellers } = this.props
+    if (nextProps.category.id !== category.id) {
+      this.setState({ bestSellers: false })
+      getBestSellers(nextProps.category.id)
+    }
     if (nextProps.bestSellers) {
       this.setState({
         bestSellers: nextProps.bestSellers,
@@ -63,14 +69,16 @@ class BestSellers extends PureComponent {
   }
 
   render() {
-    if (this.state.bestSellers !== undefined && this.state.bestSellers.count > 1) {
+    const { bestSellers } = this.state
+    const { category } = this.props
+    if (bestSellers !== undefined && bestSellers.count > 1) {
       return (
         <section className='bookstore-best-sellers-container'>
           <h4 className='bookstore-row-books-title'>
-            {this.props.category.name} best sellers
+            {category.name} best sellers
           </h4>
           <div className='bookstore-row-books-contaier'>
-            {this.renderBestSellers()}
+            {bestSellers ? this.renderBestSellers() : <div className='loading-animation-store'/>}
           </div>
         </section>
       )
