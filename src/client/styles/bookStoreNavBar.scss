@@ -291,6 +291,39 @@
         @media all and (min-width: 1200px) {
           width: 33%;
         }
+        .bookstore-navbar-menu-elements{
+          display: none;
+          @media all and (min-width: 768px){
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            width: 100%;
+            .bookstore-navbar-menu-list{
+              .bookstore-navbar-menu-anchor{
+                font-size: 16px;
+                display: flex;
+                padding: 17.5px 10px;
+                transition: all .1s ease-in-out;
+                &:hover{
+                  background: $store-blue;
+                  color: white;
+                }
+              }
+              .bookstore-navbar-menu-anchor-active{
+                font-size: 16px;
+                display: flex;
+                padding: 17.5px 10px;
+                transition: all .1s ease-in-out;
+                background: $store-blue;
+                color: white;
+              }
+            }
+          }
+        }
       }
       .bookstore-navbar-right-container{
         display: flex;
@@ -488,40 +521,6 @@
       @media all and (min-width: 1024px) {
         display: flex;
         margin: 0 auto;
-      }
-    }
-  }
-}
-
-.bookstore-navbar-menu-elements{
-  display: none;
-  @media all and (min-width: 768px){
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    width: 100%;
-    .bookstore-navbar-menu-list{
-      .bookstore-navbar-menu-anchor{
-        font-size: 16px;
-        display: flex;
-        padding: 17.5px 10px;
-        transition: all .1s ease-in-out;
-        &:hover{
-          background: $store-blue;
-          color: white;
-        }
-      }
-      .bookstore-navbar-menu-anchor-active{
-        font-size: 16px;
-        display: flex;
-        padding: 17.5px 10px;
-        transition: all .1s ease-in-out;
-        background: $store-blue;
-        color: white;
       }
     }
   }
