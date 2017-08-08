@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router'
 import PropTypes from 'prop-types'
 
 const SubCategories = ({ SubCategoriesElement, parentCategory }) => {
@@ -6,13 +7,13 @@ const SubCategories = ({ SubCategoriesElement, parentCategory }) => {
   const mapSubCategories = () => {
     return SubCategoriesElement.map((category, index) => {
       return (
-        <a
-          href={`/categories/${parentCategory}/${category.slug}`}
+        <Link
+          to={`/categories/${parentCategory}/${category.slug}`}
           key={`${index}_${category.id}`}
           className='categorypage-subcategories-single-element'
         >
           {category.name}
-        </a>
+        </Link>
       )
     })
   }
