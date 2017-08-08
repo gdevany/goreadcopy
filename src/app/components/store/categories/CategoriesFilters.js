@@ -56,15 +56,21 @@ class CategoriesFilters extends PureComponent {
 
   componentWillMount = () => {
     const { router } = this.context
+    const { filterBooks, categoryId } = this.props
     if (router.params.slug) {
       this.setState({
         selectedCategory: router.params.slug,
       })
     }
-    this.props.filterBooks({ genreIds: this.props.categoryId })
+    filterBooks({ genreIds: categoryId })
   }
 
   componentWillReceiveProps = (nextProps) => {
+    const { filterBooks, categoryId } = this.props
+    if (nextProps.categoryId !== categoryId) {
+      this.setState({ filterResults: 'loading' })
+      filterBooks({ genreIds: nextProps.categoryId })
+    }
     if (nextProps.filterResults !== this.state.filterResults) {
       this.setState({ filterResults: nextProps.filterResults })
     }
