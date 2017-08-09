@@ -6,6 +6,7 @@ import { Footer } from '../../common'
 import { StoreNavView } from '../../views'
 import { SuccessBanner, OrderSummary } from './'
 import { Store } from '../../../redux/actions'
+import moment from 'moment'
 
 const { cleanOrderAndCart } = Store
 
@@ -40,7 +41,9 @@ class orderSuccess extends PureComponent {
                     #{order.id}
                   </span>
                   <span className='order-success-date'>
-                    3/24/2017 @ 10:31pm
+                    {moment(order.created).format('MM/DD/YYYY')}
+                    {' @ '}
+                    {moment(order.created).format('hh:mma')}
                   </span>
                 </div>
                 <div className='order-success-shipping'>
@@ -63,7 +66,8 @@ class orderSuccess extends PureComponent {
                     Payment
                   </span>
                   <span className='order-success-payment-card'>
-                    Visa *****4901 Expires 12/21
+                    {order.cardType}
+                    {` ********${order.cardLast4}`}
                   </span>
                   <span className='order-success-payment-name'>
                     {billingAddress.name}
@@ -77,7 +81,7 @@ class orderSuccess extends PureComponent {
                     Delivery
                   </span>
                   <span className='order-success-delivery-name'>
-                    USPS Media Mail
+                    {`${order.shipping}`}
                   </span>
                 </div>
               </div>
