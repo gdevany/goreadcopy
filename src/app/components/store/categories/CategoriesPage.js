@@ -32,12 +32,33 @@ class CategoriesPage extends PureComponent {
 
   componentWillMount = () => {
     const { params, getChildCategories } = this.props
-    const categorySlug = params.slug
-    ApiStore.validateCategory(categorySlug)
+    const category = params.slug
+    params.subCategory ? this.setState({ isSubCategory: true }) : null
+    ApiStore.validateCategory(category)
       .then(() => {
-        getChildCategories(categorySlug)
+        getChildCategories(category)
       })
       .catch(() => browserHistory.push('/store'))
+  }
+
+  componentWillUpdate = (nextProps) => {
+    const { params, getChildCategories } = this.props
+    nextProps.params.subCategory !== params.subCategory ? nextProps.params.subCategory ?
+      this.setState({ isSubCategory: true }) : this.setState({ isSubCategory: false }) : null
+    nextProps.params.slug !== params.slug ? nextProps.params.slug ?
+      getChildCategories(nextProps.params.slug) : null : null
+    /*if (nextProps.params.subCategory !== params.subCategory) {
+      if (nextProps.params.subCategory) {
+        this.setState({ isSubCategory: true })
+      } else {
+        this.setState({ isSubCategory: false })
+      }
+    }
+    if (nextProps.params.slug !== params.slug) {
+      if (nextProps.params.slug) {
+        getChildCategories(nextProps.params.slug)
+      }
+    }*/
   }
 
   handleCurrentCategory = () => {
@@ -54,22 +75,21 @@ class CategoriesPage extends PureComponent {
 
   handleChildCategories = () => {
     const { childCategories, params } = this.props
-    if (childCategories && params.subCategories) {
+    if (childCategories && params.subCategory) {
       for (let i = 0; i < childCategories.length; i++) {
         if (childCategories[i].slug === params.subCategory) {
-          this.setState({ isSubCategory: true, })
           return childCategories[i]
         }
       }
     }
-    return null
+    return {}
   }
 
   render() {
-    const { isSubCategory } = this.state
     const subCategories = this.props.childCategories
     const selectedCategory = this.handleCurrentCategory()
     const subCategoryObject = this.handleChildCategories()
+    const { isSubCategory } = this.state
     return (
       <StoreNavView>
         <div className='categorypage-main-container'>
@@ -95,7 +115,7 @@ class CategoriesPage extends PureComponent {
                   category={isSubCategory ? subCategoryObject : selectedCategory}
                 /> : null
               }
-              {subCategories && subCategories.length ?
+              {subCategories && subCategories.length && !isSubCategory ?
                 <SubCategories
                   parentCategory={selectedCategory.slug}
                   SubCategoriesElement={subCategories}

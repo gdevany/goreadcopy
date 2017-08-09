@@ -1,21 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Numbers } from '../../../utils'
+import { Link } from 'react-router'
 
 const { parseIntToLocale } = Numbers
 
 const CategoriesHero = ({ isSubCategory, subCategoryObject, category }) => {
-  return (
+  return category ? (
     <section className='categorypage-hero-main-container'>
       <div className='categorypage-hero-container'>
         <ul className='categorypage-hero-breadcrumbs'>
           <li className='categorypage-hero-breadcrumbs-element'>
-            <a
-              href={`/categories/${category.slug}`}
+            <Link
+              to={`/categories/${category.slug}`}
               className='categorypage-hero-breadcrumbs-anchor'
             >
               {category.name}
-            </a>
+            </Link>
           </li>
           {isSubCategory ?
             (
@@ -26,19 +27,19 @@ const CategoriesHero = ({ isSubCategory, subCategoryObject, category }) => {
             </li>
             ) : null
           }
-          {isSubCategory ?
+          {isSubCategory && subCategoryObject ?
             (
               <li className='categorypage-hero-breadcrumbs-element'>
-                <a className='categorypage-hero-breadcrumbs-anchor'>
+                <Link className='categorypage-hero-breadcrumbs-anchor'>
                   {subCategoryObject.name}
-                </a>
+                </Link>
               </li>
             ) : null
           }
         </ul>
         <div className='categorypage-hero-bottom-elements-container'>
           <h1 className='categorypage-hero-title'>
-            {isSubCategory ? subCategoryObject.name : category.name}
+            {isSubCategory && subCategoryObject ? subCategoryObject.name : category.name}
           </h1>
           <div className='categorypage-hero-bottom-right-elements'>
             <div className='categorypage-hero-bottom-right-data'>
@@ -46,7 +47,7 @@ const CategoriesHero = ({ isSubCategory, subCategoryObject, category }) => {
                 Favorited
               </span>
               <span className='categorypage-hero-bottom-right-data-number'>
-                {isSubCategory ?
+                {isSubCategory && subCategoryObject ?
                   parseIntToLocale(subCategoryObject.favoritedCount) :
                   parseIntToLocale(category.favoritedCount)
                 }
@@ -57,7 +58,7 @@ const CategoriesHero = ({ isSubCategory, subCategoryObject, category }) => {
                 Books
               </span>
               <span className='categorypage-hero-bottom-right-data-number'>
-                {isSubCategory ?
+                {isSubCategory && subCategoryObject ?
                   parseIntToLocale(subCategoryObject.booksCount) :
                   parseIntToLocale(category.booksCount)
                 }
@@ -67,7 +68,7 @@ const CategoriesHero = ({ isSubCategory, subCategoryObject, category }) => {
         </div>
       </div>
     </section>
-  )
+  ) : null
 }
 
 CategoriesHero.propTypes = {
