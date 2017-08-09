@@ -30,7 +30,11 @@ class MergedTile extends PureComponent {
     const { content } = this.props
     return content.targets.map((tile, index) => {
       return (
-        <a className='merged-books' key={`${content.ids[index]}-${tile.id}`} href={tile.url}>
+        <a
+          className='merged-books'
+          key={`${content.ids[index]}-${tile.id}`}
+          href={`/book/${tile.slug}`}
+        >
           <img src={tile.imageUrl} alt={tile.title}/>
         </a>
       )

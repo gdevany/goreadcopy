@@ -102,7 +102,12 @@ class BookProductTile extends PureComponent {
         </div>
         <div className='book-tile-container'>
           <figure className='book-figure'>
-            <img className='book-img' src={content.image} alt=''/>
+            <Link
+              to={content.url}
+              className='bookpage-url-link'
+            >
+              <img className='book-img' src={content.image} alt=''/>
+            </Link>
           </figure>
           <div className='book-content'>
             <h2 className='book-title'>{content.title ?
@@ -119,9 +124,12 @@ class BookProductTile extends PureComponent {
             {content.description && content.description !== 'None' ?
               this.truncInfo(content.description, 225) : null
             }
-            <a href={content.url} className='post-readmore-anchor'>
+            <Link
+              to={content.url}
+              className='post-readmore-anchor'
+            >
               Read more
-            </a>
+            </Link>
           </p>
         </div>
       </TileDefault>

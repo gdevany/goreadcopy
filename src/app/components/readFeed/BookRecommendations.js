@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
+import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import { Books } from '../../redux/actions'
 import { Book } from '../common'
-import { ExternalRoutes } from '../../constants'
 import R from 'ramda'
 
 const styles = {
@@ -15,7 +15,6 @@ const styles = {
   },
 }
 
-const { bookStore } = ExternalRoutes
 const { getBookRecommendations } = Books
 
 class BookRecommendations extends PureComponent {
@@ -49,9 +48,9 @@ class BookRecommendations extends PureComponent {
           }
         </div>
         <div className='sub-link'>
-          <a href={bookStore()}>
+          <Link to='/store'>
             See more books
-          </a>
+          </Link>
         </div>
       </div>
     )

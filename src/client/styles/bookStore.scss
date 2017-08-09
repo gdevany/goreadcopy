@@ -1,0 +1,534 @@
+@import 'variables.scss';
+
+.bookstore-hero-logged-container{
+  height: 70vh;
+  background: url('../image/hero-image.jpg');
+}
+
+.bookstore-hero-anon-container{
+  height: 70vh;
+  background: url('../image/hero-anon-image.jpg');
+}
+
+.bookstore-hero-logged-container, .bookstore-hero-anon-container{
+  padding-top: 60px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  @media all and (max-width: 667px) and (orientation: landscape) {
+    height: 70vh;
+    background-repeat: no-repeat;
+  }
+  @media all and (min-width: 768px  ) {
+    height: 50vh;
+    background-repeat: no-repeat;
+  }
+  @media all and (min-width: 1024px) {
+    height: 80vh;
+    background-position: center;
+  }
+  h1{
+    color: $white;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 20px;
+    z-index: 10;
+    @media all and (min-width: 768px){
+      font-size: 26px;
+    }
+  }
+  .bookstore-hero-logged-shop-wishlist{
+    background: rgba(254, 254, 254, 0.10);
+    border: solid 1px $white;
+    border-radius: 23px;
+    padding: 5px 7.5px;
+    font-size: 14px;
+    color: $white;
+    transition: all .3s ease;
+    z-index: 10;
+    @media all and (min-width: 768px){
+      padding: 10px 15px;
+      font-size: 16px;
+    }
+    &:hover{
+      background: $white;
+      color: $black;
+    }
+  }
+  .books-effect-in-hero-container{
+    display: none;
+    @media all and (min-width: 768px){
+      position: absolute;
+      right: -100px;
+      bottom: -30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      transform: rotate(-35deg);
+      z-index: 9;
+      max-width: 600px;
+      @media all and (min-width: 1600px){
+        max-width: 800px;
+      }
+    }
+    .book-effect-column{
+      &:nth-child(3) {
+        margin-top: -50px;
+      }
+      figure{
+        width: 100px;
+        padding: 10px;
+        @media all and (min-width: 1600px){
+          width: 150px;
+        }
+      }
+    }
+  }
+}
+
+.categories-on-carousel-container{
+  margin-bottom: -50px;
+  .slick-slider{
+    box-shadow: none;
+    .slick-list{
+      background: transparent;
+      box-shadow: none;
+      top: -65px;
+      @media all and (max-width: 667px) and (orientation: landscape){
+        top: -20px;
+      }
+      .slick-track{
+        height: 140px;
+        a{
+          .category-on-carousel-square{
+            width: 150px;
+            height: 115px;
+            margin: 0 6px;
+            text-align: center;
+            background: $white;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0px 0px 9px 1px rgba(154, 154, 154, 0.5);
+            background-image: linear-gradient(-134deg, #FFFFFF 0%, #F8FFFE 63%, #F7FCFF 100%);
+            @media all and (min-width: 768px) {
+              margin: 0 7.5px;
+            }
+            &:hover{
+              cursor: pointer;
+            }
+            .category-on-carousel-name{
+              color: #00CCCC;
+              font-weight: 600;
+              font-size: 15px;
+              text-transform: capitalize;
+            }
+          }
+        }
+      }
+    }
+    .slick-arrow{
+      display: none !important;
+      @media all and (min-width: 1024px) {
+        display: block !important;
+        top: -8px;
+        background-image: linear-gradient(-134deg, #FFFFFF 0%, #F8FFFE 63%, #F7FCFF 100%);
+        box-shadow: 0px 0px 9px 1px rgba(154, 154, 154, 0.5);
+        height: 115px;
+        border-radius: 5px;
+        z-index: 10;
+      }
+    }
+    .slick-prev{
+      display: none !important;
+    }
+    .slick-next{
+      right: -45px;
+      width: 40px;
+      @media all and(min-width: 1024px) {
+        right: -15px;
+      }
+      @media all and(min-width: 1200px) {
+        right: -45px;
+      }
+      &:before{
+        content: '>';
+        color: $blue;
+        font-size: 14px;
+        font-weight: 600;
+      }
+    }
+    .slick-dots{
+      box-shadow: none;
+      background: transparent;
+      top: -120px;
+      height: auto;
+      @media all and (max-width: 667px) and (orientation: landscape){
+        top: -55px;
+      }
+      li{
+        button{
+          &:before{
+            opacity: 1;
+            height: auto;
+            color: rgba(247, 247, 247, 0.7);
+          }
+        }
+      }
+      .slick-active{
+        button{
+          &:before{
+            color: $white;
+          }
+        }
+      }
+    }
+  }
+}
+
+.wishlist-books-main-container{
+  width: 100%;
+  background: url('../image/gradient.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 20px;
+  position: relative;
+  &:before {
+    content: '';
+  	position: absolute;
+  	top: 0;
+  	right: 0;
+  	bottom: 0;
+  	left: 0;
+    background-image: linear-gradient(to bottom right, rgba(255, 255, 255, 0.78), rgba(255, 240, 223, 0.71));
+  }
+  @media all and (min-width: 1024px) {
+    padding: 50px;
+  }
+  .wishlist-columns-container{
+    @media all and (min-width: 1024px){
+      width: 950px;
+      max-width: 950px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .wishlist-books-title{
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+    .wishlist-books-container{
+      margin-top: 15px;
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-box;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-direction: row;
+      width: 100%;
+      overflow-x: auto;
+      height: 270px;
+      .book-container{
+        transition: none;
+        transform: none;
+        position: relative;
+        margin-right: 19px;
+        @media all and (min-width: 768px){
+          margin-right: 94px;
+        }
+        a{
+          position: relative;
+          img{
+            max-height: 170px;
+          }
+          .favorite-badge{
+            position: absolute;
+            right: -10px;
+            top: -75px;
+            @media all and (min-width: 1024px) {
+              top: -75px;
+              right: -5px;
+            }
+            figure{
+              width: 20px;
+            }
+          }
+        }
+        .book-info-container{
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-start;
+          flex-direction: column;
+          margin-top: .5em;
+          .book-info-title{
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.9);
+            width: 100%;
+            text-align: left;
+          }
+          .book-info-author{
+            font-size: 12px;
+            color: #949494;
+            width: 100%;
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+}
+
+.bookstore-recommended-books-container{
+  margin-top: 37.5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  @media all and (min-width: 768px){
+    flex-direction: row;
+    height: 300px;
+    align-items: flex-start;
+  }
+  @media all and (min-width: 1024px){
+    margin-top: 75px;
+  }
+  .bookstore-recommended-book-element{
+    width: 300px;
+    height: 150px;
+    background: url('../image/feature-background-1.png');
+    background-size: cover;
+    background-repeat: round;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 125px;
+    @media all and (min-width: 768px){
+      margin-bottom: 0;
+      width: 225px;
+      height: 125px;
+    }
+    @media all and (min-width: 1024px){
+      width: 275px;
+      height: 165px;
+    }
+    @media all and (min-width: 1200px){
+      width: 350px;
+      height: 175px;
+    }
+    .bookstore-recommended-book-text{
+      width: 75%;
+      margin: 20px auto;
+      text-align: center;
+      color: $white;
+      font-weight: 600;
+      @media all and (min-width: 1024px) {
+        margin: 30px auto;
+      }
+      @media all and (min-width: 1200px) {
+        margin: 45px auto 20px auto;
+      }
+    }
+    .bookstore-recommended-book-figure{
+      box-sizing: -5px 5px 20px 0px rgba(0, 0, 0, 0.4);
+      img{
+        max-height: 170px;
+      }
+    }
+  }
+}
+
+.bookstore-best-sellers-container{
+  width: 100%;
+  display: flex;
+  margin-top: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  @media all and (min-width: 768px){
+    margin-top: 0;
+  }
+  @media all and (min-width: 1024px){
+    max-width: 950px;
+    margin: 25px auto 0 auto;
+  }
+}
+.bookstore-trending-main-container{
+  width: 100%;
+  position: relative;
+  background: url('../image/gradient.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: linear-gradient(to bottom right, rgba(255, 255, 255, 0.78), rgba(255, 240, 223, 0.71));
+  }
+  .bookstore-trending-books-container{
+    width: 100%;
+    display: flex;
+    margin-top: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+
+    padding: 20px;
+    position: relative;
+    @media all and (min-width: 768px){
+      margin-top: 30px;
+    }
+    @media all and (min-width: 1024px){
+      max-width: 950px;
+      margin: 30px auto 0 auto;
+    }
+  }
+}
+
+.bookstore-row-books-title{
+  width: 100%;
+  font-weight: 600;
+  margin-bottom: 30px;
+  text-transform: capitalize;
+}
+
+.bookstore-row-books-contaier{
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: row;
+  width: 100%;
+  overflow-x: scroll;
+  height: 270px;
+  @media all and (min-width: 768px){
+    overflow: hidden;
+    display: flex;
+  }
+  .book-container{
+    transition: none;
+    transform: none;
+    position: relative;
+    margin-right: 19px;
+    @media all and (min-width: 768px){
+      margin-right: 0;
+    }
+    a{
+      img{
+        max-height: 170px;
+      }
+      .favorite-badge{
+        display: none;
+      }
+    }
+    .book-info-container{
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+      margin-top: .5em;
+      .book-info-title{
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.9);
+        width: 100%;
+        text-align: left;
+      }
+      .book-info-author{
+        font-size: 12px;
+        color: #949494;
+        width: 100%;
+        text-align: left;
+      }
+    }
+  }
+}
+
+.bookstore-announcement-container{
+  width: 100%;
+  position: relative;
+  background: url('../image/gradient.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 273px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  @media all and (min-width: 768px){
+    height: 373px;
+  }
+  .bookstore-announcement-text{
+    font-size: 22px;
+    color: $white;
+    font-weight: 800;
+    width: 100%;
+    text-align: center;
+    @media all and (min-width: 768px){
+      width: 40%;
+      font-size: 28px;
+    }
+  }
+  .bookstore-announcement-anchor{
+    display: flex;
+    background: rgba(254, 254, 254, 0.10);
+    border: solid 1px $white;
+    border-radius: 23px;
+    padding: 5px 7.5px;
+    font-size: 14px;
+    color: $white;
+    transition: all .3s ease;
+    z-index: 10;
+    @media all and (min-width: 768px){
+      padding: 10px 15px;
+      font-size: 18px;
+    }
+    &:hover{
+      background: $white;
+      color: $black;
+    }
+  }
+}
+
+.bookstore-footer-container{
+  background: #333333;
+  width: 100%;
+}
+
+.store-primary-button{
+  display: block;
+  text-align: center;
+  padding: 15px 25px;
+  background-image: linear-gradient(to right, rgb(44, 208, 243), $store-blue);
+  color: $white;
+  border-radius: 25px;
+  min-width: 200px;
+  max-width: 300px;
+  margin: 1em 0;
+  box-shadow: rgba(10, 10, 10, 0.13) 1px 3px 3px 1px;
+  &:hover{
+    color: $white;
+  }
+}
+
+.store-primary-button.centered{
+  margin: 1em auto;
+}
+.store-primary-button.float-left{
+  float: left;
+}
+.store-primary-button.float-right{
+  float: right;
+}

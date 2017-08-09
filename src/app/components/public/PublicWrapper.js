@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
-import { NavMenu, Footer } from '../common'
+import { BaseNavView } from '../views'
+import { Footer } from '../common'
 import LeftHandLinks from '../readFeed/LeftHandLinks'
 import BookRecommendations from '../readFeed/BookRecommendations'
-import { Auth } from '../../services'
 import { CurrentReader } from '../../redux/actions'
 import { Antispam, Privacy, Terms } from './'
 
 const { getCurrentReader } = CurrentReader
-const isUserLoggedIn = Auth.currentUserExists()
 
 class PublicWrapper extends Component {
 
@@ -20,9 +19,7 @@ class PublicWrapper extends Component {
   render() {
     const { context } = this.props.route
     return (
-      <div>
-        {/* TODO:  BaseNav Component to be added on merge on July 31th */}
-        <NavMenu isUserLoggedIn={isUserLoggedIn} />
+      <BaseNavView>
         <div className='row center-text public-container'>
           <div className='small-3 columns'>
             <LeftHandLinks />
@@ -76,7 +73,7 @@ class PublicWrapper extends Component {
           </div>
         </div>
         <Footer />
-      </div>
+      </BaseNavView>
     )
   }
 }

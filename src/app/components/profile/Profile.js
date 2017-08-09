@@ -3,7 +3,8 @@ import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import { Auth } from '../../services'
 import { ProfilePage, CurrentReader } from '../../redux/actions'
-import { NavMenu, SocketHandler, Chat } from '../common'
+import { SocketHandler, Chat } from '../common'
+import { BaseNavView } from '../views'
 import LeftProfileContainer from './LeftProfileContainer'
 import MiddleProfileContainer from './MiddleProfileContainer'
 import RightProfileContainer from './RightProfileContainer'
@@ -117,7 +118,7 @@ class ProfileWrapper extends PureComponent {
     const profile = (isMyProfile ? currentReader : profilePage)
 
     return (
-      <div>
+      <BaseNavView>
         <Helmet>
           <title>{`GoRead | Profile | Library of ${profile.fullname}`}</title>
           <meta
@@ -150,7 +151,6 @@ class ProfileWrapper extends PureComponent {
           <meta property='og:image:height' content='281' />
           <meta property='og:image:type' content='image/png' />
         </Helmet>
-        <NavMenu isUserLoggedIn={isUserLoggedIn} />
         <BackgroundImageProfileUpload
           backgroundImage={profile.backgroundImage}
           isMyProfile={isMyProfile}
@@ -178,11 +178,11 @@ class ProfileWrapper extends PureComponent {
           <MiddleProfileContainer
             id={profile.id}
             isProfilePage={true}
-            isUserLoggedIn={this.state.isLogged}
+            isUserLoggedIn={isUserLoggedIn}
           />
           <RightProfileContainer />
         </div>
-      </div>
+      </BaseNavView>
     )
   }
 }

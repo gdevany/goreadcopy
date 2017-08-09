@@ -1,4 +1,5 @@
 import { PROFILE_PAGE as A, SEARCH as B } from '../const/actionTypes'
+import { browserHistory } from 'react-router'
 import ProfilePage from '../../services/api/profilePage'
 
 export function getProfilePage(slug, isUserLoggedIn) {
@@ -6,13 +7,13 @@ export function getProfilePage(slug, isUserLoggedIn) {
     return dispatch => {
       ProfilePage.getAuthProfilePage(slug)
         .then(res => dispatch({ type: A.GET_PROFILE_PAGE, payload: res.data }))
-        .catch(err => console.error(`Error in getProfilePage ${err}`))
+        .catch(() => browserHistory.push('/'))
     }
   }
   return dispatch => {
     ProfilePage.getProfilePage(slug)
       .then(res => dispatch({ type: A.GET_PROFILE_PAGE, payload: res.data }))
-      .catch(err => console.error(`Error in getProfilePage ${err}`))
+      .catch(() => browserHistory.push('/'))
   }
 }
 

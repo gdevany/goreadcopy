@@ -13,7 +13,7 @@ const styles = {
   },
 }
 
-class RightProfileContainer extends PureComponent {
+class MiddleProfileContainer extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -86,4 +86,4 @@ export default connect(mapStateToProps, {
   getProfileTiles,
   prependProfileTile,
   emptyTiles,
-})(RightProfileContainer)
+})(MiddleProfileContainer)

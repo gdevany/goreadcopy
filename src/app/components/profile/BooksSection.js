@@ -106,10 +106,10 @@ class BooksSection extends PureComponent {
             (
               <Book
                 key={`${topBooks.topBook1.id}_1`}
-                url={topBooks.topBook1.link}
                 image={topBooks.topBook1.imageUrl}
                 id={topBooks.topBook1.id}
                 title={topBooks.topBook1.title}
+                slug={topBooks.topBook1.slug}
                 rating={topBooks.topBook1.rating}
                 authors={topBooks.topBook1.authors}
                 bookType='topBookProfile'
@@ -120,10 +120,10 @@ class BooksSection extends PureComponent {
             (
               <Book
                 key={`${topBooks.topBook2.id}_2`}
-                url={topBooks.topBook2.link}
                 image={topBooks.topBook2.imageUrl}
                 id={topBooks.topBook2.id}
                 title={topBooks.topBook2.title}
+                slug={topBooks.topBook2.slug}
                 rating={topBooks.topBook2.rating}
                 authors={topBooks.topBook2.authors}
                 bookType='topBookProfile'
@@ -134,10 +134,10 @@ class BooksSection extends PureComponent {
             (
               <Book
                 key={`${topBooks.topBook3.id}_3`}
-                url={topBooks.topBook3.link}
                 image={topBooks.topBook3.imageUrl}
                 id={topBooks.topBook3.id}
                 title={topBooks.topBook3.title}
+                slug={topBooks.topBook3.slug}
                 rating={topBooks.topBook3.rating}
                 authors={topBooks.topBook3.authors}
                 bookType='topBookProfile'
@@ -148,10 +148,10 @@ class BooksSection extends PureComponent {
             (
               <Book
                 key={`${topBooks.topBook4.id}_4`}
-                url={topBooks.topBook4.link}
                 image={topBooks.topBook4.imageUrl}
                 id={topBooks.topBook4.id}
                 title={topBooks.topBook4.title}
+                slug={topBooks.topBook4.slug}
                 authors={topBooks.topBook4.authors}
                 rating={topBooks.topBook4.rating}
                 bookType='topBookProfile'
@@ -162,10 +162,10 @@ class BooksSection extends PureComponent {
             (
               <Book
                 key={`${topBooks.topBook5.id}_5`}
-                url={topBooks.topBook5.link}
                 image={topBooks.topBook5.imageUrl}
                 id={topBooks.topBook5.id}
                 title={topBooks.topBook5.title}
+                slug={topBooks.topBook5.slug}
                 rating={topBooks.topBook5.rating}
                 authors={topBooks.topBook5.authors}
                 bookType='topBookProfile'
@@ -193,10 +193,10 @@ class BooksSection extends PureComponent {
         return (
           <div className='wishlist-book-container' key={book.id}>
             <Book
-              url={book.link}
               image={book.imageUrl}
               id={book.id}
               title={book.title}
+              slug={book.slug}
               authors={book.authors}
               rating={book.rating}
             />
@@ -216,10 +216,10 @@ class BooksSection extends PureComponent {
       return (
         <div className='library-book-container' key={`${book.id}_bookSection${index}`}>
           <Book
-            url={book.link}
             image={book.imageUrl}
             id={book.id}
             title={book.title}
+            slug={book.slug}
             authors={book.authors}
             rating={book.rating}
           />
@@ -301,10 +301,10 @@ class BooksSection extends PureComponent {
             ) : (
               <div className='currently-reading-book'>
                 <Book
-                  url={profilePage.currentlyReading.link}
                   image={profilePage.currentlyReading.imageUrl}
                   id={profilePage.currentlyReading.id}
                   title={profilePage.currentlyReading.title}
+                  slug={profilePage.currentlyReading.slug}
                   authors={profilePage.currentlyReading.authors}
                   rating={profilePage.currentlyReading.rating}
                 />
