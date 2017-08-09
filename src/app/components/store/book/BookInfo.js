@@ -413,19 +413,12 @@ class BookInfo extends PureComponent {
                   </span>
                 </div>
               </ScrollLink>
-              <div className='bookpage-book-excerpt-container-desktop'>
-                <p className='bookpage-book-excerpt'>
-                  {this.truncInfo(bookInfo.description, 350)}
-                  {/*<a className='bookpage-book-excerpt-readmore-btn'>*/}
-                    {/*See more*/}
-                  {/*</a>*/}
-                </p>
-              </div>
               {bookInfo.video ?
                 (
                   <div className='bookpage-trailer-btn'>
                     <a onClick={this.showDialog}>
-                      Watch the trailer
+                      <span>Watch the trailer</span>
+                      <span className='icon-play3' />
                     </a>
                     <Dialog
                       title={`${this.truncInfo(bookInfo.title, 25)} trailer`}
@@ -447,6 +440,14 @@ class BookInfo extends PureComponent {
                   </div>
                 ) : null
               }
+              <div className='bookpage-book-excerpt-container-desktop'>
+                <p className='bookpage-book-excerpt'>
+                  {this.truncInfo(bookInfo.description, 350)}
+                  {/*<a className='bookpage-book-excerpt-readmore-btn'>*/}
+                    {/*See more*/}
+                  {/*</a>*/}
+                </p>
+              </div>
             </div>
           </div>
           <div className='bookpage-book-excerpt-container-mobile'>
@@ -833,7 +834,7 @@ class BookInfo extends PureComponent {
                   )
               }
             </div>
-            <div className='bookpage-book-piggy-bank-container'>
+            {/* <div className='bookpage-book-piggy-bank-container'>
               <figure className='bookpage-book-piggy-bank-figure'>
                 <img src='/image/piggy-bank.png'/>
               </figure>
@@ -845,7 +846,7 @@ class BookInfo extends PureComponent {
                 </span>
                 back when buying with us.
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
