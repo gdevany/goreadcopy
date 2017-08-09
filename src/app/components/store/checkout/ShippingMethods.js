@@ -2,6 +2,12 @@ import React, { PureComponent } from 'react'
 
 class ShippingMethods extends PureComponent {
 
+  mapDeliveryDays = (title) => {
+    if (title === 'Standard Shipping') { return '10 - 15 business days'}
+    if (title === 'Expedited Shipping') { return '5 - 7 business days'}
+    return '10 - 15 business days'
+  }
+
   mapShippingMethods = (shippingMethods) => {
     const { onClick, shippingMethod } = this.props
 
@@ -21,7 +27,7 @@ class ShippingMethods extends PureComponent {
                 {method.title}
               </span>
               <span className='checkoutpage-steps-delivery-method-days'>
-                5 - 7 business days
+                {this.mapDeliveryDays(method.title)}
               </span>
               {method.cost ?
                 (
