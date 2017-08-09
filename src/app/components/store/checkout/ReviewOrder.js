@@ -166,7 +166,7 @@ class ReviewOrder extends PureComponent {
           handleClose={this.handleEditModalClose}
           refference={this.state.modalRefference}
           isPaypal={isPaypal}
-          shippingMethod={this.state.shippingMethod}
+          shippingMethod={this.props.shippingMethod}
           shippingAddress={data.shippingAddress}
           cardDetails={cardDetails}
           selectChange={this.props.selectChange}
