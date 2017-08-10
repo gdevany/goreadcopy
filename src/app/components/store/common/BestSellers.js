@@ -23,7 +23,7 @@ class BestSellers extends PureComponent {
 
   componentWillReceiveProps = (nextProps) => {
     const { category, getBestSellers } = this.props
-    if (nextProps.category.id !== category.id) {
+    if (nextProps.category.id && nextProps.category.id !== category.id) {
       this.setState({ bestSellers: false })
       getBestSellers(nextProps.category.id)
     }
