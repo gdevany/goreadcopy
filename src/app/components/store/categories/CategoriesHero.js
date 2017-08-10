@@ -30,9 +30,9 @@ const CategoriesHero = ({ isSubCategory, subCategoryObject, category }) => {
           {isSubCategory && subCategoryObject ?
             (
               <li className='categorypage-hero-breadcrumbs-element'>
-                <Link className='categorypage-hero-breadcrumbs-anchor'>
+                <a className='categorypage-hero-breadcrumbs-anchor'>
                   {subCategoryObject.name}
-                </Link>
+                </a>
               </li>
             ) : null
           }
