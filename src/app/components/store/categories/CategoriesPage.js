@@ -47,18 +47,6 @@ class CategoriesPage extends PureComponent {
       this.setState({ isSubCategory: true }) : this.setState({ isSubCategory: false }) : null
     nextProps.params.slug !== params.slug ? nextProps.params.slug ?
       getChildCategories(nextProps.params.slug) : null : null
-    /*if (nextProps.params.subCategory !== params.subCategory) {
-      if (nextProps.params.subCategory) {
-        this.setState({ isSubCategory: true })
-      } else {
-        this.setState({ isSubCategory: false })
-      }
-    }
-    if (nextProps.params.slug !== params.slug) {
-      if (nextProps.params.slug) {
-        getChildCategories(nextProps.params.slug)
-      }
-    }*/
   }
 
   handleCurrentCategory = () => {
