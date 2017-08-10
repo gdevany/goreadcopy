@@ -30,7 +30,7 @@ export function getChildCategories(id) {
   return dispatch => {
     return Store.getChildCategories(id)
       .then(res => dispatch({ type: A.GET_CHILD_CATEGORIES, payload: res.data }))
-      .catch(err => console.error(`Error in getCategoriesAction ${err}`))
+      .catch(err => console.error(`Error in getChildCategories ${err}`))
   }
 }
 
@@ -42,7 +42,7 @@ export function getPopularCategories() {
   return dispatch => {
     Store.getCategories(data)
        .then(res => dispatch({ type: A.GET_POPULAR_CATEGORIES, payload: res.data }))
-       .catch(err => console.error(`Error in getCategoriesAction ${err}`))
+       .catch(err => console.error(`Error in getPopularCategories ${err}`))
   }
 }
 

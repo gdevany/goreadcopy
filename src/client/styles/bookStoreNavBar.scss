@@ -330,7 +330,13 @@
         justify-content: flex-start;
         align-items: center;
         flex-direction: row;
-        width: 19%;
+        width: 30%;
+        @media all and (min-width: 660px) {
+          width: 21%;
+        }
+        @media all and (min-width: 768px) {
+          width: 21%;
+        }
         @media all and (min-width: 1024px) {
           width: 40%;
         }
@@ -373,6 +379,7 @@
             .bookstore-badge-container{
               div{
                 padding: 0 !important;
+                width: 25px;
               }
             }
           }

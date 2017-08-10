@@ -430,7 +430,7 @@ class CategoriesFilters extends PureComponent {
   handleSubCategories = () => {
     const { subCategories } = this.state
     return subCategories.map((category, index) => {
-      return (
+      return category ? (
         <div
           key={`${index}_${category.id}`}
           className='categorypage-subcategory-filters'
@@ -450,7 +450,7 @@ class CategoriesFilters extends PureComponent {
             {category.name}
           </label>
         </div>
-      )
+      ) : null
     })
   }
   renderSubCategoriesFilter = () => {
@@ -711,7 +711,9 @@ class CategoriesFilters extends PureComponent {
       selectedMinPrice,
       selectedMaxPrice,
       filterResults,
+      filtersMenuOpen,
     } = this.state
+    const { isSubCategory } = this.props
     return (
       <section className='categorypage-filters'>
         <section className='categorypage-main-filters-container'>
@@ -721,7 +723,7 @@ class CategoriesFilters extends PureComponent {
               Filter by:
             </span>
             </div>
-            {!this.props.isSubCategory ?
+            {!isSubCategory ?
               (
                 <div
                   onClick={this.handleSubCategoriesClick}
@@ -786,7 +788,7 @@ class CategoriesFilters extends PureComponent {
             customBurgerIcon={false}
             customCrossIcon={false}
             id={'categorypage-main-filters-mobile-menu'}
-            isOpen={this.state.filtersMenuOpen}
+            isOpen={filtersMenuOpen}
             style={styles.filtersMenu}
             right
           >
