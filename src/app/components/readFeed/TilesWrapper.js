@@ -80,7 +80,7 @@ const TilesWrapper = ({ feed }) => {
           tileContent = tile.content
         }
         shareComment = (tile.mentions || tile.shareComment)
-        shareMentions = tile.mentionsArray
+        shareMentions = (tile.mentionsArray || tile.mentionArray)
       } else {
         tileType = tile.tileType
         tileContent = tile.content
