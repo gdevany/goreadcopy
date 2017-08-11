@@ -397,7 +397,7 @@ class CheckoutPage extends PureComponent {
           } else {
             const validatedNum = CV.number(cardNumber)
             const validatedDate = CV.expirationDate(fullExpDate)
-            const validatedCvv = CV.cvv(cardCVC)
+            const validatedCvv = CV.cvv(cardCVC, 4)
             if (validatedNum.isValid && validatedDate.isValid && validatedCvv.isValid) {
               setBilling({
                 cardExpYear: validatedDate.year,
