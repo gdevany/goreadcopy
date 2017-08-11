@@ -234,25 +234,6 @@ class CheckoutPage extends PureComponent {
     })
   }
 
-  passToBilling = () => {
-    const {
-      nameShipping, phoneShipping, addressShipping, address2Shipping,
-      countryShipping, stateShipping, cityShipping, zipcodeShipping, shippingMethod,
-    } = this.state
-    this.props.setUserAddressAndShipping({
-      city: cityShipping,
-      name: nameShipping,
-      country: countryShipping,
-      address: addressShipping,
-      address2: address2Shipping,
-      zipcode: zipcodeShipping,
-      state: stateShipping,
-      phone: phoneShipping,
-      addressType: 'shipping',
-      sameBillingAndShipping: true,
-    }, shippingMethod).catch(() => this.resetSteps('Unexpected error, please try again.'))
-  }
-
   resetSteps(err) {
     this.setState({
       isLoadingCart: false,
@@ -284,6 +265,27 @@ class CheckoutPage extends PureComponent {
     })
   }
 
+  passToBilling = () => {
+    const {
+      nameShipping, phoneShipping, addressShipping, address2Shipping,
+      countryShipping, stateShipping, cityShipping, zipcodeShipping, shippingMethod,
+    } = this.state
+    this.props.setUserAddressAndShipping({
+      city: cityShipping,
+      name: nameShipping,
+      country: countryShipping,
+      address: addressShipping,
+      address2: address2Shipping,
+      zipcode: zipcodeShipping,
+      state: stateShipping,
+      phone: phoneShipping,
+      addressType: 'shipping',
+      sameBillingAndShipping: true,
+    }, shippingMethod)
+    .then(() => this.setStep(2))
+    .catch(() => this.resetSteps('Unexpected error, please try again.'))
+  }
+
   continueToBillingClick = (event) => {
     event.preventDefault()
     const {
@@ -295,13 +297,11 @@ class CheckoutPage extends PureComponent {
       if ((countryShipping === 'US' || countryShipping === 'CA')) {
         if (stateShipping !== '') {
           this.passToBilling()
-          this.setStep(2)
         } else {
           this.showAlert('Please selet an State', 'error')
         }
       } else {
         this.passToBilling()
-        this.setStep(2)
       }
     } else {
       if (!(cityShipping || countryShipping || addressShipping ||
@@ -347,8 +347,9 @@ class CheckoutPage extends PureComponent {
         paymentMethod: 'paypal',
         litcoins: useLitcoins,
         avoidCheckCardData: true,
-      }).catch(() => this.resetSteps('Unexpected error, please try again.'))
-      this.passToReview()
+      })
+      .then(() => this.passToReview())
+      .catch(() => this.resetSteps('Unexpected error, please try again.'))
     } else if (isCardClicked) {
       if (cardStored && this.isUsingOtherCard()) {
         if (nameOnCard && cardNumber && cardCVC && fullExpDate) {
@@ -368,8 +369,9 @@ class CheckoutPage extends PureComponent {
                     phone: phoneBilling,
                     addressType: 'billing',
                     sameBillingAndShipping: false,
-                  }).catch(() => this.resetSteps('Unexpected error, please try again.'))
-                  this.passToReview()
+                  })
+                    .then(() => this.passToReview())
+                    .catch(() => this.resetSteps('Unexpected error, please try again.'))
                 } else {
                   this.showAlert('Please Complete all Billing Fields', 'error')
                 }
@@ -385,8 +387,9 @@ class CheckoutPage extends PureComponent {
                   state: stateBilling,
                   addressType: 'billing',
                   sameBillingAndShipping: false,
-                }).catch(() => this.resetSteps('Unexpected error, please try again.'))
-                this.passToReview()
+                })
+                  .then(() => this.passToReview())
+                  .catch(() => this.resetSteps('Unexpected error, please try again.'))
               }
             } else {
               this.showAlert('Please Complete all Billing Fields', 'error')
@@ -407,8 +410,9 @@ class CheckoutPage extends PureComponent {
                 billingAddressId: billingId,
                 litcoins: this.state.useLitcoins,
                 avoidCheckCardData: this.state.cardStored,
-              }).catch(() => this.resetSteps('Unexpected error, please try again.'))
-              this.passToReview()
+              })
+                .then(() => this.passToReview())
+                .catch(() => this.resetSteps('Unexpected error, please try again.'))
             } else {
               if (!validatedNum.isValid) {
                 this.showAlert('Invalid Card Number', 'error')
@@ -439,14 +443,18 @@ class CheckoutPage extends PureComponent {
                   state: stateBilling,
                   addressType: 'billing',
                   sameBillingAndShipping: false,
-                }).catch(() => this.resetSteps('Unexpected error, please try again.'))
-                setBilling({
-                  shippingMethod: shippingMethod,
-                  paymentMethod: 'cc',
-                  litcoins: useLitcoins,
-                  avoidCheckCardData: cardStored,
-                }).catch(() => this.resetSteps('Unexpected error, please try again.'))
-                this.passToReview()
+                })
+                  .then(() => {
+                    setBilling({
+                      shippingMethod: shippingMethod,
+                      paymentMethod: 'cc',
+                      litcoins: useLitcoins,
+                      avoidCheckCardData: cardStored,
+                    })
+                      .then(() => this.passToReview())
+                      .catch(() => this.resetSteps('Unexpected error, please try again.'))
+                  })
+                .catch(() => this.resetSteps('Unexpected error, please try again.'))
               } else {
                 this.showAlert('Please Complete all Billing Fields', 'error')
               }
@@ -462,14 +470,18 @@ class CheckoutPage extends PureComponent {
                 state: stateBilling,
                 addressType: 'billing',
                 sameBillingAndShipping: false,
-              }).catch(() => this.resetSteps('Unexpected error, please try again.'))
-              setBilling({
-                shippingMethod: shippingMethod,
-                paymentMethod: 'cc',
-                litcoins: useLitcoins,
-                avoidCheckCardData: cardStored,
-              }).catch(() => this.resetSteps('Unexpected error, please try again.'))
-              this.passToReview()
+              })
+                .then(() => {
+                  setBilling({
+                    shippingMethod: shippingMethod,
+                    paymentMethod: 'cc',
+                    litcoins: useLitcoins,
+                    avoidCheckCardData: cardStored,
+                  })
+                  .then(() => this.passToReview())
+                  .catch(() => this.resetSteps('Unexpected error, please try again.'))
+                })
+              .catch(() => this.resetSteps('Unexpected error, please try again.'))
             }
           } else {
             this.showAlert('Please Complete all Billing Fields', 'error')
@@ -480,8 +492,9 @@ class CheckoutPage extends PureComponent {
             paymentMethod: 'cc',
             litcoins: useLitcoins,
             avoidCheckCardData: cardStored,
-          }).catch(() => this.resetSteps('Unexpected error, please try again.'))
-          this.passToReview()
+          })
+            .then(() => this.passToReview())
+            .catch(() => this.resetSteps('Unexpected error, please try again.'))
         }
       } else if (nameOnCard && cardNumber && cardCVC && fullExpDate) {
         if (!sameShippingAddress) {
@@ -500,8 +513,9 @@ class CheckoutPage extends PureComponent {
                   state: stateBilling,
                   addressType: 'billing',
                   sameBillingAndShipping: false,
-                }).catch(() => this.resetSteps('Unexpected error, please try again.'))
-                this.passToReview()
+                })
+                .then(() => this.passToReview())
+                .catch(() => this.resetSteps('Unexpected error, please try again.'))
               } else {
                 this.showAlert('Please Complete all Billing Fields', 'error')
               }
@@ -517,8 +531,9 @@ class CheckoutPage extends PureComponent {
                 state: stateBilling,
                 addressType: 'billing',
                 sameBillingAndShipping: false,
-              }).catch(() => this.resetSteps('Unexpected error, please try again.'))
-              this.passToReview()
+              })
+                .then(() => this.passToReview())
+                .catch(() => this.resetSteps('Unexpected error, please try again.'))
             }
           } else {
             this.showAlert('Please Complete all Billing Fields', 'error')
@@ -539,8 +554,9 @@ class CheckoutPage extends PureComponent {
               billingAddressId: billingId,
               litcoins: this.state.useLitcoins,
               avoidCheckCardData: this.state.cardStored,
-            }).catch(() => this.resetSteps('Unexpected error, please try again.'))
-            this.passToReview()
+            })
+              .then(() => this.passToReview())
+              .catch(() => this.resetSteps('Unexpected error, please try again.'))
           } else {
             if (!validatedNum.isValid) {
               this.showAlert('Invalid Card Number', 'error')
@@ -595,7 +611,9 @@ class CheckoutPage extends PureComponent {
         paymentMethod: isCardClicked ? 'cc' : 'paypal',
         litcoins: useLitcoins,
         avoidCheckCardData: cardStored,
-      }).catch(() => this.resetSteps('Unexpected error, please try again.'))
+      })
+      .then(() => console.log(' '))
+      .catch(() => this.resetSteps('Unexpected error, please try again.'))
     })
   }
 
@@ -609,7 +627,9 @@ class CheckoutPage extends PureComponent {
       }, {
         shippingMethod: this.state.shippingMethod,
         paymentMethod: 'cc',
-      }).catch(() => this.resetSteps('Unexpected error, please try again.'))
+      })
+        .then(() => console.log(' '))
+        .catch(() => this.resetSteps('Unexpected error, please try again.'))
       /*
       // TODO: What is this? Should we remove it ?
       */
@@ -619,6 +639,7 @@ class CheckoutPage extends PureComponent {
       //   })
     } else if (this.state.isPaypalClicked && !this.state.isCardClicked) {
       this.props.getPaypalConfig()
+        .then(() => console.log(' '))
         .catch(() => this.resetSteps('Unexpected error, please try again.'))
     }
     return true
@@ -631,7 +652,9 @@ class CheckoutPage extends PureComponent {
         paymentMethod: 'paypal',
         paymentId: payment.paymentID,
         payerId: payment.payerID,
-      }).catch(() => this.resetSteps('Unexpected error, please try again.'))
+      })
+      .then(() => console.log(' '))
+      .catch(() => this.resetSteps('Unexpected error, please try again.'))
     }
     this.setState({ showOverlay: true })
   }
