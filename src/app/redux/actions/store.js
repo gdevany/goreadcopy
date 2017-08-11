@@ -116,7 +116,7 @@ export function getBookInfo(bookSlug, isLogged) {
 
 export function addToCart(bookId, logged) {
   return dispatch => {
-    Store.addBookToCart(bookId, logged)
+    return Store.addBookToCart(bookId, logged)
       .then(res => {
         if (logged) dispatch(getCurrentReader())
       })
