@@ -88,6 +88,7 @@ class CheckoutPage extends PureComponent {
     this.handleUseLitcoins = this.handleUseLitcoins.bind(this)
     this.handleSelectChange = this.handleSelectChange.bind(this)
     this.setStep = this.setStep.bind(this)
+    this.resetSteps = this.resetSteps.bind(this)
   }
 
   componentWillMount = () => {
@@ -249,7 +250,38 @@ class CheckoutPage extends PureComponent {
       phone: phoneShipping,
       addressType: 'shipping',
       sameBillingAndShipping: true,
-    }, shippingMethod)
+    }, shippingMethod).catch(() => this.resetSteps('Unexpected error, please try again.'))
+  }
+
+  resetSteps(err) {
+    this.setState({
+      isLoadingCart: false,
+      isStepOneActive: true,
+      isStepTwoActive: false,
+      isStepThreeActive: false,
+      stepOneComplete: false,
+      stepTwoComplete: false,
+      stepThreeComplete: false,
+      isCardClicked: true,
+      isPaypalClicked: false,
+      nameOnCard: '',
+      cardNumber: '',
+      cardCVC: '',
+      fullExpDate: '',
+      saveCard: false,
+      sameShippingAddress: true,
+      useLitcoins: false,
+      cardStored: false,
+      snackbar: {
+        open: true,
+        text: err.message,
+        type: 'error',
+      },
+      paypalConfig: false,
+      orderStatus: false,
+      showOverlay: false,
+      allGifts: false,
+    })
   }
 
   continueToBillingClick = (event) => {
@@ -315,7 +347,7 @@ class CheckoutPage extends PureComponent {
         paymentMethod: 'paypal',
         litcoins: useLitcoins,
         avoidCheckCardData: true,
-      })
+      }).catch(() => this.resetSteps('Unexpected error, please try again.'))
       this.passToReview()
     } else if (isCardClicked) {
       if (cardStored && this.isUsingOtherCard()) {
@@ -336,7 +368,7 @@ class CheckoutPage extends PureComponent {
                     phone: phoneBilling,
                     addressType: 'billing',
                     sameBillingAndShipping: false,
-                  })
+                  }).catch(() => this.resetSteps('Unexpected error, please try again.'))
                   this.passToReview()
                 } else {
                   this.showAlert('Please Complete all Billing Fields', 'error')
@@ -353,7 +385,7 @@ class CheckoutPage extends PureComponent {
                   state: stateBilling,
                   addressType: 'billing',
                   sameBillingAndShipping: false,
-                })
+                }).catch(() => this.resetSteps('Unexpected error, please try again.'))
                 this.passToReview()
               }
             } else {
@@ -375,7 +407,7 @@ class CheckoutPage extends PureComponent {
                 billingAddressId: billingId,
                 litcoins: this.state.useLitcoins,
                 avoidCheckCardData: this.state.cardStored,
-              })
+              }).catch(() => this.resetSteps('Unexpected error, please try again.'))
               this.passToReview()
             } else {
               if (!validatedNum.isValid) {
@@ -407,13 +439,13 @@ class CheckoutPage extends PureComponent {
                   state: stateBilling,
                   addressType: 'billing',
                   sameBillingAndShipping: false,
-                })
+                }).catch(() => this.resetSteps('Unexpected error, please try again.'))
                 setBilling({
                   shippingMethod: shippingMethod,
                   paymentMethod: 'cc',
                   litcoins: useLitcoins,
                   avoidCheckCardData: cardStored,
-                })
+                }).catch(() => this.resetSteps('Unexpected error, please try again.'))
                 this.passToReview()
               } else {
                 this.showAlert('Please Complete all Billing Fields', 'error')
@@ -430,13 +462,13 @@ class CheckoutPage extends PureComponent {
                 state: stateBilling,
                 addressType: 'billing',
                 sameBillingAndShipping: false,
-              })
+              }).catch(() => this.resetSteps('Unexpected error, please try again.'))
               setBilling({
                 shippingMethod: shippingMethod,
                 paymentMethod: 'cc',
                 litcoins: useLitcoins,
                 avoidCheckCardData: cardStored,
-              })
+              }).catch(() => this.resetSteps('Unexpected error, please try again.'))
               this.passToReview()
             }
           } else {
@@ -448,7 +480,7 @@ class CheckoutPage extends PureComponent {
             paymentMethod: 'cc',
             litcoins: useLitcoins,
             avoidCheckCardData: cardStored,
-          })
+          }).catch(() => this.resetSteps('Unexpected error, please try again.'))
           this.passToReview()
         }
       } else if (nameOnCard && cardNumber && cardCVC && fullExpDate) {
@@ -468,7 +500,7 @@ class CheckoutPage extends PureComponent {
                   state: stateBilling,
                   addressType: 'billing',
                   sameBillingAndShipping: false,
-                })
+                }).catch(() => this.resetSteps('Unexpected error, please try again.'))
                 this.passToReview()
               } else {
                 this.showAlert('Please Complete all Billing Fields', 'error')
@@ -485,7 +517,7 @@ class CheckoutPage extends PureComponent {
                 state: stateBilling,
                 addressType: 'billing',
                 sameBillingAndShipping: false,
-              })
+              }).catch(() => this.resetSteps('Unexpected error, please try again.'))
               this.passToReview()
             }
           } else {
@@ -507,7 +539,7 @@ class CheckoutPage extends PureComponent {
               billingAddressId: billingId,
               litcoins: this.state.useLitcoins,
               avoidCheckCardData: this.state.cardStored,
-            })
+            }).catch(() => this.resetSteps('Unexpected error, please try again.'))
             this.passToReview()
           } else {
             if (!validatedNum.isValid) {
@@ -563,7 +595,7 @@ class CheckoutPage extends PureComponent {
         paymentMethod: isCardClicked ? 'cc' : 'paypal',
         litcoins: useLitcoins,
         avoidCheckCardData: cardStored,
-      })
+      }).catch(() => this.resetSteps('Unexpected error, please try again.'))
     })
   }
 
@@ -577,13 +609,17 @@ class CheckoutPage extends PureComponent {
       }, {
         shippingMethod: this.state.shippingMethod,
         paymentMethod: 'cc',
-      })
+      }).catch(() => this.resetSteps('Unexpected error, please try again.'))
+      /*
+      // TODO: What is this? Should we remove it ?
+      */
       //   this.props.placeOrder({
       //     shippingMethod: this.state.shippingMethod,
       //     paymentMethod: 'cc',
       //   })
     } else if (this.state.isPaypalClicked && !this.state.isCardClicked) {
       this.props.getPaypalConfig()
+        .catch(() => this.resetSteps('Unexpected error, please try again.'))
     }
     return true
   }
@@ -595,7 +631,7 @@ class CheckoutPage extends PureComponent {
         paymentMethod: 'paypal',
         paymentId: payment.paymentID,
         payerId: payment.payerID,
-      })
+      }).catch(() => this.resetSteps('Unexpected error, please try again.'))
     }
     this.setState({ showOverlay: true })
   }
