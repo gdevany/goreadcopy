@@ -14,8 +14,6 @@ import { Store as ApiStore } from '../../../services/api'
 
 const { getChildCategories } = Store
 
-const isUserLoggedIn = Auth.currentUserExists()
-
 class CategoriesPage extends PureComponent {
 
   constructor(props) {
@@ -78,6 +76,7 @@ class CategoriesPage extends PureComponent {
     const selectedCategory = this.handleCurrentCategory()
     const subCategoryObject = this.handleChildCategories()
     const { isSubCategory } = this.state
+    const isUserLoggedIn = Auth.currentUserExists()
     return (
       <StoreNavView>
         <div className='categorypage-main-container'>
