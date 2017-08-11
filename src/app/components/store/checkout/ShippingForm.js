@@ -78,7 +78,7 @@ class ShippingForm extends PureComponent {
                 type='text'
                 onChange={onChange('nameShipping')}
                 className='checkoutpage-steps-shipping-address-form-input'
-                value={shippingInfo.nameShipping}
+                value={shippingInfo.nameShipping || ''}
               />
             </div>
             <div className='small-6 columns'>
@@ -91,7 +91,7 @@ class ShippingForm extends PureComponent {
                 type='text'
                 className='checkoutpage-steps-shipping-address-form-input'
                 onChange={onChange('phoneShipping')}
-                value={shippingInfo.phoneShipping}
+                value={shippingInfo.phoneShipping || ''}
               />
             </div>
             <div className='small-12 columns'>
@@ -104,7 +104,7 @@ class ShippingForm extends PureComponent {
                 type='text'
                 className='checkoutpage-steps-shipping-address-form-input'
                 onChange={onChange('addressShipping')}
-                value={shippingInfo.addressShipping}
+                value={shippingInfo.addressShipping || ''}
               />
             </div>
             <div className='small-12 columns'>
@@ -117,7 +117,7 @@ class ShippingForm extends PureComponent {
                 type='text'
                 className='checkoutpage-steps-shipping-address-form-input'
                 onChange={onChange('address2Shipping')}
-                value={shippingInfo.address2Shipping}
+                value={shippingInfo.address2Shipping || ''}
               />
             </div>
             <div className='small-6 columns'>
@@ -142,7 +142,7 @@ class ShippingForm extends PureComponent {
                 type='text'
                 className='checkoutpage-steps-shipping-address-form-input'
                 onChange={onChange('cityShipping')}
-                value={shippingInfo.cityShipping}
+                value={shippingInfo.cityShipping || ''}
               />
             </div>
             {shippingInfo.countryShipping === 'CA' || shippingInfo.countryShipping === 'US' ?
@@ -170,7 +170,7 @@ class ShippingForm extends PureComponent {
                     type='text'
                     className='checkoutpage-steps-shipping-address-form-input'
                     onChange={onChange('stateShipping')}
-                    value={shippingInfo.stateShipping}
+                    value={shippingInfo.stateShipping || ''}
                   />
                 </div>
               )
@@ -185,7 +185,7 @@ class ShippingForm extends PureComponent {
                 type='text'
                 className='checkoutpage-steps-shipping-address-form-input'
                 onChange={onChange('zipcodeShipping')}
-                value={shippingInfo.zipcodeShipping}
+                value={shippingInfo.zipcodeShipping || ''}
               />
             </div>
           </div>
