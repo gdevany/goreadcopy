@@ -91,6 +91,9 @@
       }
     }
   }
+  .recommended-books{
+    padding-bottom: 20px;
+  }
 }
 
 .categories-on-carousel-container{
@@ -219,6 +222,7 @@
       max-width: 950px;
       margin: 0 auto;
       position: relative;
+      flex-direction: column;
     }
     .wishlist-books-title{
       font-weight: 600;
@@ -226,10 +230,10 @@
     }
     .wishlist-books-container{
       margin-top: 15px;
+      display: flex;
       display: -webkit-box;
       display: -moz-box;
       display: -ms-box;
-      justify-content: space-between;
       align-items: flex-start;
       flex-direction: row;
       width: 100%;
@@ -337,7 +341,7 @@
       }
     }
     .bookstore-recommended-book-figure{
-      box-sizing: -5px 5px 20px 0px rgba(0, 0, 0, 0.4);
+      box-shadow: -5px 5px 20px 0px rgba(0, 0, 0, 0.4);
       img{
         max-height: 170px;
       }
