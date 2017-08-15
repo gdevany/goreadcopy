@@ -28,6 +28,7 @@ const ExternalRoutes = () => {
     readFeed: () => backendUrl(''),
     myBookClubs: () => backendUrl('bookclubs'),
     myOrders: () => backendUrl('store/orders'),
+    orderDetail: ({ id }) => backendUrl(`shop/orders/${id}`),
     goReadBooks: () => backendUrl('goreadbooks'),
     videoTutorials: () => backendUrl('video-tutorials'),
     games: () => backendUrl('games'),

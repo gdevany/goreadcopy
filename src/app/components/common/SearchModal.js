@@ -115,28 +115,28 @@ class SearchModal extends Component {
         return (
           <div key={book.id} className='result-container'>
             <div className='image-container'>
-              <a href={book.url}>
+              <Link to={`/book/${book.slug}`}>
                 <figure className='search-result-figure'>
                   <img
-                    src={book.image}
+                    src={book.imageUrl}
                     className='search-result-image'
                     alt={book.slug}
                   />
                 </figure>
-              </a>
+              </Link>
             </div>
             <div className='search-result-info-container'>
-              <a href={book.url}>
+              <Link to={`/book/${book.slug}`}>
                 {book.title}
-              </a>
+              </Link>
               <br/>
-              <a className='search-type-anchor' href={book.url}>
+              <Link className='search-type-anchor' to={`/book/${book.slug}`}>
                 {book.writtenBy}
-              </a>
+              </Link>
               <br/>
-              <a className='search-type-anchor' href={book.url}>
+              <Link className='search-type-anchor' to={`/book/${book.slug}`}>
                 {book.binding} {book.pages}
-              </a>
+              </Link>
             </div>
           </div>
         )

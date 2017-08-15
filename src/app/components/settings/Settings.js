@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
-import { NavMenu, SocketHandler, Chat } from '../common'
+import { BaseNavView } from '../views'
 import Home from '../home/Home'
 import SettingsTabs from './SettingsTabs'
 import { CurrentReader } from '../../redux/actions'
@@ -10,7 +10,6 @@ import { Auth as AuthAction } from '../../redux/actions'
 
 const { getCurrentReader } = CurrentReader
 const { verifyUserToken } = AuthAction
-const { ChatTabWrapper } = Chat
 
 class Settings extends PureComponent {
 
@@ -22,16 +21,13 @@ class Settings extends PureComponent {
   }
 
   componentWillMount = () => {
-
     const token = Auth.token()
     if (token) {
       this.props.verifyUserToken({
         token,
       })
     }
-
     this.props.getCurrentReader()
-
   }
 
   componentDidMount = () => window.scrollTo(0, 0)
@@ -46,20 +42,15 @@ class Settings extends PureComponent {
   }
 
   render() {
-    const isUserLoggedIn = Auth.currentUserExists()
-    return Auth.currentUserExists() ?
-    (
-      <div>
+    return Auth.currentUserExists() ? (
+      <BaseNavView>
         <Helmet>
           <title>GoRead | Settings</title>
         </Helmet>
-        <NavMenu isUserLoggedIn={isUserLoggedIn}/>
         <div className='settings-page'>
-          <ChatTabWrapper/>
           <SettingsTabs/>
         </div>
-        <SocketHandler/>
-      </div>
+      </BaseNavView>
     ) : (
       <Home />
     )

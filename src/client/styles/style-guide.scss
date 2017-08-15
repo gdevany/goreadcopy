@@ -84,6 +84,51 @@ input[type="checkbox"]:focus{
   }
 }
 
+.left-hand-footer{
+  padding: 0;
+  margin: 15px 0 0 0;
+  list-style: none;
+  display: flex;
+  justify-content: flex-start;
+  .left-hand-menu-divider{
+    font-size: 14px;
+    color: #979797;
+    margin: 0 2.5px;
+  }
+  .left-hand-menu-item{
+    .left-hand-menu-anchor{
+      font-size: 14px;
+      color: #979797;
+      &:hover{
+        color: rgba(10, 10, 10, 0.79);
+      }
+    }
+  }
+}
+
+.public-container{
+  padding-top: 80px;
+  @media all and (min-width: 1200px){
+    padding-top: 84px;
+  }
+}
+
+.public-main-row{
+  padding: 30px;
+  border-radius: 5px;
+  box-shadow: rgba(222, 222, 222, 0.5) 0px 4px 20px 0px;
+  text-align: justify;
+  a{
+    color: $blue;
+  }
+  h1{
+    color: $blue;
+  }
+  h5{
+    color: $blue;
+  }
+}
+
 .profile-page-img-wrapper-logged{
   @media all and (min-width: 1200px){
     padding-top: 64px;
@@ -336,6 +381,55 @@ input[type="checkbox"]:focus{
   100% { transform: rotate(360deg); }
 }
 
+.loading-animation-store {
+  border: 2.5px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 2.5px solid $store-blue;
+  width: 25px;
+  height: 25px;
+  animation: spin 2s linear infinite;
+  margin: .25em auto;
+}
+
+.loading-animation-store-inverted {
+  border: 1.5px solid $store-blue;
+  border-radius: 50%;
+  border-top: 1.5px solid #f3f3f3;
+  width: 15px;
+  height: 15px;
+  animation: spin 2s linear infinite;
+  margin: .25em auto;
+}
+
+.loading-animation-store-search{
+  border: 2.5px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 2.5px solid #0099ff;
+  width: 20px;
+  height: 20px;
+  animation: spin 2s linear infinite;
+  margin: .25em auto;
+  position: absolute;
+  top: 7px;
+  right: 12px;
+}
+
+.loading-animation-store-big {
+  border: 4.5px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 4.5px solid $store-blue;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+  margin: .25em auto;
+}
+
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 .followers-scroll{
   height: 55vh;
   overflow-x: hidden;
@@ -351,6 +445,14 @@ input[type="checkbox"]:focus{
 
 .margin-right{
   margin-right: .5em;
+}
+
+.copyright-container{
+  text-align: left;
+  .copyright-element{
+    font-size: 13px;
+    color: #979797;
+  }
 }
 
 .video-player-landing {
@@ -381,6 +483,7 @@ input[type="checkbox"]:focus{
 
 @import 'variables.scss';
 @import 'general.scss';
+@import 'icomoon.scss';
 @import 'errors.scss';
 @import 'image.scss';
 @import 'links.scss';
@@ -400,6 +503,13 @@ input[type="checkbox"]:focus{
 @import 'settings.scss';
 @import 'profile-page.scss';
 @import 'chatbox.scss';
+@import 'bookStoreNavBar.scss';
+@import 'bookStore.scss';
+@import 'bookPage.scss';
+@import 'categoriesPage.scss';
+@import 'cartPage.scss';
 @import 'chatNotifications.scss';
 @import 'spinning-loader.scss';
 @import 'sidebarAd.scss';
+@import 'mobile-menu.scss';
+@import 'orders.scss';

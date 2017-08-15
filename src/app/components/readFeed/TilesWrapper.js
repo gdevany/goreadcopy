@@ -80,7 +80,7 @@ const TilesWrapper = ({ feed }) => {
           tileContent = tile.content
         }
         shareComment = (tile.mentions || tile.shareComment)
-        shareMentions = tile.mentionsArray
+        shareMentions = (tile.mentionsArray || tile.mentionArray)
       } else {
         tileType = tile.tileType
         tileContent = tile.content
@@ -174,9 +174,9 @@ const TilesWrapper = ({ feed }) => {
         case 'book_review':
         case 'book':
           const getUrl = () => {
-            if (tileContent.product) return tileContent.product.url
-            else if (tileContent.book) return tileContent.book.link
-            else if (tileContent.link) return tileContent.link
+            if (tileContent.product) return `/book/${tileContent.product.slug}`
+            else if (tileContent.book) return `/book/${tileContent.book.slug}`
+            else if (tileContent.slug) return `/book/${tileContent.slug}`
             return '#'
           }
           const getName = () => {
@@ -197,16 +197,31 @@ const TilesWrapper = ({ feed }) => {
             }
             return `${<i>Unknown</i>}`
           }
-          const bookAndProductContent = {
-            title: (tile.target.name || tile.target.title || tileContent.title),
-            description: (tileContent.body || tileContent.description),
-            image: tileContent.imageUrl,
-            rating: tileContent.rating.average,
-            author: getName(),
-            bookAuthor: getBookAuthor(),
-            url: getUrl(),
-            socialComment: (shareComment || ''),
-            mentionsList: (shareMentions || null),
+          let bookAndProductContent = {}
+          if (tile.tileType !== 'book_review') {
+            bookAndProductContent = {
+              title: (tile.target.name || tile.target.title || tileContent.title),
+              description: (tileContent.body || tileContent.description),
+              image: tileContent.imageUrl,
+              rating: tileContent.rating.average,
+              author: getName(),
+              bookAuthor: getBookAuthor(),
+              url: getUrl(),
+              socialComment: (shareComment || ''),
+              mentionsList: (shareMentions || null),
+            }
+          } else {
+            bookAndProductContent = {
+              title: tile.target.title,
+              description: tileContent.body,
+              image: tile.target.imageUrl,
+              rating: tileContent.userRating,
+              author: tileContent.reviewer.fullname,
+              bookAuthor: tile.target.authors[0].fullname,
+              url: `/book/${tile.target.slug}`,
+              socialComment: (shareComment || ''),
+              mentionsList: (shareMentions || null),
+            }
           }
           result.push(
             <BookProductTile

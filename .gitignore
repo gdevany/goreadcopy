@@ -18,6 +18,7 @@ service.json
 dist/
 build/
 bundle.js
+.vscode/
 .env
 source-context.json
 source-contexts.json
@@ -26,3 +27,5 @@ firebasecreds.json
 /public/*
 /src/client/index.html
 .vscode/
+.nvmrc
+yarn.lock
