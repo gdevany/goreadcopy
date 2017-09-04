@@ -75,6 +75,7 @@ class BookProductTile extends PureComponent {
     } = this.props
 
     const splittedContent = this.splitContent(content.socialComment)
+    const isContentJustified = !(splittedContent[0].split(' ').length < 20)
 
     return (
       <TileDefault
@@ -88,7 +89,10 @@ class BookProductTile extends PureComponent {
         shareInfo={shareInfo}
         action={action}
       >
-        <div className='post-excerpt-container'>
+        <div className={isContentJustified ?
+          'post-excerpt-container' :
+          'post-excerpt-left-container'}
+        >
           <p className='post-excerpt-pharagraph'>
             {
               content.mentionsList !== null || content.socialComment !== 'None' ?

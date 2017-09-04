@@ -722,6 +722,29 @@
   }
 }
 
+.post-excerpt-left-container{
+  width: 100%;
+  text-align: left;
+  word-wrap: break-word;
+  margin-bottom: 15px;
+  .post-excerpt-pharagraph{
+    margin: 0;
+    font-size: 14px;
+    color: $black;
+    a{
+      font-weight: 600;
+      color: $blue;
+    }
+    .post-readmore-anchor{
+      text-decoration: underline;
+      color: $black;
+      margin-left: .5em;
+      font-size: 15px;
+      word-wrap: break-word;
+    }
+  }
+}
+
 .post-excerpt-container{
   width: 100%;
   text-align: justify;
@@ -750,6 +773,22 @@
   border-left: 3px solid rgba(0,0,0,0.15);
   p{
     opacity: 0.8;
+  }
+}
+
+.sharepost-excerpt-left-container{
+  width: 100%;
+  text-align: left;
+  word-wrap: break-word;
+  margin-bottom: 15px;
+  .sharepost-excerpt-pharagraph{
+    margin: 0;
+    font-size: 14px;
+    color: $black;
+    a{
+      font-weight: 600;
+      color: $blue;
+    }
   }
 }
 

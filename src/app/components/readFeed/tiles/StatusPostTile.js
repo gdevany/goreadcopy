@@ -68,6 +68,8 @@ class StatusPostTile extends PureComponent {
     const splittedContent = content.description ?
     this.splitContent(content.description) : null
     const splittedPostContent = this.splitContent(content.socialPostComment)
+    const isContentJustified = !(splittedContent[0].split(' ').length < 20)
+    const isShareJustified = !(splittedPostContent[0].split(' ').length < 20)
     const sharePostStyle =
       content.mentionsPostList.length > 0 ||
       content.socialPostComment.length > 0 ?
@@ -93,7 +95,9 @@ class StatusPostTile extends PureComponent {
         tileType={content.tileType}
       >
         <div className='statuspost-tile-container'>
-          <div className='sharepost-excerpt-container'>
+          <div className={isShareJustified ?
+            'sharepost-excerpt-container' : 'sharepost-excerpt-left-container'}
+          >
             <p className='sharepost-excerpt-pharagraph'>
               {
                 content.mentionsPostList.length > 0 || content.socialPostComment !== 'None' ?
@@ -171,7 +175,10 @@ class StatusPostTile extends PureComponent {
             ) : null
           }
           <div className='statuspost-content'>
-            <div className={`post-excerpt-container ${sharePostStyle}`}>
+            <div className={isContentJustified ?
+              `post-excerpt-container ${sharePostStyle}` :
+              `post-excerpt-left-container ${sharePostStyle}`}
+            >
               <p className='post-excerpt-pharagraph'>
                 {
                   splittedContent ?

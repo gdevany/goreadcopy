@@ -69,6 +69,7 @@ class PublisherUpdateTile extends PureComponent {
     } = content
 
     const splittedContent = this.splitContent(content.socialComment)
+    const isContentJustified = !(splittedContent[0].split(' ').length < 20)
 
     return (
       <TileDefault
@@ -83,7 +84,10 @@ class PublisherUpdateTile extends PureComponent {
         action={action}
       >
         <div className='publisher-tile-container'>
-          <div className='post-excerpt-container'>
+          <div className={isContentJustified ?
+            'post-excerpt-container' :
+            'post-excerpt-left-container'}
+          >
             <p className='post-excerpt-pharagraph'>
               {
                 content.mentionsList !== null || content.socialComment !== 'None' ?

@@ -59,6 +59,7 @@ class ArticleTile extends PureComponent {
     } = this.props
 
     const splittedContent = this.splitContent(content.socialComment)
+    const isContentJustified = !(splittedContent[0].split(' ').length < 20)
 
     return (
       <TileDefault
@@ -72,7 +73,10 @@ class ArticleTile extends PureComponent {
         action={action}
       >
         <div className='article-tile-container'>
-          <div className='post-excerpt-container'>
+          <div className={isContentJustified ?
+            'post-excerpt-container' :
+            'post-excerpt-left-container'}
+          >
             <p className='post-excerpt-pharagraph'>
               {
                 content.mentionsList !== null || content.socialComment !== 'None' ?
