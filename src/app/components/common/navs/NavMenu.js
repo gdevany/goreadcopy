@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { stack as MobileMenu } from 'react-burger-menu'
 import { Link } from 'react-router'
 import { Auth, CurrentReader, Chat, Notifications as NotifActions } from '../../../redux/actions'
+import { Auth as AuthService } from '../../../services'
 import { connect } from 'react-redux'
 import R from 'ramda'
 import SecondaryButton from '../SecondaryButton'
@@ -1113,7 +1114,8 @@ class NavMenu extends PureComponent {
   }
 
   render() {
-    const { isUserLoggedIn, currentReader } = this.props
+    const isUserLoggedIn = AuthService.currentUserExists()
+    const { currentReader } = this.props
 
     this.UserProofIframe(isUserLoggedIn)
 
