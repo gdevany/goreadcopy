@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import ReactPlayer from 'react-player'
+import Env from '../../constants/env'
 
 class SignUpSpecialOffer extends PureComponent {
   constructor(props) {
@@ -7,7 +8,7 @@ class SignUpSpecialOffer extends PureComponent {
   }
 
   handleClickAccept = () => {
-    window.open('https://wasbmasterclass.com/auto-webinar-registration-13174016', '_blank')
+    window.open(Env.REDIRECT_BASE_URL + '/wasb_masterclass', '_blank')
     window.location.href = '/'
   }
 
