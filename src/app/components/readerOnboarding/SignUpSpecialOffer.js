@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import ReactPlayer from 'react-player'
+import { Link } from 'react-router'
 import Env from '../../constants/env'
 
 class SignUpSpecialOffer extends PureComponent {
@@ -9,7 +10,6 @@ class SignUpSpecialOffer extends PureComponent {
 
   handleClickAccept = () => {
     window.open(Env.REDIRECT_BASE_URL + '/wasb_masterclass', '_blank')
-    window.location.href = '/'
   }
 
   render() {
@@ -30,16 +30,17 @@ class SignUpSpecialOffer extends PureComponent {
         />
       </div>
       <div className='accept-offer small-10 small-offset-1 large-3'>
-        <a
+        <Link
+          to='/'
           onClick={this.handleClickAccept}
         >
           Yes, I Want To Learn More About Writing A Book!
-        </a>
+        </Link>
       </div>
       <div className='decline-offer small-6 small-offset-3'>
-        <a href='/'>
+        <Link to='/'>
           No Thanks, Take Me To My New GoRead Page!
-        </a>
+        </Link>
       </div>
     </div>
     )
