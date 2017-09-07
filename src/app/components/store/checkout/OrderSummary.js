@@ -117,9 +117,6 @@ class OrderSummary extends PureComponent {
                 <span className='checkoutpage-order-summary-list-description has-litcoins'>
                   Litcoins
                   <div className='has-litcoins-container'>
-                    <span className='has-litcoins-ammount'>
-                      ({parseIntToLocale(orderSummary.litcoinsRedeemed)})
-                    </span>
                     <img className='has-litcoins-img' src='/image/litcoin.png'/>
                   </div>
                 </span>
@@ -190,9 +187,7 @@ class OrderSummary extends PureComponent {
                       src='/image/litcoin.png'
                     />
                   </span>
-                  {'(equal to '}
-                  <b>{parseFloatToUSD(orderSummary.dollarsToEarn)}</b>
-                  {') with this purchase!'}
+                  {' with this purchase!'}
                 </span>
               </section>
             ) : null

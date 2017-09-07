@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Numbers from '../../../utils/Numbers'
 
-const { parseFloatToUSD, parseIntToLocale } = Numbers
+const { parseIntToLocale } = Numbers
 
 const UseLitcoins = ({ boxChecked, onChange, currentOrder }) => {
   return (
@@ -23,7 +23,6 @@ const UseLitcoins = ({ boxChecked, onChange, currentOrder }) => {
             currentOrder && currentOrder.dollarsRedeemed && currentOrder.litcoinsRedeemed ?
               <div className='checkoutpage-litcoins-use-details'>
                 <span className='checkoutpage-litcoins-use-text'>
-                  <b>{parseFloatToUSD(currentOrder.dollarsRedeemed)}</b>
                   ({parseIntToLocale(currentOrder.litcoinsRedeemed)}
                   <img
                     className='checkoutpage-litcoins-use-img'
