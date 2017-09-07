@@ -12,6 +12,7 @@ import {
 import SignUpStepOne from './SignUpStepOne'
 import SignUpStepTwo from './SignUpStepTwo'
 import SignUpStepThree from './SignUpStepThree'
+import SignUpSpecialOffer from './SignUpSpecialOffer'
 import Steps from './services/steps'
 import Promise from 'bluebird'
 import { CONTEXTS as C } from '../../constants/litcoins'
@@ -42,7 +43,7 @@ class SignUpStepper extends PureComponent {
     this.state = {
       loading: false,
       finished: false,
-      stepIndex: this.startingStep()
+      stepIndex: this.startingStep(),
     }
 
     this.handleNext = this.handleNext.bind(this)
@@ -86,6 +87,20 @@ class SignUpStepper extends PureComponent {
               loading: false,
               stepIndex: Steps.previous(stepIndex),
             }))
+        )
+      } else {
+        reject('still is loading')
+      }
+    })
+  }
+
+  handleFinish = () => {
+    return new Promise((resolve, reject) => {
+      if (!this.state.loading) {
+        resolve(
+          this.dummyAsync(() => this.setState({
+            finished: true,
+          }))
         )
       } else {
         reject('still is loading')
@@ -137,7 +152,7 @@ class SignUpStepper extends PureComponent {
         return (
           <div>
             <SignUpStepThree
-              handleNext={this.handleNext}
+              handleNext={this.handleFinish}
               handlePrev={this.handlePrev}
               stepIndex={this.state.stepIndex}
               clickedSelectAll={this.props.clickedSelectAll}
@@ -151,22 +166,7 @@ class SignUpStepper extends PureComponent {
   }
 
   renderContent() {
-    const { finished, stepIndex } = this.state
-
-    // TODO: Will we have a component when user is finished signing up
-    // or will they be redirected?
-    if (finished) {
-      return (
-        <div style={styles.contentStyle}>
-          <p>
-            <a onClick={this.handleReset} >
-              Click here
-            </a> to reset the example.
-          </p>
-        </div>
-      )
-    }
-
+    const { stepIndex } = this.state
     return (
       <div style={styles.contentStyle}>
         <div>{this.getStepContent(stepIndex)}</div>
@@ -175,37 +175,43 @@ class SignUpStepper extends PureComponent {
   }
 
   render() {
-    const { loading, stepIndex } = this.state
+    const { loading, stepIndex, finished } = this.state
     return (
       <div style={{ width: '100%', margin: 'auto' }}>
-        <div style={styles.stepperContainer}>
-          <Stepper
-            activeStep={stepIndex}
-            connector={<ArrowIcon color={Colors.medGrey} />}
-          >
-            <Step active={false} className={this.isActiveStepper(Steps.STEPS.USER_INFO)}>
-              <StepLabel className={this.isPrevStep(Steps.STEPS.USER_INFO)}>
-                Create your account
-              </StepLabel>
-            </Step>
+        {finished ? (
+        <SignUpSpecialOffer />
+        ) : (
+        <div>
+          <div style={styles.stepperContainer}>
+            <Stepper
+              activeStep={stepIndex}
+              connector={<ArrowIcon color={Colors.medGrey} />}
+            >
+              <Step active={false} className={this.isActiveStepper(Steps.STEPS.USER_INFO)}>
+                <StepLabel className={this.isPrevStep(Steps.STEPS.USER_INFO)}>
+                  Create your account
+                </StepLabel>
+              </Step>
 
-            <Step active={false} className={this.isActiveStepper(Steps.STEPS.SELECT_GENRES)}>
-              <StepLabel className={this.isPrevStep(Steps.STEPS.SELECT_GENRES)}>
-                Add genres
-              </StepLabel>
-            </Step>
+              <Step active={false} className={this.isActiveStepper(Steps.STEPS.SELECT_GENRES)}>
+                <StepLabel className={this.isPrevStep(Steps.STEPS.SELECT_GENRES)}>
+                  Add genres
+                </StepLabel>
+              </Step>
 
-            <Step active={false} className={this.isActiveStepper(Steps.STEPS.SELECT_USERS)}>
-              <StepLabel className={this.isPrevStep(Steps.STEPS.SELECT_USERS)}>
-                Create read feed
-              </StepLabel>
-            </Step>
+              <Step active={false} className={this.isActiveStepper(Steps.STEPS.SELECT_USERS)}>
+                <StepLabel className={this.isPrevStep(Steps.STEPS.SELECT_USERS)}>
+                  Create read feed
+                </StepLabel>
+              </Step>
 
-          </Stepper>
-        </div>
-        <ExpandTransition loading={loading} open={true}>
-          {this.renderContent()}
-        </ExpandTransition>
+            </Stepper>
+          </div>
+          <ExpandTransition loading={loading} open={true}>
+            {this.renderContent()}
+          </ExpandTransition>
+        </div>)
+      }
       </div>
     )
   }
