@@ -60,6 +60,8 @@ class BookClubTaskTile extends PureComponent {
     } = this.props
 
     const splittedContent = this.splitContent(content.socialComment)
+    const isContentJustified = splittedContent ?
+       !(splittedContent[0].split(' ').length < 20) : false
 
     return (
       <TileDefault
@@ -74,7 +76,10 @@ class BookClubTaskTile extends PureComponent {
         action={action}
       >
         <div className='bookclubtask-tile-container'>
-          <div className='post-excerpt-container'>
+          <div className={isContentJustified ?
+            'post-excerpt-container' :
+            'post-excerpt-left-container'}
+          >
             <p className='post-excerpt-pharagraph'>
               {
                 content.mentionsList !== null || content.socialComment !== 'None' ?
