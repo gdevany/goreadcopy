@@ -44,7 +44,6 @@
           }
         }
         .bookpage-book-information{
-          display: flex;
           justify-content: flex-start;
           align-items: flex-start;
           flex-direction: column;
@@ -64,6 +63,7 @@
             }
           }
           .bookpage-book-info-author{
+            display: inline-block;
             color: #757575;
             margin-bottom: 5px;
             font-size: 14px;

@@ -42,7 +42,7 @@ const styles = {
 
   navItemLinks: {
     fontWeight: 200,
-    display: 'flex',
+    display: 'inline-flex',
     justifyContent: 'center',
     alignItems: 'center',
   },
