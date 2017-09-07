@@ -435,7 +435,6 @@ class SettingsTabs extends PureComponent {
             onChange={this.handleOnChange('favoriteQuote1')}
             value={favoriteQuote1}
             maxLength={255}
-            autoFocus
           />
         </div>
         <div className='profile-edidor-quote-container'>
@@ -447,7 +446,6 @@ class SettingsTabs extends PureComponent {
             onChange={this.handleOnChange('favoriteQuote2')}
             value={favoriteQuote2}
             maxLength={255}
-            autoFocus
           />
         </div>
         <div className='profile-edidor-quote-container'>
@@ -459,7 +457,6 @@ class SettingsTabs extends PureComponent {
             onChange={this.handleOnChange('favoriteQuote3')}
             value={favoriteQuote3}
             maxLength={255}
-            autoFocus
           />
         </div>
 
@@ -472,7 +469,6 @@ class SettingsTabs extends PureComponent {
             onChange={this.handleOnChange('favoriteQuote4')}
             value={favoriteQuote4}
             maxLength={255}
-            autoFocus
           />
         </div>
         <div className='profile-edidor-quote-container'>
@@ -484,7 +480,6 @@ class SettingsTabs extends PureComponent {
             onChange={this.handleOnChange('favoriteQuote5')}
             value={favoriteQuote5}
             maxLength={255}
-            autoFocus
           />
         </div>
       </div>
@@ -1140,7 +1135,7 @@ class SettingsTabs extends PureComponent {
                 </div>
               </div>
               <div className='row'>
-                <div className='small-5 columns'>
+                <div className='small-12 medium-5 columns'>
                   <span className='form-label'>City</span>
                   <input
                     type='text'
@@ -1149,7 +1144,7 @@ class SettingsTabs extends PureComponent {
                     value={city}
                   />
                 </div>
-                <div className='small-3 columns'>
+                <div className='small-12 medium-3 columns'>
                   <span className='form-label'>State</span>
                   <input
                     type='text'
@@ -1158,7 +1153,7 @@ class SettingsTabs extends PureComponent {
                     value={state}
                   />
                 </div>
-                <div className='small-4 columns'>
+                <div className='small-12 medium-4 columns'>
                   <span className='form-label'>Zip code</span>
                   <input
                     type='text'
@@ -1200,7 +1195,7 @@ class SettingsTabs extends PureComponent {
     const { resetPassword } = routes
 
     return (
-      <article className='settings-single-tab-content small-8 columns small-centered'>
+      <article className='settings-single-tab-content medium-8 columns small-centered'>
         <div className='settings-section-title-container'>
           <h3 className='settings-section-title'>
             Account Settings
