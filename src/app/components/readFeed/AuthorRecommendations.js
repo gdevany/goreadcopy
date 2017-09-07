@@ -75,7 +75,11 @@ class AuthorRecommendations extends PureComponent {
     const { recommended } = this.props
     const authors = recommended ? recommended.authors : null
     return (
-      <div style={styles.recContainer} className='left-container small-12 columns box'>
+      <div
+        id='author-recommendations'
+        style={styles.recContainer}
+        className='left-container small-12 columns box'
+      >
         <div className='rec-header'>
           <h4> Recommended Authors </h4>
         </div>

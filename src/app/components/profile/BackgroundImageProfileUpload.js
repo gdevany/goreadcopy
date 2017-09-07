@@ -45,7 +45,7 @@ class BackgroundImageProfileUpload extends PureComponent {
   }
 
   render() {
-    const { backgroundImage, fullname, isMyProfile } = this.props
+    const { backgroundImage, fullname, isMyProfile, isUserLoggedIn } = this.props
     const { backgroundImageUpload } = this.state
     const hasBackgroundImage = !R.isEmpty(backgroundImage)
     const cameraBackgroundClass = (backgroundImageUpload || hasBackgroundImage) ?
@@ -53,7 +53,10 @@ class BackgroundImageProfileUpload extends PureComponent {
       'camera-solid'
 
     return (
-      <div className='profile-top profile-page-img-wrapper'>
+      <div className={isUserLoggedIn ?
+        'profile-top profile-page-img-wrapper-logged' :
+        'profile-top profile-page-img-wrapper-anon'}
+      >
         <div className='background-image-wrapper'>
           {
             backgroundImage || backgroundImageUpload ?

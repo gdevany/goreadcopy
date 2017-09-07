@@ -10,7 +10,9 @@ const RightContainer = () => {
       <BookRecommendations />
       <AuthorRecommendations />
       <BookClubRecommendations />
-      <SidebarAdWrapper />
+      <SidebarAdWrapper
+        view='readfeed'
+      />
     </div>
   )
 }
