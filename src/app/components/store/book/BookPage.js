@@ -15,7 +15,7 @@ import { Store, Rates } from '../../../redux/actions'
 const { getBookInfo } = Store
 const { getStarsInfo } = Rates
 const Anchor = Scroll.Link
-const { Element } = Scroll
+const { Element, animateScroll } = Scroll
 
 class BookPage extends PureComponent {
 
@@ -31,6 +31,7 @@ class BookPage extends PureComponent {
     const { isUserLoggedIn } = this.state
     const bookSlug = this.props.params.slug
     this.props.getBookInfo(bookSlug, isUserLoggedIn)
+      .then(()=>{animateScroll.scrollToTop()})
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -38,6 +39,7 @@ class BookPage extends PureComponent {
     const checkLog = Auth.currentUserExists()
     if (nextProps.params.slug !== this.props.params.slug || isUserLoggedIn !== checkLog) {
       this.props.getBookInfo(nextProps.params.slug, checkLog)
+        .then(()=>{animateScroll.scrollToTop()})
     }
     if (nextProps.bookInfo && nextProps.bookInfo !== this.state.bookInfo) {
       this.setState({

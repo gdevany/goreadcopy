@@ -47,6 +47,7 @@ class BookInfo extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
+      addToCartProcessing: false,
       addToCartClicked: false,
       isBookTypeSelected: false,
       isAlertDisplayed: false,
@@ -118,10 +119,23 @@ class BookInfo extends PureComponent {
   handleAddToCart = (event) => {
     const { isUserLogged } = this.props
     event.preventDefault()
-    this.props.addToCart(this.props.bookInfo.id, isUserLogged)
-    this.setState({
-      addToCartClicked: true,
-    })
+    if (!this.state.addToCartProcessing && !this.state.addToCartClicked) {
+      this.setState({ addToCartProcessing: true }, ()=> {
+        this.props.addToCart(this.props.bookInfo.id, isUserLogged)
+          .then(()=>{
+            this.setState({
+              addToCartClicked: true,
+              addToCartProcessing: false
+            })
+          })
+          .catch(()=>{
+            this.setState({
+              addToCartClicked: false,
+              addToCartProcessing: false
+            })
+          })
+      })
+    }
   }
 
   handleAddToLibrary = (event) => {
@@ -813,25 +827,26 @@ class BookInfo extends PureComponent {
             <div className='bookpage-book-add-to-cart-container'>
               {
                 bookInfo.isOnStock ?
-                  (
-                    <Link
-                      className='store-primary-button float-right'
-                      onClick={!addToCartClicked ?
-                        this.handleAddToCart : null
-                      }
-                      to={!addToCartClicked ? null : '/shop/cart'}
-                    >
-                      {!addToCartClicked ?
-                        'Add to Cart' : 'View Cart & Proceed to checkout'
-                      }
-                    </Link>
-                  ) : (
-                    <span className='error'>
-                      Sorry!
-                      <br/>
-                      This item is Out of Stock.
-                    </span>
-                  )
+                  <Link
+                    className='store-primary-button float-right'
+                    onClick={!addToCartClicked ?
+                      this.handleAddToCart : null
+                    }
+                    to={!addToCartClicked ? null : '/shop/cart'}
+                  >
+                    {
+                      this.state.addToCartProcessing ?
+                        <StoreSpinner /> :
+                        !addToCartClicked ?
+                          'Add to Cart' :
+                          'View Cart & Proceed to checkout'
+                    }
+                  </Link> :
+                  <span className='error'>
+                    Sorry!
+                    <br/>
+                    This item is Out of Stock.
+                  </span>
               }
             </div>
             {/* <div className='bookpage-book-piggy-bank-container'>
