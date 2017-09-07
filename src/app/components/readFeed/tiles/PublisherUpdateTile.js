@@ -69,7 +69,8 @@ class PublisherUpdateTile extends PureComponent {
     } = content
 
     const splittedContent = this.splitContent(content.socialComment)
-    const isContentJustified = !(splittedContent[0].split(' ').length < 20)
+    const isContentJustified = splittedContent ?
+       !(splittedContent[0].split(' ').length < 20) : false
 
     return (
       <TileDefault

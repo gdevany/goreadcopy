@@ -65,7 +65,8 @@ class AuthorTile extends PureComponent {
     } = this.props
 
     const splittedContent = this.splitContent(content.socialComment)
-    const isContentJustified = !(splittedContent[0].split(' ').length < 20)
+    const isContentJustified = splittedContent ?
+       !(splittedContent[0].split(' ').length < 20) : false
 
     const {
       city,

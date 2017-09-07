@@ -474,13 +474,12 @@
       transition: none;
       transform: none;
       position: relative;
-      margin-right: 19px;
+      max-width: 110px;
+      margin-bottom: 10px;
       @media all and (min-width: 768px){
         margin-right: 50px;
-        margin-bottom: 10px;
         width: 100%;
         min-width: 110px;
-        max-width: 110px;
       }
       a{
         img{

@@ -61,7 +61,8 @@ class VideoTile extends PureComponent {
     } = this.props
     const splittedContent = content.socialComment !== null && content.socialComment !== undefined ?
        this.splitContent(content.socialComment) : null
-    const isContentJustified = !(splittedContent[0].split(' ').length < 20)
+    const isContentJustified = splittedContent ?
+       !(splittedContent[0].split(' ').length < 20) : false
 
     return (
       <TileDefault
