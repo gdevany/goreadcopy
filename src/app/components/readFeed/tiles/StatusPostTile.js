@@ -69,9 +69,9 @@ class StatusPostTile extends PureComponent {
     this.splitContent(content.description) : null
     const splittedPostContent = this.splitContent(content.socialPostComment)
     const isContentJustified = splittedContent ?
-       !(splittedContent[0].split(' ').length < 20) : false
-     const isShareJustified = splittedPostContent ?
-       !(splittedPostContent[0].split(' ').length < 20) : false
+      !(splittedContent[0].split(' ').length < 20) : false
+    const isShareJustified = splittedPostContent ?
+      !(splittedPostContent[0].split(' ').length < 20) : false
     const sharePostStyle =
       content.mentionsPostList.length > 0 ||
       content.socialPostComment.length > 0 ?
