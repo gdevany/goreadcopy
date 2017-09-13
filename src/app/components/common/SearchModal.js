@@ -115,7 +115,7 @@ class SearchModal extends Component {
         return (
           <div key={book.id} className='result-container'>
             <div className='image-container'>
-              <Link to={`/book/${book.slug}`}>
+              <Link to={`/book/${book.slug}`} onClick={() => this.props.handleClose()}>
                 <figure className='search-result-figure'>
                   <img
                     src={book.imageUrl}
@@ -126,15 +126,23 @@ class SearchModal extends Component {
               </Link>
             </div>
             <div className='search-result-info-container'>
-              <Link to={`/book/${book.slug}`}>
+              <Link to={`/book/${book.slug}`} onClick={() => this.props.handleClose()}>
                 {book.title}
               </Link>
               <br/>
-              <Link className='search-type-anchor' to={`/book/${book.slug}`}>
+              <Link
+                className='search-type-anchor'
+                to={`/book/${book.slug}`}
+                onClick={() => this.props.handleClose()}
+              >
                 {book.writtenBy}
               </Link>
               <br/>
-              <Link className='search-type-anchor' to={`/book/${book.slug}`}>
+              <Link
+                className='search-type-anchor'
+                to={`/book/${book.slug}`}
+                onClick={() => this.props.handleClose()}
+              >
                 {book.binding} {book.pages}
               </Link>
             </div>

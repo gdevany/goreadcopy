@@ -167,7 +167,11 @@
             margin: 0;
             .bookpage-book-excerpt-readmore-btn{
               color: #808080;
-              display: block;
+              padding-left: 5px;
+              display: inline-block;
+              &:hover {
+                color: #0042D6;
+              }
             }
           }
         }
