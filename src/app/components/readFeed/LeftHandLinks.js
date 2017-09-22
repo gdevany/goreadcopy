@@ -67,7 +67,7 @@ class LeftHandLinks extends PureComponent {
       videoTutorials,
       referrals,
       games,
-      authors,
+      authorEnrollment,
       publishers,
     } = routes
 
@@ -77,7 +77,7 @@ class LeftHandLinks extends PureComponent {
       ['Video Tutorials', videoTutorials],
       ['Referrals', referrals],
       ['Games', games],
-      ['Author Enrollment', authors],
+      ['Author Enrollment', authorEnrollment],
       ['Publisher Enrollment', publishers],
     ]
 
