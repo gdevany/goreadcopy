@@ -57,7 +57,7 @@ class SearchModal extends Component {
         return (
           <div key={reader.id} className='result-container'>
             <div className='image-container'>
-              <Link to={`profile/${reader.slug}`} onClick={() => this.props.handleClose()}>
+              <Link to={`/profile/${reader.slug}`} onClick={() => this.props.handleClose()}>
                 <figure className='search-result-figure'>
                   <img
                     src={reader.image}
@@ -68,13 +68,13 @@ class SearchModal extends Component {
               </Link>
             </div>
             <div className='search-result-info-container'>
-              <Link to={`profile/${reader.slug}`} onClick={() => this.props.handleClose()}>
+              <Link to={`/profile/${reader.slug}`} onClick={() => this.props.handleClose()}>
                 {reader.firstName} {reader.lastName}
               </Link>
               <br/>
               <Link
                 className='search-type-anchor'
-                to={`profile/${reader.slug}`}
+                to={`/profile/${reader.slug}`}
                 onClick={() => this.props.handleClose()}
               >
                 Personal Library
