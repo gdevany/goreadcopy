@@ -65,6 +65,7 @@ class BookInfo extends PureComponent {
       isModifyingWishlist: false,
       isModifyingFollow: false,
       dialogOpen: false,
+      isBookFullDescription: false,
     }
     this.handleAddToCart = this.handleAddToCart.bind(this)
     this.handleAddToLibrary = this.handleAddToLibrary.bind(this)
@@ -353,6 +354,11 @@ class BookInfo extends PureComponent {
 
   handleLibraryNoHover = () => this.setState({ isLibraryHover: false })
 
+  handleBookReadMore = () => {
+    const { isBookFullDescription } = this.state
+    this.setState({ isBookFullDescription: !isBookFullDescription })
+  }
+
   render() {
     const { bookInfo, isUserLogged } = this.props
     const {
@@ -360,7 +366,8 @@ class BookInfo extends PureComponent {
       isSharePopUpDisplayed,
       commentText,
       isWishlistHover,
-      isLibraryHover
+      isLibraryHover,
+      isBookFullDescription,
     } = this.state
     return (
       <div className='row bookpage-info-main-container'>
@@ -456,17 +463,32 @@ class BookInfo extends PureComponent {
               }
               <div className='bookpage-book-excerpt-container-desktop'>
                 <p className='bookpage-book-excerpt'>
-                  {this.truncInfo(bookInfo.description, 350)}
-                  {/*<a className='bookpage-book-excerpt-readmore-btn'>*/}
-                    {/*See more*/}
-                  {/*</a>*/}
+                  {isBookFullDescription ?
+                    bookInfo.description :
+                    this.truncInfo(bookInfo.description, 350)}
+                  {bookInfo.description.length > 350 ? (
+                  <a
+                    className='bookpage-book-excerpt-readmore-btn'
+                    onClick={this.handleBookReadMore}
+                  >
+                    Read more
+                  </a>) : null }
                 </p>
               </div>
             </div>
           </div>
           <div className='bookpage-book-excerpt-container-mobile'>
             <p className='bookpage-book-excerpt'>
-              {this.truncInfo(bookInfo.description, 350)}
+              {isBookFullDescription ?
+                bookInfo.description :
+                this.truncInfo(bookInfo.description, 350)}
+              {bookInfo.description.length > 350 ? (
+              <a
+                className='bookpage-book-excerpt-readmore-btn'
+                onClick={this.handleBookReadMore}
+              >
+                Read more
+              </a>) : null }
             </p>
           </div>
           <div className='bookpage-info-left-bottom'>
