@@ -41,6 +41,7 @@ const CategoriesHero = ({ isSubCategory, subCategoryObject, category }) => {
           <h1 className='categorypage-hero-title'>
             {isSubCategory && subCategoryObject ? subCategoryObject.name : category.name}
           </h1>
+          {false ? (
           <div className='categorypage-hero-bottom-right-elements'>
             <div className='categorypage-hero-bottom-right-data'>
               <span className='categorypage-hero-bottom-right-data-title'>
@@ -65,6 +66,7 @@ const CategoriesHero = ({ isSubCategory, subCategoryObject, category }) => {
               </span>
             </div>
           </div>
+          ) : null}
         </div>
       </div>
     </section>
