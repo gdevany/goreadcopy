@@ -397,7 +397,8 @@ class CheckoutPage extends PureComponent {
           } else {
             const validatedNum = CV.number(cardNumber)
             const validatedDate = CV.expirationDate(fullExpDate)
-            const validatedCvv = CV.cvv(cardCVC, 4)
+            const isAmex = validatedNum.card.isAmex ? 4 : 3
+            const validatedCvv = CV.cvv(cardCVC, isAmex)
             if (validatedNum.isValid && validatedDate.isValid && validatedCvv.isValid) {
               setBilling({
                 cardExpYear: validatedDate.year,
@@ -416,12 +417,15 @@ class CheckoutPage extends PureComponent {
             } else {
               if (!validatedNum.isValid) {
                 this.showAlert('Invalid Card Number', 'error')
+                return
               }
               if (!validatedDate.isValid) {
                 this.showAlert('Invalid Expiration Date', 'error')
+                return
               }
               if (!validatedCvv.isValid) {
                 this.showAlert('Invalid CVC', 'error')
+                return
               }
             }
           }
