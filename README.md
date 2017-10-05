@@ -46,16 +46,6 @@ Then visit:
 $ http://localhost:3001
 ```
 
-(Optionally) run the mock API server:
-
-```sh
-$ node ./src/server/mockServer.js
-```
-
-## Configuration
-
-TODO: add config here as-needed
-
 ### Branches and Deployed Environments
 
 * `master` -> (does not deploy anywhere)
@@ -115,10 +105,7 @@ The common config for these endpoints is in `api_endpoints.postman_collection`. 
 
 As we add new endpoints to the API, be sure to update this file
 
-### TODO
-
-* Will eventually need all `.env` credentials.
-
 ## Developer Contacts
 * jd@philosophie.is
 * masha@philosophie.is
+* emir@goread.com
