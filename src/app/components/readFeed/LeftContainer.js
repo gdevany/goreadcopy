@@ -6,6 +6,21 @@ import { FavoriteGenres } from '../common'
 import { CONTEXTS as C } from '../../constants/litcoins'
 
 class LeftContainer extends PureComponent {
+
+  constructor(props) {
+    super(props)
+  }
+
+  getSidebarHeight = () => {
+    navbarOffset = document.getElementsByClassName('top-bar')[0].clientHeight
+    leftSidebarHeight = document.getElementsByClassName('left-container-readfeed')[0].offsetHeight
+    sidebarBottomHeight = navbarOffset + leftSidebarHeight
+    pageBottomHeight = window.scrollY + window.innerHeight
+    if (sidebarBottomHeight < pageBottomHeight) {
+
+    }
+  }
+
   render() {
     const {
       id,
@@ -13,8 +28,17 @@ class LeftContainer extends PureComponent {
       isMyReadFeed,
       fullname
     } = this.props
+
+    this.getSidebarHeight()
+
     return (
-      <div className='left-container large-3 hide-for-small-only hide-for-medium-only columns'>
+      <div className='left-container
+        left-container-readfeed
+        large-3
+        hide-for-small-only
+        hide-for-medium-only
+        columns'
+      >
         { id ? <ReadFeedProfile id={id}/> : null }
         <LeftHandLinks />
         <FavoriteGenres
