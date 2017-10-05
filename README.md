@@ -7,12 +7,6 @@ The codebase for the existing GoRead server / API is at http://gitlab.readersleg
 ## Contents
 
 [Project Setup](#project-setup)
-[Configuration](#configuration)
-[Deployment](#deployment)
-[Testing](#testing)
-[Styleguide Enforcement](#styleguide-enforcement)
-[Browser Support](#browser-support)
-[Developer Contacts](#developer-contacts)
 
 **------------------**
 
@@ -36,10 +30,6 @@ After installing the dependencies above, install this project's npm dependencies
 ```sh
 $ yarn install
 ```
-
-### Thirdparty services
-
-TODO: add thirdparty services as-needed
 
 ### Required environment variables
 
@@ -66,40 +56,6 @@ $ node ./src/server/mockServer.js
 
 TODO: add config here as-needed
 
-## Deployment
-
-The frontend currently lives at [Heroku](www.heroku.com). Ask an existing developer to add you to the contributors.
-
-### Setup
-To deploy, first you'll have to set remotes for each of the deployed environments. You should only need to do this once.
-
-Staging:
-
-```sh
-$ git remote add staging https://git.heroku.com/goread-frontend-staging.git
-```
-
-Production:
-# TODO
-
-### Deploy
-
-You should ONLY be deploying the correctly named branch to the same-named environment, i.e. `staging` -> `staging`, `production` -> `production`.
-
-You should only push other branches to these environments if you know exactly what you're doing.
-
-Staging:
-
-```sh
-$ git push staging staging:master
-```
-
-Production:
-
-```sh
-$ git push production production:master
-```
-
 ### Branches and Deployed Environments
 
 * `master` -> (does not deploy anywhere)
@@ -111,22 +67,6 @@ Branches are named according to their type:
   * Feature branches should be named with `feature/<the branch name>`
   * Chore branches should be named with `chore/<the branch name>`
   * Hotfix / bug branches should be named with `hotfix/<the branch name>`
-
-### Deployment instructions
-
-TODO: add deployment instructions
-
-## Testing
-
-TODO: add test commands
-
-## Styleguide Enforcement
-
-TODO: add linting commands
-
-## Browser Support
-
-TODO: add browser support matrix
 
 ## Misc
 
@@ -166,10 +106,6 @@ TODO: add browser support matrix
 5. Understanding the difference between `export` and `export default`:
    * Great explanation [here](http://stackoverflow.com/questions/31852933/why-es6-react-component-works-only-with-export-default).
    * Currently need only `export default` but we also use`export` on the same component to avoid errors when we test the components.
-
-### Mock API Server
-
-There is a mock API server available at http://gitlab.readerslegacy.com/jdwolkgoread/goread-mock-api
 
 ### Postman
 
