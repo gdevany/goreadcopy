@@ -33,7 +33,37 @@ $ yarn install
 
 ### Required environment variables
 
-See `.env.example`
+When using the application, you will need to set a `.env` in your project directory.
+This is a standard configuration with the appropiate values to communicate the app running locally with the API endpoint running on STG2 server:
+
+```
+SOCKET_URL              // URL for the app to set the socket connection for Chat and Notifications feature
+REDIRECT_BASE_URL       // URL for the app to set redirections upon special cases submitions
+API_URL                 // URL for the API endpoint domain
+NODE_ENV                // Value to set the desired environment settings. Can be "development" or "production"
+SESSION_COOKIE_DOMAIN   // Domain value for the cookies
+PORT                    // Port in which to run the Front End app locally
+```
+
+To run backend locally use these settings:
+```
+SOCKET_URL=ws://localhost:8000/ws/userprofile?subscribe-user
+REDIRECT_BASE_URL=http://localhost:8000
+API_URL=http://localhost:8000 
+NODE_ENV='development'
+SESSION_COOKIE_DOMAIN='.readerslegacy.com'
+PORT=3001
+```
+
+To run backend using STG2 server use these settings:
+```
+SOCKET_URL=wss://staging2.readerslegacy.com/ws/userprofile?subscribe-user
+REDIRECT_BASE_URL=https://staging2.readerslegacy.com
+API_URL=https://staging2.readerslegacy.com
+NODE_ENV='development'
+SESSION_COOKIE_DOMAIN='.readerslegacy.com'
+PORT=3001
+```
 
 ### Running the app
 
