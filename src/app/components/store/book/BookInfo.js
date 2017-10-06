@@ -13,6 +13,7 @@ import { Loaders, SuggestionList } from '../../common'
 import Scroll from 'react-scroll'
 import ReactPlayer from 'react-player'
 import Dialog from 'material-ui/Dialog'
+import moment from 'moment'
 
 const { showAlert } = Common
 const { followOrUnfollow } = Follow
@@ -869,6 +870,16 @@ class BookInfo extends PureComponent {
                     <br/>
                     This item is Out of Stock.
                   </span>
+              }
+              {
+                bookInfo.isPresale ?
+                  <span className='label info'>
+                    {
+                      `Pre-Order will ship from
+                      ${moment(bookInfo.onSaleDate).format('MMMM Do,  YYYY')}`
+                    }
+                  </span> :
+                  null
               }
             </div>
             {/* <div className='bookpage-book-piggy-bank-container'>
