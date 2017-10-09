@@ -4,6 +4,7 @@ import ReadFeedProfile from './ReadFeedProfile'
 import LeftHandLinks from './LeftHandLinks'
 import { FavoriteGenres } from '../common'
 import { CONTEXTS as C } from '../../constants/litcoins'
+import MenuFooter from '../common/footer/MenuFooter'
 
 class LeftContainer extends PureComponent {
   render() {
@@ -23,6 +24,7 @@ class LeftContainer extends PureComponent {
           fullname={fullname}
           context={C.READ_FEED}
         />
+        <MenuFooter />
       </div>
     )
   }
