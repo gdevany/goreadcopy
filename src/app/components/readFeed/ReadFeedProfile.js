@@ -161,6 +161,7 @@ class ReadFeedProfile extends PureComponent {
       backgroundImage,
       fullname,
       slug,
+      profileBoxStyle,
     } = this.props
 
     const hasProfileImage = profileImage !== '' ? profileImage : null
@@ -189,7 +190,7 @@ class ReadFeedProfile extends PureComponent {
       'followed'
 
     return (
-      <div style={styles.container} className='box'>
+      <div style={{ ...styles.container, ...profileBoxStyle }} className='box'>
         <div className='profile-wrapper'>
           <div className='profile-top'>
             <div className='background-image-wrapper'>
