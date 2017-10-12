@@ -11,6 +11,7 @@ import ReviewsContainer from './ReviewsContainer'
 // import NewsLetter from './NewsLetter'
 import { Auth } from '../../../services'
 import { Store, Rates } from '../../../redux/actions'
+import UserProof from '../../common/navs/tools/UserProof'
 
 const { getBookInfo } = Store
 const { getStarsInfo } = Rates
@@ -148,6 +149,7 @@ class BookPage extends PureComponent {
             <Footer />
           </div>
         </div>
+        <UserProof />
       </StoreNavView>
     )
   }

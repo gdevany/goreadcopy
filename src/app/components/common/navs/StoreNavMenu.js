@@ -667,24 +667,11 @@ class BookStoreNavBar extends PureComponent {
   //   }
   // }
 
-  UserProofIframe = (isUserLoggedIn) => {
-    const frame = document.getElementById('proof')
-    if (frame) {
-      if (isUserLoggedIn) {
-        frame.style.visibility = 'hidden'
-      } else {
-        frame.style.visibility = 'visible'
-      }
-    }
-  }
-
   render() {
     const isUserLoggedIn = AuthService.currentUserExists()
     const chatNotifications = this.countChatNotifications()
     const { currentReader, notifications } = this.props
     const { wishlist } = this.state
-
-    this.UserProofIframe(isUserLoggedIn)
 
     return (
       <div className='relative-top-menu'>
