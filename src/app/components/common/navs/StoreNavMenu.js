@@ -354,7 +354,6 @@ class BookStoreNavBar extends PureComponent {
     const {
       referrals,
       authorBuzz,
-      authorBuzzSettings,
       publisherBuzz,
       publisherBuzzSettings
     } = routes
