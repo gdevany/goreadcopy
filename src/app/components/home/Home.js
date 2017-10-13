@@ -8,7 +8,6 @@ import PriorityReasons from './PriorityReasons'
 import BookLanding from './BookLanding'
 import TestimonialCarousel from './TestimonialCarousel'
 import ReactPlayer from 'react-player'
-import UserProof from '../common/navs/tools/UserProof'
 
 const Home = () => {
   return (
@@ -57,7 +56,6 @@ const Home = () => {
         <TestimonialCarousel />
         <CallToActionBottom />
         <Footer />
-        <UserProof />
       </div>
     </BaseNavView>
   )
