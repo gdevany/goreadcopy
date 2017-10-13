@@ -15,12 +15,13 @@ const { hasErrors } = Errors
 export function processUserLogin(credentials) {
   return (dispatch) => {
     const results = validate(credentials)
-
     if (hasErrors(results)) { return dispatch(updateReaderErrors(results)) }
 
-    return authJwt(credentials)
-      .then((response) => { dispatch(setCurrentReader(response.data)) })
+    const request = authJwt(credentials)
+    request
+      .then((response) => { dispatch(setCurrentReader(response.data))})
       .catch(err => { dispatch(updateReaderErrors(err)) })
+    return request
   }
 }
 

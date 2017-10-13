@@ -61,6 +61,7 @@ class SignInModal extends Component {
         this.setState({ showLoader: false })
         this.props.handleClose()
       })
+      .catch(()=> { this.setState({ showLoader: false }) })
   }
 
   handleOnChange = R.curry((field, e) => {
