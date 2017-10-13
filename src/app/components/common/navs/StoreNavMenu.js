@@ -367,7 +367,6 @@ class BookStoreNavBar extends PureComponent {
     {currentReader.hasAuthorBuzz ?
       nonMenuRoutes.push(
         ['GoRead Buzz', authorBuzz({ slug: currentReader.author.slug }), false, true],
-        ['GoRead Buzz Settings', authorBuzzSettings],
     ) : null }
 
     {currentReader.hasPublisherBuzz && currentReader.isPublisher ?
