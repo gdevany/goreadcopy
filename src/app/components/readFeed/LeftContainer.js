@@ -5,6 +5,7 @@ import LeftHandLinks from './LeftHandLinks'
 import Scroller from '../common/Scroller'
 import { FavoriteGenres } from '../common'
 import { CONTEXTS as C } from '../../constants/litcoins'
+import MenuFooter from '../common/footer/MenuFooter'
 
 const style = {
   leftContainerStyle: {
