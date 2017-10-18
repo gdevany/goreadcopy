@@ -9,17 +9,17 @@ class SignUpSpecialOffer extends PureComponent {
   }
 
   handleClickAccept = () => {
-    window.open(Env.REDIRECT_BASE_URL + '/wasb_masterclass', '_blank')
+    window.open(Env.REDIRECT_BASE_URL + '/landing', '_blank')
   }
 
   render() {
     return (
     <div className='signup-special-offer'>
       <h1 className='offer-title'>
-        A Very Special Offer....
+        A Very Special Offer From The Founder Of GoRead.com, Ken Dunn.....
       </h1>
       <h3 className='offer-sub-title'>
-        Have You Ever Thought About Writing A Book?
+        How Would You Like Get Paid For Writing Articles For GoRead?
       </h3>
       <div className='video-container'>
         <ReactPlayer
@@ -34,7 +34,7 @@ class SignUpSpecialOffer extends PureComponent {
           to='/'
           onClick={this.handleClickAccept}
         >
-          Yes, I Want To Learn More About Writing A Book!
+          Yes, I want to learn more about getting paid to write articles
         </Link>
       </div>
       <div className='decline-offer small-6 small-offset-3'>
