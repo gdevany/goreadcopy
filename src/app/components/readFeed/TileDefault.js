@@ -274,7 +274,7 @@ class TileDefault extends PureComponent {
         const targetName = match[matchIndex]
         return (
           <a className='tile-target-name' key={index} href={target.link}>
-            {this.truncInfo(targetName, 33)}
+            {this.truncInfo(targetName, 33) + ' '}
           </a>
         )
       }
