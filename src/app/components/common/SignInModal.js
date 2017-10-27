@@ -17,6 +17,7 @@ const { loadNotifications } = Notifications
 const styles = {
   modalBody: {
     marginTop: -80,
+    position: 'fixed',
   },
 
   modalContent: {
