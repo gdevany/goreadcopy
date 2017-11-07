@@ -89,6 +89,7 @@ class LeftContainer extends PureComponent {
             fullname={fullname}
             context={C.READ_FEED}
           />
+          <MenuFooter />
         </div>
       </Scroller>
     )
