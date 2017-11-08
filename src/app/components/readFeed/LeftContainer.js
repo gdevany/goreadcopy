@@ -31,18 +31,23 @@ class LeftContainer extends PureComponent {
 
   getSidebarHeight = () => {
     const { handleMiddleContainer } = this.props
-    const navbarOffset = document.getElementsByClassName('top-bar')[0].clientHeight
-    const leftSidebarHeight =
-      document.getElementsByClassName('left-container-readfeed')[0].offsetHeight
-    const chatOffset =
-      document.getElementsByClassName('main-conversation-container')[0].clientHeight
+    const navbarOffset = document.getElementsByClassName('top-bar') ?
+    document.getElementsByClassName('top-bar')[0].clientHeight : 0
+    const leftSidebarHeight = document.getElementsByClassName('left-container-readfeed') ?
+      document.getElementsByClassName('left-container-readfeed')[0].offsetHeight : 0
+    const chatOffset = document.getElementsByClassName('main-conversation-container') ?
+      document.getElementsByClassName('main-conversation-container')[0].clientHeight : 0
     const sidebarBottomHeight = navbarOffset + leftSidebarHeight + chatOffset
     const pageBottomHeight = window.scrollY + window.innerHeight
-    if (sidebarBottomHeight < pageBottomHeight) {
+    const profileHeight = navbarOffset + style.profileBoxStyle.height - 50
+
+    if (sidebarBottomHeight < pageBottomHeight && window.scrollY > profileHeight) {
+      const adjustProfileHeight = leftSidebarHeight < window.innerHeight ?
+        style.profileBoxStyle.height - 50 : 0
       this.setState({
         leftContainerStyle: {
           position: 'fixed',
-          top: window.innerHeight - leftSidebarHeight - chatOffset,
+          top: window.innerHeight - leftSidebarHeight - chatOffset - adjustProfileHeight,
         },
         profileBoxStyle: style.profileBoxStyle,
       })
