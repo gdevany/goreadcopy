@@ -48,6 +48,7 @@ class SignInModal extends Component {
       showLoader: false,
       isPassForgotten: false,
       isRecoverSubmit: false,
+      isRecoverError: false,
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -72,10 +73,17 @@ class SignInModal extends Component {
     const submitEmail = document.getElementsByClassName('recovery-input')[0].value
     if (submitEmail) {
       this.props.resetUserPassword(submitEmail)
-      this.setState({
-        isPassForgotten: false,
-        isRecoverSubmit: true,
-      })
+        .then(() => {
+          this.setState({
+            isPassForgotten: false,
+            isRecoverSubmit: true,
+          })
+        })
+        .catch(() => {
+          this.setState({
+            isRecoverError: true,
+          })
+        })
     }
   }
 
@@ -106,6 +114,13 @@ class SignInModal extends Component {
   handleRecoveryCancel = () => {
     this.setState({
       isPassForgotten: false,
+      isRecoverSubmit: false,
+    })
+  }
+
+  handleRecoveryError = () => {
+    this.setState({
+      isRecoverError: false,
     })
   }
 
@@ -121,6 +136,8 @@ class SignInModal extends Component {
       password,
       showLoader,
       isPassForgotten,
+      isRecoverSubmit,
+      isRecoverError,
     } = this.state
 
     return (
@@ -140,31 +157,62 @@ class SignInModal extends Component {
             className='general-font center-text signup-modal-x'
             onClick={() => {this.handleCloseModal(); this.handleCleanInputs()}}
           />
-          {isPassForgotten ? (
+          {isPassForgotten || isRecoverSubmit ? (
             <div className='center-text'>
               <h1 className='center-text large-header'>
                 Forgot your Password?
               </h1>
-              <p>
-                Send us your email address and we'll send a mail to restablish your account.
-              </p>
-              <input
-                type='text'
-                className='form-input recovery-input'
-                placeholder='Email'
-              />
-              <div className='center-text recovery-buttons'>
-                <PrimaryButton
-                  label={'Recover Password'}
-                  onClick={this.handleSubmitRecovery}
-                  type={'submit'}
-                />
-                <PrimaryButton
-                  label={'Cancel'}
-                  onClick={this.handleRecoveryCancel}
-                  type={'submit'}
-                />
-              </div>
+              {isRecoverSubmit ? (
+                <div>
+                  <div className='success-panel'>
+                    <strong>
+                      <p>
+                        Success!
+                      </p>
+                      <p>
+                        An email will arrive to your inbox soon with the password
+                        reset instructions.
+                      </p>
+                    </strong>
+                  </div>
+                  <div className='center-text recovery-buttons'>
+                    <PrimaryButton
+                      label={'Return to Login'}
+                      onClick={this.handleRecoveryCancel}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <p>
+                    Send us your email address and we'll send a mail to restablish your account.
+                  </p>
+                  <div className={isRecoverError ? 'error' : null}>
+                    <input
+                      type='text'
+                      className='form-input recovery-input'
+                      placeholder='Email'
+                      onChange={this.handleRecoveryError}
+                    />
+                    {isRecoverError ? (
+                      <p>
+                        Please check the email introduced is correct.
+                      </p>
+                      ) : null
+                    }
+                  </div>
+                  <div className='center-text recovery-buttons'>
+                    <PrimaryButton
+                      label={'Recover Password'}
+                      onClick={this.handleSubmitRecovery}
+                    />
+                    <PrimaryButton
+                      label={'Cancel'}
+                      onClick={this.handleRecoveryCancel}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
           <div>
