@@ -49,6 +49,7 @@ class SignInModal extends Component {
       isPassForgotten: false,
       isRecoverSubmit: false,
       isRecoverError: false,
+      isRecoverErrorMessage: null,
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -79,9 +80,11 @@ class SignInModal extends Component {
             isRecoverSubmit: true,
           })
         })
-        .catch(() => {
+        .catch((err) => {
           this.setState({
             isRecoverError: true,
+            isRecoverErrorMessage: err.response ? err.response.data ? err.response.data.errors ?
+              err.response.data.errors.email.message : null : null : null,
           })
         })
     }
@@ -138,6 +141,7 @@ class SignInModal extends Component {
       isPassForgotten,
       isRecoverSubmit,
       isRecoverError,
+      isRecoverErrorMessage,
     } = this.state
 
     return (
@@ -196,7 +200,8 @@ class SignInModal extends Component {
                     />
                     {isRecoverError ? (
                       <p>
-                        Please check the email introduced is correct.
+                        {isRecoverErrorMessage ? isRecoverErrorMessage :
+                          'Please check the email is correct.'}
                       </p>
                       ) : null
                     }
