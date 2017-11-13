@@ -80,6 +80,7 @@ const Endpoints = () => {
       readNotifications: () => apiUrl('current_reader/notifications/read'),
       dismissNotification: (params) => apiUrl('current_reader/notifications/dismiss', params),
       dismissAllNotifications: () => apiUrl('current_reader/notifications/dismiss_all'),
+      resetPassword: (params) => apiUrl('readers/reset_password', params),
     },
     store: {
       getBestSellers: (params) => apiUrl('store/best_seller_books', params),
