@@ -354,7 +354,6 @@ class BookStoreNavBar extends PureComponent {
     const {
       referrals,
       authorBuzz,
-      authorBuzzSettings,
       publisherBuzz,
       publisherBuzzSettings
     } = routes
@@ -367,7 +366,6 @@ class BookStoreNavBar extends PureComponent {
     {currentReader.hasAuthorBuzz ?
       nonMenuRoutes.push(
         ['GoRead Buzz', authorBuzz({ slug: currentReader.author.slug }), false, true],
-        ['GoRead Buzz Settings', authorBuzzSettings],
     ) : null }
 
     {currentReader.hasPublisherBuzz && currentReader.isPublisher ?
@@ -667,24 +665,11 @@ class BookStoreNavBar extends PureComponent {
   //   }
   // }
 
-  UserProofIframe = (isUserLoggedIn) => {
-    const frame = document.getElementById('proof')
-    if (frame) {
-      if (isUserLoggedIn) {
-        frame.style.visibility = 'hidden'
-      } else {
-        frame.style.visibility = 'visible'
-      }
-    }
-  }
-
   render() {
     const isUserLoggedIn = AuthService.currentUserExists()
     const chatNotifications = this.countChatNotifications()
     const { currentReader, notifications } = this.props
     const { wishlist } = this.state
-
-    this.UserProofIframe(isUserLoggedIn)
 
     return (
       <div className='relative-top-menu'>
