@@ -1,5 +1,7 @@
 import { CURRENT_READER as A } from '../const/actionTypes'
 import LitcoinCalculator from '../../services/litcoinsCalculator'
+import Litcoins from '../../services/api/currentReader/litcoins'
+import { updateReaderData } from './readerData'
 const { getCumulativeBalance, getSelectedBalance } = LitcoinCalculator
 
 export function updateLitcoinBalance(litcoinAction) {
@@ -21,4 +23,14 @@ export function updateLitcoinBalance(litcoinAction) {
   }
 }
 
-export default { updateLitcoinBalance }
+export function getLitcoinBalance() {
+  return (dispatch) => {
+    const request = Litcoins.getLitcoinBalance()
+    request
+      .then(res => updateReaderData({ initLitcoinBalance: res.data.getLitcoinBalance }))
+      .catch(err => console.error(`Error in getLitcoinBalance ${err}`))
+    return request
+  }
+}
+
+export default { updateLitcoinBalance, getLitcoinBalance }

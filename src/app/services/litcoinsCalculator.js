@@ -1,16 +1,11 @@
 import { ONBOARDING, LITCOIN_TYPES as L } from '../constants/litcoins'
 import R from 'ramda'
-import Auth from './auth'
-
 const LitcoinCalculator = () => {
   const getCumulativeBalance = ({
-    email = false,
-    username = false,
-    password = false,
+    initLitcoinBalance = 0,
     genreIds = [],
     readerIds = [],
     authorIds = [],
-    submitSuccessful = false,
   }) => {
 
     const calculateTotal = (value, litcoinsValue, isBoolean = false) => {
@@ -28,13 +23,8 @@ const LitcoinCalculator = () => {
     let total = 0
 
     const fiveGenreLimit = R.take(5, genreIds)
-    const socialSignUp = Auth.currentUserExists() && !email
 
-    calculateTotal(email, ONBOARDING[L.COMPLETE_SIGNUP_MODAL], true)
-    calculateTotal(username, ONBOARDING[L.ENTERS_USERNAME], true)
-    calculateTotal(password, ONBOARDING[L.ENTERS_PASSWORD], true)
-    calculateTotal(submitSuccessful, ONBOARDING[L.CREATED_ACCOUNT_EMAIL], true)
-    calculateTotal(socialSignUp, ONBOARDING[L.CREATED_ACCOUNT_SOCIAL], true)
+    calculateTotal(initLitcoinBalance, ONBOARDING[L.CREATED_ACCOUNT_SOCIAL])
     calculateTotal(fiveGenreLimit.length, ONBOARDING[L.CHOSE_GENRE])
     calculateTotal(readerIds.length, ONBOARDING[L.CHOSE_AUTHOR])
     calculateTotal(authorIds.length, ONBOARDING[L.CHOSE_READER])

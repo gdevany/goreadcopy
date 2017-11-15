@@ -5,12 +5,14 @@ import R from 'ramda'
 import S from 'underscore.string.fp'
 import { connect } from 'react-redux'
 import { Chip } from 'material-ui'
-import { Genres } from '../../redux/actions'
+import { Genres, Litcoins } from '../../redux/actions'
 import SignUpButtons from './SignUpButtons'
 import { Colors, Breakpoints } from '../../constants/style'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
+import { LITCOIN_TYPES as L } from '../../constants/litcoins'
 
 const { getOnboardingGenres, createChosenReaderGenres, updateGenreLitcoins } = Genres
+const { updateLitcoinBalance, getLitcoinBalance } = Litcoins
 
 const styles = {
   chip: {
@@ -81,6 +83,18 @@ class SignUpStepTwo extends PureComponent {
 
   componentWillMount = () => {
     this.props.getOnboardingGenres('signup')
+  }
+
+  componentDidMount = () => {
+    const { updateLitcoinBalance, getLitcoinBalance } = this.props
+    getLitcoinBalance()
+      .then(res => {
+        const currentLitcoins = res.data.litcoinBalance
+        if (currentLitcoins === 13000) {
+          updateLitcoinBalance(L.CREATED_ACCOUNT_SOCIAL)
+        }
+      })
+      .catch((err) => {console.log(`An error ocurred while loading the litcoinBalance ${err}`)})
   }
 
   componentDidUpdate = () => {
@@ -259,6 +273,8 @@ const mapDispatchToProps = {
   createChosenReaderGenres,
   getOnboardingGenres,
   updateGenreLitcoins,
+  updateLitcoinBalance,
+  getLitcoinBalance,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(SignUpStepTwo))
