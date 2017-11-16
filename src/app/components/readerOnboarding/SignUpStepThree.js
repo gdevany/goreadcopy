@@ -325,7 +325,9 @@ class SignUpStepThree extends PureComponent {
           {`We recommend following these authors and readers to bring you books
              and articles you'll love`}
         </p>
-
+        <p>
+          To earn 8,400 litcoins follow 6 authors and 6 readers:
+        </p>
         <h5 style={styles.labelText}> Add Your Own </h5>
 
         <div className='small-12'>

@@ -2,7 +2,7 @@ import { ONBOARDING, LITCOIN_TYPES as L } from '../constants/litcoins'
 import R from 'ramda'
 const LitcoinCalculator = () => {
   const getCumulativeBalance = ({
-    initLitcoinBalance = 0,
+    initLitcoinBalance = false,
     genreIds = [],
     readerIds = [],
     authorIds = [],
@@ -24,7 +24,7 @@ const LitcoinCalculator = () => {
 
     const fiveGenreLimit = R.take(5, genreIds)
 
-    calculateTotal(initLitcoinBalance, ONBOARDING[L.CREATED_ACCOUNT_SOCIAL])
+    calculateTotal(initLitcoinBalance, ONBOARDING[L.CREATED_ACCOUNT_SOCIAL], true)
     calculateTotal(fiveGenreLimit.length, ONBOARDING[L.CHOSE_GENRE])
     calculateTotal(readerIds.length, ONBOARDING[L.CHOSE_AUTHOR])
     calculateTotal(authorIds.length, ONBOARDING[L.CHOSE_READER])

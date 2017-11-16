@@ -9,7 +9,7 @@ import { Genres, Litcoins } from '../../redux/actions'
 import SignUpButtons from './SignUpButtons'
 import { Colors, Breakpoints } from '../../constants/style'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
-import { LITCOIN_TYPES as L } from '../../constants/litcoins'
+import { LITCOIN_TYPES as L, ONBOARDING as O } from '../../constants/litcoins'
 
 const { getOnboardingGenres, createChosenReaderGenres, updateGenreLitcoins } = Genres
 const { updateLitcoinBalance, getLitcoinBalance } = Litcoins
@@ -71,13 +71,11 @@ const styles = {
 class SignUpStepTwo extends PureComponent {
   constructor(props) {
     super(props)
-
     this.state = {
       chosenGenres: [],
       showDisabled: true,
       showLoader: false,
     }
-
     this.handleButtonClick = this.handleButtonClick.bind(this)
   }
 
@@ -90,7 +88,7 @@ class SignUpStepTwo extends PureComponent {
     getLitcoinBalance()
       .then(res => {
         const currentLitcoins = res.data.litcoinBalance
-        if (currentLitcoins === 13000) {
+        if (currentLitcoins === O.CREATED_ACCOUNT_SOCIAL) {
           updateLitcoinBalance(L.CREATED_ACCOUNT_SOCIAL)
         }
       })
@@ -107,7 +105,6 @@ class SignUpStepTwo extends PureComponent {
     event.preventDefault()
     this.setState({ showLoader: true })
     const buttonText = event.target.value
-
     if (buttonText === 'Next') {
       if (this.state.chosenGenres.length > 0) {
         this.props.createChosenReaderGenres({
@@ -125,16 +122,13 @@ class SignUpStepTwo extends PureComponent {
     } else if (buttonText === 'Back') {
       this.props.handlePrev()
     }
-
   }
 
   handleSelectGenre = () => {
     const { chosenGenres } = this.state
     const genreID = Number(document.activeElement.getAttribute('value'))
     const indexOfGenre = chosenGenres.indexOf(genreID)
-
     if (chosenGenres.length === 0) this.setState({ showDisabled: true })
-
     if (indexOfGenre >= 0) {
       const updatedGenres = R.reject(R.equals(genreID), chosenGenres)
       this.setState({ chosenGenres: [...updatedGenres] })
@@ -146,14 +140,12 @@ class SignUpStepTwo extends PureComponent {
       this.setState({ showDisabled: false })
       this.setState({ chosenGenres: [...chosenGenres, genreID] })
     }
-
   }
 
   handleGenreMap = (genres) => {
     return genres.map((genre, index) => {
       const { chosenGenres } = this.state
       const isChosen = chosenGenres.indexOf(genre.id) !== -1
-
       return (
         <Chip
           key={index}
@@ -178,9 +170,7 @@ class SignUpStepTwo extends PureComponent {
     const {
       showLoader
     } = this.state
-
     const { genres, stepIndex } = this.props
-
     return (
       <div>
         <Helmet>
@@ -211,15 +201,12 @@ class SignUpStepTwo extends PureComponent {
           </noscript>
         </Helmet>
         <div style={styles.container} className='card center-text front-card'>
-
           <h1>
             Add your favorite categories
           </h1>
-
           <p className='subheader-text'>
             {"We'll use this information to suggest new books and authors for you"}
           </p>
-
           {
             this.state.showError ? (
               <div>
@@ -227,11 +214,12 @@ class SignUpStepTwo extends PureComponent {
               </div>
             ) : null
           }
-
+          <p>
+            To earn 10,000 litcoins select 5 catagories:
+          </p>
           <div style={styles.genreSection}>
             { this.handleGenreMap(genres) }
           </div>
-
           <div>
             <div style={{ marginTop: 24, marginBottom: 12 }} className='center-text'>
               <SignUpButtons
