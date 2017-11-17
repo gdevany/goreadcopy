@@ -68,7 +68,8 @@ class SidebarAdWrapper extends PureComponent {
         bookRecomOffset = document.getElementById('book-recommendations').clientHeight
         authorRecomOffset = document.getElementById('author-recommendations').clientHeight
         bookclubRecomOffset = document.getElementById('bookclub-recommendations').clientHeight
-        firstadOffset = document.getElementsByClassName('sidebarAd')[0].firstChild.clientHeight
+        firstadOffset = document.getElementsByClassName('sidebarAd')[0].firstChild ?
+          document.getElementsByClassName('sidebarAd')[0].firstChild.clientHeight : null
         scrollStyle = style.readfeedStyle
         sidebarOffset = navbarOffset +
                         bookRecomOffset +

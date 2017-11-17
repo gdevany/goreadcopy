@@ -14,7 +14,7 @@ const style = {
   },
   profileBoxStyle: {
     width: 270,
-    height: 219,
+    height: 309,
   },
 }
 
@@ -42,8 +42,9 @@ class LeftContainer extends PureComponent {
     const profileHeight = navbarOffset + style.profileBoxStyle.height - 50
 
     if (sidebarBottomHeight < pageBottomHeight && window.scrollY > profileHeight) {
-      const adjustProfileHeight = leftSidebarHeight < window.innerHeight ?
-        style.profileBoxStyle.height - 50 : 0
+      const adjustProfileHeight =
+        leftSidebarHeight - style.profileBoxStyle.height < window.innerHeight ?
+        style.profileBoxStyle.height - 150 : 0
       this.setState({
         leftContainerStyle: {
           position: 'fixed',
@@ -69,7 +70,6 @@ class LeftContainer extends PureComponent {
       fullname,
     } = this.props
     const { leftContainerStyle, profileBoxStyle } = this.state
-    //this.getSidebarHeight()
     return (
       <Scroller
         onScroll={this.getSidebarHeight}
