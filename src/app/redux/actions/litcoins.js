@@ -29,7 +29,7 @@ export function getLitcoinBalance() {
     const request = Litcoins.getLitcoinBalance()
     request
       .then(res => dispatch(updateReaderData(
-        { initLitcoinBalance: O.CREATED_ACCOUNT_SOCIAL === res.data.getLitcoinBalance })
+        { initLitcoinBalance: O.CREATED_ACCOUNT_SOCIAL === res.data.litcoinBalance })
       ))
       .catch(err => console.error(`Error in getLitcoinBalance ${err}`))
     return request
