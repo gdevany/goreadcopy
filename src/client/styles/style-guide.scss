@@ -190,6 +190,28 @@ input[type="checkbox"]:focus{
 .signup-modal-content{
   height: 100vh !important;
   max-height: none !important;
+  .recovery-input{
+    margin: 0px auto;
+    max-width: 400px;
+    margin-bottom: 15px;
+  }
+  .recovery-buttons{
+    button{
+      margin: 10px;
+    }
+  }
+  .forgot-password{
+    text-align: center;
+    color: blue;
+    padding-bottom: 10px;
+    font-size: 14px;
+    span {
+      cursor: pointer;
+      &:hover{
+        text-decoration: underline;
+      }
+    }
+  }
 }
 
 .logo-anon-anchor{

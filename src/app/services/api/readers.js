@@ -5,7 +5,11 @@ const { readers,
         readerValidation,
         getGenres,
         getHomeGenres,
-        getOnboardingGenres } = Endpoints
+        getOnboardingGenres,
+        currentReader: {
+          resetPassword,
+        }
+      } = Endpoints
 
 const Readers = {
   checkValidation: (body) => http.get(readerValidation(body)),
@@ -14,6 +18,7 @@ const Readers = {
   getLandingGenres: (body) => http.get(getGenres(body)),
   getHomeGenres: (body) => http.get(getHomeGenres(body)),
   getOnboardingGenres: (body) => http.get(getOnboardingGenres(body)),
+  resetPassword: (body) => http.post(resetPassword(body)),
 }
 
 export default Readers // Use HTTP module here?

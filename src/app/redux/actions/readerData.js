@@ -93,6 +93,15 @@ export function updateReaderData(payload) {
   }
 }
 
+export function resetUserPassword(payload) {
+  return (dispatch) => {
+    const request = Readers.resetPassword({ email: payload })
+    request
+      .catch(err => console.error(`Error in resetUserPassword ${err}`))
+    return request
+  }
+}
+
 export default {
   checkEmail,
   checkFields,
@@ -101,4 +110,5 @@ export default {
   getInitialReaderData,
   updateReaderData,
   updateReaderErrors,
+  resetUserPassword,
 }

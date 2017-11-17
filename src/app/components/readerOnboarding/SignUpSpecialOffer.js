@@ -9,7 +9,7 @@ class SignUpSpecialOffer extends PureComponent {
   }
 
   handleClickAccept = () => {
-    window.open(Env.REDIRECT_BASE_URL + '/landing1/?tag=readers%20Pitch', '_blank')
+    window.open(Env.REDIRECT_BASE_URL + '/landing1/?tag=readers%2Dpitch', '_blank')
   }
 
   render() {

@@ -60,16 +60,21 @@ class SidebarAdWrapper extends PureComponent {
   getScrollPosition() {
     const { view } = this.props
     const scrollComp = window.scrollY || document.documentElement.scrollTop
+    const topBar = document.getElementsByClassName('top-bar')[0]
+    const bookRecommendations = document.getElementById('book-recommendations')
+    const authorRecommendations = document.getElementById('author-recommendations')
+    const bookclubRecommendations = document.getElementById('bookclub-recommendations')
+    const sidebarAd = document.getElementsByClassName('sidebarAd')[0]
+    const backgroundImageWrapper = document.getElementsByClassName('background-image-wrapper')[0]
     let scrollStyle, sidebarOffset, navbarOffset, bookRecomOffset, authorRecomOffset,
       bookclubRecomOffset, firstadOffset, overlayOffset
     switch (view) {
       case 'readfeed':
-        navbarOffset = document.getElementsByClassName('top-bar')[0].clientHeight
-        bookRecomOffset = document.getElementById('book-recommendations').clientHeight
-        authorRecomOffset = document.getElementById('author-recommendations').clientHeight
-        bookclubRecomOffset = document.getElementById('bookclub-recommendations').clientHeight
-        firstadOffset = document.getElementsByClassName('sidebarAd')[0].firstChild ?
-          document.getElementsByClassName('sidebarAd')[0].firstChild.clientHeight : null
+        navbarOffset = topBar ? topBar.clientHeight : 0
+        bookRecomOffset = bookRecommendations ? bookRecommendations.clientHeight : 0
+        authorRecomOffset = authorRecommendations ? authorRecommendations.clientHeight : 0
+        bookclubRecomOffset = bookclubRecommendations ? bookclubRecommendations.clientHeight : 0
+        firstadOffset = sidebarAd.firstChild ? sidebarAd.firstChild.clientHeight : 0
         scrollStyle = style.readfeedStyle
         sidebarOffset = navbarOffset +
                         bookRecomOffset +
@@ -79,9 +84,9 @@ class SidebarAdWrapper extends PureComponent {
         break
       case 'profile':
         const firstadStyle =
-          getComputedStyle(document.getElementsByClassName('sidebarAd')[0].firstChild)
-        overlayOffset = document.getElementsByClassName('background-image-wrapper')[0].clientHeight
-        firstadOffset = document.getElementsByClassName('sidebarAd')[0].firstChild.clientHeight +
+          getComputedStyle(sidebarAd.firstChild)
+        overlayOffset = backgroundImageWrapper ? backgroundImageWrapper.clientHeight : 0
+        firstadOffset = sidebarAd ? sidebarAd.firstChild.clientHeight : 0 +
           parseInt(firstadStyle.marginBottom, 10)
         scrollStyle = style.profileStyle
         sidebarOffset = overlayOffset + firstadOffset
