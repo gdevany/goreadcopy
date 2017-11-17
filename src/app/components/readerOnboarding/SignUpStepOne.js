@@ -76,6 +76,10 @@ class SignUpStepOne extends Component {
       updateReaderData(fields)
       createReader()
         .then(() => {
+          if (fbq) {
+            fbq('init', '1985177905097090')
+            fbq('track', 'CompleteRegistration')
+          }
           this.setState({ showLoader: false })
         })
     } else if (buttonText === 'Back') {
