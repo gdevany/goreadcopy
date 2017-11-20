@@ -40,14 +40,19 @@ class ImportLibraryModal extends Component {
     this.getBase64AndUpdate(file[0], 'csv')
   }
 
+  getFileJSON = (fileString) => {
+    const header = 'data:text/csv;base64,'
+    return header + btoa(fileString)
+  }
+
   getBase64AndUpdate = (file, FileType) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader()
-      reader.readAsDataURL(file)
+      reader.readAsText(file)
       reader.onload = () => resolve(reader.result)
       reader.onerror = (error) => reject(`Error in getBase64: ${error}`)
     })
-      .then(res => libraryUpload({ file: res }))
+      .then(res => libraryUpload({ file: this.getFileJSON(res) }))
       .then(res => this.displayResults(res.data))
       //.catch(err => )
   }
