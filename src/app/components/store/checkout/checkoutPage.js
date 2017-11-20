@@ -219,8 +219,15 @@ class CheckoutPage extends PureComponent {
   })
 
   handleSelectChange = (type, event, value) => {
-    event.preventDefault()
-    this.setState({ [type]: value })
+    const alterState = {}
+    alterState[type] = value
+    if (type === 'countryShipping' && value !== 'US' && value !== 'CA') {
+      alterState['stateShipping'] = ''
+    }
+    if (type === 'countryBilling' && value !== 'US' && value !== 'CA') {
+      alterState['stateBilling'] = ''
+    }
+    this.setState(alterState)
   }
 
   setStep = (step) => {
@@ -354,8 +361,7 @@ class CheckoutPage extends PureComponent {
       if (cardStored && this.isUsingOtherCard()) {
         if (nameOnCard && cardNumber && cardCVC && fullExpDate) {
           if (!sameShippingAddress) {
-            if (cityBilling && countryBilling && addressBilling &&
-              address2Billing && zipcodeBilling) {
+            if (cityBilling && countryBilling && addressBilling && zipcodeBilling) {
               if (countryBilling === 'US' || countryBilling === 'CA') {
                 if (stateBilling !== '') {
                   setUserAddress({
@@ -363,7 +369,7 @@ class CheckoutPage extends PureComponent {
                     name: nameBilling,
                     country: countryBilling,
                     address: addressBilling,
-                    address2: address2Billing,
+                    address2: address2Billing || '',
                     zipcode: zipcodeBilling,
                     state: stateBilling,
                     phone: phoneBilling,
@@ -382,7 +388,7 @@ class CheckoutPage extends PureComponent {
                   phone: phoneBilling,
                   country: countryBilling,
                   address: addressBilling,
-                  address2: address2Billing,
+                  address2: address2Billing || '',
                   zipcode: zipcodeBilling,
                   state: stateBilling,
                   addressType: 'billing',
@@ -432,8 +438,7 @@ class CheckoutPage extends PureComponent {
         } else this.showAlert('Please Complete all your card info', 'error')
       } else if (cardStored) {
         if (!sameShippingAddress) {
-          if (cityBilling && countryBilling && addressBilling &&
-            address2Billing && zipcodeBilling) {
+          if (cityBilling && countryBilling && addressBilling && zipcodeBilling) {
             if (countryBilling === 'US' || countryBilling === 'CA') {
               if (stateBilling !== '') {
                 setUserAddress({
@@ -442,7 +447,7 @@ class CheckoutPage extends PureComponent {
                   phone: phoneBilling,
                   country: countryBilling,
                   address: addressBilling,
-                  address2: address2Billing,
+                  address2: address2Billing || '',
                   zipcode: zipcodeBilling,
                   state: stateBilling,
                   addressType: 'billing',
@@ -469,7 +474,7 @@ class CheckoutPage extends PureComponent {
                 phone: phoneBilling,
                 country: countryBilling,
                 address: addressBilling,
-                address2: address2Billing,
+                address2: address2Billing || '',
                 zipcode: zipcodeBilling,
                 state: stateBilling,
                 addressType: 'billing',
@@ -502,8 +507,7 @@ class CheckoutPage extends PureComponent {
         }
       } else if (nameOnCard && cardNumber && cardCVC && fullExpDate) {
         if (!sameShippingAddress) {
-          if (cityBilling && countryBilling && addressBilling &&
-            address2Billing && zipcodeBilling) {
+          if (cityBilling && countryBilling && addressBilling && zipcodeBilling) {
             if (countryBilling === 'US' || countryBilling === 'CA') {
               if (stateBilling !== '') {
                 setUserAddress({
@@ -512,7 +516,7 @@ class CheckoutPage extends PureComponent {
                   phone: phoneBilling,
                   country: countryBilling,
                   address: addressBilling,
-                  address2: address2Billing,
+                  address2: address2Billing || '',
                   zipcode: zipcodeBilling,
                   state: stateBilling,
                   addressType: 'billing',
@@ -530,7 +534,7 @@ class CheckoutPage extends PureComponent {
                 phone: phoneBilling,
                 country: countryBilling,
                 address: addressBilling,
-                address2: address2Billing,
+                address2: address2Billing || '',
                 zipcode: zipcodeBilling,
                 state: stateBilling,
                 addressType: 'billing',

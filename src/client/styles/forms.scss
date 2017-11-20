@@ -1,3 +1,12 @@
 .checkbox-wrapper {
   display: inline !important;
 }
+
+select.normal-feel {
+  border: 1px solid #8a8a8a;
+  border-radius: 3px;
+  box-shadow: none;
+  background-color: #fefefe;
+  outline: 0;
+  transition: box-shadow .5s,border-color .25s ease-in-out,-webkit-box-shadow .5s;
+}

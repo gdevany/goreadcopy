@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import SelectField from 'material-ui/SelectField'
-import MenuItem from 'material-ui/MenuItem'
 import { Common } from '../../../redux/actions'
 
 const { getCountries, getStates } = Common
@@ -18,8 +16,9 @@ class ShippingForm extends PureComponent {
     if (!countries) {
       getCountries()
         .then(
-          shippingInfo ? shippingInfo.countryShipping ?
-          getStates(shippingInfo.countryShipping) : null : null
+          shippingInfo && shippingInfo.countryShipping ?
+            getStates(shippingInfo.countryShipping) :
+            null
         )
     } else if (!states && shippingInfo && shippingInfo.countryShipping) {
       getStates(shippingInfo.countryShipping)
@@ -28,7 +27,6 @@ class ShippingForm extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     const { getStates, shippingInfo } = this.props
-
     if (nextProps.shippingInfo.countryShipping &&
       nextProps.shippingInfo.countryShipping !== shippingInfo.countryShipping) {
       getStates(nextProps.shippingInfo.countryShipping)
@@ -38,15 +36,19 @@ class ShippingForm extends PureComponent {
   renderSelects(elems) {
     if (elems) {
       return elems.map((elem, index) => {
-        return <MenuItem key={elem.pk} value={elem.pk} primaryText={elem.name} />
+        return (
+          <option key={elem.pk} value={elem.pk}>
+            {elem.name}
+          </option>
+        )
       })
     }
     return false
   }
 
-  onChange(context, evt, value) {
-    evt.preventDefault()
-    this.props.selectChange(context, evt, value)
+  onChange(context, evt) {
+    if (evt) evt.preventDefault()
+    this.props.selectChange(context, evt, evt.target.value)
   }
 
   render() {
@@ -121,16 +123,21 @@ class ShippingForm extends PureComponent {
               />
             </div>
             <div className='small-6 columns'>
-              <SelectField
+              <label
+                className='checkoutpage-steps-shipping-address-form-label'
+              >
+                Country
+              </label>
+              <select
+                className='normal-feel'
                 name='Country'
-                floatingLabelText='Country'
                 value={shippingInfo.countryShipping}
-                onChange={(evt, index, value) => {
-                  this.onChange('countryShipping', evt, value)
+                onChange={(evt) => {
+                  this.onChange('countryShipping', evt, evt.target.value)
                 }}
               >
                 {this.renderSelects(countries)}
-              </SelectField>
+              </select>
             </div>
             <div className='small-6 columns'>
               <label
@@ -148,16 +155,21 @@ class ShippingForm extends PureComponent {
             {shippingInfo.countryShipping === 'CA' || shippingInfo.countryShipping === 'US' ?
               (
                 <div className='small-6 columns'>
-                  <SelectField
+                  <label
+                    className='checkoutpage-steps-shipping-address-form-label'
+                  >
+                    State
+                  </label>
+                  <select
+                    className='normal-feel'
                     name='State'
-                    floatingLabelText='State'
                     value={shippingInfo.stateShipping}
-                    onChange={(evt, index, value) => {
-                      this.onChange('stateShipping', evt, value)
+                    onChange={(evt) => {
+                      this.onChange('stateShipping', evt, evt.target.value)
                     }}
                   >
                     {this.renderSelects(states)}
-                  </SelectField>
+                  </select>
                 </div>
               ) : (
                 <div className='small-6 columns'>
