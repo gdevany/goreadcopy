@@ -48,6 +48,7 @@ class ImportLibraryModal extends Component {
   getBase64AndUpdate = (file, FileType) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader()
+      console.log('File Type: ' + file.type)
       reader.readAsText(file)
       reader.onload = () => resolve(reader.result)
       reader.onerror = (error) => reject(`Error in getBase64: ${error}`)
