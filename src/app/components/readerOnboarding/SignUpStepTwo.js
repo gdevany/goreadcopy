@@ -215,7 +215,7 @@ class SignUpStepTwo extends PureComponent {
             ) : null
           }
           <p>
-            To earn 10,000 litcoins select 5 catagories:
+            To earn 10,000 litcoins select 5 categories:
           </p>
           <div style={styles.genreSection}>
             { this.handleGenreMap(genres) }
