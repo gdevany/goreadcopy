@@ -1,4 +1,5 @@
 import React from 'react'
+import { Company } from '../../constants/company'
 
 const Terms = () => {
   return (
@@ -330,9 +331,9 @@ const Terms = () => {
             GoRead Inc.
           </strong>
           <br />
-          6045 South Fort Apache Rd, #100
+          {Company.address1}
           <br />
-          Las Vegas, NV 89148
+          {Company.address2}
         </address>
       </p>
   </div>
