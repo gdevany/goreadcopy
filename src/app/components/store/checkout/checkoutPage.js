@@ -607,22 +607,7 @@ class CheckoutPage extends PureComponent {
   handleCheckSame = (event) => this.setState({ sameShippingAddress: event.target.checked })
 
   handleUseLitcoins = (event) => {
-    this.setState({ useLitcoins: event.target.checked }, ()=>{
-      const {
-        shippingMethod,
-        cardStored,
-        useLitcoins,
-        isCardClicked
-      } = this.state
-      this.props.setBilling({
-        shippingMethod,
-        paymentMethod: isCardClicked ? 'cc' : 'paypal',
-        litcoins: useLitcoins,
-        avoidCheckCardData: cardStored,
-      })
-      .then(() => console.log(' '))
-      .catch(() => this.resetSteps('Unexpected error, please try again.'))
-    })
+    this.setState({ useLitcoins: event.target.checked })
   }
 
   handlePlaceOrder = () => {
