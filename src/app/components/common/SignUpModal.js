@@ -91,6 +91,10 @@ class SignUpModal extends Component {
     const fields = R.pick(['firstName', 'lastName', 'email', 'referrer', 'affiliate'], this.props)
     this.props.checkFields(fields)
       .then(() => {
+        if (fbq) {
+          fbq('init', '1985177905097090')
+          fbq('track', 'Lead')
+        }
         this.setState({ showLoader: false })
       })
   }
