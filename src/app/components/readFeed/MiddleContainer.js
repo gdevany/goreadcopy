@@ -61,12 +61,13 @@ class MiddleContainer extends PureComponent {
       readFeed,
       prependReadFeedTile,
       isReadFeedLocked,
-      isProfileCompleted
+      isProfileCompleted,
+      middleContainerStyle,
     } = this.props
 
     const { id } = this.state
     return (
-      <div className='middle-container small-12 large-6 columns'>
+      <div className='middle-container small-12 large-6 columns' style={middleContainerStyle}>
         <AnnouncementTile/>
         {isProfileCompleted && this.checkReaderAwards() ? null : <ProfileDetailerTile />}
 
