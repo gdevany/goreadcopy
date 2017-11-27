@@ -1,4 +1,5 @@
 import React from 'react'
+import { Company } from '../../constants/company'
 
 const Privacy = () => {
   return (
@@ -156,9 +157,9 @@ const Privacy = () => {
                 GoRead
               </strong>
               <br />
-              8121 Bee Cave Rd #150, Austin,
+              {Company.address1}
               <br />
-              TX 78746, United States
+              {Company.address2}
             </address>
           </li>
         </ul>
