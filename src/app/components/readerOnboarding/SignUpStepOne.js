@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import Radium from 'radium'
 import { connect } from 'react-redux'
-import { ReaderData, Litcoins } from '../../redux/actions'
-import { LITCOIN_TYPES as L } from '../../constants/litcoins'
+import { ReaderData } from '../../redux/actions'
 import SignUpButtons from './SignUpButtons'
 import R from 'ramda'
 import { Colors, Breakpoints } from '../../constants/style'
@@ -10,7 +9,6 @@ import { WrappedField } from '../common'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 
 const { updateReaderData, createReader } = ReaderData
-const { updateLitcoinBalance } = Litcoins
 
 const styles = {
   container: {
@@ -101,16 +99,13 @@ class SignUpStepOne extends Component {
       password,
       passwordConfirmation,
       updateReaderData,
-      updateLitcoinBalance
     } = this.props
 
     if (username || password) {
       if (event.target.type === 'text' && username.value !== '') {
         updateReaderData({ username })
-        updateLitcoinBalance(L.ENTERS_USERNAME)
       } else if (event.target.type === 'password' && password.value !== '') {
         updateReaderData({ password, passwordConfirmation })
-        updateLitcoinBalance(L.ENTERS_PASSWORD)
       }
     }
   }
@@ -214,7 +209,6 @@ const mapStateToProps = R.prop('readerData')
 const mapDispatchToProps = {
   createReader,
   updateReaderData,
-  updateLitcoinBalance,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Radium(SignUpStepOne))
