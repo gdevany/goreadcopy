@@ -44,6 +44,7 @@ class LitcoinBalance extends PureComponent {
 
   componentDidMount = () => {
     this.setState({ anchorEl: this.refs.total })
+    this.props.updateLitcoinBalance()
   }
 
   componentWillReceiveProps = ({ selected, total, email, selectAll }) => {

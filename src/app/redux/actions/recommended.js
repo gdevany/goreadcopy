@@ -90,10 +90,10 @@ export function updateRecommendedLitcoins(data, type) {
     switch (type) {
       case 'readers':
         return Promise.resolve(dispatch(updateReaderData({ readerIds: data })))
-          .then(() => dispatch(updateLitcoinBalance(L.CHOSE_READER)))
+          .then(() => dispatch(updateLitcoinBalance(L.CHOOSE_READER)))
       case 'authors':
         return Promise.resolve(dispatch(updateReaderData({ authorIds: data })))
-          .then(() => dispatch(updateLitcoinBalance(L.CHOSE_AUTHOR)))
+          .then(() => dispatch(updateLitcoinBalance(L.CHOOSE_AUTHOR)))
       default:
         return Promise.reject('Error in updateRecommendedLitcoin')
     }
