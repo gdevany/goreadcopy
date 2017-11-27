@@ -217,7 +217,9 @@ class ReviewsContainer extends PureComponent {
                         'bookpage-review-post-limit-info'
                       }
                     >
-                      {`Minimum ${minLimit} characters. Write a review and gain 50 litcoins: `}
+                      {`Post a review to gain 50 litcoins! (Minimum ${minLimit} characters)`}
+                      <br/>
+                      {'Number of characters: '}
                       <span>{reviewBody.length}</span>
                     </p>
                     <a
