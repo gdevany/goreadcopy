@@ -597,9 +597,7 @@ class CheckoutPage extends PureComponent {
   }
 
   setShippingMethod = (shippingMethod) => {
-    this.setState({ shippingMethod }, ()=>{
-      this.passToBilling()
-    })
+    this.setState({ shippingMethod })
   }
 
   handleCheckSave = (event) => this.setState({ saveCard: event.target.checked })
