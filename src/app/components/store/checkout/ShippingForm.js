@@ -12,17 +12,17 @@ class ShippingForm extends PureComponent {
   }
 
   componentWillMount() {
-    const { getCountries, shippingInfo, countries } = this.props
+    const { getCountries, getStates, shippingInfo, countries } = this.props
     if (!countries) {
       getCountries()
         .then((res) => {
           shippingInfo && shippingInfo.countryShipping ?
-            this.onChange('countryShipping', null, shippingInfo.countryShipping) :
-            this.onChange('countryBilling', null, countries[0].pk)
+            getStates(shippingInfo.countryShipping) :
+            this.onChange('countryShipping', null, countries[0].pk)
         })
     } else {
       shippingInfo && shippingInfo.countryShipping ?
-        this.onChange('countryShipping', null, shippingInfo.countryShipping) :
+        getStates(shippingInfo.countryShipping) :
         this.onChange('countryShipping', null, countries[0].pk)
     }
   }
@@ -48,9 +48,9 @@ class ShippingForm extends PureComponent {
     return false
   }
 
-  onChange(context, evt) {
+  onChange(context, evt, value) {
     if (evt) evt.preventDefault()
-    this.props.selectChange(context, evt, evt.target.value)
+    this.props.selectChange(context, evt, value)
   }
 
   render() {
