@@ -48,7 +48,7 @@ class ImportLibraryModal extends Component {
   getBase64AndUpdate = (file, FileType) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader()
-      if (file.type !== 'text/csv' && file.type !== 'application/vnd.ms-excel') {
+      if (FileType !== 'csv') {
         throw new Error('Invalid Type')
       } else {
         reader.readAsText(file)
