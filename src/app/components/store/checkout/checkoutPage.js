@@ -13,7 +13,7 @@ import CV from 'card-validator'
 const { SnackBarAlert } = Alerts
 
 const {
-  getOrder, getCurrentOrder, setUserAddress, setUserAddressAndShipping,
+  getOrder, getCurrentOrder, setUserAddress, setUserAddressAndShipping, setUsingLitcoins,
   setShipping, setBilling, placeOrder, getPaypalConfig, placeOrderWithChanges,
 } = Store
 
@@ -105,7 +105,7 @@ class CheckoutPage extends PureComponent {
     if (nextProps.order) {
       const {
         shippingAddress, billingAddress, cardLast4, cardExpMonth, cardExpYear,
-        billingMethod, litcoinsRedeemed,
+        billingMethod, litcoinsRedeemed, dollarsRedeemed
       } = nextProps.order
       if (shippingAddress) {
         this.setState({
@@ -119,7 +119,7 @@ class CheckoutPage extends PureComponent {
           zipcodeShipping: shippingAddress.zipcode,
           shippingId: shippingAddress.id,
           billingId: billingAddress.id,
-          useLitcoins: (litcoinsRedeemed > 0),
+          useLitcoins: (litcoinsRedeemed > 0 || dollarsRedeemed > 0),
         })
       }
       if (cardLast4) {
@@ -605,7 +605,12 @@ class CheckoutPage extends PureComponent {
   handleCheckSame = (event) => this.setState({ sameShippingAddress: event.target.checked })
 
   handleUseLitcoins = (event) => {
-    this.setState({ useLitcoins: event.target.checked })
+    const { useLitcoins, shippingMethod } = this.state
+    this.props.setUsingLitcoins({
+      'litcoins': !useLitcoins,
+      'shipping_method': shippingMethod
+    })
+      .then(()=>{ this.setState({ useLitcoins: !useLitcoins }) })
   }
 
   handlePlaceOrder = () => {
@@ -867,6 +872,7 @@ const mapDistpachToProps = {
   placeOrder,
   placeOrderWithChanges,
   getPaypalConfig,
+  setUsingLitcoins,
 }
 
 export default connect(mapStateToProps, mapDistpachToProps)(CheckoutPage)

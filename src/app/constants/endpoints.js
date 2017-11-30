@@ -110,6 +110,7 @@ const Endpoints = () => {
       getPaypalConfig: () => apiUrl('store/order/paypal/configuration'),
       setPromoCode: (id, params) => apiUrl(`store/order/${id}/apply_code`, params),
       cleanPromoCode: (id, params) => apiUrl(`store/order/${id}/clean_code`, params),
+      setUsingLitcoins: () => apiUrl('store/order/litcoins')
     },
     rates: {
       getStarsInfo: (modelName, id) => apiUrl(`rate/${modelName}/${id}/stars`),
