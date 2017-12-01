@@ -92,6 +92,10 @@ export default (state = initialState.store, { type, payload }) => {
           ...state.order,
           dollarsRedeemed: payload.dollarsRedeemed,
           orderTotal: payload.orderTotal,
+          orderSubtotal: payload.orderSubtotal,
+          shippingCosts: payload.shippingFee,
+          taxes: payload.stateTaxes,
+          shippingDiscount: payload.shippingDiscount
         }
       })
     default:

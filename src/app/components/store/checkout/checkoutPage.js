@@ -597,7 +597,13 @@ class CheckoutPage extends PureComponent {
   }
 
   setShippingMethod = (shippingMethod) => {
-    this.setState({ shippingMethod })
+    const { useLitcoins, isStepThreeActive } = this.state
+    if (isStepThreeActive) {
+      this.updateOrderSettings(useLitcoins, shippingMethod)
+        .then(()=>{ this.setState({ shippingMethod }) })
+    } else {
+      this.setState({ shippingMethod })
+    }
   }
 
   handleCheckSave = (event) => this.setState({ saveCard: event.target.checked })
@@ -606,11 +612,15 @@ class CheckoutPage extends PureComponent {
 
   handleUseLitcoins = (event) => {
     const { useLitcoins, shippingMethod } = this.state
-    this.props.setUsingLitcoins({
-      'litcoins': !useLitcoins,
+    this.updateOrderSettings(!useLitcoins, shippingMethod)
+      .then(()=>{ this.setState({ useLitcoins: !useLitcoins }) })
+  }
+
+  updateOrderSettings = (useLitcoins, shippingMethod) => {
+    return this.props.setUsingLitcoins({
+      'litcoins': useLitcoins,
       'shipping_method': shippingMethod
     })
-      .then(()=>{ this.setState({ useLitcoins: !useLitcoins }) })
   }
 
   handlePlaceOrder = () => {
