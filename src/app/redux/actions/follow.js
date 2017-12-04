@@ -66,6 +66,23 @@ export function updateFollowedAuthors({ authorIds, context, slug }) {
   }
 }
 
+export function updateFollowedBooks({ bookIds, context, slug }) {
+  context = context || C.READ_FEED
+  if (context === 'bookpage' && slug) {
+    return dispatch => {
+      return CurrentReaderRecommendation.fanBooks({ bookIds, context })
+                .then((res) => dispatch({ type: A.UPDATE_FOLLOWED_BOOKS, payload: bookIds }))
+                .then(res => dispatch(getBookInfo(slug, true)))
+                .catch(err => console.error(`Error in updateFollowedBook ${err}`))
+    }
+  }
+  return dispatch => {
+    return CurrentReaderRecommendation.fanBooks({ bookIds, context })
+            .then((res) => dispatch({ type: A.UPDATE_FOLLOWED_BOOKS, payload: bookIds }))
+            .catch(err => console.error(`Error in updateFollowedBook ${err}`))
+  }
+}
+
 export function removeFollowedAuthors({ authorIds, context, slug }) {
   context = context || C.READ_FEED
 
@@ -81,6 +98,23 @@ export function removeFollowedAuthors({ authorIds, context, slug }) {
     return CurrentReaderRecommendation.unlikedAuthors({ authorIds, context })
       .then((res) => dispatch({ type: A.REMOVE_FOLLOWED_AUTHORS, payload: authorIds }))
       .catch(err => console.error(`Error in removeFollowedAuthors ${err}`))
+  }
+}
+
+export function removeFollowedBooks({ bookIds, context, slug }) {
+  context = context || C.READ_FEED
+  if (context === 'bookpage' && slug) {
+    return dispatch => {
+      return CurrentReaderRecommendation.unfanBooks({ bookIds, context })
+                .then((res) => dispatch({ type: A.REMOVE_FOLLOWED_BOOKS, payload: bookIds }))
+                .then(res => dispatch(getBookInfo(slug, true)))
+                .catch(err => console.error(`Error in removeFollowedBooks ${err}`))
+    }
+  }
+  return dispatch => {
+    return CurrentReaderRecommendation.unfanBooks({ bookIds, context })
+         .then((res) => dispatch({ type: A.REMOVE_FOLLOWED_BOOKS, payload: booksIds }))
+         .catch(err => console.error(`Error in removeFollowedBooks ${err}`))
   }
 }
 
@@ -131,8 +165,10 @@ export function updateFollowers(followers) {
 
 const FOLLOW_READER = 'FOLLOW_READER'
 const FOLLOW_AUTHOR = 'FOLLOW_AUTHOR'
+const FOLLOW_BOOK = 'FOLLOW_BOOK'
 const UNFOLLOW_READER = 'UNFOLLOW_READER'
 const UNFOLLOW_AUTHOR = 'UNFOLLOW_AUTHOR'
+const UNFOLLOW_BOOK = 'UNFOLLOW_BOOK'
 
 const chooseFollowAction = (userType, follow) => {
   switch (userType) {
@@ -140,6 +176,8 @@ const chooseFollowAction = (userType, follow) => {
       return follow ? FOLLOW_READER : UNFOLLOW_READER
     case AUTHOR:
       return follow ? FOLLOW_AUTHOR : UNFOLLOW_AUTHOR
+    case 'BOOK':
+      return follow ? FOLLOW_BOOK : UNFOLLOW_BOOK
     default:
       console.error(`Unrecognized userType ${userType}`)
       return null
@@ -157,6 +195,10 @@ const followOrUnfollowAction = ({ context, userType, follow, ids, slug }) => {
       return updateFollowedAuthors({ authorIds: ids, context, slug })
     case UNFOLLOW_AUTHOR:
       return removeFollowedAuthors({ authorIds: ids, context, slug })
+    case FOLLOW_BOOK:
+      return updateFollowedBooks({ bookIds: ids, context, slug })
+    case UNFOLLOW_BOOK:
+      return removeFollowedBooks({ bookIds: ids, context, slug })
     default:
       return null
   }

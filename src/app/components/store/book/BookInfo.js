@@ -65,6 +65,7 @@ class BookInfo extends PureComponent {
       isModifyingLibrary: false,
       isModifyingWishlist: false,
       isModifyingFollow: false,
+      isModifyingFan: false,
       dialogOpen: false,
       isBookFullDescription: false,
     }
@@ -74,6 +75,7 @@ class BookInfo extends PureComponent {
     this.handleAddToWishList = this.handleAddToWishList.bind(this)
     this.handleRemoveFromWishList = this.handleRemoveFromWishList.bind(this)
     this.handleFollowOrUnFollow = this.handleFollowOrUnFollow.bind(this)
+    this.handleFanOrUnFan = this.handleFanOrUnFan.bind(this)
     this.handleShareBook = this.handleShareBook.bind(this)
     this.handleBookTypeSelect = this.handleBookTypeSelect.bind(this)
     this.handleShowAlert = this.handleShowAlert.bind(this)
@@ -192,6 +194,23 @@ class BookInfo extends PureComponent {
       })
         .then(()=>{this.setState({ isModifyingFollow: false })})
         .catch(()=>{this.setState({ isModifyingFollow: false })})
+    }
+  }
+
+  handleFanOrUnFan = (event) => {
+    event.preventDefault()
+    const { bookInfo } = this.props
+    if (bookInfo.id > 0) {
+      this.setState({ isModifyingFan: true })
+      this.props.followOrUnfollow({
+        follow: !bookInfo.isBookFan,
+        context: 'bookpage',
+        userType: 'BOOK',
+        ids: bookInfo.id,
+        slug: bookInfo.slug
+      })
+        .then(()=>{this.setState({ isModifyingFan: false })})
+        .catch(()=>{this.setState({ isModifyingFan: false })})
     }
   }
 
@@ -374,9 +393,33 @@ class BookInfo extends PureComponent {
       <div className='row bookpage-info-main-container'>
         <div className='small-12 large-6 large-offset-1 columns bookpage-info-left-element'>
           <div className='bookpage-info-left-top'>
-            <figure className='bookpage-info-figure'>
-              <img src={bookInfo.imageUrl}/>
-            </figure>
+            <div className='bookpage-cover'>
+              <figure className='bookpage-info-figure'>
+                <img src={bookInfo.imageUrl}/>
+              </figure>
+              <div className='bookpage-fan-button'>
+                 { isUserLogged ?
+                     <a className={
+                         bookInfo.isBookFan ?
+                             'bookpage-fan-button-action-active' :
+                             'bookpage-fan-button-action'
+                     }
+                       onClick={this.handleFanOrUnFan}
+                     >
+                         {
+                            this.state.isModifyingFan ?
+                               <div className='loading-animation-store-inverted' /> :
+                               bookInfo.isBookFan ?
+                                    <span className='icon-user-check'>Fan</span> :
+                                    <span className='icon-user'>Fan</span>
+                         }
+                     </a> :
+                     <a className='bookpage-fan-button-action'>
+                         <span className='icon-user'>Fan</span>
+                     </a>
+                 }
+                </div>
+            </div>
             <div className='bookpage-book-description-container'>
               <h4 className='bookpage-book-title'>
                 {this.truncInfo(bookInfo.title, 45)}
