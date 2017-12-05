@@ -81,6 +81,7 @@ const Endpoints = () => {
       dismissNotification: (params) => apiUrl('current_reader/notifications/dismiss', params),
       dismissAllNotifications: () => apiUrl('current_reader/notifications/dismiss_all'),
       resetPassword: (params) => apiUrl('readers/reset_password', params),
+      getLitcoinBalance: () => apiUrl('current_reader/litcoin_balance'),
     },
     store: {
       getBestSellers: (params) => apiUrl('store/best_seller_books', params),
