@@ -375,7 +375,7 @@ class BookInfo extends PureComponent {
         <div className='small-12 large-6 large-offset-1 columns bookpage-info-left-element'>
           <div className='bookpage-info-left-top'>
             <figure className='bookpage-info-figure'>
-              <img src={bookInfo.imageUrl}/>
+              <img src={bookInfo.originalImageUrl}/>
             </figure>
             <div className='bookpage-book-description-container'>
               <h4 className='bookpage-book-title'>

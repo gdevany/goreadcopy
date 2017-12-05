@@ -25,6 +25,18 @@ class BookPage extends PureComponent {
       bookInfo: null,
       starsInfo: null,
       isUserLoggedIn: Auth.currentUserExists(),
+      bookDetails: {
+        'Age Range': null,
+        'Grade Level': null,
+        'Series': null,
+        'Hardcover': null,
+        'Publisher': null,
+        'Language': null,
+        'ISBN-10': null,
+        'ISBN-13': null,
+        'Product Dimensions': null,
+        'Shipping Weight': null,
+      }
     }
   }
   componentWillMount = () => {
@@ -53,10 +65,69 @@ class BookPage extends PureComponent {
         starsInfo: nextProps.starsInfo
       })
     }
+    this.handleBookDetailsInfo()
   }
 
   truncInfo = (text, limit) => {
     return text.length >= limit ? `${text.slice(0, limit)}...` : text
+  }
+
+  handleBookDetailsInfo = () => {
+    const { bookInfo } = this.state
+    const ageRange = bookInfo ? bookInfo.audienceGradeMin && bookInfo.audienceGradeMax ?
+      bookInfo.audienceGradeMin.code + ' - ' + bookInfo.audienceGradeMax.code : null : null
+    const productDimensions = bookInfo ? bookInfo.length && bookInfo.width && bookInfo.height ?
+      bookInfo.length + ' x ' + bookInfo.width + ' x ' + bookInfo.height : null : null
+    bookInfo ? (
+      this.setState({
+        bookDetails: {
+          'Pages': bookInfo.pages,
+          'Age Range': ageRange,
+          'Grade Level': null,
+          'Series': null,
+          'Hardcover': null,
+          'Publisher': bookInfo.publisher ? bookInfo.publisher.fullname : null,
+          'Language': bookInfo.contentLanguage,
+          'ISBN-10': bookInfo.isbn,
+          'ISBN-13': null,
+          'Product Dimensions': productDimensions,
+          'Shipping Weight': null,
+        }
+      })
+    ) : null
+  }
+
+  handleBookDetails = () => {
+    const detailsArray = ['Pages', 'Age Range', 'Grade Level',
+      'Series', 'Hardcover', 'Publisher', 'Language', 'ISBN-10', 'ISBN-13',
+      'Product Dimensions', 'Shipping Weigth']
+    const result = detailsArray.map((detail, index) => {
+      return this.handleRenderDetail(detail, index)
+    })
+    return (
+      <div className='bookpage-book-details'>
+        {result ? (
+          <h3 className='center-text'>
+            Book Details
+          </h3>) : null
+        }
+        {result ? result : null}
+      </div>
+    )
+  }
+
+  handleRenderDetail = (detail, index) => {
+    const { bookDetails } = this.state
+    return bookDetails[detail] ? (
+      <div key={index}>
+        <p>
+          <strong>
+            {detail}:
+          </strong>
+          &nbsp; {bookDetails[detail]}
+        </p>
+      </div>
+    ) : null
   }
 
   render() {
@@ -71,6 +142,7 @@ class BookPage extends PureComponent {
               <div className='loading-animation-store' />
             }
             <div className='bookpage-announcement-container'>
+              {this.handleBookDetails()}
               <div className='bookpage-announcement-details'>
                 <h3>{bookInfo ? `${this.truncInfo(bookInfo.title, 30)} Thread` : null}</h3>
                 <div className='bookpage-announcement-posts'>
