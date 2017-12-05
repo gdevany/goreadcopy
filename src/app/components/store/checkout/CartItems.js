@@ -8,27 +8,13 @@ const { parseFloatToUSD, parseIntToLocale } = Numbers
 class CartItems extends PureComponent {
   constructor(props) {
     super(props)
-    this.state = {
-      cart: false,
-      status: false,
-    }
-  }
-
-  componentWillReceiveProps = (nextProps) => {
-    if (nextProps.cart && nextProps.cart.itemsCount >= 0) {
-      this.setState({
-        cart: nextProps.cart
-      })
-    }
-    if (nextProps.order) this.setState({ status: nextProps.order.status })
   }
 
   truncInfo = (text, limit) => {
     return text.length >= limit ? `${text.slice(0, limit)}...` : text
   }
 
-  renderCart = () => {
-    const { cart } = this.state
+  renderCart = (cart) => {
     if (cart && cart.itemsCount > 0) {
       return cart.items.map((elem, index) => {
         return (
@@ -71,20 +57,21 @@ class CartItems extends PureComponent {
           </article>
         )
       })
-    } return (
+    }
+    return (
       <div className='loading-animation-store'/>
     )
   }
 
   render() {
-    const { status } = this.state
+    const { cart, order } = this.props
     return (
       <section className='checkoutpage-cart-elements-container'>
         <div className='checkoutpage-cart-elements-heading'>
           <h3 className='checkoutpage-cart-elements-heading-title'>
             Cart
           </h3>
-          {status !== 40 ?
+          { order && order.status !== 40 ?
             (
               <Link
                 className='checkoutpage-cart-elements-heading-anchor'
@@ -96,7 +83,7 @@ class CartItems extends PureComponent {
           }
         </div>
         <section className='checkoutpage-cart-elements'>
-          {this.renderCart()}
+          {this.renderCart(cart)}
         </section>
       </section>
     )
