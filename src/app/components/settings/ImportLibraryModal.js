@@ -31,6 +31,7 @@ class ImportLibraryModal extends Component {
       isContentResult: false,
       isContentLoading: false,
       importResults: null,
+      importMobileResults: null,
       importSucessCount: null,
     }
   }
@@ -67,12 +68,8 @@ class ImportLibraryModal extends Component {
         <table className='display-results'>
           <tbody>
             <tr>
-              <th>
-                ISBN
-              </th>
-              <th>
-                Status
-              </th>
+              <th>ISBN</th>
+              <th>Status</th>
               <th className='title-heading'>
                 Title
               </th>
@@ -80,31 +77,104 @@ class ImportLibraryModal extends Component {
             {results.data.added.map(function (result, index) {
               return (
                 <tr key={index} className='success'>
-                 <td>{result.isbn}</td>
-                 <td>Imported</td>
-                 <td>{result.title}</td>
+                  <td>{result.isbn}</td>
+                  <td>Imported</td>
+                  <td>{result.title}</td>
                 </tr>
               )
             })}
             {results.data.failed.map(function (result, index) {
               return (
                 <tr key={index} className='failed'>
-                 <td>{result.isbn}</td>
-                 <td>Failed</td>
-                 <td>{result.title}</td>
+                  <td>{result.isbn}</td>
+                  <td>Failed</td>
+                  <td>{result.title}</td>
                 </tr>
               )
             })}
             {results.data.exists.map(function (result, index) {
               return (
                 <tr key={index} className='exists'>
-                 <td>{result.isbn}</td>
-                 <td>Already added</td>
-                 <td>{result.title}</td>
+                  <td>{result.isbn}</td>
+                  <td>Already added</td>
+                  <td>{result.title}</td>
                 </tr>
               )
             })}
           </tbody>
+        </table>
+      )
+      const mobileTable = (
+        <table className='display-results-mobile'>
+          {results.data.added.map(function (result, index) {
+            return (
+              <div>
+                <tbody key={index}>
+                  <tr className='success'>
+                    <th>ISBN:</th>
+                    <td>{result.isbn}</td>
+                  </tr>
+                  <tr className='success'>
+                    <th>Status:</th>
+                    <td>Imported</td>
+                  </tr>
+                  <tr className='success'>
+                    <th className='title-heading'>
+                      Title:
+                    </th>
+                    <td>{result.title}</td>
+                  </tr>
+                </tbody>
+                <br/>
+              </div>
+            )
+          })}
+          {results.data.failed.map(function (result, index) {
+            return (
+              <div>
+                <tbody key={index}>
+                  <tr className='failed'>
+                    <th>ISBN:</th>
+                    <td>{result.isbn}</td>
+                  </tr>
+                  <tr className='failed'>
+                    <th>Status:</th>
+                    <td>Failed</td>
+                  </tr>
+                  <tr className='failed'>
+                    <th className='title-heading'>
+                      Title:
+                    </th>
+                    <td>{result.title}</td>
+                  </tr>
+                </tbody>
+                <br/>
+              </div>
+            )
+          })}
+          {results.data.exists.map(function (result, index) {
+            return (
+              <div>
+                <tbody key={index}>
+                  <tr className='exists'>
+                    <th>ISBN:</th>
+                    <td>{result.isbn}</td>
+                  </tr>
+                  <tr className='exists'>
+                    <th>Status:</th>
+                    <td>Already added</td>
+                  </tr>
+                  <tr className='exists'>
+                    <th className='title-heading'>
+                      Title:
+                    </th>
+                    <td>{result.title}</td>
+                  </tr>
+                </tbody>
+                <br/>
+              </div>
+            )
+          })}
         </table>
       )
       results.data.exists.length > 0 ||
@@ -114,6 +184,7 @@ class ImportLibraryModal extends Component {
           isContentResult: true,
           isContentLoading: false,
           importResults: table,
+          importMobileResults: mobileTable,
           importSucessCount: results.data.added.length,
         }) : null
     } else {
@@ -155,9 +226,9 @@ class ImportLibraryModal extends Component {
 
   importSection = () => {
     return (
-      <div>
+      <div className='import-library-container'>
         <div className='upload'>
-          <h3>
+          <h3 className='upload-title'>
             Upload your file
           </h3>
           <div className='upload-library'>
@@ -249,7 +320,7 @@ class ImportLibraryModal extends Component {
   }
 
   resultSection = () => {
-    const { importResults } = this.state
+    const { importResults, importMobileResults } = this.state
     return (
       <div className='results'>
         <h3>
@@ -257,6 +328,7 @@ class ImportLibraryModal extends Component {
         </h3>
         <div className='resultDisplay'>
           {importResults}
+          {importMobileResults}
         </div>
       </div>
     )
