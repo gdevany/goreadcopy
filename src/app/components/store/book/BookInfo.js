@@ -410,12 +410,12 @@ class BookInfo extends PureComponent {
                             this.state.isModifyingFan ?
                                <div className='loading-animation-store-inverted' /> :
                                bookInfo.isBookFan ?
-                                    <span className='icon-user-check'>Fan</span> :
-                                    <span className='icon-user'>Fan</span>
+                                    <span className='icon-fan-user-check'>Fan</span> :
+                                    <span className='icon-fan-user'>Fan</span>
                          }
                      </a> :
                      <a className='bookpage-fan-button-action'>
-                         <span className='icon-user'>Fan</span>
+                         <span className='icon-fan-user'>Fan</span>
                      </a>
                  }
                 </div>
