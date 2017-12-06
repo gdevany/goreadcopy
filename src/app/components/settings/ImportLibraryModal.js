@@ -43,7 +43,7 @@ class ImportLibraryModal extends Component {
 
   getFileJSON = (fileString) => {
     const header = 'data:text/csv;base64,'
-    return header + btoa(fileString)
+    return header + btoa(unescape(encodeURIComponent(fileString)))
   }
 
   getBase64AndUpdate = (file, FileType) => {
