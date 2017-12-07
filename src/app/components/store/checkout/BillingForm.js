@@ -18,7 +18,7 @@ class BillingForm extends PureComponent {
         .then((res) => {
           billingInfo && billingInfo.countryBilling ?
             this.onChange('countryBilling', null, billingInfo.countryBilling) :
-            this.onChange('countryBilling', null, countries[0].pk)
+            this.onChange('countryBilling', null, '')
         })
     } else {
       billingInfo && billingInfo.countryBilling ?
@@ -44,7 +44,11 @@ class BillingForm extends PureComponent {
     if (elems) {
       return elems.map((elem, index) => {
         return (
-          <option key={elem.pk} value={elem.pk}>
+          <option
+            key={elem && elem.key ? elem.key : elem.pk}
+            value={elem && elem.value ? elem.value : elem.pk}
+            disabled={elem && elem.disabled ? elem.disabled : false}
+          >
             {elem.name}
           </option>
         )
@@ -158,6 +162,7 @@ class BillingForm extends PureComponent {
                     onChange={(evt) => {
                       this.onChange('stateBilling', evt, evt.target.value)
                     }}
+                    disabled={!(billingInfo && billingInfo.countryBilling)}
                   >
                     {this.renderSelects(states)}
                   </select>
@@ -174,6 +179,7 @@ class BillingForm extends PureComponent {
                     className='checkoutpage-steps-shipping-address-form-input'
                     onChange={onChange('stateBilling')}
                     value={billingInfo.stateBilling}
+                    disabled={!(billingInfo && billingInfo.countryBilling)}
                   />
                 </div>
               )
