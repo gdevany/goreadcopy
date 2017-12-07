@@ -3,6 +3,7 @@ import { Dialog } from 'material-ui'
 import { Import } from '../../services/api'
 import Dropzone from 'react-dropzone'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
+import { Colors } from '../../constants/style'
 import Promise from 'bluebird'
 
 const { libraryUpload } = Import
@@ -31,7 +32,6 @@ class ImportLibraryModal extends Component {
       isContentResult: false,
       isContentLoading: false,
       importResults: null,
-      importMobileResults: null,
       importSucessCount: null,
     }
   }
@@ -62,6 +62,16 @@ class ImportLibraryModal extends Component {
       .catch(err => this.handleIncorrectType(err))
   }
 
+  handlerTableRow = (result, index, value, description) => {
+    return (
+      <tr key={index} className={value}>
+        <td data-th='ISBN'>{result.isbn}</td>
+        <td data-th='Status'>{description}</td>
+        <td data-th='Title'>{result.title}</td>
+      </tr>
+    )
+  }
+
   displayResults = (results) => {
     if (results.status !== 'too_many_books') {
       const table = (
@@ -74,107 +84,16 @@ class ImportLibraryModal extends Component {
                 Title
               </th>
             </tr>
-            {results.data.added.map(function (result, index) {
-              return (
-                <tr key={index} className='success'>
-                  <td>{result.isbn}</td>
-                  <td>Imported</td>
-                  <td>{result.title}</td>
-                </tr>
-              )
+            {results.data.added.map((result, index) => {
+              return this.handlerTableRow(result, index, 'success', 'Imported')
             })}
-            {results.data.failed.map(function (result, index) {
-              return (
-                <tr key={index} className='failed'>
-                  <td>{result.isbn}</td>
-                  <td>Failed</td>
-                  <td>{result.title}</td>
-                </tr>
-              )
+            {results.data.failed.map((result, index) => {
+              return this.handlerTableRow(result, index, 'failed', 'Failed')
             })}
-            {results.data.exists.map(function (result, index) {
-              return (
-                <tr key={index} className='exists'>
-                  <td>{result.isbn}</td>
-                  <td>Already added</td>
-                  <td>{result.title}</td>
-                </tr>
-              )
+            {results.data.exists.map((result, index) => {
+              return this.handlerTableRow(result, index, 'exists', 'Already added')
             })}
           </tbody>
-        </table>
-      )
-      const mobileTable = (
-        <table className='display-results-mobile'>
-          {results.data.added.map(function (result, index) {
-            return (
-              <div>
-                <tbody key={index}>
-                  <tr className='success'>
-                    <th>ISBN:</th>
-                    <td>{result.isbn}</td>
-                  </tr>
-                  <tr className='success'>
-                    <th>Status:</th>
-                    <td>Imported</td>
-                  </tr>
-                  <tr className='success'>
-                    <th className='title-heading'>
-                      Title:
-                    </th>
-                    <td>{result.title}</td>
-                  </tr>
-                </tbody>
-                <br/>
-              </div>
-            )
-          })}
-          {results.data.failed.map(function (result, index) {
-            return (
-              <div>
-                <tbody key={index}>
-                  <tr className='failed'>
-                    <th>ISBN:</th>
-                    <td>{result.isbn}</td>
-                  </tr>
-                  <tr className='failed'>
-                    <th>Status:</th>
-                    <td>Failed</td>
-                  </tr>
-                  <tr className='failed'>
-                    <th className='title-heading'>
-                      Title:
-                    </th>
-                    <td>{result.title}</td>
-                  </tr>
-                </tbody>
-                <br/>
-              </div>
-            )
-          })}
-          {results.data.exists.map(function (result, index) {
-            return (
-              <div>
-                <tbody key={index}>
-                  <tr className='exists'>
-                    <th>ISBN:</th>
-                    <td>{result.isbn}</td>
-                  </tr>
-                  <tr className='exists'>
-                    <th>Status:</th>
-                    <td>Already added</td>
-                  </tr>
-                  <tr className='exists'>
-                    <th className='title-heading'>
-                      Title:
-                    </th>
-                    <td>{result.title}</td>
-                  </tr>
-                </tbody>
-                <br/>
-              </div>
-            )
-          })}
         </table>
       )
       results.data.exists.length > 0 ||
@@ -184,7 +103,6 @@ class ImportLibraryModal extends Component {
           isContentResult: true,
           isContentLoading: false,
           importResults: table,
-          importMobileResults: mobileTable,
           importSucessCount: results.data.added.length,
         }) : null
     } else {
@@ -320,7 +238,7 @@ class ImportLibraryModal extends Component {
   }
 
   resultSection = () => {
-    const { importResults, importMobileResults } = this.state
+    const { importResults } = this.state
     return (
       <div className='results'>
         <h3>
@@ -328,7 +246,6 @@ class ImportLibraryModal extends Component {
         </h3>
         <div className='resultDisplay'>
           {importResults}
-          {importMobileResults}
         </div>
       </div>
     )
