@@ -32,10 +32,11 @@ class BookPage extends PureComponent {
         'Hardcover': null,
         'Publisher': null,
         'Language': null,
-        'ISBN-10': null,
-        'ISBN-13': null,
-        'Product Dimensions': null,
-        'Shipping Weight': null,
+        'ISBN': null,
+        'Dimensions': null,
+        'Weight': null,
+        'Format': null,
+        'Other Formats': null,
       }
     }
   }
@@ -77,7 +78,8 @@ class BookPage extends PureComponent {
     const ageRange = bookInfo ? bookInfo.audienceGradeMin && bookInfo.audienceGradeMax ?
       bookInfo.audienceGradeMin.code + ' - ' + bookInfo.audienceGradeMax.code : null : null
     const productDimensions = bookInfo ? bookInfo.length && bookInfo.width && bookInfo.height ?
-      bookInfo.length + ' x ' + bookInfo.width + ' x ' + bookInfo.height : null : null
+      bookInfo.length + ' x ' + bookInfo.width + ' x ' + bookInfo.height + ' Inches' : null : null
+    const otherFormats = this.handleOtherFormats(bookInfo.family)
     bookInfo ? (
       this.setState({
         bookDetails: {
@@ -88,19 +90,20 @@ class BookPage extends PureComponent {
           'Hardcover': null,
           'Publisher': bookInfo.publisher ? bookInfo.publisher.fullname : null,
           'Language': bookInfo.contentLanguage,
-          'ISBN-10': bookInfo.isbn,
-          'ISBN-13': null,
-          'Product Dimensions': productDimensions,
-          'Shipping Weight': null,
+          'ISBN': bookInfo.ean,
+          'Dimensions': productDimensions,
+          'Weight': bookInfo.weight ? bookInfo.weight + ' Pounds' : null,
+          'Format': bookInfo.productType ? bookInfo.productType.description : null,
+          'Other Formats': otherFormats,
         }
       })
     ) : null
   }
 
   handleBookDetails = () => {
-    const detailsArray = ['Pages', 'Age Range', 'Grade Level',
-      'Series', 'Hardcover', 'Publisher', 'Language', 'ISBN-10', 'ISBN-13',
-      'Product Dimensions', 'Shipping Weigth']
+    const detailsArray = ['ISBN', 'Pages', 'Age Range', 'Grade Level',
+      'Series', 'Hardcover', 'Publisher', 'Language', 'Format', 'Other Formats',
+      'Dimensions', 'Weight']
     const result = detailsArray.map((detail, index) => {
       return this.handleRenderDetail(detail, index)
     })
@@ -128,6 +131,16 @@ class BookPage extends PureComponent {
         </p>
       </div>
     ) : null
+  }
+
+  handleOtherFormats = (array) => {
+    return array.map((item, index, array) => {
+      return (
+        <a key={index} href={item.url}>
+          {item.description}{array.length - 1 > index ? ', ' : null}
+        </a>
+      )
+    })
   }
 
   render() {
