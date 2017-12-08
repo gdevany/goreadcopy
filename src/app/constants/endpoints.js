@@ -60,6 +60,7 @@ const Endpoints = () => {
       likedGenres: (params) => apiUrl('current_reader/liked_genres', params),
       likedReaders: (params) => apiUrl('current_reader/liked_readers', params),
       likedAuthors: (params) => apiUrl('current_reader/liked_authors', params),
+      fanBooks: (params) => apiUrl('current_reader/fan_books', params),
       uploadImage: (params) => apiUrl('current_reader/images', params),
       getFollowers: (id) => apiUrl(`social/reader/${id}/followers`),
       getFetchFollowers: (id, params) => apiUrl(`social/reader/${id}/followers`, params),

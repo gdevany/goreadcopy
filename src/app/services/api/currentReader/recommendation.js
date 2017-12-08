@@ -6,6 +6,7 @@ const { authenticated } = http
 const { currentReader: {
   likedReaders,
   likedAuthors,
+  fanBooks,
   getRecommendation,
   getOnboardingRecommendation,
   getRecommendedAuthors,
@@ -25,6 +26,8 @@ const Recommendation = () => {
     getBookClubRecommendations: (params) => authenticated().get(getBookClubRecommendations(params)),
     likedReaders: (body) => authenticated().post(likedReaders(), body),
     likedAuthors: (body) => authenticated().post(likedAuthors(), body),
+    fanBooks: (body) => authenticated().post(fanBooks(), body),
+    unfanBooks: (data) => authenticated().delete(fanBooks(), { data }),
     unlikedAuthors: (data) => authenticated().delete(likedAuthors(), { data }),
     unlikedReaders: (data) => authenticated().delete(likedReaders(), { data }),
   }
