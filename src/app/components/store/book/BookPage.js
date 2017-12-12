@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { Dialog } from 'material-ui'
 import Scroll from 'react-scroll'
 import { Footer } from '../../common'
 import { StoreNavView } from '../../views'
@@ -25,6 +26,7 @@ class BookPage extends PureComponent {
       bookInfo: null,
       starsInfo: null,
       isUserLoggedIn: Auth.currentUserExists(),
+      openModal: false,
       bookDetails: {
         'Age Range': null,
         'Grade Level': null,
@@ -79,7 +81,8 @@ class BookPage extends PureComponent {
       bookInfo.audienceGradeMin.code + ' - ' + bookInfo.audienceGradeMax.code : null : null
     const productDimensions = bookInfo ? bookInfo.length && bookInfo.width && bookInfo.height ?
       bookInfo.length + ' x ' + bookInfo.width + ' x ' + bookInfo.height + ' Inches' : null : null
-    const otherFormats = this.handleOtherFormats(bookInfo.family)
+    const otherFormats = bookInfo ? bookInfo.family.length > 0 ?
+      this.handleOtherFormats(bookInfo.family) : null : null
     bookInfo ? (
       this.setState({
         bookDetails: {
@@ -143,6 +146,36 @@ class BookPage extends PureComponent {
     })
   }
 
+  handleImageModal = (imageUrl) => {
+    return (
+      <Dialog
+        className='book-image-modal'
+        bodyClassName='book-image-modal-container'
+        //titleClassName='import-library-title'
+        //title='Import Library'
+        //titleStyle={styles.modalTitle}
+        modal={false}
+        open={this.state.openModal}
+        onRequestClose={this.closeImageModal}
+        autoScrollBodyContent={true}
+      >
+        <img src={imageUrl} />
+      </Dialog>
+    )
+  }
+
+  openImageModal = () => {
+    this.setState({
+      openModal: true,
+    })
+  }
+
+  closeImageModal = () => {
+    this.setState({
+      openModal: false,
+    })
+  }
+
   render() {
     const { bookInfo, starsInfo, isUserLoggedIn } = this.state
     const { rates, currentReader } = this.props
@@ -151,7 +184,11 @@ class BookPage extends PureComponent {
         <div>
           <div className='bookpage-main-container'>
             {bookInfo ?
-              <BookInfo bookInfo={bookInfo} isUserLogged={isUserLoggedIn} /> :
+              <BookInfo
+                bookInfo={bookInfo}
+                isUserLogged={isUserLoggedIn}
+                openImageModal={this.openImageModal}
+              /> :
               <div className='loading-animation-store' />
             }
             <div className='bookpage-announcement-container'>
@@ -233,6 +270,7 @@ class BookPage extends PureComponent {
             <Footer />
           </div>
         </div>
+        { bookInfo ? this.handleImageModal(bookInfo.originalImageUrl) : null}
       </StoreNavView>
     )
   }

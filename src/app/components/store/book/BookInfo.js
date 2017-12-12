@@ -361,7 +361,7 @@ class BookInfo extends PureComponent {
   }
 
   render() {
-    const { bookInfo, isUserLogged } = this.props
+    const { bookInfo, isUserLogged, openImageModal } = this.props
     const {
       addToCartClicked,
       isSharePopUpDisplayed,
@@ -375,7 +375,9 @@ class BookInfo extends PureComponent {
         <div className='small-12 large-6 large-offset-1 columns bookpage-info-left-element'>
           <div className='bookpage-info-left-top'>
             <figure className='bookpage-info-figure'>
-              <img src={bookInfo.originalImageUrl}/>
+              <a onClick={openImageModal}>
+                <img src={bookInfo.originalImageUrl}/>
+              </a>
             </figure>
             <div className='bookpage-book-description-container'>
               <h4 className='bookpage-book-title'>
