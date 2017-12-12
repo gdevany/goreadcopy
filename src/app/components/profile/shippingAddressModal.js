@@ -2,16 +2,12 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Dialog } from 'material-ui'
 import { Colors } from '../../constants/style'
-import { CurrentReader } from '../../redux/actions'
-import { ProfilePage } from '../../services/api'
+import { CurrentReader, Common } from '../../redux/actions'
 import PrimaryButton from '../common/PrimaryButton'
-import SelectField from 'material-ui/SelectField'
-import MenuItem from 'material-ui/MenuItem'
 import R from 'ramda'
 
-let countryList, stateList
 const { updateShippingAddress } = CurrentReader
-const { getCountries, getStates } = ProfilePage
+const { getCountries, getStates } = Common
 const styles = {
   lableStyle: {
     fontSize: 18,
@@ -36,15 +32,23 @@ const styles = {
 class shippingAddressModal extends PureComponent {
   constructor(props) {
     super(props)
+
+    const {
+      name, address, address2, city,
+      state, country, phone, zipcode
+    } = props && props.currentReader && props.currentReader.shippingAddress ?
+      props.currentReader.shippingAddress :
+      {}
+
     this.state = {
-      name: '',
-      address: '',
-      address2: '',
-      city: '',
-      state: '',
-      country: 0,
-      phone: '',
-      zipcode: '',
+      name: name || '',
+      address: address || '',
+      address2: address2 || '',
+      city: city || '',
+      state: state || '',
+      country: country || '',
+      phone: phone || '',
+      zipcode: zipcode || '',
       nameError: '',
       addressError: '',
       cityError: '',
@@ -52,139 +56,108 @@ class shippingAddressModal extends PureComponent {
       countryError: '',
       phoneError: '',
       zipcodeError: '',
-      isContentRenderInput: true,
-      isContentRenderList: false,
     }
-    this.handleOnChange = this.handleOnChange.bind(this)
-    this.handleCompleteSubmit = this.handleCompleteSubmit.bind(this)
   }
-  componentWillReceiveProps = (nextProps) => {
-    if (nextProps.currentReader.shippingAddress) {
 
-      this.setState({
-        name: (nextProps.currentReader.shippingAddress.name || ''),
-        address: (nextProps.currentReader.shippingAddress.address || ''),
-        address2: (nextProps.currentReader.shippingAddress.address2 || ''),
-        city: (nextProps.currentReader.shippingAddress.city || ''),
-        state: (nextProps.currentReader.shippingAddress.state || ''),
-        country: (nextProps.currentReader.shippingAddress.country || ''),
-        phone: (nextProps.currentReader.shippingAddress.phone || ''),
-        zipcode: (nextProps.currentReader.shippingAddress.zipcode || ''),
-      })
-    }
-  }
   handleOnChange = R.curry((field, e) => {
     e.preventDefault()
     this.setState({ [field]: e.target.value })
   })
 
-  handleOnChangeCountry = R.curry((e, index, value) => {
+  handleOnChangeCountry = R.curry((e) => {
     e.preventDefault()
-    if (value) {
-      this.setState({ country: value })
-      getStates(value)
-        .then(res => this.displayStateList(res))
-    }
+    this.setState({
+      country: e.target.value,
+      countryError: ''
+    })
+    this.props.getStates(e.target.value)
+      .then(res => {
+        this.setState({
+          state: '',
+          stateInputError: ''
+        })
+      })
   })
 
-  handleOnChangeState = R.curry((e, index, value) => {
+  handleOnChangeState = R.curry((e) => {
     e.preventDefault()
-    this.setState({ state: value })
+    this.setState({
+      state: e.target.value,
+      stateError: ''
+    })
   })
 
   handleRenderCountry = () => {
-    getCountries()
-      .then(res => this.displayCountryList(res))
-
+    const { countries, getCountries } = this.props
+    if (!countries) {
+      getCountries()
+    }
     return (
-      <div className={'small-12 large-8 columns ' + this.state.countryError}>
+      <div className={'small-12 large-6 columns ' + this.state.countryError}>
         <span className='form-label'>Country</span>
-        <SelectField
+        <select
+          className='normal-feel'
           onChange={this.handleOnChangeCountry()}
           value={this.state.country}
           style={styles.selectStyles}
         >
-          <MenuItem
-            value={0}
-            primaryText='Select your country'
-          />
-          { countryList ? countryList : null }
-        </SelectField>
+          <option key='-1' value=''> Select your country: </option>
+          {
+            countries ? countries.map((data, index) => {
+              return (
+                <option key={data.pk} value={data.pk}>
+                  {data.name}
+                </option>
+              )
+            }) :
+            null
+          }
+        </select>
       </div>
     )
   }
 
-  displayCountryList = (res) => {
-    if (res) {
-      countryList = res.data.result.map((data, index) => {
-        return (
-          <MenuItem
-            value={data.pk}
-            primaryText={data.name}
-            key={data.pk}
-          />
-        )
-      })
-    }
-  }
-
   renderStateList = () => {
+    const { states } = this.props
     return (
-      <div className={'small-12 large-8 columns ' + this.state.stateError}>
+      <div className={'small-12 large-6 columns ' + this.state.stateError}>
         <span className='form-label'>State</span>
-        <SelectField
+        <select
+          className='normal-feel'
           onChange={this.handleOnChangeState()}
           value={this.state.state}
           style={styles.selectStyles}
         >
-          <MenuItem
-            value={0}
-            primaryText='Select a State'
-          />
-          { stateList ? stateList : null }
-        </SelectField>
+          <option key='-1' value={''}> Select a State: </option>
+          {
+            states ?
+              states.map((data, index) => {
+                return (
+                  <option key={data.pk} value={data.pk}>
+                    {data.name}
+                  </option>
+                )
+              }) :
+              null
+          }
+        </select>
       </div>
     )
   }
 
   renderStateInput = () => {
     return (
-      <div className={'small-12 large-3 columns ' + this.state.stateError}>
+      <div className={'small-12 large-6 columns ' + this.state.stateError}>
         <span className='form-label'>State</span>
         <input
           type='text'
-          className='form-input profile-editor-form-input'
-          onChange={this.handleOnChange('state')}
+          className='form-input normal-feel'
+          onChange={this.handleOnChange()}
           value={this.state.state}
+          disabled={!this.state.country}
         />
       </div>
     )
-  }
-
-  displayStateList = (res) => {
-    if (res) {
-      stateList = res.data.result.map((data, index) => {
-        return (
-          <MenuItem
-            value={data.pk}
-            primaryText={data.name}
-            key={data.pk}
-          />
-        )
-      })
-      this.setState({
-        state: 0,
-        isContentRenderList: true,
-        isContentRenderInput: false,
-      })
-    } else {
-      stateList = false
-      this.setState({
-        state: '',
-        isContentRenderList: false,
-        isContentRenderInput: true,
-      })
-    }
   }
 
   handleValidation = (data) => {
@@ -213,13 +186,13 @@ class shippingAddressModal extends PureComponent {
     } else {
       this.setState({ cityError: '' })
     }
-    if (data.country === 0) {
+    if (data.country === '') {
       this.setState({ countryError: 'shipping-address-error' })
       val = false
     } else {
       this.setState({ countryError: '' })
     }
-    if (data.phone === '' && typeof data.phone === 'number') {
+    if (data.phone === '') {
       this.setState({ phoneError: 'shipping-address-error' })
       val = false
     } else {
@@ -271,16 +244,16 @@ class shippingAddressModal extends PureComponent {
       address,
       address2,
       city,
+      country,
       phone,
       zipcode,
       nameError,
       addressError,
       cityError,
       phoneError,
-      zipcodeError,
-      isContentRenderInput,
-      isContentRenderList,
+      zipcodeError
     } = this.state
+    const renderList = country && (country === 'US' || country === 'CA')
     return (
       <article className='settings-single-tab-content small-10 columns small-centered'>
         <div className='profile-editor-section-container'>
@@ -330,26 +303,29 @@ class shippingAddressModal extends PureComponent {
               </div>
               <div className='row'>
                 {this.handleRenderCountry()}
-                <div className={'small-12 large-4 columns ' + zipcodeError}>
-                  <span className='form-label'>Zip code</span>
-                  <input
-                    type='text'
-                    className='form-input profile-editor-form-input'
-                    onChange={this.handleOnChange('zipcode')}
-                    value={zipcode}
-                  />
-                </div>
+                {
+                  renderList ?
+                   this.renderStateList() :
+                   this.renderStateInput()
+                }
               </div>
-              {isContentRenderList ? this.renderStateList() : null}
-              {isContentRenderInput ? this.renderStateInput() : null}
               <div className='row'>
-                <div className={'small-12 large-4 columns ' + cityError}>
+                <div className={'small-12 large-6 columns ' + cityError}>
                   <span className='form-label'>City</span>
                   <input
                     type='text'
                     className='form-input profile-editor-form-input'
                     onChange={this.handleOnChange('city')}
                     value={city}
+                  />
+                </div>
+                <div className={'small-12 large-6 columns ' + zipcodeError}>
+                  <span className='form-label'>Zip code</span>
+                  <input
+                    type='text'
+                    className='form-input profile-editor-form-input'
+                    onChange={this.handleOnChange('zipcode')}
+                    value={zipcode}
                   />
                 </div>
               </div>
@@ -405,12 +381,25 @@ class shippingAddressModal extends PureComponent {
     )
   }
 }
-const mapStateToProps = (state) => {
+
+const mapStateToProps = ({
+  currentReader,
+  common: {
+    countries,
+    states
+  }
+}) => {
   return {
-    currentReader: state.currentReader
+    currentReader,
+    countries,
+    states
   }
 }
+
 const mapDispatchToProps = {
   updateShippingAddress,
+  getCountries,
+  getStates
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(shippingAddressModal)
