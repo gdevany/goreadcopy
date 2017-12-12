@@ -81,6 +81,7 @@ const Endpoints = () => {
       dismissNotification: (params) => apiUrl('current_reader/notifications/dismiss', params),
       dismissAllNotifications: () => apiUrl('current_reader/notifications/dismiss_all'),
       resetPassword: (params) => apiUrl('readers/reset_password', params),
+      getLitcoinBalance: () => apiUrl('current_reader/litcoin_balance'),
     },
     store: {
       getBestSellers: (params) => apiUrl('store/best_seller_books', params),
@@ -110,6 +111,7 @@ const Endpoints = () => {
       getPaypalConfig: () => apiUrl('store/order/paypal/configuration'),
       setPromoCode: (id, params) => apiUrl(`store/order/${id}/apply_code`, params),
       cleanPromoCode: (id, params) => apiUrl(`store/order/${id}/clean_code`, params),
+      setUsingLitcoins: () => apiUrl('store/order/litcoins')
     },
     rates: {
       getStarsInfo: (modelName, id) => apiUrl(`rate/${modelName}/${id}/stars`),
