@@ -293,37 +293,37 @@ class CheckoutPage extends PureComponent {
     .catch(() => this.resetSteps('Unexpected error, please try again.'))
   }
 
+  cleanField = (value) => {
+    return value.trim()
+  }
+
   continueToBillingClick = (event) => {
     event.preventDefault()
     const {
-      addressShipping, countryShipping, stateShipping, cityShipping,
-      zipcodeShipping, shippingMethod,
+      nameShipping, addressShipping, countryShipping, stateShipping, cityShipping,
+      zipcodeShipping, shippingMethod, phoneShipping
     } = this.state
-    if (cityShipping && countryShipping && addressShipping &&
-      zipcodeShipping && shippingMethod !== '') {
-      if ((countryShipping === 'US' || countryShipping === 'CA')) {
-        if (stateShipping !== '') {
-          this.passToBilling()
-        } else {
-          this.showAlert('Please selet an State', 'error')
-        }
-      } else {
-        this.passToBilling()
-      }
-    } else {
-      if (!(cityShipping || countryShipping || addressShipping ||
-        zipcodeShipping) && shippingMethod === '') {
-        this.showAlert('Please fill all fields', 'error')
-      }
-      if ((cityShipping || countryShipping || addressShipping ||
-        zipcodeShipping) && shippingMethod === '') {
-        this.showAlert('Please select a Shipping Method', 'error')
-      }
-      if (!cityShipping || !countryShipping || !addressShipping ||
-        !zipcodeShipping && shippingMethod !== '') {
-        this.showAlert('Please Fill all Shipping address Form', 'error')
+
+    if (!nameShipping) { this.showAlert('Please fill the "Name" field!'); return false }
+    if (!phoneShipping) { this.showAlert('Please fill the "Phone" field!'); return false }
+    if (!addressShipping) { this.showAlert('Please fill the "Address" field!'); return false }
+    if (!this.cleanField(countryShipping)) {
+      this.showAlert('Please select a "Country"!'); return false
+    }
+    if (!cityShipping) { this.showAlert('Please fill the "City" field!'); return false }
+    if (!zipcodeShipping) { this.showAlert('Please fill the "Zip Code" field!'); return false }
+
+    if (countryShipping === 'US' || countryShipping === 'CA') {
+      if (!this.cleanField(stateShipping)) {
+        this.showAlert('Please select a "State"', 'error')
+        return false
       }
     }
+
+    if (!shippingMethod) { this.showAlert('Please select a Shipping Method', 'error'); return false}
+
+    this.passToBilling()
+    return true
   }
 
   passToReview = () => {

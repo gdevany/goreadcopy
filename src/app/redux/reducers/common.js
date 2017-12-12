@@ -16,8 +16,12 @@ const listCountries = (state, { result }) => {
   const specialCountries = ['US', 'CA']
   return R.compose(
     R.insert(
+      0,
+      { value: '', name: 'Select a country:', key: '__', pk: '' }
+    ),
+    R.insert(
       specialCountries.length,
-      { pk: ' ', name: '-------------' }
+      { value: '', name: '-------------', key: '_', pk: '_', disabled: true }
     ),
     R.sort((prev, next) => {
       // Process special countries
@@ -39,6 +43,15 @@ const listCountries = (state, { result }) => {
   )(result)
 }
 
+const listStates = (state, { result }) => {
+  return R.compose(
+    R.insert(
+      0,
+      { pk: ' ', name: 'Select a state:', value: '' }
+    )
+  )(result)
+}
+
 export default (state = initialState.common, { type, payload, errors }) => {
   switch (type) {
     case A.GET_CONTRIES:
@@ -48,7 +61,7 @@ export default (state = initialState.common, { type, payload, errors }) => {
       }
       return R.merge(state, diff)
     case A.GET_STATES:
-      return R.merge(state, { states: payload.result })
+      return R.merge(state, { states: listStates(state, payload) })
     case A.SHOW_ALERT_BAR:
       diff = {
         ...state,

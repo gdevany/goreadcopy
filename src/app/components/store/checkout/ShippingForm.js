@@ -18,7 +18,7 @@ class ShippingForm extends PureComponent {
         .then((res) => {
           shippingInfo && shippingInfo.countryShipping ?
             getStates(shippingInfo.countryShipping) :
-            this.onChange('countryShipping', null, countries[0].pk)
+            this.onChange('countryShipping', null, '')
         })
     } else {
       shippingInfo && shippingInfo.countryShipping ?
@@ -39,7 +39,11 @@ class ShippingForm extends PureComponent {
     if (elems) {
       return elems.map((elem, index) => {
         return (
-          <option key={elem.pk} value={elem.pk}>
+          <option
+            key={index}
+            value={elem && elem.value ? elem.value : elem.pk}
+            disabled={elem && elem.disabled ? elem.disabled : false}
+          >
             {elem.name}
           </option>
         )
@@ -169,6 +173,7 @@ class ShippingForm extends PureComponent {
                     onChange={(evt) => {
                       this.onChange('stateShipping', evt, evt.target.value)
                     }}
+                    disabled={!(shippingInfo && shippingInfo.countryShipping)}
                   >
                     {this.renderSelects(states)}
                   </select>
@@ -185,6 +190,7 @@ class ShippingForm extends PureComponent {
                     className='checkoutpage-steps-shipping-address-form-input'
                     onChange={onChange('stateShipping')}
                     value={shippingInfo.stateShipping || ''}
+                    disabled={!(shippingInfo && shippingInfo.countryShipping)}
                   />
                 </div>
               )
