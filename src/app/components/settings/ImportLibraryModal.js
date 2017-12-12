@@ -210,7 +210,11 @@ class ImportLibraryModal extends Component {
           <p>
             Click on "Export Library" on the top right of the page.
           </p>
-          <img src='/image/import-library-help-1.png'/>
+          <img
+            style={this.state.img1loaded ? {} : { display: 'none' }}
+            src='/image/import-library-help-1.png'
+            onLoad={() => this.setState({ img1loaded: true })}
+          />
           <strong>
             Step 3.
           </strong>
@@ -219,7 +223,11 @@ class ImportLibraryModal extends Component {
             export. Then click the "Your export" link to
             download it to your computer.
           </p>
-          <img src='/image/import-library-help-2.png'/>
+          <img
+            style={this.state.img2loaded ? {} : { display: 'none' }}
+            src='/image/import-library-help-2.png'
+            onLoad={() => this.setState({ img2loaded: true })}
+          />
           <strong>
             Step 4.
           </strong>
