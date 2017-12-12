@@ -151,9 +151,6 @@ class BookPage extends PureComponent {
       <Dialog
         className='book-image-modal'
         bodyClassName='book-image-modal-container'
-        //titleClassName='import-library-title'
-        //title='Import Library'
-        //titleStyle={styles.modalTitle}
         modal={false}
         open={this.state.openModal}
         onRequestClose={this.closeImageModal}
