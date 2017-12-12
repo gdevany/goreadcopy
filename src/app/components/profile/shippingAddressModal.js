@@ -101,12 +101,15 @@ class shippingAddressModal extends PureComponent {
           value={this.state.country}
           style={styles.selectStyles}
         >
-          <option key='-1' value=''> Select your country: </option>
           {
-            countries ? countries.map((data, index) => {
+            countries ? countries.map((elem, index) => {
               return (
-                <option key={data.pk} value={data.pk}>
-                  {data.name}
+                <option
+                  key={index}
+                  value={elem && elem.value ? elem.value : elem.pk}
+                  disabled={elem && elem.disabled ? elem.disabled : false}
+                >
+                  {elem.name}
                 </option>
               )
             }) :
@@ -128,13 +131,16 @@ class shippingAddressModal extends PureComponent {
           value={this.state.state}
           style={styles.selectStyles}
         >
-          <option key='-1' value={''}> Select a State: </option>
           {
             states ?
-              states.map((data, index) => {
+              states.map((elem, index) => {
                 return (
-                  <option key={data.pk} value={data.pk}>
-                    {data.name}
+                  <option
+                    key={index}
+                    value={elem && elem.value ? elem.value : elem.pk}
+                    disabled={elem && elem.disabled ? elem.disabled : false}
+                  >
+                    {elem.name}
                   </option>
                 )
               }) :

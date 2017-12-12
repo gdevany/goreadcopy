@@ -47,7 +47,7 @@ const listStates = (state, { result }) => {
   return R.compose(
     R.insert(
       0,
-      { pk: ' ', name: 'Select a state:' }
+      { pk: ' ', name: 'Select a state:', value: '' }
     )
   )(result)
 }

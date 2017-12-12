@@ -40,7 +40,7 @@ class ShippingForm extends PureComponent {
       return elems.map((elem, index) => {
         return (
           <option
-            key={elem && elem.key ? elem.key : elem.pk}
+            key={index}
             value={elem && elem.value ? elem.value : elem.pk}
             disabled={elem && elem.disabled ? elem.disabled : false}
           >
