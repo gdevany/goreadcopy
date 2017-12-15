@@ -11,13 +11,13 @@ const style = {
     position: 'fixed',
     background: 'white',
     width: 270,
-    top: 68,
+    top: 78,
   },
   profileStyle: {
     position: 'fixed',
     background: 'white',
     width: 184,
-    top: 68,
+    top: 78,
   }
 }
 

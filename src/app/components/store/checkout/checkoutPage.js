@@ -13,7 +13,7 @@ import CV from 'card-validator'
 const { SnackBarAlert } = Alerts
 
 const {
-  getOrder, getCurrentOrder, setUserAddress, setUserAddressAndShipping,
+  getOrder, getCurrentOrder, setUserAddress, setUserAddressAndShipping, setUsingLitcoins,
   setShipping, setBilling, placeOrder, getPaypalConfig, placeOrderWithChanges,
 } = Store
 
@@ -105,7 +105,7 @@ class CheckoutPage extends PureComponent {
     if (nextProps.order) {
       const {
         shippingAddress, billingAddress, cardLast4, cardExpMonth, cardExpYear,
-        billingMethod, litcoinsRedeemed,
+        billingMethod, litcoinsRedeemed, dollarsRedeemed
       } = nextProps.order
       if (shippingAddress) {
         this.setState({
@@ -119,7 +119,7 @@ class CheckoutPage extends PureComponent {
           zipcodeShipping: shippingAddress.zipcode,
           shippingId: shippingAddress.id,
           billingId: billingAddress.id,
-          useLitcoins: (litcoinsRedeemed > 0),
+          useLitcoins: (litcoinsRedeemed > 0 || dollarsRedeemed > 0),
         })
       }
       if (cardLast4) {
@@ -219,8 +219,15 @@ class CheckoutPage extends PureComponent {
   })
 
   handleSelectChange = (type, event, value) => {
-    event.preventDefault()
-    this.setState({ [type]: value })
+    const alterState = {}
+    alterState[type] = value
+    if (type === 'countryShipping' && value !== 'US' && value !== 'CA') {
+      alterState['stateShipping'] = ''
+    }
+    if (type === 'countryBilling' && value !== 'US' && value !== 'CA') {
+      alterState['stateBilling'] = ''
+    }
+    this.setState(alterState)
   }
 
   setStep = (step) => {
@@ -286,37 +293,37 @@ class CheckoutPage extends PureComponent {
     .catch(() => this.resetSteps('Unexpected error, please try again.'))
   }
 
+  cleanField = (value) => {
+    return value.trim()
+  }
+
   continueToBillingClick = (event) => {
     event.preventDefault()
     const {
-      addressShipping, countryShipping, stateShipping, cityShipping,
-      zipcodeShipping, shippingMethod,
+      nameShipping, addressShipping, countryShipping, stateShipping, cityShipping,
+      zipcodeShipping, shippingMethod, phoneShipping
     } = this.state
-    if (cityShipping && countryShipping && addressShipping &&
-      zipcodeShipping && shippingMethod !== '') {
-      if ((countryShipping === 'US' || countryShipping === 'CA')) {
-        if (stateShipping !== '') {
-          this.passToBilling()
-        } else {
-          this.showAlert('Please selet an State', 'error')
-        }
-      } else {
-        this.passToBilling()
-      }
-    } else {
-      if (!(cityShipping || countryShipping || addressShipping ||
-        zipcodeShipping) && shippingMethod === '') {
-        this.showAlert('Please fill all fields', 'error')
-      }
-      if ((cityShipping || countryShipping || addressShipping ||
-        zipcodeShipping) && shippingMethod === '') {
-        this.showAlert('Please select a Shipping Method', 'error')
-      }
-      if (!cityShipping || !countryShipping || !addressShipping ||
-        !zipcodeShipping && shippingMethod !== '') {
-        this.showAlert('Please Fill all Shipping address Form', 'error')
+
+    if (!nameShipping) { this.showAlert('Please fill the "Name" field!'); return false }
+    if (!phoneShipping) { this.showAlert('Please fill the "Phone" field!'); return false }
+    if (!addressShipping) { this.showAlert('Please fill the "Address" field!'); return false }
+    if (!this.cleanField(countryShipping)) {
+      this.showAlert('Please select a "Country"!'); return false
+    }
+    if (!cityShipping) { this.showAlert('Please fill the "City" field!'); return false }
+    if (!zipcodeShipping) { this.showAlert('Please fill the "Zip Code" field!'); return false }
+
+    if (countryShipping === 'US' || countryShipping === 'CA') {
+      if (!this.cleanField(stateShipping)) {
+        this.showAlert('Please select a "State"', 'error')
+        return false
       }
     }
+
+    if (!shippingMethod) { this.showAlert('Please select a Shipping Method', 'error'); return false}
+
+    this.passToBilling()
+    return true
   }
 
   passToReview = () => {
@@ -354,8 +361,7 @@ class CheckoutPage extends PureComponent {
       if (cardStored && this.isUsingOtherCard()) {
         if (nameOnCard && cardNumber && cardCVC && fullExpDate) {
           if (!sameShippingAddress) {
-            if (cityBilling && countryBilling && addressBilling &&
-              address2Billing && zipcodeBilling) {
+            if (cityBilling && countryBilling && addressBilling && zipcodeBilling) {
               if (countryBilling === 'US' || countryBilling === 'CA') {
                 if (stateBilling !== '') {
                   setUserAddress({
@@ -363,7 +369,7 @@ class CheckoutPage extends PureComponent {
                     name: nameBilling,
                     country: countryBilling,
                     address: addressBilling,
-                    address2: address2Billing,
+                    address2: address2Billing || '',
                     zipcode: zipcodeBilling,
                     state: stateBilling,
                     phone: phoneBilling,
@@ -382,7 +388,7 @@ class CheckoutPage extends PureComponent {
                   phone: phoneBilling,
                   country: countryBilling,
                   address: addressBilling,
-                  address2: address2Billing,
+                  address2: address2Billing || '',
                   zipcode: zipcodeBilling,
                   state: stateBilling,
                   addressType: 'billing',
@@ -432,8 +438,7 @@ class CheckoutPage extends PureComponent {
         } else this.showAlert('Please Complete all your card info', 'error')
       } else if (cardStored) {
         if (!sameShippingAddress) {
-          if (cityBilling && countryBilling && addressBilling &&
-            address2Billing && zipcodeBilling) {
+          if (cityBilling && countryBilling && addressBilling && zipcodeBilling) {
             if (countryBilling === 'US' || countryBilling === 'CA') {
               if (stateBilling !== '') {
                 setUserAddress({
@@ -442,7 +447,7 @@ class CheckoutPage extends PureComponent {
                   phone: phoneBilling,
                   country: countryBilling,
                   address: addressBilling,
-                  address2: address2Billing,
+                  address2: address2Billing || '',
                   zipcode: zipcodeBilling,
                   state: stateBilling,
                   addressType: 'billing',
@@ -469,7 +474,7 @@ class CheckoutPage extends PureComponent {
                 phone: phoneBilling,
                 country: countryBilling,
                 address: addressBilling,
-                address2: address2Billing,
+                address2: address2Billing || '',
                 zipcode: zipcodeBilling,
                 state: stateBilling,
                 addressType: 'billing',
@@ -502,8 +507,7 @@ class CheckoutPage extends PureComponent {
         }
       } else if (nameOnCard && cardNumber && cardCVC && fullExpDate) {
         if (!sameShippingAddress) {
-          if (cityBilling && countryBilling && addressBilling &&
-            address2Billing && zipcodeBilling) {
+          if (cityBilling && countryBilling && addressBilling && zipcodeBilling) {
             if (countryBilling === 'US' || countryBilling === 'CA') {
               if (stateBilling !== '') {
                 setUserAddress({
@@ -512,7 +516,7 @@ class CheckoutPage extends PureComponent {
                   phone: phoneBilling,
                   country: countryBilling,
                   address: addressBilling,
-                  address2: address2Billing,
+                  address2: address2Billing || '',
                   zipcode: zipcodeBilling,
                   state: stateBilling,
                   addressType: 'billing',
@@ -530,7 +534,7 @@ class CheckoutPage extends PureComponent {
                 phone: phoneBilling,
                 country: countryBilling,
                 address: addressBilling,
-                address2: address2Billing,
+                address2: address2Billing || '',
                 zipcode: zipcodeBilling,
                 state: stateBilling,
                 addressType: 'billing',
@@ -593,9 +597,13 @@ class CheckoutPage extends PureComponent {
   }
 
   setShippingMethod = (shippingMethod) => {
-    this.setState({ shippingMethod }, ()=>{
-      this.passToBilling()
-    })
+    const { useLitcoins, isStepThreeActive } = this.state
+    if (isStepThreeActive) {
+      this.updateOrderSettings(useLitcoins, shippingMethod)
+        .then(()=>{ this.setState({ shippingMethod }) })
+    } else {
+      this.setState({ shippingMethod })
+    }
   }
 
   handleCheckSave = (event) => this.setState({ saveCard: event.target.checked })
@@ -603,21 +611,15 @@ class CheckoutPage extends PureComponent {
   handleCheckSame = (event) => this.setState({ sameShippingAddress: event.target.checked })
 
   handleUseLitcoins = (event) => {
-    this.setState({ useLitcoins: event.target.checked }, ()=>{
-      const {
-        shippingMethod,
-        cardStored,
-        useLitcoins,
-        isCardClicked
-      } = this.state
-      this.props.setBilling({
-        shippingMethod,
-        paymentMethod: isCardClicked ? 'cc' : 'paypal',
-        litcoins: useLitcoins,
-        avoidCheckCardData: cardStored,
-      })
-      .then(() => console.log(' '))
-      .catch(() => this.resetSteps('Unexpected error, please try again.'))
+    const { useLitcoins, shippingMethod } = this.state
+    this.updateOrderSettings(!useLitcoins, shippingMethod)
+      .then(()=>{ this.setState({ useLitcoins: !useLitcoins }) })
+  }
+
+  updateOrderSettings = (useLitcoins, shippingMethod) => {
+    return this.props.setUsingLitcoins({
+      'litcoins': useLitcoins,
+      'shipping_method': shippingMethod
     })
   }
 
@@ -880,6 +882,7 @@ const mapDistpachToProps = {
   placeOrder,
   placeOrderWithChanges,
   getPaypalConfig,
+  setUsingLitcoins,
 }
 
 export default connect(mapStateToProps, mapDistpachToProps)(CheckoutPage)

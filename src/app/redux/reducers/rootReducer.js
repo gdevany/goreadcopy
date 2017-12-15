@@ -17,7 +17,9 @@ import chatReducer from './chat'
 import notificationReducer from './notifications'
 import commonReducer from './common'
 
-const rootReducer = combineReducers({
+import { CURRENT_READER as C } from '../const/actionTypes'
+
+const appReducer = combineReducers({
   books: booksReducer,
   chat: chatReducer,
   currentReader: currentReaderReducer,
@@ -36,5 +38,12 @@ const rootReducer = combineReducers({
   notifications: notificationReducer,
   common: commonReducer,
 })
+
+const rootReducer = (state, action) => {
+  if (action.type === C.USER_LOGOUT) {
+    state = undefined
+  }
+  return appReducer(state, action)
+}
 
 export default rootReducer

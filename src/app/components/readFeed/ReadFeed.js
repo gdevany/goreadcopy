@@ -8,14 +8,43 @@ import { CurrentReader } from '../../redux/actions'
 import { Helmet } from 'react-helmet'
 
 const { getCurrentReader } = CurrentReader
+const style = {
+  middleContainerStyle: {
+    marginLeft: '25%',
+  }
+}
 
 class ReadFeed extends PureComponent {
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      middleContainerStyle: null,
+    }
+    this.handleMiddleContainer = this.handleMiddleContainer.bind(this)
+  }
+
   componentWillMount = () => this.props.getCurrentReader()
 
   componentDidMount = () => window.scrollTo(0, 0)
 
+  handleMiddleContainer(value) {
+    if (value) {
+      this.setState({
+        middleContainerStyle: style.middleContainerStyle,
+      })
+    } else {
+      this.setState({
+        middleContainerStyle: null,
+      })
+    }
+  }
+
   render() {
     const { isMyReadFeed, currentReader: { id, fullname } } = this.props
+    const { middleContainerStyle } = this.state
+
     return (
       <BaseNavView>
         <Helmet>
@@ -45,8 +74,11 @@ class ReadFeed extends PureComponent {
           <meta property='og:image:type' content='image/png' />
         </Helmet>
         <div className='row center-text read-feed'>
-          <LeftContainer isMyReadFeed={isMyReadFeed}/>
-          <MiddleContainer userId={id} />
+          <LeftContainer
+            isMyReadFeed={isMyReadFeed}
+            handleMiddleContainer={this.handleMiddleContainer}
+          />
+          <MiddleContainer userId={id} middleContainerStyle={middleContainerStyle} />
           <RightContainer />
         </div>
       </BaseNavView>

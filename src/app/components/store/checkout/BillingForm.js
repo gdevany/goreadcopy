@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import SelectField from 'material-ui/SelectField'
-import MenuItem from 'material-ui/MenuItem'
 import { Common } from '../../../redux/actions'
 
 const { getCountries, getStates } = Common
@@ -14,15 +12,23 @@ class BillingForm extends PureComponent {
   }
 
   componentWillMount() {
-    const { getCountries } = this.props
-    if (!this.props.countries) {
+    const { getCountries, countries, billingInfo } = this.props
+    if (!countries) {
       getCountries()
+        .then((res) => {
+          billingInfo && billingInfo.countryBilling ?
+            this.onChange('countryBilling', null, billingInfo.countryBilling) :
+            this.onChange('countryBilling', null, '')
+        })
+    } else {
+      billingInfo && billingInfo.countryBilling ?
+        this.onChange('countryBilling', null, billingInfo.countryBilling) :
+        this.onChange('countryBilling', null, countries[0].pk)
     }
   }
 
   componentWillReceiveProps(nextProps) {
     const { getStates, billingInfo } = this.props
-
     if (nextProps.billingInfo.countryBilling &&
       nextProps.billingInfo.countryBilling !== billingInfo.countryBilling) {
       getStates(nextProps.billingInfo.countryBilling)
@@ -30,14 +36,22 @@ class BillingForm extends PureComponent {
   }
 
   onChange(context, evt, value) {
-    evt.preventDefault()
+    if (evt) evt.preventDefault()
     this.props.selectChange(context, evt, value)
   }
 
   renderSelects(elems) {
     if (elems) {
       return elems.map((elem, index) => {
-        return <MenuItem key={elem.pk} value={elem.pk} primaryText={elem.name} />
+        return (
+          <option
+            key={elem && elem.key ? elem.key : elem.pk}
+            value={elem && elem.value ? elem.value : elem.pk}
+            disabled={elem && elem.disabled ? elem.disabled : false}
+          >
+            {elem.name}
+          </option>
+        )
       })
     }
     return false
@@ -104,16 +118,21 @@ class BillingForm extends PureComponent {
               />
             </div>
             <div className='small-6 columns'>
-              <SelectField
+              <label
+                className='checkoutpage-steps-shipping-address-form-label'
+              >
+                Country
+              </label>
+              <select
+                className='normal-feel'
                 name='Country'
-                floatingLabelText='Country'
                 value={billingInfo.countryBilling}
-                onChange={(evt, index, value) => {
-                  this.onChange('countryBilling', evt, value)
+                onChange={(evt) => {
+                  this.onChange('countryBilling', evt, evt.target.value)
                 }}
               >
                 {this.renderSelects(countries)}
-              </SelectField>
+              </select>
             </div>
             <div className='small-5 small-offset-1 columns'>
               <label
@@ -131,16 +150,22 @@ class BillingForm extends PureComponent {
             {billingInfo.countryBilling === 'CA' || billingInfo.countryBilling === 'US' ?
               (
                 <div className='small-6 columns'>
-                  <SelectField
+                  <label
+                    className='checkoutpage-steps-shipping-address-form-label'
+                  >
+                    State
+                  </label>
+                  <select
+                    className='normal-feel'
                     name='State'
-                    floatingLabelText='State'
                     value={billingInfo.stateBilling}
-                    onChange={(evt, index, value) => {
-                      this.onChange('stateBilling', evt, value)
+                    onChange={(evt) => {
+                      this.onChange('stateBilling', evt, evt.target.value)
                     }}
+                    disabled={!(billingInfo && billingInfo.countryBilling)}
                   >
                     {this.renderSelects(states)}
-                  </SelectField>
+                  </select>
                 </div>
               ) : (
                 <div className='small-6 columns'>
@@ -154,6 +179,7 @@ class BillingForm extends PureComponent {
                     className='checkoutpage-steps-shipping-address-form-input'
                     onChange={onChange('stateBilling')}
                     value={billingInfo.stateBilling}
+                    disabled={!(billingInfo && billingInfo.countryBilling)}
                   />
                 </div>
               )

@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import SelectField from 'material-ui/SelectField'
-import MenuItem from 'material-ui/MenuItem'
 import { Common } from '../../../redux/actions'
 
 const { getCountries, getStates } = Common
@@ -14,21 +12,23 @@ class ShippingForm extends PureComponent {
   }
 
   componentWillMount() {
-    const { getCountries, getStates, shippingInfo, countries, states } = this.props
+    const { getCountries, getStates, shippingInfo, countries } = this.props
     if (!countries) {
       getCountries()
-        .then(
-          shippingInfo ? shippingInfo.countryShipping ?
-          getStates(shippingInfo.countryShipping) : null : null
-        )
-    } else if (!states && shippingInfo && shippingInfo.countryShipping) {
-      getStates(shippingInfo.countryShipping)
+        .then((res) => {
+          shippingInfo && shippingInfo.countryShipping ?
+            getStates(shippingInfo.countryShipping) :
+            this.onChange('countryShipping', null, '')
+        })
+    } else {
+      shippingInfo && shippingInfo.countryShipping ?
+        getStates(shippingInfo.countryShipping) :
+        this.onChange('countryShipping', null, countries[0].pk)
     }
   }
 
   componentWillReceiveProps(nextProps) {
     const { getStates, shippingInfo } = this.props
-
     if (nextProps.shippingInfo.countryShipping &&
       nextProps.shippingInfo.countryShipping !== shippingInfo.countryShipping) {
       getStates(nextProps.shippingInfo.countryShipping)
@@ -38,14 +38,22 @@ class ShippingForm extends PureComponent {
   renderSelects(elems) {
     if (elems) {
       return elems.map((elem, index) => {
-        return <MenuItem key={elem.pk} value={elem.pk} primaryText={elem.name} />
+        return (
+          <option
+            key={index}
+            value={elem && elem.value ? elem.value : elem.pk}
+            disabled={elem && elem.disabled ? elem.disabled : false}
+          >
+            {elem.name}
+          </option>
+        )
       })
     }
     return false
   }
 
   onChange(context, evt, value) {
-    evt.preventDefault()
+    if (evt) evt.preventDefault()
     this.props.selectChange(context, evt, value)
   }
 
@@ -121,16 +129,21 @@ class ShippingForm extends PureComponent {
               />
             </div>
             <div className='small-6 columns'>
-              <SelectField
+              <label
+                className='checkoutpage-steps-shipping-address-form-label'
+              >
+                Country
+              </label>
+              <select
+                className='normal-feel'
                 name='Country'
-                floatingLabelText='Country'
                 value={shippingInfo.countryShipping}
-                onChange={(evt, index, value) => {
-                  this.onChange('countryShipping', evt, value)
+                onChange={(evt) => {
+                  this.onChange('countryShipping', evt, evt.target.value)
                 }}
               >
                 {this.renderSelects(countries)}
-              </SelectField>
+              </select>
             </div>
             <div className='small-6 columns'>
               <label
@@ -148,16 +161,22 @@ class ShippingForm extends PureComponent {
             {shippingInfo.countryShipping === 'CA' || shippingInfo.countryShipping === 'US' ?
               (
                 <div className='small-6 columns'>
-                  <SelectField
+                  <label
+                    className='checkoutpage-steps-shipping-address-form-label'
+                  >
+                    State
+                  </label>
+                  <select
+                    className='normal-feel'
                     name='State'
-                    floatingLabelText='State'
                     value={shippingInfo.stateShipping}
-                    onChange={(evt, index, value) => {
-                      this.onChange('stateShipping', evt, value)
+                    onChange={(evt) => {
+                      this.onChange('stateShipping', evt, evt.target.value)
                     }}
+                    disabled={!(shippingInfo && shippingInfo.countryShipping)}
                   >
                     {this.renderSelects(states)}
-                  </SelectField>
+                  </select>
                 </div>
               ) : (
                 <div className='small-6 columns'>
@@ -171,6 +190,7 @@ class ShippingForm extends PureComponent {
                     className='checkoutpage-steps-shipping-address-form-input'
                     onChange={onChange('stateShipping')}
                     value={shippingInfo.stateShipping || ''}
+                    disabled={!(shippingInfo && shippingInfo.countryShipping)}
                   />
                 </div>
               )

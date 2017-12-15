@@ -363,6 +363,16 @@ export function cleanOrderAndCart() {
   }
 }
 
+export function setUsingLitcoins(msg) {
+  return dispatch => {
+    const request = Store.setUsingLitcoins(msg)
+    request
+      .then(res => dispatch({ type: A.SET_USING_LITCOINS, payload: res.data }))
+      .catch(err => console.log(`Error in setUsingLitcoins: ${err}`))
+    return request
+  }
+}
+
 export default {
   getCategories,
   getChildCategories,
@@ -397,4 +407,5 @@ export default {
   setPromoCode,
   cleanPromoCode,
   cleanOrderAndCart,
+  setUsingLitcoins,
 }

@@ -86,6 +86,18 @@ export default (state = initialState.store, { type, payload }) => {
           isReviewed: true
         }
       })
+    case A.SET_USING_LITCOINS:
+      return R.merge(state, {
+        order: {
+          ...state.order,
+          dollarsRedeemed: payload.dollarsRedeemed,
+          orderTotal: payload.orderTotal,
+          orderSubtotal: payload.orderSubtotal,
+          shippingCosts: payload.shippingFee,
+          taxes: payload.stateTaxes,
+          shippingDiscount: payload.shippingDiscount
+        }
+      })
     default:
       return state
   }
