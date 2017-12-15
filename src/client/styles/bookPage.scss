@@ -566,12 +566,15 @@
           text-align: center;
         }
         .label{
-          width: max-content;
-          margin-top: 10px;
-          align-self: center;
-          @media all and (min-width: 1024px){
-            align-self: flex-end;
-          }
+          color: #0099ff;
+          background-color: white;
+          text-align: center;
+          padding: 5px;
+          border-radius: 5px;
+          min-width: 200px;
+          max-width: 300px;
+          border: 1px solid #0099ff;
+          box-shadow: rgba(10, 10, 10, 0.13) 1px 3px 3px 1px;
         }
       }
       .bookpage-book-piggy-bank-container{
