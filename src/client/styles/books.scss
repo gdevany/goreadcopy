@@ -69,6 +69,40 @@
 
 .book-image-modal {
   .book-image-modal-container {
+    display: inline-flex;
     text-align: center;
+    width: 100%;
+    .book-image-modal-details {
+      display: inline-flex;
+      flex-direction: column;
+      .columns {
+        padding: 0px;
+      }
+      .book-image-modal-header-left {
+        .book-image-modal-title {
+          text-align: left;
+          color: $black;
+        }
+        .book-image-modal-author-container {
+          display: inline-flex;
+          .book-image-modal-author-info {
+            padding-left: 10px;
+            text-align: left;
+          }
+        }
+      }
+      .book-image-modal-header-right {
+        .book-image-modal-price {
+          color: $black;
+        }
+        .book-image-modal-addtocart-container {
+          display: inline-flex;
+          align-items: center;
+          a{
+            min-width: 0;
+          }
+        }
+      }
+    }
   }
 }
