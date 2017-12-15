@@ -14,6 +14,7 @@ import ReviewsContainer from './ReviewsContainer'
 import { Auth } from '../../../services'
 import { Store, Rates } from '../../../redux/actions'
 import { Numbers } from '../../../utils'
+import CloseIcon from 'material-ui/svg-icons/navigation/close'
 
 const { StoreSpinner } = Loaders
 const { addToCart, getBookInfo } = Store
@@ -196,6 +197,11 @@ class BookPage extends PureComponent {
         onRequestClose={this.closeImageModal}
         autoScrollBodyContent={true}
       >
+        <span>
+          <a onClick={this.closeImageModal}>
+            <CloseIcon />
+          </a>
+        </span>
         <div className='large-6 book-image-modal-cover'>
           <img src={bookInfo.originalImageUrl} />
         </div>
