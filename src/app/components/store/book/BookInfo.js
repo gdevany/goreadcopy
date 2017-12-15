@@ -874,7 +874,7 @@ class BookInfo extends PureComponent {
                   </span>
               }
               {
-                bookInfo.isPresale ?
+                true/*bookInfo.isPresale*/ ?
                   <span className='label info'>
                     {
                       `Pre-Order will ship from

@@ -113,10 +113,13 @@ class BookPage extends PureComponent {
 
   handleBookDetailsInfo = () => {
     const { bookInfo } = this.state
-    const ageRange = bookInfo ? bookInfo.audienceGradeMin && bookInfo.audienceGradeMax ?
-      bookInfo.audienceGradeMin.code + ' - ' + bookInfo.audienceGradeMax.code : null : null
+    const ageRange = bookInfo ? bookInfo.audienceGradeMin && bookInfo.audienceGradeMax &&
+      bookInfo.audienceGradeMin.code !== 'NA' ? bookInfo.audienceGradeMin.code + ' - ' +
+      bookInfo.audienceGradeMax.code : null : null
     const productDimensions = bookInfo ? bookInfo.length && bookInfo.width && bookInfo.height ?
       bookInfo.length + ' x ' + bookInfo.width + ' x ' + bookInfo.height + ' Inches' : null : null
+    const format = bookInfo ? bookInfo.productType ? bookInfo.productType.description ?
+      bookInfo.productType.description.split('-')[0] : null : null : null
     const otherFormats = bookInfo ? bookInfo.family.length > 0 ?
       this.handleOtherFormats(bookInfo.family) : null : null
     bookInfo ? (
@@ -132,7 +135,7 @@ class BookPage extends PureComponent {
           'ISBN': bookInfo.ean,
           'Dimensions': productDimensions,
           'Weight': bookInfo.weight ? bookInfo.weight + ' Pounds' : null,
-          'Format': bookInfo.productType ? bookInfo.productType.description : null,
+          'Format': format,
           'Other Formats': otherFormats,
         }
       })
@@ -142,7 +145,7 @@ class BookPage extends PureComponent {
   handleBookDetails = () => {
     const detailsArray = ['ISBN', 'Pages', 'Age Range', 'Grade Level',
       'Series', 'Hardcover', 'Publisher', 'Language', 'Format', 'Other Formats',
-      'Dimensions', 'Weight']
+      'Dimensions']
     const result = detailsArray.map((detail, index) => {
       return this.handleRenderDetail(detail, index)
     })
