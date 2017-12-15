@@ -31,6 +31,7 @@ const {
     setPromoCode,
     cleanPromoCode,
     validateCategory,
+    setUsingLitcoins
   }
 } = Endpoints
 
@@ -69,6 +70,7 @@ const Store = () => {
     getPaypalConfig: () => authenticated().get(getPaypalConfig()),
     setPromoCode: (id, params) => authenticated().post(setPromoCode(id), params),
     cleanPromoCode: (id, params) => authenticated().post(cleanPromoCode(id), params),
+    setUsingLitcoins: (params)=> authenticated().post(setUsingLitcoins(), params),
   }
 }
 

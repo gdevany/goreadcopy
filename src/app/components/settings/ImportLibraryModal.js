@@ -3,6 +3,7 @@ import { Dialog } from 'material-ui'
 import { Import } from '../../services/api'
 import Dropzone from 'react-dropzone'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
+import { Colors } from '../../constants/style'
 import Promise from 'bluebird'
 
 const { libraryUpload } = Import
@@ -42,7 +43,7 @@ class ImportLibraryModal extends Component {
 
   getFileJSON = (fileString) => {
     const header = 'data:text/csv;base64,'
-    return header + btoa(fileString)
+    return header + btoa(unescape(encodeURIComponent(fileString)))
   }
 
   getBase64AndUpdate = (file, FileType) => {
@@ -61,48 +62,36 @@ class ImportLibraryModal extends Component {
       .catch(err => this.handleIncorrectType(err))
   }
 
+  handlerTableRow = (result, index, value, description) => {
+    return (
+      <tr key={index} className={value}>
+        <td data-th='ISBN'>{result.isbn}</td>
+        <td data-th='Status'>{description}</td>
+        <td data-th='Title'>{result.title}</td>
+      </tr>
+    )
+  }
+
   displayResults = (results) => {
     if (results.status !== 'too_many_books') {
       const table = (
         <table className='display-results'>
           <tbody>
             <tr>
-              <th>
-                ISBN
-              </th>
-              <th>
-                Status
-              </th>
+              <th>ISBN</th>
+              <th>Status</th>
               <th className='title-heading'>
                 Title
               </th>
             </tr>
-            {results.data.added.map(function (result, index) {
-              return (
-                <tr key={index} className='success'>
-                 <td>{result.isbn}</td>
-                 <td>Imported</td>
-                 <td>{result.title}</td>
-                </tr>
-              )
+            {results.data.added.map((result, index) => {
+              return this.handlerTableRow(result, index, 'success', 'Imported')
             })}
-            {results.data.failed.map(function (result, index) {
-              return (
-                <tr key={index} className='failed'>
-                 <td>{result.isbn}</td>
-                 <td>Failed</td>
-                 <td>{result.title}</td>
-                </tr>
-              )
+            {results.data.failed.map((result, index) => {
+              return this.handlerTableRow(result, index, 'failed', 'Failed')
             })}
-            {results.data.exists.map(function (result, index) {
-              return (
-                <tr key={index} className='exists'>
-                 <td>{result.isbn}</td>
-                 <td>Already added</td>
-                 <td>{result.title}</td>
-                </tr>
-              )
+            {results.data.exists.map((result, index) => {
+              return this.handlerTableRow(result, index, 'exists', 'Already added')
             })}
           </tbody>
         </table>
@@ -155,9 +144,9 @@ class ImportLibraryModal extends Component {
 
   importSection = () => {
     return (
-      <div>
+      <div className='import-library-container'>
         <div className='upload'>
-          <h3>
+          <h3 className='upload-title'>
             Upload your file
           </h3>
           <div className='upload-library'>
@@ -221,7 +210,11 @@ class ImportLibraryModal extends Component {
           <p>
             Click on "Export Library" on the top right of the page.
           </p>
-          <img src='/image/import-library-help-1.png'/>
+          <img
+            style={this.state.img1loaded ? {} : { display: 'none' }}
+            src='/image/import-library-help-1.png'
+            onLoad={() => this.setState({ img1loaded: true })}
+          />
           <strong>
             Step 3.
           </strong>
@@ -230,7 +223,11 @@ class ImportLibraryModal extends Component {
             export. Then click the "Your export" link to
             download it to your computer.
           </p>
-          <img src='/image/import-library-help-2.png'/>
+          <img
+            style={this.state.img2loaded ? {} : { display: 'none' }}
+            src='/image/import-library-help-2.png'
+            onLoad={() => this.setState({ img2loaded: true })}
+          />
           <strong>
             Step 4.
           </strong>

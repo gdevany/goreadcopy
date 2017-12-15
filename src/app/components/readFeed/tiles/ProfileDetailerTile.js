@@ -79,7 +79,10 @@ class ProfileDetailerTile extends Component {
         hasPhoto: true
       })
     }
-    if (this.props.address1) {
+    if (this.props.address1 &&
+        this.props.city &&
+        this.props.country &&
+        this.props.profession) {
       this.setState({
         hasAddress: true
       })
@@ -234,6 +237,9 @@ const mapStateToProps = (state) => {
     hasProfileImage: state.currentReader.hasProfileImage,
     fullname: state.currentReader.fullname,
     address1: state.currentReader.address1,
+    country: state.currentReader.country,
+    city: state.currentReader.city,
+    profession: state.currentReader.profession,
   }
 }
 

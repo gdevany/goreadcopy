@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
+import CheckIcon from 'material-ui/svg-icons/navigation/check'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { AnchoredParagraph, HyperLinkWrapper } from '../'
 import { Colors } from '../../../constants/style'
@@ -131,7 +132,12 @@ class NotificationItem extends PureComponent {
                 >
                   + Follow
                 </a>
-              ) : null
+              ) : (
+                <p className='notification-following'>
+                  <CheckIcon className='notification-following-icon'/>
+                  Following
+                </p>
+              )
             }
             <span className='notification-timestamp'>
               {
