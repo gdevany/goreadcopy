@@ -230,9 +230,6 @@ class SearchModal extends Component {
       searchTerm,
     } = this.state
 
-    const {
-      advancedSearch,
-    } = routes
     return (
       <div>
         <Dialog
@@ -268,10 +265,6 @@ class SearchModal extends Component {
                   />
                 </div>
               </form>
-              <p className='advanced-search-pharagraph'>
-                Can't find what you are looking for? Try with our
-                <a href={advancedSearch()}> Advanced Search </a>
-              </p>
             </div>
             <div className='search-results-contianer'>
               { this.renderSearchResults() }
