@@ -39,7 +39,7 @@ class SearchBookModal extends Component {
       context: '',
       shippingAddressModal: false,
       isFilterOpen: false,
-      selectedFilter: 'Books',
+      selectedFilter: 'Title',
     }
     this.handleSeach = this.handleSeach.bind(this)
     this.debouncedSearch = this.debouncedSearch.bind(this)
@@ -100,10 +100,12 @@ class SearchBookModal extends Component {
     })
     if (filterType !== 'Select Filter' && this.state.searchTerm.length > 3) {
       let filter
-      if (this.state.selectedFilter === 'Authors') {
+      if (this.state.selectedFilter === 'Author') {
         filter = 'author'
-      } else {
+      } else if (this.state.selectedFilter === 'Title') {
         filter = 'title'
+      } else {
+        filter = 'ean'
       }
       this.props.bookSearch(this.state.searchTerm, filter)
     }
@@ -122,8 +124,10 @@ class SearchBookModal extends Component {
         this.props.bookSearch(event.target.value)
       } else {
         let filter
-        if (this.state.selectedFilter === 'Authors') {
+        if (this.state.selectedFilter === 'Author') {
           filter = 'author'
+        } else if (this.state.selectedFilter === 'Title') {
+          filter = 'title'
         } else {
           filter = 'title'
         }
@@ -252,16 +256,23 @@ class SearchBookModal extends Component {
                                 </li>
                                 <li className='search-book-filters-list'>
                                   <a
-                                    onClick={() => this.handleSelectFilter('Books')}
+                                    onClick={() => this.handleSelectFilter('Title')}
                                   >
-                                    Books
+                                    Title
                                   </a>
                                 </li>
                                 <li className='search-book-filters-list'>
                                   <a
-                                    onClick={() => this.handleSelectFilter('Authors')}
+                                    onClick={() => this.handleSelectFilter('EAN')}
                                   >
-                                    Authors
+                                    EAN
+                                  </a>
+                                </li>
+                                <li className='search-book-filters-list'>
+                                  <a
+                                    onClick={() => this.handleSelectFilter('Author')}
+                                  >
+                                    Author
                                   </a>
                                 </li>
                               </ul>
