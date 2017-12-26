@@ -918,7 +918,7 @@ class BookInfo extends PureComponent {
               }
               {
                 bookInfo.isPresale ?
-                  <span className='label info'>
+                  <span className='label'>
                     {
                       `Pre-Order will ship from
                       ${moment(bookInfo.onSaleDate).format('MMMM Do,  YYYY')}`
