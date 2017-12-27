@@ -2,7 +2,7 @@ import { SEARCH as A } from '../const/actionTypes'
 import Search from '../../services/api/search'
 import { debounce } from 'lodash'
 
-export function mainSearch(searchTerm, searchType) {
+export function mainSearch(searchTerm, searchType, subFilter) {
   let terms = {}
 
   if (searchType === 'main-search') {
@@ -13,12 +13,29 @@ export function mainSearch(searchTerm, searchType) {
       publisher: searchTerm,
     }
   }
-  if (searchType === 'book-search') {
+
+  if (searchType === 'book') {
     terms = {
-      author: '',
-      reader: '',
       book: searchTerm,
-      publisher: '',
+      subFilter: subFilter,
+    }
+  }
+
+  if (searchType === 'author') {
+    terms = {
+      author: searchTerm,
+    }
+  }
+
+  if (searchType === 'reader') {
+    terms = {
+      reader: searchTerm,
+    }
+  }
+
+  if (searchType === 'publisher') {
+    terms = {
+      publisher: searchTerm,
     }
   }
   const debounceSearch = () => {
