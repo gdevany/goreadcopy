@@ -5,10 +5,8 @@ import { connect } from 'react-redux'
 import { ExternalRoutes as routes } from '../../constants'
 import PrimaryButton from './PrimaryButton'
 import SocialButton from './SocialButton'
-import WrappedField from './WrappedField'
+import { LoginForm } from './data/forms'
 import { Auth, Chat, Notifications, ReaderData } from '../../redux/actions'
-import RefreshIndicator from 'material-ui/RefreshIndicator'
-import { Colors } from '../../constants/style'
 
 const { processUserLogin, cleanUserLoginErrors } = Auth
 const { getChatContacts } = Chat
@@ -129,15 +127,10 @@ class SignInModal extends Component {
 
   render() {
     const {
-      errors,
       modalOpen,
-      handleSubmit
     } = this.props
 
     const {
-      username,
-      password,
-      showLoader,
       isPassForgotten,
       isRecoverSubmit,
       isRecoverError,
@@ -248,62 +241,15 @@ class SignInModal extends Component {
               or sign in with email:
             </h4>
             <div style={styles.formContainer}>
-              <form onSubmit={this.handleSubmit} className='form-wrapper general-font'>
-                <WrappedField
-                  field='username'
-                  errors={errors}
-                >
-                  <span className='form-label'> Username </span>
-                  <input
-                    type='text'
-                    className='form-input'
-                    onChange={this.handleOnChange('username')}
-                    value={username}
-                  />
-                </WrappedField>
-                <WrappedField
-                  field='password'
-                  errors={errors}
-                >
-                  <span className='form-label'> Password </span>
-                  <input
-                    type='password'
-                    className='form-input'
-                    onChange={this.handleOnChange('password')}
-                    value={password}
-                  />
-                </WrappedField>
-                <div className='center-text'>
-                  <PrimaryButton
-                    label={'Sign in with email'}
-                    onClick={handleSubmit}
-                    type={'submit'}
-                  />
-                </div>
-                <div className='forgot-password' onClick={this.handleOnForgottenChange}>
-                  <span>
-                    Forgot password?
-                  </span>
-                </div>
-                <WrappedField
-                  field='nonFieldErrors'
-                  errors={errors}
-                />
-                {
-                  showLoader ? (
-                    <div className='form-input-wrapper center-text'>
-                      <RefreshIndicator
-                        size={50}
-                        left={0}
-                        top={0}
-                        loadingColor={Colors.blue}
-                        status='loading'
-                        style={styles.refresh}
-                      />
-                    </div>
-                  ) : null
-                }
-              </form>
+              <LoginForm
+                onSuccess={()=>{this.props.handleClose()}}
+                onError={null}
+              />
+              <div className='forgot-password' onClick={this.handleOnForgottenChange}>
+                <span>
+                  Forgot password?
+                </span>
+              </div>
             </div>
           </div>)}
         </Dialog>

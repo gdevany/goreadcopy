@@ -195,11 +195,7 @@ class CartPage extends PureComponent {
                             Continue shopping
                           </Link>
                           <Link
-                            onClick={
-                              isUserLoggedIn ?
-                              this.handleCheckout :
-                              this.handleSignUpModalOpen
-                            }
+                            onClick={this.handleCheckout}
                             className='store-primary-button float-right'
                             to='/shop/checkout'
                           >

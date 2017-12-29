@@ -16,6 +16,7 @@ import SignUpSpecialOffer from './SignUpSpecialOffer'
 import Steps from './services/steps'
 import Promise from 'bluebird'
 import { CONTEXTS as C } from '../../constants/litcoins'
+import PropTypes from 'prop-types'
 
 const styles = {
   stepperContainer: {
@@ -45,12 +46,13 @@ class SignUpStepper extends PureComponent {
       finished: false,
       stepIndex: this.startingStep(),
     }
-
-    this.handleNext = this.handleNext.bind(this)
-    this.handlePrev = this.handlePrev.bind(this)
   }
 
-  startingStep() {
+  static contextTypes = {
+    router: PropTypes.object
+  }
+
+  startingStep = () => {
     const { step } = this.props.router.location.query
     return Steps.fromName(step) || Steps.first()
   }

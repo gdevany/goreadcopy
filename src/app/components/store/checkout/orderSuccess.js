@@ -1,12 +1,14 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
+import { animateScroll } from 'react-scroll'
+import PropTypes from 'prop-types'
 import Paper from 'material-ui/Paper'
+import moment from 'moment'
 import { Footer } from '../../common'
 import { StoreNavView } from '../../views'
 import { SuccessBanner, OrderSummary } from './'
 import { Store } from '../../../redux/actions'
-import moment from 'moment'
 
 const { cleanOrderAndCart } = Store
 
@@ -19,17 +21,28 @@ const styles = {
 
 class orderSuccess extends PureComponent {
 
+  static contextTypes = {
+    router: PropTypes.object
+  }
+
+  componentDidMount() {
+    animateScroll.scrollToTop()
+  }
+
   componentWillUnmount() {
     this.props.cleanOrderAndCart()
   }
 
   render() {
-    const { order } = this.props
+    const { order, location } = this.props
     if (order) {
-      const { shippingAddress, billingAddress } = order
+      const { shippingAddress, billingAddress, litcoinsToEarn } = order
       return (
         <StoreNavView>
-          <SuccessBanner />
+          <SuccessBanner
+            createdAccount={location && location.query && location.query.created}
+            litcoinsEarned={litcoinsToEarn || 0}
+          />
           <Paper zDepth={1} className='row' style={styles.orderPaper}>
             <div className='large-7 columns'>
               <div className='order-success-left-container'>
