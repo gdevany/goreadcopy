@@ -8,6 +8,16 @@ import Env from '../../constants/env'
 const { hasErrors } = Errors
 const { validate } = SignupModalValidator
 
+export function signUpReader(payload) {
+  return (dispatch) => {
+    const request = Readers.createReader(payload)
+    request
+      .then(res => dispatch(createReaderSuccess(res)))
+      .catch(err => dispatch(updateReaderErrors(err)))
+    return request
+  }
+}
+
 export function createReader() {
   return (dispatch, getState) => {
     const { readerData } = getState()
@@ -107,4 +117,5 @@ export default {
   updateReaderData,
   updateReaderErrors,
   resetUserPassword,
+  signUpReader,
 }

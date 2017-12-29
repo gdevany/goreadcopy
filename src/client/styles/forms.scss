@@ -10,3 +10,9 @@ select.normal-feel {
   outline: 0;
   transition: box-shadow .5s,border-color .25s ease-in-out,-webkit-box-shadow .5s;
 }
+
+.form-hint {
+  display: block;
+  font-size: 12px;
+  color: gray;
+}

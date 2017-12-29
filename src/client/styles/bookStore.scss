@@ -536,3 +536,12 @@
 .store-primary-button.float-right{
   float: right;
 }
+
+.flex-row-w {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+.flex-as-center {
+  align-self: center;
+}

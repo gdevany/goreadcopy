@@ -32,7 +32,7 @@ const styles = {
   formContainer: {
     height: '100vh',
     margin: '0 auto',
-    maxWidth: 400,
+    maxWidth: 500,
   },
 
   refresh: {
