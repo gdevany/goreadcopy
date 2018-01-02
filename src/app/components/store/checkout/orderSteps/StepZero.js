@@ -44,11 +44,6 @@ class StepZero extends PureComponent {
           <FullSignUpForm
             onSuccess={this.props.onAccountCreation}
           />
-          <div className='center-text'>
-            <h3 className='large-header'>
-              With this information you will be able to log in and track your Order!
-            </h3>
-          </div>
         </div>
       </div>
     )
