@@ -8,7 +8,7 @@ import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { Search } from '../../redux/actions'
 import { debounce } from 'lodash'
 
-const { mainSearch, updateSearch } = Search
+const { mainSearch, cleanSearchState } = Search
 
 const styles = {
   modalBody: {
@@ -60,6 +60,7 @@ class SearchModal extends Component {
 
   debouncedSearch = debounce((event) => {
     if (event.target.value.length > 3) {
+      this.props.cleanSearchState()
       if (this.state.selectedFilter === 'Select Filter') {
         this.props.mainSearch(event.target.value, 'book')
       } else {
@@ -96,25 +97,26 @@ class SearchModal extends Component {
 
   handleSelectFilter = (filterType, subFilter) => {
     const selectedSubFilter = subFilter ? subFilter.toLowerCase() : false
+    let filter
+    if (filterType === 'Author') {
+      filter = 'author'
+    } else if (filterType === 'Book') {
+      filter = 'book'
+    } else if (filterType === 'Reader') {
+      filter = 'reader'
+    } else if (filterType === 'Publisher') {
+      filter = 'publisher'
+    } else {
+      filter = 'book'
+    }
     this.setState({
       selectedFilter: filterType,
       selectedSubFilter: selectedSubFilter,
       isFilterOpen: false,
     })
     if (filterType !== 'Select Filter' && this.state.searchTerm.length > 3) {
-      let filter
-      if (this.state.selectedFilter === 'Author') {
-        filter = 'author'
-      } else if (this.state.selectedFilter === 'Book') {
-        filter = 'book'
-      } else if (this.state.selectedFilter === 'Reader') {
-        filter = 'reader'
-      } else if (this.state.selectedFilter === 'Publisher') {
-        filter = 'publisher'
-      } else {
-        filter = 'book'
-      }
-      this.props.mainSearch(this.state.searchTerm, filter, selectedSubFilter)
+      this.props.cleanSearchState()
+      this.props.mainSearch(this.state.searchTerm, filter, this.state.selectedSubFilter)
     }
   }
 
@@ -189,7 +191,7 @@ class SearchModal extends Component {
       }
 
       if (searchTerms.books) {
-        bookResults = searchTerms.books.map((book, index) => {
+        bookResults = searchTerms.books.results.map((book, index) => {
           return (
             <div key={book.id} className='result-container'>
               <div className='image-container'>
@@ -260,23 +262,17 @@ class SearchModal extends Component {
 
       return (
         <div className='search-results'>
-          {(readerResults || authorResults || publisherResults) ? (
-            <div className='rap-results-container'>
-              {readerResults ? (
-                <div className='search-reader-results'>{readerResults}</div>
-              ) : null}
-              {authorResults ? (
-                <div className='search-author-results'>{authorResults}</div>
-              ) : null}
-              {publisherResults ? (
-                <div className='search-publisher-results'>{publisherResults}</div>
-              ) : null}
-            </div>
+          {readerResults ? (
+            <div className='search-reader-results'>{readerResults}</div>
+          ) : null}
+          {authorResults ? (
+            <div className='search-author-results'>{authorResults}</div>
+          ) : null}
+          {publisherResults ? (
+            <div className='search-publisher-results'>{publisherResults}</div>
           ) : null}
           {bookResults ? (
-            <div className='book-results-container'>
-              <div className='search-book-results'>{bookResults}</div>
-            </div>
+            <div className='search-book-results'>{bookResults}</div>
           ) : null}
         </div>
       )
@@ -452,4 +448,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { mainSearch, updateSearch })(SearchModal)
+export default connect(mapStateToProps, { mainSearch, cleanSearchState })(SearchModal)
