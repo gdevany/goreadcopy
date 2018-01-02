@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
 import { Dialog } from 'material-ui'
 import Scroll from 'react-scroll'
-import { Footer, Loaders } from '../../common'
+import { Footer } from '../../common'
 import { StoreNavView } from '../../views'
 import WishListBooks from '../common/wishListBooks'
 import BookInfo from './BookInfo'
@@ -13,15 +12,12 @@ import ReviewsContainer from './ReviewsContainer'
 // import NewsLetter from './NewsLetter'
 import { Auth } from '../../../services'
 import { Store, Rates } from '../../../redux/actions'
-import { Numbers } from '../../../utils'
 import CloseIcon from 'material-ui/svg-icons/navigation/close'
 
-const { StoreSpinner } = Loaders
 const { addToCart, getBookInfo } = Store
 const { getStarsInfo } = Rates
 const Anchor = Scroll.Link
 const { Element, animateScroll } = Scroll
-const { parseFloatToUSD } = Numbers
 
 class BookPage extends PureComponent {
 
@@ -187,7 +183,6 @@ class BookPage extends PureComponent {
   }
 
   handleImageModal = (bookInfo) => {
-    const { addToCartClicked } = this.state
     return (
       <Dialog
         className='book-image-modal'
@@ -202,97 +197,8 @@ class BookPage extends PureComponent {
             <CloseIcon />
           </a>
         </span>
-        <div className='large-6 book-image-modal-cover'>
+        <div className='book-image-modal-cover'>
           <img src={bookInfo.originalImageUrl} />
-        </div>
-        <div className='large-6 book-image-modal-details'>
-          <div className='row'>
-            <div className='large-6 columns book-image-modal-header-left'>
-              <h4 className='book-image-modal-title'>
-                {this.truncInfo(bookInfo.title, 45)}
-              </h4>
-              <div className='book-image-modal-author-container'>
-                <div className='large-4 book-image-modal-author-image'>
-                  <figure>
-                    <a href={bookInfo.authors.length ? bookInfo.authors[0].url : ''}>
-                          <img src={bookInfo.authors.length ? bookInfo.authors[0].imageUrl : ''}/>
-                        </a>
-                  </figure>
-                </div>
-                <div className='large-8 book-image-modal-author-info'>
-                  <p>
-                    <a href={bookInfo.authors.length ? bookInfo.authors[0].url : ''}>
-                      {bookInfo.authors.length ? bookInfo.authors[0].fullname : ''}
-                    </a>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className='large-6 columns book-image-modal-header-right'>
-              <h3 className='book-image-modal-price'>
-                {bookInfo.isOnSale ?
-                `${parseFloatToUSD(bookInfo.onSalePrice)}` :
-                `${parseFloatToUSD(bookInfo.shopPrice)}`}
-              </h3>
-              {bookInfo.isOnSale ?
-              (
-                <div className='book-image-modal-saving-container'>
-                  <span className='book-image-modal-saving-old-price'>
-                    {`${parseFloatToUSD(bookInfo.shopPrice)}`}
-                  </span>
-                      |
-                      <span className='book-image-modal-saving-percentage'>
-                    Save %{this.calculateSaving(bookInfo.onSalePrice, bookInfo.shopPrice)}
-                  </span>
-                </div>
-              ) : null}
-              <div className='book-image-modal-addtocart-container'>
-                {
-                  bookInfo.isOnStock ?
-                    <Link
-                      className='store-primary-button'
-                      onClick={!addToCartClicked ?
-                        this.handleAddToCart : null
-                      }
-                      to={!addToCartClicked ? null : '/shop/cart'}
-                    >
-                      {
-                        this.state.addToCartProcessing ?
-                          <StoreSpinner /> :
-                          !addToCartClicked ?
-                            'Add to Cart' :
-                            'View Cart'
-                      }
-                    </Link> :
-                    <span className='error'>
-                      Sorry!
-                      <br/>
-                      This item is Out of Stock.
-                    </span>
-                }
-                {
-                  bookInfo.isPresale ?
-                    <span className='label info'>
-                      {
-                        `Pre-Order will ship from
-                        ${moment(bookInfo.onSaleDate).format('MMMM Do,  YYYY')}`
-                      }
-                    </span> :
-                    null
-                }
-              </div>
-            </div>
-          </div>
-          <div className='row'>
-            <div className='large-12 book-image-modal-awards'>
-              Book Awards
-            </div>
-          </div>
-          <div className='row'>
-            <div className='large-12 book-image-modal-related'>
-              Some Related Books
-            </div>
-          </div>
         </div>
       </Dialog>
     )
