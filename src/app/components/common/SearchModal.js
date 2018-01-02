@@ -116,7 +116,7 @@ class SearchModal extends Component {
     })
     if (filterType !== 'Select Filter' && this.state.searchTerm.length > 3) {
       this.props.cleanSearchState()
-      this.props.mainSearch(this.state.searchTerm, filter, this.state.selectedSubFilter)
+      this.props.mainSearch(this.state.searchTerm, filter, selectedSubFilter)
     }
   }
 
