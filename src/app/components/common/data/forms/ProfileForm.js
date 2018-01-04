@@ -24,6 +24,7 @@ const params = {
     UPDATE_READER: [
       'firstName',
       'lastName',
+      'email',
       'address1',
       'address2',
       'birthdate',
@@ -39,6 +40,7 @@ const params = {
   rules: [
     ruleRunner('firstName', 'First Name', required),
     ruleRunner('lastName', 'Last Name', required),
+    ruleRunner('email', 'Email', required),
     ruleRunner('address1', 'Address', required),
     ruleRunner('year', 'Year', required),
     ruleRunner('month', 'Month', required),
@@ -112,6 +114,15 @@ class ProfileForm extends Form {
           text={this.state.lastName || ''}
           onFieldChanged={this.handleFieldChanged(['lastName'])}
           errorText={this.errorFor('lastName')}
+        />
+        <TextFieldInput
+          placeholder=''
+          customClasses='small-12 columns'
+          label='Email'
+          showError={this.state.showErrors}
+          text={this.state.email || ''}
+          onFieldChanged={this.handleFieldChanged(['email'])}
+          errorText={this.errorFor('email')}
         />
         <DateDropDownInput
           label='Birthdate'
