@@ -14,10 +14,13 @@ const { loadNotifications } = Notifications
 const { resetUserPassword } = ReaderData
 
 const styles = {
+  modalRoot: {
+    position: 'fixed',
+  },
   modalBody: {
     marginTop: -80,
+    width: '100%',
   },
-
   modalContent: {
     maxWidth: '100%',
     width: '100%',
@@ -143,6 +146,7 @@ class SignInModal extends Component {
           bodyClassName='signup-modal-content'
           bodyStyle={styles.modalBody}
           contentStyle={styles.modalContent}
+          style={styles.modalRoot}
           modal={false}
           open={modalOpen}
           onRequestClose={this.handleCloseModal}

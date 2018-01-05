@@ -21,6 +21,7 @@ const { getInitialReaderData, checkFields, updateReaderData } = ReaderData
 const styles = {
   modalBody: {
     marginTop: -80,
+    width: '100%',
   },
 
   modalContent: {
