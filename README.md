@@ -49,7 +49,7 @@ To run backend locally use these settings:
 ```
 SOCKET_URL=ws://localhost:8000/ws/userprofile?subscribe-user
 REDIRECT_BASE_URL=http://localhost:8000
-API_URL=http://localhost:8000 
+API_URL=http://localhost:8000
 NODE_ENV='development'
 SESSION_COOKIE_DOMAIN='.readerslegacy.com'
 PORT=3001
@@ -68,12 +68,7 @@ PORT=3001
 ### Running the app
 
 ```sh
-$ yarn start
-```
-
-Then visit:
-```sh
-$ http://localhost:3001
+$ yarn start:dev
 ```
 
 ### Branches and Deployed Environments
