@@ -27,11 +27,15 @@ module.exports = {
     }
   },
   entry: [
-    'webpack/hot/dev-server',
-    'webpack-hot-middleware/client',
     path.join(__dirname, '/src/app/index.js'),
   ],
   devtool: 'eval-source-map',
+  devServer: {
+    compress: true,
+    port: 3001,
+    hot: true,
+    open: true,
+  },
   /*
   devtool: 'inline-source-map',
   */
