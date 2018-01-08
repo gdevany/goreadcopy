@@ -12,7 +12,7 @@
     "deploy": "gcloud app deploy --project rl-staging",
     "heroku-postbuild": "npm run build",
     "start": "node src/server/server.js",
-    "start:dev": "nodemon src/server/server.js --ignore components --progress --inline --colors",
+    "start:dev": "webpack-dev-server --config webpack-dev-server.config.js",
     "test": "karma start",
     "test:watch": "npm test -- --watch"
   },
