@@ -9,13 +9,14 @@ import Dropzone from 'react-dropzone'
 import urlParser from 'js-video-url-parser'
 import R from 'ramda'
 import Promise from 'bluebird'
-import { Tiles } from '../../redux/actions'
+import { Tiles, Common } from '../../redux/actions'
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { Colors } from '../../constants/style'
 
 const { prependProfileTile } = Tiles
 const { uploadImage } = Images
 const { search } = Search
+const { showAlert } = Common
 const { postNewMessage } = Posts
 const mentionPattern = /\B@(?!Reader|Author|Publisher|Book)\w+\s?\w+/gi
 const videoPattern = /((https?:\/\/)?(?:www\.)?(?:vimeo|youtu|dailymotion)[:=#\w\.\/\?\-]+)/gi
@@ -86,10 +87,10 @@ class StatusPost extends PureComponent {
         .then(() => this.cleanStatusPost())
         .then(() => this.setState({ loadingPost: false }))
         .catch(err => {
-          console.log(err)
-          this.setState({
-            showErrorOnPost: true,
-          })
+          if (err && err.response && err.response.data && err.response.data.status === 'error') {
+            this.props.showAlert({ type: 'error', message: err.response.data.message })
+          }
+          this.setState({ showErrorOnPost: true })
           this.cleanStatusPost()
         })
     }
@@ -464,4 +465,9 @@ const mapStateToProps = ({
   }
 }
 
-export default connect(mapStateToProps, { prependProfileTile })(StatusPost)
+const mapDispatchToProps = {
+  showAlert,
+  prependProfileTile
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(StatusPost)
