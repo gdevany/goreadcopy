@@ -9,12 +9,11 @@ import ReplyIcon from 'material-ui/svg-icons/content/reply'
 import { ShareButtons, generateShareIcon } from 'react-share'
 import R from 'ramda'
 import { debounce } from 'lodash'
-import { Loaders, SuggestionList } from '../../common'
+import { HtmlToReact, Loaders, SuggestionList } from '../../common'
 import Scroll from 'react-scroll'
 import ReactPlayer from 'react-player'
 import Dialog from 'material-ui/Dialog'
 import moment from 'moment'
-import renderHTML from 'react-render-html'
 
 const { showAlert } = Common
 const { followOrUnfollow } = Follow
@@ -508,9 +507,9 @@ class BookInfo extends PureComponent {
               }
               <div className='bookpage-book-excerpt-container-desktop'>
                 <p className='bookpage-book-excerpt'>
-                  {isBookFullDescription ?
-                    renderHTML(bookInfo.description) :
-                    renderHTML(this.truncInfo(bookInfo.description, 350))}
+                  {bookInfo ? isBookFullDescription ?
+                    <HtmlToReact htmlInput={bookInfo.description} /> :
+                    <HtmlToReact htmlInput={this.truncInfo(bookInfo.description, 350)} /> : null}
                   {bookInfo.description.length > 350 ? (
                   <a
                     className='bookpage-book-excerpt-readmore-btn'
@@ -524,9 +523,9 @@ class BookInfo extends PureComponent {
           </div>
           <div className='bookpage-book-excerpt-container-mobile'>
             <p className='bookpage-book-excerpt'>
-              {isBookFullDescription ?
-                renderHTML(bookInfo.description) :
-                renderHTML(this.truncInfo(bookInfo.description, 350))}
+              {bookInfo ? isBookFullDescription ?
+                <HtmlToReact htmlInput={bookInfo.description} /> :
+                <HtmlToReact htmlInput={this.truncInfo(bookInfo.description, 350)} /> : null}
               {bookInfo.description.length > 350 ? (
               <a
                 className='bookpage-book-excerpt-readmore-btn'
@@ -671,7 +670,9 @@ class BookInfo extends PureComponent {
                       <FacebookShareButton
                         url={bookInfo.url}
                         title={bookInfo.title}
-                        description={renderHTML(this.truncInfo(bookInfo.description, 100))}
+                        description={
+                          <HtmlToReact htmlInput={this.truncInfo(bookInfo.description, 100)} />
+                        }
                         className='facebook-share-button pointer-hand'
                       >
                         <FacebookIcon
@@ -704,7 +705,9 @@ class BookInfo extends PureComponent {
                       <LinkedinShareButton
                         url={bookInfo.url}
                         title={bookInfo.title}
-                        description={renderHTML(this.truncInfo(bookInfo.description, 100))}
+                        description={
+                          <HtmlToReact htmlInput={this.truncInfo(bookInfo.description, 100)} />
+                        }
                         windowWidth={750}
                         windowHeight={600}
                         className='linkedin-share-button pointer-hand'
@@ -793,7 +796,7 @@ class BookInfo extends PureComponent {
                 <div className='post-excerpt-container'>
                   <p className='post-excerpt-pharagraph'>
                     {bookInfo.description && bookInfo.description !== 'None' ?
-                      renderHTML(this.truncInfo(bookInfo.description, 225)) : null
+                      <HtmlToReact htmlInput={this.truncInfo(bookInfo.description, 225)} /> : null
                     }
                     <a href={`/book/${bookInfo.slug}`} className='post-readmore-anchor'>
                       Read more
