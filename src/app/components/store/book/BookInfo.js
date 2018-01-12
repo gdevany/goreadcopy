@@ -506,7 +506,7 @@ class BookInfo extends PureComponent {
                 ) : null
               }
               <div className='bookpage-book-excerpt-container-desktop'>
-                <p className='bookpage-book-excerpt'>
+                <div className='bookpage-book-excerpt'>
                   {bookInfo ? isBookFullDescription ?
                     <HtmlToReact htmlInput={bookInfo.description} /> :
                     <HtmlToReact htmlInput={this.truncInfo(bookInfo.description, 350)} /> : null}
@@ -517,12 +517,12 @@ class BookInfo extends PureComponent {
                   >
                     Read more
                   </a>) : null }
-                </p>
+                </div>
               </div>
             </div>
           </div>
           <div className='bookpage-book-excerpt-container-mobile'>
-            <p className='bookpage-book-excerpt'>
+            <div className='bookpage-book-excerpt'>
               {bookInfo ? isBookFullDescription ?
                 <HtmlToReact htmlInput={bookInfo.description} /> :
                 <HtmlToReact htmlInput={this.truncInfo(bookInfo.description, 350)} /> : null}
@@ -533,7 +533,7 @@ class BookInfo extends PureComponent {
               >
                 Read more
               </a>) : null }
-            </p>
+            </div>
           </div>
           <div className='bookpage-info-left-bottom'>
             {
@@ -670,9 +670,7 @@ class BookInfo extends PureComponent {
                       <FacebookShareButton
                         url={bookInfo.url}
                         title={bookInfo.title}
-                        description={
-                          <HtmlToReact htmlInput={this.truncInfo(bookInfo.description, 100)} />
-                        }
+                        description={bookInfo.descriptionTxt}
                         className='facebook-share-button pointer-hand'
                       >
                         <FacebookIcon
@@ -705,9 +703,7 @@ class BookInfo extends PureComponent {
                       <LinkedinShareButton
                         url={bookInfo.url}
                         title={bookInfo.title}
-                        description={
-                          <HtmlToReact htmlInput={this.truncInfo(bookInfo.description, 100)} />
-                        }
+                        description={bookInfo.descriptionTxt}
                         windowWidth={750}
                         windowHeight={600}
                         className='linkedin-share-button pointer-hand'
