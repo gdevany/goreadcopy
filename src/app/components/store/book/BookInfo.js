@@ -670,7 +670,7 @@ class BookInfo extends PureComponent {
                       <FacebookShareButton
                         url={bookInfo.url}
                         title={bookInfo.title}
-                        description={bookInfo.descriptionTxt}
+                        description={this.truncInfo(bookInfo.descriptionTxt, 100)}
                         className='facebook-share-button pointer-hand'
                       >
                         <FacebookIcon
@@ -703,7 +703,7 @@ class BookInfo extends PureComponent {
                       <LinkedinShareButton
                         url={bookInfo.url}
                         title={bookInfo.title}
-                        description={bookInfo.descriptionTxt}
+                        description={this.truncInfo(bookInfo.descriptionTxt, 100)}
                         windowWidth={750}
                         windowHeight={600}
                         className='linkedin-share-button pointer-hand'
