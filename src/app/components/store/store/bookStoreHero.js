@@ -26,7 +26,7 @@ const BookStoreHero = ({ isUserLogged, openModal, hasWishlist }) => {
             </div>
           ) : (
             <div className='center-text'>
-              <h1>Take a look of our books recommendations</h1>
+              <h1>Take a look at our book recommendations</h1>
               <Anchor
                 to='recommended'
                 spy={true}
