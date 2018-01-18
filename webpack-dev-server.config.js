@@ -31,6 +31,7 @@ module.exports = {
   ],
   devtool: 'eval-source-map',
   devServer: {
+    historyApiFallback: true,
     compress: true,
     port: 3001,
     hot: true,
