@@ -87,6 +87,7 @@
     "nodemon": "^1.11.0",
     "postcss-nested": "^2.0.2",
     "prop-types": "^15.5.10",
+    "puppeteer": "^1.0.0",
     "query-string": "^4.3.1",
     "radium": "^0.19.1",
     "ramda": "^0.23.0",
@@ -123,6 +124,7 @@
     "transfer-webpack-plugin": "^0.1.4",
     "underscore.string.fp": "^1.0.4",
     "url-loader": "^0.5.7",
+    "useragent": "^2.2.1",
     "webpack": "3.5.1",
     "webpack-isomorphic-tools": "3.0.3"
   }
