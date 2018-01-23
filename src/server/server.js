@@ -2,8 +2,6 @@ const fs = require('fs');
 const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
-const isBot = require('./isBot');
-const prerenderPage = require('./prerenderPage');
 
 dotenv.config()
 const app = express();
@@ -23,17 +21,7 @@ app.get('*.js', function (req, res, next) {
 
 app.use(express.static('public', { index: false }));
 
-app.get('*', async (req, res) => {
-  if (isBot(req.headers['user-agent'])) {
-    const localUrl = `http://localhost:${port}${req.originalUrl}`;
-
-    console.log('[SSRServer]: localUrl received by SSR server:', localUrl);
-
-    const html = await prerenderPage(localUrl);
-
-    return res.send(html)
-  }
-
+app.get('*', (req, res) => {
   return res.sendFile(path.join(__dirname + '/../../public/index.html'))
 });
 
