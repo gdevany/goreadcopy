@@ -113,7 +113,7 @@ const CardFrom = ({
                       onClick={handleSave}
                       className='chekoutpage-edit-payment-btn-save'
                     >
-                      Save Address
+                      Save Card
                     </a>
                     <a
                       onClick={handleCancel}

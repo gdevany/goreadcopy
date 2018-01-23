@@ -312,23 +312,24 @@ export function setShipping(params) {
   }
 }
 
-export function placeOrder(params) {
+export function placeOrder(params, opts) {
   return dispatch => {
-    return Store.placeOrder(params)
+    const destination = `/shop/success${opts && opts.hasCreatedAccount ? '?created=1' : ''}`
+    const request = Store.placeOrder(params)
+    request
       .then(res => {
-        dispatch({ type: A.SET_ORDER, payload: res.data })
-        if (res.data.status === 40) {
-          browserHistory.push('/shop/success')
-        }
+        dispatch({ type: A.PLACE_ORDER, payload: res.data })
+        if (res.data.status === 40) browserHistory.push(destination)
       })
       .catch(err => console.error(`Error in placeOrder ${err}`))
+    return request
   }
 }
 
-export function placeOrderWithChanges(reviewParams, placeParams) {
+export function placeOrderWithChanges(reviewParams, placeParams, opts) {
   return dispatch => {
     return Store.reviewOrder(reviewParams)
-      .then(() => dispatch(placeOrder(placeParams)))
+      .then(() => dispatch(placeOrder(placeParams, opts)))
       .catch(err => console.error(`Error in placeOrderWithChanges ${err}`))
   }
 }

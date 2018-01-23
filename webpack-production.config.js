@@ -130,12 +130,6 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        enforce: 'pre',
-        loader: 'eslint-loader',
-        exclude: [nodeModulesPath, testPath],
-      },
-      {
-        test: /\.js$/,
         use: ['react-hot-loader', 'babel-loader'], // react-hot is like browser sync and babel loads jsx and es6-7
         exclude: [nodeModulesPath],
       },

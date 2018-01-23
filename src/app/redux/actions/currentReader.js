@@ -22,10 +22,12 @@ export function setCurrentReader(payload) {
 
 export function getCurrentReader() {
   return dispatch => {
-    CurrentReader.getCurrentReader()
+    const request = CurrentReader.getCurrentReader()
+    request
       .then(res => dispatch(updateCurrentReader(res.data)))
       .then(() => dispatch(getRecommendation(3)))
       .catch(err => console.log(`Error in getCurrentReader ${err}`))
+    return request
   }
 }
 
@@ -52,9 +54,11 @@ export function usePlatformAs(platformUse) {
 
 export function updateReader(payload) {
   return dispatch => {
-    CurrentReader.updateReader(payload)
+    const request = CurrentReader.updateReader(payload)
+    request
       .then(res => dispatch(getCurrentReader()))
       .catch(err => console.log(`Error in updateReader ${err}`))
+    return request
   }
 }
 

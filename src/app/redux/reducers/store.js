@@ -49,6 +49,13 @@ export default (state = initialState.store, { type, payload }) => {
       return R.merge(state, { cartItems: payload })
     case A.SET_ORDER:
       return R.merge(state, { order: payload })
+    case A.PLACE_ORDER:
+      return R.merge(state, { order: {
+        ...payload,
+        litcoinsToEarn: state.order ? state.order.litcoinsToEarn : 0,
+        litcoinsRedeemed: state.order ? state.order.litcoinsRedeemed : 0,
+        dollarsRedeemed: state.order ? state.order.dollarsRedeemed : 0,
+      } })
     case A.GET_ORDERS:
       return {
         ...state,

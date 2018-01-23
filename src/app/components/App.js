@@ -42,7 +42,7 @@ class App extends Component {
     return (
       <div className='app'>
         <StyleRoot>
-        { React.cloneElement(this.props.children) }
+          { React.cloneElement(this.props.children) }
         </StyleRoot>
       </div>
     )
