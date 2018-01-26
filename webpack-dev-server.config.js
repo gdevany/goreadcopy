@@ -6,6 +6,7 @@ const path = require('path')
 const TransferWebpackPlugin = require('transfer-webpack-plugin')
 const dotenv = require('dotenv')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
@@ -104,6 +105,7 @@ module.exports = {
            return module.context && module.context.indexOf('node_modules') !== -1;
         }
     }),
+    new ExtractTextPlugin({filename: '[name].css', allChunks: true}),
     //--------------------------------------------------
     // Only enable when you want to use the Analyzer!!!!
     //--------------------------------------------------
@@ -128,8 +130,18 @@ module.exports = {
         loader: 'url-loader'
       },
       {
-        test: /\.(css|scss)$/,
-        use: ['style-loader', 'css-loader', 'sass-loader']
+        test: /\.css$/i,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader'
+        }),
+      },
+      {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        use: ExtractTextPlugin.extract({
+          use: ['css-loader', 'sass-loader']
+        })
       },
       {
         test: /\.(woff|woff2)$/,
