@@ -63,7 +63,7 @@ module.exports = {
       manifestVariable: 'webpackManifest',
       inlineManifest: true
     }),
-    new ExtractTextPlugin({filename: '[name].css', allChunks: true}),
+    new ExtractTextPlugin({filename: '[name].[chunkhash].css', allChunks: true}),
     new FaviconsWebpackPlugin({
         logo: path.join(__dirname + '/src/client/image/favicon.png'),
         prefix: 'icons-[hash]/',
