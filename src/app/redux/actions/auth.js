@@ -15,7 +15,7 @@ const { hasErrors } = Errors
 export function processUserLogin(credentials) {
   return (dispatch) => {
     const results = validate(credentials)
-    if (hasErrors(results)) { return dispatch(updateReaderErrors(results)) }
+    if (hasErrors(results)) { dispatch(updateReaderErrors(results)) }
 
     const request = authJwt(credentials)
     request

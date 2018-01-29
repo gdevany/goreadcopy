@@ -3,7 +3,7 @@ import R from 'ramda'
 import { Errors } from '../../services'
 
 const WrappedField = ({ field, errors, children }) => {
-  const fieldErrors = errors[field]
+  const fieldErrors = errors ? errors[field] : null
 
   return R.isEmpty(fieldErrors) || R.isNil(fieldErrors) ?
     (

@@ -7,6 +7,10 @@
     border-color: $error-text !important;
   }
 
+  select {
+    border-color: $error-text !important;
+  }
+
   .message {
     display: block;
     font-size: 14px;

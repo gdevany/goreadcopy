@@ -27,11 +27,16 @@ module.exports = {
     }
   },
   entry: [
-    'webpack/hot/dev-server',
-    'webpack-hot-middleware/client',
     path.join(__dirname, '/src/app/index.js'),
   ],
   devtool: 'eval-source-map',
+  devServer: {
+    historyApiFallback: true,
+    compress: true,
+    port: 3001,
+    hot: true,
+    open: true,
+  },
   /*
   devtool: 'inline-source-map',
   */
@@ -113,12 +118,6 @@ module.exports = {
   */
   module: {
     rules: [
-      {
-        test: /\.js$/,
-        enforce: 'pre',
-        loader: 'eslint-loader',
-        exclude: [nodeModulesPath, testPath],
-      },
       {
         test: /\.js$/,
         use: ['react-hot-loader', 'babel-loader'], // react-hot is like browser sync and babel loads jsx and es6-7

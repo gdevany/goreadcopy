@@ -93,7 +93,7 @@ class ShippingForm extends PureComponent {
               <label
                 className='checkoutpage-steps-shipping-address-form-label'
               >
-                Phone
+                Phone *Optional
               </label>
               <input
                 type='text'
