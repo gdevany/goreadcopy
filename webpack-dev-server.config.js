@@ -104,7 +104,6 @@ module.exports = {
        return module.context && module.context.indexOf('node_modules') !== -1;
       },
     }),
-    new ExtractTextPlugin({ filename: '[name].css', allChunks: true }),
     //--------------------------------------------------
     // Only enable when you want to use the Analyzer!!!!
     //--------------------------------------------------
