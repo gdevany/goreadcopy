@@ -1,37 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
 @import 'variables.scss';
-@import 'variables.scss';
-@import 'general.scss';
-@import 'icomoon.scss';
-@import 'errors.scss';
-@import 'image.scss';
-@import 'links.scss';
-@import 'forms.scss';
-@import 'nav-menu.scss';
-@import 'call-to-action.scss';
-@import 'signupflow.scss';
-@import 'books.scss';
-@import 'stepper.scss';
-@import 'litcoins.scss';
-@import 'left-hand-links.scss';
-@import 'typography.scss';
-@import 'read-feed-profile.scss';
-@import 'search-modal.scss';
-@import 'tiles.scss';
-@import 'statuspost.scss';
-@import 'settings.scss';
-@import 'profile-page.scss';
-@import 'chatbox.scss';
-@import 'bookStoreNavBar.scss';
-@import 'bookStore.scss';
-@import 'bookPage.scss';
-@import 'categoriesPage.scss';
-@import 'cartPage.scss';
-@import 'chatNotifications.scss';
-@import 'spinning-loader.scss';
-@import 'sidebarAd.scss';
-@import 'mobile-menu.scss';
-@import 'orders.scss';
+
 $general-font-family: 'Open Sans', san-serif;
 $body-copy: "freight-text-pro", san-serif;
 
@@ -533,3 +502,36 @@ input[type="checkbox"]:focus{
     top: 23vh;
   }
 }
+
+@import 'variables.scss';
+@import 'general.scss';
+@import 'icomoon.scss';
+@import 'errors.scss';
+@import 'image.scss';
+@import 'links.scss';
+@import 'forms.scss';
+@import 'nav-menu.scss';
+@import 'call-to-action.scss';
+@import 'signupflow.scss';
+@import 'books.scss';
+@import 'stepper.scss';
+@import 'litcoins.scss';
+@import 'left-hand-links.scss';
+@import 'typography.scss';
+@import 'read-feed-profile.scss';
+@import 'search-modal.scss';
+@import 'tiles.scss';
+@import 'statuspost.scss';
+@import 'settings.scss';
+@import 'profile-page.scss';
+@import 'chatbox.scss';
+@import 'bookStoreNavBar.scss';
+@import 'bookStore.scss';
+@import 'bookPage.scss';
+@import 'categoriesPage.scss';
+@import 'cartPage.scss';
+@import 'chatNotifications.scss';
+@import 'spinning-loader.scss';
+@import 'sidebarAd.scss';
+@import 'mobile-menu.scss';
+@import 'orders.scss';

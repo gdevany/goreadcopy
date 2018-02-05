@@ -7,7 +7,6 @@ const dotenv = require('dotenv')
 const CompressionPlugin = require('compression-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin')
 const NameAllModulesPlugin = require('name-all-modules-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
@@ -55,15 +54,13 @@ module.exports = {
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new TransferWebpackPlugin([
-      {from: 'image', to: 'image'},
-      {from: 'media', to: 'media'},
-    ], path.resolve(__dirname, 'src/client')),
+      {from: 'client'},
+    ], path.resolve(__dirname, 'src')),
     new ChunkManifestPlugin({
       filename: 'manifest.json',
       manifestVariable: 'webpackManifest',
       inlineManifest: true
     }),
-    new ExtractTextPlugin({filename: '[name].[chunkhash].css', allChunks: true}),
     new FaviconsWebpackPlugin({
         logo: path.join(__dirname + '/src/client/image/favicon.png'),
         prefix: 'icons-[hash]/',
@@ -141,18 +138,8 @@ module.exports = {
         loader: 'url-loader'
       },
       {
-        test: /\.css$/i,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader'
-        }),
-      },
-      {
-        test: /\.scss$/,
-        exclude: /node_modules/,
-        use: ExtractTextPlugin.extract({
-          use: ['css-loader', 'sass-loader']
-        })
+        test: /\.(css|scss)$/,
+        use: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
         test: /\.(woff|woff2)$/,

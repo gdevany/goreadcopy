@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { StyleRoot } from 'radium';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import '../../client/styles/index.scss';
-
-import 'material-components-web/dist/material-components-web.min.css';
-import 'foundation/foundation-float.min.css';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { StyleRoot } from 'radium'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import 'foundation/foundation-float.min.css'
+import '../../client/styles/style-guide.scss'
 
 class App extends Component {
   static propTypes = {
