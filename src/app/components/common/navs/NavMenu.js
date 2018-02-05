@@ -19,6 +19,7 @@ import Badge from 'material-ui/Badge'
 import LitcoinStatus from '../LitcoinStatus'
 import { LatestMessagePopupWindow } from '../chat'
 import { NotificationPopupWindow } from '../notifications'
+import BooksForChildrenCounter from './utils/BooksForChildrenCounter'
 
 const { toggleMessagePopup } = Chat
 const { loadNotifications } = NotifActions
@@ -446,7 +447,7 @@ class NavMenu extends PureComponent {
     )
 
     const nonMenuRoutes = [
-      ["Children's Literacy", childrensLiteracy],
+      ["Books for Kids", childrensLiteracy],
       ['News', news],
       ['Articles', articles],
       ['Authors', authors],
@@ -472,7 +473,7 @@ class NavMenu extends PureComponent {
     const { childrensLiteracy, news, articles, authors } = routes
 
     const nonMenuRoutes = [
-      ["Children's Literacy", childrensLiteracy],
+      ['Books for Kids', childrensLiteracy],
       ['News', news],
       ['Articles', articles],
       ['Authors', authors],
@@ -537,7 +538,7 @@ class NavMenu extends PureComponent {
         ['News', news],
         ['Articles', articles],
         ['GoRead Books', goReadBooks],
-        ['Children\'s Literacy', childrensLiteracy],
+        ['Books for Kids', childrensLiteracy],
         ['Video Tutorials', videoTutorials],
         ['Referrals', referrals],
         ['Games', games],
@@ -941,7 +942,6 @@ class NavMenu extends PureComponent {
 
               <div className='top-bar-center-items'>
                 <ul className='menu'>
-
                   <li
                     className={
                       `logged-menu-item ${isReadFeed ? 'loged-menu-item-active' : null} home`
@@ -989,7 +989,9 @@ class NavMenu extends PureComponent {
                       Search
                     </a>
                   </li>
-
+                  <li className='logged-menu-item extra-nav-item'>
+                    <BooksForChildrenCounter />
+                  </li>
                 </ul>
               </div>
 
