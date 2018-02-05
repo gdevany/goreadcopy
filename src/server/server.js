@@ -2,13 +2,22 @@ const fs = require('fs');
 const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
-const expressStaticGzip = require('express-static-gzip');
 
 dotenv.config()
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.use('/', expressStaticGzip(path.join(__dirname + '/../../public')));
+app.get('*.js', function (req, res, next) {
+  filename = req.url.replace(/\?.*$/, '')
+  // Temporal hardcoded solution for not gzipped runtime file
+  if (/runtime\.[\w]+\.js/.test(filename)) {
+    next(); return;
+  }
+  // To be kept until better solution is found
+  req.url = filename + '.gz';
+  res.set('Content-Encoding', 'gzip');
+  next();
+});
 
 app.use(express.static('public', { index: false }));
 
