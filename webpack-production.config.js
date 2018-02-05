@@ -11,6 +11,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin')
 const NameAllModulesPlugin = require('name-all-modules-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 process.env.dotenv_config_file ?
     dotenv.config({path: path.join(__dirname, process.env.dotenv_config_file)}) : dotenv.config()
@@ -45,11 +46,13 @@ module.exports = {
       'process.env.SESSION_COOKIE_DOMAIN' : JSON.stringify(process.env.SESSION_COOKIE_DOMAIN),
       'process.env.PORT' : JSON.stringify(process.env.PORT),
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      minimize: true,
-      compress: {
-        warnings: false,
-      },
+    new UglifyJSPlugin({
+      uglifyOptions: {
+        minimize: true,
+        compress: {
+          warnings: false,
+        },
+      }
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
