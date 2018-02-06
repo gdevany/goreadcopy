@@ -1,0 +1,13 @@
+.GoReadIcon {
+  &:before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+
+  &.GoReadIcon--share-light:before {
+    background: url(../image/share-light-icon.svg) no-repeat;
+  }
+
+}
