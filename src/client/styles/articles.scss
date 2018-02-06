@@ -1,0 +1,25 @@
+.ArticlePage {
+  padding-top: 100px;
+  background-color: $light-grey;
+}
+
+.Article {
+  flex-direction: column;
+
+  .Article__header {
+    flex: 1;
+    margin-bottom: 0.5em;
+  }
+
+  .Article__content {
+    flex: 1;
+  }
+
+  .Article__social {
+    flex: 1;
+  }
+
+  &.Article--mini {
+
+  }
+}
