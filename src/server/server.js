@@ -1,86 +1,25 @@
-const webpack = require('webpack');
+const fs = require('fs');
 const express = require('express');
-const R = require('ramda');
 const path = require('path');
 const dotenv = require('dotenv');
-const child_process = require('child_process');
+const expressStaticGzip = require('express-static-gzip');
 
-const Env = (envVars) => {
-  const ENV_NAMES = {
-    development: 'development',
-    staging: 'staging',
-    production: 'production',
-  };
-
-  const current = envVars.NODE_ENV || ENV_NAMES.development;
-
-  const envIs = (name) => {
-    return (checkName = current) => {
-      return name === checkName;
-    };
-  };
-
-  const isProduction = envIs(ENV_NAMES.production);
-  const isStaging = envIs(ENV_NAMES.staging);
-  const isDevelopment = envIs(ENV_NAMES.development);
-
-  return R.merge(envVars, {
-    current,
-    isProduction,
-    isStaging,
-    isDevelopment
-  });
-};
-
-dotenv.config() // pull .env into process.env if it exists
-const ENV = Env(process.env);
+dotenv.config()
 const app = express();
 const port = process.env.PORT || 3001;
 
-if (ENV.isDevelopment()) {
-  console.log('Loading development server configs');
-  const webpackConfig = require('../../webpack-dev-server.config.js');
-  const webpackDevMiddleware = require('webpack-dev-middleware');
-  const webpackHotMiddleware = require('webpack-hot-middleware');
-  const compiler = webpack(webpackConfig);
+app.use('/', expressStaticGzip(path.join(__dirname + '/../../public')));
 
-  const serverConfig = {
-    contentBase: 'http://localhost:' + port,
-    port: port,
-    quiet: false,
-    noInfo: false,
-    hot: true,
-    inline: true,
-    lazy: false,
-    headers: {'Access-Control-Allow-Origin': '*'},
-    historyApiFallback: true,
-    stats: {colors: true}
-  };
+app.use(express.static('public', { index: false }));
 
-  app.use(webpackDevMiddleware(compiler, serverConfig))
-  app.use(webpackHotMiddleware(compiler));
-  app.use(express.static('build'));
-  app.get('*', (req, res) => res.sendFile(path.join(__dirname + '/../client/index.html')))
-
-} else {
-
-  app.get('*.js', function (req, res, next) {
-    filename = req.url.replace(/\?.*$/, '')
-    // Temporal hardcoded solution for not gzipped runtime file
-    if (/runtime\.[\w]+\.js/.test(filename)) {
-      next(); return;
-    }
-    // To be kept until better solution is found
-    req.url = filename + '.gz';
-    res.set('Content-Encoding', 'gzip');
-    next();
-  });
-
-  app.use(express.static('public'));
-  app.get('*', (req, res) => res.sendFile(path.join(__dirname + '/../../public/index.html')))
-}
+app.get('*', (req, res) => {
+  return res.sendFile(path.join(__dirname + '/../../public/index.html'))
+});
 
 app.listen(port, err => {
-  if(err) throw err;
-  console.log(`GoRead ${ENV.current} frontend listening on port ${port} ✨`)
+  if (err) {
+    throw err
+  };
+
+  console.log(`GoRead frontend listening on port ${port} ✨`)
 })

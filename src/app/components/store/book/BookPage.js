@@ -187,14 +187,15 @@ class BookPage extends PureComponent {
       <Dialog
         className='book-image-modal'
         bodyClassName='book-image-modal-container'
+        contentClassName='book-image-modal-content'
         modal={false}
         open={this.state.openModal}
         onRequestClose={this.closeImageModal}
         autoScrollBodyContent={true}
       >
-        <span>
+        <span className='book-image-modal-close'>
           <a onClick={this.closeImageModal}>
-            <CloseIcon />
+            <CloseIcon style={{ color: '#fff' }} />
           </a>
         </span>
         <div className='book-image-modal-cover'>
