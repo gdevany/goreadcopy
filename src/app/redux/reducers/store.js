@@ -105,6 +105,8 @@ export default (state = initialState.store, { type, payload }) => {
           shippingDiscount: payload.shippingDiscount
         }
       })
+    case A.GET_SOLD_BOOKS:
+      return R.merge(state, payload)
     default:
       return state
   }

@@ -374,6 +374,16 @@ export function setUsingLitcoins(msg) {
   }
 }
 
+export function getSoldBooks() {
+  return dispatch => {
+    const request = Store.getSoldBooks()
+    request
+      .then(res => dispatch({ type: A.GET_SOLD_BOOKS, payload: res.data }))
+      .catch(err => console.log(`Error in getSoldBooks action: ${err}`))
+    return request
+  }
+}
+
 export default {
   getCategories,
   getChildCategories,
@@ -409,4 +419,5 @@ export default {
   cleanPromoCode,
   cleanOrderAndCart,
   setUsingLitcoins,
+  getSoldBooks,
 }

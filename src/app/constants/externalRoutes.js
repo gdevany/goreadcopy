@@ -10,7 +10,7 @@ const ExternalRoutes = () => {
     authors: () => backendUrl('authors'),
     findAuthors: () => backendUrl('find-authors'),
     bookStore: () => backendUrl('browse'),
-    childrensLiteracy: () => backendUrl('childrens-literacy'),
+    childrensLiteracy: () => backendUrl('literacy'),
     litcoins: () => backendUrl('litcoins'),
     litcoinsProfile: () => backendUrl('profile/litcoins'),
     login: () => backendUrl('login'),
