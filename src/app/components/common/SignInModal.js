@@ -70,7 +70,7 @@ class SignInModal extends Component {
       .catch(()=> { this.setState({ showLoader: false }) })
   }
 
-  handleSubmitRecovery = () => {
+  handleSubmitRecovery = (event) => {
     event.preventDefault()
     const submitEmail = document.getElementsByClassName('recovery-input')[0].value
     if (submitEmail) {
