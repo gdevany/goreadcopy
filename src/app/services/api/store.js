@@ -31,7 +31,8 @@ const {
     setPromoCode,
     cleanPromoCode,
     validateCategory,
-    setUsingLitcoins
+    setUsingLitcoins,
+    getSoldBooks
   }
 } = Endpoints
 
@@ -71,6 +72,7 @@ const Store = () => {
     setPromoCode: (id, params) => authenticated().post(setPromoCode(id), params),
     cleanPromoCode: (id, params) => authenticated().post(cleanPromoCode(id), params),
     setUsingLitcoins: (params)=> authenticated().post(setUsingLitcoins(), params),
+    getSoldBooks: (params) => http.get(getSoldBooks(params)),
   }
 }
 

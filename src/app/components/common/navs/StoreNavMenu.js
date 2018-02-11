@@ -26,6 +26,7 @@ import R from 'ramda'
 import { NotificationPopupWindow } from '../notifications'
 import { LatestMessagePopupWindow } from '../chat'
 import { RestrictedScrollContainer } from '../scrollers'
+import BooksForChildrenCounter from './utils/BooksForChildrenCounter'
 
 const { mainSearch, updateSearch, cleanSearchState } = Search
 const { verifyUserToken, processUserLogout } = Auth
@@ -798,6 +799,9 @@ class BookStoreNavBar extends PureComponent {
                     >
                       Search
                     </a>
+                  </li>
+                  <li className='bookstore-navbar-menu-list extra-nav-item'>
+                    <BooksForChildrenCounter />
                   </li>
                 </ul>
               </div>

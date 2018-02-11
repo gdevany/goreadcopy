@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { PrimaryButton, SignUpModal } from '../common'
+import { PrimaryButton, SignUpModal, SoldBookCounter } from '../common'
 
 class CallToActionTop extends PureComponent {
   constructor(props) {
@@ -26,16 +26,12 @@ class CallToActionTop extends PureComponent {
 
         <div className='slide-up text-on-landing-container'>
           <h1>
-            Where readers hang out, connect & discover their next book!
+            Buy A Book, We Give A Book!
           </h1>
-          <h2 className='first-h2-on-landing'>
-            Joining Is Free, It’s A Social Media Website!
+          <h2 className='second-h2-on-landing medium-sized-text'>
+            {'Total Books Given To Kids: '}
+            <SoldBookCounter />
           </h2>
-          <span className='middle-small-text'>For a limited time:</span>
-          <h2 className='second-h2-on-landing'>
-            Get Your First Book Free, Just For Creating An Account!
-          </h2>
-
           <PrimaryButton
             label='Sign Up'
             onClick={this.handleOpen}
