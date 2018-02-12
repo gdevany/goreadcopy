@@ -234,18 +234,14 @@
         justify-content: space-between;
         align-items: center;
         flex-direction: row;
-        width: 10%;
         padding-left: 15px;
         @media all and (min-width: 768px){
           justify-content: space-around;
-          width: 20%;
         }
         @media all and (min-width: 1024px) {
-          width: 15%;
           padding-left: 0;
         }
         @media all and (min-width: 1200px) {
-          width: 28%;
           justify-content: flex-start;
           margin-left: 5%;
         }
@@ -284,12 +280,9 @@
         justify-content: center;
         align-items: center;
         flex-direction: row;
-        width: 60%;
         @media all and (min-width: 1024px) {
-          width: 40%;
         }
         @media all and (min-width: 1200px) {
-          width: 33%;
         }
         .bookstore-navbar-menu-elements{
           display: none;
@@ -330,19 +323,14 @@
         justify-content: flex-start;
         align-items: center;
         flex-direction: row;
-        width: 30%;
         margin-right: 20px;
         @media all and (min-width: 660px) {
-          width: 21%;
         }
         @media all and (min-width: 768px) {
-          width: 21%;
         }
         @media all and (min-width: 1024px) {
-          width: 40%;
         }
         @media all and (min-width: 1200px) {
-          width: 33%;
         }
         .bookstore-navbar-menu-elements{
           padding: 0;
