@@ -26,11 +26,13 @@ class SoldBookCounter extends Component {
 }
 
 SoldBookCounter.propTypes = {
-  booksSold: PropTypes.number.isRequired,
+  booksSold: PropTypes.number,
   getSoldBooks: PropTypes.func.isRequired,
 };
 
-SoldBookCounter.defaultProps = {};
+SoldBookCounter.defaultProps = {
+  booksSold: 0,
+};
 
 const mapDispatchToProps = {
   getSoldBooks,

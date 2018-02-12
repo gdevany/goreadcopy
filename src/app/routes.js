@@ -5,7 +5,6 @@ import { SignUpFlow } from './components/readerOnboarding';
 import IncomingRedirect from './components/incomingRedirect/IncomingRedirect';
 import { HomeWrapper } from './components/home';
 import { Profile } from './components/profile';
-import { ArticlesPage } from './components/articles';
 import {
   BookStore,
   BookPage,
@@ -30,7 +29,6 @@ const Routes = (
     <Route path="/profile/:slug" component={Profile} />
     <Route path="/me/:slug" component={ReferralHome} />
     <Route path="/store" component={BookStore} />
-    <Route path="/articles" component={ArticlesPage} />
     <Route path="/book/:slug" component={BookPage} />
     <Route path="/categories/:slug" component={CategoriesPage} />
     <Route path="/categories/:slug/:subCategory" component={CategoriesPage} />
