@@ -27,7 +27,7 @@ class SearchBookModal extends PureComponent {
   }
 
   fetchHandler = R.curry((id, params) => {
-    this.props.fetchLibrary(id, params)
+    this.props.fetchLibrary(id, params);
   })
 
   handleUpdateTopBook = (bookId) => {

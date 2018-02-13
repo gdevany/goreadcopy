@@ -88,16 +88,18 @@ export function getProfileBookInfo(id) {
 }
 
 export function fetchLibrary(id, params) {
-  return dispatch => {
-    dispatch({ type: A.FETCH_LIBRARY })
-    ProfilePage.getLibrary(id, params)
+  return (dispatch) => {
+    dispatch({ type: A.FETCH_LIBRARY });
+    const request = ProfilePage.getLibrary(id, params);
+    request
       .then(res => dispatch({ type: A.GET_LIBRARY, payload: res.data }))
-      .catch(err => {
+      .catch((err) => {
         if (err.response.status !== 404) {
-          dispatch({ type: A.GET_LIBRARY, payload: [] })
+          dispatch({ type: A.GET_LIBRARY, payload: [] });
         }
-      })
-  }
+      });
+    return request;
+  };
 }
 
 export function addToLibrary(payload, id, context) {

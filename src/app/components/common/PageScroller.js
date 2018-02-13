@@ -14,7 +14,7 @@ class PageScroller extends PureComponent {
     this.onContainerScroll = this.onContainerScroll.bind(this)
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { fetchOnLoad } = this.props
     if (fetchOnLoad) {
       this.fetchAndIncrement()
