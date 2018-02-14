@@ -8,10 +8,9 @@ class PageScroller extends PureComponent {
     this.state = {
       ref: null
     }
-    this.onScroll = this.onScroll.bind(this)
-    this.fetchAndIncrement = this.fetchAndIncrement.bind(this)
-    this.onWindowScroll = this.onWindowScroll.bind(this)
-    this.onContainerScroll = this.onContainerScroll.bind(this)
+    this.locals = {
+      lastPageFetched: 1
+    }
   }
 
   componentDidMount() {
@@ -21,7 +20,7 @@ class PageScroller extends PureComponent {
     }
   }
 
-  onScroll(e) {
+  onScroll = e => {
     e.stopPropagation()
     if (this.props.scrollParent === window) {
       this.onWindowScroll(e)
@@ -30,7 +29,7 @@ class PageScroller extends PureComponent {
     this.onContainerScroll(e)
   }
 
-  onWindowScroll(ev) {
+  onWindowScroll = ev => {
     const { isLocked, onTopScroll, onBottomScroll } = this.props
     const clientHeight = document.body.clientHeight
     const windowHeight = window.innerHeight
@@ -43,7 +42,7 @@ class PageScroller extends PureComponent {
     }
   }
 
-  onContainerScroll(ev) {
+  onContainerScroll = ev => {
     const { ref } = this.state
     const { isLocked, onTopScroll, onBottomScroll } = this.props
     if (ref !== null) {
@@ -57,9 +56,12 @@ class PageScroller extends PureComponent {
     }
   }
 
-  fetchAndIncrement() {
+  fetchAndIncrement = () => {
     const { fetchHandler, currentPage } = this.props
-    fetchHandler({ page: currentPage + 1 })
+    if (currentPage <= 1 || this.locals.lastPageFetched !== currentPage + 1 ) {
+      fetchHandler({ page: currentPage + 1 })
+      this.locals.lastPageFetched = currentPage + 1;
+    }
   }
 
   render() {

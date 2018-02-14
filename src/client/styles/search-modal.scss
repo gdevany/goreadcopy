@@ -97,7 +97,8 @@
 
 .complete-profile-books-modal{
   max-height: 100vh;
-  overflow: scroll;
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 .searchbooks-readfeeed-title{

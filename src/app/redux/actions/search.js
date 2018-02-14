@@ -41,41 +41,50 @@ export function mainSearch(searchTerm, searchType, subFilter) {
   const debounceSearch = () => {
     return debounce(dispatch => {
       return Search.search(terms)
-        .then(res => { dispatch(updateSearch(res.data))})
+        .then((res) => { dispatch(updateSearch(res.data))})
         .catch(err => console.error(`Error in ${searchType} search ${err}`))
     }, 300)
   }
   return debounceSearch()
 }
 
-export function bookSearch(searchTerm, queryType) {
-  const terms = {
-    query: searchTerm,
-    queryType: queryType,
-  }
-
-  const debounceSearch = () => {
-    return debounce(dispatch => {
-      Search.searchBooks(terms)
-        .then(res => { dispatch(updateBookSearch(res.data))})
-        .catch(err => console.error(`Error in book search ${err}`))
+export function bookSearch(query, params) {
+  const { page, queryType, perPage } = params;
+  const data = { query };
+  if (queryType != null) data.queryType = queryType;
+  if (page != null) data.page = page;
+  if (perPage != null) data.perPage = perPage;
+  const debounceSearch = () => (
+    debounce(dispatch => {
+      dispatch({ type: A.LOCK_SEARCH_BOOKS });
+      return Search.searchBooks(data)
+        .then(res => dispatch(updateBookSearch({
+          ...res.data,
+          page,
+        })))
+        .catch((err) => {
+          console.error(`Error in book search ${err}`);
+          const { response: { status } } = err;
+          if (status === 400) dispatch({ type: A.CLEAN_SEARCH });
+          if (status === 404) dispatch({ type: A.UNLOCK_SEARCH_BOOKS });
+        });
     }, 300)
-  }
-  return debounceSearch()
+  );
+  return debounceSearch();
 }
 
 export function updateBookSearch(payload) {
   return {
     type: A.SEARCH_BOOKS,
     payload,
-  }
+  };
 }
 
 export function updateSearch(payload) {
   return {
     type: A.GET_SEARCH,
     payload,
-  }
+  };
 }
 
 export function cleanSearchState() {
