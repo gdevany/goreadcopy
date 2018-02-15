@@ -614,6 +614,9 @@
                 margin-top: 0;
                 right: 0;
               }
+              @media (max-width: 425px) {
+                top: 10px;
+              }
             }
           }
           .wish-list-heading{
