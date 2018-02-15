@@ -1,51 +1,62 @@
-import { SEARCH as A } from '../const/actionTypes'
-import Search from '../../services/api/search'
-import { debounce } from 'lodash'
+import { debounce } from 'lodash';
+import { SEARCH as A } from '../const/actionTypes';
+import Search from '../../services/api/search';
 
-export function mainSearch(searchTerm, searchType, subFilter) {
-  let terms = {}
+export function mainSearch(params) {
+  const {
+    term, type, subFilter, page, perPage,
+  } = params;
+  let data;
 
-  if (searchType === 'main-search') {
-    terms = {
-      author: searchTerm,
-      reader: searchTerm,
-      book: searchTerm,
-      publisher: searchTerm,
-    }
+  if (type === 'main-search') {
+    data = {
+      author: term,
+      reader: term,
+      book: term,
+      publisher: term,
+    };
   }
 
-  if (searchType === 'book') {
-    terms = {
-      book: searchTerm,
-      subFilter: subFilter,
-    }
+  if (type === 'book') {
+    data = {
+      book: term,
+      subFilter,
+    };
   }
 
-  if (searchType === 'author') {
-    terms = {
-      author: searchTerm,
-    }
+  if (type === 'author') {
+    data = {
+      author: term,
+    };
   }
 
-  if (searchType === 'reader') {
-    terms = {
-      reader: searchTerm,
-    }
+  if (type === 'reader') {
+    data = {
+      reader: term,
+    };
   }
 
-  if (searchType === 'publisher') {
-    terms = {
-      publisher: searchTerm,
-    }
+  if (type === 'publisher') {
+    data = {
+      publisher: term,
+    };
   }
+
+  if (page != null) data.page = page;
+  if (perPage != null) data.perPage = perPage;
+
   const debounceSearch = () => {
     return debounce(dispatch => {
-      return Search.search(terms)
-        .then((res) => { dispatch(updateSearch(res.data))})
-        .catch(err => console.error(`Error in ${searchType} search ${err}`))
-    }, 300)
-  }
-  return debounceSearch()
+      dispatch({ type: A.LOCK_MAIN_SEARCH });
+      return Search.search(data)
+        .then((res) => { dispatch(updateSearch(res.data)); })
+        .catch((err) => {
+          dispatch({ type: A.UNLOCK_MAIN_SEARCH });
+          console.error(`Error in ${type} search ${err}`);
+        });
+    }, 300);
+  };
+  return debounceSearch();
 }
 
 export function bookSearch(query, params) {

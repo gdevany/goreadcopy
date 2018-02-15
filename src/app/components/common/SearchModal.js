@@ -1,14 +1,15 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Link } from 'react-router'
-import { Dialog, } from 'material-ui'
-import R from 'ramda'
-import { Colors } from '../../constants/style'
-import RefreshIndicator from 'material-ui/RefreshIndicator'
-import { Search } from '../../redux/actions'
-import { debounce } from 'lodash'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router';
+import { Dialog } from 'material-ui';
+import R from 'ramda';
+import { debounce } from 'lodash';
+import RefreshIndicator from 'material-ui/RefreshIndicator';
+import { PageScroller } from '../common';
+import { Colors } from '../../constants/style';
+import { Search } from '../../redux/actions';
 
-const { mainSearch, cleanSearchState } = Search
+const { mainSearch, cleanSearchState } = Search;
 
 const styles = {
   modalBody: {
@@ -23,112 +24,108 @@ const styles = {
     display: 'inline-block',
     position: 'relative',
   },
-}
+};
 
 class SearchModal extends Component {
   constructor(props) {
-    super(props)
-
+    super(props);
     this.state = {
       searchTerm: '',
       isFilterOpen: false,
       selectedFilter: 'Book',
       selectedSubFilter: false,
-    }
-    this.handleOnChange = this.handleOnChange.bind(this)
-    this.debouncedSearch = this.debouncedSearch.bind(this)
-    this.handleFilter = this.handleFilter.bind(this)
-    this.handleSelectFilter = this.handleSelectFilter.bind(this)
-
+    };
   }
 
   handleOnChange = R.curry((field, e) => {
-    e.persist()
+    e.persist();
     this.setState({
       [field]: e.target.value,
       isFilterOpen: false,
-    })
-    this.debouncedSearch(e)
+    });
+    this.debouncedSearch(e);
   })
 
   closeFilterModal = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     this.setState({
-      isFilterOpen: false
-    })
+      isFilterOpen: false,
+    });
   }
 
   debouncedSearch = debounce((event) => {
     if (event.target.value.length > 3) {
-      this.props.cleanSearchState()
+      this.props.cleanSearchState();
       if (this.state.selectedFilter === 'Select Filter') {
-        this.props.mainSearch(event.target.value, 'book')
+        this.props.mainSearch({
+          term: event.target.value,
+          type: 'book',
+          page: 1,
+        });
       } else {
-        let filter
-        if (this.state.selectedFilter === 'Author') {
-          filter = 'author'
-        } else if (this.state.selectedFilter === 'Book') {
-          filter = 'book'
-        } else if (this.state.selectedFilter === 'Reader') {
-          filter = 'reader'
-        } else if (this.state.selectedFilter === 'Publisher') {
-          filter = 'publisher'
-        } else {
-          filter = 'book'
-        }
-        this.props.mainSearch(event.target.value, filter, this.state.selectedSubFilter)
+        this.props.mainSearch({
+          term: event.target.value,
+          type: this.getSanitizedFilter(this.state.selectedFilter),
+          subFilter: this.state.selectedSubFilter,
+          page: 1,
+        });
       }
     }
   }, 1000)
 
   handleFilter = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     if (!this.state.isFilterOpen) {
       this.setState({
-        isFilterOpen: true
-      })
+        isFilterOpen: true,
+      });
     } else {
       this.setState({
-        isFilterOpen: false
-      })
+        isFilterOpen: false,
+      });
     }
+  }
 
+  getSanitizedFilter = (filter) => {
+    if (filter === 'Author') {
+      return 'author';
+    } else if (filter === 'Book') {
+      return 'book';
+    } else if (filter === 'Reader') {
+      return 'reader';
+    } else if (filter === 'Publisher') {
+      return 'publisher';
+    }
+    return 'book';
   }
 
   handleSelectFilter = (filterType, subFilter) => {
-    const selectedSubFilter = subFilter ? subFilter.toLowerCase() : false
-    let filter
-    if (filterType === 'Author') {
-      filter = 'author'
-    } else if (filterType === 'Book') {
-      filter = 'book'
-    } else if (filterType === 'Reader') {
-      filter = 'reader'
-    } else if (filterType === 'Publisher') {
-      filter = 'publisher'
-    } else {
-      filter = 'book'
-    }
+    const selectedSubFilter = subFilter ? subFilter.toLowerCase() : false;
     this.setState({
       selectedFilter: filterType,
-      selectedSubFilter: selectedSubFilter,
+      selectedSubFilter,
       isFilterOpen: false,
-    })
+    });
     if (filterType !== 'Select Filter' && this.state.searchTerm.length > 3) {
-      this.props.cleanSearchState()
-      this.props.mainSearch(this.state.searchTerm, filter, selectedSubFilter)
+      this.props.cleanSearchState();
+      this.props.mainSearch({
+        term: this.state.searchTerm,
+        type: this.getSanitizedFilter(filterType),
+        subFilter: selectedSubFilter,
+        page: 1,
+      });
     }
   }
 
   renderSearchResults = () => {
-    const searchTerms = this.props.searchResults
+    const searchTerms = this.props.search;
     if (searchTerms.counts) {
-      let readerResults
-      let authorResults
-      let publisherResults
-      let bookResults
+      let readerResults;
+      let authorResults;
+      let publisherResults;
+      let bookResults;
 
-      if (searchTerms.readers) {
+      if (searchTerms.readers && searchTerms.readers.length ) {
         readerResults = searchTerms.readers.map((reader, index) => {
           return (
             <div key={reader.id} className='result-container'>
@@ -161,7 +158,7 @@ class SearchModal extends Component {
         })
       }
 
-      if (searchTerms.authors) {
+      if (searchTerms.authors && searchTerms.authors.length) {
         authorResults = searchTerms.authors.map((author, index) => {
           return (
             <div key={author.id} className='result-container'>
@@ -190,7 +187,7 @@ class SearchModal extends Component {
         })
       }
 
-      if (searchTerms.books) {
+      if (searchTerms.books && searchTerms.books.results) {
         bookResults = searchTerms.books.results.map((book, index) => {
           return (
             <div key={book.id} className='result-container'>
@@ -231,7 +228,7 @@ class SearchModal extends Component {
         })
       }
 
-      if (searchTerms.publishers) {
+      if (searchTerms.publishers && searchTerms.publishers.length) {
         publisherResults = searchTerms.publishers.map((publisher, index) => {
           return (
             <div key={publisher.id} className='result-container'>
@@ -300,11 +297,31 @@ class SearchModal extends Component {
     }
   }
 
+  fetchHandler = (params) => {
+    this.props.mainSearch({
+      term: this.state.searchTerm,
+      type: this.getSanitizedFilter(this.state.selectedFilter),
+      subFilter: this.state.selectedSubFilter,
+      ...params,
+    });
+  }
+
+  translateType = (type) => {
+    if (type === 'Book') return 'books';
+    if (type === 'Author') return 'authors';
+    if (type === 'Reader') return 'readers';
+    if (type === 'Publisher') return 'publishers';
+    return 'books';
+  }
+
   render() {
     const {
       modalOpen,
       handleClose,
-    } = this.props
+      search,
+    } = this.props;
+
+    const filterName = this.translateType(this.state.selectedFilter);
 
     const selectedFilter = () => {
       if (this.state.selectedSubFilter) {
@@ -331,7 +348,6 @@ class SearchModal extends Component {
           open={modalOpen}
           onRequestClose={handleClose}
           autoDetectWindowHeight={false}
-          autoScrollBodyContent={true}
         >
           <img
             src='/image/close.png'
@@ -432,20 +448,35 @@ class SearchModal extends Component {
                 </div>
               </form>
             </div>
-            <div className='search-results-contianer'>
+            <PageScroller
+              clsName="search-results-contianer"
+              fetchHandler={this.fetchHandler}
+              isLocked={
+                search && search.isLocked ?
+                search.isLocked :
+                false
+              }
+              currentPage={
+                search &&
+                search[filterName] &&
+                search[filterName].page ?
+                  search[filterName].page :
+                  1
+              }
+            >
               { this.renderSearchResults() }
-            </div>
+            </PageScroller>
           </div>
         </Dialog>
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    searchResults: state.search
-  }
-}
+const mapStateToProps = ({
+  search,
+}) => ({
+  search,
+});
 
-export default connect(mapStateToProps, { mainSearch, cleanSearchState })(SearchModal)
+export default connect(mapStateToProps, { mainSearch, cleanSearchState })(SearchModal);
