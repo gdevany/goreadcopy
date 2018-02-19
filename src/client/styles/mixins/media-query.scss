@@ -1,0 +1,74 @@
+$tablet-width: 768px;
+$desktop-width: 1024px;
+
+@mixin media_query($from, $to) {
+  @if type_of($to) == 'number' {
+    @if $to == $tablet {
+      @media (min-width: #{$to}) and (max-width: #{$desktop-width - 1px}) {
+        @content;
+      }
+    }
+
+    @if $to == $phone {
+      @media (min-width: #{$to}) and (max-width: #{$tablet-width - 1px}) {
+        @content;
+      }
+    }@else {
+      @media (min-width: #{$to}) {
+        @content;
+      }
+    }
+  }
+
+  @if $from == $phone {
+    @if $to {
+      @if type_of($to) == 'number' {
+        @media (max-width: #{$to - 1px}) {
+          @content;
+        }
+      }
+
+      @if $to == $tablet {
+        @media (max-width: #{$desktop-width - 1px}) {
+          @content;
+        }
+      }
+    }@else {
+      @media (max-width: #{$tablet-width - 1px}) {
+        @content;
+      }
+    }
+  }
+
+  @if $from == $tablet {
+    @if $to {
+      @if type_of($to) == 'number' {
+        @media (min-width: #{$tablet-width}) and (max-width: #{$to - 1px}) {
+          @content;
+        }
+      }
+    }@else {
+      @media (min-width: #{$tablet-width}) and (max-width: #{$desktop_width - 1px}) {
+        @content;
+      }
+    }
+  }
+}
+
+@mixin mobile {
+  @media (max-width: #{$tablet-width - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$desktop-width}) {
+    @content;
+  }
+}
