@@ -43,7 +43,6 @@ class Footer extends PureComponent {
       publishers,
       advertisers,
       media,
-      childrensLiteracy,
       litcoins
     } = routes
 
@@ -93,11 +92,9 @@ class Footer extends PureComponent {
               </AuthedRedirect.Link>
             </li>
             <li>
-              <AuthedRedirect.Link
-                href={childrensLiteracy()}
-              >
+              <Link to="/literacy">
                 Children's Literacy
-              </AuthedRedirect.Link>
+              </Link>
             </li>
             <li>
               <AuthedRedirect.Link
