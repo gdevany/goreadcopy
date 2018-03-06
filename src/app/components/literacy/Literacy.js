@@ -4,7 +4,7 @@ import { BaseNavView } from '../views';
 
 const Literacy = () => (
   <BaseNavView>
-    <div className="literacy-main-container">
+    <div className="literacy-main-container row">
       <div className="literacy-title">
         <p>
           You buy a book,
@@ -60,48 +60,50 @@ const Literacy = () => (
       <div className="literacy-division">
         GoRead&#39;s mission is to eliminate illiteracy... one book at a time
       </div>
-      <div className="literacy-content vertical literacy-background">
-        <span className="literacy-goread">
-          GoRead
-        </span>
-        <div className="literacy-subtitle">
-          LET&#39;S FIX THIS TOGETHER!
-        </div>
-        <div className="literacy-lines">
-          <div className="outer-line">
-            <div className="inner-line" />
+      <section className="literacy-background">
+        <div className="literacy-content vertical">
+          <span className="literacy-goread">
+            GoRead
+          </span>
+          <div className="literacy-subtitle">
+            LET&#39;S FIX THIS TOGETHER!
           </div>
+          <div className="literacy-lines">
+            <div className="outer-line">
+              <div className="inner-line" />
+            </div>
+          </div>
+          <div className="literacy-subcontent">
+            <p>
+              The mission of the GoRead team is to give children the motivation
+              to read, the desire to read and the ability to read.
+            </p>
+            <p>
+              You love reading. You love books. Help us share that love with
+              kids who need it the most!
+            </p>
+            <p>
+              <strong>
+                BUY a book, GIVE a book.&nbsp;
+              </strong>
+              See our counter at the top of our page where we&#39;ve started
+              counting how many books we are providing.
+            </p>
+            <p>
+              Let&#39;s kick illiteracy to the curb and show kids that reading
+              is COOL!
+            </p>
+            <p>
+              Join us in our mission-- you don&#39;t have to change a thing!
+               Just keep buying the books you already love, and we&#39;ll
+               make your purchase count.
+            </p>
+          </div>
+          <Link to="/store" className="literacy-button">
+            CLICK HERE TO BUY A BOOK/GIVE A BOOK
+          </Link>
         </div>
-        <div className="literacy-subcontent">
-          <p>
-            The mission of the GoRead team is to give children the motivation
-            to read, the desire to read and the ability to read.
-          </p>
-          <p>
-            You love reading. You love books. Help us share that love with
-            kids who need it the most!
-          </p>
-          <p>
-            <strong>
-              BUY a book, GIVE a book.&nbsp;
-            </strong>
-            See our counter at the top of our page where we&#39;ve started
-            counting how many books we are providing.
-          </p>
-          <p>
-            Let&#39;s kick illiteracy to the curb and show kids that reading
-            is COOL!
-          </p>
-          <p>
-            Join us in our mission-- you don&#39;t have to change a thing!
-             Just keep buying the books you already love, and we&#39;ll
-             make your purchase count.
-          </p>
-        </div>
-        <Link to="/store" className="literacy-button">
-          CLICK HERE TO BUY A BOOK/GIVE A BOOK
-        </Link>
-      </div>
+      </section>
     </div>
   </BaseNavView>
 );
