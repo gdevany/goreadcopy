@@ -7,9 +7,9 @@ const Literacy = () => (
     <div className="literacy-main-container row">
       <div className="literacy-title">
         <p>
-          You buy a book,
+          Buy A Book,
           <strong>
-            &nbsp;we give a book to a child!
+            &nbsp;Give A Book!
           </strong>
         </p>
       </div>
@@ -25,6 +25,9 @@ const Literacy = () => (
             </strong>
             by providing a book to a child to promote literacy.
           </p>
+          <div className="literacy-picture literacy-mobile">
+            <img src="/image/literacy-children.jpg" alt="" />
+          </div>
           <p className="literacy-facts-focus">
             Shockingly, even in our prosperous society,
              we have an illiteracy crisis:
@@ -53,7 +56,7 @@ const Literacy = () => (
             </li>
           </ul>
         </div>
-        <div className="literacy-picture">
+        <div className="literacy-picture literacy-desktop">
           <img src="/image/literacy-children.jpg" alt="" />
         </div>
       </div>
