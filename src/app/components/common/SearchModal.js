@@ -471,8 +471,11 @@ class SearchModal extends Component {
                   search[filterName].page :
                   1
               }
-              perPage = {
+              perPage={
                   filterName == 'books' ? 30 : 20
+              }
+              onScrollPerc={
+                  0.6
               }
             >
               { this.renderSearchResults() }
