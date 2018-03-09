@@ -57,9 +57,9 @@ class PageScroller extends PureComponent {
   }
 
   fetchAndIncrement = () => {
-    const { fetchHandler, currentPage } = this.props
+    const { fetchHandler, currentPage, perPage } = this.props
     if (currentPage <= 1 || this.locals.lastPageFetched !== currentPage + 1 ) {
-      fetchHandler({ page: currentPage + 1 })
+      fetchHandler({ page: currentPage + 1, perPage: perPage })
       this.locals.lastPageFetched = currentPage + 1;
     }
   }
@@ -88,6 +88,7 @@ PageScroller.propTypes = {
   fetchOnLoad: PropTypes.bool,
   isLocked: PropTypes.bool,
   currentPage: PropTypes.number,
+  perPage: PropTypes.number,
   onTopScroll: PropTypes.bool,
   onBottomScroll: PropTypes.bool,
 }
@@ -98,6 +99,7 @@ PageScroller.defaultProps = {
   fetchOnLoad: false,
   isLocked: false,
   currentPage: 1,
+  perPage: 20,
   onTopScroll: false,
   onBottomScroll: true,
 }

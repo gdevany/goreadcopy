@@ -56,11 +56,17 @@ class SearchModal extends Component {
   debouncedSearch = debounce((event) => {
     if (event.target.value.length > 3) {
       this.props.cleanSearchState();
+      let perPage = 20
+      const filterName = this.translateType(this.state.selectedFilter);
+      if (filterName == 'books'){
+          perPage = 30
+      }
       if (this.state.selectedFilter === 'Select Filter') {
         this.props.mainSearch({
           term: event.target.value,
           type: 'book',
           page: 1,
+          perPage: perPage,
         });
       } else {
         this.props.mainSearch({
@@ -68,6 +74,7 @@ class SearchModal extends Component {
           type: this.getSanitizedFilter(this.state.selectedFilter),
           subFilter: this.state.selectedSubFilter,
           page: 1,
+          perPage: perPage,
         });
       }
     }
@@ -113,6 +120,7 @@ class SearchModal extends Component {
         type: this.getSanitizedFilter(filterType),
         subFilter: selectedSubFilter,
         page: 1,
+        perPage: 30,
       });
     }
   }
@@ -462,6 +470,9 @@ class SearchModal extends Component {
                 search[filterName].page ?
                   search[filterName].page :
                   1
+              }
+              perPage = {
+                  filterName == 'books' ? 30 : 20
               }
             >
               { this.renderSearchResults() }
