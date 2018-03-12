@@ -147,13 +147,15 @@ class BookPage extends PureComponent {
       return this.handleRenderDetail(detail, index)
     })
     return (
-      <div className='bookpage-book-details'>
-        {result ? (
-          <h3 className='center-text'>
-            Book Details
-          </h3>) : null
-        }
-        {result ? result : null}
+      <div className="bookpage-book-details-container">
+        <div className="bookpage-book-details">
+          {result ? (
+            <h3 className="center-text">
+              Book Details
+            </h3>) : null
+          }
+          {result || null}
+        </div>
       </div>
     )
   }

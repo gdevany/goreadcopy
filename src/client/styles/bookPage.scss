@@ -604,7 +604,7 @@
   }
 }
 
-.bookpage-announcement-container{
+.bookpage-announcement-container {
   width: 100%;
   position: relative;
   padding: 15px;
@@ -617,8 +617,17 @@
     flex-direction: row;
     padding: 0;
   }
+  .bookpage-book-details-container {
+    margin-left: 13%;
+    @media (max-width: 768px){
+      margin-left: 5%;
+    }
+  }
   .bookpage-book-details {
     margin: 20px 20% 20px 0;
+    @media (max-width: 768px){
+      margin: 20px 20px 20px 0;
+    }
     p {
       font-size: 14px;
       margin-bottom: 0em;
