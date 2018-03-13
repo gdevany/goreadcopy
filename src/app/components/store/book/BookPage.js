@@ -234,7 +234,7 @@ class BookPage extends PureComponent {
               /> :
               <div className='loading-animation-store' />
             }
-            <div className='bookpage-announcement-container'>
+            <div className='bookpage-announcement-container row'>
               {this.handleBookDetails()}
               <div className='bookpage-announcement-details'>
                 <h3>{bookInfo ? `${this.truncInfo(bookInfo.title, 30)} Thread` : null}</h3>
