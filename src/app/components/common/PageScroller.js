@@ -8,20 +8,19 @@ class PageScroller extends PureComponent {
     this.state = {
       ref: null
     }
-    this.onScroll = this.onScroll.bind(this)
-    this.fetchAndIncrement = this.fetchAndIncrement.bind(this)
-    this.onWindowScroll = this.onWindowScroll.bind(this)
-    this.onContainerScroll = this.onContainerScroll.bind(this)
+    this.locals = {
+      lastPageFetched: 1
+    }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { fetchOnLoad } = this.props
     if (fetchOnLoad) {
       this.fetchAndIncrement()
     }
   }
 
-  onScroll(e) {
+  onScroll = e => {
     e.stopPropagation()
     if (this.props.scrollParent === window) {
       this.onWindowScroll(e)
@@ -30,36 +29,41 @@ class PageScroller extends PureComponent {
     this.onContainerScroll(e)
   }
 
-  onWindowScroll(ev) {
-    const { isLocked, onTopScroll, onBottomScroll } = this.props
+  onWindowScroll = ev => {
+    const { isLocked, onTopScroll, onBottomScroll, onScrollPerc} = this.props
     const clientHeight = document.body.clientHeight
     const windowHeight = window.innerHeight
     const scrollOffset = window.scrollY || window.pageYOffset
     if (onTopScroll && scrollOffset === 0) {
       this.fetchAndIncrement()
     }
-    if (onBottomScroll && scrollOffset > (clientHeight - windowHeight) * 0.90 && !isLocked) {
+    if (onBottomScroll &&
+        scrollOffset > (clientHeight - windowHeight) * onScrollPerc && !isLocked) {
       this.fetchAndIncrement()
     }
   }
 
-  onContainerScroll(ev) {
+  onContainerScroll = ev => {
     const { ref } = this.state
-    const { isLocked, onTopScroll, onBottomScroll } = this.props
+    const { isLocked, onTopScroll, onBottomScroll, onScrollPerc} = this.props
     if (ref !== null) {
       const { offsetHeight, scrollTop, scrollHeight } = ref
       if (onTopScroll && scrollTop === 0) {
         this.fetchAndIncrement()
       }
-      if (onBottomScroll && offsetHeight + scrollTop > scrollHeight * 0.9 && !isLocked) {
+      if (onBottomScroll &&
+          offsetHeight + scrollTop > scrollHeight * onScrollPerc && !isLocked) {
         this.fetchAndIncrement()
       }
     }
   }
 
-  fetchAndIncrement() {
-    const { fetchHandler, currentPage } = this.props
-    fetchHandler({ page: currentPage + 1 })
+  fetchAndIncrement = () => {
+    const { fetchHandler, currentPage, perPage } = this.props
+    if (currentPage <= 1 || this.locals.lastPageFetched !== currentPage + 1 ) {
+      fetchHandler({ page: currentPage + 1, perPage: perPage })
+      this.locals.lastPageFetched = currentPage + 1;
+    }
   }
 
   render() {
@@ -86,8 +90,10 @@ PageScroller.propTypes = {
   fetchOnLoad: PropTypes.bool,
   isLocked: PropTypes.bool,
   currentPage: PropTypes.number,
+  perPage: PropTypes.number,
   onTopScroll: PropTypes.bool,
   onBottomScroll: PropTypes.bool,
+  onScrollPerc: PropTypes.number
 }
 
 PageScroller.defaultProps = {
@@ -96,8 +102,10 @@ PageScroller.defaultProps = {
   fetchOnLoad: false,
   isLocked: false,
   currentPage: 1,
+  perPage: 20,
   onTopScroll: false,
   onBottomScroll: true,
+  onScrollPerc: 0.9,
 }
 
 export default PageScroller

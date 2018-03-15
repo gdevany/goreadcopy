@@ -548,9 +548,6 @@
       .bookpage-book-add-to-cart-container{
         width: 100%;
         margin: 25px auto;
-        display: flex;
-        justify-content: center;
-        flex-flow: column nowrap;
         @media all and (min-width: 1024px){
           margin: 25px 0;
           justify-content: flex-end;
@@ -607,10 +604,9 @@
   }
 }
 
-.bookpage-announcement-container{
+.bookpage-announcement-container {
   width: 100%;
   position: relative;
-  height: 350px;
   padding: 15px;
   display: flex;
   justify-content: center;
@@ -620,7 +616,30 @@
   @media all and (min-width: 768px){
     flex-direction: row;
     padding: 0;
-    height: 300px;
+  }
+  .bookpage-book-details-container {
+    display: flex;
+    width: 50%;
+    @media (max-width: 1024px) {
+      margin-left: 5%;
+    }
+    @media (max-width: 768px){
+      margin-left: 2%;
+    }
+    @media (max-width: 425px) {
+      width: initial;
+      margin-left: 0;
+    }
+  }
+  .bookpage-book-details {
+    @media (max-width: 768px) {
+      margin: 20px 20px 20px 0;
+      width: initial;
+    }
+    p {
+      font-size: 14px;
+      margin-bottom: 0em;
+    }
   }
   .bookpage-announcement-details{
     display: flex;
@@ -628,6 +647,9 @@
     align-items: center;
     flex-direction: column;
     text-align: left;
+    @media all and (min-width: 768px){
+      margin: 20px 0 auto 0;
+    }
     h3{
       font-size: 26px;
       font-weight: 600;
@@ -676,7 +698,7 @@
   .bookpage-announcement-figure{
     width: 200px;
     @media all and (min-width: 768px){
-      margin-left: 50px;
+      margin: 20px 50px auto 0;
     }
   }
 }

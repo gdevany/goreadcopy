@@ -21,36 +21,35 @@ class App extends Component {
   getChildContext() {
     return {
       muiTheme: this.state.muiTheme,
-    }
+    };
   }
 
   componentWillMount() {
     this.setState({
-      muiTheme: getMuiTheme()
-    })
+      muiTheme: getMuiTheme(),
+    });
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
-    const newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme
-
+    const newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
     this.setState({
-      muiTheme: newMuiTheme
-    })
+      muiTheme: newMuiTheme,
+    });
   }
 
   render() {
     return (
-      <div className='app'>
+      <div className="app">
         <StyleRoot>
           { React.cloneElement(this.props.children) }
         </StyleRoot>
       </div>
-    )
+    );
   }
 }
 
 App.childContextTypes = {
-  muiTheme: PropTypes.object.isRequired
-}
+  muiTheme: PropTypes.object.isRequired,
+};
 
-export default App
+export default App;

@@ -380,7 +380,7 @@ class BookInfo extends PureComponent {
   }
 
   render() {
-    const { bookInfo, isUserLogged } = this.props
+    const { bookInfo, isUserLogged, openImageModal } = this.props
     const {
       addToCartClicked,
       isSharePopUpDisplayed,
@@ -395,7 +395,9 @@ class BookInfo extends PureComponent {
           <div className='bookpage-info-left-top'>
             <div className='bookpage-cover'>
               <figure className='bookpage-info-figure'>
-                <img src={bookInfo.imageUrl}/>
+                <a onClick={openImageModal}>
+                  <img src={bookInfo.originalImageUrl}/>
+                </a>
               </figure>
               <div className='bookpage-fan-button'>
                  { isUserLogged ?
