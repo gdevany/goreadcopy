@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import R from 'ramda';
 import { connect } from 'react-redux';
+import { Redirect, browserHistory } from 'react-router';
 import { ExternalRoutes as routes } from '../../constants';
 import PrimaryButton from './PrimaryButton';
 import SocialButton from './SocialButton';
@@ -197,7 +198,7 @@ class SignInModal extends Component {
               </h4>
               <div className="form-container">
                 <LoginForm
-                  onSuccess={() => { this.props.handleClose(); }}
+                  onSuccess={() => { browserHistory.push('/'); }}
                   onError={null}
                 />
                 <div className="forgot-password" onClick={this.handleOnForgottenChange}>
@@ -209,7 +210,7 @@ class SignInModal extends Component {
             </div>)}
         </div>
       </BaseNavView>
-    )
+    );
   }
 }
 

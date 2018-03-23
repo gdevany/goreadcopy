@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import R from 'ramda';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router'
 import RefreshIndicator from 'material-ui/RefreshIndicator';
 import { ReaderData, Auth as AuthAct } from '../../redux/actions';
 import { ExternalRoutes as routes } from '../../constants';
@@ -82,6 +83,7 @@ class SignUpModal extends Component {
     this.props.checkFields(fields)
       .then(() => {
         this.setState({ showLoader: false });
+         browserHistory.push('/');
       });
   }
 
