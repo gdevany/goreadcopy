@@ -117,7 +117,7 @@ class BookStoreNavBar extends PureComponent {
     }
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.loadNotifications();
   }
 
@@ -152,7 +152,7 @@ class BookStoreNavBar extends PureComponent {
     this.setState({ profileMenuOpen: false });
   }
 
-  handleLogoutClick(event) {
+  handleLogoutClick = (event) => {
     event.preventDefault();
     this.props.logoutCurrentReader();
     this.props.processUserLogout();
@@ -200,12 +200,12 @@ class BookStoreNavBar extends PureComponent {
     this.setState({ categoriesOpen: false })
   }
 
-  handlePlatformUse(platformUse) {
+  handlePlatformUse = (platformUse) => {
     this.setState({ usePlatformAs: platformUse });
     this.props.usePlatformAs(platformUse);
   }
 
-  handleWheelScroll(e) {
+  handleWheelScroll = (e) => {
     if (this.locals && this.locals.container) {
       const { container } = this.locals;
       const { scrollHeight, scrollTop, clientHeight } = container;

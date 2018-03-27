@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import R from 'ramda';
 import { connect } from 'react-redux';
-import { Redirect, browserHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 import { ExternalRoutes as routes } from '../../constants';
+import { Auth as AuthServices } from '../../services';
+import { Auth, Chat, Notifications, ReaderData } from '../../redux/actions';
 import PrimaryButton from './PrimaryButton';
 import SocialButton from './SocialButton';
 import { LoginForm } from './data/forms';
-import { Auth, Chat, Notifications, ReaderData } from '../../redux/actions';
 import { BaseNavView } from '../views';
 
 const { processUserLogin, cleanUserLoginErrors } = Auth;
@@ -28,6 +29,13 @@ class SignInModal extends Component {
       isRecoverErrorMessage: null,
     };
   }
+
+  shouldComponentUpdate = () => {
+    if (AuthServices.currentUserExists()) {
+      browserHistory.push('/');
+    }
+  }
+
   handleSubmit = (event) => {
     event.preventDefault();
     this.setState({ showLoader: true });
@@ -99,6 +107,10 @@ class SignInModal extends Component {
     });
   }
 
+  checkRedirectionQuery = () => (
+    location.search.split('r=')[1] || '/'
+  )
+
   render() {
     const {
       isPassForgotten,
@@ -106,7 +118,7 @@ class SignInModal extends Component {
       isRecoverError,
       isRecoverErrorMessage,
     } = this.state;
-
+    const redirectionURL = this.checkRedirectionQuery();
     return (
       <BaseNavView>
         <div className="row login-content">
@@ -198,7 +210,7 @@ class SignInModal extends Component {
               </h4>
               <div className="form-container">
                 <LoginForm
-                  onSuccess={() => { browserHistory.push('/'); }}
+                  onSuccess={() => { browserHistory.push(redirectionURL); }}
                   onError={null}
                 />
                 <div className="forgot-password" onClick={this.handleOnForgottenChange}>

@@ -76,6 +76,7 @@ class SignUpModal extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    const redirectionURL = this.checkRedirectionQuery();
     this.setState({
       showLoader: true,
     });
@@ -83,7 +84,7 @@ class SignUpModal extends Component {
     this.props.checkFields(fields)
       .then(() => {
         this.setState({ showLoader: false });
-         browserHistory.push('/');
+        browserHistory.push(redirectionURL);
       });
   }
 
@@ -100,6 +101,10 @@ class SignUpModal extends Component {
     });
     this.props.cleanUserLoginErrors();
   }
+
+  checkRedirectionQuery = () => (
+    location.search.split('r=')[1] || '/'
+  )
 
   render() {
     const {
