@@ -1,9 +1,16 @@
-import React, { PureComponent } from 'react';
-import { SnackBarAlert } from '../common/alerts';
-import { AuthWrapper, AuthView } from '../common/auth';
-import { ChatTabWrapper } from '../common/chat';
-import { NavMenu } from '../common/navs';
-import { SocketHandler } from '../common';
+import React, { PureComponent } from 'react'
+import {
+  Auth as AuthComponents,
+  Alerts,
+  Navs,
+  Chat,
+  SocketHandler
+} from '../common'
+
+const { SnackBarAlert } = Alerts
+const { AuthWrapper, AuthView } = AuthComponents
+const { ChatTabWrapper } = Chat
+const { NavMenu } = Navs
 
 class BaseNavView extends PureComponent {
   render() {
@@ -21,8 +28,8 @@ class BaseNavView extends PureComponent {
         </AuthView>
         <SnackBarAlert />
       </div>
-    );
+    )
   }
 }
 
-export default BaseNavView;
+export default BaseNavView

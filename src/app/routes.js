@@ -4,7 +4,6 @@ import App from './components/App';
 import { SignUpFlow } from './components/readerOnboarding';
 import IncomingRedirect from './components/incomingRedirect/IncomingRedirect';
 import { HomeWrapper } from './components/home';
-import { SignUpModal, LogInModal } from './components/common';
 import { Profile } from './components/profile';
 import {
   BookStore,
@@ -42,8 +41,6 @@ const Routes = (
     <Route path="/antispam" context="antispam" component={PublicWrapper} />
     <Route path="/terms" context="terms" component={PublicWrapper} />
     <Route path="/privacy" context="privacy" component={PublicWrapper} />
-    <Route path="/accounts/signup" component={SignUpModal} />
-    <Route path="/accounts/login" component={LogInModal} />
   </Route>
 );
 

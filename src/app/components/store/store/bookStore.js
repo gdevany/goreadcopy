@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
 import Scroll from 'react-scroll'
 import { Footer } from '../../common'
 import { StoreNavView } from '../../views'
@@ -22,8 +21,11 @@ class BookStore extends PureComponent {
       categories: null,
       randomCategory: null,
       isRandomSelected: false,
+      modalOpen: false,
       isUserLoggedIn: Auth.currentUserExists(),
     }
+    this.handleModalClose = this.handleModalClose.bind(this)
+    this.handleModalOpen = this.handleModalOpen.bind(this)
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -39,6 +41,14 @@ class BookStore extends PureComponent {
     }
     isUserLoggedIn !== checkLog ?
     this.setState({ isUserLoggedIn: checkLog }) : null
+  }
+
+  handleModalOpen = () => {
+    this.setState({ modalOpen: true })
+  }
+
+  handleModalClose = () => {
+    this.setState({ modalOpen: false })
   }
 
   handleRandom = (categories) => {
@@ -66,6 +76,7 @@ class BookStore extends PureComponent {
       <StoreNavView>
         <BookStoreHero
           isUserLogged={isUserLoggedIn}
+          openModal={this.handleModalOpen}
           hasWishlist={(wishList.length === 'User has no books in the wish list')}
         />
         <div className='row'>
@@ -104,20 +115,24 @@ class BookStore extends PureComponent {
               <p className='bookstore-announcement-text'>
                 Readers Love our book community & it's non fiction
               </p>
-              <Link
+              <a
+                onClick={this.handleModalOpen}
                 className='bookstore-announcement-anchor'
-                to="/accounts/signup"
               >
                 Ok, i'm sold
-              </Link>
+              </a>
             </section>
           )
         }
+        <SignUpModal
+          modalOpen={this.state.modalOpen}
+          handleClose={this.handleModalClose}
+        />
         <div className='bookstore-footer-container'>
           <Footer />
         </div>
       </StoreNavView>
-    );
+    )
   }
 }
 

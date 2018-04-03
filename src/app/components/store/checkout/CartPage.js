@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import WishListBooks from '../common/wishListBooks'
 import CartElement from './cartElement'
+import SignUpModal from '../../common/SignUpModal'
 import { Footer } from '../../common'
 import { StoreNavView } from '../../views'
 import { Auth } from '../../../services'
@@ -24,11 +25,13 @@ class CartPage extends PureComponent {
       cart: false,
       anyGift: false,
       modalOpen: false,
+      modalSignUpOpen: false,
       isCartLoading: true,
     }
     this.handleModalClose = this.handleModalClose.bind(this)
     this.handleCheckout = this.handleCheckout.bind(this)
     this.createAlert = this.createAlert.bind(this)
+    this.handleSignUpClose = this.handleSignUpClose.bind(this)
   }
 
   componentWillMount = () => {
@@ -45,6 +48,15 @@ class CartPage extends PureComponent {
       })
       if (nextProps.cart.itemsCount > 0) this.checkGifts(nextProps.cart.items)
     }
+  }
+
+  handleSignUpModalOpen = (event) => {
+    event.preventDefault()
+    this.setState({ modalSignUpOpen: true })
+  }
+
+  handleSignUpClose = () => {
+    this.setState({ modalSignUpOpen: false })
   }
 
   handleModalOpen = (event) => {
@@ -197,6 +209,10 @@ class CartPage extends PureComponent {
               </div>
             </section>
             {isUserLoggedIn ? <WishListBooks/> : null}
+            <SignUpModal
+              modalOpen={this.state.modalSignUpOpen}
+              handleClose={this.handleSignUpClose}
+            />
           </div>
           <div className='bookstore-footer-container'>
             <Footer />
