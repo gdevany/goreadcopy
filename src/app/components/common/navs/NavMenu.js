@@ -405,13 +405,12 @@ class NavMenu extends PureComponent {
                 accomodate for links **/
                   categories.map((category, i) => {
                     return (
-                      <MenuItem key={category + i}>
-                        <Link
-                          to={PopularTopics.routes[category]}
-                        >
-                         {PopularTopics.names[category]}
-                        </Link>
-                      </MenuItem>
+                      <AuthedRedirect.MenuItem
+                        key={category + i}
+                        href={PopularTopics.routes[category]}
+                      >
+                       {PopularTopics.names[category]}
+                      </AuthedRedirect.MenuItem>
                     )
                   })
                 }
@@ -429,13 +428,12 @@ class NavMenu extends PureComponent {
                 {
                   genres.map((genre, i) => {
                     return (
-                      <MenuItem key={genre + i}>
-                        <Link
-                          to={PopularTopics.routes[genre]}
-                        >
-                          {PopularTopics.names[genre]}
-                        </Link>
-                      </MenuItem>
+                      <AuthedRedirect.MenuItem
+                        key={genre + i}
+                        href={PopularTopics.routes[genre]}
+                      >
+                        {PopularTopics.names[genre]}
+                      </AuthedRedirect.MenuItem>
                     )
                   })
                 }
