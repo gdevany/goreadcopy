@@ -1,50 +1,26 @@
-import React, { PureComponent } from 'react'
-import { PrimaryButton, SignUpModal } from '../common'
+import React from 'react';
+import { Link } from 'react-router';
+import { PrimaryButton } from '../common';
 
 const styles = {
   ctaContainer: {
     position: 'relative',
-  }
-}
+  },
+};
 
-class CallToActionBottom extends PureComponent {
-  constructor(props) {
-    super(props)
+const CallToActionBottom = () => (
+  <div style={styles.ctaContainer} className="center-text call-to-action-wrapper">
+    <h1 className="general-font">
+      Ready to join?
+    </h1>
+    <br />
+    <Link to="/accounts/signup">
+      <PrimaryButton
+        label="Sign Up"
+      />
+    </Link>
+    <br />
+  </div>
+);
 
-    this.state = {
-      modalOpen: false
-    }
-
-    this.handleClose = this.handleClose.bind(this)
-  }
-
-  handleOpen = (event) => {
-    this.setState({ modalOpen: true })
-  }
-
-  handleClose = () => {
-    this.setState({ modalOpen: false })
-  }
-
-  render() {
-    return (
-      <div style={styles.ctaContainer} className='center-text call-to-action-wrapper'>
-        <h1 className='general-font'>
-          Ready to join?
-        </h1>
-        <br />
-        <PrimaryButton
-          label='Sign Up'
-          onClick={this.handleOpen}
-        />
-        <SignUpModal
-          modalOpen={this.state.modalOpen}
-          handleClose={this.handleClose}
-        />
-        <br />
-      </div>
-    )
-  }
-}
-
-export default CallToActionBottom
+export default CallToActionBottom;
