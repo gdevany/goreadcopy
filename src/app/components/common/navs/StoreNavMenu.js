@@ -1,36 +1,40 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router';
-import Scroll from 'react-scroll';
-import { stack as MobileMenu, slide as CategoriesMenu } from 'react-burger-menu';
-import MenuIcon from 'material-ui/svg-icons/navigation/menu';
-import Badge from 'material-ui/Badge';
-import R from 'ramda';
-import { ExternalRoutes as routes } from '../../../constants';
+import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
+import { Link } from 'react-router'
+import Scroll from 'react-scroll'
+import { ExternalRoutes as routes } from '../../../constants'
 import {
   Auth,
   CurrentReader,
   Store,
   Chat,
-  Notifications as NotifActions,
-  Search,
-} from '../../../redux/actions';
-import { Auth as AuthService } from '../../../services';
-import SearchModal from '../SearchModal';
-import LitcoinStatus from '../LitcoinStatus';
-import { Colors } from '../../../constants/style';
-import { NotificationPopupWindow } from '../notifications';
-import { LatestMessagePopupWindow } from '../chat';
-import { RestrictedScrollContainer } from '../scrollers';
-import BooksForChildrenCounter from './utils/BooksForChildrenCounter';
+  Notifications as NotifActions
+} from '../../../redux/actions'
+import { Auth as AuthService } from '../../../services'
+import SearchModal from '../SearchModal'
+import SignUpModal from '../SignUpModal'
+import LogInModal from '../SignInModal'
+import LitcoinStatus from '../LitcoinStatus'
+import { Colors } from '../../../constants/style'
+import MenuIcon from 'material-ui/svg-icons/navigation/menu'
+import Badge from 'material-ui/Badge'
+import { Search } from '../../../redux/actions'
+// import { debounce } from 'lodash'
+// import Book from '../../store/common/Book'
+import { stack as MobileMenu, slide as CategoriesMenu } from 'react-burger-menu'
+import R from 'ramda'
+import { NotificationPopupWindow } from '../notifications'
+import { LatestMessagePopupWindow } from '../chat'
+import { RestrictedScrollContainer } from '../scrollers'
+import BooksForChildrenCounter from './utils/BooksForChildrenCounter'
 
-const { mainSearch, updateSearch, cleanSearchState } = Search;
-const { verifyUserToken, processUserLogout } = Auth;
-const { usePlatformAs, getCurrentReader, logoutCurrentReader } = CurrentReader;
-const { getCategories, getPopularCategories } = Store;
-const { toggleMessagePopup } = Chat;
-const { loadNotifications } = NotifActions;
-const Anchor = Scroll.Link;
+const { mainSearch, updateSearch, cleanSearchState } = Search
+const { verifyUserToken, processUserLogout } = Auth
+const { usePlatformAs, getCurrentReader, logoutCurrentReader } = CurrentReader
+const { getCategories, getPopularCategories } = Store
+const { toggleMessagePopup } = Chat
+const { loadNotifications } = NotifActions
+const Anchor = Scroll.Link
 
 const styles = {
   categoriesMenu: {
@@ -38,13 +42,14 @@ const styles = {
   },
   mobileMenu: {
     left: 0,
-  },
-};
+  }
+}
 
 class BookStoreNavBar extends PureComponent {
+
   constructor(props) {
-    super(props);
-    this.locals = {};
+    super(props)
+    this.locals = {}
     this.state = {
       isUserLogged: false,
       currentReader: false,
@@ -53,6 +58,8 @@ class BookStoreNavBar extends PureComponent {
       profileMenuOpen: false,
       readerFetched: false,
       usePlatformAs: false,
+      modalSignUpOpen: false,
+      modalLogInOpen: false,
       isMobileMenuOpen: false,
       isMobileLoggedMenuOpen: false,
       categoriesOpen: false,
@@ -65,79 +72,132 @@ class BookStoreNavBar extends PureComponent {
       chatsContainerOpen: false,
       wishlist: false,
       searchModalOpen: false,
-    };
+    }
+    this.handleSignUpModalClose = this.handleSignUpModalClose.bind(this)
+    this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
+    this.handleProfileMenuShow = this.handleProfileMenuShow.bind(this)
+    this.handleProfileMenuHide = this.handleProfileMenuHide.bind(this)
+    this.handleLogoutClick = this.handleLogoutClick.bind(this)
+    this.handleCategoriesClick = this.handleCategoriesClick.bind(this)
+    this.handleWheelScroll = this.handleWheelScroll.bind(this)
+    // this.handleSeach = this.handleSeach.bind(this)
+    // this.debouncedSearch = this.debouncedSearch.bind(this)
+    this.countChatNotifications = this.countChatNotifications.bind(this)
+    this.handleChatsContainerShow = this.handleChatsContainerShow.bind(this)
+    this.handleNotificationsShow = this.handleNotificationsShow.bind(this)
+    this.handleHideNotifications = this.handleHideNotifications.bind(this)
+    this.handleMenuStateChange = this.handleMenuStateChange.bind(this)
+    this.handleClickSearch = this.handleClickSearch.bind(this)
   }
 
   componentWillMount = () => {
-    const isUserLoggedIn = AuthService.currentUserExists();
-    const { readerFetched } = this.state;
+    const isUserLoggedIn = AuthService.currentUserExists()
+    const { getCurrentReader, getCategories, getPopularCategories } = this.props
+    const { readerFetched } = this.state
     if (!readerFetched && isUserLoggedIn) {
-      getCurrentReader();
+      getCurrentReader()
       this.setState({
-        readerFetched: true,
-      });
+        readerFetched: true
+      })
     }
-    getCategories();
-    getPopularCategories();
+    getCategories()
+    getPopularCategories()
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const isUserLoggedIn = AuthService.currentUserExists();
-    const { getCurrentReader } = this.props;
-    const { readerFetched, usePlatformAs, currentReader } = this.state;
+    const isUserLoggedIn = AuthService.currentUserExists()
+    const { getCurrentReader } = this.props
+    const { readerFetched, usePlatformAs, currentReader } = this.state
     if (isUserLoggedIn && !readerFetched) {
-      getCurrentReader();
+      getCurrentReader()
       this.setState({
         readerFetched: true
-      });
+      })
     }
     if (!usePlatformAs && nextProps.currentReader.publishingAs) {
-      this.setState({ usePlatformAs: nextProps.currentReader.publishingAs });
+      this.setState({ usePlatformAs: nextProps.currentReader.publishingAs })
     }
     if (nextProps.currentReader && nextProps.currentReader.cartItems &&
       (nextProps.currentReader.cartItems !== currentReader.cartItems)) {
       this.setState({
-        currentReader: nextProps.currentReader,
-      });
+        currentReader: nextProps.currentReader
+      })
     }
     if (nextProps.categories) {
-      this.setState({ categories: nextProps.categories });
+      this.setState({ categories: nextProps.categories })
     }
     if (nextProps.popularCategories) {
-      this.setState({ popularCategories: nextProps.popularCategories });
+      this.setState({ popularCategories: nextProps.popularCategories })
     }
     if (nextProps.searchResults) {
       this.setState({
         searchResults: nextProps.searchResults,
-        isSearchResultsOpen: true,
-      });
+        isSearchResultsOpen: true
+      })
     }
     if (nextProps.wishList) {
-      this.setState({ wishlist: nextProps.wishList });
+      this.setState({ wishlist: nextProps.wishList })
     }
   }
 
-  componentDidMount = () => {
-    this.loadNotifications();
+  componentDidMount() {
+    this.loadNotifications()
   }
 
   loadNotifications = () => {
     if (AuthService.currentUserExists()) {
-      this.props.loadNotifications();
+      this.props.loadNotifications()
     }
   }
 
   handleClickSearch = (event) => {
-    event.preventDefault();
-    this.setState({ searchModalOpen: true });
+    event.preventDefault()
+    this.setState({ searchModalOpen: true })
   }
 
   handleSearchClose = () => {
-    this.setState({ searchModalOpen: false });
+    this.setState({ searchModalOpen: false })
+  }
+
+  // handleSeach = R.curry((field, e) => {
+  //   e.persist()
+  //   this.setState({
+  //     [field]: e.target.value,
+  //     isSearchResultsOpen: false,
+  //   })
+  //   this.debouncedSearch(e)
+  // })
+
+  // debouncedSearch = debounce((event) => {
+  //   const trimmedInput = event.target.value.trim()
+  //   this.props.cleanSearchState()
+  //   this.setState({
+  //     searchResults: '',
+  //   })
+  //   if (trimmedInput.length >= 3) {
+  //     this.props.mainSearch(trimmedInput, 'book-search')
+  //   }
+  // }, 1000)
+
+  handleSignUpModalOpen = () => {
+    this.setState({ modalSignUpOpen: true })
+  }
+
+  handleSignUpModalClose = () => {
+    this.setState({ modalSignUpOpen: false })
+  }
+
+  handleLogInModalOpen = (event) => {
+    event.preventDefault()
+    this.setState({ modalLogInOpen: true })
+  }
+
+  handleLogInModalClose = () => {
+    this.setState({ modalLogInOpen: false })
   }
 
   handleProfileMenuShow = (event) => {
-    const { profileMenuOpen, chatsContainerOpen } = this.state;
+    const { profileMenuOpen, chatsContainerOpen } = this.state
     chatsContainerOpen ? this.handleChatsContainerShow(event) : null
     !profileMenuOpen ?
     this.setState({
@@ -145,23 +205,23 @@ class BookStoreNavBar extends PureComponent {
       chatsContainerOpen: false,
       notificationsOpen: false,
       categoriesMenuOpen: false,
-    }) : this.setState({ profileMenuOpen: false });
+    }) : this.setState({ profileMenuOpen: false })
   }
 
   handleProfileMenuHide = () => {
-    this.setState({ profileMenuOpen: false });
+    this.setState({ profileMenuOpen: false })
   }
 
-  handleLogoutClick = (event) => {
-    event.preventDefault();
-    this.props.logoutCurrentReader();
-    this.props.processUserLogout();
+  handleLogoutClick(event) {
+    event.preventDefault()
+    this.props.logoutCurrentReader()
+    this.props.processUserLogout()
   }
 
   handleCategoriesMenuClick = (event) => {
-    event.preventDefault();
-    const { categoriesMenuOpen, chatsContainerOpen } = this.state;
-    chatsContainerOpen ? this.handleChatsContainerShow(event) : null;
+    event.preventDefault()
+    const { categoriesMenuOpen, chatsContainerOpen } = this.state
+    chatsContainerOpen ? this.handleChatsContainerShow(event) : null
     !categoriesMenuOpen ?
     this.setState({
       categoriesMenuOpen: true,
@@ -172,61 +232,61 @@ class BookStoreNavBar extends PureComponent {
   }
 
   handleMenuClick = (event) => {
-    event.preventDefault();
+    event.preventDefault()
     if (this.state.isMobileMenuOpen) {
       this.setState({
         isMobileMenuOpen: false,
         categoriesOpen: false,
-      });
+      })
     } else {
-      this.setState({ isMobileMenuOpen: true });
+      this.setState({ isMobileMenuOpen: true })
     }
   }
 
   handleLoggedMenuClick = (event) => {
-    event.preventDefault();
+    event.preventDefault()
     if (this.state.isMobileLoggedMenuOpen) {
-      this.setState({ isMobileLoggedMenuOpen: false });
+      this.setState({ isMobileLoggedMenuOpen: false })
     } else {
-      this.setState({ isMobileLoggedMenuOpen: true });
+      this.setState({ isMobileLoggedMenuOpen: true })
     }
   }
 
   handleCategoriesClick = (event) => {
-    event.preventDefault();
-    const { categoriesOpen } = this.state;
+    event.preventDefault()
+    const { categoriesOpen } = this.state
     !categoriesOpen ?
     this.setState({ categoriesOpen: true }) :
     this.setState({ categoriesOpen: false })
   }
 
-  handlePlatformUse = (platformUse) => {
-    this.setState({ usePlatformAs: platformUse });
-    this.props.usePlatformAs(platformUse);
+  handlePlatformUse(platformUse) {
+    this.setState({ usePlatformAs: platformUse })
+    this.props.usePlatformAs(platformUse)
   }
 
-  handleWheelScroll = (e) => {
+  handleWheelScroll(e) {
     if (this.locals && this.locals.container) {
-      const { container } = this.locals;
-      const { scrollHeight, scrollTop, clientHeight } = container;
-      const { deltaY } = e;
+      const { container } = this.locals
+      const { scrollHeight, scrollTop, clientHeight } = container
+      const { deltaY } = e
       if (scrollTop + deltaY < 0) {
-        e.preventDefault();
+        e.preventDefault()
       }
       if (scrollTop + deltaY + clientHeight > scrollHeight) {
-        e.preventDefault();
+        e.preventDefault()
       }
     }
   }
 
   handleEnterButton = (event) => {
     if (event.which === 13) {
-      event.preventDefault();
+      event.preventDefault()
     }
   }
 
   handleNotificationsShow = (event) => {
-    const { chatsContainerOpen, notificationsOpen } = this.state;
+    const { chatsContainerOpen, notificationsOpen } = this.state
     chatsContainerOpen ? this.handleChatsContainerShow(event) : null
     !notificationsOpen ?
       this.setState({
@@ -238,12 +298,12 @@ class BookStoreNavBar extends PureComponent {
   }
 
   handleHideNotifications = (event) => {
-    event.preventDefault();
-    this.setState({ notificationsOpen: false });
+    event.preventDefault()
+    this.setState({ notificationsOpen: false })
   }
 
-  handleChatsContainerShow = () => {
-    const { chatsContainerOpen } = this.state;
+  handleChatsContainerShow = (event) => {
+    const { chatsContainerOpen } = this.state
     !chatsContainerOpen ?
     this.setState({
       chatsContainerOpen: true,
@@ -257,11 +317,11 @@ class BookStoreNavBar extends PureComponent {
   }
 
   countChatNotifications = () => {
-    const { chat: { contacts } } = this.props;
+    const { chat: { contacts } } = this.props
     if (contacts && contacts.length > 0) {
-      return R.reduce((acc, c)=>{ return acc + c.unreadMessages }, 0, contacts);
+      return R.reduce((acc, c)=>{ return acc + c.unreadMessages }, 0, contacts)
     }
-    return 0;
+    return 0
   }
 
   mapElementsHandler = (liClass, anchorClass) => {
@@ -285,24 +345,24 @@ class BookStoreNavBar extends PureComponent {
           )
         }
       </li>
-    );
+    )
   }
 
   handleMapProfileMenuItems = () => {
-    const liClass = 'profile-menu-element';
-    const anchorClass = 'profile-menu-anchor';
-    const { currentReader } = this.props;
+    const liClass = 'profile-menu-element'
+    const anchorClass = 'profile-menu-anchor'
+    const { currentReader } = this.props
     const {
       referrals,
       authorBuzz,
       publisherBuzz,
-      publisherBuzzSettings,
-    } = routes;
+      publisherBuzzSettings
+    } = routes
     const nonMenuRoutes = [
       ['Orders', '/store/orders', true],
       ['Referrals', referrals],
       ['Settings', '/profile/settings', true],
-    ];
+    ]
 
     {currentReader.hasAuthorBuzz ?
       nonMenuRoutes.push(
@@ -316,12 +376,15 @@ class BookStoreNavBar extends PureComponent {
         ['GoRead Publisher Buzz Settings',
           publisherBuzzSettings({ slug: currentReader.publisher.slug }), false, true],
     ) : null }
-    const NonMenuItem = this.mapElementsHandler(liClass, anchorClass);
-    return R.map(NonMenuItem, nonMenuRoutes);
+
+    const NonMenuItem = this.mapElementsHandler(liClass, anchorClass)
+
+    return R.map(NonMenuItem, nonMenuRoutes)
+
   }
 
   handleMapMobileCategories = () => {
-    const { categories } = this.props;
+    const { categories } = this.props
     return categories.map((category, index) => {
       return (
         <li key={`${index}_${category.id}`} className='bookstore-categories-list-element'>
@@ -333,14 +396,14 @@ class BookStoreNavBar extends PureComponent {
           </a>
         </li>
       )
-    });
+    })
   }
 
   handleMenuStateChange = (state)=> {
-    const { isOpen } = state;
-    const { categoriesMenuOpen } = this.state;
+    const { isOpen } = state
+    const { categoriesMenuOpen } = this.state
     if (!isOpen && categoriesMenuOpen) {
-      this.setState({ categoriesMenuOpen: isOpen });
+      this.setState({ categoriesMenuOpen: isOpen })
     }
   }
 
@@ -362,11 +425,13 @@ class BookStoreNavBar extends PureComponent {
           {this.props.categories ? this.handleMapMobileCategories() : null}
         </ul>
       </div>
-    );
+    )
   }
 
   userProfileMenu = () => {
-    const { currentReader } = this.props;
+    const { currentReader } = this.props
+    const { usePlatformAs } = this.state
+
     return (
       <ul
         className='profile-menu-container'
@@ -558,6 +623,49 @@ class BookStoreNavBar extends PureComponent {
     )
   }
 
+  // renderSearchResults = () => {
+  //   const { searchResults } = this.props
+  //   if (searchResults && searchResults.length) {
+  //     return searchResults.map((book, index) => {
+  //       return (
+  //         <Book
+  //           key={`${index}_${book.id}`}
+  //           url={book.slug ? `/book/${book.slug}` : '/#'}
+  //           image={book.imageUrl}
+  //           title={book.title}
+  //           authors={book.writtenBy ? book.writtenBy : null}
+  //           rating={book.rating ? book.rating : null}
+  //           bookType='searchResult'
+  //         />
+  //       )
+  //     })
+  //   }
+  //   return (
+  //     <div className='notifications-blank-state'>
+  //       <figure className='notifications-blank-state-figure'>
+  //         <img
+  //           src='/image/notifications_blank.png'
+  //           alt='Notifications Blank state'
+  //         />
+  //       </figure>
+  //       <p>
+  //         Sorry, we didn't find anything with the term:
+  //         &nbsp;
+  //         <b>{this.state.searchTerm}</b>
+  //       </p>
+  //     </div>
+  //   )
+  // }
+
+  // handleShowHideSearchResuls = () => {
+  //   if (this.state.isSearchResultsOpen) {
+  //     this.props.cleanSearchState()
+  //     this.setState({
+  //       isSearchResultsOpen: false
+  //     })
+  //   }
+  // }
+
   render() {
     const isUserLoggedIn = AuthService.currentUserExists()
     const chatNotifications = this.countChatNotifications()
@@ -576,6 +684,53 @@ class BookStoreNavBar extends PureComponent {
                     <img src='/image/book-store-logo.svg' className='bookstore-desktop-logo'/>
                   </Link>
                 </figure>
+                {/* <form onKeyPress={this.handleEnterButton} className='bookstore-search-form'>
+                  <input
+                    className='bookstore-search-input'
+                    placeholder='Search store...'
+                    type='text'
+                    onChange={this.handleSeach('searchTerm')}
+                    value={this.state.searchTerm}
+                  />
+                  {
+                    // Show results only when these are true:
+                    // -- It's flagged to open
+                    // -- There are 3 or more characters to search
+                    this.state.searchTerm.length >= 3 ?
+                      !searchResults || !isSearchResultsOpen ?
+                        (
+                          <div className='loading-animation-store-search' />
+                        ) :
+                        (
+                          <img
+                            onClick={(e)=>{
+                              this.handleShowHideSearchResuls(e)
+                              this.setState({ searchTerm: '', searchResults: '' })
+                            }}
+                            src='/image/close.png'
+                            className='bookstore-close-results-icon'
+                          />
+                        ) :
+                      (
+                        <img src='/image/search-icon.svg' className='bookstore-search-icon'/>
+                      )
+                  }
+                  {
+                    // Show results only when these are true:
+                    // -- There are results
+                    // -- It's flagged to open
+                    // -- There are 3 or more characters to search
+                    searchResults && isSearchResultsOpen && this.state.searchTerm.length >= 3 ?
+                      (
+                        <RestrictedScrollContainer
+                          classes='bookstore-search-results-container'
+                        >
+                          {this.renderSearchResults()}
+                        </RestrictedScrollContainer>
+                      ) :
+                      null
+                  }
+                </form> */}
               </div>
               <div className='bookstore-navbar-center-container'>
                 <ul className='bookstore-navbar-menu-elements'>
@@ -881,12 +1036,12 @@ class BookStoreNavBar extends PureComponent {
                   ) : (
                     <ul className='bookstore-navbar-menu-elements'>
                       <li className='bookstore-navbar-menu-list on-desktop-only'>
-                        <Link
+                        <a
                           className='bookstore-navbar-menu-anchor'
-                          to="/accounts/login"
+                          onClick={this.handleLogInModalOpen}
                         >
                           Sign In
-                        </Link>
+                        </a>
                       </li>
                       <li className='bookstore-navbar-menu-list'>
                         <Link
@@ -946,12 +1101,12 @@ class BookStoreNavBar extends PureComponent {
                               GoRead Profile
                             </li>
                             <li className='bookstore-mobile-menu-list'>
-                              <Link
+                              <a
+                                onClick={this.handleLogInModalOpen}
                                 className='bookstore-mobile-menu-anchor'
-                                to="/accounts/login"
                               >
                                 Sign In
-                              </Link>
+                              </a>
                             </li>
                           </ul>
                           {this.mapMobileExternalLinks()}
@@ -968,6 +1123,14 @@ class BookStoreNavBar extends PureComponent {
               handleClose={this.handleSearchClose}
             />
           </section>
+          <SignUpModal
+            modalOpen={this.state.modalSignUpOpen}
+            handleClose={this.handleSignUpModalClose}
+          />
+          <LogInModal
+            modalOpen={this.state.modalLogInOpen}
+            handleClose={this.handleLogInModalClose}
+          />
         </header>
         <div onMouseLeave={this.handleHideNotifications}>
           <NotificationPopupWindow

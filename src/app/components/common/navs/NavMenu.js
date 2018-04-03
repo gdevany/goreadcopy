@@ -2,18 +2,20 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { stack as MobileMenu } from 'react-burger-menu'
 import { Link } from 'react-router'
-import { Popover, Menu, MenuItem, Badge } from 'material-ui'
-import MenuIcon from 'material-ui/svg-icons/navigation/menu'
 import { Auth, CurrentReader, Chat, Notifications as NotifActions } from '../../../redux/actions'
 import { Auth as AuthService } from '../../../services'
 import { connect } from 'react-redux'
 import R from 'ramda'
 import SecondaryButton from '../SecondaryButton'
+import { Popover, Menu, MenuItem } from 'material-ui'
 import { ExternalRoutes as routes, PopularTopics } from '../../../constants'
 import SearchModal from '../SearchModal'
 import { Colors } from '../../../constants/style'
+import SignUpModal from '../SignUpModal'
 import LogInModal from '../SignInModal'
 import AuthedRedirect from '../AuthedRedirect'
+import MenuIcon from 'material-ui/svg-icons/navigation/menu'
+import Badge from 'material-ui/Badge'
 import LitcoinStatus from '../LitcoinStatus'
 import { LatestMessagePopupWindow } from '../chat'
 import { NotificationPopupWindow } from '../notifications'
@@ -132,6 +134,8 @@ class NavMenu extends PureComponent {
       chatsContainerOpen: false,
     }
 
+    this.handleModalClose = this.handleModalClose.bind(this)
+    this.handleLogInModalClose = this.handleLogInModalClose.bind(this)
     this.handleProfileMenuShow = this.handleProfileMenuShow.bind(this)
     this.handleProfileMenuHide = this.handleProfileMenuHide.bind(this)
     this.handleLogoutClick = this.handleLogoutClick.bind(this)
@@ -190,6 +194,23 @@ class NavMenu extends PureComponent {
     if (isUserLoggedIn) {
       this.props.loadNotifications()
     }
+  }
+
+  handleModalOpen = () => {
+    this.setState({ modalOpen: true })
+  }
+
+  handleModalClose = () => {
+    this.setState({ modalOpen: false })
+  }
+
+  handleLogInModalOpen = (event) => {
+    event.preventDefault()
+    this.setState({ modalLogInOpen: true })
+  }
+
+  handleLogInModalClose = () => {
+    this.setState({ modalLogInOpen: false })
   }
 
   handleNavHover = (event) => {
@@ -1107,9 +1128,9 @@ class NavMenu extends PureComponent {
             </ul>
           </MobileMenu>
           <div className='sign-in-btn-on-momile'>
-            <Link to="/accounts/login">
+            <a onClick={this.handleLogInModalOpen}>
               Log In
-            </Link>
+            </a>
           </div>
         </div>
         <div style={styles.navContainer} className='top-bar'>
@@ -1128,18 +1149,26 @@ class NavMenu extends PureComponent {
             <ul className='menu'>
 
               <li style={styles.rightNavItems} className='link nav-item'>
-                <Link to="/accounts/login">
+                <a onClick={this.handleLogInModalOpen}>
                   Log In
-                </Link>
+                </a>
               </li>
 
               <li>
-                <Link to="/accounts/signup">
-                  <SecondaryButton
-                    label="Sign Up"
-                  />
-                </Link>
+                <SecondaryButton
+                  label='Sign Up'
+                  onClick={this.handleModalOpen}
+                />
               </li>
+
+              <SignUpModal
+                modalOpen={this.state.modalOpen}
+                handleClose={this.handleModalClose}
+              />
+              <LogInModal
+                modalOpen={this.state.modalLogInOpen}
+                handleClose={this.handleLogInModalClose}
+              />
             </ul>
 
           </div>

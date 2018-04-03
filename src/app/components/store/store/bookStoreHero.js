@@ -1,11 +1,11 @@
-import React from 'react';
-import { Link } from 'react-router';
-import PropTypes from 'prop-types';
-import Scroll from 'react-scroll';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Scroll from 'react-scroll'
 
-const Anchor = Scroll.Link;
+const Anchor = Scroll.Link
 
-const BookStoreHero = ({ isUserLogged, hasWishlist }) => {
+const BookStoreHero = ({ isUserLogged, openModal, hasWishlist }) => {
+
   if (isUserLogged) {
     return (
       <section className='bookstore-hero-logged-container'>
@@ -82,12 +82,12 @@ const BookStoreHero = ({ isUserLogged, hasWishlist }) => {
   return (
     <section className='bookstore-hero-anon-container'>
       <h1>Unlock your next adventure</h1>
-      <Link
+      <a
         className='bookstore-hero-logged-shop-wishlist'
-        to="/accounts/signup"
+        onClick={openModal}
       >
         Yes, i'm interested
-      </Link>
+      </a>
       <div className='books-effect-in-hero-container'>
         <div className='book-effect-column'>
           <figure>
@@ -130,6 +130,7 @@ const BookStoreHero = ({ isUserLogged, hasWishlist }) => {
 
 BookStoreHero.propTypes = {
   isUserLogged: PropTypes.bool,
+  openModal: PropTypes.func,
   hasWishlist: PropTypes.bool,
 }
 
