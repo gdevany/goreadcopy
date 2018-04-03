@@ -1,7 +1,6 @@
 import React from 'react';
 import { Dialog } from 'material-ui';
 import { Link } from 'react-router';
-import PropTypes from 'prop-types';
 
 const styles = {
   modalBody: {
@@ -12,11 +11,11 @@ const styles = {
   },
 };
 
-const RegisterSignInModal = (props) => {
+const RegisterSignInModal = () => {
   const {
     modalOpen,
     handleClose,
-  } = props;
+  } = this.props;
   return (
     <div>
       <Dialog
@@ -62,16 +61,6 @@ const RegisterSignInModal = (props) => {
       </Dialog>
     </div>
   );
-};
-
-RegisterSignInModal.propTypes = {
-  modalOpen: PropTypes.bool,
-  handleClose: PropTypes.func,
-};
-
-RegisterSignInModal.defaultProps = {
-  modalOpen: false,
-  handleClose: null,
 };
 
 export default RegisterSignInModal;
