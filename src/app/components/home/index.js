@@ -1,1 +1,1 @@
-export HomeWrapper from './HomeWrapper'
+export HomeWrapper from './HomeWrapper';
