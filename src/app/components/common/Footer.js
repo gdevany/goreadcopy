@@ -124,7 +124,9 @@ const Footer = () => {
 const mapStateToProps = ({
   currentReader,
 }) => (
-  currentReader
+  {
+    currentReader,
+  }
 );
 
 export default connect(mapStateToProps, null)(Footer);
