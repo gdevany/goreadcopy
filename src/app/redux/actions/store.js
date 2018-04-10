@@ -268,6 +268,8 @@ export function getCurrentOrder(params, logged) {
   return dispatch => {
     return Store.setOrder(params)
       .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
+      .then(res => dispatch({ type: S.STORE_SESSION, payload: { referral: null } }))
+      .then(res => setSessionData({}))
       .then(() => {
         return Store.getShippingMethods()
           .then(res => dispatch({ type: A.GET_SHIPPING_METHODS, payload: res.data }))
@@ -322,8 +324,6 @@ export function placeOrder(params, opts) {
         dispatch({ type: A.PLACE_ORDER, payload: res.data })
         if (res.data.status === 40) browserHistory.push(destination)
       })
-      .then(res => dispatch({ type: S.STORE_SESSION, payload: { referral: null } }))
-      .then(res => setSessionData({}))
       .catch(err => console.error(`Error in placeOrder ${err}`))
     return request
   }

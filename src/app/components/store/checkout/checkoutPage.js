@@ -78,12 +78,15 @@ class CheckoutPage extends PureComponent {
   }
 
   componentWillMount = () => {
-    this.props.retrieveSession()
-    this.fetchCurrentReader()
-    this.fetchStoreOrder()
     if (this.props.cart && this.props.cart.items.length) {
       this.setState({ allGifts: this.checkIfAllGifts(this.props.cart), isLoadingCart: false })
     }
+  }
+
+  componentDidMount = () => {
+    this.props.retrieveSession()
+    this.fetchCurrentReader()
+    this.fetchStoreOrder()
   }
 
   componentWillReceiveProps = (nextProps) => {
