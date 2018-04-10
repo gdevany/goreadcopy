@@ -50,8 +50,7 @@ const Auth = () => {
   const currentUserExists = () => !!token()
 
   const setSessionData = (payload) => {
-    return !Basil.cookie.get(SESSION_DATA_FIELD) && payload ?
-      Basil.cookie.set(SESSION_DATA_FIELD, JSON.stringify(payload), cookieSettings(false)) : null
+    return payload ? Basil.cookie.set(SESSION_DATA_FIELD, JSON.stringify(payload), cookieSettings(false)) : null
   }
 
   const getSessionData = () => {
