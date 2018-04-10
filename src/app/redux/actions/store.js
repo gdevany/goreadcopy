@@ -1,11 +1,12 @@
-import { STORE as A, PROFILE_PAGE as B, COMMON as C } from '../const/actionTypes'
+import { STORE as A, PROFILE_PAGE as B, COMMON as C, SESSION as S } from '../const/actionTypes'
 import { browserHistory } from 'react-router'
 import Store from '../../services/api/store'
 import Books from '../../services/api/books'
 import ProfilePage from '../../services/api/profilePage'
 import { getCurrentReader } from './currentReader'
-import { Errors } from '../../services'
+import { Errors, Auth } from '../../services'
 
+const { setSessionData } = Auth
 const { hasErrors, errorsFrom } = Errors
 
 export function getCategories() {
@@ -316,11 +317,14 @@ export function placeOrder(params, opts) {
   return dispatch => {
     const destination = `/shop/success${opts && opts.hasCreatedAccount ? '?created=1' : ''}`
     const request = Store.placeOrder(params)
+    console.log("On place order!")
     request
       .then(res => {
         dispatch({ type: A.PLACE_ORDER, payload: res.data })
         if (res.data.status === 40) browserHistory.push(destination)
       })
+      .then(res => dispatch({ type: S.STORE_SESSION, payload: { referral: null } }))
+      .then(res => setSessionData({}))
       .catch(err => console.error(`Error in placeOrder ${err}`))
     return request
   }

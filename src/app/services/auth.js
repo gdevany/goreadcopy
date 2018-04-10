@@ -8,16 +8,18 @@ const Auth = () => {
   const TOKEN_FIELD = 'authToken'
   const CSRF_TOKEN_FIELD = Env.CSRF_TOKEN_FIELD
   const SESSION_ID_FIELD = Env.SESSION_ID_FIELD
+  const SESSION_DATA_FIELD = 'sessionData'
 
-  const setToken = (token) => {
-    const cookieSettings = {
+  const cookieSettings = (isSecure) => {
+    const defaultSettings = {
       'domain': Env.SESSION_COOKIE_DOMAIN
     }
+    if (isSecure) { defaultSettings.secure = true }
+    return defaultSettings
+  }
 
-    if (Env.PRODUCTION_ENV) {
-      cookieSettings.secure = true
-    }
-    return Storage.set(TOKEN_FIELD, token, cookieSettings)
+  const setToken = (token) => {
+    return Storage.set(TOKEN_FIELD, token, cookieSettings(Env.PRODUCTION_ENV))
   }
 
   const token = () => {
@@ -26,21 +28,13 @@ const Auth = () => {
   }
 
   const setSessionToken = (token) => {
-    const cookieSettings = {
-      'domain': Env.SESSION_COOKIE_DOMAIN
-    }
-
     return !Basil.cookie.get(SESSION_ID_FIELD) && token ?
-      Basil.cookie.set(SESSION_ID_FIELD, token, cookieSettings) : null
+      Basil.cookie.set(SESSION_ID_FIELD, token, cookieSettings(false)) : null
   }
 
   const setCsrfToken = (token) => {
-    const cookieSettings = {
-      'domain': Env.SESSION_COOKIE_DOMAIN
-    }
-
     return !Basil.cookie.get(CSRF_TOKEN_FIELD) && token ?
-      Basil.cookie.set(CSRF_TOKEN_FIELD, token, cookieSettings) : null
+      Basil.cookie.set(CSRF_TOKEN_FIELD, token, cookieSettings(false)) : null
   }
 
   const csrftoken = () => {
@@ -55,6 +49,16 @@ const Auth = () => {
 
   const currentUserExists = () => !!token()
 
+  const setSessionData = (payload) => {
+    return !Basil.cookie.get(SESSION_DATA_FIELD) && payload ?
+      Basil.cookie.set(SESSION_DATA_FIELD, JSON.stringify(payload), cookieSettings(false)) : null
+  }
+
+  const getSessionData = () => {
+    const data = Basil.cookie.get(SESSION_DATA_FIELD)
+    return data ? JSON.parse(data) : null
+  }
+
   return {
     currentUserExists,
     token,
@@ -62,7 +66,9 @@ const Auth = () => {
     setToken,
     deleteToken,
     setSessionToken,
-    setCsrfToken
+    setCsrfToken,
+    setSessionData,
+    getSessionData,
   }
 }
 

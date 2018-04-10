@@ -153,6 +153,11 @@ export const COMMON = {
   CLEAR_ALERT_BAR: 'CLEAR_ALERT_BAR',
 }
 
+export const SESSION = {
+  RETRIEVE_SESSION: 'RETRIEVE_SESSION',
+  STORE_SESSION: 'STORE_SESSION',
+}
+
 export default {
   BOOKS,
   CHAT,
@@ -166,4 +171,5 @@ export default {
   RATES,
   NOTIFICATIONS,
   COMMON,
+  SESSION,
 }

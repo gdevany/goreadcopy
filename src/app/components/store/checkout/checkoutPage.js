@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { Store, CurrentReader } from '../../../redux/actions'
+import { Store, CurrentReader, Session } from '../../../redux/actions'
 import { StepZero, StepOne, StepTwo, StepThree } from './orderSteps'
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
 import Snackbar from 'material-ui/Snackbar'
@@ -12,6 +12,7 @@ import { Auth } from '../../../services'
 
 const { SnackBarAlert } = Alerts
 const { getCurrentReader } = CurrentReader
+const { retrieveSession } = Session
 
 const {
   getOrder, getCurrentOrder, setUserAddress, setUserAddressAndShipping, setUsingLitcoins,
@@ -77,6 +78,8 @@ class CheckoutPage extends PureComponent {
   }
 
   componentWillMount = () => {
+    console.log("On CheckoutPage WillMount!")
+    this.props.retrieveSession()
     this.fetchCurrentReader()
     this.fetchStoreOrder()
     if (this.props.cart && this.props.cart.items.length) {
@@ -627,16 +630,20 @@ class CheckoutPage extends PureComponent {
   }
 
   handlePlaceOrder = () => {
+    const { session } = this.props
+    const ref = session.referral ? session.referral.value : null
     if (this.state.isCardClicked && !this.state.isPaypalClicked) {
       this.setState({ showOverlay: true })
+      const params = {
+        shippingMethod: this.state.shippingMethod,
+        paymentMethod: 'cc',
+      }
+      if (ref) params.ref = ref
       this.props.placeOrderWithChanges({
         litcoins: this.state.useLitcoins,
         shippingMethod: this.state.shippingMethod,
         paymentMethod: 'cc',
-      }, {
-        shippingMethod: this.state.shippingMethod,
-        paymentMethod: 'cc',
-      }, { hasCreatedAccount: this.state.hasCreatedAccount })
+      }, params, { hasCreatedAccount: this.state.hasCreatedAccount })
         .catch(() => this.resetSteps('Unexpected error, please try again.'))
       /*
       // TODO: What is this? Should we remove it ?
@@ -653,13 +660,17 @@ class CheckoutPage extends PureComponent {
   }
 
   onSuccess = (payment) => {
+    const { session } = this.props
+    const ref = session.referral ? session.referral.value : null
     if (payment.paid) {
-      this.props.placeOrder({
+      const params = {
         shippingMethod: this.state.shippingMethod,
         paymentMethod: 'paypal',
         paymentId: payment.paymentID,
         payerId: payment.payerID,
-      }, { hasCreatedAccount: this.state.hasCreatedAccount })
+      }
+      if (ref) params.ref = ref
+      this.props.placeOrder(params, { hasCreatedAccount: this.state.hasCreatedAccount })
       .catch(() => this.resetSteps('Unexpected error, please try again.'))
     }
     this.setState({ showOverlay: true })
@@ -882,11 +893,13 @@ class CheckoutPage extends PureComponent {
 
 const mapStateToProps = ({
   store: { cartItems, order, shippingMethods, paypalConfig },
-  currentReader
+  currentReader,
+  session
 }) => {
   return {
     cart: cartItems,
-    order, shippingMethods, paypalConfig, currentReader
+    order, shippingMethods, paypalConfig, currentReader,
+    session
   }
 }
 
@@ -902,6 +915,7 @@ const mapDistpachToProps = {
   getPaypalConfig,
   setUsingLitcoins,
   getCurrentReader,
+  retrieveSession,
 }
 
 export default connect(mapStateToProps, mapDistpachToProps)(CheckoutPage)

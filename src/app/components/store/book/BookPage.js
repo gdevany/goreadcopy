@@ -11,11 +11,12 @@ import ReviewsOverview from './ReviewsOverview'
 import ReviewsContainer from './ReviewsContainer'
 // import NewsLetter from './NewsLetter'
 import { Auth } from '../../../services'
-import { Store, Rates } from '../../../redux/actions'
+import { Store, Rates, Session } from '../../../redux/actions'
 import CloseIcon from 'material-ui/svg-icons/navigation/close'
 
 const { addToCart, getBookInfo } = Store
 const { getStarsInfo } = Rates
+const { storeSession } = Session
 const Anchor = Scroll.Link
 const { Element, animateScroll } = Scroll
 
@@ -45,12 +46,16 @@ class BookPage extends PureComponent {
       }
     }
   }
+
   componentWillMount = () => {
     const { isUserLoggedIn } = this.state
     const bookSlug = this.props.params.slug
     const { bookInfo } = this.props
     if (bookInfo && bookInfo.isOnCart) {
       this.setState({ addToCartClicked: true })
+    }
+    if (this.props.location.query && this.props.location.query.ref) {
+      this.props.storeSession({referral : {date: Date.now(), value: this.props.location.query.ref }})
     }
     this.props.getBookInfo(bookSlug, isUserLoggedIn)
       .then(()=>{animateScroll.scrollToTop()})
@@ -331,6 +336,7 @@ const mapDispatchToProps = {
   addToCart,
   getBookInfo,
   getStarsInfo,
+  storeSession,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookPage)
