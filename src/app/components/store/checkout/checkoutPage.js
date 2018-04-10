@@ -78,7 +78,6 @@ class CheckoutPage extends PureComponent {
   }
 
   componentWillMount = () => {
-    console.log("On CheckoutPage WillMount!")
     this.props.retrieveSession()
     this.fetchCurrentReader()
     this.fetchStoreOrder()
@@ -143,9 +142,10 @@ class CheckoutPage extends PureComponent {
   }
 
   fetchStoreOrder = () => {
-    const { currentReader, order } = this.props
+    const { currentReader, order, session} = this.props
+    const ref = session.referral ? session.referral.value : null
     if (Auth.currentUserExists() && currentReader && currentReader.id && !order) {
-      this.props.getCurrentOrder({}, true)
+      this.props.getCurrentOrder({ ref }, true)
         .then(() => this.checkStepOne())
     }
   }
@@ -630,15 +630,12 @@ class CheckoutPage extends PureComponent {
   }
 
   handlePlaceOrder = () => {
-    const { session } = this.props
-    const ref = session.referral ? session.referral.value : null
     if (this.state.isCardClicked && !this.state.isPaypalClicked) {
       this.setState({ showOverlay: true })
       const params = {
         shippingMethod: this.state.shippingMethod,
         paymentMethod: 'cc',
       }
-      if (ref) params.ref = ref
       this.props.placeOrderWithChanges({
         litcoins: this.state.useLitcoins,
         shippingMethod: this.state.shippingMethod,
@@ -660,8 +657,6 @@ class CheckoutPage extends PureComponent {
   }
 
   onSuccess = (payment) => {
-    const { session } = this.props
-    const ref = session.referral ? session.referral.value : null
     if (payment.paid) {
       const params = {
         shippingMethod: this.state.shippingMethod,
@@ -669,7 +664,6 @@ class CheckoutPage extends PureComponent {
         paymentId: payment.paymentID,
         payerId: payment.payerID,
       }
-      if (ref) params.ref = ref
       this.props.placeOrder(params, { hasCreatedAccount: this.state.hasCreatedAccount })
       .catch(() => this.resetSteps('Unexpected error, please try again.'))
     }

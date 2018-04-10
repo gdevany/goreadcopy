@@ -317,7 +317,6 @@ export function placeOrder(params, opts) {
   return dispatch => {
     const destination = `/shop/success${opts && opts.hasCreatedAccount ? '?created=1' : ''}`
     const request = Store.placeOrder(params)
-    console.log("On place order!")
     request
       .then(res => {
         dispatch({ type: A.PLACE_ORDER, payload: res.data })
