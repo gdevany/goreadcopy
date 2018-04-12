@@ -240,7 +240,7 @@ class FollowModal extends PureComponent {
 
       // TODO: remove once API team normalizes responses for follower/followed endpoints
       if (R.isNil(results)) { return {} }
-      if (R.isArrayLike(results)) { return { readers: results, authors: [] } }
+      if (Array.isArray(results)) { return { readers: results, authors: [] } }
       return R.merge(defaults, results)
     }
 
