@@ -23,7 +23,7 @@ const Collections = () => {
   }
 
   const mergesAll = (argA, argB) => {
-    if (R.isArrayLike(argA) && R.isArrayLike(argB)) { return R.concat(argA, argB) }
+    if (Array.isArray(argA) && Array.isArray(argB)) { return R.concat(argA, argB) }
     return R.merge(argA, argB)
   }
 

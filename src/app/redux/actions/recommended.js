@@ -110,7 +110,7 @@ export function getRecommendedAuthors(amount) {
 
 export function updateRecommended(recommendation) {
   const payload =
-    R.isArrayLike(recommendation) ?
+    Array.isArray(recommendation) ?
     recommendation :
     [recommendation]
   return {

@@ -269,7 +269,7 @@ export function getCurrentOrder(params, logged) {
     return Store.setOrder(params)
       .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
       .then(res => dispatch({ type: S.STORE_SESSION, payload: { referral: null } }))
-      .then(res => setSessionData({}))
+      .then(res => setSessionData({}, true))
       .then(() => {
         return Store.getShippingMethods()
           .then(res => dispatch({ type: A.GET_SHIPPING_METHODS, payload: res.data }))

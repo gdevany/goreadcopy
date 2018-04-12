@@ -145,10 +145,12 @@ class CheckoutPage extends PureComponent {
   }
 
   fetchStoreOrder = () => {
-    const { currentReader, order, session} = this.props
-    const ref = session.referral ? session.referral.value : null
+    const { currentReader, order, session } = this.props
+    const param = {}
+    const ref = session && session.referral ? session.referral : null
+    if (ref) param.ref = ref
     if (Auth.currentUserExists() && currentReader && currentReader.id && !order) {
-      this.props.getCurrentOrder({ ref }, true)
+      this.props.getCurrentOrder(param, true)
         .then(() => this.checkStepOne())
     }
   }

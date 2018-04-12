@@ -1,6 +1,7 @@
 import Env from '../constants/env'
 import Storage from './storage'
 import Basil from 'basil.js'
+import R from 'ramda'
 
 // For managing user sessions in sessionstorage;
 // does NOT handle redux state for currentReader
@@ -49,8 +50,22 @@ const Auth = () => {
 
   const currentUserExists = () => !!token()
 
-  const setSessionData = (payload) => {
-    return payload ? Basil.cookie.set(SESSION_DATA_FIELD, JSON.stringify(payload), cookieSettings(false)) : null
+  const setSessionData = (payload, toClear) => {
+    if (toClear) {
+      Basil.cookie.set(SESSION_DATA_FIELD, JSON.stringify({ referral: null }), cookieSettings(false))
+      return
+    }
+    const current = getSessionData() || {}
+    const update = {
+      referral: R.uniqBy(
+        R.path(['id']),
+        R.concat(
+          payload && payload.referral ? payload.referral : [],
+          current && current.referral ? current.referral : [],
+        )
+      )
+    }
+    return Basil.cookie.set(SESSION_DATA_FIELD, JSON.stringify(update), cookieSettings(false))
   }
 
   const getSessionData = () => {

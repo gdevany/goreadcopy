@@ -50,15 +50,21 @@ class BookPage extends PureComponent {
   componentWillMount = () => {
     const { isUserLoggedIn } = this.state
     const bookSlug = this.props.params.slug
-    const { bookInfo } = this.props
-    if (bookInfo && bookInfo.isOnCart) {
-      this.setState({ addToCartClicked: true })
-    }
-    if (this.props.location.query && this.props.location.query.ref) {
-      this.props.storeSession({referral : {date: Date.now(), value: this.props.location.query.ref }})
-    }
     this.props.getBookInfo(bookSlug, isUserLoggedIn)
       .then(()=>{animateScroll.scrollToTop()})
+      .then(()=>{
+        if (this.props.location.query && this.props.location.query.ref && this.props.bookInfo) {
+          this.props.storeSession({
+            referral : [
+              {
+                date: Date.now(),
+                type: this.props.location.query.ref,
+                id: this.props.bookInfo.id
+              }
+            ]
+          })
+        }
+      })
   }
 
   componentWillReceiveProps = (nextProps) => {
