@@ -262,7 +262,7 @@ class SearchBookModal extends Component {
                                   <a
                                     onClick={() => this.handleSelectFilter('EAN')}
                                   >
-                                    EAN
+                                    ISBN
                                   </a>
                                 </li>
                                 <li className="search-book-filters-list">

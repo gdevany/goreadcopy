@@ -407,7 +407,7 @@ class SearchModal extends Component {
                                 <a
                                   onClick={() => this.handleSelectFilter('Book', 'EAN')}
                                 >
-                                  EAN
+                                  ISBN
                                 </a>
                               </li>
                               <li>
@@ -430,7 +430,7 @@ class SearchModal extends Component {
                             <a
                               onClick={() => this.handleSelectFilter('Author')}
                             >
-                              Author
+                              Buzz Author
                             </a>
                           </li>
                           <li className='search-main-search-filters-list'>
