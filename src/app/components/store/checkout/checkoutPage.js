@@ -78,15 +78,11 @@ class CheckoutPage extends PureComponent {
   }
 
   componentWillMount = () => {
+    this.props.retrieveSession()
+    this.fetchCartData()
     if (this.props.cart && this.props.cart.items.length) {
       this.setState({ allGifts: this.checkIfAllGifts(this.props.cart), isLoadingCart: false })
     }
-  }
-
-  componentDidMount = () => {
-    this.props.retrieveSession()
-    this.fetchCurrentReader()
-    this.fetchStoreOrder()
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -131,16 +127,14 @@ class CheckoutPage extends PureComponent {
     this.setState(diff)
   }
 
-  componentDidUpdate() {
-    this.fetchCurrentReader()
-    this.fetchStoreOrder()
-  }
-
-  fetchCurrentReader = () => {
+  fetchCartData = () => {
     const { currentReader } = this.props
     if (Auth.currentUserExists() && currentReader && !currentReader.id) {
       this.props.getCurrentReader()
         .then(() => this.checkStepOne())
+        .then(() => this.fetchStoreOrder())
+    } else {
+      this.fetchStoreOrder()
     }
   }
 
