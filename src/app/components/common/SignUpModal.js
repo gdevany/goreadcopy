@@ -76,15 +76,11 @@ class SignUpModal extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const redirectionURL = this.checkRedirectionQuery();
-    this.setState({
-      showLoader: true,
-    });
     const fields = R.pick(['firstName', 'lastName', 'email', 'referrer', 'affiliate'], this.props)
+    this.setState({ showLoader: true });
     this.props.checkFields(fields)
       .then(() => {
         this.setState({ showLoader: false });
-        browserHistory.push(redirectionURL);
       });
   }
 
