@@ -14,7 +14,7 @@ class SoldBookCounter extends Component {
 
   render() {
     return (
-      <span style={{ color: 'blue' }}>
+      <span style={this.props.useDefaultColor ? { color: 'blue' } : {}}>
         {
           this.props.booksSold ?
             <CountUp start={0} end={this.props.booksSold} duration={2.5} /> :
@@ -28,10 +28,12 @@ class SoldBookCounter extends Component {
 SoldBookCounter.propTypes = {
   booksSold: PropTypes.number,
   getSoldBooks: PropTypes.func.isRequired,
+  useDefaultColor: PropTypes.bool,
 };
 
 SoldBookCounter.defaultProps = {
   booksSold: 0,
+  useDefaultColor: true,
 };
 
 const mapDispatchToProps = {

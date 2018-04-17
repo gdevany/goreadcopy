@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
-import Home from './Home'
+import Home from '../homev2/Home'
 import { ReadFeed } from '../readFeed'
 import { Auth as AuthActions } from '../../redux/actions'
 import { Auth as AuthServices } from '../../services'
