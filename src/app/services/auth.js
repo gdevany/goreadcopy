@@ -50,10 +50,19 @@ const Auth = () => {
 
   const currentUserExists = () => !!token()
 
+  const getSessionData = () => {
+    const data = Basil.cookie.get(SESSION_DATA_FIELD)
+    return data ? JSON.parse(data) : null
+  };
+
   const setSessionData = (payload, toClear) => {
     if (toClear) {
-      Basil.cookie.set(SESSION_DATA_FIELD, JSON.stringify({ referral: null }), cookieSettings(false))
-      return
+      Basil.cookie.set(
+        SESSION_DATA_FIELD,
+        JSON.stringify({ referral: null }),
+        cookieSettings(false),
+      );
+      return getSessionData();
     }
     const current = getSessionData() || {}
     const update = {
@@ -65,13 +74,9 @@ const Auth = () => {
         )
       )
     }
-    return Basil.cookie.set(SESSION_DATA_FIELD, JSON.stringify(update), cookieSettings(false))
-  }
-
-  const getSessionData = () => {
-    const data = Basil.cookie.get(SESSION_DATA_FIELD)
-    return data ? JSON.parse(data) : null
-  }
+    Basil.cookie.set(SESSION_DATA_FIELD, JSON.stringify(update), cookieSettings(false));
+    return getSessionData();
+  };
 
   return {
     currentUserExists,
