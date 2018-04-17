@@ -47,6 +47,9 @@
     "webpack-hot-middleware": "^2.18.1"
   },
   "dependencies": {
+    "@fortawesome/fontawesome": "^1.1.5",
+    "@fortawesome/fontawesome-free-solid": "^5.0.10",
+    "@fortawesome/react-fontawesome": "^0.0.18",
     "ajv": "5.2.2",
     "autoprefixer": "^7.1.1",
     "axios": "^0.16.2",
@@ -63,6 +66,7 @@
     "basil.js": "^0.4.4",
     "bluebird": "^3.4.7",
     "body-parser": "^1.16.0",
+    "bootstrap": "^4.1.0",
     "card-validator": "^4.1.0",
     "chunk-manifest-webpack-plugin": "1.1.0",
     "classnames": "^2.2.5",
@@ -121,6 +125,7 @@
     "react-tap-event-plugin": "^2.0.1",
     "react-title-component": "^1.0.1",
     "react-tooltip": "^3.2.7",
+    "reactstrap": "^5.0.0",
     "redux": "^3.7.1",
     "redux-thunk": "^2.2.0",
     "sass-loader": "^6.0.6",

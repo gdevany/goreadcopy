@@ -8,7 +8,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import store from './store'
 import Routes from './routes'
 
-const display = document.querySelector('.container')
+const display = document.querySelector('.root')
 const history = syncHistoryWithStore(browserHistory, store)
 
 if (process.env.NODE_ENV === 'production') {
