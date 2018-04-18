@@ -262,3 +262,9 @@
 .logo-share-img{
   cursor: pointer;
 }
+
+.middle-container{
+  @media all and (max-width: 768px){
+    margin-left: 0 !important; 
+  }
+}
