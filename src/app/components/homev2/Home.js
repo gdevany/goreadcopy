@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { MainNavView } from '../views';
 import { UncontrolledCarousel } from 'reactstrap';
 
-import '../../../client/styles/bootstrap/views/home/index.scss';
+import '../../../client/styles/app/views/home/index.scss';
 
 const HomeHero = props => (
   <div className="container">
