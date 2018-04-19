@@ -28,6 +28,7 @@ const Routes = (
     <Route path="/vid" isUserLoggedIn={isUserLoggedIn} component={HomeWrapper} />
     <Route path="/profile/settings" component={Settings} />
     <Route path="/profile/:slug" component={Profile} />
+    <Route path="/profile/welcome/" component={Profile} />
     <Route path="/me/:slug" component={ReferralHome} />
     <Route path="/store" component={BookStore} />
     <Route path="/book/:slug" component={BookPage} />
