@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet';
+//import { Helmet } from 'react-helmet';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const BootstrapApp = ({ children }) => (
   <div className="app">
-    <Helmet>
-      <link rel="stylesheet" href="/styles/bootstrap/bootstrap.min.css" />
-    </Helmet>
+    {
+      /*
+        <Helmet>
+          <link rel="stylesheet" href="/styles/bootstrap/bootstrap.min.css" />
+        </Helmet>
+      */
+    }
     { React.cloneElement(children) }
   </div>
 );
