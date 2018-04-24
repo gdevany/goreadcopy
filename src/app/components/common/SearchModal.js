@@ -335,7 +335,7 @@ class SearchModal extends Component {
       if (this.state.selectedSubFilter) {
         let selectedSubFilter
         if (this.state.selectedSubFilter === 'ean') {
-          selectedSubFilter = this.state.selectedSubFilter.toUpperCase()
+          selectedSubFilter = 'ISBN';
         } else {
           selectedSubFilter = this.state.selectedSubFilter.replace(/\b\w/, (m) => {
             return m.toUpperCase()
