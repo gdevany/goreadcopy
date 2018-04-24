@@ -30,7 +30,7 @@ class SignInModal extends Component {
     };
   }
 
-  shouldComponentUpdate = () => {
+  componentWillMount = () => {
     if (AuthServices.currentUserExists()) {
       browserHistory.push('/');
     }
