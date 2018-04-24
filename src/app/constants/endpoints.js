@@ -124,6 +124,12 @@ const Endpoints = () => {
     jwtAuth: () => apiUrl('token/auth'),
     jwtVerify: () => apiUrl('token/verify'),
     redirect: () => apiUrl('onboarding/redirect'),
+    //* **************
+    // Home Page V2
+    getHomeBestSellingBooks: (params) => apiUrl('/api/books/best_selling/', params),
+    getHomeTrendingBooks: (params) => apiUrl('/api/books/trending/', params),
+    getHomeNewReleaseBooks: (params) => apiUrl('/api/books/new_releases/', params),
+    getHomeComingSoonBooks: (params) => apiUrl('/api/books/coming_soon/', params),
   }
 
   return routes
