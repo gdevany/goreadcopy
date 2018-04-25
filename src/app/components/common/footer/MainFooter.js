@@ -1,4 +1,7 @@
 import React from 'react';
+import { animateScroll as scroller } from 'react-scroll';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import faArrowUp from '@fortawesome/fontawesome-free-solid/faArrowUp';
 import FooterColumn from './FooterColumn';
 
 const GetToKnowUs = [
@@ -40,6 +43,9 @@ const MainFooter = props => (
     <FooterColumn header="Make Money with Us" list={MakeMoneyWithUs} />
     <FooterColumn header="GoRead Children's Literacy Fund" list={GoReadChildren} />
     <FooterColumn header="Let Us Help You" list={LetUsHelpYou} />
+    <div className="footer-action-scroll d-none d-sm-block">
+      <FontAwesomeIcon onClick={() => scroller.scrollToTop()} icon={faArrowUp} size="lg" />
+    </div>
   </div>
 );
 
