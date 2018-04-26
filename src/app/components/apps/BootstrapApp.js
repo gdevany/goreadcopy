@@ -1,34 +1,54 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-//import { Helmet } from 'react-helmet';
+import { StyleRoot } from 'radium';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const BootstrapApp = ({ children }) => (
-  <div className="app">
-    {
-      /*
-        <Helmet>
-          <link rel="stylesheet" href="/styles/bootstrap/bootstrap.min.css" />
-        </Helmet>
-      */
-    }
-    { React.cloneElement(children) }
-  </div>
-);
+class BootstrapApp extends Component {
+  static propTypes = {
+    children: PropTypes.node,
+  }
 
-BootstrapApp.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
-};
+  static childContextTypes = {
+    muiTheme: PropTypes.object,
+  }
 
-BootstrapApp.defaultProps = {
-  children: null,
-};
+  static contextTypes = {
+    router: PropTypes.object.isRequired,
+  }
 
-BootstrapApp.contextTypes = {
-  router: PropTypes.object.isRequired,
+  getChildContext() {
+    return {
+      muiTheme: this.state.muiTheme,
+    };
+  }
+
+  componentWillMount() {
+    this.setState({
+      muiTheme: getMuiTheme(),
+    });
+  }
+
+  componentWillReceiveProps(nextProps, nextContext) {
+    const newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
+    this.setState({
+      muiTheme: newMuiTheme,
+    });
+  }
+
+  render() {
+    return (
+      <div className="app BootstrapCSS">
+        <StyleRoot>
+          { React.cloneElement(this.props.children) }
+        </StyleRoot>
+      </div>
+    );
+  }
+}
+
+BootstrapApp.childContextTypes = {
+  muiTheme: PropTypes.object.isRequired,
 };
 
 export default BootstrapApp;
