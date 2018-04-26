@@ -281,6 +281,11 @@ i.magnifier::before {
   padding: 50px 0;
   background: $nav-background;
   color: white;
+  .footer-action-scroll > svg{
+    &:hover {
+      cursor: pointer;
+    }
+  }
   .footer-section {
     * {
       margin-bottom: 5px;
