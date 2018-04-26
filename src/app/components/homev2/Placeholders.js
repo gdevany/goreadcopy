@@ -70,7 +70,7 @@ export const Books = [
     image: 'https://www.goread.com/media/cache/a0/bc/a0bc55b9f84088afc395e9cf58dc7e4d.png',
     title: 'Harry Potter and the Sorcerer...',
     author: 'Mary GrandPre',
-    rating: '5',
+    rating: 0,
     url: 'https://www.goread.com/book/harry-potter-and-the-sorcerers-stone',
   },
   {
@@ -78,7 +78,7 @@ export const Books = [
     image: 'https://www.goread.com/media/cache/29/e1/29e1bb69cb07d5213f3f922ac4da1e1b.png',
     title: 'Twilight',
     author: 'Stephenie Meyer',
-    rating: '5',
+    rating: 1,
     url: 'https://www.goread.com/book/twilight',
   },
   {
@@ -86,7 +86,7 @@ export const Books = [
     image: 'https://www.goread.com/media/cache/14/d4/14d4bb47cf8d2a062e26a1f0cf815420.png',
     title: 'Catching Fire',
     author: 'Suzanne Collins',
-    rating: '5',
+    rating: 2,
     url: 'https://www.goread.com/book/catching-fire',
   },
   {
@@ -94,7 +94,7 @@ export const Books = [
     image: 'https://www.goread.com/media/cache/85/21/85213ba068295325de467b685358eb61.png',
     title: 'Divergent',
     author: 'Veronica Roth',
-    rating: '5',
+    rating: 3,
     url: 'https://www.goread.com/book/divergent',
   },
   {
@@ -102,7 +102,7 @@ export const Books = [
     image: 'https://www.goread.com/media/cache/54/51/5451e0b3772580d2f79fddfdad1eb113.png',
     title: 'Shining',
     author: 'Stephen King ',
-    rating: '5',
+    rating: 4,
     url: 'https://www.goread.com/book/shining',
   },
   {
@@ -110,7 +110,7 @@ export const Books = [
     image: 'https://www.goread.com/media/cache/ae/93/ae93f4594b64c36bd5390b1534d2f675.png',
     title: 'Harry Potter Coloring Book',
     author: 'Inc. Scholastic',
-    rating: '5',
+    rating: 5,
     url: 'https://www.goread.com/book/harry-potter-coloring-book',
   },
 ];
