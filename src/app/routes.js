@@ -28,7 +28,7 @@ const isUserLoggedIn = Auth.currentUserExists();
 const useFoundationFor = PassedComponent => (
   props => (
     <FoundationApp>
-      <PassedComponent />
+      <PassedComponent {...props} />
     </FoundationApp>
   )
 );
@@ -36,7 +36,7 @@ const useFoundationFor = PassedComponent => (
 const useBootstrapFor = PassedComponent => (
   props => (
     <BootstrapApp>
-      <PassedComponent />
+      <PassedComponent {...props} />
     </BootstrapApp>
   )
 );

@@ -39,7 +39,7 @@ class FoundationApp extends Component {
 
   render() {
     return (
-      <div className="app">
+      <div className="app FoundationCSS">
         <StyleRoot>
           { React.cloneElement(this.props.children) }
         </StyleRoot>
