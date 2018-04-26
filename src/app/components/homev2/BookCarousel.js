@@ -1,5 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router';
+import Rating from 'react-rating';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import faFullStar from '@fortawesome/fontawesome-free-solid/faStar';
+import faEmptyStar from '@fortawesome/fontawesome-free-regular/faStar';
 
 const BookCarouselItem = ({ image, title, author, rating, url }) => (
   <div className="book-carousel-item d-flex flex-column justify-content-start align-items-start">
@@ -8,7 +12,14 @@ const BookCarouselItem = ({ image, title, author, rating, url }) => (
     </Link>
     <span className="book-carousel-item-name">{title}</span>
     <span className="book-carousel-item-author">{author}</span>
-    {/* <div className="book-carousel-item-rating">{rating}</div> */}
+    <div className="book-carousel-item-rating">
+      <Rating
+        readonly
+        initialRate={Math.floor(rating)}
+        full={<FontAwesomeIcon icon={faFullStar} />}
+        empty={<FontAwesomeIcon icon={faEmptyStar} />}
+      />
+    </div>
   </div>
 );
 
