@@ -281,16 +281,18 @@ i.magnifier::before {
 }
 
 .footer {
-  padding: 50px 0;
   background: $nav-background;
   color: white;
+  @media screen and (min-width: $sm) {
+    padding: 50px 0;
+  }
   .footer-action-scroll > svg{
     &:hover {
       cursor: pointer;
     }
   }
   .footer-section {
-    * {
+    & > * {
       margin-bottom: 5px;
     }
     .footer-section-header {
@@ -299,6 +301,12 @@ i.magnifier::before {
     a, .footer-section-header {
       color: white;
       text-decoration: none;
+    }
+  }
+  .footer-form {
+    margin: 10px 25px;
+    input, button {
+      width: 100%;
     }
   }
 }
@@ -316,5 +324,22 @@ form {
     input, button {
       border-radius: 0;
     }
+  }
+}
+
+.collapsable-list, .collapsable {
+  .collapsable-list-header, a {
+    padding-left: 20px;
+    padding-right: 15px;
+    border-bottom: solid 3px white;
+  }
+  .collapsable-list-items a {
+    width: 100%;
+    color: black;
+    background: lightgray;
+  }
+  .collapsable-list-title, a {
+    padding-top: 15px;
+    padding-bottom: 15px;
   }
 }
