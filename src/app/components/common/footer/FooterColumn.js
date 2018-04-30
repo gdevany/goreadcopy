@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
-import { Collapse } from 'reactstrap';
+import CollapsableList from '../collapser/CollapsableList';
+import Collapsable from '../collapser/Collapsable';
 
 const parseLinkList = ({ id, isLink, action, text }) => (
   isLink ?
@@ -11,26 +11,29 @@ const parseLinkList = ({ id, isLink, action, text }) => (
 class FooterColumn extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isOpen: true,
-    };
   }
 
   render() {
-    const { header, list, children } = this.props;
-    const { isOpen } = this.state;
+    const { title, items, children } = this.props;
     return (
       <div className="footer-section d-flex flex-column justify-content-start align-items-center align-items-sm-start">
-        <span className="footer-section-header">{header}</span>
-        <Collapse isOpen={isOpen}>
+        <div className="w-100 d-block d-sm-none">
+          {
+            items ?
+              <CollapsableList text={title} list={items} wrapperClass="footer-section-list" /> :
+              <Collapsable text={title}>{children}</Collapsable>
+          }
+        </div>
+        <div className="d-none d-sm-block">
+          <span className="footer-section-header">{title}</span>
           <div className="d-flex flex-column justify-content-start align-items-center align-items-sm-start">
             {
-              list ?
-                list.map(parseLinkList) :
+              items ?
+                items.map(parseLinkList) :
                 children
             }
           </div>
-        </Collapse>
+        </div>
       </div>
     );
   }
