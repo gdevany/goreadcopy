@@ -33,10 +33,10 @@ export const Ads = [
   },
   {
     id: 2,
-    image: "http://via.placeholder.com/400x400",
+    image: "/image/ads/home/ad02.jpg",
     classes: "home-ad img-cover",
     url: "#",
-    alt: "Homepage Ad #2",
+    alt: "Are you an Author?",
     isLink: true,
     target: null,
   },
@@ -51,7 +51,7 @@ export const Ads = [
   },
   {
     id: 4,
-    image: "/image/ads/home/ad01.jpg",
+    image: "/image/ads/home/ad04.jpg",
     classes: "home-ad img-cover",
     url: "https://www.printingicon.com/",
     alt: "Need to Get a Book Printed Fast?",
@@ -60,7 +60,7 @@ export const Ads = [
   },
   {
     id: 5,
-    image: "/image/ads/home/ad02.jpg",
+    image: "/image/ads/home/ad05.jpg",
     classes: "home-ad img-cover",
     url: "#",
     alt: "Earn Income by Writing Articles from Home",
