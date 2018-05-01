@@ -92,6 +92,14 @@ class OrderSummary extends PureComponent {
               </div>
               <div className='checkoutpage-order-summary-list-single'>
                 <span className='checkoutpage-order-summary-list-description'>
+                  Weight Surcharge
+                </span>
+                <span className='checkoutpage-order-summary-list-price'>
+                  {parseFloatToUSD(this.calculateCost('weightSurcharge'))}
+                </span>
+              </div>
+              <div className='checkoutpage-order-summary-list-single'>
+                <span className='checkoutpage-order-summary-list-description'>
                   Tax
                 </span>
                 <span className='checkoutpage-order-summary-list-price'>
