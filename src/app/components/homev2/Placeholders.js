@@ -1,18 +1,23 @@
 export const CarouselItems = [
   {
-    src: 'http://via.placeholder.com/1279x720',
-    altText: 'Slide 1',
-    caption: 'Slide 1',
+    src: '/image/home/hero/slide2.jpg',
+    altText: '',
+    caption: '',
   },
   {
-    src: 'http://via.placeholder.com/720x1280',
-    altText: 'Slide 2',
-    caption: 'Slide 2',
+    src: '/image/home/hero/slide3.png',
+    altText: '',
+    caption: '',
   },
   {
-    src: 'http://via.placeholder.com/1000x1000',
-    altText: 'Slide 3',
-    caption: 'Slide 3',
+    src: '/image/home/hero/slide4.jpg',
+    altText: '',
+    caption: '',
+  },
+  {
+    src: '/image/home/hero/slide5.jpg',
+    altText: '',
+    caption: '',
   },
 ];
 
