@@ -133,10 +133,10 @@ const Endpoints = () => {
     redirect: () => apiUrl('onboarding/redirect'),
     //* **************
     // Home Page V2
-    getHomeBestSellingBooks: (params) => apiUrl('/api/books/best_selling/', params),
-    getHomeTrendingBooks: (params) => apiUrl('/api/books/trending/', params),
-    getHomeNewReleaseBooks: (params) => apiUrl('/api/books/new_releases/', params),
-    getHomeComingSoonBooks: (params) => apiUrl('/api/books/coming_soon/', params),
+    getHomeBestSellingBooks: (params) => apiUrl('books/best_selling', params),
+    getHomeTrendingBooks: (params) => apiUrl('books/trending', params),
+    getHomeNewReleaseBooks: (params) => apiUrl('books/new_releases', params),
+    getHomeComingSoonBooks: (params) => apiUrl('books/coming_soon', params),
   }
 
   return routes
