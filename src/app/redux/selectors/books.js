@@ -16,3 +16,8 @@ export const getComingSoon = createSelector(
   getState,
   books => books.comingSoon.byIds.map(bookId => books.entities[bookId]),
 );
+
+export const getTrending = createSelector(
+  getState,
+  books => books.trending.byIds.map(bookId => books.entities[bookId]),
+);

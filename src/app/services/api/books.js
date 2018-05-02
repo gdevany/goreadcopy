@@ -16,8 +16,7 @@ const Books = () => ({
   getBestSellers: params => http.get(getHomeBestSellingBooks(params)),
   getNewReleases: params => http.get(getHomeNewReleaseBooks(params)),
   getComingSoon: params => http.get(getHomeComingSoonBooks(params)),
-  getHomeTrendingBooks: params => http.get(getHomeTrendingBooks(params)),
-  getHomeComingSoonBooks: params => http.get(getHomeComingSoonBooks(params)),
+  getTrending: params => http.get(getHomeTrendingBooks(params)),
 });
 
 export default Books();
