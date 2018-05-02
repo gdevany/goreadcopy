@@ -19,6 +19,18 @@ export const getBestSellers = createAction(A.GET_BEST_SELLERS, (page = 1, perPag
   ))
 ));
 
+export const getNewReleases = createAction(A.GET_NEW_RELEASES, (page = 1, perPage = 10) => (
+  new Promise((resolve, reject) => (
+    Books.getNewReleases({ page, perPage })
+      .then(({ data }) => resolve({
+        books: data,
+        page,
+        perPage,
+      }))
+      .catch(err => reject(err))
+  ))
+));
+
 
 export function getBooks(params) {
   return (dispatch, getState) => {
