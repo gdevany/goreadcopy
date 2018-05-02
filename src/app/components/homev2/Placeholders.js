@@ -5,7 +5,7 @@ export const CarouselItems = [
     caption: '',
   },
   {
-    src: '/image/home/hero/slide3.png',
+    src: '/image/home/hero/slide3.jpg',
     altText: '',
     caption: '',
   },
