@@ -31,6 +31,17 @@ export const getNewReleases = createAction(A.GET_NEW_RELEASES, (page = 1, perPag
   ))
 ));
 
+export const getComingSoon = createAction(A.GET_COMING_SOON_BOOKS, (page = 1, perPage = 10) => (
+  new Promise((resolve, reject) => (
+    Books.getComingSoon({ page, perPage })
+      .then(({ data }) => resolve({
+        books: data,
+        page,
+        perPage,
+      }))
+      .catch(err => reject(err))
+  ))
+));
 
 export function getBooks(params) {
   return (dispatch, getState) => {

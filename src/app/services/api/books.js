@@ -15,6 +15,7 @@ const Books = () => ({
   filterBooks: params => http.get(filterBooks(params)),
   getBestSellers: params => http.get(getHomeBestSellingBooks(params)),
   getNewReleases: params => http.get(getHomeNewReleaseBooks(params)),
+  getComingSoon: params => http.get(getHomeComingSoonBooks(params)),
   getHomeTrendingBooks: params => http.get(getHomeTrendingBooks(params)),
   getHomeComingSoonBooks: params => http.get(getHomeComingSoonBooks(params)),
 });
