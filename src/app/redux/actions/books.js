@@ -43,6 +43,18 @@ export const getComingSoon = createAction(A.GET_COMING_SOON_BOOKS, (page = 1, pe
   ))
 ));
 
+export const getTrending = createAction(A.GET_TRENDING_BOOKS, (page = 1, perPage = 10) => (
+  new Promise((resolve, reject) => (
+    Books.getTrending({ page, perPage })
+      .then(({ data }) => resolve({
+        books: data,
+        page,
+        perPage,
+      }))
+      .catch(err => reject(err))
+  ))
+));
+
 export function getBooks(params) {
   return (dispatch, getState) => {
     dispatch({ type: A.GET_BOOKS })

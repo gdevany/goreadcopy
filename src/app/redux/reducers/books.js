@@ -28,6 +28,13 @@ const initialState = {
     perPage: 10,
     page: 0,
   },
+  trending: {
+    isFetching: false,
+    byIds: [],
+    count: null,
+    perPage: 10,
+    page: 0,
+  },
 };
 
 export const normalizeEntities = entitites => (entitites.reduce((normalizedEntities, entity) => ({
@@ -40,6 +47,7 @@ const entitiesReducer = handleAction(
     A.GET_BEST_SELLERS_FULFILLED,
     A.GET_COMING_SOON_BOOKS_FULFILLED,
     A.GET_NEW_RELEASES_FULFILLED,
+    A.GET_TRENDING_BOOKS_FULFILLED,
   ),
   (state, { payload }) => ({
     ...state,
@@ -96,6 +104,21 @@ export const newReleasesReducer = handleActions({
   [A.RESET_NEW_RELEASES]: () => initialState.newReleases,
 }, initialState.newReleases);
 
+export const trendingReducer = handleActions({
+  [A.GET_TRENDING_BOOKS_PENDING]: state => ({
+    ...state,
+    isFetching: true,
+  }),
+  [A.GET_TRENDING_BOOKS_FULFILLED]: (state, { payload }) => ({
+    ...state,
+    byIds: [...state.byIds, ...payload.books.map(book => book.id)],
+    perPage: payload.perPage,
+    page: payload.page,
+    count: payload.count,
+    isFetching: false,
+  }),
+  [A.RESET_TRENDING_BOOKS]: () => initialState.trending,
+}, initialState.trending);
 
 export const comingSoonReducer = handleActions({
   [A.GET_COMING_SOON_BOOKS_PENDING]: state => ({
@@ -121,4 +144,5 @@ export default combineReducers({
   bestSellers: bestSellersReducer,
   newReleases: newReleasesReducer,
   comingSoon: comingSoonReducer,
+  trending: trendingReducer,
 });
