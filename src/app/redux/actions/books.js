@@ -57,7 +57,7 @@ export const getTrending = createAction(A.GET_TRENDING_BOOKS, (page = 1, perPage
 
 export const getCategories = createAction(
   A.GET_BOOKS_CATEGORIES,
-  ({ page = 1, perPage = 10, sort } = {}) => (
+  ({ page = 1, perPage = 10, sort = 'alphabetically' } = {}) => (
     new Promise((resolve, reject) => (
       Books.getCategories({ page, perPage, sort })
         .then(({ data }) => resolve({
@@ -65,11 +65,14 @@ export const getCategories = createAction(
           page: data.page,
           perPage: data.perPage,
           count: data.count,
-          sort: data.sort,
+          sort,
         }))
         .catch(err => reject(err))
     ))
   ),
+  ({ type }) => ({
+    type,
+  }),
 );
 
 export function getBooks(params) {
