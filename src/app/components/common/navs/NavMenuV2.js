@@ -16,6 +16,8 @@ import faShoppingCart from '@fortawesome/fontawesome-free-solid/faShoppingCart';
 import faHeart from '@fortawesome/fontawesome-free-solid/faHeart';
 import faBars from '@fortawesome/fontawesome-free-solid/faBars';
 import { SoldBookCounter } from '../';
+import FloatingSubMenu from './FloatingSubMenu';
+import { MenuLinks } from './Placeholder';
 
 const LinkButton = ({ text, to }) => (
   <Link to={to}>
@@ -119,15 +121,11 @@ const ActionBar = props => (
   </div>
 );
 
-const MenuLinks = [
-  { id: 0, text: 'Books', action: '#', isLink: false },
-  { id: 1, text: 'Best Sellers', action: '#', isLink: false },
-  { id: 2, text: 'New Releases', action: '#', isLink: false },
-  { id: 3, text: 'Articles', action: '#', isLink: false },
-  { id: 4, text: 'For Authors', action: '#', isLink: false },
-  { id: 5, text: 'For Readers', action: '#', isLink: false },
-  { id: 6, text: 'Buy a Book, Give a Book!', action: '#', isLink: false },
-];
+const hyperLink = (text, action, isLink, id) => (
+  isLink ?
+    <Link key={id} to={action}>{text}</Link> :
+    <a key={id} href={action}>{text}</a>
+);
 
 const LinkBar = props => (
   <div className="navbar-links-wrapper">
@@ -135,12 +133,15 @@ const LinkBar = props => (
       <div className="container">
         <div className="row">
           <div className="col">
-            <div className="navbar-links navbar-bar-spacing d-flex flex-row justify-content-between">
+            <div className="navbar-links d-flex flex-row justify-content-between">
               {
-                MenuLinks.map(({ text, action, isLink, id }) => (
-                  isLink ?
-                    <Link key={id} to={action}>{text}</Link> :
-                    <a key={id} href={action}>{text}</a>
+                MenuLinks.map(({ text, action, isLink, id, subMenu }) => (
+                  subMenu ?
+                    <div key={id} className="navbar-link-wrapper d-flex flex-column justify-content-center align-items-center">
+                      { hyperLink(text, action, isLink, id) }
+                      <FloatingSubMenu menu={subMenu} />
+                    </div> :
+                    hyperLink(text, action, isLink, id)
                 ))
               }
             </div>
