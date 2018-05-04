@@ -37,11 +37,20 @@ const initialState = {
   },
   categories: {
     entities: {},
-    byIds: [],
-    count: null,
-    perPage: 10,
-    page: 0,
-    sort: null,
+    subjects: {
+      byIds: [],
+      count: null,
+      perPage: 10,
+      page: 0,
+      sort: null,
+    },
+    popular: {
+      byIds: [],
+      count: null,
+      perPage: 10,
+      page: 0,
+      sort: null,
+    },
   },
 };
 
@@ -144,26 +153,53 @@ export const comingSoonReducer = handleActions({
   [A.RESET_COMING_SOON_BOOKS]: () => initialState.comingSoon,
 }, initialState.comingSoon);
 
-export const categoriesReducer = handleActions({
-  [A.GET_BOOKS_CATEGORIES_PENDING]: state => ({
+const categoriesReducer = handleAction(
+  combineActions(A.GET_BOOKS_CATEGORIES_FULFILLED),
+  (state, { payload }) => ({
+    ...state,
+    ...normalizeEntities(payload.categories),
+  }),
+  initialState.entities,
+);
+
+export const withType = type => reducerFn => (state, action) => {
+  debugger;
+  return action.meta.type === type ? reducerFn(state, action) : state;
+};
+
+export const booksSubjectsReducer = handleActions({
+  [A.GET_BOOKS_CATEGORIES_PENDING]: withType('subject')(state => ({
     ...state,
     isFetching: true,
-  }),
-  [A.GET_BOOKS_CATEGORIES_FULFILLED]: (state, { payload }) => ({
+  })),
+  [A.GET_BOOKS_CATEGORIES_FULFILLED]: withType('subject')((state, { payload }) => ({
     ...state,
-    entities: {
-      ...state.entities,
-      ...normalizeEntities(payload.categories),
-    },
     byIds: [...state.byIds, ...payload.categories.map(category => category.id)],
     perPage: payload.perPage,
     page: payload.page,
     count: payload.count,
     sort: payload.sort,
     isFetching: false,
-  }),
-  [A.RESET_BOOKS_CATEGORIES]: () => initialState.categories,
-}, initialState.categories);
+  })),
+  [A.RESET_BOOKS_SUBJECTS]: () => initialState.categories.subjects,
+}, initialState.categories.subjects);
+
+export const popularCategoriesReducer = handleActions({
+  [A.GET_BOOKS_CATEGORIES_PENDING]: withType('popular')(state => ({
+    ...state,
+    isFetching: true,
+  })),
+  [A.GET_BOOKS_CATEGORIES_FULFILLED]: withType('popular')((state, { payload }) => ({
+    ...state,
+    byIds: [...state.byIds, ...payload.categories.map(category => category.id)],
+    perPage: payload.perPage,
+    page: payload.page,
+    count: payload.count,
+    sort: payload.sort,
+    isFetching: false,
+  })),
+  [A.RESET_POPULAR_BOOKS_CATEGORIES]: () => initialState.categories.popular,
+}, initialState.categories.popular);
 
 
 export default combineReducers({
@@ -174,5 +210,9 @@ export default combineReducers({
   newReleases: newReleasesReducer,
   comingSoon: comingSoonReducer,
   trending: trendingReducer,
-  categories: categoriesReducer,
+  categories: combineReducers({
+    entities: categoriesReducer,
+    popular: popularCategoriesReducer,
+    subjects: booksSubjectsReducer,
+  }),
 });
