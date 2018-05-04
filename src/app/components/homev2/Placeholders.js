@@ -24,10 +24,10 @@ export const CarouselItems = [
 export const Ads = [
   {
     id: 1,
-    image: "http://via.placeholder.com/800x400",
+    image: "/image/ads/home/ad01.jpg",
     classes: "home-ad img-cover",
     url: "#",
-    alt: "Homepage Ad #1",
+    alt: "The Greatest Prospector",
     isLink: true,
     target: "_blank",
   },
