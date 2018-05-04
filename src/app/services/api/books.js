@@ -4,6 +4,7 @@ import { Endpoints } from '../../constants';
 const {
   books,
   filterBooks,
+  getBooksCategories,
   getHomeBestSellingBooks,
   getHomeTrendingBooks,
   getHomeNewReleaseBooks,
@@ -13,6 +14,7 @@ const {
 const Books = () => ({
   getBooks: params => http.get(books(params)),
   filterBooks: params => http.get(filterBooks(params)),
+  getCategories: params => http.get(getBooksCategories(params)),
   getBestSellers: params => http.get(getHomeBestSellingBooks(params)),
   getNewReleases: params => http.get(getHomeNewReleaseBooks(params)),
   getComingSoon: params => http.get(getHomeComingSoonBooks(params)),
