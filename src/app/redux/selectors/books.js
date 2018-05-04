@@ -22,7 +22,12 @@ export const getTrending = createSelector(
   books => books.trending.byIds.map(bookId => books.entities[bookId]),
 );
 
-export const getCategories = createSelector(
+export const getBooksSubjects = createSelector(
   getState,
-  books => books.categories.byIds.map(categoryId => books.categories.entities[categoryId]),
+  books => books.categories.subjects.byIds.map(categoryId => books.categories.entities[categoryId]),
+);
+
+export const getPopularCategories = createSelector(
+  getState,
+  books => books.categories.popular.byIds.map(categoryId => books.categories.entities[categoryId]),
 );
