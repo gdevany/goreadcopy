@@ -21,3 +21,8 @@ export const getTrending = createSelector(
   getState,
   books => books.trending.byIds.map(bookId => books.entities[bookId]),
 );
+
+export const getCategories = createSelector(
+  getState,
+  books => books.categories.byIds.map(categoryId => books.categories.entities[categoryId]),
+);
