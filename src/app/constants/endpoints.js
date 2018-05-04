@@ -138,6 +138,7 @@ const Endpoints = () => {
     getHomeTrendingBooks: (params) => apiUrl('books/trending', params),
     getHomeNewReleaseBooks: (params) => apiUrl('books/new_releases', params),
     getHomeComingSoonBooks: (params) => apiUrl('books/coming_soon', params),
+    getBooksCategories: (params) => apiUrl('genres', params),
   }
 
   return routes

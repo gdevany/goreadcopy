@@ -35,6 +35,14 @@ const initialState = {
     perPage: 10,
     page: 0,
   },
+  categories: {
+    entities: {},
+    byIds: [],
+    count: null,
+    perPage: 10,
+    page: 0,
+    sort: null,
+  },
 };
 
 export const normalizeEntities = entitites => (entitites.reduce((normalizedEntities, entity) => ({
@@ -136,6 +144,27 @@ export const comingSoonReducer = handleActions({
   [A.RESET_COMING_SOON_BOOKS]: () => initialState.comingSoon,
 }, initialState.comingSoon);
 
+export const categoriesReducer = handleActions({
+  [A.GET_BOOKS_CATEGORIES_PENDING]: state => ({
+    ...state,
+    isFetching: true,
+  }),
+  [A.GET_BOOKS_CATEGORIES_FULFILLED]: (state, { payload }) => ({
+    ...state,
+    entities: {
+      ...state.entities,
+      ...normalizeEntities(payload.categories),
+    },
+    byIds: [...state.byIds, ...payload.categories.map(category => category.id)],
+    perPage: payload.perPage,
+    page: payload.page,
+    count: payload.count,
+    sort: payload.sort,
+    isFetching: false,
+  }),
+  [A.RESET_BOOKS_CATEGORIES]: () => initialState.categories,
+}, initialState.categories);
+
 
 export default combineReducers({
   entities: entitiesReducer,
@@ -145,4 +174,5 @@ export default combineReducers({
   newReleases: newReleasesReducer,
   comingSoon: comingSoonReducer,
   trending: trendingReducer,
+  categories: categoriesReducer,
 });
