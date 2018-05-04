@@ -24,6 +24,9 @@ const {
   GET_COMMENTS_PENDING,
   COMMENT_ARTICLE_FULFILLED,
   RESET_COMMENTS,
+  GET_ARTICLES_CATEGORIES_PENDING,
+  GET_ARTICLES_CATEGORIES_FULFILLED,
+  RESET_ARTICLES_CATEGORIES,
 } = ARTICLES;
 
 const initialState = {
@@ -57,6 +60,14 @@ const initialState = {
     isFetching: false,
     commenting: null,
   },
+  categories: {
+    entities: {},
+    byIds: [],
+    count: null,
+    perPage: 10,
+    page: 0,
+    sort: null,
+  },
 };
 
 export const mapCommentsToEntities = (comments, parentId) => (comments.reduce((entities, comment) => {
@@ -76,9 +87,9 @@ export const mapCommentsToEntities = (comments, parentId) => (comments.reduce((e
   return newEntities;
 }, {}));
 
-export const normalizeArticles = articles => (articles.reduce((normalizedArticles, article) => ({
-  ...normalizedArticles,
-  [article.id]: article,
+export const normalizeEntities = entitites => (entitites.reduce((normalizedEntities, entity) => ({
+  ...normalizedEntities,
+  [entity.id]: entity,
 }), {}));
 
 export const addReply = (entities, payload) => {
@@ -133,7 +144,7 @@ export const commentArticle = (entities, { id, count, commented }) => ({
 
 const addNormalizedArticles = (entities, { payload }) => ({
   ...entities,
-  ...normalizeArticles(payload.articles, entities),
+  ...normalizeEntities(payload.articles, entities),
 });
 
 export const entitiesReducer = handleActions({
@@ -231,6 +242,27 @@ export const commentsReducer = handleActions({
   [RESET_COMMENTS]: () => initialState.comments,
 }, initialState.comments);
 
+export const categoriesReducer = handleActions({
+  [GET_ARTICLES_CATEGORIES_PENDING]: state => ({
+    ...state,
+    isFetching: true,
+  }),
+  [GET_ARTICLES_CATEGORIES_FULFILLED]: (state, { payload }) => ({
+    ...state,
+    entities: {
+      ...state.entities,
+      ...normalizeEntities(payload.categories),
+    },
+    byIds: [...state.byIds, ...payload.categories.map(category => category.id)],
+    perPage: payload.perPage,
+    page: payload.page,
+    count: payload.count,
+    sort: payload.sort,
+    isFetching: false,
+  }),
+  [RESET_ARTICLES_CATEGORIES]: () => initialState.categories,
+}, initialState.categories);
+
 export default combineReducers({
   entities: entitiesReducer,
   top5: top5Reducer,
@@ -239,4 +271,5 @@ export default combineReducers({
   topContributors: topContributorsReducer,
   sharing: sharingReducer,
   comments: commentsReducer,
+  categories: categoriesReducer,
 });

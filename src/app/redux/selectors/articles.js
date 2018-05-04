@@ -120,6 +120,11 @@ export const getCommentingArticleId = createSelector(
   state => state.comments.commenting,
 );
 
+export const getCategories = createSelector(
+  getState,
+  articles => articles.categories.byIds.map(categoryId => articles.categories.entities[categoryId]),
+);
+
 export const articlesListSelector = createSelector(
   getNewestArticlesState,
   state => ({
@@ -154,7 +159,7 @@ export const top5ArticlesSelector = createSelector(
   }),
 );
 
-export const getIsFetchingComments = () => false;
+export const getIsFetchingComments = () => false; // #TODO: wtf?
 
 export const getCommentsForCommentModal = createSelector(
   getState,

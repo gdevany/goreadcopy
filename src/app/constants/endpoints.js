@@ -126,6 +126,7 @@ const Endpoints = () => {
       getTop5Articles: params => apiUrl('articles/top_5_articles', params),
       getTop50Articles: params => apiUrl('articles/leading_articles', params),
       getTopContributors: params => apiUrl('articles/top_contributors', params),
+      getCategories: params => apiUrl('articles/categories', params),
     },
     jwtRefresh: () => apiUrl('token/refresh'),
     jwtAuth: () => apiUrl('token/auth'),
