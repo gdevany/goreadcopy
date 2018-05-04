@@ -50,6 +50,16 @@ export const getTopContributors = createAction(A.GET_TOP_CONTRIBUTORS, (page = 1
   ))
 ));
 
+export const getCategories = createAction(A.GET_ARTICLES_CATEGORIES, () => (
+  new Promise((resolve, reject) => (
+    ArticlesAPI.getCategories()
+      .then(({ data }) => resolve({
+        categories: data.categories,
+      }))
+      .catch(err => reject(err))
+  ))
+));
+
 export const likeArticle = createAction(A.LIKE_ARTICLE, id => (
   new Promise((resolve, reject) => (
     ArticlesAPI.likeArticle(id)

@@ -7,6 +7,7 @@ const {
     getTop5Articles,
     getTop50Articles,
     getNewestArticles,
+    getCategories,
   },
   updateLikes,
 } = Endpoints;
@@ -21,6 +22,7 @@ const Articles = () => ({
     return http.get(newestArticlesURL);
   },
   getTopContributors: params => http.get(getTopContributors(params)),
+  getCategories: params => http.get(getCategories(params)),
   getTop5Articles: () => {
     const top5ArticlesURL = getTop5Articles();
     if (isAuthenticated()) {
