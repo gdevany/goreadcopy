@@ -227,13 +227,15 @@ i.magnifier::before {
   .carousel {
     width: 100%;
     height: 100%;
-    .carousel-item img{
-      height: 250px;
-      @media screen and (min-width: $sm) {
-        height: 450px;
+    .carousel-item {
+      img {
+        height: 250px;
+        @media screen and (min-width: $sm) {
+          height: 450px;
+        }
+        width: 100%;
+        margin: 0 auto;
       }
-      width: 100%;
-      margin: 0 auto;
     }
   }
 }
@@ -245,10 +247,15 @@ i.magnifier::before {
       margin-top: 90px;
     }
   }
+  .carousel-item.active, .carousel-item-next, .carousel-item-left, .carousel-item-prev, .carousel-item-right {
+    display: flex;
+  }
   .book-carousel-item {
-    max-width: 150px;
+    width: 140px;
+    min-height: 300px;
     height: auto;
     font-size: 14px;
+    margin: 0 5px;
     .book-carousel-item-cover {
       max-width: 150px;
       max-height: 200px;
