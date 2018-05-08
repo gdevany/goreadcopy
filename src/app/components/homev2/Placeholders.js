@@ -118,6 +118,30 @@ export const Books = [
     rating: 5,
     url: 'https://www.goread.com/book/harry-potter-coloring-book',
   },
+  {
+    key: 6,
+    image: 'https://www.goread.com/media/cache/85/21/85213ba068295325de467b685358eb61.png',
+    title: 'Divergent',
+    author: 'Veronica Roth',
+    rating: 3,
+    url: 'https://www.goread.com/book/divergent',
+  },
+  {
+    key: 7,
+    image: 'https://www.goread.com/media/cache/54/51/5451e0b3772580d2f79fddfdad1eb113.png',
+    title: 'Shining',
+    author: 'Stephen King ',
+    rating: 4,
+    url: 'https://www.goread.com/book/shining',
+  },
+  {
+    key: 8,
+    image: 'https://www.goread.com/media/cache/ae/93/ae93f4594b64c36bd5390b1534d2f675.png',
+    title: 'Harry Potter Coloring Book',
+    author: 'Inc. Scholastic',
+    rating: 5,
+    url: 'https://www.goread.com/book/harry-potter-coloring-book',
+  },
 ];
 
 export const Articles = [
