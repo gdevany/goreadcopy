@@ -21,6 +21,7 @@ import { PublicWrapper } from './components/public';
 import { ReferralHome } from './components/referral';
 import { Literacy } from './components/literacy';
 import { Settings } from './components/settings';
+import AboutUs from './components/homev2/templates/AboutUs';
 import { Auth } from './services';
 
 const isUserLoggedIn = Auth.currentUserExists();
@@ -65,6 +66,7 @@ const Routes = (
     <Route path="/privacy" context="privacy" component={useFoundationFor(PublicWrapper)} />
     <Route path="/accounts/signup" component={useFoundationFor(SignUpModal)} />
     <Route path="/accounts/login" component={useFoundationFor(LogInModal)} />
+    <Route path="/aboutus" component={useBootstrapFor(AboutUs)} />
   </Route>
 );
 

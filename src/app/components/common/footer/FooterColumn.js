@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import CollapsableList from '../collapser/CollapsableList';
 import Collapsable from '../collapser/Collapsable';
 
