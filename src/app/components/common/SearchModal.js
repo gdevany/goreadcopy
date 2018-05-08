@@ -335,7 +335,7 @@ class SearchModal extends Component {
       if (this.state.selectedSubFilter) {
         let selectedSubFilter
         if (this.state.selectedSubFilter === 'ean') {
-          selectedSubFilter = this.state.selectedSubFilter.toUpperCase()
+          selectedSubFilter = 'ISBN';
         } else {
           selectedSubFilter = this.state.selectedSubFilter.replace(/\b\w/, (m) => {
             return m.toUpperCase()
@@ -407,7 +407,7 @@ class SearchModal extends Component {
                                 <a
                                   onClick={() => this.handleSelectFilter('Book', 'EAN')}
                                 >
-                                  EAN
+                                  ISBN
                                 </a>
                               </li>
                               <li>
@@ -430,7 +430,7 @@ class SearchModal extends Component {
                             <a
                               onClick={() => this.handleSelectFilter('Author')}
                             >
-                              Author
+                              Buzz Author
                             </a>
                           </li>
                           <li className='search-main-search-filters-list'>
