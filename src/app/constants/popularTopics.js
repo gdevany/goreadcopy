@@ -51,16 +51,16 @@ const PopularTopics = () => {
     [cooking]: 'Cooking'
   }
 
-  const categoryUrl = (path) => backendUrl('book/category/' + path)
+  const categoryUrl = (path) => ('/categories/' + path)
 
   const routes = {
-    [popular]: categoryUrl('goread-popular'),
-    [newest]: categoryUrl('goread-newest'),
+    [popular]: '/store',
+    [newest]: '/store',
     // [awardWinners]: PENDING_URL_FROM_API_TEAM, // Team says it should be hidden for now
-    [goreadPicks]: categoryUrl('goread-picks'),
+    [goreadPicks]: '/store',
     // [sale]: PENDING_URL_FROM_API_TEAM, // Team says it should be hidden for now
-    [sciFi]: categoryUrl('fiction'),
-    [romance]: categoryUrl('love-amp-romance'),
+    [sciFi]: categoryUrl('fiction/science-fiction-general'),
+    [romance]: categoryUrl('fiction/romance-general'),
     [youngAdult]: categoryUrl('juvenile-fiction'),
     [sports]: categoryUrl('sports-amp-recreation'),
     [business]: categoryUrl('business-amp-economics'),

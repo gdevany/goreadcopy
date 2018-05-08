@@ -46,6 +46,10 @@ html, body {
   margin: 50px 0;
 }
 
+.top-container {
+  margin-top: 100px;
+}
+
 input[type='checkbox'] {
   -webkit-appearance:none;
   width:20px;
@@ -219,9 +223,7 @@ input[type="checkbox"]:focus{
   }
 }
 
-.signup-modal-content{
-  height: 100vh !important;
-  max-height: none !important;
+.login-content{
   .recovery-input{
     margin: 0px auto;
     max-width: 400px;

@@ -1,11 +1,12 @@
-import { STORE as A, PROFILE_PAGE as B, COMMON as C } from '../const/actionTypes'
+import { STORE as A, PROFILE_PAGE as B, COMMON as C, SESSION as S } from '../const/actionTypes'
 import { browserHistory } from 'react-router'
 import Store from '../../services/api/store'
 import Books from '../../services/api/books'
 import ProfilePage from '../../services/api/profilePage'
 import { getCurrentReader } from './currentReader'
-import { Errors } from '../../services'
+import { Errors, Auth } from '../../services'
 
+const { setSessionData } = Auth
 const { hasErrors, errorsFrom } = Errors
 
 export function getCategories() {
@@ -267,6 +268,8 @@ export function getCurrentOrder(params, logged) {
   return dispatch => {
     return Store.setOrder(params)
       .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
+      .then(res => dispatch({ type: S.STORE_SESSION, payload: { referral: null } }))
+      .then(res => setSessionData({}, true))
       .then(() => {
         return Store.getShippingMethods()
           .then(res => dispatch({ type: A.GET_SHIPPING_METHODS, payload: res.data }))

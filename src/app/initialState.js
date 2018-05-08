@@ -56,4 +56,5 @@ export default {
   common: emptyState({
     alerts: {},
   }),
+  session: {},
 }

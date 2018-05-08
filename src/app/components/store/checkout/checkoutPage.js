@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { Store, CurrentReader } from '../../../redux/actions'
+import { Store, CurrentReader, Session } from '../../../redux/actions'
 import { StepZero, StepOne, StepTwo, StepThree } from './orderSteps'
 import CheckIcon from 'material-ui/svg-icons/navigation/check'
 import Snackbar from 'material-ui/Snackbar'
@@ -12,6 +12,7 @@ import { Auth } from '../../../services'
 
 const { SnackBarAlert } = Alerts
 const { getCurrentReader } = CurrentReader
+const { retrieveSession } = Session
 
 const {
   getOrder, getCurrentOrder, setUserAddress, setUserAddressAndShipping, setUsingLitcoins,
@@ -77,8 +78,8 @@ class CheckoutPage extends PureComponent {
   }
 
   componentWillMount = () => {
-    this.fetchCurrentReader()
-    this.fetchStoreOrder()
+    this.props.retrieveSession()
+    this.fetchCartData()
     if (this.props.cart && this.props.cart.items.length) {
       this.setState({ allGifts: this.checkIfAllGifts(this.props.cart), isLoadingCart: false })
     }
@@ -126,23 +127,24 @@ class CheckoutPage extends PureComponent {
     this.setState(diff)
   }
 
-  componentDidUpdate() {
-    this.fetchCurrentReader()
-    this.fetchStoreOrder()
-  }
-
-  fetchCurrentReader = () => {
+  fetchCartData = () => {
     const { currentReader } = this.props
     if (Auth.currentUserExists() && currentReader && !currentReader.id) {
       this.props.getCurrentReader()
         .then(() => this.checkStepOne())
+        .then(() => this.fetchStoreOrder())
+    } else {
+      this.fetchStoreOrder()
     }
   }
 
   fetchStoreOrder = () => {
-    const { currentReader, order } = this.props
+    const { currentReader, order, session } = this.props
+    const param = {}
+    const ref = session && session.referral ? session.referral : null
+    if (ref) param.ref = ref
     if (Auth.currentUserExists() && currentReader && currentReader.id && !order) {
-      this.props.getCurrentOrder({}, true)
+      this.props.getCurrentOrder(param, true)
         .then(() => this.checkStepOne())
     }
   }
@@ -629,14 +631,15 @@ class CheckoutPage extends PureComponent {
   handlePlaceOrder = () => {
     if (this.state.isCardClicked && !this.state.isPaypalClicked) {
       this.setState({ showOverlay: true })
+      const params = {
+        shippingMethod: this.state.shippingMethod,
+        paymentMethod: 'cc',
+      }
       this.props.placeOrderWithChanges({
         litcoins: this.state.useLitcoins,
         shippingMethod: this.state.shippingMethod,
         paymentMethod: 'cc',
-      }, {
-        shippingMethod: this.state.shippingMethod,
-        paymentMethod: 'cc',
-      }, { hasCreatedAccount: this.state.hasCreatedAccount })
+      }, params, { hasCreatedAccount: this.state.hasCreatedAccount })
         .catch(() => this.resetSteps('Unexpected error, please try again.'))
       /*
       // TODO: What is this? Should we remove it ?
@@ -654,12 +657,13 @@ class CheckoutPage extends PureComponent {
 
   onSuccess = (payment) => {
     if (payment.paid) {
-      this.props.placeOrder({
+      const params = {
         shippingMethod: this.state.shippingMethod,
         paymentMethod: 'paypal',
         paymentId: payment.paymentID,
         payerId: payment.payerID,
-      }, { hasCreatedAccount: this.state.hasCreatedAccount })
+      }
+      this.props.placeOrder(params, { hasCreatedAccount: this.state.hasCreatedAccount })
       .catch(() => this.resetSteps('Unexpected error, please try again.'))
     }
     this.setState({ showOverlay: true })
@@ -882,11 +886,13 @@ class CheckoutPage extends PureComponent {
 
 const mapStateToProps = ({
   store: { cartItems, order, shippingMethods, paypalConfig },
-  currentReader
+  currentReader,
+  session
 }) => {
   return {
     cart: cartItems,
-    order, shippingMethods, paypalConfig, currentReader
+    order, shippingMethods, paypalConfig, currentReader,
+    session
   }
 }
 
@@ -902,6 +908,7 @@ const mapDistpachToProps = {
   getPaypalConfig,
   setUsingLitcoins,
   getCurrentReader,
+  retrieveSession,
 }
 
 export default connect(mapStateToProps, mapDistpachToProps)(CheckoutPage)

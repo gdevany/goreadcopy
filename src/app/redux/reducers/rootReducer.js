@@ -16,6 +16,7 @@ import sidebarAdsReducer from './ads'
 import chatReducer from './chat'
 import notificationReducer from './notifications'
 import commonReducer from './common'
+import sessionReducer from './session'
 
 import { CURRENT_READER as C } from '../const/actionTypes'
 
@@ -37,6 +38,7 @@ const appReducer = combineReducers({
   rates: ratesReducer,
   notifications: notificationReducer,
   common: commonReducer,
+  session: sessionReducer,
 })
 
 const rootReducer = (state, action) => {

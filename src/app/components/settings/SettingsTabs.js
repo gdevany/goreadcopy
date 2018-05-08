@@ -498,7 +498,9 @@ class SettingsTabs extends PureComponent {
             <div className='social-account-details'>
               <span>{account.extraData.firstName} {account.extraData.lastName}</span>
             </div>
-            <CloseIcon onClick={() => this.handleDeleteSocialAccount(account.id)}/>
+            <a>
+              <CloseIcon onClick={() => this.handleDeleteSocialAccount(account.id)}/>
+            </a>
           </div>
         )
       })
@@ -514,7 +516,9 @@ class SettingsTabs extends PureComponent {
             <div className='social-account-details'>
               <span>{account.extraData.firstName} {account.extraData.lastName}</span>
             </div>
-            <CloseIcon onClick={() => this.handleDeleteSocialAccount(account.id)}/>
+            <a>
+              <CloseIcon onClick={() => this.handleDeleteSocialAccount(account.id)}/>
+            </a>
           </div>
         )
       })
@@ -530,7 +534,9 @@ class SettingsTabs extends PureComponent {
             <div className='social-account-details'>
               <span>{account.extraData.name}</span>
             </div>
-            <CloseIcon onClick={() => this.handleDeleteSocialAccount(account.id)}/>
+            <a>
+              <CloseIcon onClick={() => this.handleDeleteSocialAccount(account.id)}/>
+            </a>
           </div>
         )
       })
@@ -546,7 +552,9 @@ class SettingsTabs extends PureComponent {
             <div className='social-account-details'>
               {/* <span>{account.extraData.firstName} {account.extraData.lastName}</span> */}
             </div>
-            <CloseIcon onClick={() => this.handleDeleteSocialAccount(account.id)}/>
+            <a>
+              <CloseIcon onClick={() => this.handleDeleteSocialAccount(account.id)}/>
+            </a>
           </div>
         )
       })

@@ -20,7 +20,7 @@ const ExternalRoutes = () => {
     providerLogin: ({ provider }) => backendUrl(`accounts/${provider}/login`),
     publishers: () => backendUrl('publishers_enrollment'),
     authorEnrollment: () => backendUrl('landing'),
-    support: () => 'https://support.readerslegacy.com/', // TODO: until further notice
+    support: () => 'https://support.goread.com/', // TODO: until further notice
     terms: () => backendUrl('terms'),
     orders: () => backendUrl('store/orders'),
     referrals: () => backendUrl('profile/referrals'),

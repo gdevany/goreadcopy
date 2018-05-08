@@ -66,3 +66,30 @@
     display: inline !important;
   }
 }
+
+.book-image-modal {
+  .book-image-modal-content {
+    display: flex;
+    justify-content: center;
+    max-width: 525px !important;
+    .book-image-modal-container{
+      background-color: #262626;
+      padding: 12px !important;
+      .book-image-modal-close {
+        position: absolute;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 40px;
+        svg {
+          height: 50px !important;
+          width: 50px !important;
+          display: flex !important;
+        }
+      }
+      .book-image-modal-cover {
+        img {
+          min-width: 250px;  
+        }
+      }
+    }
+  }
+}
