@@ -5,10 +5,12 @@ import { browserHistory, Router } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import ReactBreakpoints from 'react-breakpoints'
 import store from './store'
 import Routes from './routes'
+import { Breakpoints } from './constants'
 
-const display = document.querySelector('.container')
+const display = document.querySelector('.root')
 const history = syncHistoryWithStore(browserHistory, store)
 
 if (process.env.NODE_ENV === 'production') {
@@ -20,9 +22,11 @@ injectTapEventPlugin()
 render(
   <Provider store={store}>
     <MuiThemeProvider>
-      <Router history={history}>
-        { Routes }
-      </Router>
+      <ReactBreakpoints breakpoints={Breakpoints}>
+        <Router history={history}>
+          { Routes }
+        </Router>
+      </ReactBreakpoints>
     </MuiThemeProvider>
   </Provider>,
   display

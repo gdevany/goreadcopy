@@ -1,11 +1,13 @@
 import React, { PureComponent } from 'react'
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
-import Home from './Home'
+import Home from '../homev2/Home'
 import { ReadFeed } from '../readFeed'
 import { Auth as AuthActions } from '../../redux/actions'
 import { Auth as AuthServices } from '../../services'
 import { General } from '../../services/api'
+import FoundationApp from '../apps/FoundationApp';
+import BootstrapApp from '../apps/BootstrapApp';
 
 const { timesRendered } = General
 const { verifyUserToken } = AuthActions
@@ -34,9 +36,15 @@ class HomeWrapper extends PureComponent {
   }
 
   render() {
-    return AuthServices.currentUserExists() ?
-      <ReadFeed isMyReadFeed={true}/> :
-      <Home/>
+    return AuthServices.currentUserExists() ? (
+      <FoundationApp>
+        <ReadFeed isMyReadFeed />
+      </FoundationApp>
+    ) : (
+      <BootstrapApp>
+        <Home />
+      </BootstrapApp>
+    );
   }
 }
 

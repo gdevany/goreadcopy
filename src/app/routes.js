@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
-import App from './components/App';
+import App from './components/apps/App';
+import FoundationApp from './components/apps/FoundationApp';
+import BootstrapApp from './components/apps/BootstrapApp';
 import { SignUpFlow } from './components/readerOnboarding';
 import IncomingRedirect from './components/incomingRedirect/IncomingRedirect';
 import { HomeWrapper } from './components/home';
@@ -18,9 +20,26 @@ import {
 import { PublicWrapper } from './components/public';
 import { ReferralHome } from './components/referral';
 import { Settings } from './components/settings';
+import AboutUs from './components/homev2/templates/AboutUs';
 import { Auth } from './services';
 
 const isUserLoggedIn = Auth.currentUserExists();
+
+const useFoundationFor = PassedComponent => (
+  props => (
+    <FoundationApp>
+      <PassedComponent {...props} />
+    </FoundationApp>
+  )
+);
+
+const useBootstrapFor = PassedComponent => (
+  props => (
+    <BootstrapApp>
+      <PassedComponent {...props} />
+    </BootstrapApp>
+  )
+);
 
 const Routes = (
   <Route path="/" component={App}>
@@ -45,6 +64,7 @@ const Routes = (
     <Route path="/privacy" context="privacy" component={PublicWrapper} />
     <Route path="/accounts/signup" component={SignUpModal} />
     <Route path="/accounts/login" component={LogInModal} />
+    <Route path="/aboutus" component={useBootstrapFor(AboutUs)} />
   </Route>
 );
 

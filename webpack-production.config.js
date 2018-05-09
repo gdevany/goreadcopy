@@ -21,6 +21,12 @@ module.exports = {
   node: {
     fs: 'empty'
   },
+  resolveLoader: {
+    modules: [
+      'node_modules',
+      path.resolve(__dirname, 'loaders'),
+    ],
+  },
   resolve: {
     modules:  ['node_modules'],
     alias: {
@@ -147,14 +153,14 @@ module.exports = {
         test: /\.css$/i,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: 'css-loader'
+          use: ['css-loader', 'sass-loader', 'namespace-sass-loader']
         }),
       },
       {
         test: /\.scss$/,
         exclude: /node_modules/,
         use: ExtractTextPlugin.extract({
-          use: ['css-loader', 'sass-loader']
+          use: ['css-loader', 'sass-loader', 'namespace-sass-loader']
         })
       },
       {

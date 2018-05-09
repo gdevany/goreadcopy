@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { StyleRoot } from 'radium';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import 'foundation/foundation-float.min.css';
-import '../../client/styles/index.scss';
+import '../../../client/styles/index.scss';
 
-class App extends Component {
+class FoundationApp extends Component {
   static propTypes = {
     children: PropTypes.node,
   }
@@ -39,7 +39,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="app">
+      <div className="app FoundationCSS">
         <StyleRoot>
           { React.cloneElement(this.props.children) }
         </StyleRoot>
@@ -48,8 +48,8 @@ class App extends Component {
   }
 }
 
-App.childContextTypes = {
+FoundationApp.childContextTypes = {
   muiTheme: PropTypes.object.isRequired,
 };
 
-export default App;
+export default FoundationApp;

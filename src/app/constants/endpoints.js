@@ -120,10 +120,25 @@ const Endpoints = () => {
       getRates: (modelName, id) => apiUrl(`rate/${modelName}/${id}/all`),
       postRate: (modelName, params) => apiUrl(`rate/${modelName}`, params),
     },
+    articles: {
+      getNewestArticles: params => apiUrl('articles/newest_articles', params),
+      getArticles: params => apiUrl('articles', params),
+      getTop5Articles: params => apiUrl('articles/top_5_articles', params),
+      getTop50Articles: params => apiUrl('articles/leading_articles', params),
+      getTopContributors: params => apiUrl('articles/top_contributors', params),
+      getCategories: params => apiUrl('articles/categories', params),
+    },
     jwtRefresh: () => apiUrl('token/refresh'),
     jwtAuth: () => apiUrl('token/auth'),
     jwtVerify: () => apiUrl('token/verify'),
     redirect: () => apiUrl('onboarding/redirect'),
+    //* **************
+    // Home Page V2
+    getHomeBestSellingBooks: (params) => apiUrl('books/best_selling', params),
+    getHomeTrendingBooks: (params) => apiUrl('books/trending', params),
+    getHomeNewReleaseBooks: (params) => apiUrl('books/new_releases', params),
+    getHomeComingSoonBooks: (params) => apiUrl('books/coming_soon', params),
+    getBooksCategories: (params) => apiUrl('genres', params),
   }
 
   return routes
