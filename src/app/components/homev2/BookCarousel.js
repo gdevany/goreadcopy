@@ -10,13 +10,13 @@ import {
 } from 'reactstrap';
 import R from 'ramda';
 
-const BookCarouselItem = ({ image, title, author, rating, url }) => (
+const BookCarouselItem = ({ imageUrl, title, authors, rating, url }) => (
   <div className="book-carousel-item d-flex flex-column justify-content-start align-items-start">
     <Link to={url}>
-      <img className="book-carousel-item-cover" src={image} alt="name" />
+      <img className="book-carousel-item-cover" src={imageUrl} alt="name" />
     </Link>
     <span className="book-carousel-item-name">{title}</span>
-    <span className="book-carousel-item-author">{author}</span>
+    <span className="book-carousel-item-author">{authors.length > 0 ? authors[0].fullname : null }</span>
     <div className="book-carousel-item-rating">
       <Rating
         readonly
@@ -44,14 +44,22 @@ class BookCarouselV2 extends Component {
 
   next = limit => () => {
     if (this.animating) return;
+    const { onNext } = this.props;
     const nextIndex = this.state.activeIndex === limit - 1 ? 0 : this.state.activeIndex + 1;
+
     this.setState({ activeIndex: nextIndex });
+
+    onNext(nextIndex);
   }
 
   previous = limit => () => {
     if (this.animating) return;
+    const { onPrevious } = this.props;
+
     const nextIndex = this.state.activeIndex === 0 ? limit - 1 : this.state.activeIndex - 1;
+
     this.setState({ activeIndex: nextIndex });
+    onPrevious(nextIndex);
   }
 
   goToIndex = (newIndex) => {
@@ -64,6 +72,10 @@ class BookCarouselV2 extends Component {
     const { books, sectionTitle, displayAmount } = this.props;
     const itemLists = R.splitEvery(displayAmount, books);
     const limit = itemLists.length;
+
+    if (limit === 0) {
+      return null;
+    }
 
     if (itemLists[itemLists.length - 1].length !== displayAmount) {
       itemLists[itemLists.length - 1] = Array.concat(
@@ -82,7 +94,7 @@ class BookCarouselV2 extends Component {
       >
         {
           list.map(item => (
-            <BookCarouselItem {...item} />
+            <BookCarouselItem {...item} rating={item.rating.average} />
           ))
         }
       </CarouselItem>

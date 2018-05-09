@@ -19,6 +19,8 @@ export const getBestSellers = createAction(A.GET_BEST_SELLERS, (page = 1, perPag
   ))
 ));
 
+export const resetBestSellers = createAction(A.RESET_BEST_SELLERS);
+
 export const getNewReleases = createAction(A.GET_NEW_RELEASES, (page = 1, perPage = 10) => (
   new Promise((resolve, reject) => (
     Books.getNewReleases({ page, perPage })
@@ -30,6 +32,8 @@ export const getNewReleases = createAction(A.GET_NEW_RELEASES, (page = 1, perPag
       .catch(err => reject(err))
   ))
 ));
+
+export const resetNewReleases = createAction(A.RESET_NEW_RELEASES);
 
 export const getComingSoon = createAction(A.GET_COMING_SOON_BOOKS, (page = 1, perPage = 10) => (
   new Promise((resolve, reject) => (
@@ -54,6 +58,8 @@ export const getTrending = createAction(A.GET_TRENDING_BOOKS, (page = 1, perPage
       .catch(err => reject(err))
   ))
 ));
+
+export const resetTrending = createAction(A.RESET_TRENDING_BOOKS);
 
 export const getCategories = createAction(
   A.GET_BOOKS_CATEGORIES,

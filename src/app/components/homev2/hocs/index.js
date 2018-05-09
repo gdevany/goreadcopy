@@ -1,0 +1,1 @@
+export withBooksWithPagination from './withBooksWithPagination';
