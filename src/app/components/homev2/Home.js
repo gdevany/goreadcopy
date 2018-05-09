@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import { withBreakpoints } from 'react-breakpoints';
 import { MainNavView } from '../views';
 import Top5Articles from './Top5Articles';
-import BookCarousel from './BookCarousel';
+import {
+  BestSellingBooks,
+  ComingSoonBooks,
+  NewReleasesBooks,
+  TrendingBooks,
+} from './carousels';
 import { HomeAds, HomeImageLinks, Ad, HomeHero } from './HomeContentItems';
 import { CarouselItems, Ads, Books, Articles } from './Placeholders';
 import '../../../client/styles/app/views/home/index.scss';
@@ -20,10 +25,11 @@ const HomeContent = ({ screenWidth, breakpoints }) => (
       <div className="container">
         <div className="row">
           <div className="col">
-            <BookCarousel
+            <BestSellingBooks
               sectionTitle="Best-Selling Books This Week"
-              books={Books}
               displayAmount={getAmount(screenWidth, breakpoints)}
+              perPage={24}
+              limit={24}
             />
             <Top5Articles articles={Articles} />
           </div>
@@ -33,10 +39,11 @@ const HomeContent = ({ screenWidth, breakpoints }) => (
       <div className="container">
         <div className="row">
           <div className="col">
-            <BookCarousel
+            <NewReleasesBooks
               sectionTitle="New Releases"
-              books={Books}
               displayAmount={getAmount(screenWidth, breakpoints)}
+              perPage={24}
+              limit={24}
             />
           </div>
         </div>
@@ -45,10 +52,11 @@ const HomeContent = ({ screenWidth, breakpoints }) => (
       <div className="container">
         <div className="row">
           <div className="col">
-            <BookCarousel
+            <TrendingBooks
               sectionTitle="#Trending"
-              books={Books}
               displayAmount={getAmount(screenWidth, breakpoints, true)}
+              perPage={24}
+              limit={24}
             />
           </div>
         </div>
@@ -60,15 +68,18 @@ const HomeContent = ({ screenWidth, breakpoints }) => (
       <div className="container">
         <div className="row">
           <div className="col-12 col-sm-9">
-            <BookCarousel
+            <BestSellingBooks
               sectionTitle="Best-Selling Books This Week"
-              books={Books}
               displayAmount={getAmount(screenWidth, breakpoints)}
+              perPage={24}
+              limit={24}
             />
-            <BookCarousel
+            <NewReleasesBooks
               sectionTitle="New Releases"
               books={Books}
               displayAmount={getAmount(screenWidth, breakpoints)}
+              perPage={24}
+              limit={24}
             />
           </div>
           <div className="col-sm-3">
@@ -79,10 +90,11 @@ const HomeContent = ({ screenWidth, breakpoints }) => (
       <div className="container">
         <div className="row">
           <div className="col">
-            <BookCarousel
+            <TrendingBooks
               sectionTitle="#Trending"
-              books={Books}
               displayAmount={getAmount(screenWidth, breakpoints, true)}
+              perPage={24}
+              limit={24}
             />
           </div>
         </div>
@@ -97,10 +109,11 @@ const HomeContent = ({ screenWidth, breakpoints }) => (
       <div className="container">
         <div className="row">
           <div className="col">
-            <BookCarousel
+            <ComingSoonBooks
               sectionTitle="Coming Soon"
-              books={Books}
               displayAmount={getAmount(screenWidth, breakpoints, true)}
+              perPage={24}
+              limit={24}
             />
           </div>
         </div>
