@@ -42,7 +42,7 @@ export const Ads = [
   },
   {
     id: 3,
-    image: "http://via.placeholder.com/1400x280",
+    image: "/image/ads/home/ad03.png",
     classes: "home-ad img-cover",
     url: "#",
     alt: "GoRead Children's Literacy Fund",
