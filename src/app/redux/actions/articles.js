@@ -60,6 +60,8 @@ export const getCategories = createAction(A.GET_ARTICLES_CATEGORIES, () => (
   ))
 ));
 
+export const resetArticlesCategories = createAction(A.RESET_ARTICLES_CATEGORIES);
+
 export const likeArticle = createAction(A.LIKE_ARTICLE, id => (
   new Promise((resolve, reject) => (
     ArticlesAPI.likeArticle(id)

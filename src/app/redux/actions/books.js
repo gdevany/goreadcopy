@@ -47,6 +47,8 @@ export const getComingSoon = createAction(A.GET_COMING_SOON_BOOKS, (page = 1, pe
   ))
 ));
 
+export const resetComingSoon = createAction(A.RESET_COMING_SOON_BOOKS);
+
 export const getTrending = createAction(A.GET_TRENDING_BOOKS, (page = 1, perPage = 10) => (
   new Promise((resolve, reject) => (
     Books.getTrending({ page, perPage })
@@ -80,6 +82,9 @@ export const getCategories = createAction(
     type,
   }),
 );
+
+export const resetPopularBooksCategories = createAction(A.RESET_POPULAR_BOOKS_CATEGORIES);
+export const resetBooksSubjects = createAction(A.RESET_BOOKS_SUBJECTS);
 
 export function getBooks(params) {
   return (dispatch, getState) => {

@@ -51,6 +51,9 @@ a {
     padding: 15px 0 15px 0;
   }
   .navbar-link-wrapper {
+    a {
+      text-transform: capitalize;
+    }
     position: relative;
     .navbar-link-submenu {
       display: none;
