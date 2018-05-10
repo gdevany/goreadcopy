@@ -201,7 +201,7 @@ const TilesWrapper = ({ feed }) => {
           if (tile.tileType !== 'book_review') {
             bookAndProductContent = {
               title: (tile.target.name || tile.target.title || tileContent.title),
-              description: (tileContent.body || tileContent.description),
+              description: (tileContent.body || tileContent.descriptionTxt),
               image: tileContent.imageUrl,
               rating: tileContent.rating.average,
               author: getName(),
