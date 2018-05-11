@@ -21,7 +21,17 @@ import { PublicWrapper } from './components/public';
 import { ReferralHome } from './components/referral';
 import { Literacy } from './components/literacy';
 import { Settings } from './components/settings';
-import AboutUs from './components/homev2/templates/AboutUs';
+import {
+  AboutUs,
+  Career,
+  Investors,
+  OurMission,
+  SellYourBooks,
+  AffiliatePage,
+  AdvertiseYourProduct,
+  PublishWithUs,
+  AdvertiseYourBusiness,
+} from './components/homev2/templates';
 import { Auth } from './services';
 
 const isUserLoggedIn = Auth.currentUserExists();
@@ -46,27 +56,35 @@ const Routes = (
   <Route path="/" component={App}>
     <IndexRoute isUserLoggedIn={isUserLoggedIn} component={HomeWrapper} />
     <Route path="/vid" isUserLoggedIn={isUserLoggedIn} component={HomeWrapper} />
-    <Route path="/profile/settings" component={useFoundationFor(Settings)} />
-    <Route path="/profile/:slug" component={useFoundationFor(Profile)} />
-    <Route path="/profile/welcome/" component={useFoundationFor(Profile)} />
-    <Route path="/me/:slug" component={useFoundationFor(ReferralHome)} />
-    <Route path="/store" component={useFoundationFor(BookStore)} />
-    <Route path="/book/:slug" component={useFoundationFor(BookPage)} />
-    <Route path="/categories/:slug" component={useFoundationFor(CategoriesPage)} />
-    <Route path="/categories/:slug/:subCategory" component={useFoundationFor(CategoriesPage)} />
-    <Route path="/shop/cart" component={useFoundationFor(CartPage)} />
-    <Route path="/shop/checkout" component={useFoundationFor(CheckoutPage)} />
-    <Route path="/shop/success" component={useFoundationFor(orderSuccess)} />
-    <Route path="/store/orders" component={useFoundationFor(Orders)} />
-    <Route path="/literacy" component={useFoundationFor(Literacy)} />
-    <Route path="/signup" component={useFoundationFor(SignUpFlow)} />
-    <Route path="/redirect" component={useFoundationFor(IncomingRedirect)} />
-    <Route path="/antispam" context="antispam" component={useFoundationFor(PublicWrapper)} />
-    <Route path="/terms" context="terms" component={useFoundationFor(PublicWrapper)} />
-    <Route path="/privacy" context="privacy" component={useFoundationFor(PublicWrapper)} />
-    <Route path="/accounts/signup" component={useFoundationFor(SignUpModal)} />
-    <Route path="/accounts/login" component={useFoundationFor(LogInModal)} />
-    <Route path="/aboutus" component={useBootstrapFor(AboutUs)} />
+    <Route path="/profile/settings" component={Settings} />
+    <Route path="/profile/:slug" component={Profile} />
+    <Route path="/profile/welcome/" component={Profile} />
+    <Route path="/me/:slug" component={ReferralHome} />
+    <Route path="/store" component={BookStore} />
+    <Route path="/book/:slug" component={BookPage} />
+    <Route path="/categories/:slug" component={CategoriesPage} />
+    <Route path="/categories/:slug/:subCategory" component={CategoriesPage} />
+    <Route path="/shop/cart" component={CartPage} />
+    <Route path="/shop/checkout" component={CheckoutPage} />
+    <Route path="/shop/success" component={orderSuccess} />
+    <Route path="/store/orders" component={Orders} />
+    <Route path="/literacy" component={Literacy} />
+    <Route path="/signup" component={SignUpFlow} />
+    <Route path="/redirect" component={IncomingRedirect} />
+    <Route path="/antispam" context="antispam" component={PublicWrapper} />
+    <Route path="/terms" context="terms" component={PublicWrapper} />
+    <Route path="/privacy" context="privacy" component={PublicWrapper} />
+    <Route path="/accounts/signup" component={SignUpModal} />
+    <Route path="/accounts/login" component={LogInModal} />
+    <Route path="/about-us" component={useBootstrapFor(AboutUs)} />
+    <Route path="/career" component={useBootstrapFor(Career)} />
+    <Route path="/investor-relations" component={useBootstrapFor(Investors)} />
+    <Route path="/our-mission" component={useBootstrapFor(OurMission)} />
+    <Route path="/sell-your-books" component={useBootstrapFor(SellYourBooks)} />
+    <Route path="/affiliate-page" component={useBootstrapFor(AffiliatePage)} />
+    <Route path="/advertise-your-product" component={useBootstrapFor(AdvertiseYourProduct)} />
+    <Route path="/publish-with-us" component={useBootstrapFor(PublishWithUs)} />
+    <Route path="/advertise-your-business" component={useBootstrapFor(AdvertiseYourBusiness)} />
   </Route>
 );
 

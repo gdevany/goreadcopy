@@ -1,0 +1,60 @@
+.sell-your-books {
+  padding: 40px 0;
+  .title {
+    padding: 30px 0;
+  }
+  .subtitle {
+    font-weight: 700;
+  }
+  .section {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 40px 0;
+    .section-item {
+      width: 20%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      p {
+        text-align: center;
+      }
+    }
+  }
+  .button-section {
+    text-align: center;
+    .learn-more-button {
+      display: inline-block;
+      color: #fff;
+      background-color: #0D3AD1;
+      padding: 10px 50px;
+      border-radius: 15px;
+      margin-bottom: 10px;
+      border: 1px solid #0D3AD1;
+      &:hover{
+        color: #0D3AD1;
+        background-color: #fff;
+        text-decoration: none;
+        border: 1px solid #0D3AD1;
+      }
+    }
+  }
+  .section-image {
+    border-radius: 50px;
+    margin-bottom: 10px;
+  }
+  .image-vector {
+    height: 100px;
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  .arrow {
+    padding: 0 5px;
+    position: relative;
+    top: 20px;
+  }
+}
