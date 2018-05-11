@@ -162,10 +162,9 @@ const categoriesReducer = handleAction(
   initialState.entities,
 );
 
-export const withType = type => reducerFn => (state, action) => {
-  debugger;
-  return action.meta.type === type ? reducerFn(state, action) : state;
-};
+export const withType = type => reducerFn => (state, action) => (
+  action.meta.type === type ? reducerFn(state, action) : state
+);
 
 export const booksSubjectsReducer = handleActions({
   [A.GET_BOOKS_CATEGORIES_PENDING]: withType('subject')(state => ({
