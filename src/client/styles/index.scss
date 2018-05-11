@@ -32,6 +32,15 @@
 @import 'mobile-menu.scss';
 @import 'orders.scss';
 @import 'literacy.scss';
+@import 'aboutUs.scss';
+@import 'career.scss';
+@import 'investors.scss';
+@import 'ourMission.scss';
+@import 'sellYourBooks.scss';
+@import 'affiliate.scss';
+@import 'advertiseYourProducts.scss';
+@import 'publishWithUs.scss';
+@import 'advertiseYourBusiness.scss';
 
 $general-font-family: 'Open Sans', san-serif;
 $body-copy: "freight-text-pro", san-serif;
@@ -501,10 +510,6 @@ input[type="checkbox"]:focus{
 
 .margin-right{
   margin-right: .5em;
-}
-
-.testTemplate{
-  height: 800px;
 }
 
 .copyright-container{

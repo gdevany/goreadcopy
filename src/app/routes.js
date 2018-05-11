@@ -21,7 +21,17 @@ import { PublicWrapper } from './components/public';
 import { ReferralHome } from './components/referral';
 import { Literacy } from './components/literacy';
 import { Settings } from './components/settings';
-import AboutUs from './components/homev2/templates/AboutUs';
+import {
+  AboutUs,
+  Career,
+  Investors,
+  OurMission,
+  SellYourBooks,
+  AffiliatePage,
+  AdvertiseYourProduct,
+  PublishWithUs,
+  AdvertiseYourBusiness,
+} from './components/homev2/templates';
 import { Auth } from './services';
 
 const isUserLoggedIn = Auth.currentUserExists();
@@ -64,7 +74,15 @@ const Routes = (
     <Route path="/privacy" context="privacy" component={PublicWrapper} />
     <Route path="/accounts/signup" component={SignUpModal} />
     <Route path="/accounts/login" component={LogInModal} />
-    <Route path="/aboutus" component={useBootstrapFor(AboutUs)} />
+    <Route path="/about-us" component={useBootstrapFor(AboutUs)} />
+    <Route path="/career" component={useBootstrapFor(Career)} />
+    <Route path="/investor-relations" component={useBootstrapFor(Investors)} />
+    <Route path="/our-mission" component={useBootstrapFor(OurMission)} />
+    <Route path="/sell-your-books" component={useBootstrapFor(SellYourBooks)} />
+    <Route path="/affiliate-page" component={useBootstrapFor(AffiliatePage)} />
+    <Route path="/advertise-your-product" component={useBootstrapFor(AdvertiseYourProduct)} />
+    <Route path="/publish-with-us" component={useBootstrapFor(PublishWithUs)} />
+    <Route path="/advertise-your-business" component={useBootstrapFor(AdvertiseYourBusiness)} />
   </Route>
 );
 
