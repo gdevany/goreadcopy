@@ -1,16 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router';
+import withArticles from '../containers/Top5ArticlesContainer';
 
-const ArticleListItem = ({ image, category, title, author, url }) => (
+const ArticleListItem = ({ article }) => (
   <div className="top-article">
     <div className="d-flex flex-row justify-content-start">
-      <Link to={url}>
-        <img className="top-article-image" src={image} alt="Article Main" />
-      </Link>
+      <a href={article.link}>
+        <img className="top-article-image" src={article.imageUrl} alt="Article Main" />
+      </a>
       <div className="d-flex flex-column justify-content-start align-items-start">
-        <span className="top-article-category">{category}</span>
-        <span className="top-article-title">{title}</span>
-        <span className="top-article-author">{author}</span>
+        { article.category ? <span className="top-article-category">{article.category}</span> : null }
+        <span className="top-article-title">{article.title}</span>
+        <span className="top-article-author">{article.owner.fullname}</span>
       </div>
     </div>
   </div>
@@ -37,4 +38,4 @@ const Top5Articles = ({ articles }) => (
   </div>
 );
 
-export default Top5Articles;
+export default withArticles(Top5Articles);
