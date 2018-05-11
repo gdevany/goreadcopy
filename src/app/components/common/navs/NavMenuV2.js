@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 import {
   InputGroup,
@@ -17,7 +17,8 @@ import faHeart from '@fortawesome/fontawesome-free-solid/faHeart';
 import faBars from '@fortawesome/fontawesome-free-solid/faBars';
 import { SoldBookCounter } from '../';
 import FloatingSubMenu from './FloatingSubMenu';
-import { MenuLinks } from './Placeholder';
+import connectLinkBar from '../../containers/HomeNavMenuContainer';
+
 
 const LinkButton = ({ text, to }) => (
   <Link to={to}>
@@ -135,7 +136,7 @@ const LinkBar = props => (
           <div className="col">
             <div className="navbar-links d-flex flex-row justify-content-between">
               {
-                MenuLinks.map(({ text, action, isLink, id, subMenu }) => (
+                props.MenuLinks.map(({ text, action, isLink, id, subMenu }) => (
                   subMenu ?
                     <div key={id} className="navbar-link-wrapper d-flex flex-column justify-content-center align-items-center">
                       { hyperLink(text, action, isLink, id) }
@@ -180,11 +181,13 @@ const NotificationBar = props => (
   </div>
 );
 
+const LinkBarWithData = connectLinkBar(LinkBar);
+
 const NavMenuV2 = props => (
   <div id="navbar">
     <AuthBar />
     <ActionBar />
-    <LinkBar />
+    <LinkBarWithData />
     <NotificationBar />
   </div>
 );

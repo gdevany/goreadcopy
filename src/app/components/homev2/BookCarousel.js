@@ -10,14 +10,30 @@ import {
 } from 'reactstrap';
 import R from 'ramda';
 
+const maxLength = 40;
+
+const trimStrings = str => (
+  str.length > maxLength ?
+    `${str.substring(0, maxLength - 3)}...` :
+    str
+);
+
+const hasAuthor = authors => (
+  authors.length > 0 ?
+    trimStrings(authors[0].fullname) :
+    null
+);
+
 const BookCarouselItem = ({ imageUrl, title, authors, rating, url }) => (
   <div className="book-carousel-item d-flex flex-column justify-content-start align-items-start">
     <Link to={url}>
       <img className="book-carousel-item-cover" src={imageUrl} alt="name" />
     </Link>
-    <span className="book-carousel-item-name">{title}</span>
-    <span className="book-carousel-item-author">{authors.length > 0 ? authors[0].fullname : null }</span>
-    <div className="book-carousel-item-rating">
+    <span className="book-carousel-item-name" title={title}>{trimStrings(title)}</span>
+    <span className="book-carousel-item-author" title={hasAuthor(authors)} >
+      { hasAuthor(authors) }
+    </span>
+    <div className="book-carousel-item-rating" title={rating.toFixed(2)}>
       <Rating
         readonly
         initialRate={Math.floor(rating)}
