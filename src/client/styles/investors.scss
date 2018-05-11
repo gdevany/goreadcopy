@@ -1,0 +1,42 @@
+.investors {
+  .title {
+    padding: 15px 0;
+  }
+  .subtitle {
+    font-weight: 700;
+  }
+  .section-image {
+    border-radius: 100px;
+  }
+  .for-readers {
+    display: flex;
+    margin: 40px 0;
+    .left-section {
+      width: 25%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .right-section {
+      width: 75%;
+      padding: 0 10px;
+    }
+  }
+  .for-authors {
+    display: flex;
+    margin: 40px 0;
+    .left-section {
+      width: 75%;
+      padding: 0 10px;
+    }
+    .right-section {
+      width: 25%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  .divider {
+    border-top: 1px solid rgba(0, 0, 0, 0.5);
+  }
+}
