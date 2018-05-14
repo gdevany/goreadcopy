@@ -74,7 +74,7 @@ class LeftHandLinks extends PureComponent {
     const leftMenuRoutes = [
       ["GoRead Books", goReadBooks],
       ["Books for Kids", "/literacy", true],
-      ["Video Tutorials", videoTutorials]
+      ["Video Tutorials", videoTutorials],
       ["Referrals", referrals],
       ["Games", games],
       ["Author Enrollment", authorEnrollment],

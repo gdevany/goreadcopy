@@ -427,22 +427,20 @@ class NavMenu extends PureComponent {
     )
 
     const nonMenuRoutes = [
-      ["Books for Kids", "/literacy", true],
+      ['Books for Kids', '/literacy', true],
       ['News', news],
       ['Articles', articles],
       ['Authors', authors],
     ]
 
     const NonMenuItem = ([title, routeFn, reactLink], index) => (
-      <li style={styles.navLinks} className='link nav-item' key={title + index}>
+      <li style={styles.navLinks} className="link nav-item" key={title + index}>
         { reactLink ? (
-          <Link to={routeFn}>
+          <Link to={routeFn()}>
             {title}
           </Link>
         ) : (
-          <a
-            href={routeFn}
-          >
+          <a href={routeFn()}>
             {title}
           </a>
         ) }
@@ -459,20 +457,20 @@ class NavMenu extends PureComponent {
     const { news, articles, authors } = routes
 
     const nonMenuRoutes = [
-      ['Books for Kids', "/literacy", true],
+      ['Books for Kids', '/literacy', true],
       ['News', news],
       ['Articles', articles],
       ['Authors', authors],
     ]
 
     const NonMenuItem = ([title, routeFn, reactLink], index) => (
-      <li style={styles.navLinks} className='link nav-item' key={title + index}>
+      <li style={styles.navLinks} className="link nav-item" key={title + index}>
         { reactLink ? (
-          <Link to={routeFn}>
+          <Link to={routeFn()}>
             {title}
           </Link>
         ) : (
-          <a href={routeFn}>
+          <a href={routeFn()}>
             {title}
           </a>
         )}
