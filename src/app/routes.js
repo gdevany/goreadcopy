@@ -17,6 +17,7 @@ import {
 } from './components/store';
 import { PublicWrapper } from './components/public';
 import { ReferralHome } from './components/referral';
+import { Literacy } from './components/literacy';
 import { Settings } from './components/settings';
 import { Auth } from './services';
 
@@ -38,6 +39,7 @@ const Routes = (
     <Route path="/shop/checkout" component={CheckoutPage} />
     <Route path="/shop/success" component={orderSuccess} />
     <Route path="/store/orders" component={Orders} />
+    <Route path="/literacy" component={Literacy} />
     <Route path="/signup" component={SignUpFlow} />
     <Route path="/redirect" component={IncomingRedirect} />
     <Route path="/antispam" context="antispam" component={PublicWrapper} />

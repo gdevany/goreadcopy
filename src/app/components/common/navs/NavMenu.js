@@ -107,7 +107,6 @@ const styles = {
 
 const {
   articles,
-  childrensLiteracy,
   authors,
   news,
 } = routes
@@ -428,19 +427,25 @@ class NavMenu extends PureComponent {
     )
 
     const nonMenuRoutes = [
-      ["Books for Kids", childrensLiteracy],
+      ["Books for Kids", "/literacy", true],
       ['News', news],
       ['Articles', articles],
       ['Authors', authors],
     ]
 
-    const NonMenuItem = ([title, routeFn], index) => (
+    const NonMenuItem = ([title, routeFn, reactLink], index) => (
       <li style={styles.navLinks} className='link nav-item' key={title + index}>
-        <AuthedRedirect.Link
-          href={routeFn()}
-        >
-          {title}
-        </AuthedRedirect.Link>
+        { reactLink ? (
+          <Link to={routeFn}>
+            {title}
+          </Link>
+        ) : (
+          <a
+            href={routeFn}
+          >
+            {title}
+          </a>
+        ) }
       </li>
     )
 
@@ -451,22 +456,26 @@ class NavMenu extends PureComponent {
   }
 
   handleMapNavItemsMobile = () => {
-    const { childrensLiteracy, news, articles, authors } = routes
+    const { news, articles, authors } = routes
 
     const nonMenuRoutes = [
-      ['Books for Kids', childrensLiteracy],
+      ['Books for Kids', "/literacy", true],
       ['News', news],
       ['Articles', articles],
       ['Authors', authors],
     ]
 
-    const NonMenuItem = ([title, routeFn], index) => (
+    const NonMenuItem = ([title, routeFn, reactLink], index) => (
       <li style={styles.navLinks} className='link nav-item' key={title + index}>
-        <AuthedRedirect.Link
-          href={routeFn()}
-        >
-          {title}
-        </AuthedRedirect.Link>
+        { reactLink ? (
+          <Link to={routeFn}>
+            {title}
+          </Link>
+        ) : (
+          <a href={routeFn}>
+            {title}
+          </a>
+        )}
       </li>
     )
 
@@ -519,7 +528,7 @@ class NavMenu extends PureComponent {
         ['News', news],
         ['Articles', articles],
         ['GoRead Books', goReadBooks],
-        ['Books for Kids', childrensLiteracy],
+        ['Books for Kids', "/literacy", true],
         ['Video Tutorials', videoTutorials],
         ['Referrals', referrals],
         ['Games', games],
