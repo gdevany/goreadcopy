@@ -17,10 +17,14 @@
     color: #353535;
     display: flex;
     justify-content: center;
-    margin: 20px 5px;
+    margin: 20px;
     p {
       font-size: 50px;
       line-height: 60px;
+      @media (max-width: 425px) {
+        font-size: 40px;
+        line-height: 50px;
+      }
     }
   }
   .literacy-content {
@@ -28,9 +32,13 @@
     justify-content: center;
     align-items: center;
     padding: 75px 5px;
+    @media (max-width: 425px) {
+      padding: 0 5px;
+    }
     .literacy-facts {
       width: 50%;
       font-size: 18px;
+      padding: 0 10px;
       @include media_query($phone, $tablet) {
         width: 90%;
       }
@@ -91,6 +99,9 @@
     color: #fff;
     background-color: #0042d6;
     padding: 0 40px;
+    @media (max-width: 425px) {
+      font-size: 32px;
+    }
   }
   .literacy-background {
     background: url("../image/literacy-background.jpg") no-repeat;
@@ -105,6 +116,10 @@
       font-size: 38px;
       padding: 10px 0;
       font-weight: bold;
+      text-align: center;
+      @media (max-width: 425px) {
+        font-size: 28px;
+      }
     }
     .literacy-lines {
       padding: 30px 0;
@@ -127,6 +142,9 @@
       p {
         font-size: 30px;
         line-height: 40px;
+        @media (max-width: 425px) {
+          font-size: 20px;
+        }
       }
     }
     .literacy-button {
@@ -137,6 +155,10 @@
       border-radius: 10px;
       font-size: 30px;
       font-weight: bold;
+      @media (max-width: 425px) {
+        margin: 20px 0;
+        font-size: 16px;
+      }
     }
   }
 }
