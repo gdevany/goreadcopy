@@ -7,7 +7,7 @@ const { searchData, searchBooksData } = Endpoints
 
 const Search = () => {
   return {
-    search: (body) => authenticated().get(searchData(body)),
+    search: (body) => http.get(searchData(body)),
     searchBooks: (body) => authenticated().get(searchBooksData(body)),
   }
 }
