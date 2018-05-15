@@ -1,33 +1,39 @@
-import axios from 'axios'
-import Auth from './auth'
-import 'babel-polyfill'
+import axios from 'axios';
+import 'babel-polyfill';
+import Auth from './auth';
 
 const Http = () => {
   const authHeaders = (token) => {
-
-    const csrftoken = Auth.csrftoken()
-
+    const csrftoken = Auth.csrftoken();
     const headers = {
-      'Authorization': `Bearer ${token}`,
-    }
+      Authorization: `Bearer ${token}`,
+    };
 
     if (csrftoken) {
-      headers['X-CSRFToken'] = csrftoken
+      headers['X-CSRFToken'] = csrftoken;
     }
 
-    return headers
-  }
+    return headers;
+  };
 
   const authenticated = () => {
-    const token = Auth.token()
-    const headers = authHeaders(token)
-    return axios.create({ headers })
-  }
+    const token = Auth.token();
+    const headers = authHeaders(token);
+
+    return axios.create({ headers });
+  };
+
+  const isAuthenticated = () => {
+    const token = Auth.token();
+
+    return !!token;
+  };
 
   return {
     ...axios,
     authenticated,
-  }
-}
+    isAuthenticated,
+  };
+};
 
-export default Http()
+export default Http();

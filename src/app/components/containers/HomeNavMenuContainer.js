@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
 import { lifecycle } from 'recompose';
 import R from 'ramda';
-import { getCategories as getArticlesCategories, resetArticlesCategories } from '../../redux/actions/articles';
+import { getCategories as getArticlesCategories, resetArticlesCategories, getTop5Articles } from '../../redux/actions/articles';
 import { getCategories as getBooksCategories, resetPopularBooksCategories, resetBooksSubjects } from '../../redux/actions/books';
 import { getBooksSubjects, getPopularCategories } from '../../redux/selectors/books';
+import { getParentCategories, getTop5Articles as top5ArticlesSelector } from '../../redux/selectors/articles';
 
 const SubMenus = [
   {
@@ -129,6 +130,20 @@ const parseBookCategoryToLink = category => ({
   isLink: true,
 });
 
+const parseArticleCategoryToLink = category => ({
+  id: category.id,
+  text: category.display,
+  action: '/articles',
+  isLink: true,
+});
+
+const parseArticleToColumnData = ({ article }) => ({
+  id: article.id,
+  text: article.title,
+  action: article.link,
+  isLink: true,
+});
+
 const parse = (menu) => {
   const parsedContent = [];
   menu.content.map((col, idx) => parsedContent.push(parseColumn(col, idx)));
@@ -139,7 +154,7 @@ const populateSubMenuWithData = (subMenu, data) => ({
   ...subMenu,
   content: subMenu.content.map(contentItem => ({
     ...contentItem,
-    items: data[contentItem.itemsKey].map(parseBookCategoryToLink),
+    items: data[contentItem.itemsKey],
   })),
 });
 
@@ -147,14 +162,16 @@ const getSubMenu = (menu, data) => parse(populateSubMenuWithData(menu, data));
 
 
 const mapStateToProps = (state) => {
-  const booksPopularCategories = getPopularCategories(state);
-  const booksSubjects = getBooksSubjects(state);
+  const booksPopularCategories = getPopularCategories(state).map(parseBookCategoryToLink);
+  const booksSubjects = getBooksSubjects(state).map(parseBookCategoryToLink);
+  const articleCategories = getParentCategories(state).map(parseArticleCategoryToLink);
+  const top5Articles = top5ArticlesSelector(state).map(parseArticleToColumnData);
 
   const MenuLinks = [
     { id: 0, text: 'Books', action: '#', isLink: false, subMenu: getSubMenu(SubMenus[0], { 'BOOK_SUBJECTS': booksSubjects }) },
     { id: 1, text: 'Best Sellers', action: '#', isLink: false, subMenu: getSubMenu(SubMenus[1], { 'BOOK_SUBJECTS': booksSubjects, 'POPULAR_CATEGORIES': booksPopularCategories }) },
     { id: 2, text: 'New Releases', action: '#', isLink: false, subMenu: getSubMenu(SubMenus[2], { 'BOOK_SUBJECTS': booksSubjects }) },
-    { id: 3, text: 'Articles', action: '#', isLink: false/*, subMenu: parse(SubMenus[3]) */},
+    { id: 3, text: 'Articles', action: '#', isLink: false, subMenu: getSubMenu(SubMenus[3], { 'ARTICLE_CATEGORIES': articleCategories, 'TOP_FIVE_ARTICLES': top5Articles })},
     { id: 4, text: 'For Authors', action: '#', isLink: false, subMenu: null },
     { id: 5, text: 'For Readers', action: '#', isLink: false, subMenu: null },
     { id: 6, text: 'Buy a Book, Give a Book!', action: '#', isLink: false, subMenu: null },
@@ -167,6 +184,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   getArticlesCategories,
+  getTop5Articles,
   getBooksCategories,
   resetBooksSubjects,
   resetPopularBooksCategories,
@@ -176,6 +194,7 @@ const mapDispatchToProps = {
 const withData = lifecycle({
   componentWillMount() {
     this.props.getArticlesCategories({ page: 1, perPage: 100 });
+    this.props.getTop5Articles();
     this.props.getBooksCategories({
       page: 1,
       perPage: 51,
