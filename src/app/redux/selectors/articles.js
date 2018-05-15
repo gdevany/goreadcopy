@@ -125,6 +125,11 @@ export const getCategories = createSelector(
   articles => articles.categories.byIds.map(categoryId => articles.categories.entities[categoryId]),
 );
 
+export const getParentCategories = createSelector(
+  getCategories,
+  categories => categories.filter(category => category.parent === null),
+);
+
 export const articlesListSelector = createSelector(
   getNewestArticlesState,
   state => ({
