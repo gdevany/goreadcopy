@@ -172,8 +172,8 @@ const mapStateToProps = (state) => {
     { id: 1, text: 'Best Sellers', action: '#', isLink: false, subMenu: getSubMenu(SubMenus[1], { 'BOOK_SUBJECTS': booksSubjects, 'POPULAR_CATEGORIES': booksPopularCategories }) },
     { id: 2, text: 'New Releases', action: '#', isLink: false, subMenu: getSubMenu(SubMenus[2], { 'BOOK_SUBJECTS': booksSubjects }) },
     { id: 3, text: 'Articles', action: '#', isLink: false, subMenu: getSubMenu(SubMenus[3], { 'ARTICLE_CATEGORIES': articleCategories, 'TOP_FIVE_ARTICLES': top5Articles })},
-    { id: 4, text: 'For Authors', action: '#', isLink: false, subMenu: null },
-    { id: 5, text: 'For Readers', action: '#', isLink: false, subMenu: null },
+    { id: 4, text: 'For Authors', action: 'https://go.earnmoneybywriting.com/grlf-landing', isLink: false, subMenu: null },
+    { id: 5, text: 'For Readers', action: '/accounts/signup', isLink: true, subMenu: null },
     { id: 6, text: 'Buy a Book, Give a Book!', action: '#', isLink: false, subMenu: null },
   ];
 
