@@ -44,7 +44,6 @@ const AuthBar = props => (
           <div className="col">
             <div className="navbar-auth navbar-bar-spacing d-flex align-items-center">
               <div className="nav-item mr-auto">
-                <span>Join and Get Your Next Order Shipped For Free!</span>
               </div>
               <div className="nav-item d-flex flex-row">
                 <LinkButton text="Sign Up" to="/accounts/signup" />

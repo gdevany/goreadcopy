@@ -1,5 +1,6 @@
 import React from 'react';
-import { UncontrolledCarousel } from 'reactstrap';
+import { Carousel } from 'reactstrap';
+import Hero from './Hero';
 import { Link } from 'react-router';
 
 export function Ad({ item: { id, classes, image, url, alt, isLink, target }}) {
@@ -11,14 +12,6 @@ export function Ad({ item: { id, classes, image, url, alt, isLink, target }}) {
     <a href={url} target={target}>
       <img className={classes} src={image} alt={alt} />
     </a>
-  );
-}
-
-export function Hero({ items }) {
-  return (
-    <div className="hero section-spacing">
-      <UncontrolledCarousel items={items} />
-    </div>
   );
 }
 
