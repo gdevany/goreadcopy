@@ -3,21 +3,22 @@ export const CarouselItems = [
     src: '/image/home/hero/slide2.jpg',
     altText: '',
     caption: '',
+    isLink: false,
+    action: 'https://www.goread.com/book/9780307913142',
   },
   {
     src: '/image/home/hero/slide3.jpg',
     altText: '',
     caption: '',
-  },
-  {
-    src: '/image/home/hero/slide4.jpg',
-    altText: '',
-    caption: '',
+    isLink: false,
+    action: 'https://go.earnmoneybywriting.com/grlf-landing',
   },
   {
     src: '/image/home/hero/slide5.jpg',
     altText: '',
     caption: '',
+    isLink: false,
+    action: 'https://www.goread.com/book/12-rules-for-life-an-antidote-to-chaos',
   },
 ];
 
