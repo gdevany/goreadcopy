@@ -134,14 +134,14 @@ const parseArticleCategoryToLink = category => ({
   id: category.id,
   text: category.display,
   action: '/articles',
-  isLink: true,
+  isLink: false,
 });
 
 const parseArticleToColumnData = ({ article }) => ({
   id: article.id,
   text: article.title,
   action: article.link,
-  isLink: true,
+  isLink: false,
 });
 
 const parse = (menu) => {
