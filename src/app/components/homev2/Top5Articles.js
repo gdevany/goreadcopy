@@ -10,8 +10,8 @@ const ArticleListItem = ({ article }) => (
       </a>
       <div className="d-flex flex-column justify-content-start align-items-start">
         { article.category ? <span className="top-article-category">{article.category}</span> : null }
-        <span className="top-article-title">{article.title}</span>
-        <span className="top-article-author">{article.owner.fullname}</span>
+        <span className="top-article-title"><a href={article.link}>{article.title}</a></span>
+        <span className="top-article-author"><a href={article.owner.url}>{article.owner.fullname}</a></span>
       </div>
     </div>
   </div>
