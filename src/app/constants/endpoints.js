@@ -139,6 +139,9 @@ const Endpoints = () => {
     getHomeNewReleaseBooks: (params) => apiUrl('books/new_releases', params),
     getHomeComingSoonBooks: (params) => apiUrl('books/coming_soon', params),
     getBooksCategories: (params) => apiUrl('genres', params),
+
+    getPageContent: params => apiUrl('cms/page', params),
+    getSectionContent: params => apiUrl('cms/page/section', params),
   }
 
   return routes
