@@ -4,9 +4,7 @@ import { MainNavView } from '../../views';
 const SellYourBooks = () => (
   <MainNavView>
     <div className="container sell-your-books">
-      <h1 className="title center-text">
-        SELL YOUR BOOKS
-      </h1>
+      <img className="title-image" src="/image/sell-your-books.jpg" alt="" />
       <div className="section">
         <div className="section-item">
           <img className="section-image" src="http://via.placeholder.com/100x100" alt="" />

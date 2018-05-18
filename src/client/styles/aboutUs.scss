@@ -1,13 +1,22 @@
 .aboutUs {
   padding: 20px 0;
-  .title {
+  .title-image {
     padding: 15px 0;
+    @media (min-width: 426px) {
+      padding: 40px 0;
+    }
   }
   .subtitle {
     font-weight: 700;
   }
   .video {
     padding: 10px 0;
+  }
+  .button-container {
+    text-align: center;
+    @media (min-width: 426px) {
+      text-align: left;
+    }
   }
   .create-button {
     color: #fff;

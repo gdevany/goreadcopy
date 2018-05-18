@@ -4,17 +4,18 @@ import { MainNavView } from '../../views';
 const OurMission = () => (
   <MainNavView>
     <div className="container our-mission">
-      <h1 className="title center-text">
-        Our Mission
-      </h1>
+      <img className="title-image" src="/image/our-mission.jpg" alt="" />
       <p className="center-text">
         We are driven by a goal to help authors, inspire readers and give every child the gift of
         reading! Our mission statement is clear:
       </p>
-      <h5 className="subtitle center-text">
+      <h5 className="sub-paragraph center-text">
         To Change The Way That People Write, Read and Experience Books!
       </h5>
       <div className="for-authors">
+        <h3 className="mobile-subtitle">
+          For Authors
+        </h3>
         <div className="left-section">
           <img className="section-image" src="http://via.placeholder.com/200x200" alt="" />
         </div>
@@ -52,9 +53,15 @@ const OurMission = () => (
         <div className="right-section">
           <img className="section-image" src="http://via.placeholder.com/200x200" alt="" />
         </div>
+        <h3 className="mobile-subtitle">
+          For Readers
+        </h3>
       </div>
       <hr className="divider" />
       <div className="for-children">
+        <h3 className="mobile-subtitle">
+          For Children
+        </h3>
         <div className="left-section">
           <img className="section-image" src="http://via.placeholder.com/200x200" alt="" />
         </div>

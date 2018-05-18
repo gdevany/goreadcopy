@@ -1,39 +1,76 @@
 .investors {
-  .title {
+  padding: 40px 0;
+  .title-image {
     padding: 15px 0;
+    width: 100%;
   }
   .subtitle {
     font-weight: 700;
+    color: #0D3AD1;
+    display: none;
+    @media (min-width: 426px) {
+      display: block;
+    }
+  }
+  .mobile-subtitle {
+    font-weight: 700;
+    color: #0D3AD1;
+    text-align: center;
+    @media(min-width: 426px) {
+      display: none;
+    }
   }
   .section-image {
     border-radius: 100px;
   }
   .for-readers {
     display: flex;
-    margin: 40px 0;
+    flex-direction: column;
+    @media (min-width: 426px) {
+      flex-direction: row;
+      margin: 40px 0;
+    }
     .left-section {
-      width: 25%;
       display: flex;
       align-items: center;
       justify-content: center;
+      @media (min-width: 426px) {
+        width: 25%;
+      }
     }
     .right-section {
-      width: 75%;
-      padding: 0 10px;
+      padding: 10px;
+      text-align: center;
+      @media (min-width: 426px) {
+        width: 75%;
+        padding: 0 10px;
+        text-align: left;
+      }
     }
   }
   .for-authors {
     display: flex;
-    margin: 40px 0;
+    flex-direction: column-reverse;
+    @media (min-width: 426px) {
+      flex-direction: row;
+      margin: 40px 0;
+    }
     .left-section {
-      width: 75%;
-      padding: 0 10px;
+      padding: 10px;
+      text-align: center;
+      @media (min-width: 426px) {
+        width: 75%;
+        padding: 0 10px;
+        text-align: left;
+      }
     }
     .right-section {
-      width: 25%;
       display: flex;
       align-items: center;
       justify-content: center;
+      @media (min-width: 426px) {
+        width: 25%;
+      }
     }
   }
   .divider {

@@ -4,9 +4,7 @@ import { MainNavView } from '../../views';
 const Investors = () => (
   <MainNavView>
     <div className="container investors">
-      <h1 className="title center-text">
-        Investor Relations
-      </h1>
+      <img className="title-image" src="/image/investor-relations.jpg" alt="" />
       <p>
         If you are interested in using your investment money to make a difference then investing
         in our Series A2, may help you to accomplish that goal!
@@ -15,6 +13,9 @@ const Investors = () => (
         GoRead is a market-place that serves readers and authors.
       </p>
       <div className="for-readers">
+        <h3 className="mobile-subtitle">
+          For Readers
+        </h3>
         <div className="left-section">
           <img className="section-image" src="http://via.placeholder.com/200x200" alt="" />
         </div>
@@ -56,6 +57,9 @@ const Investors = () => (
         <div className="right-section">
           <img className="section-image" src="http://via.placeholder.com/200x200" alt="" />
         </div>
+        <h3 className="mobile-subtitle">
+          For Authors
+        </h3>
       </div>
     </div>
   </MainNavView>

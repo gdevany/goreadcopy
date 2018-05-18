@@ -1,0 +1,60 @@
+.promote-your-business{
+  padding: 40px 0;
+  .title {
+    padding: 15px 0;
+    text-align: center;
+  }
+  .promote-form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    .form-input {
+      margin: 10px 0;
+      @media (min-width: 426px) {
+        width: 40%;
+        margin: 0 5% 20px 0;
+      }
+    }
+    .form-question {
+      @media (min-width: 426px) {
+        width: 90%;
+      }
+    }
+    .form-area {
+      //height: 200px;
+      @media (min-width: 426px) {
+        width: 90%;
+      }
+    }
+    .empty {
+      display: none;
+      @media (min-width: 426px) {
+        display: block;
+        visibility: hidden;
+      }
+    }
+  }
+  .button-container {
+    text-align: center;
+    margin: 20px 0;
+    @media (min-width: 426px) {
+      margin: 40px 0 40px 5%;
+    }
+    .submit-button {
+      display: inline-block;
+      color: #fff;
+      background-color: #0D3AD1;
+      padding: 10px 50px;
+      border-radius: 15px;
+      margin-bottom: 10px;
+      border: 1px solid #0D3AD1;
+      &:hover{
+        color: #0D3AD1;
+        background-color: #fff;
+        text-decoration: none;
+        border: 1px solid #0D3AD1;
+      }
+    }
+  }
+}
