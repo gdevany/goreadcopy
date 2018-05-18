@@ -31,6 +31,8 @@ import {
   AdvertiseYourProduct,
   PublishWithUs,
   AdvertiseYourBusiness,
+  PublishYourBook,
+  PromoteYourBusiness,
 } from './components/homev2/templates';
 import { Auth } from './services';
 
@@ -85,6 +87,8 @@ const Routes = (
     <Route path="/advertise-your-product" component={useBootstrapFor(AdvertiseYourProduct)} />
     <Route path="/publish-with-us" component={useBootstrapFor(PublishWithUs)} />
     <Route path="/advertise-your-business" component={useBootstrapFor(AdvertiseYourBusiness)} />
+    <Route path="/publish-your-book" component={useBootstrapFor(PublishYourBook)} />
+    <Route path="/promote-your-business" component={useBootstrapFor(PromoteYourBusiness)} />
   </Route>
 );
 

@@ -7,3 +7,5 @@ export AffiliatePage from './AffiliatePage';
 export AdvertiseYourProduct from './AdvertiseYourProduct';
 export PublishWithUs from './PublishWithUs';
 export AdvertiseYourBusiness from './AdvertiseYourBusiness';
+export PublishYourBook from './PublishYourBook';
+export PromoteYourBusiness from './PromoteYourBusiness';
