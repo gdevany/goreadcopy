@@ -4,9 +4,7 @@ import { MainNavView } from '../../views';
 const Career = () => (
   <MainNavView>
     <div className="container career" >
-      <h1 className="title center-text">
-        JOIN OUR TEAM
-      </h1>
+      <img className="title-image" src="/image/join-our-team.jpg" alt="" />
       <h4 className="subtitle center-text">
         We want you to join our team!
       </h4>

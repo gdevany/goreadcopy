@@ -1,22 +1,33 @@
 .sell-your-books {
   padding: 40px 0;
-  .title {
-    padding: 30px 0;
+  .title-image {
+    padding: 15px 0;
+    width: 100%;
   }
   .subtitle {
     font-weight: 700;
   }
   .section {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
-    margin: 40px 0;
+    align-items: center;
+    margin: 20px 0;
+    @media (min-width: 426px) {
+      flex-direction: row;
+      align-items: flex-start;
+      margin: 40px 0;
+    }
     .section-item {
-      width: 20%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      padding: 0 20px;
+      @media (min-width: 426px) {
+        width: 20%;
+        padding: 0;
+      }
       p {
         text-align: center;
       }
@@ -54,7 +65,11 @@
   }
   .arrow {
     padding: 0 5px;
-    position: relative;
-    top: 20px;
+    margin: 40px 0;
+    @media (min-width: 426px) {
+      margin: 0;
+      position: relative;
+      top: 20px;
+    }
   }
 }
