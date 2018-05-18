@@ -57,9 +57,11 @@ const PublishWithUs = () => (
       <h5 className="subtitle">
         Get a free consultation with one of our experts:
       </h5>
-      <a className="start-button" href="">
-        Start Here
-      </a>
+      <div className="button-container">
+        <a className="start-button" href="">
+          Start Here
+        </a>
+      </div>
       <h4 className="subtitle blue">
         Our Publishing Packages:
       </h4>
