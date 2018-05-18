@@ -4,9 +4,7 @@ import { MainNavView } from '../../views';
 const AdvertiseYourBusiness = () => (
   <MainNavView>
     <div className="container advertise-your-business">
-      <h1 className="title center-text">
-        ADVERTISE YOUR BUSINESS
-      </h1>
+      <img className="title-image" src="/image/advertise-business.jpg" alt="" />
       <h4>
         Reach thousands of customers who find, discover and buy at GoRead!
       </h4>

@@ -1,7 +1,8 @@
 .publish-with-us {
   padding: 40px 0;
-  .title {
-    padding: 30px 0;
+  .title-image {
+    padding: 20px 0;
+    width: 100%;
   }
   .subtitle {
     font-weight: 700;
@@ -11,6 +12,9 @@
   }
   .button-container {
     text-align: center;
+    @media (min-width: 426px) {
+      text-align: left;
+    }
   }
   .start-button, .learn-more-button {
     display: inline-block;
