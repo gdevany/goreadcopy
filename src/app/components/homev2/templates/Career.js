@@ -23,33 +23,33 @@ const Career = () => (
       <div className="offer">
         <div className="right-offer">
           <div className="offer-section">
-            <img className="offer-icon" src="http://via.placeholder.com/100x100" alt="" />
+            <img className="offer-icon" src="/image/career-salary.png" alt="" />
             Competitive Salaries
           </div>
           <div className="offer-section">
-            <img className="offer-icon" src="http://via.placeholder.com/100x100" alt="" />
+            <img className="offer-icon" src="/image/career-medic.png" alt="" />
             Medical and Dental Benefits
           </div>
           <div className="offer-section">
-            <img className="offer-icon" src="http://via.placeholder.com/100x100" alt="" />
+            <img className="offer-icon" src="/image/career-read.png" alt="" />
             Reading Time
           </div>
           <div className="offer-section">
-            <img className="offer-icon" src="http://via.placeholder.com/100x100" alt="" />
+            <img className="offer-icon" src="/image/career-books.png" alt="" />
             Free Books
           </div>
         </div>
         <div className="left-offer">
           <div className="offer-section">
-            <img className="offer-icon" src="http://via.placeholder.com/100x100" alt="" />
+            <img className="offer-icon" src="/image/career-lunch.png" alt="" />
             Occasional Breakfast and Lunch
           </div>
           <div className="offer-section">
-            <img className="offer-icon" src="http://via.placeholder.com/100x100" alt="" />
+            <img className="offer-icon" src="/image/career-sick.png" alt="" />
             Paid Sick Days & Vacation
           </div>
           <div className="offer-section">
-            <img className="offer-icon" src="http://via.placeholder.com/100x100" alt="" />
+            <img className="offer-icon" src="/image/career-assistance.png" alt="" />
             Employee Assistance Program
           </div>
         </div>
@@ -63,7 +63,7 @@ const Career = () => (
       </a>
       <div className="career-opening">
         <div className="left-section">
-          <img className="section-image" src="http://via.placeholder.com/200x200" alt="" />
+          <img className="section-image" src="/image/career-publishing.png" alt="" />
         </div>
         <div className="right-section">
           <h4 className="subtitle">
@@ -92,7 +92,7 @@ const Career = () => (
       <hr className="divider" />
       <div className="career-opening">
         <div className="left-section">
-          <img className="section-image" src="http://via.placeholder.com/200x200" alt="" />
+          <img className="section-image" src="/image/career-writing.png" alt="" />
         </div>
         <div className="right-section">
           <h4 className="subtitle">

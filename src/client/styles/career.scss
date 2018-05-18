@@ -33,7 +33,7 @@
     }
     .offer-icon {
       margin: 0 40px 0 10px;
-      border-radius: 50px;
+      width: 100px;
     }
     .offer-section { 
       padding: 10px 0;
@@ -47,7 +47,7 @@
     }
   }
   .check-button {
-    display: inline-block;
+    display: none;
     color: #fff;
     background-color: #0D3AD1;
     padding: 10px 50px;
@@ -80,7 +80,7 @@
       }
     }
     .section-image {
-      border-radius: 100px;
+      width: 200px;
     }
     .subtitle {
       color: #0D3AD1;

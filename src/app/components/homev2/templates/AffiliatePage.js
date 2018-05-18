@@ -4,9 +4,7 @@ import { MainNavView } from '../../views';
 const AffiliatePage = () => (
   <MainNavView>
     <div className="container affiliate-page">
-      <h1 className="title center-text">
-        BECOME AN AFFILIATE
-      </h1>
+      <img className="title-image" src="/image/become-affiliate.jpg" alt="" />
       <h4 className="subtitle">
         Join our affiliate program!
       </h4>
