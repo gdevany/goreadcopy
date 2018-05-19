@@ -8,10 +8,10 @@ import R from 'ramda';
 
 
 
-const HeroCarouselItem = ({ src, altText, caption, isLink, action }) => (
+const HeroCarouselItem = ({ src, altText, caption, isLink, action, target }) => (
   isLink ?
     <Link to={action}><img src={src} alt={altText} caption={caption} /></Link> :
-    <a href={action}><img src={src} alt={altText} caption={caption} /></a>
+    <a href={action} target={target}><img src={src} alt={altText} caption={caption} /></a>
 );
 
 class HeroCarousel extends Component {
