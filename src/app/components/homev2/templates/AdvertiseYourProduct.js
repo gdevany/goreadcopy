@@ -4,9 +4,7 @@ import { MainNavView } from '../../views';
 const AdvertiseYourProduct = () => (
   <MainNavView>
     <div className="container advertise-your-product">
-      <h1 className="title center-text">
-        Advertise Your Product
-      </h1>
+      <img className="title-image" src="/image/advertise-product.jpg" alt="" />
     </div>
   </MainNavView>
 );
