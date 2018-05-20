@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { MainNavView } from '../../views';
 
 const Investors = () => (
@@ -14,14 +15,18 @@ const Investors = () => (
       </p>
       <div className="for-readers">
         <h3 className="mobile-subtitle">
-          For Readers
+          <Link href="/accounts/signup">
+            For Readers
+          </Link>
         </h3>
         <div className="left-section">
           <img className="section-image" src="http://via.placeholder.com/200x200" alt="" />
         </div>
         <div className="right-section">
           <h3 className="subtitle">
-            For Readers
+            <Link href="/accounts/signup">
+              For Readers
+            </Link>
           </h3>
           <p>
             It could very well be the first successful combination of a world-caliber social media
@@ -40,7 +45,9 @@ const Investors = () => (
       <div className="for-authors">
         <div className="left-section">
           <h3 className="subtitle">
-            For Authors
+            <a href="http://Go.EarnMoneyByWriting.com​">
+              For Authors
+            </a>
           </h3>
           <p>
             GoRead has successfully brought every part of an author&#39;s experience to one
@@ -58,7 +65,9 @@ const Investors = () => (
           <img className="section-image" src="http://via.placeholder.com/200x200" alt="" />
         </div>
         <h3 className="mobile-subtitle">
-          For Authors
+          <a href="http://Go.EarnMoneyByWriting.com​">
+            For Authors
+          </a>
         </h3>
       </div>
     </div>
