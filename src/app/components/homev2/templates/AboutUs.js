@@ -5,9 +5,7 @@ import { MainNavView } from '../../views';
 const AboutUs = () => (
   <MainNavView>
     <div className="container aboutUs">
-      <h1 className="title center-text">
-        ABOUT US
-      </h1>
+      <img className="title-image" src="/image/about-us.jpg" alt="" />
       <h4 className="subtitle center-text">
         Uniting Readers Around The World To Eliminate Illiteracy in Children!
       </h4>
@@ -67,9 +65,11 @@ const AboutUs = () => (
       <p>
         If you are going to buy books, why not make a difference in the life of a child?
       </p>
-      <Link className="create-button" to="/accounts/signup">
-        Create an account now
-      </Link>
+      <div className="button-container">
+        <Link className="create-button" to="/accounts/signup">
+          Create an account now
+        </Link>
+      </div>
     </div>
   </MainNavView>
 );

@@ -1,12 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { MainNavView } from '../../views';
 
 const Investors = () => (
   <MainNavView>
     <div className="container investors">
-      <h1 className="title center-text">
-        Investor Relations
-      </h1>
+      <img className="title-image" src="/image/investor-relations.jpg" alt="" />
       <p>
         If you are interested in using your investment money to make a difference then investing
         in our Series A2, may help you to accomplish that goal!
@@ -15,12 +14,19 @@ const Investors = () => (
         GoRead is a market-place that serves readers and authors.
       </p>
       <div className="for-readers">
+        <h3 className="mobile-subtitle">
+          <Link href="/accounts/signup">
+            For Readers
+          </Link>
+        </h3>
         <div className="left-section">
           <img className="section-image" src="http://via.placeholder.com/200x200" alt="" />
         </div>
         <div className="right-section">
           <h3 className="subtitle">
-            For Readers
+            <Link href="/accounts/signup">
+              For Readers
+            </Link>
           </h3>
           <p>
             It could very well be the first successful combination of a world-caliber social media
@@ -39,7 +45,9 @@ const Investors = () => (
       <div className="for-authors">
         <div className="left-section">
           <h3 className="subtitle">
-            For Authors
+            <a href="http://Go.EarnMoneyByWriting.com​">
+              For Authors
+            </a>
           </h3>
           <p>
             GoRead has successfully brought every part of an author&#39;s experience to one
@@ -56,6 +64,11 @@ const Investors = () => (
         <div className="right-section">
           <img className="section-image" src="http://via.placeholder.com/200x200" alt="" />
         </div>
+        <h3 className="mobile-subtitle">
+          <a href="http://Go.EarnMoneyByWriting.com​">
+            For Authors
+          </a>
+        </h3>
       </div>
     </div>
   </MainNavView>

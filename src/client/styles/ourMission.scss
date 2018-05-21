@@ -1,54 +1,109 @@
 .our-mission {
-  .title {
+  padding: 40px 0;
+  .title-image {
     padding: 15px 0;
+    width: 100%
+  }
+  .sub-paragraph {
+    font-weight: 700;
   }
   .subtitle {
     font-weight: 700;
+    color: #0D3AD1;
+    display: none;
+    @media (min-width: 426px) {
+      display: block;
+    }
+  }
+  .mobile-subtitle {
+    font-weight: 700;
+    color: #0D3AD1;
+    @media (min-width: 426px) {
+      display: none;
+    }
   }
   .section-image {
     border-radius: 100px;
   }
   .for-authors {
     display: flex;
-    margin: 40px 0;
+    flex-direction: column;
+    align-items: center;
+    @media (min-width: 426px) {
+      flex-direction: row;
+      align-items: flex-start;
+      margin: 40px 0;
+    }
     .left-section {
-      width: 25%;
       display: flex;
       align-items: center;
       justify-content: center;
+      @media (min-width: 426px) {
+        width: 25%;
+      }
     }
     .right-section {
-      width: 75%;
-      padding: 0 10px;
+      padding: 10px;
+      text-align: center;
+      @media (min-width: 426px) {
+        width: 75%;
+        padding: 0 10px;
+        text-align: left;
+      }
     }
   }
   .for-readers {
     display: flex;
-    margin: 40px 0;
+    flex-direction: column-reverse;
+    align-items: center;
+    @media (min-width: 426px) {
+      flex-direction: row;
+      align-items: flex-start;
+      margin: 40px 0;
+    }
     .left-section {
-      width: 75%;
-      padding: 0 10px;
-      text-align: right;
+      padding: 10px;
+      text-align: center;
+      @media (min-width: 426px) {
+        width: 75%;
+        padding: 0 10px;
+        text-align: right;
+      }
     }
     .right-section {
-      width: 25%;
       display: flex;
       align-items: center;
       justify-content: center;
+      @media (min-width: 426px) {
+        width: 25%;
+      }
     }
   }
   .for-children {
     display: flex;
-    margin: 40px 0;
+    flex-direction: column;
+    align-items: center;
+    @media (min-width: 426px) {
+      flex-direction: row;
+      align-items: flex-start;
+      margin: 40px 0;
+    }
     .left-section {
-      width: 25%;
       display: flex;
       align-items: center;
       justify-content: center;
+      @media (min-width: 426px) {
+        width: 25%;
+      }
     }
     .right-section {
-      width: 75%;
-      padding: 0 10px;
+      padding: 10px;
+      text-align: center;
+      @media(min-width: 426px) {
+        width: 75%;
+        padding: 0 10px;
+        text-align: left;
+      }
     }
   }
 }

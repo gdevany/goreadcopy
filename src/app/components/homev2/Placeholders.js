@@ -4,7 +4,7 @@ export const CarouselItems = [
     altText: '',
     caption: '',
     isLink: false,
-    action: 'https://www.goread.com/book/9780307913142',
+    action: 'https://www.goread.com/book/9780307887436',
   },
   {
     src: '/image/home/hero/slide3.jpg',
@@ -12,6 +12,7 @@ export const CarouselItems = [
     caption: '',
     isLink: false,
     action: 'https://go.earnmoneybywriting.com/grlf-landing',
+    target: '_blank',
   },
   {
     src: '/image/home/hero/slide5.jpg',

@@ -4,9 +4,7 @@ import { MainNavView } from '../../views';
 const PublishWithUs = () => (
   <MainNavView>
     <div className="container publish-with-us">
-      <h1 className="title center-text">
-        PUBLISH WITH US
-      </h1>
+      <img className="title-image" src="/image/publish-with-us.jpg" alt="" />
       <p>
         Rebel Press is proud to have created a new way for you to publish your book, where you
         retain all of the rights to your work without sacrificing the quality. While we
@@ -57,9 +55,11 @@ const PublishWithUs = () => (
       <h5 className="subtitle">
         Get a free consultation with one of our experts:
       </h5>
-      <a className="start-button" href="">
-        Start Here
-      </a>
+      <div className="button-container">
+        <a className="start-button" href="">
+          Start Here
+        </a>
+      </div>
       <h4 className="subtitle blue">
         Our Publishing Packages:
       </h4>
