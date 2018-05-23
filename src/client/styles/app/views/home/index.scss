@@ -40,6 +40,7 @@ a {
 }
 
 .navbar-links {
+  position: relative;
   a {
     color: black;
     text-decoration: none;
@@ -54,7 +55,6 @@ a {
     a {
       text-transform: capitalize;
     }
-    position: relative;
     .navbar-link-submenu {
       display: none;
     }
@@ -62,11 +62,11 @@ a {
       padding: 15px 0 12px 0;
       border-bottom: 3px solid $color-primary;
       .navbar-link-submenu {
-        width: 600px;
         display: block;
         position: absolute;
         top: 54px;
         left: 0;
+        right: 0;
         z-index: 10;
         background: white;
         border: solid 1px #939393;
