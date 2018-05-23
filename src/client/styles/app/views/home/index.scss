@@ -159,9 +159,9 @@ a {
 // Shapes -> Arrows
 i.arrow {
   border: solid #B7B7B7;
-  border-width: 0 6px 6px 0;
+  border-width: 0 3px 3px 0;
   display: inline-block;
-  padding: 8px;
+  padding: 6px;
   width: 1px;
   height: 1px;
 }
@@ -184,6 +184,24 @@ i.arrow {
 .down {
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
+}
+
+.carousel {
+  a.carousel-control-next, a.carousel-control-prev {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 50px;
+    color: #fff;
+    text-align: center;
+    opacity: .5;
+  }
 }
 
 // Shapes -> Magnifier
@@ -221,9 +239,9 @@ i.magnifier::before {
   }
 }
 
-.hero {
+.hero-wrapper {
   width: auto;
-  height: 250px;
+  height: auto;
   @media screen and (min-width: $sm) {
     height: 450px;
   }
@@ -239,6 +257,9 @@ i.magnifier::before {
         width: 100%;
         margin: 0 auto;
       }
+    }
+    a.carousel-control-next, a.carousel-control-prev {
+      width: 15%;
     }
   }
 }
