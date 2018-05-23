@@ -68,7 +68,6 @@ const ActionBar = props => (
             <img className="navbar-logo" src='/image/logo.png' />
           </Link>
           <NavBarIconLink to="#" iconProps={{ icon: faShoppingCart, size: 'lg' }} />
-          <NavBarIconLink to="#" iconProps={{ icon: faHeart, size: 'lg' }} />
         </div>
       </div>
     </div>
@@ -105,7 +104,6 @@ const ActionBar = props => (
                 </div>
                 <div className="navbar-action-icons d-flex flex-row justify-content-end align-items-center">
                   <NavBarIconLink to="#" iconProps={{ icon: faShoppingCart, size: 'lg' }} />
-                  <NavBarIconLink to="#" iconProps={{ icon: faHeart, size: 'lg' }} />
                   <div className="navbar-action-icon d-flex flex-column justify-content-center">
                     <Link to="#">
                       My Book Collection
