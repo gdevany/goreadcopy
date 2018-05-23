@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withBreakpoints } from 'react-breakpoints';
+import CMSProvider from '../cms/CMSProvider';
 import { MainNavView } from '../views';
 import Top5Articles from './Top5Articles';
 import {
@@ -136,10 +137,12 @@ class Home extends Component {
   render() {
     return (
       <MainNavView>
-        <div className="page-content add-b-margin">
-          <HomeHero items={CarouselItems}/>
-          <DividedHomeContent />
-        </div>
+        <CMSProvider page="home">
+          <div className="page-content add-b-margin">
+            <HomeHero items={CarouselItems}/>
+            <DividedHomeContent />
+          </div>
+        </CMSProvider>
       </MainNavView>
     );
   }

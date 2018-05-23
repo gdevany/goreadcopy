@@ -1,4 +1,5 @@
 import { handleActions, handleAction, combineActions } from 'redux-actions';
+import { combineReducers } from 'redux';
 import _ from 'lodash';
 import { CMS as A } from '../const/actionTypes';
 
@@ -7,18 +8,14 @@ const initialState = {
   entities: {},
   pages: [],
   sectionsByPage: {},
-  isFetching: {
-    type: null,
-    entity: null,
-    value: false,
-  },
+  isFetching: false,
 };
 
-export const mapEntities = (content, page, section) => {
+export const mapEntities = (content, page, section) => (
   content.reduce((entities, entity) => ({
     ...entities, [`${page}.${section}.${entity.slug}`]: entity,
-  }));
-};
+  }), {})
+);
 
 export const mapResponseToEntities = (response, page, section) => {
   if (section && section.length > 0) {
@@ -36,10 +33,10 @@ export const mapResponseToEntities = (response, page, section) => {
 };
 
 export const entitiesReducer = handleAction(
-  combineActions([
+  combineActions(
     A.GET_PAGE_CONTENT_FULFILLED,
     A.GET_SECTION_CONTENT_FULFILLED,
-  ]),
+  ),
   (state, { payload }) => ({
     ...state, ...mapResponseToEntities(payload.content, payload.page, payload.section),
   }),
@@ -47,10 +44,10 @@ export const entitiesReducer = handleAction(
 );
 
 export const pagesReducer = handleAction(
-  combineActions([
+  combineActions(
     A.GET_PAGE_CONTENT_FULFILLED,
     A.GET_SECTION_CONTENT_FULFILLED,
-  ]),
+  ),
   (state, { payload }) => [...state, payload.page],
   initialState.pages,
 );
@@ -62,10 +59,10 @@ export const mapResponseToSections = (content, page, section) => (
 );
 
 export const sectionsByPageReducer = handleAction(
-  combineActions([
+  combineActions(
     A.GET_PAGE_CONTENT_FULFILLED,
     A.GET_SECTION_CONTENT_FULFILLED,
-  ]),
+  ),
   (state, { payload }) => {
     const { content, page, section } = payload;
     const existPage = !!state[page];
@@ -83,11 +80,11 @@ export const sectionsByPageReducer = handleAction(
 export const isFetchingReducer = handleActions({
   [A.GET_PAGE_CONTENT_FULFILLED]: () => initialState.isFetching,
   [A.GET_SECTION_CONTENT_FULFILLED]: () => initialState.isFetching,
-  [A.GET_PAGE_CONTENT_PENDING]: (state, { payload }) => ({ type: 'page', entity: payload.page, isFetching: true }),
-  [A.GET_SECTION_CONTENT_PENDING]: (state, { payload }) => ({ type: 'section', entity: payload.section, isFetching: true }),
+  [A.GET_PAGE_CONTENT_PENDING]: () => true,
+  [A.GET_SECTION_CONTENT_PENDING]: () => true,
 }, initialState.isFetching);
 
-export default ({
+export default combineReducers({
   entities: entitiesReducer,
   pages: pagesReducer,
   sectionsByPage: sectionsByPageReducer,
