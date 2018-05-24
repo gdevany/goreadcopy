@@ -16,7 +16,7 @@ const getAmount = (screenWidth, breakpoints, isFullOnDesktop) => {
   if (screenWidth <= breakpoints.mobile) return 1;
   if (screenWidth <= breakpoints.mobileLandscape) return 2;
   if (screenWidth < breakpoints.tablet) return 3;
-  return isFullOnDesktop ? 6 : 4;
+  return isFullOnDesktop ? 7 : 5;
 };
 
 const HomeContent = ({ screenWidth, breakpoints }) => (

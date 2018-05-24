@@ -6,8 +6,6 @@ import {
 } from 'reactstrap';
 import R from 'ramda';
 
-
-
 const HeroCarouselItem = ({ src, altText, caption, isLink, action, target }) => (
   isLink ?
     <Link to={action}><img src={src} alt={altText} caption={caption} /></Link> :

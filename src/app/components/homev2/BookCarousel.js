@@ -10,7 +10,7 @@ import {
 } from 'reactstrap';
 import R from 'ramda';
 
-const maxLength = 40;
+const maxLength = 16;
 
 const trimStrings = str => (
   str.length > maxLength ?
@@ -20,29 +20,53 @@ const trimStrings = str => (
 
 const hasAuthor = authors => (
   authors.length > 0 ?
-    trimStrings(authors[0].fullname) :
+    authors[0] :
     null
 );
 
-const BookCarouselItem = ({ imageUrl, title, authors, rating, url }) => (
-  <div className="book-carousel-item d-flex flex-column justify-content-start align-items-start">
-    <Link to={url}>
-      <img className="book-carousel-item-cover" src={imageUrl} alt="name" />
-    </Link>
-    <span className="book-carousel-item-name" title={title}>{trimStrings(title)}</span>
-    <span className="book-carousel-item-author" title={hasAuthor(authors)} >
-      { hasAuthor(authors) }
-    </span>
-    <div className="book-carousel-item-rating" title={rating.toFixed(2)}>
-      <Rating
-        readonly
-        initialRate={Math.floor(rating)}
-        full={<FontAwesomeIcon icon={faFullStar} />}
-        empty={<FontAwesomeIcon icon={faEmptyStar} />}
-      />
-    </div>
-  </div>
+const NavigationLink = ({ text, isLink, action, target }) => (
+  isLink ?
+    <Link to={action}>{text}</Link> :
+    <a href={action} target={target}>{text}</a>
 );
+
+const mapAuthor = ({ fullname, id, url }) => ({
+  text: fullname,
+  key: id,
+  action: url,
+});
+
+const BookCarouselItem = ({ imageUrl, title, authors, rating, url }) => {
+  const author = hasAuthor(authors);
+  return (
+    <div className="book-carousel-item d-flex flex-column justify-content-start align-items-start">
+      <Link to={url}>
+        <div className="book-carousel-item-cover-wrapper d-flex flex-column justify-content-end align-items-center">
+          <img className="book-carousel-item-cover" src={imageUrl} alt={title} />
+        </div>
+      </Link>
+      <span className="book-carousel-item-name" title={title}>{trimStrings(title)}</span>
+      {
+        author ?
+          (
+            <span className="book-carousel-item-author" title={author.fullname} >
+              { 'by ' }
+              <NavigationLink {...mapAuthor(author)} text={trimStrings(author.fullname)} />
+            </span>
+          ) : null
+      }
+      <div className="book-carousel-item-rating" title={rating.toFixed(2)}>
+        <Rating
+          readonly
+          initialRate={Math.floor(rating)}
+          full={<FontAwesomeIcon icon={faFullStar} />}
+          empty={<FontAwesomeIcon icon={faEmptyStar} />}
+        />
+      </div>
+    </div>
+  );
+};
+
 
 class BookCarouselV2 extends Component {
   constructor(props) {
