@@ -7,6 +7,9 @@
   .subtitle {
     font-weight: 700;
   }
+  .divider {
+    border-top: 1px solid rgba(0, 0, 0, 0.5);
+  }
   .offer {
     display: flex;
     flex-direction: column;
@@ -85,8 +88,5 @@
     .subtitle {
       color: #0D3AD1;
     }
-  }
-  .divider {
-    border-top: 1px solid rgba(0, 0, 0, 0.5);
   }
 }

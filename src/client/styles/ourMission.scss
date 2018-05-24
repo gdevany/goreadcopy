@@ -15,6 +15,9 @@
       display: block;
     }
   }
+  .divider {
+    border-top: 1px solid rgba(0, 0, 0, 0.5);
+  }
   .mobile-subtitle {
     font-weight: 700;
     color: #0D3AD1;
@@ -29,10 +32,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-top: 40px;
     @media (min-width: 426px) {
       flex-direction: row;
-      align-items: flex-start;
       margin: 40px 0;
+      padding-top: 0;
     }
     .left-section {
       display: flex;
@@ -58,7 +62,6 @@
     align-items: center;
     @media (min-width: 426px) {
       flex-direction: row;
-      align-items: flex-start;
       margin: 40px 0;
     }
     .left-section {
@@ -85,7 +88,6 @@
     align-items: center;
     @media (min-width: 426px) {
       flex-direction: row;
-      align-items: flex-start;
       margin: 40px 0;
     }
     .left-section {
