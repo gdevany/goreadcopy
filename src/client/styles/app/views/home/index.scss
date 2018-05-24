@@ -40,6 +40,7 @@ a {
 }
 
 .navbar-links {
+  position: relative;
   a {
     color: black;
     text-decoration: none;
@@ -54,7 +55,6 @@ a {
     a {
       text-transform: capitalize;
     }
-    position: relative;
     .navbar-link-submenu {
       display: none;
     }
@@ -62,11 +62,11 @@ a {
       padding: 15px 0 12px 0;
       border-bottom: 3px solid $color-primary;
       .navbar-link-submenu {
-        width: 600px;
         display: block;
         position: absolute;
         top: 54px;
         left: 0;
+        right: 0;
         z-index: 10;
         background: white;
         border: solid 1px #939393;
@@ -106,6 +106,7 @@ a {
 
 .navbar-action {
   .navbar-action-search {
+    margin-left: 30px;
     .input-group {
       margin: 0;
       .custom-select {
@@ -186,6 +187,24 @@ i.arrow {
   -webkit-transform: rotate(45deg);
 }
 
+.carousel {
+  a.carousel-control-next, a.carousel-control-prev {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 50px;
+    color: #fff;
+    text-align: center;
+    opacity: .5;
+  }
+}
+
 // Shapes -> Magnifier
 
 i.magnifier {
@@ -221,9 +240,10 @@ i.magnifier::before {
   }
 }
 
-.hero {
+
+.hero-wrapper {
   width: auto;
-  height: 250px;
+  height: auto;
   @media screen and (min-width: $sm) {
     height: 450px;
   }
@@ -254,20 +274,36 @@ i.magnifier::before {
     display: flex;
   }
   .book-carousel-item {
-    width: 140px;
+    width: 125px;
     min-height: 300px;
     height: auto;
     font-size: 14px;
-    margin: 0 5px;
-    .book-carousel-item-cover {
-      max-width: 150px;
+    margin: 0 8px;
+    .book-carousel-item-cover-wrapper {
+      min-height: 200px;
+      min-width: 125px;
       max-height: 200px;
-      width: auto;
-      height: auto;
-      margin-bottom: 10px;
+      max-width: 125px;
+      .book-carousel-item-cover {
+        max-width: 125px;
+        max-height: 200px;
+        width: auto;
+        height: auto;
+        margin-bottom: 15px;
+        box-shadow: 0px 5px 20px 1px rgba(0, 0, 0, 0.6);
+      }
     }
     .book-carousel-item-name {
-      font-weight: bold;
+      font-weight: 600;
+      line-height: 1;
+      font-size: 15px;
+    }
+    .book-carousel-item-author {
+      font-size: 13px;
+      line-height: 1.3;
+      a {
+        color: $color-primary;
+      }
     }
     .book-carousel-item-rating {
       color: #3853A2;
@@ -292,23 +328,27 @@ i.magnifier::before {
       font-size: 11px;
       color: $color-primary;
     }
-    .top-article-title a {
-      &:hover {
-        text-decoration: none;
+    .top-article-title {
+      line-height: 1;
+      a {
+        &:hover {
+          text-decoration: none;
+        }
+        color: black;
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 1;
       }
-
-      color: black;
-      font-size: 16px;
-      font-weight: bold;
-      line-height: 1.3;
     }
-    .top-article-author a {
-      &:hover {
-        text-decoration: none;
+    .top-article-author {
+      line-height: 1;
+      font-size: 13px;
+      a {
+        &:hover {
+          text-decoration: none;
+        }
+        color: $color-primary;
       }
-
-      color: black;
-      font-size: 15px;
     }
   }
 }

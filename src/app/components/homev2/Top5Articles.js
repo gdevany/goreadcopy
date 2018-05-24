@@ -1,6 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router';
 import withArticles from '../containers/Top5ArticlesContainer';
+
+const maxLength = 16;
+
+const trimStrings = str => (
+  str.length > maxLength ?
+    `${str.substring(0, maxLength - 3)}...` :
+    str
+);
 
 const ArticleListItem = ({ article }) => (
   <div className="top-article">
@@ -10,8 +17,17 @@ const ArticleListItem = ({ article }) => (
       </a>
       <div className="d-flex flex-column justify-content-start align-items-start">
         { article.category ? <span className="top-article-category">{article.category}</span> : null }
-        <span className="top-article-title"><a href={article.link}>{article.title}</a></span>
-        <span className="top-article-author"><a href={article.owner.url}>{article.owner.fullname}</a></span>
+        <span className="top-article-title">
+          <a href={article.link} title={article.title}>
+            { trimStrings(article.title) }
+          </a>
+        </span>
+        <span className="top-article-author" title={article.owner.fullname}>
+          { 'by ' }
+          <a href={article.owner.url}>
+            { trimStrings(article.owner.fullname) }
+          </a>
+        </span>
       </div>
     </div>
   </div>

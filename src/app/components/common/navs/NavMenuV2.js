@@ -68,7 +68,6 @@ const ActionBar = props => (
             <img className="navbar-logo" src='/image/logo.png' />
           </Link>
           <NavBarIconLink to="#" iconProps={{ icon: faShoppingCart, size: 'lg' }} />
-          <NavBarIconLink to="#" iconProps={{ icon: faHeart, size: 'lg' }} />
         </div>
       </div>
     </div>
@@ -84,8 +83,8 @@ const ActionBar = props => (
                   </Link>
                 </div>
               </div>
-              <div className="nav-item-group d-flex flex-row justify-content-end align-items-center">
-                <div className="navbar-action-search">
+              <div className="nav-item-group d-flex flex-row justify-content-end align-items-center flex-grow-1">
+                <div className="navbar-action-search flex-grow-1">
                   <InputGroup>
                     <Input placeholder="Enter your search term... " />
                     <InputGroupAddon addonType="append">
@@ -105,7 +104,6 @@ const ActionBar = props => (
                 </div>
                 <div className="navbar-action-icons d-flex flex-row justify-content-end align-items-center">
                   <NavBarIconLink to="#" iconProps={{ icon: faShoppingCart, size: 'lg' }} />
-                  <NavBarIconLink to="#" iconProps={{ icon: faHeart, size: 'lg' }} />
                   <div className="navbar-action-icon d-flex flex-column justify-content-center">
                     <Link to="#">
                       My Book Collection
