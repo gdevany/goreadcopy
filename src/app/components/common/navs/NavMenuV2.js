@@ -83,8 +83,8 @@ const ActionBar = props => (
                   </Link>
                 </div>
               </div>
-              <div className="nav-item-group d-flex flex-row justify-content-end align-items-center">
-                <div className="navbar-action-search">
+              <div className="nav-item-group d-flex flex-row justify-content-end align-items-center flex-grow-1">
+                <div className="navbar-action-search flex-grow-1">
                   <InputGroup>
                     <Input placeholder="Enter your search term... " />
                     <InputGroupAddon addonType="append">
