@@ -67,7 +67,6 @@ const BookCarouselItem = ({ imageUrl, title, authors, rating, url }) => {
   );
 };
 
-
 class BookCarouselV2 extends Component {
   constructor(props) {
     super(props);

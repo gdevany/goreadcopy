@@ -21,9 +21,9 @@ a {
   color: #1E49D4;
   background: white;
   width: 150px;
+  height: 25px;
   border-radius: 15px;
   margin-left: 10px;
-  padding: 5px;
   a:hover {
     text-decoration: none;
   }
@@ -160,9 +160,9 @@ a {
 // Shapes -> Arrows
 i.arrow {
   border: solid #B7B7B7;
-  border-width: 0 3px 3px 0;
+  border-width: 0 6px 6px 0;
   display: inline-block;
-  padding: 6px;
+  padding: 8px;
   width: 1px;
   height: 1px;
 }
@@ -240,6 +240,7 @@ i.magnifier::before {
   }
 }
 
+
 .hero-wrapper {
   width: auto;
   height: auto;
@@ -258,9 +259,6 @@ i.magnifier::before {
         width: 100%;
         margin: 0 auto;
       }
-    }
-    a.carousel-control-next, a.carousel-control-prev {
-      width: 15%;
     }
   }
 }
