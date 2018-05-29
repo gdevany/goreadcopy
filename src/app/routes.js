@@ -70,7 +70,7 @@ const Routes = (
     <Route path="/shop/checkout" component={CheckoutPage} />
     <Route path="/shop/success" component={orderSuccess} />
     <Route path="/store/orders" component={Orders} />
-    <Route path="/literacy" component={Literacy} />
+    <Route path="/literacy" component={useBootstrapFor(Literacy)} />
     <Route path="/signup" component={SignUpFlow} />
     <Route path="/redirect" component={IncomingRedirect} />
     <Route path="/antispam" context="antispam" component={PublicWrapper} />
