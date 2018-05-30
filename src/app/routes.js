@@ -57,7 +57,6 @@ const useBootstrapFor = PassedComponent => (
 const Routes = (
   <Route path="/" component={App}>
     <IndexRoute isUserLoggedIn={isUserLoggedIn} component={HomeWrapper} />
-    <Route path="/vid" isUserLoggedIn={isUserLoggedIn} component={HomeWrapper} />
     <Route path="/profile/settings" component={Settings} />
     <Route path="/profile/:slug" component={Profile} />
     <Route path="/profile/welcome/" component={Profile} />
