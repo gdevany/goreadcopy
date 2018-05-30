@@ -28,7 +28,7 @@ export const Ads = [
     id: 1,
     image: "/image/ads/home/ad01.jpg",
     classes: "home-ad img-cover",
-    url: "/book/the-greatest-prospector-in-the-world-audio-book",
+    url: "/book/greatest-prospector-in-the-world-a-business-parabl",
     alt: "The Greatest Prospector",
     isLink: true,
     target: null,
