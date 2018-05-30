@@ -37,6 +37,14 @@ class SearchModal extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { term, filter } = nextProps;
+    if (!this.props.modalOpen && nextProps.modalOpen && term && filter) {
+      this.setState({ searchTerm: term, selectedFilter: filter, selectedSubFilter: false });
+      if (this.props.resetSearch) this.props.resetSearch(filter);
+    }
+  }
+
   handleOnChange = R.curry((field, e) => {
     e.persist();
     this.setState({
