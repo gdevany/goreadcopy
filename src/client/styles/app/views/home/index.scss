@@ -264,6 +264,9 @@ i.magnifier::before {
 }
 
 .book-carousel {
+  .carousel-inner {
+    min-height: 300px;
+  }
   .book-carousel-list {
     .book-carousel-list-control {
       height: 10px;
