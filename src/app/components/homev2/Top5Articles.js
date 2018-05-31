@@ -44,7 +44,7 @@ const Top5Articles = ({ articles }) => (
             <ArticleListItem {...article} />
             {
               idx < articles.length - 1 ?
-                <hr className="divider home-page-section d-block d-sm-none" /> :
+                <hr className="divider home-page-section d-block" /> :
                 null
             }
           </div>
