@@ -12,7 +12,7 @@ import BestSellers from '../common/BestSellers'
 import { Auth } from '../../../services'
 import { Store as ApiStore } from '../../../services/api'
 
-const { getChildCategories } = Store
+const { getChildCategories, resetChildCategories } = Store
 
 class CategoriesPage extends PureComponent {
 
@@ -45,6 +45,10 @@ class CategoriesPage extends PureComponent {
       this.setState({ isSubCategory: true }) : this.setState({ isSubCategory: false }) : null
     nextProps.params.slug !== params.slug ? nextProps.params.slug ?
       getChildCategories(nextProps.params.slug) : null : null
+  }
+
+  componentWillUnmount = () => {
+    this.props.resetChildCategories();
   }
 
   handleCurrentCategory = () => {
@@ -126,4 +130,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { getChildCategories })(CategoriesPage)
+export default connect(mapStateToProps, { getChildCategories, resetChildCategories })(CategoriesPage)

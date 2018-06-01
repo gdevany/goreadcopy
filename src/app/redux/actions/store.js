@@ -35,6 +35,12 @@ export function getChildCategories(id) {
   }
 }
 
+export function resetChildCategories() {
+  return ({
+    type: A.RESET_CHILD_CATEGORIES,
+  });
+}
+
 export function getPopularCategories() {
   const data = {
     sort: 'popular',
@@ -390,6 +396,7 @@ export function getSoldBooks() {
 export default {
   getCategories,
   getChildCategories,
+  resetChildCategories,
   getPopularCategories,
   getBestSellers,
   getTrendingBooks,
