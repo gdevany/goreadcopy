@@ -1,13 +1,15 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import _ from 'lodash';
 import { Store, Common } from '../../../redux/actions'
 import Book from '../common/Book'
+import withInfiniteScroll from '../../common/enhancers/withInfiniteScroll';
 import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import ArrowUpIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
 import { slide as FiltersMenu } from 'react-burger-menu'
 
-const { filterBooks } = Store
+const { filterBooks, getMoreFilteredBooks } = Store
 const { showAlert } = Common
 
 const styles = {
@@ -16,6 +18,21 @@ const styles = {
     top: 0,
   },
 }
+
+const throttledFn = _.throttle(({ page, perPage, fetchBooks }) => {
+  fetchBooks(page + 1, perPage);
+}, 250);
+
+const BookList = withInfiniteScroll({
+  fetchMoreItems: throttledFn,
+  shouldFetchMoreItems: ({ count, booksLength, isFetching, isAFilterMenuOpen }) => {
+    return booksLength < count && !isFetching && !isAFilterMenuOpen;
+  },
+})(({ children }) => (
+  <div className='categorypage-filter-results' >
+    {children}
+  </div>
+));
 
 class CategoriesFilters extends PureComponent {
   constructor(props) {
@@ -90,6 +107,12 @@ class CategoriesFilters extends PureComponent {
 
       this.handleFilter(selectedSubCategory, selectedRating, selectedMinPrice, selectedMaxPrice)
     }
+  }
+
+  isAFilterMenuOpen() {
+    const { isRatingOpen, isPriceOpen, filtersMenuOpen } = this.state;
+
+    return isRatingOpen || isPriceOpen || filtersMenuOpen;
   }
 
   handleFilterMenuClick = (event) => {
@@ -235,6 +258,92 @@ class CategoriesFilters extends PureComponent {
     }
     event.preventDefault()
     return false
+  }
+
+  handleScroll = (page = 0, perPage = 25) => {
+    const { categoryId } = this.state;
+    const {
+      selectedSubCategory,
+      selectedRating,
+      selectedMinPrice,
+      selectedMaxPrice,
+    } = this.state;
+    if (selectedSubCategory || selectedMinPrice || selectedMaxPrice || selectedRating) {
+      if (selectedRating) {
+        switch (selectedRating) {
+          case 'one-and-up':
+            return this.props.getMoreFilteredBooks({
+              page,
+              perPage,
+              genreIds: selectedSubCategory ? selectedSubCategory.id : categoryId,
+              minRate: selectedRating ? 1 : null,
+              maxRate: selectedRating ? 5 : null,
+              minPrice: selectedMinPrice !== false && selectedMinPrice >= 0 ?
+                selectedMinPrice : null,
+              maxPrice: selectedMaxPrice && selectedMaxPrice !== 'more' ?
+                selectedMaxPrice : null,
+            })
+            break
+          case 'two-and-up':
+            return this.props.getMoreFilteredBooks({
+              page,
+              perPage,
+              genreIds: selectedSubCategory ? selectedSubCategory.id : categoryId,
+              minRate: selectedRating ? 2 : null,
+              maxRate: selectedRating ? 5 : null,
+              minPrice: selectedMinPrice !== false && selectedMinPrice >= 0 ?
+                selectedMinPrice : null,
+              maxPrice: selectedMaxPrice && selectedMaxPrice !== 'more' ?
+                selectedMaxPrice : null,
+            })
+            break
+          case 'three-and-up':
+            return this.props.getMoreFilteredBooks({
+              page,
+              perPage,
+              genreIds: selectedSubCategory ? selectedSubCategory.id : categoryId,
+              minRate: selectedRating ? 3 : null,
+              maxRate: selectedRating ? 5 : null,
+              minPrice: selectedMinPrice !== false && selectedMinPrice >= 0 ?
+                selectedMinPrice : null,
+              maxPrice: selectedMaxPrice && selectedMaxPrice !== 'more' ?
+                selectedMaxPrice : null
+            })
+            break
+          case 'four-and-up':
+            return this.props.getMoreFilteredBooks({
+              page,
+              perPage,
+              genreIds: selectedSubCategory ? selectedSubCategory.id : categoryId,
+              minRate: selectedRating ? 4 : null,
+              maxRate: selectedRating ? 5 : null,
+              minPrice: selectedMinPrice !== false && selectedMinPrice >= 0 ?
+                selectedMinPrice : null,
+              maxPrice: selectedMaxPrice && selectedMaxPrice !== 'more' ?
+                selectedMaxPrice : null,
+            })
+            break
+        }
+      } else {
+        return this.props.getMoreFilteredBooks({
+          page,
+          perPage,
+          genreIds: selectedSubCategory ? selectedSubCategory.id : categoryId,
+          minRate: selectedRating ? 4 : null,
+          maxRate: selectedRating ? 5 : null,
+          minPrice: selectedMinPrice !== false && selectedMinPrice >= 0 ?
+            selectedMinPrice : null,
+          maxPrice: selectedMaxPrice && selectedMaxPrice !== 'more' ?
+            selectedMaxPrice : null,
+        })
+      }
+    }
+
+    this.props.getMoreFilteredBooks({
+      page,
+      perPage,
+      genreIds: selectedSubCategory ? selectedSubCategory.id : categoryId,
+    });
   }
 
   handleFilter = (selectedSubCategory, selectedRating, selectedMinPrice, selectedMaxPrice) => {
@@ -816,9 +925,19 @@ class CategoriesFilters extends PureComponent {
           }
           {filterResults ?
             (
-              <div className='categorypage-filter-results' >
+              <BookList
+                fetchBooks={(page, perPage) => {
+                  this.handleScroll(page, perPage);
+                }}
+                page={this.props.page}
+                perPage={this.props.perPage}
+                count={this.props.count}
+                isFetching={this.props.isFetching}
+                booksLength={this.props.filterResults ? this.props.filterResults.results.length : 0}
+                isAFilterMenuOpen={this.isAFilterMenuOpen()}
+              >
                 {this.renderFilterResults()}
-              </div>
+              </BookList>
             ) : <div className='loading-animation-store'/>
           }
         </section>
@@ -829,12 +948,17 @@ class CategoriesFilters extends PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    filterResults: state.store.bookFilterResults
+    page: state.store.bookFilterResults ? state.store.bookFilterResults.page : 0,
+    perPage: state.store.bookFilterResults ? state.store.bookFilterResults.perPage : 0,
+    count: state.store.bookFilterResults ? state.store.bookFilterResults.count : 0,
+    isFetching: state.store.bookFilterResults ? state.store.bookFilterResults.isFetching : false,
+    filterResults: state.store.bookFilterResults,
   }
 }
 
 const mapDispatchToProps = {
   filterBooks,
+  getMoreFilteredBooks,
   showAlert,
 }
 

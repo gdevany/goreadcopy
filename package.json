@@ -121,6 +121,7 @@
     "react-tap-event-plugin": "^2.0.1",
     "react-title-component": "^1.0.1",
     "react-tooltip": "^3.2.7",
+    "recompose": "^0.27.1",
     "redux": "^3.7.1",
     "redux-thunk": "^2.2.0",
     "sass-loader": "^6.0.6",

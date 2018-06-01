@@ -45,6 +45,26 @@ export default (state = initialState.store, { type, payload }) => {
       return R.merge(state, { bookInfo: payload })
     case A.GET_FILTERED_BOOKS:
       return R.merge(state, { bookFilterResults: payload })
+    case A.GET_MORE_FILTERED_BOOKS:
+      return ({
+        ...state,
+        bookFilterResults: {
+          ...payload,
+          results: [
+            ...state.bookFilterResults.results,
+            ...payload.results,
+          ],
+          isFetching: false,
+        }
+      })
+    case A.GET_MORE_FILTERED_BOOKS_FETCHING:
+      return ({
+        ...state,
+        bookFilterResults: {
+          ...state.bookFilterResults,
+          isFetching: true,
+        }
+      })
     case A.GET_CART_ITEMS:
       return R.merge(state, { cartItems: payload })
     case A.SET_ORDER:
