@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { withBreakpoints } from 'react-breakpoints';
+import CMSProvider from '../cms/CMSProvider';
+import withCMS from '../cms/HOC/withCMSData';
+import { getSection, getEntity } from '../../redux/selectors/cms';
 import { MainNavView } from '../views';
 import Top5Articles from './Top5Articles';
 import {
@@ -19,6 +22,90 @@ const getAmount = (screenWidth, breakpoints, isFullOnDesktop) => {
   return isFullOnDesktop ? 7 : 5;
 };
 
+const mapCMSSlidesToHeroItems = (cms) => {
+  const slidesFromCMS = getSection(cms, 'home', 'slide');
+  const slides = slidesFromCMS.map((slide) => {
+    const actionUrl = slide.actionUrl || '/';
+
+    return ({
+      src: slide.imageUrl,
+      altText: slide.name,
+      caption: slide.description,
+      isLink: !actionUrl.includes('http'),
+      action: actionUrl,
+    });
+  });
+
+  return { items: slides };
+}
+
+const mapCMSEntitiesToAds = (cms) => {
+  const adsFromCMS = getSection(cms, 'home', 'ads');
+  const ads = adsFromCMS.map((ad) => {
+    const actionUrl = ad.actionUrl || '/';
+
+    return ({
+      image: ad.imageUrl,
+      alt: ad.name,
+      classes: 'home-ad img-cover',
+      id: ad.slug,
+      isLink: !actionUrl.includes('http'),
+      target: actionUrl.includes('http') ? '_blank' : null,
+      url: actionUrl,
+    });
+  });
+
+  return { ads };
+}
+
+
+const mapCMSFooterEntitiesToAds = (cms) => {
+  const adsFromCMS = getSection(cms, 'home', 'footer');
+  const ads = adsFromCMS.map((ad) => {
+    const actionUrl = ad.actionUrl || '/';
+
+    return ({
+      image: ad.imageUrl,
+      alt: ad.name,
+      classes: 'home-ad img-cover',
+      id: ad.slug,
+      isLink: !actionUrl.includes('http'),
+      target: actionUrl.includes('http') ? '_blank' : null,
+      url: actionUrl,
+    });
+  });
+
+  return { ads };
+}
+
+
+const mapCMSEntityToAd = (cms, props) => {
+  const adFromCMS = getEntity(cms, props.adKey);
+
+  if (!adFromCMS) {
+    return { item: null };
+  }
+
+  const actionUrl = adFromCMS.actionUrl || '';
+
+  return ({
+    item: {
+      image: adFromCMS.imageUrl,
+      alt: adFromCMS.name,
+      classes: 'home-ad img-cover',
+      id: adFromCMS.slug,
+      isLink: !actionUrl.includes('http'),
+      target: actionUrl.includes('http') ? '_blank' : null,
+      url: actionUrl,
+    },
+  });
+};
+
+const HomeAdsWithCMS = withCMS(mapCMSEntitiesToAds)(HomeAds);
+const HomeHeroWithCMS = withCMS(mapCMSSlidesToHeroItems)(HomeHero);
+const AdWithCMS = withCMS(mapCMSEntityToAd)(Ad);
+const HomeImageLinksWithCMS = withCMS(mapCMSFooterEntitiesToAds)(HomeImageLinks);
+
 const HomeContent = ({ screenWidth, breakpoints }) => (
   <div className="home-content-wrapper">
     <div className="d-block d-sm-none">
@@ -35,7 +122,7 @@ const HomeContent = ({ screenWidth, breakpoints }) => (
           </div>
         </div>
       </div>
-      <Ad item={Ads[0]} />
+      <AdWithCMS adKey="home.ads.ads1" />
       <div className="container">
         <div className="row">
           <div className="col">
@@ -48,7 +135,7 @@ const HomeContent = ({ screenWidth, breakpoints }) => (
           </div>
         </div>
       </div>
-      <Ad item={Ads[1]} />
+      <AdWithCMS adKey="home.ads.ads2" />
       <div className="container">
         <div className="row">
           <div className="col">
@@ -61,8 +148,8 @@ const HomeContent = ({ screenWidth, breakpoints }) => (
           </div>
         </div>
       </div>
-      <Ad item={Ads[2]} />
-      <Ad item={Ads[4]} />
+      <AdWithCMS adKey="home.footer.footer1" />
+      <AdWithCMS adKey="home.footer.footer2" />
     </div>
     <div className="d-none d-sm-block">
       <div className="container">
@@ -102,7 +189,7 @@ const HomeContent = ({ screenWidth, breakpoints }) => (
       <div className="container">
         <div className="row">
           <div className="col">
-            <HomeAds ads={Ads} />
+            <HomeAdsWithCMS />
           </div>
         </div>
       </div>
@@ -121,7 +208,7 @@ const HomeContent = ({ screenWidth, breakpoints }) => (
       <div className="container">
         <div className="row">
           <div className="col">
-            <HomeImageLinks ads={Ads} />
+            <HomeImageLinksWithCMS />
           </div>
         </div>
       </div>
@@ -136,10 +223,12 @@ class Home extends Component {
   render() {
     return (
       <MainNavView>
-        <div className="page-content add-b-margin">
-          <HomeHero items={CarouselItems}/>
-          <DividedHomeContent />
-        </div>
+        <CMSProvider page="home">
+          <div className="page-content add-b-margin">
+            <HomeHeroWithCMS />
+            <DividedHomeContent />
+          </div>
+        </CMSProvider>
       </MainNavView>
     );
   }

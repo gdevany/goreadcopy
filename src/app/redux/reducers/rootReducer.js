@@ -18,12 +18,14 @@ import notificationReducer from './notifications'
 import commonReducer from './common'
 import articlesReducer from './articles'
 import sessionReducer from './session'
+import cmsReducer from './cms';
 
 import { CURRENT_READER as C } from '../const/actionTypes'
 
 const appReducer = combineReducers({
   books: booksReducer,
   chat: chatReducer,
+  cms: cmsReducer,
   currentReader: currentReaderReducer,
   genres: genreReducer,
   litcoins: litcoinsReducer,
