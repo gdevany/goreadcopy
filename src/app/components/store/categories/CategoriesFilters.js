@@ -829,7 +829,8 @@ class CategoriesFilters extends PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    filterResults: state.store.bookFilterResults
+    filterResults: state.store.bookFilterResults,
+    categories: state.store.childCategories || [],
   }
 }
 

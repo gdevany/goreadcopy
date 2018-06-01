@@ -26,6 +26,8 @@ export default (state = initialState.store, { type, payload }) => {
       }
     case A.GET_CHILD_CATEGORIES:
       return R.merge(state, { childCategories: payload.results })
+    case A.RESET_CHILD_CATEGORIES:
+      return R.merge(state, { childCategories: [] })
     case A.GET_MERGE_CHILD_CATEGORIES:
       return {
         ...state,
