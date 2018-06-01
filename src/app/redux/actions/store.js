@@ -188,6 +188,15 @@ export function filterBooks(params) {
   }
 }
 
+export function getMoreFilteredBooks(params) {
+  return dispatch => {
+    dispatch({ type: A.GET_MORE_FILTERED_BOOKS_FETCHING });
+    Books.filterBooks(params)
+      .then(res => dispatch({ type: A.GET_MORE_FILTERED_BOOKS, payload: res.data }))
+      .catch(err => console.error(`Error in filterBooks ${err}`))
+  }
+}
+
 export function getCartItems(params, logged) {
   return dispatch => {
     Store.getCartItems(params, logged)
@@ -409,6 +418,7 @@ export default {
   addToWishList,
   removeFromWishList,
   filterBooks,
+  getMoreFilteredBooks,
   getCartItems,
   updateCartItems,
   removeItemFromCart,
