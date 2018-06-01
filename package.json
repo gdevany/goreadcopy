@@ -128,7 +128,7 @@
     "react-title-component": "^1.0.1",
     "react-tooltip": "^3.2.7",
     "reactstrap": "^5.0.0",
-    "recompose": "^0.27.0",
+    "recompose": "^0.27.1",
     "redux": "^3.7.1",
     "redux-actions": "^2.3.0",
     "redux-logger": "^3.0.6",

@@ -35,6 +35,12 @@ export function getChildCategories(id) {
   }
 }
 
+export function resetChildCategories() {
+  return ({
+    type: A.RESET_CHILD_CATEGORIES,
+  });
+}
+
 export function getPopularCategories() {
   const data = {
     sort: 'popular',
@@ -178,6 +184,15 @@ export function filterBooks(params) {
   return dispatch => {
     Books.filterBooks(params)
       .then(res => dispatch({ type: A.GET_FILTERED_BOOKS, payload: res.data }))
+      .catch(err => console.error(`Error in filterBooks ${err}`))
+  }
+}
+
+export function getMoreFilteredBooks(params) {
+  return dispatch => {
+    dispatch({ type: A.GET_MORE_FILTERED_BOOKS_FETCHING });
+    Books.filterBooks(params)
+      .then(res => dispatch({ type: A.GET_MORE_FILTERED_BOOKS, payload: res.data }))
       .catch(err => console.error(`Error in filterBooks ${err}`))
   }
 }
@@ -390,6 +405,7 @@ export function getSoldBooks() {
 export default {
   getCategories,
   getChildCategories,
+  resetChildCategories,
   getPopularCategories,
   getBestSellers,
   getTrendingBooks,
@@ -402,6 +418,7 @@ export default {
   addToWishList,
   removeFromWishList,
   filterBooks,
+  getMoreFilteredBooks,
   getCartItems,
   updateCartItems,
   removeItemFromCart,
