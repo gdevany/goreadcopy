@@ -15,6 +15,7 @@ const baseResults = {
 export default {
   genres: [],
   recommended: [],
+  cms: {},
   search: emptyState(),
   books: emptyState({ payload: [] }),
   readerData: emptyState(),
