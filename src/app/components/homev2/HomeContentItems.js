@@ -1,8 +1,20 @@
 import React from 'react';
-import { UncontrolledCarousel } from 'reactstrap';
+import { Carousel } from 'reactstrap';
+import Hero from './Hero';
 import { Link } from 'react-router';
 
-export function Ad({ item: { id, classes, image, url, alt, isLink, target }}) {
+export function Ad({ item }) {
+  if (!item) { return null; }
+  const {
+    id,
+    classes,
+    image,
+    url,
+    alt,
+    isLink,
+    target,
+  } = item;
+
   return isLink ? (
     <Link to={url} target={target}>
       <img className={classes} src={image} alt={alt} />
@@ -11,14 +23,6 @@ export function Ad({ item: { id, classes, image, url, alt, isLink, target }}) {
     <a href={url} target={target}>
       <img className={classes} src={image} alt={alt} />
     </a>
-  );
-}
-
-export function Hero({ items }) {
-  return (
-    <div className="hero section-spacing">
-      <UncontrolledCarousel items={items} />
-    </div>
   );
 }
 
@@ -61,15 +65,15 @@ export function HomeImageLinks({ ads }) {
     <div className="container">
       <div className="row section-spacing">
         <div className="col">
-          <Ad item={ads[2]} />
+          <Ad item={ads[0]} />
         </div>
       </div>
       <div className="row section-spacing">
         <div className="col-sm-6">
-          <Ad item={ads[3]} />
+          <Ad item={ads[1]} />
         </div>
         <div className="col-sm-6">
-          <Ad item={ads[4]} />
+          <Ad item={ads[2]} />
         </div>
       </div>
     </div>

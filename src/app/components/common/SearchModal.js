@@ -37,6 +37,15 @@ class SearchModal extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { term, filter } = nextProps;
+    if (!this.props.modalOpen && nextProps.modalOpen && term && filter) {
+      this.setState({ searchTerm: term, selectedFilter: filter, selectedSubFilter: false });
+      this.debouncedSearch(null);
+      if (this.props.resetSearch) this.props.resetSearch(filter);
+    }
+  }
+
   handleOnChange = R.curry((field, e) => {
     e.persist();
     this.setState({
@@ -54,7 +63,7 @@ class SearchModal extends Component {
   }
 
   debouncedSearch = debounce((event) => {
-    if (event.target.value.length > 3) {
+    if (event && event.target.value.length > 3) {
       this.props.cleanSearchState();
       let perPage = 20
       const filterName = this.translateType(this.state.selectedFilter);
@@ -77,6 +86,14 @@ class SearchModal extends Component {
           perPage: perPage,
         });
       }
+    } else {
+      this.props.cleanSearchState();
+      this.props.mainSearch({
+        term: this.state.searchTerm,
+        type: this.getSanitizedFilter(this.state.selectedFilter),
+        page: 1,
+        perPage: 20,
+      });
     }
   }, 1000)
 
@@ -335,7 +352,7 @@ class SearchModal extends Component {
       if (this.state.selectedSubFilter) {
         let selectedSubFilter
         if (this.state.selectedSubFilter === 'ean') {
-          selectedSubFilter = this.state.selectedSubFilter.toUpperCase()
+          selectedSubFilter = 'ISBN';
         } else {
           selectedSubFilter = this.state.selectedSubFilter.replace(/\b\w/, (m) => {
             return m.toUpperCase()
@@ -407,7 +424,7 @@ class SearchModal extends Component {
                                 <a
                                   onClick={() => this.handleSelectFilter('Book', 'EAN')}
                                 >
-                                  EAN
+                                  ISBN
                                 </a>
                               </li>
                               <li>
@@ -430,7 +447,7 @@ class SearchModal extends Component {
                             <a
                               onClick={() => this.handleSelectFilter('Author')}
                             >
-                              Author
+                              Buzz Author
                             </a>
                           </li>
                           <li className='search-main-search-filters-list'>

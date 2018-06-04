@@ -34,6 +34,7 @@ class LeftHandLinks extends PureComponent {
       ['My Orders', '/store/orders', true],
       ['News', news],
       ['Articles', articles],
+      ['Video Tutorials', '/profile/videotutorials', true],
     ]
 
     const leftMenuItem = ([title, routeFn, routeType], index) => (
@@ -63,7 +64,6 @@ class LeftHandLinks extends PureComponent {
   handleMapHiddenMenuItems = () => {
     const {
       goReadBooks,
-      childrensLiteracy,
       videoTutorials,
       referrals,
       games,
@@ -72,23 +72,32 @@ class LeftHandLinks extends PureComponent {
     } = routes
 
     const leftMenuRoutes = [
-      ['GoRead Books', goReadBooks],
-      ['Children\'s Literacy', childrensLiteracy],
-      ['Video Tutorials', videoTutorials],
-      ['Referrals', referrals],
-      ['Games', games],
-      ['Author Enrollment', authorEnrollment],
-      ['Publisher Enrollment', publishers],
+      ["GoRead Books", goReadBooks],
+      ["Books for Kids", "/literacy", true],
+      ["Video Tutorials", videoTutorials],
+      ["Referrals", referrals],
+      ["Games", games],
+      ["Author Enrollment", authorEnrollment],
+      ["Publisher Enrollment", publishers],
     ]
 
-    const leftMenuItem = ([title, routeFn], index) => (
+    const leftMenuItem = ([title, routeFn, reactLink], index) => (
       <li className='left-hand-menu-item' key={title + index}>
-        <a
-          className='left-hand-menu-anchor'
-          href={routeFn()}
-        >
-          {title}
-        </a>
+        {reactLink ? (
+          <Link
+            className='left-hand-menu-anchor'
+            to={routeFn}
+          >
+            {title}
+          </Link>
+        ) : (
+          <a
+            className='left-hand-menu-anchor'
+            href={routeFn}
+          >
+            {title}
+          </a>
+        )}
       </li>
     )
     return R.map(leftMenuItem, leftMenuRoutes)

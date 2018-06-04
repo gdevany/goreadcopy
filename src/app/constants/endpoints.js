@@ -3,7 +3,6 @@ import { Paths } from '../services'
 const Endpoints = () => {
   const { apiUrl } = Paths
   const routes = {
-    timesRendered: () => apiUrl('views/home_rendered_times'),
     books: (params) => apiUrl('onboarding/books', params),
     readers: (params) => apiUrl('onboarding/readers', params),
     readerValidation: (params) => apiUrl('onboarding/readers/check', params),
@@ -139,6 +138,8 @@ const Endpoints = () => {
     getHomeNewReleaseBooks: (params) => apiUrl('books/new_releases', params),
     getHomeComingSoonBooks: (params) => apiUrl('books/coming_soon', params),
     getBooksCategories: (params) => apiUrl('genres', params),
+    getPageContent: params => apiUrl('cms/page', params),
+    getSectionContent: params => apiUrl('cms/page/section', params),
   }
 
   return routes

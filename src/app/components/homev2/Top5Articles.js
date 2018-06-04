@@ -1,16 +1,33 @@
 import React from 'react';
-import { Link } from 'react-router';
+import withArticles from '../containers/Top5ArticlesContainer';
 
-const ArticleListItem = ({ image, category, title, author, url }) => (
+const maxLength = 16;
+
+const trimStrings = str => (
+  str.length > maxLength ?
+    `${str.substring(0, maxLength - 3)}...` :
+    str
+);
+
+const ArticleListItem = ({ article }) => (
   <div className="top-article">
     <div className="d-flex flex-row justify-content-start">
-      <Link to={url}>
-        <img className="top-article-image" src={image} alt="Article Main" />
-      </Link>
+      <a href={article.link}>
+        <img className="top-article-image" src={article.imageUrl} alt="Article Main" />
+      </a>
       <div className="d-flex flex-column justify-content-start align-items-start">
-        <span className="top-article-category">{category}</span>
-        <span className="top-article-title">{title}</span>
-        <span className="top-article-author">{author}</span>
+        { article.category ? <span className="top-article-category">{article.category}</span> : null }
+        <span className="top-article-title">
+          <a href={article.link} title={article.title}>
+            { trimStrings(article.title) }
+          </a>
+        </span>
+        <span className="top-article-author" title={article.owner.fullname}>
+          { 'by ' }
+          <a href={article.owner.url}>
+            { trimStrings(article.owner.fullname) }
+          </a>
+        </span>
       </div>
     </div>
   </div>
@@ -27,7 +44,7 @@ const Top5Articles = ({ articles }) => (
             <ArticleListItem {...article} />
             {
               idx < articles.length - 1 ?
-                <hr className="divider home-page-section d-block d-sm-none" /> :
+                <hr className="divider home-page-section d-block" /> :
                 null
             }
           </div>
@@ -37,4 +54,4 @@ const Top5Articles = ({ articles }) => (
   </div>
 );
 
-export default Top5Articles;
+export default withArticles(Top5Articles);

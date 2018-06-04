@@ -4,9 +4,7 @@ import { Endpoints } from '../../constants'
 const { timesRendered } = Endpoints
 
 const General = () => {
-  return {
-    timesRendered: () => http.get(timesRendered()),
-  }
+  return {}
 }
 
 export default General()

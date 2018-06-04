@@ -19,6 +19,7 @@ import {
 } from './components/store';
 import { PublicWrapper } from './components/public';
 import { ReferralHome } from './components/referral';
+import { Literacy } from './components/literacy';
 import { Settings } from './components/settings';
 import {
   AboutUs,
@@ -56,7 +57,6 @@ const useBootstrapFor = PassedComponent => (
 const Routes = (
   <Route path="/" component={App}>
     <IndexRoute isUserLoggedIn={isUserLoggedIn} component={HomeWrapper} />
-    <Route path="/vid" isUserLoggedIn={isUserLoggedIn} component={HomeWrapper} />
     <Route path="/profile/settings" component={Settings} />
     <Route path="/profile/:slug" component={Profile} />
     <Route path="/me/:slug" component={ReferralHome} />
@@ -68,6 +68,7 @@ const Routes = (
     <Route path="/shop/checkout" component={CheckoutPage} />
     <Route path="/shop/success" component={orderSuccess} />
     <Route path="/store/orders" component={Orders} />
+    <Route path="/literacy" component={useBootstrapFor(Literacy)} />
     <Route path="/signup" component={SignUpFlow} />
     <Route path="/redirect" component={IncomingRedirect} />
     <Route path="/antispam" context="antispam" component={PublicWrapper} />

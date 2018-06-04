@@ -1,6 +1,5 @@
 import React from 'react';
 import { MainNavView } from '../../views';
-
 const Career = () => (
   <MainNavView>
     <div className="container career" >
@@ -113,5 +112,4 @@ const Career = () => (
     </div>
   </MainNavView>
 );
-
 export default Career;

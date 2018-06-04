@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 import {
   InputGroup,
@@ -13,11 +13,12 @@ import {
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faSearch from '@fortawesome/fontawesome-free-solid/faSearch';
 import faShoppingCart from '@fortawesome/fontawesome-free-solid/faShoppingCart';
-import faHeart from '@fortawesome/fontawesome-free-solid/faHeart';
 import faBars from '@fortawesome/fontawesome-free-solid/faBars';
 import { SoldBookCounter } from '../';
 import FloatingSubMenu from './FloatingSubMenu';
-import { MenuLinks } from './Placeholder';
+import connectLinkBar from '../../containers/HomeNavMenuContainer';
+import SearchModal from '../SearchModal';
+import R from 'ramda';
 
 const LinkButton = ({ text, to }) => (
   <Link to={to}>
@@ -43,75 +44,10 @@ const AuthBar = props => (
           <div className="col">
             <div className="navbar-auth navbar-bar-spacing d-flex align-items-center">
               <div className="nav-item mr-auto">
-                <span>Join and Get Your Next Order Shipped For Free!</span>
               </div>
               <div className="nav-item d-flex flex-row">
                 <LinkButton text="Sign Up" to="/accounts/signup" />
                 <LinkButton text="Login" to="/accounts/login" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
-const ActionBar = props => (
-  <div className="navbar-action-wrapper">
-    <div className="d-block d-sm-none">
-      <div className="navbar-action navbar-bar-spacing">
-        <div className="navbar-action-icons d-flex flex-row justify-content-around align-items-center">
-          <NavBarIconLink to="#" iconProps={{ icon: faBars, size: 'lg' }} />
-          <NavBarIconLink to="#" iconProps={{ icon: faSearch, size: 'lg' }} />
-          <Link to='/' alt="GoRead Home">
-            <img className="navbar-logo" src='/image/logo.png' />
-          </Link>
-          <NavBarIconLink to="#" iconProps={{ icon: faShoppingCart, size: 'lg' }} />
-          <NavBarIconLink to="#" iconProps={{ icon: faHeart, size: 'lg' }} />
-        </div>
-      </div>
-    </div>
-    <div className="d-none d-sm-block">
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <div className="navbar-action navbar-bar-spacing d-flex flex-row justify-content-start">
-              <div className="nav-item-group mr-auto d-flex flex-row justify-content-start align-items-center">
-                <div className="nav-item">
-                  <Link to="/" alt="GoRead Home">
-                    <img className="navbar-logo" src="/image/logo.png" />
-                  </Link>
-                </div>
-              </div>
-              <div className="nav-item-group d-flex flex-row justify-content-end align-items-center">
-                <div className="navbar-action-search">
-                  <InputGroup>
-                    <Input placeholder="Enter your search term... " />
-                    <InputGroupAddon addonType="append">
-                      <select className="custom-select">
-                        <option value="0" defaultValue>All products</option>
-                        <option value="1">Option #1</option>
-                        <option value="2">Option #2</option>
-                        <option value="3">Option #3</option>
-                      </select>
-                    </InputGroupAddon>
-                    <InputGroupAddon addonType="append">
-                      <Button color="secondary">
-                        <FontAwesomeIcon icon={faSearch} />
-                      </Button>
-                    </InputGroupAddon>
-                  </InputGroup>
-                </div>
-                <div className="navbar-action-icons d-flex flex-row justify-content-end align-items-center">
-                  <NavBarIconLink to="#" iconProps={{ icon: faShoppingCart, size: 'lg' }} />
-                  <NavBarIconLink to="#" iconProps={{ icon: faHeart, size: 'lg' }} />
-                  <div className="navbar-action-icon d-flex flex-column justify-content-center">
-                    <Link to="#">
-                      My Book Collection
-                    </Link>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -135,7 +71,7 @@ const LinkBar = props => (
           <div className="col">
             <div className="navbar-links d-flex flex-row justify-content-between">
               {
-                MenuLinks.map(({ text, action, isLink, id, subMenu }) => (
+                props.MenuLinks.map(({ text, action, isLink, id, subMenu }) => (
                   subMenu ?
                     <div key={id} className="navbar-link-wrapper d-flex flex-column justify-content-center align-items-center">
                       { hyperLink(text, action, isLink, id) }
@@ -180,13 +116,123 @@ const NotificationBar = props => (
   </div>
 );
 
-const NavMenuV2 = props => (
-  <div id="navbar">
-    <AuthBar />
-    <ActionBar />
-    <LinkBar />
-    <NotificationBar />
-  </div>
-);
+const LinkBarWithData = connectLinkBar(LinkBar);
+
+export class NavMenuV2 extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isSearchOpen: false,
+      term: '',
+      filter: 'Book',
+    };
+  }
+
+  onFieldChange = R.curry((field, e) => {
+    this.setState({ [field]: e.target.value });
+  })
+
+  onSearchSubmit = e => {
+    if (e) e.preventDefault();
+    this.setState({ isSearchOpen: true });
+  }
+
+  ActionBar = () => (
+    <div className="navbar-action-wrapper">
+      <div className="d-block d-sm-none">
+        <div className="navbar-action navbar-bar-spacing">
+          <div className="navbar-action-icons d-flex flex-row justify-content-around align-items-center">
+            <div className="navbar-action-icon">
+              <FontAwesomeIcon icon={faBars} size='lg' />
+            </div>
+            <div className="navbar-action-icon">
+              <FontAwesomeIcon icon={faSearch} size='lg' onClick={this.onSearchSubmit} />
+            </div>
+            <Link to='/' alt="GoRead Home">
+              <img className="navbar-logo" src='/image/logo.png' />
+            </Link>
+            <NavBarIconLink to="/shop/cart" iconProps={{ icon: faShoppingCart, size: 'lg' }} />
+          </div>
+        </div>
+      </div>
+      <div className="d-none d-sm-block">
+        <div className="container">
+          <div className="row">
+            <div className="col">
+              <div className="navbar-action navbar-bar-spacing d-flex flex-row justify-content-start">
+                <div className="nav-item-group mr-auto d-flex flex-row justify-content-start align-items-center">
+                  <div className="nav-item">
+                    <Link to="/" alt="GoRead Home">
+                      <img className="navbar-logo" src="/image/logo.png" />
+                    </Link>
+                  </div>
+                </div>
+                <div className="nav-item-group d-flex flex-row justify-content-end align-items-center flex-grow-1">
+                  <div className="navbar-action-search flex-grow-1">
+                    <form onSubmit={this.onSearchSubmit}>
+                      <InputGroup>
+                        <Input
+                          name="term"
+                          placeholder="Enter your search term... "
+                          value={this.state.term}
+                          onChange={this.onFieldChange('term')}
+                        />
+                        <InputGroupAddon addonType="append">
+                          <select
+                            name="filter"
+                            className="custom-select"
+                            value={this.state.filter}
+                            onChange={this.onFieldChange('filter')}
+                          >
+                            <option value="Book" defaultValue>Books</option>
+                            <option value="Reader">Readers</option>
+                            <option value="Author">Authors</option>
+                            <option value="Publisher">Publishers</option>
+                          </select>
+                        </InputGroupAddon>
+                        <InputGroupAddon addonType="append">
+                          <Button color="secondary" onClick={this.onSearchSubmit} >
+                            <FontAwesomeIcon icon={faSearch} />
+                          </Button>
+                        </InputGroupAddon>
+                      </InputGroup>
+                    </form>
+                  </div>
+                  <div className="navbar-action-icons d-flex flex-row justify-content-end align-items-center">
+                    <NavBarIconLink to="/shop/cart" iconProps={{ icon: faShoppingCart, size: 'lg' }} />
+                    <div className="navbar-action-icon d-flex flex-column justify-content-center">
+                      <Link to="#">
+                        My Book Collection
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  render() {
+    const { isSearchOpen, term, filter } = this.state;
+    return (
+      <div id="navbar">
+        <AuthBar />
+        { this.ActionBar() }
+        <LinkBarWithData />
+        <NotificationBar />
+        <SearchModal
+          modalOpen={isSearchOpen}
+          handleClose={() => this.setState({ isSearchOpen: false, term: '' })}
+          term={term}
+          filter={filter}
+          resetSearch={(filter) => this.setState({ term: '', filter })}
+        />
+      </div>
+    );
+  }
+}
 
 export default NavMenuV2;

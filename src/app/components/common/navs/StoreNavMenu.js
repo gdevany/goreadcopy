@@ -445,7 +445,7 @@ class BookStoreNavBar extends PureComponent {
         <li className='profile-menu-element'>
           <a
             className='profile-menu-anchor'
-            href='http://support.readerslegacy.com/'
+            href='http://support.goread.com/'
             target='_blank'
           >
             Support

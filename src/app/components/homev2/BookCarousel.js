@@ -10,23 +10,62 @@ import {
 } from 'reactstrap';
 import R from 'ramda';
 
-const BookCarouselItem = ({ image, title, author, rating, url }) => (
-  <div className="book-carousel-item d-flex flex-column justify-content-start align-items-start">
-    <Link to={url}>
-      <img className="book-carousel-item-cover" src={image} alt="name" />
-    </Link>
-    <span className="book-carousel-item-name">{title}</span>
-    <span className="book-carousel-item-author">{author}</span>
-    <div className="book-carousel-item-rating">
-      <Rating
-        readonly
-        initialRate={Math.floor(rating)}
-        full={<FontAwesomeIcon icon={faFullStar} />}
-        empty={<FontAwesomeIcon icon={faEmptyStar} />}
-      />
-    </div>
-  </div>
+const maxLength = 16;
+
+const trimStrings = str => (
+  str.length > maxLength ?
+    `${str.substring(0, maxLength - 3)}...` :
+    str
 );
+
+const hasAuthor = authors => (
+  authors.length > 0 ?
+    authors[0] :
+    null
+);
+
+const NavigationLink = ({ text, isLink, action, target }) => (
+  isLink ?
+    <Link to={action}>{text}</Link> :
+    <a href={action} target={target}>{text}</a>
+);
+
+const mapAuthor = ({ fullname, id, url }) => ({
+  text: fullname,
+  key: id,
+  action: url,
+});
+
+const BookCarouselItem = ({ imageUrl, title, authors, rating, url }) => {
+  const author = hasAuthor(authors);
+  return (
+    <div className="book-carousel-item d-flex flex-column justify-content-start align-items-start">
+      <Link to={url}>
+        <div className="book-carousel-item-cover-wrapper d-flex flex-column justify-content-end align-items-center">
+          <img className="book-carousel-item-cover" src={imageUrl} alt={title} />
+        </div>
+      </Link>
+      <span className="book-carousel-item-name" title={title}>{trimStrings(title)}</span>
+      {
+        author ?
+          (
+            <span className="book-carousel-item-author" title={author.fullname} >
+              { 'by ' }
+              <NavigationLink {...mapAuthor(author)} text={trimStrings(author.fullname)} />
+            </span>
+          ) : null
+      }
+      <div className="book-carousel-item-rating" title={rating.toFixed(2)}>
+        <Rating
+          readonly
+          initialRate={Math.floor(rating)}
+          full={<FontAwesomeIcon icon={faFullStar} />}
+          empty={<FontAwesomeIcon icon={faEmptyStar} />}
+        />
+      </div>
+    </div>
+  );
+};
 
 class BookCarouselV2 extends Component {
   constructor(props) {
@@ -44,14 +83,22 @@ class BookCarouselV2 extends Component {
 
   next = limit => () => {
     if (this.animating) return;
+    const { onNext } = this.props;
     const nextIndex = this.state.activeIndex === limit - 1 ? 0 : this.state.activeIndex + 1;
+
     this.setState({ activeIndex: nextIndex });
+
+    onNext(nextIndex);
   }
 
   previous = limit => () => {
     if (this.animating) return;
+    const { onPrevious } = this.props;
+
     const nextIndex = this.state.activeIndex === 0 ? limit - 1 : this.state.activeIndex - 1;
+
     this.setState({ activeIndex: nextIndex });
+    onPrevious(nextIndex);
   }
 
   goToIndex = (newIndex) => {
@@ -64,6 +111,10 @@ class BookCarouselV2 extends Component {
     const { books, sectionTitle, displayAmount } = this.props;
     const itemLists = R.splitEvery(displayAmount, books);
     const limit = itemLists.length;
+
+    if (limit === 0) {
+      return null;
+    }
 
     if (itemLists[itemLists.length - 1].length !== displayAmount) {
       itemLists[itemLists.length - 1] = Array.concat(
@@ -82,7 +133,7 @@ class BookCarouselV2 extends Component {
       >
         {
           list.map(item => (
-            <BookCarouselItem {...item} />
+            <BookCarouselItem {...item} rating={item.rating.average} />
           ))
         }
       </CarouselItem>

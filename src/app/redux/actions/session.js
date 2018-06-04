@@ -3,19 +3,19 @@ import { Auth } from '../../services';
 
 export function retrieveSession() {
   return (dispatch) => {
-    const payload = Auth.getSessionData()
-    return Promise.resolve(dispatch({ type: S.STORE_SESSION, payload }))
-  }
+    const payload = Auth.getSessionData();
+    return Promise.resolve(dispatch({ type: S.STORE_SESSION, payload }));
+  };
 }
 
-export function storeSession(payload) {
+export function storeSession(update) {
   return (dispatch) => {
-    Auth.setSessionData(payload, false)
-    return Promise.resolve(dispatch({ type: S.STORE_SESSION, payload }))
-  }
+    const payload = Auth.setSessionData(update, false);
+    return Promise.resolve(dispatch({ type: S.STORE_SESSION, payload }));
+  };
 }
 
 export default {
   retrieveSession,
   storeSession,
-}
+};

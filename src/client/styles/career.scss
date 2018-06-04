@@ -38,7 +38,7 @@
       margin: 0 40px 0 10px;
       width: 100px;
     }
-    .offer-section { 
+    .offer-section {
       padding: 10px 0;
       display: flex;
       justify-content: center;
@@ -88,5 +88,8 @@
     .subtitle {
       color: #0D3AD1;
     }
+  }
+  .divider {
+    border-top: 1px solid rgba(0, 0, 0, 0.5);
   }
 }
