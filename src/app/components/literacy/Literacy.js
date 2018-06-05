@@ -64,7 +64,7 @@ const Literacy = () => (
       </div>
     </div>
     <div className="container-fluid mx-0 px-0">
-      <div className="literacy-main-container row mx-0 px-0">
+      <div className="literacy-main-container mx-0 px-0">
         <div className="literacy-division">
           GoRead&#39;s mission is to eliminate illiteracy... one book at a time
         </div>
