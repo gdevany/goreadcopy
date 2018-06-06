@@ -51,8 +51,7 @@ const FooterColumns = [
     items: [
       { id: 0, isLink: true, action: '/profile/settings', text: 'Your Account' },
       { id: 1, isLink: true, action: '/store/orders', text: 'Your Orders' },
-      { id: 2, isLink: false, action: '#', text: 'Returns' },
-      { id: 3, isLink: false, action: '#', text: 'Help' },
+      { id: 2, isLink: false, action: 'https://support.goread.com/', text: 'Help', target:'_blank' },
     ],
     show: {
       whenLogged: true,

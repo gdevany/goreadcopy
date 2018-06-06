@@ -5,10 +5,10 @@ import { Link } from 'react-router';
 import CollapsableList from '../collapser/CollapsableList';
 import Collapsable from '../collapser/Collapsable';
 
-const parseLinkList = ({ id, isLink, action, text }) => (
+const parseLinkList = ({ id, isLink, action, text, target }) => (
   isLink ?
     <Link key={id} to={action}>{text}</Link> :
-    <a key={id} href={action}>{text}</a>
+    <a key={id} href={action} target={target}>{text}</a>
 );
 
 class FooterColumn extends Component {
