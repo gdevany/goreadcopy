@@ -6,6 +6,7 @@ import BootstrapApp from './components/apps/BootstrapApp';
 import { SignUpFlow } from './components/readerOnboarding';
 import IncomingRedirect from './components/incomingRedirect/IncomingRedirect';
 import { HomeWrapper } from './components/home';
+import HomeV2 from './components/homev2/Home';
 import { SignUpModal, LogInModal } from './components/common';
 import { Profile } from './components/profile';
 import {
@@ -60,7 +61,7 @@ const Routes = (
     <Route path="/profile/settings" component={Settings} />
     <Route path="/profile/:slug" component={Profile} />
     <Route path="/me/:slug" component={ReferralHome} />
-    <Route path="/store" component={BookStore} />
+    <Route path="/store" component={useBootstrapFor(HomeV2)} />
     <Route path="/book/:slug" component={BookPage} />
     <Route path="/categories/:slug" component={CategoriesPage} />
     <Route path="/categories/:slug/:subCategory" component={CategoriesPage} />
