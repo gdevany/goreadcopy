@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import ReactPlayer from 'react-player';
 import { MainNavView } from '../../views';
 
 const AboutUs = () => (
@@ -9,7 +10,12 @@ const AboutUs = () => (
       <h4 className="subtitle center-text">
         Uniting Readers Around The World To Eliminate Illiteracy in Children!
       </h4>
-      <img className="video" src="http://via.placeholder.com/1400x400" alt="" />
+      <ReactPlayer
+        className="video-player-landing"
+        playing
+        controls={false}
+        url="https://player.vimeo.com/video/222335035"
+      />
       <p>
         GoRead is a social network for people who love to read. It is also one of the largest book
         retailers on the Internet.
