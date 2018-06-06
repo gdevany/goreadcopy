@@ -246,6 +246,7 @@ i.magnifier::before {
   height: auto;
   @media screen and (min-width: $sm) {
     height: 450px;
+    margin-bottom: 20px;
   }
   .carousel {
     width: 100%;
@@ -418,8 +419,14 @@ i.magnifier::before {
   }
   .footer-form {
     margin: 10px 25px;
-    input, button {
+    input {
       width: 100%;
+    }
+    button {
+      width: 100%;
+      @media screen and (min-width: $sm) {
+        width: initial;
+      }
     }
   }
 }

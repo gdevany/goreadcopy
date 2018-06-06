@@ -1,24 +1,21 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import {
   InputGroup,
   InputGroupAddon,
-  InputGroupButtonDropdown,
   Input,
   Button,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
 } from 'reactstrap';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faSearch from '@fortawesome/fontawesome-free-solid/faSearch';
 import faShoppingCart from '@fortawesome/fontawesome-free-solid/faShoppingCart';
 import faBars from '@fortawesome/fontawesome-free-solid/faBars';
+import R from 'ramda';
 import { SoldBookCounter } from '../';
 import FloatingSubMenu from './FloatingSubMenu';
 import connectLinkBar from '../../containers/HomeNavMenuContainer';
 import SearchModal from '../SearchModal';
-import R from 'ramda';
 
 const LinkButton = ({ text, to }) => (
   <Link to={to}>
@@ -57,10 +54,10 @@ const AuthBar = props => (
   </div>
 );
 
-const hyperLink = (text, action, isLink, id) => (
+const hyperLink = (text, action, isLink, id, target) => (
   isLink ?
     <Link key={id} to={action}>{text}</Link> :
-    <a key={id} href={action}>{text}</a>
+    <a key={id} href={action} target={target}>{text}</a>
 );
 
 const LinkBar = props => (
@@ -71,13 +68,13 @@ const LinkBar = props => (
           <div className="col">
             <div className="navbar-links d-flex flex-row justify-content-between">
               {
-                props.MenuLinks.map(({ text, action, isLink, id, subMenu }) => (
+                props.MenuLinks.map(({ text, action, isLink, id, subMenu, target }) => (
                   subMenu ?
                     <div key={id} className="navbar-link-wrapper d-flex flex-column justify-content-center align-items-center">
-                      { hyperLink(text, action, isLink, id) }
+                      { hyperLink(text, action, isLink, id, target) }
                       <FloatingSubMenu menu={subMenu} />
                     </div> :
-                    hyperLink(text, action, isLink, id)
+                    hyperLink(text, action, isLink, id, target)
                 ))
               }
             </div>
@@ -135,6 +132,10 @@ export class NavMenuV2 extends Component {
   onSearchSubmit = e => {
     if (e) e.preventDefault();
     this.setState({ isSearchOpen: true });
+  }
+
+  isLoggedIn = () => {
+    return this.props.currentReader && this.props.currentReader.token
   }
 
   ActionBar = () => (
@@ -201,7 +202,12 @@ export class NavMenuV2 extends Component {
                   <div className="navbar-action-icons d-flex flex-row justify-content-end align-items-center">
                     <NavBarIconLink to="/shop/cart" iconProps={{ icon: faShoppingCart, size: 'lg' }} />
                     <div className="navbar-action-icon d-flex flex-column justify-content-center">
-                      <Link to="#">
+                      <Link
+                        to={this.isLoggedIn() ?
+                          `/profile/${this.props.currentReader.slug}?action=library` :
+                          '/accounts/login'
+                        }
+                      >
                         My Book Collection
                       </Link>
                     </div>
@@ -219,7 +225,11 @@ export class NavMenuV2 extends Component {
     const { isSearchOpen, term, filter } = this.state;
     return (
       <div id="navbar">
-        <AuthBar />
+        {
+          !this.isLoggedIn() ?
+            <AuthBar /> :
+            null
+        }
         { this.ActionBar() }
         <LinkBarWithData />
         <NotificationBar />
@@ -235,4 +245,10 @@ export class NavMenuV2 extends Component {
   }
 }
 
-export default NavMenuV2;
+const mapStateToProps = ({
+  currentReader,
+}) => ({
+  currentReader,
+});
+
+export default connect(mapStateToProps)(NavMenuV2);

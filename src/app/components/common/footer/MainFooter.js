@@ -14,6 +14,10 @@ const FooterColumns = [
       { id: 2, isLink: true, action: '/investor-relations', text: 'Investor Relations' },
       { id: 3, isLink: true, action: '/our-mission', text: 'Our Mission' },
     ],
+    show: {
+      whenLogged: true,
+      whenAnon: true,
+    },
   },
   {
     key: 2,
@@ -25,23 +29,34 @@ const FooterColumns = [
       { id: 3, isLink: false, action: 'http://earnmoneybywriting.com/go', text: 'Promote Your Business', target: '_blank' },
       { id: 4, isLink: false, action: 'http://earnmoneybywriting.com/go', text: 'Promote Your Products', target: '_blank' },
     ],
+    show: {
+      whenLogged: true,
+      whenAnon: true,
+    },
   },
   {
     key: 3,
     title: 'GoRead Children\'s Literacy Fund',
     items: [
-      { id: 0, isLink: false, action: '#', text: 'Help Us Help Kids' },
+      { id: 0, isLink: true, action: '/literacy', text: 'Help Us Help Kids' },
     ],
+    show: {
+      whenLogged: true,
+      whenAnon: true,
+    },
   },
   {
     key: 4,
     title: 'Let Us Help You',
     items: [
-      { id: 0, isLink: false, action: '#', text: 'Your Account' },
-      { id: 1, isLink: false, action: '#', text: 'Your Orders' },
-      { id: 2, isLink: false, action: '#', text: 'Returns' },
-      { id: 3, isLink: false, action: '#', text: 'Help' },
+      { id: 0, isLink: true, action: '/profile/settings', text: 'Your Account' },
+      { id: 1, isLink: true, action: '/store/orders', text: 'Your Orders' },
+      { id: 2, isLink: false, action: 'https://support.goread.com/', text: 'Help', target:'_blank' },
     ],
+    show: {
+      whenLogged: true,
+      whenAnon: false,
+    },
   },
 ];
 
