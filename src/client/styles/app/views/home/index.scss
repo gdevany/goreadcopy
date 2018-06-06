@@ -418,8 +418,14 @@ i.magnifier::before {
   }
   .footer-form {
     margin: 10px 25px;
-    input, button {
+    input {
       width: 100%;
+    }
+    button {
+      width: 100%;
+      @media screen and (min-width: $sm) {
+        width: initial;
+      }
     }
   }
 }
