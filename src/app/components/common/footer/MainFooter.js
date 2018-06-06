@@ -23,11 +23,11 @@ const FooterColumns = [
     key: 2,
     title: 'Make Money with Us',
     items: [
-      { id: 0, isLink: true, action: '/about-us', text: 'GoRead for Authors' },
-      { id: 1, isLink: true, action: '/sell-your-books', text: 'Sell Your Books' },
-      { id: 2, isLink: true, action: '/publish-with-us', text: 'Publish Your Book' },
-      { id: 3, isLink: true, action: '/advertise-your-business', text: 'Promote Your Business' },
-      { id: 4, isLink: true, action: '/advertise-your-product', text: 'Promote Your Products' },
+      { id: 0, isLink: false, action: 'http://earnmoneybywriting.com/go', text: 'GoRead for Authors', target: '_blank' },
+      { id: 1, isLink: false, action: 'http://earnmoneybywriting.com/go', text: 'Sell Your Books', target: '_blank' },
+      { id: 2, isLink: false, action: 'http://Rebelpress.com', text: 'Publish Your Book', target: '_blank' },
+      { id: 3, isLink: false, action: 'http://earnmoneybywriting.com/go', text: 'Promote Your Business', target: '_blank' },
+      { id: 4, isLink: false, action: 'http://earnmoneybywriting.com/go', text: 'Promote Your Products', target: '_blank' },
     ],
     show: {
       whenLogged: true,
@@ -51,8 +51,7 @@ const FooterColumns = [
     items: [
       { id: 0, isLink: true, action: '/profile/settings', text: 'Your Account' },
       { id: 1, isLink: true, action: '/store/orders', text: 'Your Orders' },
-      { id: 2, isLink: false, action: '#', text: 'Returns' },
-      { id: 3, isLink: false, action: '#', text: 'Help' },
+      { id: 2, isLink: false, action: 'https://support.goread.com/', text: 'Help', target:'_blank' },
     ],
     show: {
       whenLogged: true,
