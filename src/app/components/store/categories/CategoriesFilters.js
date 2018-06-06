@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import _ from 'lodash';
 import { Store, Common } from '../../../redux/actions'
 import Book from '../common/Book'
+import SubCategoriesFilterMenu from './SubCategoriesFilterMenu';
 import withInfiniteScroll from '../../common/enhancers/withInfiniteScroll';
 import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
 import ArrowUpIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
@@ -537,7 +538,7 @@ class CategoriesFilters extends PureComponent {
   }
 
   handleSubCategories = () => {
-    const { subCategories } = this.state
+    const subCategories = this.props.categories;
     return subCategories.map((category, index) => {
       return category ? (
         <div
@@ -578,9 +579,7 @@ class CategoriesFilters extends PureComponent {
             {selectedCategory}
           </label>
         </div>
-        <div className='categorypage-subcategories-filters-elems'>
-          {subCategories ? this.handleSubCategories() : <span>No Subcategories</span>}
-        </div>
+        <SubCategoriesFilterMenu categories={subCategories} handleSelectedSubCategory={this.handleSelectedSubCategory} />
       </div>
     )
   }
