@@ -20,7 +20,7 @@ const Investors = () => (
           </Link>
         </h3>
         <div className="left-section">
-          <img className="section-image" src="http://via.placeholder.com/200x200" alt="" />
+          <img className="section-image" src="/image/a-woman-reading-a-book-CIRCLE.png" alt="" />
         </div>
         <div className="right-section">
           <h3 className="subtitle">
@@ -45,7 +45,7 @@ const Investors = () => (
       <div className="for-authors">
         <div className="left-section">
           <h3 className="subtitle">
-            <a href="http://Go.EarnMoneyByWriting.com">
+            <a href="http://Go.EarnMoneyByWriting.com​" target="_blank" rel="noopener noreferrer">
               For Authors
             </a>
           </h3>
@@ -62,10 +62,10 @@ const Investors = () => (
           </p>
         </div>
         <div className="right-section">
-          <img className="section-image" src="http://via.placeholder.com/200x200" alt="" />
+          <img className="section-image" src="/image/author-pic-CIRCLE.png" alt="" />
         </div>
         <h3 className="mobile-subtitle">
-          <a href="http://Go.EarnMoneyByWriting.com">
+          <a href="http://Go.EarnMoneyByWriting.com​" target="_blank" rel="noopener noreferrer">
             For Authors
           </a>
         </h3>
