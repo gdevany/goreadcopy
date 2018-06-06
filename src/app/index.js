@@ -23,7 +23,7 @@ render(
   <Provider store={store}>
     <MuiThemeProvider>
       <ReactBreakpoints breakpoints={Breakpoints}>
-        <Router history={history}>
+        <Router onUpdate={() => window.scrollTo(0, 0)} history={history}>
           { Routes }
         </Router>
       </ReactBreakpoints>
