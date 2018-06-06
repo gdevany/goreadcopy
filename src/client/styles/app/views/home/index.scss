@@ -246,6 +246,7 @@ i.magnifier::before {
   height: auto;
   @media screen and (min-width: $sm) {
     height: 450px;
+    margin-bottom: 20px;
   }
   .carousel {
     width: 100%;

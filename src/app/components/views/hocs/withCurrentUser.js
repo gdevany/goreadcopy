@@ -22,11 +22,14 @@ const withCurrentUser = compose(
   lifecycle({
     componentWillMount() {
       const token = Auth.token();
-      verifyJwt({ token })
-        .then(() => {
-          this.props.getCurrentReader();
-        })
-        .catch();
+      if (token) {
+        verifyJwt({ token })
+          .then(() => {
+            this.props.getCurrentReader();
+          })
+          // PENDING: implement flow for token refresh.
+          .catch();
+      }
     },
   }),
 );
