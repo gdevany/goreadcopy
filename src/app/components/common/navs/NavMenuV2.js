@@ -54,10 +54,10 @@ const AuthBar = props => (
   </div>
 );
 
-const hyperLink = (text, action, isLink, id) => (
+const hyperLink = (text, action, isLink, id, target) => (
   isLink ?
     <Link key={id} to={action}>{text}</Link> :
-    <a key={id} href={action}>{text}</a>
+    <a key={id} href={action} target={target}>{text}</a>
 );
 
 const LinkBar = props => (
@@ -68,13 +68,13 @@ const LinkBar = props => (
           <div className="col">
             <div className="navbar-links d-flex flex-row justify-content-between">
               {
-                props.MenuLinks.map(({ text, action, isLink, id, subMenu }) => (
+                props.MenuLinks.map(({ text, action, isLink, id, subMenu, target }) => (
                   subMenu ?
                     <div key={id} className="navbar-link-wrapper d-flex flex-column justify-content-center align-items-center">
-                      { hyperLink(text, action, isLink, id) }
+                      { hyperLink(text, action, isLink, id, target) }
                       <FloatingSubMenu menu={subMenu} />
                     </div> :
-                    hyperLink(text, action, isLink, id)
+                    hyperLink(text, action, isLink, id, target)
                 ))
               }
             </div>
