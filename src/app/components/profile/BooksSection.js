@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import Editcon from 'material-ui/svg-icons/image/edit';
@@ -50,10 +51,15 @@ class BooksSection extends PureComponent {
     this.handleEditLibraryModal = this.handleEditLibraryModal.bind(this);
   }
 
+  static contextTypes = {
+    router: PropTypes.object.isRequired,
+  }
+
   componentWillMount = () => {
-    this.setState({
-      libraryFetched: false,
-    });
+    const { router } = this.context;
+    if (router && router.location.query && router.location.query.action === 'library') {
+      this.setState({ addLibraryModal: true });
+    }
   }
 
   componentWillReceiveProps = (nextProps) => {

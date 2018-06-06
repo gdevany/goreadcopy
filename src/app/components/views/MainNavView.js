@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { BaseView } from './';
 import { NavMenuV2 } from '../common/navs';
 import MainFooter from '../common/footer/MainFooter';
+import withCurrentUser from './hocs/withCurrentUser';
 
 const MainNavView = ({ children, showFooter }) => (
   <BaseView>
@@ -29,4 +30,4 @@ MainNavView.defaultProps = {
   showFooter: true,
 };
 
-export default MainNavView;
+export default withCurrentUser(MainNavView);
