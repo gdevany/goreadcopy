@@ -429,6 +429,19 @@ i.magnifier::before {
         width: initial;
       }
     }
+    .newsletter {
+      align-items: center;
+      @media screen and (min-width: $sm) {
+        align-items: start;
+      }
+    }
+    .form-field {
+      max-width: initial;
+      width: 100%;
+      @media screen and (min-width: $sm) {
+        max-width: 230px;
+      }
+    }
   }
 }
 
