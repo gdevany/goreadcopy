@@ -3,6 +3,7 @@ import { animateScroll as scroller } from 'react-scroll';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faArrowUp from '@fortawesome/fontawesome-free-solid/faArrowUp';
 import FooterColumn from './FooterColumn';
+import { NewsletterSignUpForm } from '../data/forms';
 
 const FooterColumns = [
   {
@@ -65,10 +66,7 @@ const MainFooter = props => (
     <FooterColumn title="Stay in the Know">
       <div className="footer-form">
         <span>Sign up for savings, news and updates.</span>
-        <form action="#" className="form-inline newsletter">
-          <input type="text" className="form-control mb-2" placeholder="Enter your e-mail address" />
-          <button type="submit" className="btn mb-2">GO</button>
-        </form>
+        <NewsletterSignUpForm />
       </div>
     </FooterColumn>
     { FooterColumns.map(column => <FooterColumn {...column} />) }

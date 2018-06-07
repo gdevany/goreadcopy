@@ -1,4 +1,5 @@
 @import '../base.scss';
+@import '../../components/navmenu.scss';
 
 a {
   text-decoration: none;
@@ -426,6 +427,19 @@ i.magnifier::before {
       width: 100%;
       @media screen and (min-width: $sm) {
         width: initial;
+      }
+    }
+    .newsletter {
+      align-items: center;
+      @media screen and (min-width: $sm) {
+        align-items: start;
+      }
+    }
+    .form-field {
+      max-width: initial;
+      width: 100%;
+      @media screen and (min-width: $sm) {
+        max-width: 230px;
       }
     }
   }

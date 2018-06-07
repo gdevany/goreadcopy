@@ -29,7 +29,6 @@ const styles = {
   navContainer: {
     backgroundColor: Colors.white,
     padding: '0 20px',
-    position: 'fixed',
     zIndex: 1000,
     width: '100%'
   },

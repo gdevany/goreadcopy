@@ -12,10 +12,12 @@ import faSearch from '@fortawesome/fontawesome-free-solid/faSearch';
 import faShoppingCart from '@fortawesome/fontawesome-free-solid/faShoppingCart';
 import faBars from '@fortawesome/fontawesome-free-solid/faBars';
 import R from 'ramda';
+import CMSProvider from '../../cms/CMSProvider';
 import { SoldBookCounter } from '../';
 import FloatingSubMenu from './FloatingSubMenu';
 import connectLinkBar from '../../containers/HomeNavMenuContainer';
 import SearchModal from '../SearchModal';
+import NavMenu from './NavMenu';
 
 const LinkButton = ({ text, to }) => (
   <Link to={to}>
@@ -225,12 +227,17 @@ export class NavMenuV2 extends Component {
     const { isSearchOpen, term, filter } = this.state;
     return (
       <div id="navbar">
+        <CMSProvider page="submenus">
         {
           !this.isLoggedIn() ?
             <AuthBar /> :
             null
         }
-        { this.ActionBar() }
+        {
+          this.isLoggedIn() ?
+            <NavMenu /> :
+            this.ActionBar()
+        }
         <LinkBarWithData />
         <NotificationBar />
         <SearchModal
@@ -238,8 +245,9 @@ export class NavMenuV2 extends Component {
           handleClose={() => this.setState({ isSearchOpen: false, term: '' })}
           term={term}
           filter={filter}
-          resetSearch={(filter) => this.setState({ term: '', filter })}
+          resetSearch={filter => this.setState({ term: '', filter })}
         />
+        </CMSProvider>
       </div>
     );
   }

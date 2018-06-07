@@ -41,6 +41,7 @@ export default class TextField extends React.Component {
           value={this.props.text}
           onChange={this.props.onFieldChanged}
           disabled={this.props.disabled}
+          className={this.props.fieldClasses}
         />
         <OptionalDisplay display={this.ifError()}>
           <div className='validation-error message'>
@@ -61,6 +62,7 @@ TextField.propTypes = {
   disabled: PropTypes.bool,
   errorText: PropTypes.string,
   customClasses: PropTypes.string,
+  fieldClasses: PropTypes.string,
   showError: PropTypes.bool.isRequired,
-  onFieldChanged: PropTypes.func.isRequired
+  onFieldChanged: PropTypes.func.isRequired,
 }
