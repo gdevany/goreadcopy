@@ -17,6 +17,7 @@ import { SoldBookCounter } from '../';
 import FloatingSubMenu from './FloatingSubMenu';
 import connectLinkBar from '../../containers/HomeNavMenuContainer';
 import SearchModal from '../SearchModal';
+import NavMenu from './NavMenu';
 
 const LinkButton = ({ text, to }) => (
   <Link to={to}>
@@ -232,7 +233,11 @@ export class NavMenuV2 extends Component {
             <AuthBar /> :
             null
         }
-        { this.ActionBar() }
+        {
+          this.isLoggedIn() ?
+            <NavMenu /> :
+            this.ActionBar()
+        }
         <LinkBarWithData />
         <NotificationBar />
         <SearchModal
@@ -240,7 +245,7 @@ export class NavMenuV2 extends Component {
           handleClose={() => this.setState({ isSearchOpen: false, term: '' })}
           term={term}
           filter={filter}
-          resetSearch={(filter) => this.setState({ term: '', filter })}
+          resetSearch={filter => this.setState({ term: '', filter })}
         />
         </CMSProvider>
       </div>

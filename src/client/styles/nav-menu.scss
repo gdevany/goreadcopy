@@ -1,3 +1,5 @@
+@import 'variables.scss';
+
 .nav-container {
   box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 20px;
 }
@@ -23,6 +25,7 @@
 
 .top-bar{
   display: none;
+  position: fixed;
   @media all and (min-width: 1200px){
     padding: .5rem;
     display:block;
