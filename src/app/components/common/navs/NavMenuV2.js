@@ -12,6 +12,7 @@ import faSearch from '@fortawesome/fontawesome-free-solid/faSearch';
 import faShoppingCart from '@fortawesome/fontawesome-free-solid/faShoppingCart';
 import faBars from '@fortawesome/fontawesome-free-solid/faBars';
 import R from 'ramda';
+import CMSProvider from '../../cms/CMSProvider';
 import { SoldBookCounter } from '../';
 import FloatingSubMenu from './FloatingSubMenu';
 import connectLinkBar from '../../containers/HomeNavMenuContainer';
@@ -225,6 +226,7 @@ export class NavMenuV2 extends Component {
     const { isSearchOpen, term, filter } = this.state;
     return (
       <div id="navbar">
+        <CMSProvider page="submenus">
         {
           !this.isLoggedIn() ?
             <AuthBar /> :
@@ -240,6 +242,7 @@ export class NavMenuV2 extends Component {
           filter={filter}
           resetSearch={(filter) => this.setState({ term: '', filter })}
         />
+        </CMSProvider>
       </div>
     );
   }

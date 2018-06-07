@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { lifecycle } from 'recompose';
 import R from 'ramda';
+import { getEntity } from '../../redux/selectors/cms';
 import { getCategories as getArticlesCategories, resetArticlesCategories, getTop5Articles } from '../../redux/actions/articles';
 import { getCategories as getBooksCategories, resetPopularBooksCategories, resetBooksSubjects } from '../../redux/actions/books';
 import { getBooksSubjects, getPopularCategories } from '../../redux/selectors/books';
@@ -21,12 +22,6 @@ const SubMenus = [
         more: { id: 0, text: 'See More >', action: '/store', isLink: true },
       },
     ],
-    ad: {
-      title: 'GR Weekly Pick!',
-      image: 'http://via.placeholder.com/400x400',
-      description: 'True You by Fatima',
-      target: { id: 0, text: 'Buy it Now', action: '#', isLink: true },
-    },
   },
   {
     key: 1,
@@ -50,12 +45,6 @@ const SubMenus = [
         more: { id: 0, text: 'See More >', action: '/store', isLink: true },
       },
     ],
-    ad: {
-      title: 'Coming Soon',
-      image: 'http://via.placeholder.com/400x400',
-      description: 'Pre-order tomorrow\'s best selling books today!',
-      target: { id: 0, text: 'Shop Now', action: '#', isLink: true },
-    },
   },
   {
     key: 2,
@@ -71,12 +60,6 @@ const SubMenus = [
         more: { id: 0, text: 'See More >', action: '/store', isLink: true },
       },
     ],
-    ad: {
-      title: 'Book Series',
-      image: 'http://via.placeholder.com/400x400',
-      description: 'Special edition of Book series releasing on May 31st!',
-      target: { id: 0, text: 'Shop Now', action: '#', isLink: true },
-    },
   },
   {
     key: 3,
@@ -100,12 +83,6 @@ const SubMenus = [
         more: null,
       },
     ],
-    ad: {
-      title: 'GoRead Buzz',
-      image: 'http://via.placeholder.com/400x400',
-      description: 'You get paid when your articles are shared.',
-      target: { id: 0, text: 'Learn More', action: '#', isLink: true },
-    },
   },
 ];
 
@@ -144,6 +121,13 @@ const parseArticleToColumnData = ({ article }) => ({
   isLink: false,
 });
 
+const parseAdToColumnData = (cmsAd) => ({
+    title: cmsAd.title || "",
+    image: cmsAd.imageUrl || "",
+    description: cmsAd.description || "",
+    target: { id: cmsAd.slug || "", text: cmsAd.content || "", action: cmsAd.actionUrl || "#", isLink: true },
+});
+
 const parse = (menu) => {
   const parsedContent = [];
   menu.content.map((col, idx) => parsedContent.push(parseColumn(col, idx)));
@@ -156,22 +140,29 @@ const populateSubMenuWithData = (subMenu, data) => ({
     ...contentItem,
     items: data[contentItem.itemsKey],
   })),
+  ad: data.AD,
 });
 
 const getSubMenu = (menu, data) => parse(populateSubMenuWithData(menu, data));
 
 
 const mapStateToProps = (state) => {
+  const ads = {
+    booksAd: parseAdToColumnData(getEntity(state.cms.entities, 'submenus.ads.ad-books')),
+    newReleasesAd: parseAdToColumnData(getEntity(state.cms.entities, 'submenus.ads.ad-new-releases')),
+    bestSellersAd: parseAdToColumnData(getEntity(state.cms.entities, 'submenus.ads.ad-best-sellers')),
+    articlesAd: parseAdToColumnData(getEntity(state.cms.entities, 'submenus.ads.ad-articles')),
+  };
   const booksPopularCategories = getPopularCategories(state).map(parseBookCategoryToLink);
   const booksSubjects = getBooksSubjects(state).map(parseBookCategoryToLink);
   const articleCategories = getParentCategories(state).map(parseArticleCategoryToLink);
   const top5Articles = top5ArticlesSelector(state).map(parseArticleToColumnData);
 
   const MenuLinks = [
-    { id: 0, text: 'Books', action: '#', isLink: false, subMenu: getSubMenu(SubMenus[0], { 'BOOK_SUBJECTS': booksSubjects }) },
-    { id: 1, text: 'Best Sellers', action: '#', isLink: false, subMenu: getSubMenu(SubMenus[1], { 'BOOK_SUBJECTS': booksSubjects, 'POPULAR_CATEGORIES': booksPopularCategories }) },
-    { id: 2, text: 'New Releases', action: '#', isLink: false, subMenu: getSubMenu(SubMenus[2], { 'BOOK_SUBJECTS': booksSubjects }) },
-    { id: 3, text: 'Articles', action: '#', isLink: false, subMenu: getSubMenu(SubMenus[3], { 'ARTICLE_CATEGORIES': articleCategories, 'TOP_FIVE_ARTICLES': top5Articles })},
+    { id: 0, text: 'Books', action: '#', isLink: false, subMenu: getSubMenu(SubMenus[0], { 'BOOK_SUBJECTS': booksSubjects, AD: ads.booksAd }) },
+    { id: 1, text: 'Best Sellers', action: '#', isLink: false, subMenu: getSubMenu(SubMenus[1], { 'BOOK_SUBJECTS': booksSubjects, 'POPULAR_CATEGORIES': booksPopularCategories, AD: ads.bestSellersAd }) },
+    { id: 2, text: 'New Releases', action: '#', isLink: false, subMenu: getSubMenu(SubMenus[2], { 'BOOK_SUBJECTS': booksSubjects, AD: ads.newReleasesAd }) },
+    { id: 3, text: 'Articles', action: '#', isLink: false, subMenu: getSubMenu(SubMenus[3], { 'ARTICLE_CATEGORIES': articleCategories, 'TOP_FIVE_ARTICLES': top5Articles, AD: ads.articlesAd })},
     { id: 4, text: 'For Authors', action: 'https://go.earnmoneybywriting.com/grlf-landing', isLink: false, subMenu: null, target: '_blank' },
     { id: 5, text: 'For Readers', action: '/accounts/signup', isLink: true, subMenu: null },
     { id: 6, text: 'Buy a Book, Give a Book!', action: '/literacy', isLink: false, subMenu: null },
