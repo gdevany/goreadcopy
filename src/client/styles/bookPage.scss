@@ -150,10 +150,30 @@
               color: $black;
               text-transform: capitalize;
               a{
+                color: $blue;
                 &:hover{
-                  color: $black;
+                  color: #b34d00;
+                  text-decoration: underline;
                 }
               }
+            }
+            .bookpage-authors-names{
+              font-size: 16px;
+              font-weight: 400;
+              color: $black;
+              text-transform: capitalize;
+              a{
+                color: $blue;
+                &:hover{
+                  color: #b34d00;
+                  text-decoration: underline;
+                }
+              }
+            }
+            .bookpage-author-see-more{
+              font-size: 14px;
+              color: #bfbfbf;
+              cursor: pointer;
             }
             .bookpage-author-follow-action{
               background: transparent;
