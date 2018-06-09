@@ -439,7 +439,6 @@ class BookInfo extends PureComponent {
       isLibraryHover,
       isBookFullDescription
     } = this.state
-    console.log(bookInfo.authors.length > 0);
     return (
       <div className="row bookpage-info-main-container">
         <div className="small-12 large-6 large-offset-1 columns bookpage-info-left-element">

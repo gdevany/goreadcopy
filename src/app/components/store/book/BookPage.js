@@ -1,18 +1,19 @@
-import React, { PureComponent } from 'react'
-import { connect } from 'react-redux'
-import { Dialog } from 'material-ui'
-import Scroll from 'react-scroll'
-import { Footer } from '../../common'
-import { StoreNavView } from '../../views'
-import WishListBooks from '../common/wishListBooks'
-import BookInfo from './BookInfo'
-import MeetAuthor from './MeetAuthor'
-import ReviewsOverview from './ReviewsOverview'
-import ReviewsContainer from './ReviewsContainer'
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import { Dialog } from 'material-ui';
+import Scroll from 'react-scroll';
+import CloseIcon from 'material-ui/svg-icons/navigation/close';
+import { Footer } from '../../common';
+import { StoreNavView } from '../../views';
+import WishListBooks from '../common/wishListBooks';
+import BookInfo from './BookInfo';
+import MeetAuthor from './MeetAuthor';
+import ReviewsOverview from './ReviewsOverview';
+import ReviewsContainer from './ReviewsContainer';
+import EditorialReviews from './EditorialReviews';
 // import NewsLetter from './NewsLetter'
-import { Auth } from '../../../services'
-import { Store, Rates, Session } from '../../../redux/actions'
-import CloseIcon from 'material-ui/svg-icons/navigation/close'
+import { Auth } from '../../../services';
+import { Store, Rates, Session } from '../../../redux/actions';
 
 const { addToCart, getBookInfo } = Store
 const { getStarsInfo } = Rates
@@ -276,18 +277,21 @@ class BookPage extends PureComponent {
             </div>
             {isUserLoggedIn && currentReader ? <WishListBooks/> : null}
             <hr className='bookpage-hr-separator'/>
-            { bookInfo && bookInfo.authors[0] ?
-              (
-                <MeetAuthor
-                  profilePic={bookInfo.authors[0].imageUrl}
-                  description={bookInfo.authors[0].aboutMe}
-                  followers={bookInfo.authors[0].numFans}
-                  books={bookInfo.authors[0].numBooks}
-                  fullname={bookInfo.authors[0].fullname}
-                  url={bookInfo.authors[0].url}
-                />
-              ) : null
-            }
+            <div className="row">
+              { bookInfo && bookInfo.authors[0] ?
+                (
+                  <MeetAuthor
+                    profilePic={bookInfo.authors[0].imageUrl}
+                    description={bookInfo.authors[0].aboutMe}
+                    followers={bookInfo.authors[0].numFans}
+                    books={bookInfo.authors[0].numBooks}
+                    fullname={bookInfo.authors[0].fullname}
+                    url={bookInfo.authors[0].url}
+                  />
+                ) : null
+              }
+              <EditorialReviews />
+            </div>
             <hr className='bookpage-hr-separator'/>
             <Element name='reviews'>
               {bookInfo ?

@@ -1403,3 +1403,18 @@
     height: 400px !important;
   }
 }
+
+.review-container {
+  margin-top: 75px;
+  .review-title {
+    font-size:24px;
+  }
+  .review-item-container {
+    .review-item {
+      padding: 10px 0;
+      .reviewer {
+        text-align: right;
+      }
+    }
+  }
+}
