@@ -127,6 +127,7 @@ const HomeContent = ({ screenWidth, breakpoints }) => (
         <div className="row">
           <div className="col">
             <NewReleasesBooks
+              maxPrice={40}
               sectionTitle="New Releases"
               displayAmount={getAmount(screenWidth, breakpoints)}
               perPage={24}
@@ -162,6 +163,7 @@ const HomeContent = ({ screenWidth, breakpoints }) => (
               limit={24}
             />
             <NewReleasesBooks
+              maxPrice={40}
               sectionTitle="New Releases"
               books={Books}
               displayAmount={getAmount(screenWidth, breakpoints)}
@@ -197,6 +199,7 @@ const HomeContent = ({ screenWidth, breakpoints }) => (
         <div className="row">
           <div className="col">
             <ComingSoonBooks
+              maxPrice={40}
               sectionTitle="Coming Soon"
               displayAmount={getAmount(screenWidth, breakpoints, true)}
               perPage={24}
