@@ -106,115 +106,132 @@ const HomeHeroWithCMS = withCMS(mapCMSSlidesToHeroItems)(HomeHero);
 const AdWithCMS = withCMS(mapCMSEntityToAd)(Ad);
 const HomeImageLinksWithCMS = withCMS(mapCMSFooterEntitiesToAds)(HomeImageLinks);
 
-const HomeContent = ({ screenWidth, breakpoints }) => (
-  <div className="home-content-wrapper">
-    <div className="d-block d-sm-none">
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <BestSellingBooks
-              sectionTitle="Best-Selling Books This Week"
-              displayAmount={getAmount(screenWidth, breakpoints)}
-              perPage={24}
-              limit={24}
-            />
-            <Top5Articles articles={Articles} />
-          </div>
+const MobileBreakpoint = ({ screenWidth, breakpoints }) => (
+  <div className="d-block d-sm-none">
+    <div className="container">
+      <div className="row">
+        <div className="col">
+          <BestSellingBooks
+            sectionTitle="Best-Selling Books This Week"
+            displayAmount={getAmount(screenWidth, breakpoints)}
+            perPage={24}
+            limit={24}
+          />
+          <Top5Articles articles={Articles} />
         </div>
       </div>
-      <AdWithCMS adKey="home.ads.ads1" />
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <NewReleasesBooks
-              sectionTitle="New Releases"
-              displayAmount={getAmount(screenWidth, breakpoints)}
-              perPage={24}
-              limit={24}
-            />
-          </div>
-        </div>
-      </div>
-      <AdWithCMS adKey="home.ads.ads2" />
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <TrendingBooks
-              sectionTitle="#Trending"
-              displayAmount={getAmount(screenWidth, breakpoints, true)}
-              perPage={24}
-              limit={24}
-            />
-          </div>
-        </div>
-      </div>
-      <AdWithCMS adKey="home.footer.footer1" />
-      <AdWithCMS adKey="home.footer.footer2" />
     </div>
-    <div className="d-none d-sm-block">
-      <div className="container">
-        <div className="row">
-          <div className="col-12 col-sm-9">
-            <BestSellingBooks
-              sectionTitle="Best-Selling Books This Week"
-              displayAmount={getAmount(screenWidth, breakpoints)}
-              perPage={24}
-              limit={24}
-            />
-            <NewReleasesBooks
-              sectionTitle="New Releases"
-              books={Books}
-              displayAmount={getAmount(screenWidth, breakpoints)}
-              perPage={24}
-              limit={24}
-            />
-          </div>
-          <div className="col-sm-3">
-            <Top5Articles articles={Articles} />
-          </div>
+    <AdWithCMS adKey="home.ads.ads1" />
+    <div className="container">
+      <div className="row">
+        <div className="col">
+          <NewReleasesBooks
+            sectionTitle="New Releases"
+            displayAmount={getAmount(screenWidth, breakpoints)}
+            perPage={24}
+            limit={24}
+          />
         </div>
       </div>
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <TrendingBooks
-              sectionTitle="#Trending"
-              displayAmount={getAmount(screenWidth, breakpoints, true)}
-              perPage={24}
-              limit={24}
-            />
-          </div>
+    </div>
+    <AdWithCMS adKey="home.ads.ads2" />
+    <div className="container">
+      <div className="row">
+        <div className="col">
+          <TrendingBooks
+            sectionTitle="#Trending"
+            displayAmount={getAmount(screenWidth, breakpoints, true)}
+            perPage={24}
+            limit={24}
+          />
         </div>
       </div>
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <HomeAdsWithCMS />
-          </div>
+    </div>
+    <AdWithCMS adKey="home.footer.footer1" />
+    <AdWithCMS adKey="home.footer.footer2" />
+  </div>
+);
+
+const DesktopBreakpoint = ({ screenWidth, breakpoints }) => (
+  <div className="d-none d-sm-block">
+    <div className="container">
+      <div className="row">
+        <div className="col-12 col-sm-9">
+          <BestSellingBooks
+            sectionTitle="Best-Selling Books This Week"
+            displayAmount={getAmount(screenWidth, breakpoints)}
+            perPage={24}
+            limit={24}
+          />
+          <NewReleasesBooks
+            sectionTitle="New Releases"
+            books={Books}
+            displayAmount={getAmount(screenWidth, breakpoints)}
+            perPage={24}
+            limit={24}
+          />
+        </div>
+        <div className="col-sm-3">
+          <Top5Articles articles={Articles} />
         </div>
       </div>
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <ComingSoonBooks
-              sectionTitle="Coming Soon"
-              displayAmount={getAmount(screenWidth, breakpoints, true)}
-              perPage={24}
-              limit={24}
-            />
-          </div>
+    </div>
+    <div className="container">
+      <div className="row">
+        <div className="col">
+          <TrendingBooks
+            sectionTitle="#Trending"
+            displayAmount={getAmount(screenWidth, breakpoints, true)}
+            perPage={24}
+            limit={24}
+          />
         </div>
       </div>
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <HomeImageLinksWithCMS />
-          </div>
+    </div>
+    <div className="container">
+      <div className="row">
+        <div className="col">
+          <HomeAdsWithCMS />
+        </div>
+      </div>
+    </div>
+    <div className="container">
+      <div className="row">
+        <div className="col">
+          <ComingSoonBooks
+            sectionTitle="Coming Soon"
+            displayAmount={getAmount(screenWidth, breakpoints, true)}
+            perPage={24}
+            limit={24}
+          />
+        </div>
+      </div>
+    </div>
+    <div className="container">
+      <div className="row">
+        <div className="col">
+          <HomeImageLinksWithCMS />
         </div>
       </div>
     </div>
   </div>
 );
+
+const HomeContent = ({ screenWidth, breakpoints }) => {
+  if (!screenWidth) {
+    return null;
+  }
+
+  return (
+    <div className="home-content-wrapper">
+      {
+        screenWidth > breakpoints.tablet ?
+          <DesktopBreakpoint {...{ screenWidth, breakpoints }} /> :
+          <MobileBreakpoint {...{ screenWidth, breakpoints }} />
+      }
+    </div>
+  )
+};
 
 const DividedHomeContent = withBreakpoints(HomeContent);
 
