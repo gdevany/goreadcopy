@@ -7,13 +7,13 @@ import { updateCurrentReaderRecommendation } from './currentReader';
 
 const { fromPaginated } = Deserialization;
 
-export const getBestSellers = createAction(A.GET_BEST_SELLERS, (page = 1, perPage = 10) => (
+export const getBestSellers = createAction(A.GET_BEST_SELLERS, (params) => (
   new Promise((resolve, reject) => (
-    Books.getBestSellers({ page, perPage })
+    Books.getBestSellers(params)
       .then(({ data }) => resolve({
         books: data,
-        page,
-        perPage,
+        page: params.page,
+        perPage: params.perPage,
       }))
       .catch(err => reject(err))
   ))
@@ -21,13 +21,13 @@ export const getBestSellers = createAction(A.GET_BEST_SELLERS, (page = 1, perPag
 
 export const resetBestSellers = createAction(A.RESET_BEST_SELLERS);
 
-export const getNewReleases = createAction(A.GET_NEW_RELEASES, (page = 1, perPage = 10) => (
+export const getNewReleases = createAction(A.GET_NEW_RELEASES, (params) => (
   new Promise((resolve, reject) => (
-    Books.getNewReleases({ page, perPage })
+    Books.getNewReleases(params)
       .then(({ data }) => resolve({
         books: data,
-        page,
-        perPage,
+        page: params.page,
+        perPage: params.perPage,
       }))
       .catch(err => reject(err))
   ))
@@ -35,13 +35,13 @@ export const getNewReleases = createAction(A.GET_NEW_RELEASES, (page = 1, perPag
 
 export const resetNewReleases = createAction(A.RESET_NEW_RELEASES);
 
-export const getComingSoon = createAction(A.GET_COMING_SOON_BOOKS, (page = 1, perPage = 10) => (
+export const getComingSoon = createAction(A.GET_COMING_SOON_BOOKS, (params) => (
   new Promise((resolve, reject) => (
-    Books.getComingSoon({ page, perPage })
+    Books.getComingSoon(params)
       .then(({ data }) => resolve({
         books: data,
-        page,
-        perPage,
+        page: params.page,
+        perPage: params.perPage,
       }))
       .catch(err => reject(err))
   ))
@@ -49,13 +49,13 @@ export const getComingSoon = createAction(A.GET_COMING_SOON_BOOKS, (page = 1, pe
 
 export const resetComingSoon = createAction(A.RESET_COMING_SOON_BOOKS);
 
-export const getTrending = createAction(A.GET_TRENDING_BOOKS, (page = 1, perPage = 10) => (
+export const getTrending = createAction(A.GET_TRENDING_BOOKS, (params) => (
   new Promise((resolve, reject) => (
-    Books.getTrending({ page, perPage })
+    Books.getTrending(params)
       .then(({ data }) => resolve({
         books: data,
-        page,
-        perPage,
+        page: params.page,
+        perPage: params.perPage,
       }))
       .catch(err => reject(err))
   ))
