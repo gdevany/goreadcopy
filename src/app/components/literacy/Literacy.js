@@ -69,7 +69,7 @@ const Literacy = () => (
           GoRead&#39;s mission is to eliminate illiteracy... one book at a time
         </div>
         <section className="literacy-background">
-          <div className="literacy-content vertical">
+          <div className="literacy-cta vertical">
             <span className="literacy-goread">
               GoRead
             </span>

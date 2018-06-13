@@ -121,7 +121,7 @@ const MobileBreakpoint = ({ screenWidth, breakpoints }) => (
         </div>
       </div>
     </div>
-    <AdWithCMS adKey="home.ads.ads1" />
+    <AdWithCMS target="_blank" adKey="home.ads.ads1" />
     <div className="container">
       <div className="row">
         <div className="col">
@@ -135,7 +135,7 @@ const MobileBreakpoint = ({ screenWidth, breakpoints }) => (
         </div>
       </div>
     </div>
-    <AdWithCMS adKey="home.ads.ads2" />
+    <AdWithCMS target="_blank" adKey="home.ads.ads2" />
     <div className="container">
       <div className="row">
         <div className="col">
@@ -148,8 +148,8 @@ const MobileBreakpoint = ({ screenWidth, breakpoints }) => (
         </div>
       </div>
     </div>
-    <AdWithCMS adKey="home.footer.footer1" />
-    <AdWithCMS adKey="home.footer.footer2" />
+    <AdWithCMS target="_blank" adKey="home.footer.footer1" />
+    <AdWithCMS target="_blank" adKey="home.footer.footer2" />
   </div>
 );
 
