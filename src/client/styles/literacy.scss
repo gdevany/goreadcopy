@@ -2,7 +2,7 @@
 
 .literacy-main-container {
   display: flex;
-  padding-top: 70px;
+  padding-top: 40px;
   flex-direction: column;
   justify-content: center;
   align-items: stretch;
@@ -26,11 +26,17 @@
       }
     }
   }
-  .literacy-content {
+  .literacy-cta {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 75px 5px;
+    padding: 40px 5px 75px 5px;
+  }
+  .literacy-content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 5px 75px 5px;
     @media (max-width: 425px) {
       padding: 0 5px;
     }
@@ -146,7 +152,7 @@
         font-size: 30px;
         line-height: 40px;
         @media (max-width: 425px) {
-          font-size: 20px;
+          font-size: 16px;
         }
       }
     }
