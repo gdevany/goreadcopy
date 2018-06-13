@@ -12,15 +12,14 @@ export function Ad({ item }) {
     url,
     alt,
     isLink,
-    target,
   } = item;
 
   return isLink ? (
-    <Link to={url} target={target}>
+    <Link to={url} target="_blank">
       <img className={classes} src={image} alt={alt} />
     </Link>
   ) : (
-    <a href={url} target={target}>
+    <a href={url} target="_blank">
       <img className={classes} src={image} alt={alt} />
     </a>
   );

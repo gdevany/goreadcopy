@@ -3,8 +3,8 @@ import { Link } from 'react-router';
 
 const hyperLink = (text, action, isLink, id) => (
   isLink ?
-    <Link key={id} to={action}>{text}</Link> :
-    <a key={id} href={action}>{text}</a>
+    <Link key={id} target="_blank" to={action}>{text}</Link> :
+    <a key={id} target="_blank" href={action}>{text}</a>
 );
 
 const FloatingSubMenuColumn = ({ key, title, items, columns, max, more }) => {
@@ -33,7 +33,9 @@ const FloatingSubMenuAd = ({ title, image, description, target }) => (
     <span className="navbar-link-submenu-ad-title text-center">
       { title }
     </span>
-    <img src={image} alt={title} />
+    <a target="_blank" href={target.action}>
+      <img src={image} alt={title} />
+    </a>
     <p className="navbar-link-submenu-ad-description text-center">{description}</p>
     { hyperLink(target.text, target.action, target.isLink, target.id) }
   </div>
