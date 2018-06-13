@@ -123,7 +123,7 @@ const Endpoints = () => {
     articles: {
       getNewestArticles: params => apiUrl('articles/newest_articles', params),
       getArticles: params => apiUrl('articles', params),
-      getTop5Articles: params => apiUrl('articles/top_5_articles', params),
+      getTop5Articles: params => apiUrl('articles/top_this_week', { page: 1, perPage: 5 }),
       getTop50Articles: params => apiUrl('articles/leading_articles', params),
       getTopContributors: params => apiUrl('articles/top_contributors', params),
       getCategories: params => apiUrl('articles/categories', params),
