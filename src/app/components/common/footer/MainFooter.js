@@ -24,11 +24,11 @@ const FooterColumns = [
     key: 2,
     title: 'Make Money with Us',
     items: [
-      { id: 0, isLink: false, action: 'http://earnmoneybywriting.com/go', text: 'GoRead for Authors', target: '_blank' },
-      { id: 1, isLink: false, action: 'http://earnmoneybywriting.com/go', text: 'Sell Your Books', target: '_blank' },
-      { id: 2, isLink: false, action: 'http://Rebelpress.com', text: 'Publish Your Book', target: '_blank' },
-      { id: 3, isLink: false, action: 'http://earnmoneybywriting.com/go', text: 'Promote Your Business', target: '_blank' },
-      { id: 4, isLink: false, action: 'http://earnmoneybywriting.com/go', text: 'Promote Your Products', target: '_blank' },
+      { id: 0, isLink: false, action: 'https://go.earnmoneybywriting.com/', text: 'GoRead for Authors', target: '_blank' },
+      { id: 1, isLink: false, action: 'https://go.earnmoneybywriting.com/', text: 'Sell Your Books', target: '_blank' },
+      { id: 2, isLink: false, action: 'https://go.earnmoneybywriting.com/', text: 'Publish Your Book', target: '_blank' },
+      { id: 3, isLink: false, action: 'https://go.earnmoneybywriting.com/', text: 'Promote Your Business', target: '_blank' },
+      { id: 4, isLink: false, action: 'https://go.earnmoneybywriting.com/', text: 'Promote Your Products', target: '_blank' },
     ],
     show: {
       whenLogged: true,
