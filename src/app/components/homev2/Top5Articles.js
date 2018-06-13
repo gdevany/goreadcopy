@@ -16,7 +16,7 @@ const ArticleListItem = ({ article }) => (
         <img className="top-article-image" src={article.imageUrl} alt="Article Main" />
       </a>
       <div className="d-flex flex-column justify-content-start align-items-start">
-        { article.category ? <span className="top-article-category">{article.category}</span> : null }
+        { article.category ? <span className="top-article-category">{article.category.display}</span> : null }
         <span className="top-article-title">
           <a href={article.link} title={article.title}>
             { trimStrings(article.title) }
@@ -33,7 +33,7 @@ const ArticleListItem = ({ article }) => (
   </div>
 );
 
-const Top5Articles = ({ articles }) => (
+const Top5Articles = ({ articles = [] } = {}) => (
   <div className="top-articles d-flex flex-column justify-content-start">
     <span className="home-page section-title">Top 5 Articles This Week:</span>
     <hr className="divider home-page-section d-none d-sm-block" />
@@ -41,7 +41,7 @@ const Top5Articles = ({ articles }) => (
       {
         articles.map((article, idx) => (
           <div key={article.key} className="top-article-wrapper">
-            <ArticleListItem {...article} />
+            <ArticleListItem article={article} />
             {
               idx < articles.length - 1 ?
                 <hr className="divider home-page-section d-block" /> :
