@@ -1,0 +1,29 @@
+stages:
+- test
+- deploy
+      
+.run_tests:
+  stage: test
+  script: scripts/run_tests.sh
+  only:
+  - master
+  - staging
+
+deploy_staging:
+  only:
+  - staging
+  stage: deploy
+  script: scripts/gitlab-ci/deploy_staging.sh
+  environment:
+    name: staging
+    url: https://staging.goread.com
+
+deploy_apps:
+  only:
+  - master
+  stage: deploy
+  when: manual
+  script: scripts/gitlab-ci/deploy_apps.sh
+  environment:
+    name: production
+    url: https://www.goread.com
