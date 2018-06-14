@@ -1,6 +1,8 @@
 #!/bin/bash
 # Usage: deploy.sh master
 
+set -e
+
 ENVS=("master" "staging" "staging2")
 ERR="Error: XXX environment. It should be: ${ENVS[@]}"
 
@@ -26,7 +28,7 @@ HOSTS="${COMMIT^^}[@]"
 
 for HOST in "${!HOSTS}"; do
     echo "Deploying $COMMIT to $HOST."
-    # ssh $USER@$HOST 'bash -s' < update_env.sh "$COMMIT" "$FRONTEND_DIR"
+    ssh $USER@$HOST 'bash -s' < update_env.sh "$COMMIT" "$FRONTEND_DIR"
 done
 
 exit 0

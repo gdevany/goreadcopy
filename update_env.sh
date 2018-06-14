@@ -102,10 +102,18 @@ function restart_express {
     sudo supervisorctl start express:*
 }
 
-fetch_code
-install_packages
-build_bundle
-fix_static_hash
+# Hack to prevent running on APP02, since deployment happens on an NFS share.
+# To be removed once NFS is no longer used.
+
+host=$(hostname -s)
+
+if [ "$host" != "rlcloud-app-02" ]; then
+    fetch_code
+    install_packages
+    build_bundle
+    fix_static_hash
+fi
+
 restart_express
 
 exit 0
