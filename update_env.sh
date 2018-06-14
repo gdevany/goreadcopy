@@ -31,7 +31,6 @@ cd "$GIT_DIR" || exit 1
 
 function fetch_code {
     if [[ -v CLONE_REPO ]]; then
-        echo "cloning repo"
         git clone git@gitlab.readerslegacy.com:RL/goread-frontend.git .
     else
         echo "fetching $COMMIT"
@@ -94,7 +93,8 @@ function fix_static_hash {
 
     mv "$directory_to_change" "$new_directory_name"
     sed -i -- 's/$directory_to_change/$new_directory_name/g' "$index_file"
-    find $directory_to_find* -type d ! -iname "$new_directory_name" -delete
+    find $directory_to_find* -type d ! -iname "$new_directory_name" \
+         -exec rm -rv {} +
 }
 
 function restart_express {
@@ -102,10 +102,10 @@ function restart_express {
     sudo supervisorctl start express:*
 }
 
-# fetch_code
-# install_packages
-# build_bundle
+fetch_code
+install_packages
+build_bundle
 fix_static_hash
-# restart_express
+restart_express
 
 exit 0
