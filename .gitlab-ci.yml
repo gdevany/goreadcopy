@@ -15,7 +15,7 @@ deploy_staging:
   - staging
   - staging2
   stage: deploy
-  script: deploy.sh $CI_COMMIT_REF_NAME
+  script: ./deploy.sh $CI_COMMIT_REF_NAME
   environment:
     name: $CI_COMMIT_REF_NAME
     url: https://$CI_COMMIT_REF_NAME.goread.com
@@ -25,7 +25,7 @@ deploy_apps:
   - master
   stage: deploy
   when: manual
-  script: deploy.sh master
+  script: ./deploy.sh master
   environment:
     name: production
     url: https://www.goread.com
