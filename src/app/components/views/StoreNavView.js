@@ -10,7 +10,7 @@ class StoreNavView extends PureComponent {
     return (
       <div>
         <AuthWrapper>
-          <StoreNavMenu />
+          <StoreNavMenu categoriesOpen={this.props.showCategories} />
         </AuthWrapper>
         {this.props.children}
         <AuthView>

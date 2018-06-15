@@ -79,7 +79,7 @@ const SubMenus = [
         items: BookCategories,
         columns: 3,
         max: 12,
-        more: { id: 0, text: 'See More >', action: '#', isLink: true },
+        more: { id: 0, text: 'See More >', action: '/categories/fiction?see-more=true', isLink: true },
       },
     ],
     ad: {
@@ -108,7 +108,7 @@ const SubMenus = [
         items: BookCategories,
         columns: 2,
         max: 12,
-        more: { id: 0, text: 'See More >', action: '#', isLink: true },
+        more: { id: 0, text: 'See More >', action: '/categories/fiction?see-more=true', isLink: true },
       },
     ],
     ad: {
@@ -129,7 +129,7 @@ const SubMenus = [
         items: BookCategories,
         columns: 2,
         max: 12,
-        more: { id: 0, text: 'See More >', action: '#', isLink: true },
+        more: { id: 0, text: 'See More >', action: '/categories/fiction?see-more=true', isLink: true },
       },
     ],
     ad: {
