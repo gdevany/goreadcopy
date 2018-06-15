@@ -33,7 +33,6 @@ function fetch_code {
     if [[ -v CLONE_REPO ]]; then
         git clone git@gitlab.readerslegacy.com:RL/goread-frontend.git .
     else
-        echo "fetching $COMMIT"
         git fetch origin "$COMMIT"
         git checkout "$COMMIT"
         git reset --hard "origin/$COMMIT"
@@ -65,7 +64,7 @@ function fix_static_hash {
                 if [ -e "$file_to_change" ]; then
                     new_file_name="$bundle_file.$hex_hash.$ext"
                     mv "$file_to_change" "$new_file_name"
-                    sed -i -- 's/$file_to_change/$new_file_name/g' "$index_file"
+                    sed -i -- "s/$file_to_change/$new_file_name/g" "$index_file"
                 fi
 
                 if [ "$bundle_file" != "runtime" ]; then
@@ -92,7 +91,8 @@ function fix_static_hash {
     directory_to_change=$(ls -dt $directory_to_find* | head -1)
 
     mv "$directory_to_change" "$new_directory_name"
-    sed -i -- 's/$directory_to_change/$new_directory_name/g' "$index_file"
+    sed -i -- "s/$directory_to_change/$new_directory_name/g" "$index_file"
+
     find $directory_to_find* -type d ! -iname "$new_directory_name" \
          -exec rm -rv {} +
 }
