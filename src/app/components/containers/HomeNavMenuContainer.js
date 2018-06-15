@@ -19,7 +19,7 @@ const SubMenus = [
         itemsKey: 'BOOK_SUBJECTS',
         columns: 3,
         max: 12,
-        more: { id: 0, text: 'See More >', action: '/store', isLink: true },
+        more: { id: 0, text: 'See More >', action: '/categories/fiction?see-more=true', isLink: true },
       },
     ],
   },
@@ -42,7 +42,7 @@ const SubMenus = [
         itemsKey: 'BOOK_SUBJECTS',
         columns: 2,
         max: 12,
-        more: { id: 0, text: 'See More >', action: '/store', isLink: true },
+        more: { id: 0, text: 'See More >', action: '/categories/fiction?see-more=true', isLink: true },
       },
     ],
   },
@@ -57,7 +57,7 @@ const SubMenus = [
         itemsKey: 'BOOK_SUBJECTS',
         columns: 2,
         max: 12,
-        more: { id: 0, text: 'See More >', action: '/store', isLink: true },
+        more: { id: 0, text: 'See More >', action: '/categories/fiction?see-more=true', isLink: true },
       },
     ],
   },
@@ -157,7 +157,7 @@ const mapStateToProps = (state) => {
   const booksSubjects = getBooksSubjects(state).map(parseBookCategoryToLink);
   const articleCategories = getParentCategories(state).map(parseArticleCategoryToLink);
   const top5Articles = top5ArticlesSelector(state).map(parseArticleToColumnData);
-  
+
   const MenuLinks = [
     { id: 0, text: 'Books', action: '#', isLink: false, subMenu: getSubMenu(SubMenus[0], { 'BOOK_SUBJECTS': booksSubjects, AD: ads.booksAd }) },
     { id: 1, text: 'Best Sellers', action: '#', isLink: false, subMenu: getSubMenu(SubMenus[1], { 'BOOK_SUBJECTS': booksSubjects, 'POPULAR_CATEGORIES': booksPopularCategories, AD: ads.bestSellersAd }) },

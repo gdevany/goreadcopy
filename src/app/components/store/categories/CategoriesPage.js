@@ -82,7 +82,7 @@ class CategoriesPage extends PureComponent {
     const { isSubCategory } = this.state
     const isUserLoggedIn = Auth.currentUserExists()
     return (
-      <StoreNavView>
+      <StoreNavView showCategories={this.props.location.query['see-more'] === 'true'}>
         <div className='categorypage-main-container'>
           {selectedCategory && selectedCategory !== '' ?
             <CategoriesHero
