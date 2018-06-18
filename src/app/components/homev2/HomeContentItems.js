@@ -16,11 +16,17 @@ export function Ad({ item }) {
 
   return isLink ? (
     <Link to={url} target="_blank">
-      <img className={classes} src={image} alt={alt} />
+      <img
+        className={classes}
+        style={{ background: `url(${image})` }}
+      />
     </Link>
   ) : (
     <a href={url} target="_blank">
-      <img className={classes} src={image} alt={alt} />
+      <img
+        className={classes}
+        style={{ background: `url(${image})` }}
+      />
     </a>
   );
 }

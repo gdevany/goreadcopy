@@ -520,6 +520,7 @@ class NavMenu extends PureComponent {
 
     if (type === 'Explore') {
       nonMenuRoutes = [
+        ['Store', '/store', true],
         ['My Book Clubs', myBookClubs],
         ['My Orders', '/store/orders', true],
         ['News', news],
