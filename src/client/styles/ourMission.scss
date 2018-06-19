@@ -1,0 +1,111 @@
+.our-mission {
+  padding: 40px 0;
+  .title-image {
+    padding: 15px 0;
+    width: 100%
+  }
+  .sub-paragraph {
+    font-weight: 700;
+  }
+  .subtitle {
+    font-weight: 700;
+    color: #0D3AD1;
+    display: none;
+    @media (min-width: 426px) {
+      display: block;
+    }
+  }
+  .divider {
+    border-top: 1px solid rgba(0, 0, 0, 0.5);
+  }
+  .mobile-subtitle {
+    font-weight: 700;
+    color: #0D3AD1;
+    @media (min-width: 426px) {
+      display: none;
+    }
+  }
+  .section-image {
+    border-radius: 100px;
+  }
+  .for-authors {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+    @media (min-width: 426px) {
+      flex-direction: row;
+      margin: 40px 0;
+      padding-top: 0;
+    }
+    .left-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      @media (min-width: 426px) {
+        width: 25%;
+      }
+    }
+    .right-section {
+      padding: 10px;
+      text-align: center;
+      @media (min-width: 426px) {
+        width: 75%;
+        padding: 0 10px;
+        text-align: left;
+      }
+    }
+  }
+  .for-readers {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    @media (min-width: 426px) {
+      flex-direction: row;
+      margin: 40px 0;
+    }
+    .left-section {
+      padding: 10px;
+      text-align: center;
+      @media (min-width: 426px) {
+        width: 75%;
+        padding: 0 10px;
+        text-align: right;
+      }
+    }
+    .right-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      @media (min-width: 426px) {
+        width: 25%;
+      }
+    }
+  }
+  .for-children {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @media (min-width: 426px) {
+      flex-direction: row;
+      margin: 40px 0;
+    }
+    .left-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      @media (min-width: 426px) {
+        width: 25%;
+      }
+    }
+    .right-section {
+      padding: 10px;
+      text-align: center;
+      @media(min-width: 426px) {
+        width: 75%;
+        padding: 0 10px;
+        text-align: left;
+      }
+    }
+  }
+}

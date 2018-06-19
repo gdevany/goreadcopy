@@ -3,7 +3,6 @@ import { Paths } from '../services'
 const Endpoints = () => {
   const { apiUrl } = Paths
   const routes = {
-    timesRendered: () => apiUrl('views/home_rendered_times'),
     books: (params) => apiUrl('onboarding/books', params),
     readers: (params) => apiUrl('onboarding/readers', params),
     readerValidation: (params) => apiUrl('onboarding/readers/check', params),
@@ -36,6 +35,7 @@ const Endpoints = () => {
     requestBookClubMembership: () => apiUrl('book_clubs/member_request'),
     editTile: (id) => apiUrl(`activities/${id}/edit_statuspost_tile`),
     deleteTile: (id) => apiUrl(`activities/${id}`),
+    registerNewsletter: (params) => apiUrl(`newsletter/register`),
     currentReader: {
       getRecommendation: (params) => apiUrl('genres/top_users', params),
       getOnboardingRecommendation: (params) => apiUrl('onboarding/genres/top_users', params),
@@ -120,10 +120,27 @@ const Endpoints = () => {
       getRates: (modelName, id) => apiUrl(`rate/${modelName}/${id}/all`),
       postRate: (modelName, params) => apiUrl(`rate/${modelName}`, params),
     },
+    articles: {
+      getNewestArticles: params => apiUrl('articles/newest_articles', params),
+      getArticles: params => apiUrl('articles', params),
+      getTop5Articles: params => apiUrl('articles/top_this_week', { page: 1, perPage: 5 }),
+      getTop50Articles: params => apiUrl('articles/leading_articles', params),
+      getTopContributors: params => apiUrl('articles/top_contributors', params),
+      getCategories: params => apiUrl('articles/categories', params),
+    },
     jwtRefresh: () => apiUrl('token/refresh'),
     jwtAuth: () => apiUrl('token/auth'),
     jwtVerify: () => apiUrl('token/verify'),
     redirect: () => apiUrl('onboarding/redirect'),
+    //* **************
+    // Home Page V2
+    getHomeBestSellingBooks: (params) => apiUrl('books/best_selling', params),
+    getHomeTrendingBooks: (params) => apiUrl('books/trending', params),
+    getHomeNewReleaseBooks: (params) => apiUrl('books/new_releases', params),
+    getHomeComingSoonBooks: (params) => apiUrl('books/coming_soon', params),
+    getBooksCategories: (params) => apiUrl('genres', params),
+    getPageContent: params => apiUrl('cms/page', params),
+    getSectionContent: params => apiUrl('cms/page/section', params),
   }
 
   return routes

@@ -19,8 +19,16 @@ module.exports = {
   node: {
     fs: 'empty',
   },
+  resolveLoader: {
+    modules: [
+      'node_modules',
+      path.resolve(__dirname, 'loaders'),
+    ],
+  },
   resolve: {
-    modules: ['node_modules'],
+    modules: [
+      'node_modules',
+    ],
     alias: {
       foundation: path.join(nodeModulesPath, 'foundation-sites/dist/css'),
       soundmanager2: path.join(nodeModulesPath, 'soundmanager2/script/soundmanager2-nodebug-jsmin.js'),
@@ -129,7 +137,7 @@ module.exports = {
       },
       {
         test: /\.(css|scss)$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: ['style-loader', 'css-loader', 'sass-loader', 'namespace-sass-loader'],
       },
       {
         test: /\.(woff|woff2)$/,

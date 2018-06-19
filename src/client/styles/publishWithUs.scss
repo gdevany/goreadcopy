@@ -1,0 +1,108 @@
+.publish-with-us {
+  padding: 40px 0;
+  .title-image {
+    padding: 20px 0;
+    width: 100%;
+  }
+  .subtitle {
+    font-weight: 700;
+  }
+  .blue {
+    color: #0D3AD1;
+  }
+  .button-container {
+    text-align: center;
+    @media (min-width: 426px) {
+      text-align: left;
+    }
+  }
+  .start-button, .learn-more-button {
+    display: inline-block;
+    color: #fff;
+    background-color: #0D3AD1;
+    padding: 10px 50px;
+    border-radius: 15px;
+    margin: 20px 0;
+    border: 1px solid #0D3AD1;
+    &:hover{
+      color: #0D3AD1;
+      background-color: #fff;
+      text-decoration: none;
+      border: 1px solid #0D3AD1;
+    }
+    @media (min-width: 769px) and (max-width: 1024px) {
+      padding: 10px 20px;
+    }
+  }
+  .graphic-container {
+    display: flex;
+    flex-direction: column;
+    @media (min-width: 426px) and (max-width: 768px) {
+      flex-wrap: wrap;
+      flex-direction: row;
+    }
+    @media (min-width: 769px) {
+      flex-direction: row;
+    }
+    .graphic-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      @media (min-width: 426px) and (max-width: 768px) {
+        width: 50%;
+      }
+      @media (min-width: 769px) {
+        width: 20%;
+        display: block;
+      }
+      .graphic-bar {
+        width: 50%;
+        height: 250px;
+        margin: 15px;
+        padding-top: 20px;
+        text-align: center;
+        font-weight: 700;
+        @media (min-width: 426px) and (max-width: 768px) {
+          width: 40%
+        }
+        @media (min-width: 769px) {
+          width: initial;
+        }
+      }
+      .graphic-list {
+        list-style: none;
+        li {
+          &:before {
+            content: "-";
+            padding-right: 8px;
+          }
+        }
+        .last-child {
+          font-weight: 700;
+          color: #0D3AD1;
+          p {
+            margin-bottom: 0;
+          }
+          &:before {
+            content: none;
+          }
+        }
+      }
+      .e-book {
+        background-color: #ffff99;
+      }
+      .platinum {
+        background-color: #d147a3;
+      }
+      .silver {
+        background-color: #e6e600;
+      }
+      .gold {
+        background-color: #0088cc;
+      }
+      .double-platinum {
+        background-color: #ffa366;
+      }
+    }
+  }
+}

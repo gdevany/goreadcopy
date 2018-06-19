@@ -16,13 +16,16 @@ import sidebarAdsReducer from './ads'
 import chatReducer from './chat'
 import notificationReducer from './notifications'
 import commonReducer from './common'
+import articlesReducer from './articles'
 import sessionReducer from './session'
+import cmsReducer from './cms';
 
 import { CURRENT_READER as C } from '../const/actionTypes'
 
 const appReducer = combineReducers({
   books: booksReducer,
   chat: chatReducer,
+  cms: cmsReducer,
   currentReader: currentReaderReducer,
   genres: genreReducer,
   litcoins: litcoinsReducer,
@@ -38,6 +41,7 @@ const appReducer = combineReducers({
   rates: ratesReducer,
   notifications: notificationReducer,
   common: commonReducer,
+  articles: articlesReducer,
   session: sessionReducer,
 })
 

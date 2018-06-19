@@ -37,6 +37,15 @@ class SearchModal extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { term, filter } = nextProps;
+    if (!this.props.modalOpen && nextProps.modalOpen && term && filter) {
+      this.setState({ searchTerm: term, selectedFilter: filter, selectedSubFilter: false });
+      this.debouncedSearch(null);
+      if (this.props.resetSearch) this.props.resetSearch(filter);
+    }
+  }
+
   handleOnChange = R.curry((field, e) => {
     e.persist();
     this.setState({
@@ -54,7 +63,7 @@ class SearchModal extends Component {
   }
 
   debouncedSearch = debounce((event) => {
-    if (event.target.value.length > 3) {
+    if (event && event.target.value.length > 3) {
       this.props.cleanSearchState();
       let perPage = 20
       const filterName = this.translateType(this.state.selectedFilter);
@@ -77,6 +86,14 @@ class SearchModal extends Component {
           perPage: perPage,
         });
       }
+    } else {
+      this.props.cleanSearchState();
+      this.props.mainSearch({
+        term: this.state.searchTerm,
+        type: this.getSanitizedFilter(this.state.selectedFilter),
+        page: 1,
+        perPage: 20,
+      });
     }
   }, 1000)
 

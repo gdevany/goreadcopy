@@ -29,7 +29,6 @@ const styles = {
   navContainer: {
     backgroundColor: Colors.white,
     padding: '0 20px',
-    position: 'fixed',
     zIndex: 1000,
     width: '100%'
   },
@@ -521,6 +520,7 @@ class NavMenu extends PureComponent {
 
     if (type === 'Explore') {
       nonMenuRoutes = [
+        ['Store', '/store', true],
         ['My Book Clubs', myBookClubs],
         ['My Orders', '/store/orders', true],
         ['News', news],

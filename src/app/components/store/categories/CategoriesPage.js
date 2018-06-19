@@ -12,7 +12,7 @@ import BestSellers from '../common/BestSellers'
 import { Auth } from '../../../services'
 import { Store as ApiStore } from '../../../services/api'
 
-const { getChildCategories } = Store
+const { getChildCategories, resetChildCategories } = Store
 
 class CategoriesPage extends PureComponent {
 
@@ -47,6 +47,10 @@ class CategoriesPage extends PureComponent {
       getChildCategories(nextProps.params.slug) : null : null
   }
 
+  componentWillUnmount = () => {
+    this.props.resetChildCategories();
+  }
+
   handleCurrentCategory = () => {
     const { categories, params } = this.props
     if (categories) {
@@ -78,7 +82,7 @@ class CategoriesPage extends PureComponent {
     const { isSubCategory } = this.state
     const isUserLoggedIn = Auth.currentUserExists()
     return (
-      <StoreNavView>
+      <StoreNavView showCategories={this.props.location.query['see-more'] === 'true'}>
         <div className='categorypage-main-container'>
           {selectedCategory && selectedCategory !== '' ?
             <CategoriesHero
@@ -126,4 +130,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { getChildCategories })(CategoriesPage)
+export default connect(mapStateToProps, { getChildCategories, resetChildCategories })(CategoriesPage)
