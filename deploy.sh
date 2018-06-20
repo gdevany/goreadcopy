@@ -1,7 +1,7 @@
 #!/bin/bash
 # Usage: deploy.sh master
 
-set -e
+set -eo pipefail
 
 ENVS=("master" "staging" "staging2")
 ERR="Error: XXX environment. It should be: ${ENVS[@]}"

@@ -4,7 +4,7 @@ stages:
       
 .run_tests:
   stage: test
-  script: run_tests.sh
+  script: ./run_tests.sh
   only:
   - master
   - staging

@@ -2,7 +2,7 @@
 # Usage: update_env.sh COMMIT GIT_DIR
 # Ex: update_env.sh master goread-frontend
 
-set -e
+set -eo pipefail
 
 if [ -z $1 ]; then
     COMMIT="master"
