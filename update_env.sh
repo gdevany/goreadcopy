@@ -33,8 +33,8 @@ function fetch_code {
     if [[ -v CLONE_REPO ]]; then
         git clone git@gitlab.readerslegacy.com:RL/goread-frontend.git .
     else
-        git fetch origin "$COMMIT"
         git checkout "$COMMIT"
+        git fetch origin "$COMMIT"
         git reset --hard "origin/$COMMIT"
     fi
 }
