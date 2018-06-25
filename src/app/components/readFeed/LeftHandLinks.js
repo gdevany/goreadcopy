@@ -50,7 +50,7 @@ class LeftHandLinks extends PureComponent {
           ) : (
             <a
               className='left-hand-menu-anchor'
-              href={routeFn()}
+              href={typeof routeFn === 'function' ? routeFn() : routeFn}
             >
               {title}
             </a>
@@ -93,7 +93,7 @@ class LeftHandLinks extends PureComponent {
         ) : (
           <a
             className='left-hand-menu-anchor'
-            href={routeFn}
+            href={typeof routeFn === 'function' ? routeFn() : routeFn}
           >
             {title}
           </a>
