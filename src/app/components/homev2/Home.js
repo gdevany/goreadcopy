@@ -33,6 +33,7 @@ const mapCMSSlidesToHeroItems = (cms) => {
       caption: slide.description,
       isLink: !actionUrl.includes('http'),
       action: actionUrl,
+      target: slide.actionUrlTargetBlank,
     });
   });
 

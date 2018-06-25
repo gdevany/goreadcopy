@@ -51,7 +51,6 @@ class HeroCarousel extends Component {
   render() {
     const { activeIndex } = this.state;
     const { items } = this.props;
-
     const carouselItems = items.map((item, idx) => (
       <CarouselItem
         onExiting={this.onExiting}
