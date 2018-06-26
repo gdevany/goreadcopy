@@ -151,9 +151,9 @@ a {
   }
   @media screen and (min-width: $sm) {
     margin-top: 10px;
-    &.add-b-margin {
-      margin-bottom: 90px;
-    }
+    // &.add-b-margin {
+    //   margin-bottom: 90px;
+    // }
   }
 }
 

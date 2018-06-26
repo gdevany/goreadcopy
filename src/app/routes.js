@@ -70,13 +70,13 @@ const Routes = (
     <Route path="/shop/success" component={orderSuccess} />
     <Route path="/store/orders" component={Orders} />
     <Route path="/literacy" component={useBootstrapFor(Literacy)} />
-    <Route path="/signup" component={SignUpFlow} />
+    <Route path="/signup" component={useFoundationFor(SignUpFlow)} />
     <Route path="/redirect" component={IncomingRedirect} />
     <Route path="/antispam" context="antispam" component={PublicWrapper} />
     <Route path="/terms" context="terms" component={PublicWrapper} />
     <Route path="/privacy" context="privacy" component={PublicWrapper} />
-    <Route path="/accounts/signup" component={SignUpModal} />
-    <Route path="/accounts/login" component={LogInModal} />
+    <Route path="/accounts/signup" component={useFoundationFor(SignUpModal)} />
+    <Route path="/accounts/login" component={useFoundationFor(LogInModal)} />
     <Route path="/about-us" component={useBootstrapFor(AboutUs)} />
     <Route path="/career" component={useBootstrapFor(Career)} />
     <Route path="/investor-relations" component={useBootstrapFor(Investors)} />
