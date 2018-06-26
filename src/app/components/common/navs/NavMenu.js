@@ -439,7 +439,7 @@ class NavMenu extends PureComponent {
             {title}
           </Link>
         ) : (
-          <a href={routeFn}>
+          <a href={typeof routeFn === 'function' ? routeFn() : routeFn}>
             {title}
           </a>
         ) }
@@ -469,7 +469,7 @@ class NavMenu extends PureComponent {
             {title}
           </Link>
         ) : (
-          <a href={routeFn}>
+          <a href={typeof routeFn === 'function' ? routeFn() : routeFn}>
             {title}
           </a>
         )}
