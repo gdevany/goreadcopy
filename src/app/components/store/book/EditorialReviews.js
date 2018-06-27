@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 let i;
@@ -10,7 +9,7 @@ class EditorialReviews extends PureComponent {
     this.state = {
       isOpen: {},
     };
-    this.toggleDescription = this.toggleDescription.bind(this)
+    this.toggleDescription = this.toggleDescription.bind(this);
   }
 
   componentWillReceiveProps = () => {
@@ -44,14 +43,14 @@ class EditorialReviews extends PureComponent {
   handleItemReview = (item, index) => {
     const { isOpen } = this.state;
     const description =
-      item.description.length > 150 && !isOpen[index] ? `${item.description.substring(0, 150)}... ` : item.description;
+      item.description.length > 150 && !isOpen[index] ? `${item.description.substring(0, 150)}...` : item.description;
     return (
       <div key={index} className="review-item">
         <div className="review-description">
           &#34;<i>{description}</i>&#34;
           {!isOpen[index] && item.description.length > 150 ? (
-            <a id={index} onClick={this.toggleDescription}>Read More</a>
-          ) : <a id={index} onClick={this.toggleDescription}>Read Less</a>}
+            <a id={index} onClick={this.toggleDescription}> Read More</a>
+          ) : <a id={index} onClick={this.toggleDescription}> Read Less</a>}
           <p className="reviewer">
             <strong>{item.reviewer}</strong> {item.pubDate}
           </p>
@@ -89,13 +88,5 @@ EditorialReviews.propTypes = {
 EditorialReviews.defaultProps = {
   bookInfo: null,
 };
-
-/*const mapStateToProps = ({
-  store: {
-    bookInfo,
-  },
-}) => ({
-  bookInfo,
-});*/
 
 export default EditorialReviews;
