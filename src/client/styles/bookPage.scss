@@ -722,9 +722,6 @@
     align-items: flex-start;
     flex-direction: column;
     width: 100%;
-    @media all and (min-width: 768px){
-      flex-direction: row;
-    }
     .bookpage-meet-author-content{
       width: 100%;
       padding: 15px;
@@ -811,13 +808,11 @@
     }
     .bookpage-meet-author-description-container{
       width: 100%;
-      padding: 0 15px;
       text-align: justify;
       margin-top: 25px;
+      padding: 10px 20px;
       @media all and (min-width: 768px){
         margin-top: 0;
-        margin-left: 25px;
-        padding: 0 35px;
       }
       .bookpage-meet-author-description{
         word-wrap: break-word;

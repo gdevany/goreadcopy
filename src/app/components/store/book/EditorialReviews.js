@@ -2,17 +2,35 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+let i;
+
 class EditorialReviews extends PureComponent {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      openDesc: false
+      isOpen: {},
+    };
+    this.toggleDescription = this.toggleDescription.bind(this)
+  }
+
+  componentWillReceiveProps = () => {
+    const { bookInfo } = this.props;
+    const editorial = bookInfo ? bookInfo.editorialReviews : null;
+    const length = editorial ? editorial.length : null;
+    if (length > 0) {
+      for (i = 0; i < length; i += 1) {
+        this.setState({
+          isOpen: {
+            [i]: false,
+          },
+        });
+      }
     }
   }
 
   handleReviews = () => {
     const { bookInfo } = this.props;
-    const editorialReviews = bookInfo ? bookInfo.editorialReviews : null
+    const editorialReviews = bookInfo ? bookInfo.editorialReviews : null;
     const reviews = editorialReviews ? editorialReviews.map((item, index) => (
       this.handleItemReview(item, index)
     )) : null;
@@ -24,16 +42,16 @@ class EditorialReviews extends PureComponent {
   }
 
   handleItemReview = (item, index) => {
-    const { openDesc } = this.state;
+    const { isOpen } = this.state;
     const description =
-      item.description.length > 150 && !openDesc ? `${item.description.substring(0, 150)}...` : item.description;
+      item.description.length > 150 && !isOpen[index] ? `${item.description.substring(0, 150)}... ` : item.description;
     return (
       <div key={index} className="review-item">
         <div className="review-description">
           &#34;<i>{description}</i>&#34;
-          {!openDesc && item.description.length > 150 ? (
-            <a onClick={this.toggleDescription}>Read More</a>
-          ) : <a onClick={this.toggleDescription}>Read Less</a>}
+          {!isOpen[index] && item.description.length > 150 ? (
+            <a id={index} onClick={this.toggleDescription}>Read More</a>
+          ) : <a id={index} onClick={this.toggleDescription}>Read Less</a>}
           <p className="reviewer">
             <strong>{item.reviewer}</strong> {item.pubDate}
           </p>
@@ -43,10 +61,12 @@ class EditorialReviews extends PureComponent {
   }
 
   toggleDescription = (e) => {
-    const { openDesc } = this.state;
-    e.preventDefault();
+    const { isOpen } = this.state;
+    const index = e.target.id;
     this.setState({
-      openDesc: !openDesc,
+      isOpen: {
+        [index]: !isOpen[index],
+      },
     });
   }
 
@@ -63,19 +83,19 @@ class EditorialReviews extends PureComponent {
 }
 
 EditorialReviews.propTypes = {
-  editorialReviews: PropTypes.object,
+  bookInfo: PropTypes.object,
 };
 
 EditorialReviews.defaultProps = {
-  editorialReviews: null,
+  bookInfo: null,
 };
 
-const mapStateToProps = ({
+/*const mapStateToProps = ({
   store: {
-    bookInfo
+    bookInfo,
   },
 }) => ({
   bookInfo,
-});
+});*/
 
-export default connect(mapStateToProps)(EditorialReviews);
+export default EditorialReviews;

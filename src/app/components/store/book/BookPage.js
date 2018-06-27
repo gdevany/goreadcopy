@@ -290,7 +290,7 @@ class BookPage extends PureComponent {
                   />
                 ) : null
               }
-              <EditorialReviews />
+              <EditorialReviews bookInfo={bookInfo} />
             </div>
             <hr className='bookpage-hr-separator'/>
             <Element name='reviews'>
