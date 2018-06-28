@@ -47,12 +47,12 @@ class EditorialReviews extends PureComponent {
     return (
       <div key={index} className="review-item">
         <div className="review-description">
-          &#34;<i>{description}</i>&#34;
+          &#34;{description}&#34;
           {!isOpen[index] && item.description.length > 150 ? (
             <a id={index} onClick={this.toggleDescription}> Read More</a>
           ) : <a id={index} onClick={this.toggleDescription}> Read Less</a>}
           <p className="reviewer">
-            <strong>{item.reviewer}</strong> {item.pubDate}
+            <i>{item.reviewer}</i> {item.pubDate}
           </p>
         </div>
       </div>
