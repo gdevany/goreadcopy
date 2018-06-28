@@ -70,11 +70,16 @@ class EditorialReviews extends PureComponent {
   }
 
   render() {
+    const { bookInfo } = this.props;
+    const editorialReviews = bookInfo ? bookInfo.editorialReviews : null;
     return (
       <div className="large-6 columns review-container">
-        <h3 className="review-title">
-          Editorial Reviews
-        </h3>
+        { editorialReviews ? (
+          <h3 className="review-title">
+            Editorial Reviews
+          </h3>
+          ) : null
+        }
         {this.handleReviews()}
       </div>
     );
