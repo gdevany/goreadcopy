@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import { Helmet } from 'react-helmet'
 import Radium from 'radium'
 import R from 'ramda'
 import S from 'underscore.string.fp'
@@ -173,33 +172,6 @@ class SignUpStepTwo extends PureComponent {
     const { genres, stepIndex } = this.props
     return (
       <div>
-        <Helmet>
-          <script>
-            {`
-              !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-              n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-              n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-              t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-              document,'script','https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', '1680870645550873', {
-              em: 'insert_email_variable'
-              });
-              fbq('track', 'Lead');
-            `}
-          </script>
-        </Helmet>
-        <Helmet>
-          <noscript>
-            {`
-              <img
-                height='1'
-                width='1'
-                style='display:none'
-                src='https://www.facebook.com/tr?id=1680870645550873&ev=Lead&noscript=1'
-              />
-            `}
-          </noscript>
-        </Helmet>
         <div style={styles.container} className='card center-text front-card'>
           <h1>
             Add your favorite categories
