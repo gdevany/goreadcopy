@@ -25,7 +25,7 @@ class StepZero extends PureComponent {
           <hr/>
           <div className='center-text'>
             <h3 className='large-header'> GoRead Current Members Please Sign In: </h3>
-            <LoginForm />
+            <LoginForm onSuccess={this.props.onLoginSuccess} />
           </div>
         </div>
       </div>

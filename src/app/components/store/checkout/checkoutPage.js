@@ -813,7 +813,8 @@ class CheckoutPage extends PureComponent {
                 <div className='chekoutpage-steps-main-container'>
                   { activeStep === 0 ?
                     <StepZero
-                      onAccountCreation={()=>{this.setState({ hasCreatedAccount: true })}}
+                      onAccountCreation={()=>{this.setState({ hasCreatedAccount: true, activeStep: 1 })}}
+                      onLoginSuccess={()=>this.setState({ activeStep: 1 })}
                     /> : null
                   }
                   { activeStep === 1 ?
