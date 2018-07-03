@@ -43,12 +43,12 @@ class EditorialReviews extends PureComponent {
   handleItemReview = (item, index) => {
     const { isOpen } = this.state;
     const description =
-      item.description.length > 150 && !isOpen[index] ? `${item.description.substring(0, 150)}...` : item.description;
+      item.description.length > 350 && !isOpen[index] ? `${item.description.substring(0, 350)}...` : item.description;
     return (
       <div key={index} className="review-item">
         <div className="review-description">
           &#34;{description}&#34;
-          {!isOpen[index] && item.description.length > 150 ? (
+          {!isOpen[index] && item.description.length > 350 ? (
             <a id={index} onClick={this.toggleDescription}> Read More</a>
           ) : <a id={index} onClick={this.toggleDescription}> Read Less</a>}
           <p className="reviewer">
