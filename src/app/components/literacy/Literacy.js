@@ -35,18 +35,18 @@ const Literacy = () => (
             </p>
             <ul className="literacy-facts-list">
               <li>
-                14 percent of Americans are considered illiterate.
+                14% of Americans are considered illiterate.
               </li>
               <li>
-                36 percent of people worlwide can&#39;t read at an 8th grade level
+                36% of people worlwide can&#39;t read at an 8th grade level
                  in their native language.
               </li>
               <li>
-                85 percent of people who commit criminal offenses in the
+                85% of people who commit criminal offenses in the
                  United States are considered to be illiterate.
               </li>
               <li>
-                Over 19 percent of all high school graduates in the
+                Over 19% of all high school graduates in the
                  United States cannot read.
               </li>
               <li>
