@@ -1,62 +1,105 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Numbers } from '../../../utils'
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { Numbers } from '../../../utils';
 
-const { parseIntToLocale } = Numbers
+const { parseIntToLocale } = Numbers;
 
-const MeetAuthor = ({ profilePic, description, followers, books, fullname, url }) => {
-
-  const truncInfo = (text, limit) => {
-    return text.length >= limit ? `${text.slice(0, limit)}...` : text
+class MeetAuthor extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isDescriptionOpen: false,
+    };
+    this.toggleDescription = this.toggleDescription.bind(this);
   }
 
-  return (
-    <div className='large-6 columns bookpage-meet-author-main-container'>
-      <h3 className='bookpage-meet-author-title'>Meet the Author</h3>
-      <section className='bookpage-meet-author-container'>
-        <div className='bookpage-meet-author-content'>
-          <figure className='bookpage-meet-author-content-figure'>
-            <img src={profilePic}/>
-          </figure>
-          <div className='bookpage-meet-author-content-section'>
-            <h4>{fullname}</h4>
-            <div className='bookpage-meet-author-numbers-container'>
-              <div className='bookpage-meet-author-numbers-section'>
-                <span className='bookpage-meet-author-numbers-title'>
-                  Followers
-                </span>
-                <span className='bookpage-meet-author-numbers'>
-                  {parseIntToLocale(followers)}
-                </span>
+  truncInfo = (text, limit) => {
+    const { isDescriptionOpen } = this.state;
+    console.log(isDescriptionOpen)
+    return !text.length >= limit || isDescriptionOpen ? text : `${text.slice(0, limit)}...`
+  }
+
+  toggleDescription = () => {
+    const { isDescriptionOpen } = this.state;
+    this.setState({
+      isDescriptionOpen: !isDescriptionOpen,
+    });
+  }
+
+  render() {
+    const {
+      profilePic,
+      description,
+      followers,
+      books,
+      fullname,
+      url,
+    } = this.props;
+    const { isDescriptionOpen } = this.state;
+    return (
+      <div className='columns bookpage-meet-author-main-container'>
+        <section className='bookpage-meet-author-container'>
+          <h3 className='bookpage-meet-author-title'>Meet the Author</h3>
+          <div className='bookpage-meet-author-content'>
+            <figure className='bookpage-meet-author-content-figure'>
+              <img src={profilePic} />
+            </figure>
+            <div className='bookpage-meet-author-content-section'>
+              <h4>{fullname}</h4>
+              <div className='bookpage-meet-author-numbers-container'>
+                <div className='bookpage-meet-author-numbers-section'>
+                  <span className='bookpage-meet-author-numbers-title'>
+                    Followers
+                  </span>
+                  <span className='bookpage-meet-author-numbers'>
+                    {parseIntToLocale(followers)}
+                  </span>
+                </div>
+                <div className='bookpage-meet-author-numbers-section'>
+                  <span className='bookpage-meet-author-numbers-title'>
+                    Books
+                  </span>
+                  <span className='bookpage-meet-author-numbers'>
+                    {books}
+                  </span>
+                </div>
               </div>
-              <div className='bookpage-meet-author-numbers-section'>
-                <span className='bookpage-meet-author-numbers-title'>
-                  Books
-                </span>
-                <span className='bookpage-meet-author-numbers'>
-                  {books}
-                </span>
+              <div className='bookpage-meet-author-anchor-container'>
+                <a href={url} className='bookpage-meet-author-anchor'>
+                  See Profile
+                </a>
               </div>
-            </div>
-            <div className='bookpage-meet-author-anchor-container'>
-              <a href={url} className='bookpage-meet-author-anchor'>
-                See Profile
-              </a>
             </div>
           </div>
-        </div>
-        <div className='bookpage-meet-author-description-container'>
+        </section>
+        <section className='bookpage-meet-author-description-container'>
+          <h3 className='bookpage-meet-author-title'>
+            Author Bio
+          </h3>
           <p className='bookpage-meet-author-description'>
-            {description ? truncInfo(description, 500) : null}
-            {/*<a className='bookpage-meet-author-description-readmore'>*/}
-              {/*See more*/}
-            {/*</a>*/}
+            {description ? this.truncInfo(description, 500) : null}
+            <a
+              className='bookpage-meet-author-description-readmore'
+              onClick={this.toggleDescription}
+            >
+              {isDescriptionOpen ? ' See less' : ' See more'}
+            </a>
           </p>
-        </div>
-      </section>
-    </div>
-  )
+        </section>
+      </div>
+    );
+  }
 }
+
+MeetAuthor.defaultProps = {
+  profilePic: null,
+  description: null,
+  followers: null,
+  books: null,
+  fullname: null,
+  url: null,
+};
+
 MeetAuthor.propTypes = {
   profilePic: PropTypes.string,
   description: PropTypes.string,
@@ -64,6 +107,6 @@ MeetAuthor.propTypes = {
   books: PropTypes.number,
   fullname: PropTypes.string,
   url: PropTypes.string,
-}
+};
 
-export default MeetAuthor
+export default MeetAuthor;

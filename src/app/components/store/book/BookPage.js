@@ -154,7 +154,7 @@ class BookPage extends PureComponent {
   handleBookDetails = () => {
     const detailsArray = ['ISBN', 'Pages', 'Age Range', 'Grade Level',
       'Series', 'Hardcover', 'Publisher', 'Language', 'Format', 'Other Formats',
-      'Dimensions']
+      'Dimensions'];
     const result = detailsArray.map((detail, index) => {
       return this.handleRenderDetail(detail, index)
     })
@@ -169,7 +169,7 @@ class BookPage extends PureComponent {
           {result || null}
         </div>
       </div>
-    )
+    );
   }
 
   handleRenderDetail = (detail, index) => {
@@ -183,7 +183,7 @@ class BookPage extends PureComponent {
           &nbsp; {bookDetails[detail]}
         </p>
       </div>
-    ) : null
+    ) : null;
   }
 
   handleOtherFormats = (array) => {
@@ -192,8 +192,8 @@ class BookPage extends PureComponent {
         <a key={index} href={item.url}>
           {item.description}{array.length - 1 > index ? ', ' : null}
         </a>
-      )
-    })
+      );
+    });
   }
 
   handleImageModal = (bookInfo) => {
@@ -205,7 +205,7 @@ class BookPage extends PureComponent {
         modal={false}
         open={this.state.openModal}
         onRequestClose={this.closeImageModal}
-        autoScrollBodyContent={true}
+        autoScrollBodyContent
       >
         <span className='book-image-modal-close'>
           <a onClick={this.closeImageModal}>
@@ -272,11 +272,11 @@ class BookPage extends PureComponent {
                 </div>
               </div>
               <figure className='bookpage-announcement-figure'>
-                <img src='/image/chat-illustration.png'/>
+                <img src='/image/chat-illustration.png' />
               </figure>
             </div>
-            {isUserLoggedIn && currentReader ? <WishListBooks/> : null}
-            <hr className='bookpage-hr-separator'/>
+            {isUserLoggedIn && currentReader ? <WishListBooks /> : null}
+            <hr className='bookpage-hr-separator' />
             <div className="row">
               { bookInfo && bookInfo.authors[0] ?
                 (
@@ -290,9 +290,12 @@ class BookPage extends PureComponent {
                   />
                 ) : null
               }
+            </div>
+            <hr className='bookpage-hr-separator' />
+            <div className="row">
               <EditorialReviews bookInfo={bookInfo} />
             </div>
-            <hr className='bookpage-hr-separator'/>
+            <hr className='bookpage-hr-separator' />
             <Element name='reviews'>
               {bookInfo ?
                 (

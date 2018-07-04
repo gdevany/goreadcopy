@@ -48,9 +48,9 @@ class EditorialReviews extends PureComponent {
       <div key={index} className="review-item">
         <div className="review-description">
           &#34;{description}&#34;
-          {!isOpen[index] && item.description.length > 350 ? (
-            <a id={index} onClick={this.toggleDescription}> Read More</a>
-          ) : <a id={index} onClick={this.toggleDescription}> Read Less</a>}
+          <a id={index} onClick={this.toggleDescription} className="review-toggle">
+            {!isOpen[index] ? ' Read More' : ' Read less' }
+          </a>
           <p className="reviewer">
             <i>{item.reviewer}</i> {item.pubDate}
           </p>
@@ -73,7 +73,7 @@ class EditorialReviews extends PureComponent {
     const { bookInfo } = this.props;
     const editorialReviews = bookInfo ? bookInfo.editorialReviews : null;
     return (
-      <div className="large-6 columns review-container">
+      <div className="columns review-container">
         { editorialReviews ? (
           <h3 className="review-title">
             Editorial Reviews

@@ -711,16 +711,16 @@
 }
 
 .bookpage-meet-author-main-container{
+  display: flex;
   margin: 75px 0;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
   .bookpage-meet-author-title{
     font-size: 24px;
   }
 
   .bookpage-meet-author-container{
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-direction: column;
     width: 100%;
     .bookpage-meet-author-content{
       width: 100%;
@@ -806,16 +806,19 @@
         }
       }
     }
-    .bookpage-meet-author-description-container{
+  }
+
+  .bookpage-meet-author-description-container{
       width: 100%;
       text-align: justify;
       margin-top: 25px;
-      padding: 10px 20px;
-      @media all and (min-width: 768px){
+      padding: 0 20px 10px 20px;
+      @media all and (min-width: 769px){
         margin-top: 0;
       }
       .bookpage-meet-author-description{
         word-wrap: break-word;
+        padding-top: 25px;
         .bookpage-meet-author-description-readmore{
           color: #808080;
           &:hover{
@@ -824,7 +827,6 @@
         }
       }
     }
-  }
 }
 
 .bookpage-newsletter-main-container{
@@ -1410,6 +1412,9 @@
       .reviewer {
         text-align: right;
       }
+    }
+    .review-toggle {
+      color: #808080;
     }
   }
 }
