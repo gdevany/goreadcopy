@@ -85,6 +85,12 @@ class CheckoutPage extends PureComponent {
     }
   }
 
+  componentDidUpdate = (prevProps, prevState, snapshot) => {
+    if (!prevProps.currentReader.token && this.props.currentReader && this.props.currentReader.token) {
+      this.fetchCartData()
+    }
+  }
+
   componentWillReceiveProps = (nextProps) => {
     const { cart, order, paypalConfig, currentReader } = nextProps
     const {
@@ -813,7 +819,7 @@ class CheckoutPage extends PureComponent {
                 <div className='chekoutpage-steps-main-container'>
                   { activeStep === 0 ?
                     <StepZero
-                      onAccountCreation={()=>{this.setState({ hasCreatedAccount: true, activeStep: 1 })}}
+                      onAccountCreation={()=>this.setState({ hasCreatedAccount: true, activeStep: 1 })}
                       onLoginSuccess={()=>this.setState({ activeStep: 1 })}
                     /> : null
                   }
