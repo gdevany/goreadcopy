@@ -134,6 +134,7 @@ const MobileBreakpoint = ({ screenWidth, breakpoints }) => (
             displayAmount={getAmount(screenWidth, breakpoints)}
             perPage={24}
             limit={24}
+            oneByFamily={true}
           />
         </div>
       </div>
@@ -175,6 +176,7 @@ const DesktopBreakpoint = ({ screenWidth, breakpoints }) => (
             displayAmount={getAmount(screenWidth, breakpoints)}
             perPage={24}
             limit={24}
+            oneByFamily={true}
           />
         </div>
         <div className="col-sm-3">
@@ -210,6 +212,7 @@ const DesktopBreakpoint = ({ screenWidth, breakpoints }) => (
             displayAmount={getAmount(screenWidth, breakpoints, true)}
             perPage={24}
             limit={24}
+            oneByFamily={true}
           />
         </div>
       </div>
