@@ -118,6 +118,7 @@ const MobileBreakpoint = ({ screenWidth, breakpoints }) => (
             displayAmount={getAmount(screenWidth, breakpoints)}
             perPage={24}
             limit={24}
+            onStock={false}
           />
           <Top5Articles articles={Articles} />
         </div>
@@ -165,6 +166,7 @@ const DesktopBreakpoint = ({ screenWidth, breakpoints }) => (
             displayAmount={getAmount(screenWidth, breakpoints)}
             perPage={24}
             limit={24}
+            onStock={false}
           />
           <NewReleasesBooks
             maxPrice={40}
