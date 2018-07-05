@@ -232,8 +232,10 @@ class BookPage extends PureComponent {
   }
 
   render() {
-    const { bookInfo, starsInfo, isUserLoggedIn } = this.state
-    const { rates, currentReader } = this.props
+    const { bookInfo, starsInfo, isUserLoggedIn } = this.state;
+    const { rates, currentReader } = this.props;
+    const length = bookInfo ?
+      bookInfo.editorialReviews ? bookInfo.editorialReviews.length : null : null;
     return (
       <StoreNavView>
         <div>
@@ -291,12 +293,12 @@ class BookPage extends PureComponent {
                 ) : null
               }
             </div>
-            <hr className='bookpage-hr-separator' />
+            {length ? (<hr className="bookpage-hr-separator" />) : null }
             <div className="row">
               <EditorialReviews bookInfo={bookInfo} />
             </div>
-            <hr className='bookpage-hr-separator' />
-            <Element name='reviews'>
+            <hr className="bookpage-hr-separator" />
+            <Element name="reviews">
               {bookInfo ?
                 (
                   <ReviewsOverview

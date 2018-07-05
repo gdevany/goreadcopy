@@ -15,8 +15,7 @@ class MeetAuthor extends PureComponent {
 
   truncInfo = (text, limit) => {
     const { isDescriptionOpen } = this.state;
-    console.log(isDescriptionOpen)
-    return !text.length >= limit || isDescriptionOpen ? text : `${text.slice(0, limit)}...`
+    return !text.length >= limit || isDescriptionOpen ? text : `${text.slice(0, limit)}...`;
   }
 
   toggleDescription = () => {
@@ -37,35 +36,35 @@ class MeetAuthor extends PureComponent {
     } = this.props;
     const { isDescriptionOpen } = this.state;
     return (
-      <div className='columns bookpage-meet-author-main-container'>
-        <section className='bookpage-meet-author-container'>
-          <h3 className='bookpage-meet-author-title'>Meet the Author</h3>
-          <div className='bookpage-meet-author-content'>
-            <figure className='bookpage-meet-author-content-figure'>
-              <img src={profilePic} />
+      <div className="columns bookpage-meet-author-main-container">
+        <section className="bookpage-meet-author-container">
+          <h3 className="bookpage-meet-author-title">Meet the Author</h3>
+          <div className="bookpage-meet-author-content">
+            <figure className="bookpage-meet-author-content-figure">
+              <img src={profilePic} alt="" />
             </figure>
-            <div className='bookpage-meet-author-content-section'>
+            <div className="bookpage-meet-author-content-section">
               <h4>{fullname}</h4>
-              <div className='bookpage-meet-author-numbers-container'>
-                <div className='bookpage-meet-author-numbers-section'>
-                  <span className='bookpage-meet-author-numbers-title'>
+              <div className="bookpage-meet-author-numbers-container">
+                <div className="bookpage-meet-author-numbers-section">
+                  <span className="bookpage-meet-author-numbers-title">
                     Followers
                   </span>
-                  <span className='bookpage-meet-author-numbers'>
+                  <span className="bookpage-meet-author-numbers">
                     {parseIntToLocale(followers)}
                   </span>
                 </div>
-                <div className='bookpage-meet-author-numbers-section'>
-                  <span className='bookpage-meet-author-numbers-title'>
+                <div className="bookpage-meet-author-numbers-section">
+                  <span className="bookpage-meet-author-numbers-title">
                     Books
                   </span>
-                  <span className='bookpage-meet-author-numbers'>
+                  <span className="bookpage-meet-author-numbers">
                     {books}
                   </span>
                 </div>
               </div>
-              <div className='bookpage-meet-author-anchor-container'>
-                <a href={url} className='bookpage-meet-author-anchor'>
+              <div className="bookpage-meet-author-anchor-container">
+                <a href={url} className="bookpage-meet-author-anchor">
                   See Profile
                 </a>
               </div>

@@ -72,9 +72,10 @@ class EditorialReviews extends PureComponent {
   render() {
     const { bookInfo } = this.props;
     const editorialReviews = bookInfo ? bookInfo.editorialReviews : null;
+    const length = editorialReviews ? editorialReviews.length : null;
     return (
       <div className="columns review-container">
-        { editorialReviews ? (
+        { length > 0 ? (
           <h3 className="review-title">
             Editorial Reviews
           </h3>

@@ -549,6 +549,8 @@
       .bookpage-book-add-to-cart-container{
         width: 100%;
         margin: 25px auto;
+        display: flex;
+        justify-content: center;
         @media all and (min-width: 1024px){
           margin: 25px 0;
           justify-content: flex-end;
@@ -614,6 +616,7 @@
   align-items: center;
   flex-direction: column;
   background: $white;
+  margin-bottom: 20px;
   @media all and (min-width: 768px){
     flex-direction: row;
     padding: 0;

@@ -960,7 +960,7 @@ class BookInfo extends PureComponent {
             <div className="bookpage-book-add-to-cart-container">
               {bookInfo.isOnStock ? (
                 <Link
-                  className="store-primary-button float-right"
+                  className="store-primary-button"
                   onClick={!addToCartClicked ? this.handleAddToCart : null}
                   to={!addToCartClicked ? null : '/shop/cart'}
                 >
