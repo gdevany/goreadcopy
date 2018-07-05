@@ -72,20 +72,22 @@ class MeetAuthor extends PureComponent {
             </div>
           </div>
         </section>
-        <section className='bookpage-meet-author-description-container'>
-          <h3 className='bookpage-meet-author-title'>
-            Author Bio
-          </h3>
-          <p className='bookpage-meet-author-description'>
-            {description ? this.truncInfo(description, 500) : null}
-            <a
-              className='bookpage-meet-author-description-readmore'
-              onClick={this.toggleDescription}
-            >
-              {isDescriptionOpen ? ' See less' : ' See more'}
-            </a>
-          </p>
-        </section>
+        {description ? (
+          <section className="bookpage-meet-author-description-container">
+            <h3 className="bookpage-meet-author-title">
+              Author Bio
+            </h3>
+            <p className="bookpage-meet-author-description">
+              {description ? this.truncInfo(description, 500) : null}
+              <a
+                className="bookpage-meet-author-description-readmore"
+                onClick={this.toggleDescription}
+              >
+                {isDescriptionOpen ? ' See Less' : ' See More'}
+              </a>
+            </p>
+          </section>
+        ) : null}
       </div>
     );
   }

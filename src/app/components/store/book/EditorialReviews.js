@@ -49,7 +49,7 @@ class EditorialReviews extends PureComponent {
         <div className="review-description">
           &#34;{description}&#34;
           <a id={index} onClick={this.toggleDescription} className="review-toggle">
-            {!isOpen[index] ? ' Read More' : ' Read less' }
+            {!isOpen[index] ? ' See More' : ' See Less' }
           </a>
           <p className="reviewer">
             <i>{item.reviewer}</i> {item.pubDate}
