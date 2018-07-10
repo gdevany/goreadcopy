@@ -439,7 +439,6 @@ class BookInfo extends PureComponent {
       isLibraryHover,
       isBookFullDescription
     } = this.state
-    console.log(bookInfo.authors.length > 0);
     return (
       <div className="row bookpage-info-main-container">
         <div className="small-12 large-6 large-offset-1 columns bookpage-info-left-element">
@@ -961,7 +960,7 @@ class BookInfo extends PureComponent {
             <div className="bookpage-book-add-to-cart-container">
               {bookInfo.isOnStock ? (
                 <Link
-                  className="store-primary-button float-right"
+                  className="store-primary-button"
                   onClick={!addToCartClicked ? this.handleAddToCart : null}
                   to={!addToCartClicked ? null : '/shop/cart'}
                 >
