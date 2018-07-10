@@ -84,7 +84,7 @@ class orderSuccess extends PureComponent {
                       <img className="paypal-image" src="/image/paypal-logo.png" alt="" />
                     </div>
                   ) : (
-                    <span>
+                    <span className="order-card-success">
                       <span className="order-success-payment-card">
                         {order.cardType}
                         {` ********${order.cardLast4}`}
