@@ -34,7 +34,6 @@ class orderSuccess extends PureComponent {
 
   render() {
     const { order, location } = this.props;
-    console.log(this.props);
     const { billingMethod } = order;
     if (order) {
       const { shippingAddress, billingAddress, litcoinsToEarn } = order;
