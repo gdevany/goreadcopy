@@ -190,8 +190,8 @@ const DesktopBreakpoint = ({ screenWidth, breakpoints }) => (
           <TrendingBooks
             sectionTitle="#Trending"
             displayAmount={getAmount(screenWidth, breakpoints, true)}
-            perPage={24}
-            limit={24}
+            perPage={28}
+            limit={28}
           />
         </div>
       </div>
@@ -210,8 +210,8 @@ const DesktopBreakpoint = ({ screenWidth, breakpoints }) => (
             maxPrice={40}
             sectionTitle="Coming Soon"
             displayAmount={getAmount(screenWidth, breakpoints, true)}
-            perPage={24}
-            limit={24}
+            perPage={28}
+            limit={28}
             oneByFamily={true}
           />
         </div>
