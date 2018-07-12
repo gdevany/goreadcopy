@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { stack as MobileMenu } from 'react-burger-menu';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import {
@@ -11,13 +12,18 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faSearch from '@fortawesome/fontawesome-free-solid/faSearch';
 import faShoppingCart from '@fortawesome/fontawesome-free-solid/faShoppingCart';
 import faBars from '@fortawesome/fontawesome-free-solid/faBars';
+import faAngleDown from '@fortawesome/fontawesome-free-solid/faAngleDown';
+import faAngleUp from '@fortawesome/fontawesome-free-solid/faAngleUp';
 import R from 'ramda';
+import { ExternalRoutes as routes } from '../../../constants';
 import CMSProvider from '../../cms/CMSProvider';
 import { SoldBookCounter } from '../';
 import FloatingSubMenu from './FloatingSubMenu';
 import connectLinkBar from '../../containers/HomeNavMenuContainer';
 import SearchModal from '../SearchModal';
 import NavMenu from './NavMenu';
+
+const { articles } = routes;
 
 const LinkButton = ({ text, to }) => (
   <Link to={to}>
@@ -124,6 +130,8 @@ export class NavMenuV2 extends Component {
       isSearchOpen: false,
       term: '',
       filter: 'Book',
+      isMobileMenuOpen: false,
+      isMobileSubMenuOpen: false,
     };
   }
 
@@ -136,8 +144,27 @@ export class NavMenuV2 extends Component {
     this.setState({ isSearchOpen: true });
   }
 
+  handleMenuClick = (event) => {
+    event.preventDefault();
+    const { isMobileMenuOpen } = this.state;
+    isMobileMenuOpen ?
+      this.setState({ isMobileMenuOpen: false }) :
+      this.setState({ isMobileMenuOpen: true });
+  }
+
+  handleCloseMenu = (state) => {
+    const { isMobileMenuOpen } = this.state;
+    !state.isOpen && isMobileMenuOpen ?
+      this.setState({ isMobileMenuOpen: false }) : null;
+  }
+
+  handleSubMenuClick = () => {
+    const { isMobileSubMenuOpen } = this.state;
+    this.setState({ isMobileSubMenuOpen: !isMobileSubMenuOpen });
+  }
+
   isLoggedIn = () => {
-    return this.props.currentReader && this.props.currentReader.token
+    return this.props.currentReader && this.props.currentReader.token;
   }
 
   ActionBar = () => (
@@ -145,14 +172,12 @@ export class NavMenuV2 extends Component {
       <div className="d-block d-sm-none">
         <div className="navbar-action navbar-bar-spacing">
           <div className="navbar-action-icons d-flex flex-row justify-content-around align-items-center">
-            <div className="navbar-action-icon">
-              <FontAwesomeIcon icon={faBars} size='lg' />
-            </div>
+            {this.MobileMenu()}
             <div className="navbar-action-icon">
               <FontAwesomeIcon icon={faSearch} size='lg' onClick={this.onSearchSubmit} />
             </div>
-            <Link to='/' alt="GoRead Home">
-              <img className="navbar-logo" src='/image/logo.png' />
+            <Link to="/" alt="GoRead Home">
+              <img className="navbar-logo" src='/image/logo.png' alt="" />
             </Link>
             <NavBarIconLink to="/shop/cart" iconProps={{ icon: faShoppingCart, size: 'lg' }} />
           </div>
@@ -223,30 +248,85 @@ export class NavMenuV2 extends Component {
     </div>
   );
 
+  MobileMenu = () => (
+    <div>
+      <div className="navbar-action-icon" onClick={this.handleMenuClick}>
+        <FontAwesomeIcon icon={faBars} size="lg" />
+      </div>
+      <MobileMenu
+        customBurgerIcon={false}
+        customCrossIcon={false}
+        id="mobile-menu-container"
+        isOpen={this.state.isMobileMenuOpen}
+        onStateChange={this.handleCloseMenu}
+      >
+        <div className="mobile-menu-item menu-sign" onClick={this.handleSubMenuClick}>
+          Sign In / Create account
+          {this.state.isMobileSubMenuOpen ? (
+            <FontAwesomeIcon icon={faAngleUp} size="lg" />
+          ) : (
+            <FontAwesomeIcon icon={faAngleDown} size="lg" />
+          )}
+        </div>
+        {this.state.isMobileSubMenuOpen ? (
+          <div className="submenu-sign slide-down">
+            <a className="mobile-submenu-item" href="/accounts/login">
+              Sign In
+            </a>
+            <a className="mobile-submenu-item" href="/accounts/signup">
+              Create an Account
+            </a>
+          </div>
+        ) : null}
+        <a className="mobile-menu-item" href="/categories/fiction">
+          Books
+        </a>
+        <a className="mobile-menu-item" href="/categories/fiction">
+          Best Sellers
+        </a>
+        <a className="mobile-menu-item" href="/categories/fiction">
+          New Releases
+        </a>
+        <a className="mobile-menu-item" href={articles}>
+          Articles
+        </a>
+        <a className="mobile-menu-item" href="https://go.earnmoneybywriting.com/grlf-landing">
+          For Authors
+        </a>
+        <a className="mobile-menu-item" href="/accounts/signup">
+          For Readers
+        </a>
+        <a className="mobile-menu-item" href="/literacy">
+          Buy a Book, We give a book!
+        </a>
+      </MobileMenu>
+    </div>
+  );
+
   render() {
     const { isSearchOpen, term, filter } = this.state;
     return (
       <div id="navbar">
         <CMSProvider page="submenus">
-        {
-          !this.isLoggedIn() ?
-            <AuthBar /> :
-            null
-        }
-        {
-          this.isLoggedIn() ?
-            <NavMenu /> :
-            this.ActionBar()
-        }
-        <LinkBarWithData />
-        <NotificationBar />
-        <SearchModal
-          modalOpen={isSearchOpen}
-          handleClose={() => this.setState({ isSearchOpen: false, term: '' })}
-          term={term}
-          filter={filter}
-          resetSearch={filter => this.setState({ term: '', filter })}
-        />
+          {
+            !this.isLoggedIn() ?
+              <AuthBar /> :
+              null
+          }
+          {
+            this.isLoggedIn() ?
+              <NavMenu /> :
+              this.ActionBar()
+          }
+          <LinkBarWithData />
+          <NotificationBar />
+          <SearchModal
+            modalOpen={isSearchOpen}
+            handleClose={() => this.setState({ isSearchOpen: false, term: '' })}
+            term={term}
+            filter={filter}
+            resetSearch={filter => this.setState({ term: '', filter })}
+          />
         </CMSProvider>
       </div>
     );
