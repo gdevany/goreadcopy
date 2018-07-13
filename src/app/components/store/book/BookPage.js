@@ -127,8 +127,7 @@ class BookPage extends PureComponent {
       bookInfo.audienceGradeMax.code : null : null
     const productDimensions = bookInfo ? bookInfo.length && bookInfo.width && bookInfo.height ?
       bookInfo.length + ' x ' + bookInfo.width + ' x ' + bookInfo.height + ' Inches' : null : null
-    const format = bookInfo ? bookInfo.productType ? bookInfo.productType.description ?
-      bookInfo.productType.description.split('-')[0] : null : null : null
+    const format = bookInfo ? bookInfo.binding : null
     const otherFormats = bookInfo ? bookInfo.family.length > 0 ?
       this.handleOtherFormats(bookInfo.family) : null : null
     bookInfo ? (
