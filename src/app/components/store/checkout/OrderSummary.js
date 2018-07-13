@@ -123,7 +123,7 @@ class OrderSummary extends PureComponent {
               }
               <div className='checkoutpage-order-summary-list-single'>
                 <span className='checkoutpage-order-summary-list-description has-litcoins'>
-                  Litcoins
+                  Litcoins&nbsp;
                   <div className='has-litcoins-container'>
                     <img className='has-litcoins-img' src='/image/litcoin.png'/>
                   </div>
