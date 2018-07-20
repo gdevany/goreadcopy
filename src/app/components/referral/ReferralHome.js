@@ -101,7 +101,7 @@ class ReferralHome extends PureComponent {
     this.setState({
       isMyProfile: true,
       slug: nextSlug,
-    })
+    });
   }
 
   renderReferralSignup = (referrer) => {
@@ -110,12 +110,12 @@ class ReferralHome extends PureComponent {
         <Helmet>
           <title>GoRead</title>
         </Helmet>
-        <div className='home'>
-          <ReferralCallToActionTop referrerName={referrer.fullname}/>
+        <div className="home">
+          <ReferralCallToActionTop referrerName={referrer.fullname} slug={referrer.slug} />
           <BookLanding />
           <PriorityReasons />
           <TestimonialCarousel />
-          <CallToActionBottom />
+          <CallToActionBottom slug={referrer.slug} />
           <Footer />
         </div>
       </BaseNavView>
