@@ -60,7 +60,7 @@ const Routes = (
     <IndexRoute isUserLoggedIn={isUserLoggedIn} component={HomeWrapper} />
     <Route path="/profile/settings" component={Settings} />
     <Route path="/profile/:slug" component={Profile} />
-    <Route path="/me/:slug" component={ReferralHome} />
+    <Route path="/me/:slug" component={useFoundationFor(ReferralHome)} />
     <Route path="/store" component={useBootstrapFor(HomeV2)} />
     <Route path="/book/:slug" component={BookPage} />
     <Route path="/categories/:slug" component={CategoriesPage} />

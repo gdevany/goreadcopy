@@ -121,16 +121,17 @@ class ReferralHome extends PureComponent {
       </BaseNavView>
     )
   }
-
+  //
+  //
+  //
   render() {
     const { isMyProfile, currentReader, profilePage } = this.props
     const referrer = (isMyProfile ? currentReader : profilePage)
+    const result = referrer.fullname ? this.renderReferralSignup(referrer) : null;
     if (Auth.currentUserExists()) {
-      this.props.router.push('/')
+      this.props.router.push('/');
     }
-    return (
-      this.renderReferralSignup(referrer)
-    )
+    return result;
   }
 }
 
