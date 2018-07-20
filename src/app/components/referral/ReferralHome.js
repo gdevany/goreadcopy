@@ -121,9 +121,7 @@ class ReferralHome extends PureComponent {
       </BaseNavView>
     )
   }
-  //
-  //
-  //
+
   render() {
     const { isMyProfile, currentReader, profilePage } = this.props
     const referrer = (isMyProfile ? currentReader : profilePage)
