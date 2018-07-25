@@ -62,7 +62,7 @@ const FooterColumns = [
 ];
 
 const MainFooter = props => (
-  <div className="footer d-flex flex-column justify-content-center flex-sm-row justify-content-sm-around">
+  <div className="footer d-flex flex-column justify-content-center flex-lg-row justify-content-lg-around">
     <FooterColumn title="Stay in the Know">
       <div className="footer-form">
         <span>Sign up for savings, news and updates.</span>
@@ -70,7 +70,7 @@ const MainFooter = props => (
       </div>
     </FooterColumn>
     { FooterColumns.map(column => <FooterColumn {...column} />) }
-    <div className="footer-action-scroll d-none d-sm-block">
+    <div className="footer-action-scroll d-none d-lg-block">
       <FontAwesomeIcon onClick={() => scroller.scrollToTop()} icon={faArrowUp} size="lg" />
     </div>
   </div>
