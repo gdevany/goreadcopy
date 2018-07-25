@@ -957,6 +957,14 @@ class BookInfo extends PureComponent {
                 </li> */}
               {/* </ul> */}
             </div>
+            {bookInfo.isPresale ? (
+              <div className="bookpage-pre-order-container">
+                <span className="pre-order-label">
+                  {`Pre-Order will ship
+                      ${moment(bookInfo.onSaleDate).format('MMMM Do,  YYYY')}`}
+                </span>
+              </div>
+            ) : null}
             <div className="bookpage-book-add-to-cart-container">
               {bookInfo.isOnStock ? (
                 <Link
@@ -979,12 +987,6 @@ class BookInfo extends PureComponent {
                   This item is Out of Stock.
                 </span>
               )}
-              {bookInfo.isPresale ? (
-                <span className="label">
-                  {`Pre-Order will ship
-                      ${moment(bookInfo.onSaleDate).format('MMMM Do,  YYYY')}`}
-                </span>
-              ) : null}
             </div>
             {/* <div className='bookpage-book-piggy-bank-container'>
               <figure className='bookpage-book-piggy-bank-figure'>

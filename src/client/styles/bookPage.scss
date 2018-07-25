@@ -546,6 +546,25 @@
           }
         }
       }
+      .bookpage-pre-order-container {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        @media (max-width: 768px) {
+          justify-content: center;
+        }
+        .pre-order-label {
+          color: #0099ff;
+          background-color: white;
+          text-align: center;
+          padding: 2px;
+          border-radius: 5px;
+          min-width: 200px;
+          max-width: 300px;
+          border: 1px solid #0099ff;
+          box-shadow: rgba(10, 10, 10, 0.13) 1px 3px 3px 1px;
+        }
+      }
       .bookpage-book-add-to-cart-container{
         width: 100%;
         margin: 25px auto;
@@ -564,17 +583,6 @@
           border-radius: 27px;
           display: block;
           text-align: center;
-        }
-        .label{
-          color: #0099ff;
-          background-color: white;
-          text-align: center;
-          padding: 5px;
-          border-radius: 5px;
-          min-width: 200px;
-          max-width: 300px;
-          border: 1px solid #0099ff;
-          box-shadow: rgba(10, 10, 10, 0.13) 1px 3px 3px 1px;
         }
       }
       .bookpage-book-piggy-bank-container{
