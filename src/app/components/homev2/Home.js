@@ -20,6 +20,8 @@ const getAmount = (screenWidth, breakpoints, isFullOnDesktop) => {
   if (screenWidth <= breakpoints.mobile) return 1;
   if (screenWidth <= breakpoints.mobileLandscape) return 2;
   if (screenWidth < breakpoints.tablet) return 3;
+  if (screenWidth <= breakpoints.tabletLandscape) return isFullOnDesktop ? 4 : 3;
+  if (screenWidth <= breakpoints.desktop) return isFullOnDesktop ? 5 : 4;
   return isFullOnDesktop ? 7 : 5;
 };
 
@@ -109,7 +111,7 @@ const AdWithCMS = withCMS(mapCMSEntityToAd)(Ad);
 const HomeImageLinksWithCMS = withCMS(mapCMSFooterEntitiesToAds)(HomeImageLinks);
 
 const MobileBreakpoint = ({ screenWidth, breakpoints }) => (
-  <div className="d-block d-sm-none">
+  <div className="d-block d-md-none">
     <div className="container">
       <div className="row">
         <div className="col">
@@ -153,12 +155,27 @@ const MobileBreakpoint = ({ screenWidth, breakpoints }) => (
       </div>
     </div>
     <AdWithCMS target="_blank" adKey="home.footer.footer1" />
+    <div className="container">
+      <div className="row">
+        <div className="col">
+          <ComingSoonBooks
+            maxPrice={40}
+            sectionTitle="Coming Soon"
+            displayAmount={getAmount(screenWidth, breakpoints, true)}
+            perPage={28}
+            limit={28}
+            oneByFamily={true}
+          />
+        </div>
+      </div>
+    </div>
     <AdWithCMS target="_blank" adKey="home.footer.footer2" />
+    <AdWithCMS target="_blank" adKey="home.footer.footer3" />
   </div>
 );
 
 const DesktopBreakpoint = ({ screenWidth, breakpoints }) => (
-  <div className="d-none d-sm-block">
+  <div className="d-none d-md-block">
     <div className="container">
       <div className="row">
         <div className="col-12 col-sm-9">
@@ -235,7 +252,7 @@ const HomeContent = ({ screenWidth, breakpoints }) => {
   return (
     <div className="home-content-wrapper">
       {
-        screenWidth > breakpoints.tablet ?
+        screenWidth >= breakpoints.tablet ?
           <DesktopBreakpoint {...{ screenWidth, breakpoints }} /> :
           <MobileBreakpoint {...{ screenWidth, breakpoints }} />
       }

@@ -21,17 +21,17 @@ class FooterColumn extends Component {
   render() {
     const { title, items, children, show } = this.props;
     return this.showColumn(show) ? (
-      <div className="footer-section d-flex flex-column justify-content-start align-items-center align-items-sm-start">
-        <div className="w-100 d-block d-sm-none">
+      <div className="footer-section d-flex flex-column justify-content-start align-items-center align-items-lg-start">
+        <div className="w-100 d-block d-lg-none">
           {
             items ?
               <CollapsableList text={title} list={items} wrapperClass="footer-section-list" /> :
               <Collapsable text={title}>{children}</Collapsable>
           }
         </div>
-        <div className="d-none d-sm-block">
+        <div className="d-none d-lg-block">
           <span className="footer-section-header">{title}</span>
-          <div className="d-flex flex-column justify-content-start align-items-center align-items-sm-start">
+          <div className="d-flex flex-column justify-content-start align-items-center align-items-lg-start">
             {
               items ?
                 items.map(parseLinkList) :

@@ -43,7 +43,7 @@ const NavBarIconLink = ({ to, iconProps }) => (
 
 const AuthBar = props => (
   <div className="navbar-auth-wrapper">
-    <div className="d-none d-sm-block">
+    <div className="d-none d-lg-block">
       <div className="container">
         <div className="row">
           <div className="col">
@@ -70,7 +70,7 @@ const hyperLink = (text, action, isLink, id, target) => (
 
 const LinkBar = props => (
   <div className="navbar-links-wrapper">
-    <div className="d-none d-sm-block">
+    <div className="d-none d-lg-block">
       <div className="container">
         <div className="row">
           <div className="col">
@@ -106,10 +106,10 @@ const Notifications = props => (
 
 const NotificationBar = props => (
   <div className="navbar-notifications-wrapper">
-    <div className="d-block d-sm-none">
+    <div className="d-block d-lg-none">
       <Notifications />
     </div>
-    <div className="d-none d-sm-block">
+    <div className="d-none d-lg-block">
       <div className="container">
         <div className="row">
           <div className="col">
@@ -169,7 +169,7 @@ export class NavMenuV2 extends Component {
 
   ActionBar = () => (
     <div className="navbar-action-wrapper">
-      <div className="d-block d-sm-none">
+      <div className="d-block d-lg-none">
         <div className="navbar-action navbar-bar-spacing">
           <div className="navbar-action-icons d-flex flex-row justify-content-around align-items-center">
             {this.MobileMenu()}
@@ -183,7 +183,7 @@ export class NavMenuV2 extends Component {
           </div>
         </div>
       </div>
-      <div className="d-none d-sm-block">
+      <div className="d-none d-lg-block">
         <div className="container">
           <div className="row">
             <div className="col">
