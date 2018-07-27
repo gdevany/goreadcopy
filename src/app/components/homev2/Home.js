@@ -251,6 +251,7 @@ class Home extends Component {
     return (
       <MainNavView>
         <Helmet>
+          <title>GoRead</title>
           <script>
             {`
               !function(f,b,e,v,n,t,s)

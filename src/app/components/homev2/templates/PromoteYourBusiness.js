@@ -1,8 +1,12 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { MainNavView } from '../../views';
 
 const PromoteYourBusiness = () => (
   <MainNavView>
+    <Helmet>
+      <title>GoRead | Promote Your Business</title>
+    </Helmet>
     <div className="container promote-your-business">
       <h1 className="title">
         Promote Your Business

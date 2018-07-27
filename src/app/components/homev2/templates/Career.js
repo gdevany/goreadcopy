@@ -1,7 +1,12 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { MainNavView } from '../../views';
+
 const Career = () => (
   <MainNavView>
+    <Helmet>
+      <title>GoRead | Career</title>
+    </Helmet>
     <div className="container career" >
       <img className="title-image" src="/image/join-our-team.jpg" alt="" />
       <h4 className="subtitle center-text">

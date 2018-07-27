@@ -1,10 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router';
 import ReactPlayer from 'react-player';
+import { Helmet } from 'react-helmet';
 import { MainNavView } from '../../views';
 
 const AboutUs = () => (
   <MainNavView>
+    <Helmet>
+      <title>GoRead | About Us</title>
+    </Helmet>
     <div className="container aboutUs">
       <img className="title-image" src="/image/about-us.jpg" alt="" />
       <h4 className="subtitle center-text">

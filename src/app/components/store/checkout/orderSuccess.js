@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
 import { browserHistory } from 'react-router';
 import { animateScroll } from 'react-scroll';
 import PropTypes from 'prop-types';
@@ -35,10 +36,14 @@ class orderSuccess extends PureComponent {
   render() {
     const { order, location } = this.props;
     const { billingMethod } = order;
+    const title = 'GoRead';
     if (order) {
       const { shippingAddress, billingAddress, litcoinsToEarn } = order;
       return (
         <StoreNavView>
+          <Helmet>
+            <title>{title}</title>
+          </Helmet>
           <SuccessBanner
             createdAccount={location && location.query && location.query.created}
             litcoinsEarned={litcoinsToEarn || 0}

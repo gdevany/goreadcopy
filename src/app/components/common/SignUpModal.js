@@ -123,6 +123,7 @@ class SignUpModal extends Component {
     return (
       <BaseNavView>
         <Helmet>
+          <title>GoRead | SignUp</title>
           <script>
             {`
               !function(f,b,e,v,n,t,s)

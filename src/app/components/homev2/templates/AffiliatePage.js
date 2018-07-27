@@ -1,8 +1,12 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { MainNavView } from '../../views';
 
 const AffiliatePage = () => (
   <MainNavView>
+    <Helmet>
+      <title>GoRead | Affiliate</title>
+    </Helmet>
     <div className="container affiliate-page">
       <img className="title-image" src="/image/become-affiliate.jpg" alt="" />
       <h4 className="subtitle">

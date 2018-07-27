@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { Helmet } from 'react-helmet';
 import { Link } from 'react-router'
 import WishListBooks from '../common/wishListBooks'
 import CartElement from './cartElement'
@@ -114,9 +115,13 @@ class CartPage extends PureComponent {
 
   render() {
     const { cart, anyGift, isCartLoading } = this.state
+    const title = 'GoRead | Cart';
     isUserLoggedIn = Auth.currentUserExists()
     return (
       <StoreNavView>
+        <Helmet>
+          <title>{title}</title>
+        </Helmet>
         <div className='root-cart-page'>
           <div className='cartpage-main-container'>
             <section className='cartpage-main-element-container'>
