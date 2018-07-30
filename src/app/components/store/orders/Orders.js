@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { Helmet } from 'react-helmet';
 import { Auth } from '../../../services'
 import { Store } from '../../../redux/actions'
 import { BaseNavView } from '../../views'
@@ -35,8 +36,12 @@ class Orders extends PureComponent {
 
   render() {
     const { userOrders } = this.props
+    const title = 'GoRead | Orders';
     return (
       <BaseNavView>
+        <Helmet>
+          <title>{title}</title>
+        </Helmet>
         <div className='row orders-page'>
           <h3> Past Orders </h3>
           <div className='center-text'>

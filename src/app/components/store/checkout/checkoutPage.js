@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { Helmet } from 'react-helmet';
 import { Link } from 'react-router'
 import { Store, CurrentReader, Session } from '../../../redux/actions'
 import { StepZero, StepOne, StepTwo, StepThree } from './orderSteps'
@@ -696,13 +697,13 @@ class CheckoutPage extends PureComponent {
       'cityShipping',
       'stateShipping',
       'zipcodeShipping',
-    ], this.state)
+    ], this.state);
     const cardInfo = R.pick([
       'nameOnCard',
       'cardNumber',
       'cardCVC',
       'fullExpDate',
-    ], this.state)
+    ], this.state);
     const billingInfo = R.pick([
       'nameBilling',
       'phoneBilling',
@@ -712,10 +713,14 @@ class CheckoutPage extends PureComponent {
       'cityBilling',
       'stateBilling',
       'zipcodeBilling',
-    ], this.state)
+    ], this.state);
+    const title = 'GoRead | Checkout';
 
     return (
       <section className='checkoutpage-main-container'>
+        <Helmet>
+          <title>{title}</title>
+        </Helmet>
         {this.state.showOverlay ?
           (
             <div className='overlay-on-order-place'>

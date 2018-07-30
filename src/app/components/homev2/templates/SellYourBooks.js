@@ -1,8 +1,12 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { MainNavView } from '../../views';
 
 const SellYourBooks = () => (
   <MainNavView>
+    <Helmet>
+      <title>GoRead | Sell Your Books</title>
+    </Helmet>
     <div className="container sell-your-books">
       <img className="title-image" src="/image/sell-your-books.jpg" alt="" />
       <div className="section">

@@ -1,8 +1,12 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { MainNavView } from '../../views';
 
 const PublishWithUs = () => (
   <MainNavView>
+    <Helmet>
+      <title>GoRead | Publish With Us</title>
+    </Helmet>
     <div className="container publish-with-us">
       <img className="title-image" src="/image/publish-with-us.jpg" alt="" />
       <p>

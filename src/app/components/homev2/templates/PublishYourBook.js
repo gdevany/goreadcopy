@@ -1,8 +1,12 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { MainNavView } from '../../views';
 
 const PublishYourBook = () => (
   <MainNavView>
+    <Helmet>
+      <title>GoRead | Publish Your Book</title>
+    </Helmet>
     <div className="container publish-your-book">
       <h1 className="title">
         Publish Your Book

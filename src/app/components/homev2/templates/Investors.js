@@ -1,9 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { Helmet } from 'react-helmet';
 import { MainNavView } from '../../views';
 
 const Investors = () => (
   <MainNavView>
+    <Helmet>
+      <title>GoRead | Investor Relations</title>
+    </Helmet>
     <div className="container investors">
       <img className="title-image" src="/image/investor-relations.jpg" alt="" />
       <p>

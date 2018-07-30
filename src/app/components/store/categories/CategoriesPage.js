@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { Helmet } from 'react-helmet';
 import { browserHistory } from 'react-router'
 import { Store } from '../../../redux/actions'
 import { Footer } from '../../common'
@@ -72,7 +73,11 @@ class CategoriesPage extends PureComponent {
         }
       }
     }
-    return {}
+    return {};
+  }
+
+  capitalize = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
   render() {
@@ -81,8 +86,13 @@ class CategoriesPage extends PureComponent {
     const subCategoryObject = this.handleChildCategories()
     const { isSubCategory } = this.state
     const isUserLoggedIn = Auth.currentUserExists()
+    const title = selectedCategory ?
+      `Categories | ${this.capitalize(selectedCategory.name)}` : 'Categories';
     return (
       <StoreNavView showCategories={this.props.location.query['see-more'] === 'true'}>
+        <Helmet>
+          <title>{title}</title>
+        </Helmet>
         <div className='categorypage-main-container'>
           {selectedCategory && selectedCategory !== '' ?
             <CategoriesHero

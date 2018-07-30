@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import R from 'ramda';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
+import { Helmet } from 'react-helmet';
 import { ExternalRoutes as routes } from '../../constants';
 import { Auth as AuthServices } from '../../services';
 import { Auth, Chat, Notifications, ReaderData } from '../../redux/actions';
@@ -119,8 +120,12 @@ class SignInModal extends Component {
       isRecoverErrorMessage,
     } = this.state;
     const redirectionURL = this.checkRedirectionQuery();
+    const title = 'GoRead | Login';
     return (
       <BaseNavView>
+        <Helmet>
+          <title>{title}</title>
+        </Helmet>
         <div className="row login-content">
           {isPassForgotten || isRecoverSubmit ? (
             <div className="center-text">

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
 import { Dialog } from 'material-ui';
 import Scroll from 'react-scroll';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
@@ -233,10 +234,14 @@ class BookPage extends PureComponent {
   render() {
     const { bookInfo, starsInfo, isUserLoggedIn } = this.state;
     const { rates, currentReader } = this.props;
+    const title = bookInfo ? `${bookInfo.title} | ${bookInfo.authors[0].fullname}` : 'GoRead';
     const length = bookInfo ?
       bookInfo.editorialReviews ? bookInfo.editorialReviews.length : null : null;
     return (
       <StoreNavView>
+        <Helmet>
+          <title>{title}</title>
+        </Helmet>
         <div>
           <div className='bookpage-main-container'>
             {bookInfo ?

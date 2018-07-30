@@ -1,9 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router'
 import { MainNavView } from '../views'
+import { Helmet } from 'react-helmet';
 
 const Literacy = () => (
   <MainNavView>
+    <Helmet>
+      <title>GoRead | Literacy</title>
+    </Helmet>
     <div className="container">
       <div className="literacy-main-container row">
         <div className="literacy-title">

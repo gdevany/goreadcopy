@@ -1,8 +1,12 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { MainNavView } from '../../views';
 
 const OurMission = () => (
   <MainNavView>
+    <Helmet>
+      <title>GoRead | Our Misson</title>
+    </Helmet>
     <div className="container our-mission">
       <img className="title-image" src="/image/our-mission.jpg" alt="" />
       <p className="center-text">
