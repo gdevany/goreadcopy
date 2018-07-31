@@ -462,7 +462,7 @@ class BookInfo extends PureComponent {
             </a>
             {index + 1 < authorLength ? (
               <span>
-                ,
+                ,&nbsp;
               </span>
             ) : null }
           </span>
