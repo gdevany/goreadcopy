@@ -6,7 +6,7 @@ import ReaderTilesAPI from '../../services/api/tiles';
 export const getTop5Articles = createAction(A.GET_TOP_5_ARTICLES, () => (
   new Promise((resolve, reject) => (
     ArticlesAPI.getTop5Articles()
-      .then(({ data }) => resolve({ articles: data.top_5_articles }))
+      .then(({ data }) => resolve({ articles: data }))
       .catch(err => reject(err))
   ))
 ));

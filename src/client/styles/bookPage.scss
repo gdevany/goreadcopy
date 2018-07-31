@@ -566,9 +566,30 @@
           }
         }
       }
+      .bookpage-pre-order-container {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        @media (max-width: 768px) {
+          justify-content: center;
+        }
+        .pre-order-label {
+          color: #0099ff;
+          background-color: white;
+          text-align: center;
+          padding: 2px;
+          border-radius: 5px;
+          min-width: 200px;
+          max-width: 300px;
+          border: 1px solid #0099ff;
+          box-shadow: rgba(10, 10, 10, 0.13) 1px 3px 3px 1px;
+        }
+      }
       .bookpage-book-add-to-cart-container{
         width: 100%;
         margin: 25px auto;
+        display: flex;
+        justify-content: center;
         @media all and (min-width: 1024px){
           margin: 25px 0;
           justify-content: flex-end;
@@ -582,17 +603,6 @@
           border-radius: 27px;
           display: block;
           text-align: center;
-        }
-        .label{
-          color: #0099ff;
-          background-color: white;
-          text-align: center;
-          padding: 5px;
-          border-radius: 5px;
-          min-width: 200px;
-          max-width: 300px;
-          border: 1px solid #0099ff;
-          box-shadow: rgba(10, 10, 10, 0.13) 1px 3px 3px 1px;
         }
       }
       .bookpage-book-piggy-bank-container{
@@ -634,6 +644,7 @@
   align-items: center;
   flex-direction: column;
   background: $white;
+  margin-bottom: 20px;
   @media all and (min-width: 768px){
     flex-direction: row;
     padding: 0;
@@ -731,20 +742,17 @@
 }
 
 .bookpage-meet-author-main-container{
+  display: flex;
   margin: 75px 0;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
   .bookpage-meet-author-title{
     font-size: 24px;
   }
 
   .bookpage-meet-author-container{
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-direction: column;
     width: 100%;
-    @media all and (min-width: 768px){
-      flex-direction: row;
-    }
     .bookpage-meet-author-content{
       width: 100%;
       padding: 15px;
@@ -829,18 +837,19 @@
         }
       }
     }
-    .bookpage-meet-author-description-container{
+  }
+
+  .bookpage-meet-author-description-container{
       width: 100%;
-      padding: 0 15px;
       text-align: justify;
       margin-top: 25px;
-      @media all and (min-width: 768px){
+      padding: 0 20px 10px 20px;
+      @media all and (min-width: 769px){
         margin-top: 0;
-        margin-left: 25px;
-        padding: 0 35px;
       }
       .bookpage-meet-author-description{
         word-wrap: break-word;
+        padding-top: 25px;
         .bookpage-meet-author-description-readmore{
           color: #808080;
           &:hover{
@@ -849,7 +858,6 @@
         }
       }
     }
-  }
 }
 
 .bookpage-newsletter-main-container{
@@ -1421,5 +1429,23 @@
   @media all and (min-width: 1200px){
     width: 100% !important;
     height: 400px !important;
+  }
+}
+
+.review-container {
+  margin-top: 75px;
+  .review-title {
+    font-size:24px;
+  }
+  .review-item-container {
+    .review-item {
+      padding: 10px 0;
+      .reviewer {
+        text-align: right;
+      }
+    }
+    .review-toggle {
+      color: #808080;
+    }
   }
 }

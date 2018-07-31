@@ -56,6 +56,7 @@ class LoginForm extends Form {
   }
 
   render() {
+    const { isBlocked } = this.state;
     return (
       <form
         onSubmit={this.handleSubmit(this.pipeline)}
@@ -80,14 +81,15 @@ class LoginForm extends Form {
           errorText={this.errorFor('password')}
         />
         { this.constructNonFieldErrors() }
+        { this.constructSpinner() }
         <div className="small-12 columns center-text">
           <PrimaryButton
             label="Sign in with email"
             onClick={null}
             type="submit"
+            disabled={isBlocked}
           />
         </div>
-        { this.constructSpinner() }
       </form>
     );
   }

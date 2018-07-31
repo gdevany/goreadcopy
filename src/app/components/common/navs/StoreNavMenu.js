@@ -83,12 +83,17 @@ class BookStoreNavBar extends PureComponent {
   }
   componentWillMount = () => {
     const isUserLoggedIn = AuthService.currentUserExists()
-    const { getCurrentReader, getCategories, getPopularCategories } = this.props
+    const { getCurrentReader, getCategories, getPopularCategories, categoriesOpen } = this.props
     const { readerFetched } = this.state
     if (!readerFetched && isUserLoggedIn) {
       getCurrentReader()
       this.setState({
-        readerFetched: true
+        readerFetched: true,
+        categoriesMenuOpen: !!categoriesOpen,
+      })
+    } else {
+      this.setState({
+        categoriesMenuOpen: !!categoriesOpen,
       })
     }
     getCategories()
@@ -101,9 +106,10 @@ class BookStoreNavBar extends PureComponent {
     if (isUserLoggedIn && !readerFetched) {
       getCurrentReader()
       this.setState({
-        readerFetched: true
+        readerFetched: true,
       })
     }
+
     if (!usePlatformAs && nextProps.currentReader.publishingAs) {
       this.setState({ usePlatformAs: nextProps.currentReader.publishingAs })
     }

@@ -1,18 +1,20 @@
-import React, { PureComponent } from 'react'
-import { connect } from 'react-redux'
-import { Dialog } from 'material-ui'
-import Scroll from 'react-scroll'
-import { Footer } from '../../common'
-import { StoreNavView } from '../../views'
-import WishListBooks from '../common/wishListBooks'
-import BookInfo from './BookInfo'
-import MeetAuthor from './MeetAuthor'
-import ReviewsOverview from './ReviewsOverview'
-import ReviewsContainer from './ReviewsContainer'
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
+import { Dialog } from 'material-ui';
+import Scroll from 'react-scroll';
+import CloseIcon from 'material-ui/svg-icons/navigation/close';
+import { Footer } from '../../common';
+import { StoreNavView } from '../../views';
+import WishListBooks from '../common/wishListBooks';
+import BookInfo from './BookInfo';
+import MeetAuthor from './MeetAuthor';
+import ReviewsOverview from './ReviewsOverview';
+import ReviewsContainer from './ReviewsContainer';
+import EditorialReviews from './EditorialReviews';
 // import NewsLetter from './NewsLetter'
-import { Auth } from '../../../services'
-import { Store, Rates, Session } from '../../../redux/actions'
-import CloseIcon from 'material-ui/svg-icons/navigation/close'
+import { Auth } from '../../../services';
+import { Store, Rates, Session } from '../../../redux/actions';
 
 const { addToCart, getBookInfo } = Store
 const { getStarsInfo } = Rates
@@ -126,8 +128,7 @@ class BookPage extends PureComponent {
       bookInfo.audienceGradeMax.code : null : null
     const productDimensions = bookInfo ? bookInfo.length && bookInfo.width && bookInfo.height ?
       bookInfo.length + ' x ' + bookInfo.width + ' x ' + bookInfo.height + ' Inches' : null : null
-    const format = bookInfo ? bookInfo.productType ? bookInfo.productType.description ?
-      bookInfo.productType.description.split('-')[0] : null : null : null
+    const format = bookInfo ? bookInfo.binding : null
     const otherFormats = bookInfo ? bookInfo.family.length > 0 ?
       this.handleOtherFormats(bookInfo.family) : null : null
     bookInfo ? (
@@ -153,7 +154,7 @@ class BookPage extends PureComponent {
   handleBookDetails = () => {
     const detailsArray = ['ISBN', 'Pages', 'Age Range', 'Grade Level',
       'Series', 'Hardcover', 'Publisher', 'Language', 'Format', 'Other Formats',
-      'Dimensions']
+      'Dimensions'];
     const result = detailsArray.map((detail, index) => {
       return this.handleRenderDetail(detail, index)
     })
@@ -168,7 +169,7 @@ class BookPage extends PureComponent {
           {result || null}
         </div>
       </div>
-    )
+    );
   }
 
   handleRenderDetail = (detail, index) => {
@@ -182,7 +183,7 @@ class BookPage extends PureComponent {
           &nbsp; {bookDetails[detail]}
         </p>
       </div>
-    ) : null
+    ) : null;
   }
 
   handleOtherFormats = (array) => {
@@ -191,8 +192,8 @@ class BookPage extends PureComponent {
         <a key={index} href={item.url}>
           {item.description}{array.length - 1 > index ? ', ' : null}
         </a>
-      )
-    })
+      );
+    });
   }
 
   handleImageModal = (bookInfo) => {
@@ -204,7 +205,7 @@ class BookPage extends PureComponent {
         modal={false}
         open={this.state.openModal}
         onRequestClose={this.closeImageModal}
-        autoScrollBodyContent={true}
+        autoScrollBodyContent
       >
         <span className='book-image-modal-close'>
           <a onClick={this.closeImageModal}>
@@ -231,10 +232,16 @@ class BookPage extends PureComponent {
   }
 
   render() {
-    const { bookInfo, starsInfo, isUserLoggedIn } = this.state
-    const { rates, currentReader } = this.props
+    const { bookInfo, starsInfo, isUserLoggedIn } = this.state;
+    const { rates, currentReader } = this.props;
+    const title = bookInfo ? `${bookInfo.title} | ${bookInfo.authors[0].fullname}` : 'GoRead';
+    const length = bookInfo ?
+      bookInfo.editorialReviews ? bookInfo.editorialReviews.length : null : null;
     return (
       <StoreNavView>
+        <Helmet>
+          <title>{title}</title>
+        </Helmet>
         <div>
           <div className='bookpage-main-container'>
             {bookInfo ?
@@ -271,25 +278,31 @@ class BookPage extends PureComponent {
                 </div>
               </div>
               <figure className='bookpage-announcement-figure'>
-                <img src='/image/chat-illustration.png'/>
+                <img src='/image/chat-illustration.png' />
               </figure>
             </div>
-            {isUserLoggedIn && currentReader ? <WishListBooks/> : null}
-            <hr className='bookpage-hr-separator'/>
-            { bookInfo && bookInfo.authors[0] ?
-              (
-                <MeetAuthor
-                  profilePic={bookInfo.authors[0].imageUrl}
-                  description={bookInfo.authors[0].aboutMe}
-                  followers={bookInfo.authors[0].numFans}
-                  books={bookInfo.authors[0].numBooks}
-                  fullname={bookInfo.authors[0].fullname}
-                  url={bookInfo.authors[0].url}
-                />
-              ) : null
-            }
-            <hr className='bookpage-hr-separator'/>
-            <Element name='reviews'>
+            {isUserLoggedIn && currentReader ? <WishListBooks /> : null}
+            <hr className='bookpage-hr-separator' />
+            <div className="row">
+              { bookInfo && bookInfo.authors[0] ?
+                (
+                  <MeetAuthor
+                    profilePic={bookInfo.authors[0].imageUrl}
+                    description={bookInfo.authors[0].aboutMe}
+                    followers={bookInfo.authors[0].numFans}
+                    books={bookInfo.authors[0].numBooks}
+                    fullname={bookInfo.authors[0].fullname}
+                    url={bookInfo.authors[0].url}
+                  />
+                ) : null
+              }
+            </div>
+            {length ? (<hr className="bookpage-hr-separator" />) : null }
+            <div className="row">
+              <EditorialReviews bookInfo={bookInfo} />
+            </div>
+            <hr className="bookpage-hr-separator" />
+            <Element name="reviews">
               {bookInfo ?
                 (
                   <ReviewsOverview

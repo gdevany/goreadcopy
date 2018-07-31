@@ -17,23 +17,28 @@ const Privacy = () => {
         GoRead may collect and use the following kinds of personal information:
         <ul>
           <li>
-            Information about your use of this website;
+            Information about your use of the website <a href="https://goread.com">GoRead.com</a>;
           </li>
           <li>
             Information that you provide for the purpose of
-            registering with the website;
+            registering with the website <a href="https://goread.com">GoRead.com</a>;
           </li>
           <li>
             Information about transactions carried out over this
-            website;
+            website <a href="https://goread.com">GoRead.com</a>;;
           </li>
           <li>
             Information that you provide for the purpose of
-            subscribing to the website services; and
+            subscribing to the website, <a href="https://goread.com">GoRead.com</a>, services and
           </li>
           <li>
-            Any other information that you send to GoRead
-            Inc..
+            Any other information that you send to GoRead Inc..
+          </li>
+          <li>
+            Information about your interactions with any of our Courses, Webinar, and lead magnet campaigns
+          </li>
+          <li>
+            <a href="https://goread.com">GoRead.com</a> uses a Facebook Pixel in order to measure ad conversions or retarget advertisements on Facebook
           </li>
         </ul>
       </p>

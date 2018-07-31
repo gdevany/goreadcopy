@@ -24,11 +24,11 @@ const FooterColumns = [
     key: 2,
     title: 'Make Money with Us',
     items: [
-      { id: 0, isLink: false, action: 'http://earnmoneybywriting.com/go', text: 'GoRead for Authors', target: '_blank' },
-      { id: 1, isLink: false, action: 'http://earnmoneybywriting.com/go', text: 'Sell Your Books', target: '_blank' },
-      { id: 2, isLink: false, action: 'http://Rebelpress.com', text: 'Publish Your Book', target: '_blank' },
-      { id: 3, isLink: false, action: 'http://earnmoneybywriting.com/go', text: 'Promote Your Business', target: '_blank' },
-      { id: 4, isLink: false, action: 'http://earnmoneybywriting.com/go', text: 'Promote Your Products', target: '_blank' },
+      { id: 0, isLink: false, action: 'https://go.earnmoneybywriting.com/', text: 'GoRead for Authors', target: '_blank' },
+      { id: 1, isLink: false, action: 'https://go.earnmoneybywriting.com/', text: 'Sell Your Books', target: '_blank' },
+      { id: 2, isLink: false, action: 'https://rebelpress.com/', text: 'Publish Your Book', target: '_blank' },
+      { id: 3, isLink: false, action: 'https://go.earnmoneybywriting.com/', text: 'Promote Your Business', target: '_blank' },
+      { id: 4, isLink: false, action: 'https://go.earnmoneybywriting.com/', text: 'Promote Your Products', target: '_blank' },
     ],
     show: {
       whenLogged: true,
@@ -62,7 +62,7 @@ const FooterColumns = [
 ];
 
 const MainFooter = props => (
-  <div className="footer d-flex flex-column justify-content-center flex-sm-row justify-content-sm-around">
+  <div className="footer d-flex flex-column justify-content-center flex-lg-row justify-content-lg-around">
     <FooterColumn title="Stay in the Know">
       <div className="footer-form">
         <span>Sign up for savings, news and updates.</span>
@@ -70,7 +70,7 @@ const MainFooter = props => (
       </div>
     </FooterColumn>
     { FooterColumns.map(column => <FooterColumn {...column} />) }
-    <div className="footer-action-scroll d-none d-sm-block">
+    <div className="footer-action-scroll d-none d-lg-block">
       <FontAwesomeIcon onClick={() => scroller.scrollToTop()} icon={faArrowUp} size="lg" />
     </div>
   </div>

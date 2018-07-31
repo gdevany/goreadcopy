@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { Helmet } from 'react-helmet';
 import { Link } from 'react-router'
 import { Store, CurrentReader, Session } from '../../../redux/actions'
 import { StepZero, StepOne, StepTwo, StepThree } from './orderSteps'
@@ -82,6 +83,12 @@ class CheckoutPage extends PureComponent {
     this.fetchCartData()
     if (this.props.cart && this.props.cart.items.length) {
       this.setState({ allGifts: this.checkIfAllGifts(this.props.cart), isLoadingCart: false })
+    }
+  }
+
+  componentDidUpdate = (prevProps, prevState, snapshot) => {
+    if (!prevProps.currentReader.token && this.props.currentReader && this.props.currentReader.token) {
+      this.fetchCartData()
     }
   }
 
@@ -690,13 +697,13 @@ class CheckoutPage extends PureComponent {
       'cityShipping',
       'stateShipping',
       'zipcodeShipping',
-    ], this.state)
+    ], this.state);
     const cardInfo = R.pick([
       'nameOnCard',
       'cardNumber',
       'cardCVC',
       'fullExpDate',
-    ], this.state)
+    ], this.state);
     const billingInfo = R.pick([
       'nameBilling',
       'phoneBilling',
@@ -706,10 +713,14 @@ class CheckoutPage extends PureComponent {
       'cityBilling',
       'stateBilling',
       'zipcodeBilling',
-    ], this.state)
+    ], this.state);
+    const title = 'GoRead | Checkout';
 
     return (
       <section className='checkoutpage-main-container'>
+        <Helmet>
+          <title>{title}</title>
+        </Helmet>
         {this.state.showOverlay ?
           (
             <div className='overlay-on-order-place'>
@@ -813,7 +824,8 @@ class CheckoutPage extends PureComponent {
                 <div className='chekoutpage-steps-main-container'>
                   { activeStep === 0 ?
                     <StepZero
-                      onAccountCreation={()=>{this.setState({ hasCreatedAccount: true })}}
+                      onAccountCreation={()=>this.setState({ hasCreatedAccount: true, activeStep: 1 })}
+                      onLoginSuccess={()=>this.setState({ activeStep: 1 })}
                     /> : null
                   }
                   { activeStep === 1 ?

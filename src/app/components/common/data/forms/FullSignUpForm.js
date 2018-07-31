@@ -117,6 +117,7 @@ class FullSignUpForm extends Form {
   }
 
   render() {
+    const { isBlocked } = this.state;
     return (
       <form
         onSubmit={this.handleSubmit(this.pipeline)}
@@ -213,14 +214,15 @@ class FullSignUpForm extends Form {
           errorText={this.errorFor('password_confirmation')}
         />
         { this.constructNonFieldErrors() }
+        { this.constructSpinner() }
         <div className='small-12 columns center-text'>
           <PrimaryButton
             label={'Continue'}
             onClick={null}
             type={'submit'}
+            disabled={isBlocked}
           />
         </div>
-        { this.constructSpinner() }
       </form>
     )
   }

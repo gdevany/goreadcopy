@@ -19,7 +19,7 @@ const SubMenus = [
         itemsKey: 'BOOK_SUBJECTS',
         columns: 3,
         max: 12,
-        more: { id: 0, text: 'See More >', action: '/store', isLink: true },
+        more: { id: 0, text: 'See More >', action: '/categories/fiction?see-more=true', isLink: true },
       },
     ],
   },
@@ -42,7 +42,7 @@ const SubMenus = [
         itemsKey: 'BOOK_SUBJECTS',
         columns: 2,
         max: 12,
-        more: { id: 0, text: 'See More >', action: '/store', isLink: true },
+        more: { id: 0, text: 'See More >', action: '/categories/fiction?see-more=true', isLink: true },
       },
     ],
   },
@@ -57,7 +57,7 @@ const SubMenus = [
         itemsKey: 'BOOK_SUBJECTS',
         columns: 2,
         max: 12,
-        more: { id: 0, text: 'See More >', action: '/store', isLink: true },
+        more: { id: 0, text: 'See More >', action: '/categories/fiction?see-more=true', isLink: true },
       },
     ],
   },
@@ -114,7 +114,7 @@ const parseArticleCategoryToLink = category => ({
   isLink: false,
 });
 
-const parseArticleToColumnData = ({ article }) => ({
+const parseArticleToColumnData = (article) => ({
   id: article.id,
   text: article.title,
   action: article.link,

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router'
 import moment from 'moment'
 import R from 'ramda'
 
@@ -40,9 +41,11 @@ class ChatHistory extends PureComponent {
   renderContactPostList(posts, user, index) {
     return (
       <div key={index} className='conversation-extrange'>
-        <figure className='conversation-extrange-figure'>
-          <img src={user.imageUrl}/>
-        </figure>
+        <Link className='conversation-extrange-figure' to={user.url} onClick={e=>e.stopPropagation()}>
+          <figure>
+            <img src={user.imageUrl} />
+          </figure>
+        </Link>
         <div className='conversation-extrange-chat-container'>
           {
             posts.map((post, idx)=>{

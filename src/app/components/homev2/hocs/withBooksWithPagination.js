@@ -32,9 +32,17 @@ const withBooksWithPagination = compose(
         perPage,
         page,
         setPage,
+        maxPrice,
+        onStock,
+        oneByFamily,
       } = this.props;
 
-      fetchBooks(page, perPage);
+      fetchBooks({
+          page,
+          perPage,
+          maxPrice,
+          onStock,
+          oneByFamily});
       setPage(page + 1);
     },
     componentWillUnmount() {

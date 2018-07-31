@@ -28,14 +28,13 @@ class LeftHandLinks extends PureComponent {
     const {
       news,
       articles,
-    } = routes
+    } = routes;
 
     const leftMenuRoutes = [
       ['My Orders', '/store/orders', true],
       ['News', news],
       ['Articles', articles],
-      ['Video Tutorials', '/profile/videotutorials', true],
-    ]
+    ];
 
     const leftMenuItem = ([title, routeFn, routeType], index) => (
       <li className='left-hand-menu-item' key={title + index}>
@@ -50,36 +49,36 @@ class LeftHandLinks extends PureComponent {
           ) : (
             <a
               className='left-hand-menu-anchor'
-              href={routeFn()}
+              href={typeof routeFn === 'function' ? routeFn() : routeFn}
             >
               {title}
             </a>
           )
         }
       </li>
-    )
-    return R.map(leftMenuItem, leftMenuRoutes)
+    );
+    return R.map(leftMenuItem, leftMenuRoutes);
   }
 
   handleMapHiddenMenuItems = () => {
     const {
       goReadBooks,
-      videoTutorials,
       referrals,
       games,
       authorEnrollment,
       publishers,
-    } = routes
+      videoTutorials,
+    } = routes;
 
     const leftMenuRoutes = [
-      ["GoRead Books", goReadBooks],
-      ["Books for Kids", "/literacy", true],
-      ["Video Tutorials", videoTutorials],
-      ["Referrals", referrals],
-      ["Games", games],
-      ["Author Enrollment", authorEnrollment],
-      ["Publisher Enrollment", publishers],
-    ]
+      ['Video Tutorials', videoTutorials],
+      ['GoRead Books', goReadBooks],
+      ['Books for Kids', '/literacy', true],
+      ['Referrals', referrals],
+      ['Games', games],
+      ['Author Enrollment', authorEnrollment],
+      ['Publisher Enrollment', publishers],
+    ];
 
     const leftMenuItem = ([title, routeFn, reactLink], index) => (
       <li className='left-hand-menu-item' key={title + index}>
@@ -93,7 +92,7 @@ class LeftHandLinks extends PureComponent {
         ) : (
           <a
             className='left-hand-menu-anchor'
-            href={routeFn}
+            href={typeof routeFn === 'function' ? routeFn() : routeFn}
           >
             {title}
           </a>
