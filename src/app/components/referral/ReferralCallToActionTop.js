@@ -4,7 +4,7 @@ import { PrimaryButton } from '../common';
 
 class ReferralCallToActionTop extends PureComponent {
   render() {
-    const { referrerName } = this.props;
+    const { referrerName, slug } = this.props;
     return (
       <div className="center-text header">
         <div className="slide-up text-on-landing-container">
@@ -21,7 +21,7 @@ class ReferralCallToActionTop extends PureComponent {
           <h1 className="referrer-message">
             {referrerName} has invited you to join GoRead.
           </h1>
-          <Link to="/accounts/signup">
+          <Link to={`/accounts/signup?slug=${slug}`}>
             <PrimaryButton
               label="Sign Up"
             />

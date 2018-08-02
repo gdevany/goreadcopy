@@ -114,8 +114,12 @@ class BookLanding extends PureComponent {
 
   componentWillMount = () => {
     const { books, genres, getBooks, getHomeGenres } = this.props
-    if (R.isEmpty(books)) { getBooks() }
-    if (R.isEmpty(genres)) { getHomeGenres() }
+    if (R.isEmpty(books)) {
+      getBooks();
+    }
+    if (R.isEmpty(genres)) {
+      getHomeGenres();
+    }
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -222,7 +226,7 @@ class BookLanding extends PureComponent {
                       Popular
                     </a>
                   </li>
-                  {this.handleMapGenres(genres)}
+                  {genres.length > 0 ? this.handleMapGenres(genres) : null}
                 </ul>
               </div>
 
@@ -236,7 +240,7 @@ class BookLanding extends PureComponent {
         </div>
 
         <div className='row slide-up' style={styles.bookSection}>
-          {books && this.state.genreClicked ? this.handleMapBooks(books) : (
+          {books && this.state.genreClicked ? this.handleMapBooks(books.payload) : (
             <div className='small-12 center-text columns'>
               <RefreshIndicator
                 size={50}

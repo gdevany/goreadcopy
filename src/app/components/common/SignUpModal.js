@@ -55,7 +55,7 @@ class SignUpModal extends Component {
 
   componentWillMount = () => {
     if (!isUserLoggedIn) {
-      const profileSlug = this.context.router.params.slug;
+      const profileSlug = this.props.location.query.slug;
       if (profileSlug && this.state.referrer !== profileSlug) {
         this.setState({
           referrer: profileSlug,
