@@ -14,6 +14,9 @@ const FooterColumns = [
       { id: 1, isLink: true, action: '/career', text: 'Careers' },
       { id: 2, isLink: true, action: '/investor-relations', text: 'Investor Relations' },
       { id: 3, isLink: true, action: '/our-mission', text: 'Our Mission' },
+      { id: 4, isLink: true, action: '/privacy', text: 'Privacy' },
+      { id: 5, isLink: true, action: '/terms', text: 'Terms' },
+      { id: 6, isLink: true, action: '/antispam', text: 'AntiSpam' },
     ],
     show: {
       whenLogged: true,
