@@ -66,7 +66,8 @@ class BookInfo extends PureComponent {
       isModifyingFollow: false,
       isModifyingFan: false,
       dialogOpen: false,
-      isBookFullDescription: false
+      isBookFullDescription: false,
+      isAuthorReadMore: false,
     }
     this.handleAddToCart = this.handleAddToCart.bind(this)
     this.handleAddToLibrary = this.handleAddToLibrary.bind(this)
@@ -429,16 +430,113 @@ class BookInfo extends PureComponent {
     this.setState({ isBookFullDescription: !isBookFullDescription })
   }
 
+  handleAuthors = () => {
+    const { bookInfo, isUserLogged } = this.props;
+    const { isModifyingFollow, isAuthorReadMore } = this.state;
+    const bookLimit = 6;
+    const bookInfoContainer =
+      bookInfo.authors.length > 1 ? 'bookpage-authors-names' : 'bookpage-author-name';
+    const authorLength =
+      isAuthorReadMore || bookInfo.authors.length < bookLimit ? bookInfo.authors.length : bookLimit;
+    const authorImg = bookInfo.authors.length > 1 ? null : (
+      <figure className="bookpage-author-badge-figure">
+        <a href={bookInfo.authors.length ? bookInfo.authors[0].url : ''}>
+          <img
+            src={
+              bookInfo.authors.length
+                ? bookInfo.authors[0].imageUrl
+                : ''
+            }
+            alt=""
+          />
+        </a>
+      </figure>
+    );
+    const authorName = bookInfo.authors.length > 1 ?
+      bookInfo.authors.map((item, index) => {
+        const result = index < authorLength ? (
+          <span>
+            {index === 0 ? (<span> by </span>) : null}
+            <a href={bookInfo.authors[index].url}>
+              {bookInfo.authors[index].fullname}
+            </a>
+            {index + 1 < authorLength ? (
+              <span>
+                ,&nbsp;
+              </span>
+            ) : null }
+          </span>
+        ) : null;
+        return result;
+      }) : (
+        <a href={bookInfo.authors[0].url}>
+          {bookInfo.authors[0].fullname}
+        </a>
+      );
+    const authorFollowers = bookInfo.authors.length > 1 ? null :
+      bookInfo.authors.length > 0 && isUserLogged ? (
+        <a
+          className={
+            bookInfo.authors.length &&
+            bookInfo.authors[0].userIsFollower
+              ? 'bookpage-author-follow-action-active'
+              : 'bookpage-author-follow-action'
+          }
+          onClick={this.handleFollowOrUnFollow}
+        >
+          {isModifyingFollow ? (
+            <div className="loading-animation-store-inverted" />
+          ) : bookInfo.authors.length &&
+          bookInfo.authors[0].userIsFollower ? (
+            'Following'
+          ) : (
+            'Follow'
+          )}
+        </a>
+      ) : null
+    return (
+      <div className="bookpage-author-container">
+        {authorImg}
+        <div className="bookpage-author-info">
+          <h5
+            className={bookInfoContainer}
+          >
+            {authorName}
+            {authorLength >= bookLimit && !isAuthorReadMore ? (
+              <span className="bookpage-author-see-more" onClick={this.toggleAuthorReadMore}>
+                &nbsp;See More
+              </span>
+            ) : bookInfo.authors.length < bookLimit && !isAuthorReadMore ? null : (
+              <span className="bookpage-author-see-more" onClick={this.toggleAuthorReadMore}>
+                &nbsp;See Less
+              </span>
+            )}
+          </h5>
+          {authorFollowers}
+        </div>
+      </div>
+    );
+  }
+
+  toggleAuthorReadMore = (e) => {
+    e.preventDefault();
+    const { isAuthorReadMore } = this.state;
+    this.setState({
+      isAuthorReadMore: !isAuthorReadMore,
+    });
+  }
+
   render() {
-    const { bookInfo, isUserLogged, openImageModal } = this.props
+    const { bookInfo, isUserLogged, openImageModal } = this.props;
     const {
       addToCartClicked,
       isSharePopUpDisplayed,
       commentText,
       isWishlistHover,
       isLibraryHover,
-      isBookFullDescription
-    } = this.state
+      isBookFullDescription,
+    } = this.state;
+
     return (
       <div className="row bookpage-info-main-container">
         <div className="small-12 large-6 large-offset-1 columns bookpage-info-left-element">
@@ -478,56 +576,7 @@ class BookInfo extends PureComponent {
               <h4 className="bookpage-book-title">
                 {this.truncInfo(bookInfo.title, 45)}
               </h4>
-              <div className="bookpage-author-container">
-                <figure className="bookpage-author-badge-figure">
-                  <a
-                    href={
-                      bookInfo.authors.length ? bookInfo.authors[0].url : ''
-                    }
-                  >
-                    <img
-                      src={
-                        bookInfo.authors.length
-                          ? bookInfo.authors[0].imageUrl
-                          : ''
-                      }
-                    />
-                  </a>
-                </figure>
-                <div className="bookpage-author-info">
-                  <h5 className="bookpage-author-name">
-                    <a
-                      href={
-                        bookInfo.authors.length ? bookInfo.authors[0].url : ''
-                      }
-                    >
-                      {bookInfo.authors.length
-                        ? bookInfo.authors[0].fullname
-                        : ''}
-                    </a>
-                  </h5>
-                  {isUserLogged && bookInfo.authors.length > 0 ? (
-                    <a
-                      className={
-                        bookInfo.authors.length &&
-                        bookInfo.authors[0].userIsFollower
-                          ? 'bookpage-author-follow-action-active'
-                          : 'bookpage-author-follow-action'
-                      }
-                      onClick={this.handleFollowOrUnFollow}
-                    >
-                      {this.state.isModifyingFollow ? (
-                        <div className="loading-animation-store-inverted" />
-                      ) : bookInfo.authors.length &&
-                      bookInfo.authors[0].userIsFollower ? (
-                        'Following'
-                      ) : (
-                        'Follow'
-                      )}
-                    </a>
-                  ) : null }
-                </div>
-              </div>
+              {this.handleAuthors()}
               <ScrollLink
                 to="ratesAndReviews"
                 smooth={true}
