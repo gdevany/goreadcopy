@@ -64,10 +64,10 @@ const renderSuggestion = (entry, type, ctype) => {
       return (
         <li
           className="suggestion-list-element"
-          key={entry.ean}
+          key={entry.id}
         >
           <div
-            data-id={entry.ean}
+            data-id={entry.id}
             data-contentType={ctype}
             data-type={type}
             data-display={entry.title}
