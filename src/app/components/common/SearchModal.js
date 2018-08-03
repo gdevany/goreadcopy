@@ -144,7 +144,7 @@ class SearchModal extends Component {
 
   renderSearchResults = () => {
     const searchTerms = this.props.search;
-    if (searchTerms.counts) {
+    if (searchTerms) {
       let readerResults;
       let authorResults;
       let publisherResults;
