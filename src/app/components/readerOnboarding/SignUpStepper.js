@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import Radium from 'radium'
-import { withRouter } from 'react-router'
+import { withRouter, browserHistory } from 'react-router'
 import ExpandTransition from 'material-ui/internal/ExpandTransition'
 import ArrowIcon from 'material-ui/svg-icons/navigation/chevron-right'
 import { Colors, Breakpoints } from '../../constants/style'
@@ -12,7 +12,6 @@ import {
 import SignUpStepOne from './SignUpStepOne'
 import SignUpStepTwo from './SignUpStepTwo'
 import SignUpStepThree from './SignUpStepThree'
-import SignUpSpecialOffer from './SignUpSpecialOffer'
 import Steps from './services/steps'
 import Promise from 'bluebird'
 import { CONTEXTS as C } from '../../constants/litcoins'
@@ -100,9 +99,7 @@ class SignUpStepper extends PureComponent {
     return new Promise((resolve, reject) => {
       if (!this.state.loading) {
         resolve(
-          this.dummyAsync(() => this.setState({
-            finished: true,
-          }))
+          browserHistory.push('/')
         )
       } else {
         reject('still is loading')
@@ -180,9 +177,6 @@ class SignUpStepper extends PureComponent {
     const { loading, stepIndex, finished } = this.state
     return (
       <div style={{ width: '100%', margin: 'auto' }}>
-        {finished ? (
-        <SignUpSpecialOffer />
-        ) : (
         <div>
           <div style={styles.stepperContainer}>
             <Stepper
@@ -212,8 +206,7 @@ class SignUpStepper extends PureComponent {
           <ExpandTransition loading={loading} open={true}>
             {this.renderContent()}
           </ExpandTransition>
-        </div>)
-      }
+        </div>
       </div>
     )
   }
