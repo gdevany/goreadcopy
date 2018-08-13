@@ -279,6 +279,14 @@ export function getOrders(params) {
   }
 }
 
+export function updateCurrentOrder() {
+  return dispatch => {
+    return Store.getCurrentOrder()
+      .then(res => dispatch({ type: A.SET_ORDER, payload: res.data }))
+      .catch(err => console.error(`Error in getCurrentOrder ${err}`))
+  }
+}
+
 export function getCurrentOrder(params, logged) {
   return dispatch => {
     return Store.setOrder(params)
@@ -440,4 +448,5 @@ export default {
   cleanOrderAndCart,
   setUsingLitcoins,
   getSoldBooks,
+  updateCurrentOrder,
 }
