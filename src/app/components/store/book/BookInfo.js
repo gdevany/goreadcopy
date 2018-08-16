@@ -96,12 +96,16 @@ class BookInfo extends PureComponent {
     }
   }
 
+  titleToLong = (text) => {
+    return text.length > 80 ? "bookpage-book-title-long" : "bookpage-book-title";
+  }
+
   showDialog = () => this.setState({ dialogOpen: true })
 
   hideDialog = () => this.setState({ dialogOpen: false })
 
   truncInfo = (text, limit) => {
-    return text.length >= limit ? `${text.slice(0, limit)}...` : text
+    return limit === 50 ? text : (text.length >= limit ? `${text.slice(0, limit)}...` : text);
   }
 
   calculateSaving = (shopPrice, listPrice) => {
@@ -475,8 +479,8 @@ class BookInfo extends PureComponent {
               </div>
             </div>
             <div className="bookpage-book-description-container">
-              <h4 className="bookpage-book-title">
-                {this.truncInfo(bookInfo.title, 45)}
+              <h4 className={this.titleToLong(bookInfo.title)} title={bookInfo.title}>
+                <span>{this.truncInfo(bookInfo.title, 50)}</span>
               </h4>
               <div className="bookpage-author-container">
                 <figure className="bookpage-author-badge-figure">
