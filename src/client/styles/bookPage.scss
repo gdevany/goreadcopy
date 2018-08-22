@@ -125,7 +125,43 @@
         .bookpage-book-title{
           font-size: 26px;
           font-weight: 600;
-          width: 100%
+          width: 100%;
+        }
+        .bookpage-book-title-long{
+          font-size: 26px;
+          font-weight: 600;
+          width: 100%;
+          text-align: justify;
+          max-height: 110px;
+          margin-right: -1em;
+          padding-right: 1em;
+          overflow: hidden;
+          position: relative;
+          &:before{
+            content: '...';
+            position: absolute;
+            right: 0;
+            bottom:10px;
+            width: 1em;
+            height: 1em;
+            margin-top: 0.2em;
+            background: white;
+          }
+          &:hover {
+            overflow: visible !important;
+            position: relative; // overflow correct position render
+            transition: .5s ease;
+            &:before{
+              content: '';
+            }
+            span{
+              background: #ffffff;
+              box-shadow: 0px 5px 5px rgba(0,0,0,0.1);
+              z-index: 500;
+              position: relative; //don't delete, front position of the stars
+              display: block;
+            }
+          }
         }
         .bookpage-author-container{
           display: flex;
@@ -206,6 +242,7 @@
           width: 100%;
           display: flex;
           justify-content: flex-start;
+          z-index: 0;
           align-items: center;
           flex-direction: row;
           margin-top: 15px;
