@@ -17,7 +17,7 @@ const { retrieveSession } = Session
 
 const {
   getOrder, getCurrentOrder, setUserAddress, setUserAddressAndShipping, setUsingLitcoins,
-  setShipping, setBilling, placeOrder, getPaypalConfig, placeOrderWithChanges,
+  setShipping, setBilling, placeOrder, getPaypalConfig, placeOrderWithChanges, updateCurrentOrder
 } = Store
 
 const styles = {
@@ -152,6 +152,10 @@ class CheckoutPage extends PureComponent {
     if (ref) param.ref = ref
     if (Auth.currentUserExists() && currentReader && currentReader.id && !order) {
       this.props.getCurrentOrder(param, true)
+        .then(() => this.checkStepOne())
+    }
+    if (Auth.currentUserExists() && currentReader && currentReader.id && order) {
+      this.props.updateCurrentOrder()
         .then(() => this.checkStepOne())
     }
   }
@@ -921,6 +925,7 @@ const mapDistpachToProps = {
   setUsingLitcoins,
   getCurrentReader,
   retrieveSession,
+  updateCurrentOrder
 }
 
 export default connect(mapStateToProps, mapDistpachToProps)(CheckoutPage)
