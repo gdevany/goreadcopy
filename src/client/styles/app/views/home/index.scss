@@ -141,17 +141,6 @@ a {
 	}
 }
 
-.navbar-notification {
-	&.bar {
-		padding: 10px 0;
-		font-weight: bold;
-		&.children-literacy {
-			background: $nav-background;
-			color: white;
-		}
-	}
-}
-
 .page-content {
 	margin-top: 0;
 	&.add-b-margin {

@@ -17,7 +17,6 @@ import AuthedRedirect from '../AuthedRedirect'
 import LitcoinStatus from '../LitcoinStatus'
 import { LatestMessagePopupWindow } from '../chat'
 import { NotificationPopupWindow } from '../notifications'
-import BooksForChildrenCounter from './utils/BooksForChildrenCounter'
 
 const { toggleMessagePopup } = Chat
 const { loadNotifications } = NotifActions
@@ -976,9 +975,6 @@ class NavMenu extends PureComponent {
                     >
                       Search
                     </a>
-                  </li>
-                  <li className='logged-menu-item extra-nav-item'>
-                    <BooksForChildrenCounter />
                   </li>
                 </ul>
               </div>

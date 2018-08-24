@@ -28,4 +28,3 @@ export TileScroller from './TileScroller';
 export WrappedField from './WrappedField';
 export SuggestionList from './SuggestionList';
 export HtmlToReact from './HtmlToReact';
-export SoldBookCounter from './SoldBookCounter';
