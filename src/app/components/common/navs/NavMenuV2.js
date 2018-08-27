@@ -17,7 +17,6 @@ import faAngleUp from '@fortawesome/fontawesome-free-solid/faAngleUp';
 import R from 'ramda';
 import { ExternalRoutes as routes } from '../../../constants';
 import CMSProvider from '../../cms/CMSProvider';
-import { SoldBookCounter } from '../';
 import FloatingSubMenu from './FloatingSubMenu';
 import connectLinkBar from '../../containers/HomeNavMenuContainer';
 import SearchModal from '../SearchModal';
@@ -86,34 +85,6 @@ const LinkBar = props => (
                 ))
               }
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
-const Notifications = props => (
-  <div className="navbar-notifications">
-    <div className="navbar-notification bar children-literacy d-flex flex-row justify-content-center">
-      <span>
-        { 'Total Books Given To Kids: ' }
-        <SoldBookCounter useDefaultColor={false} />
-      </span>
-    </div>
-  </div>
-);
-
-const NotificationBar = props => (
-  <div className="navbar-notifications-wrapper">
-    <div className="d-block d-lg-none">
-      <Notifications />
-    </div>
-    <div className="d-none d-lg-block">
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <Notifications />
           </div>
         </div>
       </div>
@@ -319,7 +290,6 @@ export class NavMenuV2 extends Component {
               this.ActionBar()
           }
           <LinkBarWithData />
-          <NotificationBar />
           <SearchModal
             modalOpen={isSearchOpen}
             handleClose={() => this.setState({ isSearchOpen: false, term: '' })}
