@@ -26,8 +26,8 @@ const throttledFn = _.throttle(({ page, perPage, fetchBooks }) => {
 
 const BookList = withInfiniteScroll({
   fetchMoreItems: throttledFn,
-  shouldFetchMoreItems: ({ count, booksLength, isFetching, isAFilterMenuOpen }) => {
-    return booksLength < count && !isFetching && !isAFilterMenuOpen;
+  shouldFetchMoreItems: ({ count, booksLength, isFetching, isAFilterMenuOpen, fetchMore }) => {
+    return fetchMore && !isFetching && !isAFilterMenuOpen;
   },
 })(({ children }) => (
   <div className='categorypage-filter-results' >
@@ -54,6 +54,8 @@ class CategoriesFilters extends PureComponent {
       isPriceOpen: false,
       customMinPrice: '',
       customMaxPrice: '',
+      fetchMore: true,
+      itemsCount: this.props.filterResults ? this.props.filterResults.results.length : 0,
     }
     this.handleSubCategoriesClick = this.handleSubCategoriesClick.bind(this)
     this.handleRatingClick = this.handleRatingClick.bind(this)
@@ -86,11 +88,23 @@ class CategoriesFilters extends PureComponent {
   componentWillReceiveProps = (nextProps) => {
     const { filterBooks, categoryId } = this.props
     if (nextProps.categoryId !== categoryId) {
-      this.setState({ filterResults: 'loading' })
+      this.setState({
+          filterResults: 'loading',
+          fetchMore: true,
+          itemsCount: 0,
+      });
       filterBooks({ genreIds: nextProps.categoryId })
     }
     if (nextProps.filterResults !== this.state.filterResults) {
-      this.setState({ filterResults: nextProps.filterResults })
+      const itemsCount = nextProps.filterResults.results.length;
+
+      const fetchMore = this.state.itemsCount === itemsCount ? false : true;
+
+      this.setState({
+          filterResults: nextProps.filterResults,
+          fetchMore: fetchMore,
+          itemsCount: itemsCount,
+      })
     }
   }
 
@@ -820,6 +834,7 @@ class CategoriesFilters extends PureComponent {
       selectedMaxPrice,
       filterResults,
       filtersMenuOpen,
+      fetchMore,
     } = this.state
     const { isSubCategory } = this.props
     return (
@@ -933,6 +948,7 @@ class CategoriesFilters extends PureComponent {
                 count={this.props.count}
                 isFetching={this.props.isFetching}
                 booksLength={this.props.filterResults ? this.props.filterResults.results.length : 0}
+                fetchMore={fetchMore}
                 isAFilterMenuOpen={this.isAFilterMenuOpen()}
               >
                 {this.renderFilterResults()}
