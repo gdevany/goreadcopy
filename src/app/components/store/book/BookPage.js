@@ -11,7 +11,6 @@ import BookInfo from './BookInfo';
 import MeetAuthor from './MeetAuthor';
 import ReviewsOverview from './ReviewsOverview';
 import ReviewsContainer from './ReviewsContainer';
-import EditorialReviews from './EditorialReviews';
 // import NewsLetter from './NewsLetter'
 import { Auth } from '../../../services';
 import { Store, Rates, Session } from '../../../redux/actions';
@@ -298,9 +297,6 @@ class BookPage extends PureComponent {
               }
             </div>
             {length ? (<hr className="bookpage-hr-separator" />) : null }
-            <div className="row">
-              <EditorialReviews bookInfo={bookInfo} />
-            </div>
             <hr className="bookpage-hr-separator" />
             <Element name="reviews">
               {bookInfo ?
