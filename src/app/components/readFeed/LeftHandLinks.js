@@ -74,10 +74,12 @@ class LeftHandLinks extends PureComponent {
       ['Video Tutorials', videoTutorials],
       ['GoRead Books', goReadBooks],
       ['Books for Kids', '/literacy', true],
+      ['Litcoins', '/litcoins', true],
       ['Referrals', referrals],
       ['Games', games],
       ['Author Enrollment', authorEnrollment],
-      ['Publisher Enrollment', publishers],
+      ['Publisher Enrollment', '/publishers_enrollment', true],
+      ['Advertising', '/advertising', true],
     ];
 
     const leftMenuItem = ([title, routeFn, reactLink], index) => (

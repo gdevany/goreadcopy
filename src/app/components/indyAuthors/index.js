@@ -1,0 +1,1 @@
+export IndyAuthors from './IndyAuthors';
