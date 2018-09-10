@@ -144,14 +144,14 @@ class SearchModal extends Component {
 
   renderSearchResults = () => {
     const searchTerms = this.props.search;
-    if (searchTerms.counts) {
+    if (searchTerms) {
       let readerResults;
       let authorResults;
       let publisherResults;
       let bookResults;
 
-      if (searchTerms.readers && searchTerms.readers.length ) {
-        readerResults = searchTerms.readers.map((reader, index) => {
+      if (searchTerms.readers && searchTerms.readers.count) {
+        readerResults = searchTerms.readers.results.map((reader, index) => {
           return (
             <div key={reader.id} className='result-container'>
               <div className='image-container'>
@@ -160,7 +160,7 @@ class SearchModal extends Component {
                     <img
                       src={reader.image}
                       className='search-result-image'
-                      alt={reader.slug}
+                      alt=""
                     />
                   </figure>
                 </Link>
@@ -182,9 +182,8 @@ class SearchModal extends Component {
           )
         })
       }
-
-      if (searchTerms.authors && searchTerms.authors.length) {
-        authorResults = searchTerms.authors.map((author, index) => {
+      if (searchTerms.authors && searchTerms.authors.count) {
+        authorResults = searchTerms.authors.results.map((author, index) => {
           return (
             <div key={author.id} className='result-container'>
               <div className='image-container'>
@@ -193,7 +192,7 @@ class SearchModal extends Component {
                     <img
                       src={author.image}
                       className='search-result-image'
-                      alt={author.slug}
+                      alt=""
                     />
                   </figure>
                 </a>
@@ -212,7 +211,7 @@ class SearchModal extends Component {
         })
       }
 
-      if (searchTerms.books && searchTerms.books.results) {
+      if (searchTerms.books && searchTerms.books.count) {
         bookResults = searchTerms.books.results.map((book, index) => {
           return (
             <div key={book.id} className='result-container'>
@@ -222,7 +221,7 @@ class SearchModal extends Component {
                     <img
                       src={book.imageUrl}
                       className='search-result-image'
-                      alt={book.slug}
+                      alt=""
                     />
                   </figure>
                 </Link>
@@ -253,8 +252,8 @@ class SearchModal extends Component {
         })
       }
 
-      if (searchTerms.publishers && searchTerms.publishers.length) {
-        publisherResults = searchTerms.publishers.map((publisher, index) => {
+      if (searchTerms.publishers && searchTerms.publishers.count) {
+        publisherResults = searchTerms.publishers.results.map((publisher, index) => {
           return (
             <div key={publisher.id} className='result-container'>
               <div className='image-container'>
@@ -263,7 +262,7 @@ class SearchModal extends Component {
                     <img
                       src={publisher.image}
                       className='search-result-image'
-                      alt={publisher.slug}
+                      alt=""
                     />
                   </figure>
                 </a>
