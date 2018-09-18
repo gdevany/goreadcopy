@@ -37,3 +37,83 @@
   width: 17px;
   margin: 0 2px 2px 3px;
 }
+
+.litcoins-page-container {
+  padding-top: 65px;
+  .video-container {
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    @media (min-width: 768px) {
+      height: 459px;
+    }
+  }
+  .litcoins-content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 10px;
+    @media (min-width: 1024px) {
+      flex-direction: row;
+      padding: 20px 60px;
+    }
+    .litcoins-paragraph {
+      padding: 0 20px;
+      @media (min-width: 1024px) {
+        width: 75%;
+      }
+      .litcoins-text-container {
+        h5 {
+          border-color: #18439e;
+          border-style: solid;
+          border-width: 0 0 0 1px;
+          padding-left: 15px;
+          font-weight: 700;
+          color: #18439e;
+        }
+      }
+    }
+    .litcoins-image-container {
+      text-align: center;
+      img {
+        border-radius: 6px;
+      }
+    }
+  }
+  .litcoins-table-container {
+    margin: 0 5%;
+    padding: 20px 0;
+    @media (min-width: 768px) {
+      margin: 0 10%;
+    }
+    @media (min-width: 1024px) {
+      margin: 0 15%;
+    }
+    @media (min-width: 1440px) {
+      margin: 0 25%;
+    }
+    table {
+      padding-bottom: 10px;
+      thead {
+        background: #fff;
+        border: none;
+        tr {
+          td {
+            h5 {
+              color: #18439e;
+              font-weight: 700;
+            }
+          }
+        }
+      }
+      tbody {
+        border-left: none;
+        border-right: none;
+        tr {
+          &:hover{
+            background: #e6e6e6;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+.advertising-container {
+  padding: 65px 10px 0 10px;
+  @media (min-width: 768px) {
+    padding: 65px 50px 0 50px;
+  }
+  @media (min-width: 2000px) {
+    padding: 65px 25% 0 25%;
+  }
+  .title-container {
+    padding: 40px 0;
+    h1 {
+      font-size: 44px;
+      font-weight: 400;
+      color: #18439e;
+    }
+  }
+  .context-container {
+    .text-container {
+      h5 {
+        border-color: #18439e;
+        border-style: solid;
+        border-width: 0 0 0 1px;
+        padding-left: 15px;
+        font-weight: 600;
+        color: #18439e;
+      }
+    }
+  }
+}

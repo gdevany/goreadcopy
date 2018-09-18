@@ -35,6 +35,10 @@ import {
   PublishYourBook,
   PromoteYourBusiness,
 } from './components/homev2/templates';
+import { Litcoins } from './components/litcoins';
+import { PublisherEnrollment } from './components/publisherEnrollment';
+import { Advertising } from './components/advertising';
+import { IndyAuthors } from './components/indyAuthors';
 import { Auth } from './services';
 
 const isUserLoggedIn = Auth.currentUserExists();
@@ -70,6 +74,7 @@ const Routes = (
     <Route path="/shop/success" component={orderSuccess} />
     <Route path="/store/orders" component={Orders} />
     <Route path="/literacy" component={useBootstrapFor(Literacy)} />
+    <Route path="/litcoins" component={Litcoins} />
     <Route path="/signup" component={useFoundationFor(SignUpFlow)} />
     <Route path="/redirect" component={IncomingRedirect} />
     <Route path="/antispam" context="antispam" component={PublicWrapper} />
@@ -88,6 +93,9 @@ const Routes = (
     <Route path="/advertise-your-business" component={useBootstrapFor(AdvertiseYourBusiness)} />
     <Route path="/publish-your-book" component={useBootstrapFor(PublishYourBook)} />
     <Route path="/promote-your-business" component={useBootstrapFor(PromoteYourBusiness)} />
+    <Route path="/publishers_enrollment" component={PublisherEnrollment} />
+    <Route path="/advertising" component={Advertising} />
+    <Route path="/indy-authors" component={IndyAuthors} />
   </Route>
 );
 
