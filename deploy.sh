@@ -9,10 +9,10 @@ ERR="Error: XXX environment. It should be: ${ENVS[@]}"
 USER=deploy
 FRONTEND_DIR=/home/deploy/frontend
 
-APP01="35.226.50.203"
-APP02="104.197.236.197"
-STAGING="35.188.195.108"
-STAGING2="35.224.202.55"
+APP01="35.232.88.43"
+APP02="35.193.80.78"
+STAGING="35.193.86.44"
+STAGING2="104.197.236.197"
 MASTER=("$APP01" "$APP02")
 
 if [ -z $1 ]; then
