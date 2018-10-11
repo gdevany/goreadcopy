@@ -261,7 +261,7 @@ export class NavMenuV2 extends Component {
         <a className="mobile-menu-item" href={articles}>
           Articles
         </a>
-        <a className="mobile-menu-item" href="https://go.earnmoneybywriting.com/grlf-landing">
+        <a className="mobile-menu-item" href="https://www.rebelpress.com/resources">
           For Authors
         </a>
         <a className="mobile-menu-item" href="/accounts/signup">
