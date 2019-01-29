@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { BaseNavView } from '../views';
-import { AuthorTabMenu, AuthorPageContainer } from './';
+import { AuthorTabMenu, AuthorPageContent } from './';
 
 class AuthorPage extends PureComponent {
   render() {
@@ -8,7 +8,7 @@ class AuthorPage extends PureComponent {
       <BaseNavView>
         <div className="author-page-container row">
           <AuthorTabMenu />
-          <AuthorPageContainer />
+          <AuthorPageContent />
         </div>
       </BaseNavView>
     );
