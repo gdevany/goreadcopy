@@ -1,0 +1,16 @@
+.author-page-container {
+  padding-top: 64px;
+  .author-tab-menu-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    .author-tab-menu-item {
+      padding: 0 10px;
+      cursor: pointer;
+      color: #959595;
+      &:hover {
+        color: #4261a5;
+      }
+    }
+  }
+}

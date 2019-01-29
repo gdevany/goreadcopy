@@ -39,6 +39,7 @@ import { Litcoins } from './components/litcoins';
 import { PublisherEnrollment } from './components/publisherEnrollment';
 import { Advertising } from './components/advertising';
 import { IndyAuthors } from './components/indyAuthors';
+import { AuthorPage } from './components/authorPage';
 import { Auth } from './services';
 
 const isUserLoggedIn = Auth.currentUserExists();
@@ -73,6 +74,7 @@ const Routes = (
     <Route path="/shop/checkout" component={CheckoutPage} />
     <Route path="/shop/success" component={orderSuccess} />
     <Route path="/store/orders" component={Orders} />
+    <Route path="/author/testing" component={AuthorPage} />
     <Route path="/literacy" component={useBootstrapFor(Literacy)} />
     <Route path="/litcoins" component={Litcoins} />
     <Route path="/signup" component={useFoundationFor(SignUpFlow)} />
