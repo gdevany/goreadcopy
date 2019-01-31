@@ -13,4 +13,33 @@
       }
     }
   }
+  .authors-books {
+    .bookImage {
+      position: relative;
+      text-align: center;
+    }
+    .borderRight {
+      border-right: 1px solid rgba(112, 112, 112, 0.5);
+      padding-right: 1.5em;
+    }
+    .customBox {
+      max-width: 690px;
+      padding: 1em;
+    }
+    .bookDesc {
+      line-height: 1.3;
+      opacity: 0.5;
+    }
+    .litCoinsPadLeft {
+      margin-left: 10px;
+    }
+    .a2cButton {
+      margin-top: 1em;
+      width: 100%;
+      font-size: 16px;
+      background-color: #4261a5;
+      font-weight: bold;
+      padding: .5em 1em;
+    }
+  }
 }
