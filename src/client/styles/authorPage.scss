@@ -14,26 +14,32 @@
     }
   }
   .authors-books {
-    .bookImage {
+    .authors-books-a-span {
+      text-decoration: underline;
+      color: #4261a5;
+    }
+    .authors-books-lighten {
+      opacity: 0.8;
+    }
+    .authors-books-bookImage {
       position: relative;
       text-align: center;
     }
-    .borderRight {
+    .authors-books-borderRight {
       border-right: 1px solid rgba(112, 112, 112, 0.5);
       padding-right: 1.5em;
     }
-    .customBox {
+    .authors-books-wrapperBox {
       max-width: 690px;
       padding: 1em;
     }
-    .bookDesc {
+    .authors-books-bookDesc {
       line-height: 1.3;
-      opacity: 0.5;
     }
-    .litCoinsPadLeft {
+    .authors-books-litCoinsPadLeft {
       margin-left: 10px;
     }
-    .a2cButton {
+    .authors-books-a2cButton {
       margin-top: 1em;
       width: 100%;
       font-size: 16px;

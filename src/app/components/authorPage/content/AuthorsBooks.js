@@ -17,24 +17,62 @@ const tempConsts = {
 };
 
 class AuthorsBooks extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isDescTrunced: true,
+      bookIdClicked: 0
+    };
+  }
+
   componentDidMount = () => {
     this.props.getBookRecommendations(4);
   };
 
-  renderBooks(books) {
-    const truncInfo = (text, limit) => {
-      return text.length >= limit ? `${text.slice(0, limit)}...` : text;
-    };
+  renderBookDesc = (text, limit, id) => {
+    const { isDescTrunced, bookIdClicked } = this.state;
 
+    return text.length < limit ? (
+      text
+    ) : (
+      <reactFragment>
+        <span className="authors-books-lighten">
+          {bookIdClicked === id && isDescTrunced !== true
+            ? text
+            : this.truncInfo(text, limit)}
+        </span>
+        <a
+          className="authors-books-a-span"
+          onClick={() => this.handleReadMoreLess(id)}
+        >
+          {bookIdClicked === id && isDescTrunced !== true
+            ? <span>Read less</span>
+            : <span>Read more</span>}
+        </a>
+      </reactFragment>
+    );
+  };
+
+  handleReadMoreLess = id => {
+    let truncIt = this.state.isDescTrunced;
+    this.setState({ isDescTrunced: !truncIt, bookIdClicked: id });
+  };
+
+  truncInfo = (text, limit) => {
+    return text.length >= limit ? `${text.slice(0, limit)}...` : text;
+  };
+
+  renderBooks(books) {
+    const bookTitleLimit = 40;
+    const bookDescLimit = 100;
     return R.take(4, books).map(book => {
-      console.log(book);
       return (
-        <div className="row box customBox" key={book.id}>
+        <div className="row box authors-books-wrapperBox" key={book.id}>
           <div className="small-4 columns" key={book.id}>
             <div
               data-tip
               data-for={book.slug}
-              className="bookImage book-container"
+              className="authors-books-bookImage book-container"
             >
               <Link to={`/book/${book.slug}`}>
                 <img className="book" src={book.imageUrl} />
@@ -43,27 +81,36 @@ class AuthorsBooks extends PureComponent {
           </div>
           <div className="small-8 columns">
             <h6>
-              <strong>{book.title ? truncInfo(book.title, 40) : null}</strong>
+              <strong>
+                {book.title ? this.truncInfo(book.title, bookTitleLimit) : null}
+              </strong>
             </h6>
-            <p className="bookDesc">
+            <p className="authors-books-bookDesc">
               {tempConsts.description
-                ? truncInfo(tempConsts.description, 120)
+                ? this.renderBookDesc(
+                    tempConsts.description,
+                    bookDescLimit,
+                    book.id
+                  )
                 : null}
             </p>
             <div className="row">
-              <div className="small-4 small-offset-1 large-offset-4 columns text-right border-right">
+              <div className="small-4 small-offset-1 large-offset-4 columns text-right authors-books-borderRight">
                 <strong>{tempConsts.price ? tempConsts.price : null}</strong>
               </div>
               <div className="small-7 large-4 columns text-left">
                 <img className="litcoin-img" src="/image/litcoin.png" />
 
-                <strong className="litCoinsPadLeft">
+                <strong className="authors-books-litCoinsPadLeft">
                   {tempConsts.litCoins ? tempConsts.litCoins : null}
                 </strong>
               </div>
             </div>
             <div className="small-12 large-7 large-offset-5 columns">
-              <a href="#" className="a2cButton button float-right mx-3">
+              <a
+                href="#"
+                className="authors-books-a2cButton button float-right mx-3"
+              >
                 Add to Cart
               </a>
             </div>
