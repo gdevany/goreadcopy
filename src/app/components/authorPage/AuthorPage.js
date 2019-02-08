@@ -1,6 +1,11 @@
 import React, { PureComponent } from 'react';
 import { BaseNavView } from '../views';
-import { AuthorTabMenu, AuthorPageContent } from './';
+import {
+  AuthorTabMenu,
+  AuthorPageContent,
+  AuthorBackground,
+  AuthorMainContainer,
+} from './';
 
 class AuthorPage extends PureComponent {
   render() {
@@ -8,7 +13,10 @@ class AuthorPage extends PureComponent {
       <BaseNavView>
         <div className="author-page-container row">
           <AuthorTabMenu />
-          <AuthorPageContent />
+          <AuthorBackground />
+          <AuthorMainContainer>
+            <AuthorPageContent />
+          </AuthorMainContainer>
         </div>
       </BaseNavView>
     );

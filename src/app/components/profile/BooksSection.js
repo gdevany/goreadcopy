@@ -310,6 +310,7 @@ class BooksSection extends PureComponent {
         <div className="sidebar-books-container box">
           <Tabs
             style={styles.tabContainer}
+            className="library-tab"
             inkBarStyle={styles.currentTab}
           >
             <Tab
