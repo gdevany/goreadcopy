@@ -62,7 +62,6 @@ class AuthorsArticles extends PureComponent {
     this.state = {
       descLimit: 250,
       isDescTrunced: true,
-      isTitleTrunced: false,
       articleIDClicked: 0
     };
   }
@@ -90,7 +89,9 @@ class AuthorsArticles extends PureComponent {
   };
 
   renderTitle = title => {
-    return <div className="author-article-title">{title}</div>;
+    let titleLength = title.length;
+    console.log(titleLength);
+    return <div className={"author-article-title"}>{title}</div>;
   };
 
   renderDate = (month, day, year) => {
@@ -136,7 +137,6 @@ class AuthorsArticles extends PureComponent {
     let truncIt = this.state.isDescTrunced;
     this.setState({ isDescTrunced: !truncIt, articleIDClicked: id });
   };
-
 
   render() {
     return (

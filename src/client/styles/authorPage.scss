@@ -16,16 +16,16 @@
 
   .author-articles-container {
     .author-articles-wrapper {
-      max-width: 690px;
+      max-width: 714px;
       padding: 1em;
     }
     .author-article-box {
-      margin: .5em 0;
+      margin: 0.5em 0;
     }
     .author-article-infoBox {
       box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.16);
       padding: 0.8em 0.8em 1em;
-      height: 21em;
+      min-height: 19em;
     }
     .author-articles-a-span {
       text-decoration: underline;
@@ -35,6 +35,8 @@
       font-size: 1.3rem;
       font-weight: bold;
       padding-top: 0.2em;
+      height: 68px;
+      overflow: hidden;
     }
     .author-articles-category {
       color: #4261a5;
