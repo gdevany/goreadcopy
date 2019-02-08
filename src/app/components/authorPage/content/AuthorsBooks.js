@@ -23,6 +23,8 @@ class AuthorsBooks extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
+      bookTitleLimit: 40,
+      bookDescLimit: 100,
       isDescTrunced: true,
       bookIdClicked: 0
     };
@@ -32,17 +34,17 @@ class AuthorsBooks extends PureComponent {
     this.props.getBookRecommendations(4);
   };
 
-  renderBookDesc = (text, limit, id) => {
-    const { isDescTrunced, bookIdClicked } = this.state;
+  renderBookDesc = (text, id) => {
+    const { bookDescLimit, isDescTrunced, bookIdClicked } = this.state;
 
-    return text.length < limit ? (
+    return text.length < bookDescLimit ? (
       text
     ) : (
       <reactFragment>
         <span className="authors-books-lighten">
           {bookIdClicked === id && isDescTrunced !== true
             ? text
-            : this.truncInfo(text, limit)}
+            : this.truncInfo(text, bookDescLimit)}
         </span>
         <a
           className="authors-books-a-span"
@@ -68,8 +70,7 @@ class AuthorsBooks extends PureComponent {
   };
 
   renderBooks(books) {
-    const bookTitleLimit = 40;
-    const bookDescLimit = 100;
+    const { bookTitleLimit } = this.state;
     return R.take(4, books).map(book => {
       return (
         <div className="row box authors-books-wrapperBox" key={book.id}>
@@ -92,11 +93,7 @@ class AuthorsBooks extends PureComponent {
             </h6>
             <p className="authors-books-bookDesc">
               {tempConsts.description
-                ? this.renderBookDesc(
-                    tempConsts.description,
-                    bookDescLimit,
-                    book.id
-                  )
+                ? this.renderBookDesc(tempConsts.description, book.id)
                 : null}
             </p>
             <div className="row">
