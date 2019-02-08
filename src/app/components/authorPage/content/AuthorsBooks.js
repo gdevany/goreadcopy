@@ -4,6 +4,9 @@ import { Books } from "../../../redux/actions";
 import R from "ramda";
 import { Link } from "react-router";
 
+//NOTE !! : AuthorPageContent (switch) default changed to AuhorsPageStore
+//NOTE !! : Change default back to AuthorPageWall
+
 const { getBookRecommendations } = Books;
 
 // This component currently returns random books.
@@ -45,9 +48,11 @@ class AuthorsBooks extends PureComponent {
           className="authors-books-a-span"
           onClick={() => this.handleReadMoreLess(id)}
         >
-          {bookIdClicked === id && isDescTrunced !== true
-            ? <span>Read less</span>
-            : <span>Read more</span>}
+          {bookIdClicked === id && isDescTrunced !== true ? (
+            <span>Read less</span>
+          ) : (
+            <span>Read more</span>
+          )}
         </a>
       </reactFragment>
     );
@@ -125,7 +130,7 @@ class AuthorsBooks extends PureComponent {
     const books = recommended ? recommended.books : null;
 
     return (
-      <div className="container authors-books">
+      <div className="container">
         {books ? (
           this.renderBooks(books)
         ) : (
