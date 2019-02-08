@@ -5,6 +5,9 @@ import ReactPlayer from "react-player";
 import { Colors } from "../../../constants/style";
 import { Card, CardActions } from "material-ui";
 
+//NOTE !! : AuthorPageContent (switch) default changed to AuhorsPageVideos
+//NOTE !! : Change default back to AuthorPageWall
+
 // TODO: restructure once new endpoint completed
 // TODO: cleanup and move styles to scss
 //   -note: may need some of this unused styles once restructured
