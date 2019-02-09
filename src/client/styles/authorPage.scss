@@ -1,3 +1,5 @@
+$overRidePad: 0.625rem;
+
 .author-page-container {
   padding-top: 64px;
   .author-tab-menu-container {
@@ -11,6 +13,32 @@
       &:hover {
         color: #4261a5;
       }
+    }
+  }
+
+  .author-photos-container {
+   .authors-albums-wrapper {
+    max-width: 700px;
+    }
+    img {
+      height: 190px;
+      width: 100%;
+    }
+    .authors-albums-poster {
+      position: relative;
+      padding: $overRidePad;
+    }
+    .authors-albums-title-wrapper {
+      position: absolute;
+      background-color: #4261a5;
+      opacity: 0.85;
+      color: #ffffff;
+      bottom: $overRidePad;
+      left: $overRidePad;
+      right: $overRidePad;
+      line-height: 1.38;
+      padding: 0.5em 1em;
+      font-weight: bold;
     }
   }
 }
