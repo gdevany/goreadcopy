@@ -5,7 +5,7 @@ const temp = {
     {
       id: 1,
       poster: "https://placeimg.com/640/480/animals",
-      title: "Awesome Vacation",
+      title: "Long Title Ellipsis Effect For This Awesome Vacation",
       content: [
         {
           id: 1.1,
@@ -104,10 +104,12 @@ class AuthorsAlbums extends PureComponent {
         <div className="authors-albums-poster small-6 columns" key={album.id}>
           <img src={album.poster} alt="album poster" />
           <div className="authors-albums-title-wrapper text-left">
-            <div>{album.title}</div>
-            <div><small>{album.content.length}{" items"}</small></div>
+            <div className="authors-albums-AlbumsTitle">{album.title}</div>
+            <div className="authors-albums-AlbumsItems">
+              {album.content.length}
+              {" items"}
+            </div>
           </div>
-          
         </div>
       );
     });

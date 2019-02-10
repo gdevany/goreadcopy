@@ -17,12 +17,16 @@ $overRidePad: 0.625rem;
   }
 
   .author-photos-container {
-   .authors-albums-wrapper {
-    max-width: 700px;
+    .authors-albums-wrapper {
+      max-width: 700px;
     }
     img {
-      height: 190px;
+      height: 160px;
       width: 100%;
+      @media all and (min-width: 600px) {
+        height: 190px;
+        width: 100%;
+      }
     }
     .authors-albums-poster {
       position: relative;
@@ -39,6 +43,21 @@ $overRidePad: 0.625rem;
       line-height: 1.38;
       padding: 0.5em 1em;
       font-weight: bold;
+    }
+    .authors-albums-AlbumsTitle {
+      font-size: 8px;
+      white-space: nowrap; 
+      overflow: hidden;
+      text-overflow: ellipsis;
+      @media all and (min-width: 600px) {
+        font-size: 16px;
+      }
+    }
+    .authors-albums-AlbumsItems {
+      font-size: 8px;
+      @media all and (min-width: 600px) {
+        font-size: 14px;
+      }
     }
   }
 }
