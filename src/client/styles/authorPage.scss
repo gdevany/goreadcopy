@@ -17,6 +17,20 @@ $overRidePad: 0.625rem;
   }
 
   .author-photos-container {
+    margin-top: 5em;
+    .author-page-photos-pageSelector {
+      width: 100%;
+      max-width: 700px;
+    }
+    .author-page-photos-button-selected {
+      color: #4261a5;
+     }
+    .author-page-photos-button-notSelected {
+      color: #2e2e2e;
+    }
+    .author-page-photos-padLeft {
+      padding-left: 3em;
+    }
     .authors-albums-wrapper {
       max-width: 700px;
     }

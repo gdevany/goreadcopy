@@ -1,5 +1,9 @@
 import React, { PureComponent } from "react";
 
+//NOTE !! : AuthorPageContent (switch) default changed to AuhorsPagePhotos
+//NOTE !! : Change default back to AuthorPageWall
+
+
 const temp = {
   albums: [
     {
