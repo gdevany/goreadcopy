@@ -12,6 +12,7 @@ class AuthorsAlbum extends PureComponent {
         <reactFragment key={image.id}>
           <div
             className="authors-album-imgBox small-6 medium-4 large-3 columns"
+            onClick={e => this.openImageModal(image, e)}
           >
             <img
               className="authors-album-img"
@@ -23,6 +24,12 @@ class AuthorsAlbum extends PureComponent {
       );
     });
     return albumImages;
+  };
+
+  // TODO: create <openImageModal /> and take out alert
+  openImageModal = (image, e) => {
+    e.preventDefault();
+    alert("TODO: create openImageModal");
   };
 
   render() {

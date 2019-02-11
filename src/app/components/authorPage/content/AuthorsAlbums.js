@@ -113,10 +113,16 @@ class AuthorsAlbums extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      isAlbumSelected: false,
       albumSelected: []
     };
   }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.counter !== prevProps.counter) {
+      this.setState({ albumSelected: [] });
+    }
+  }
+
   renderAlbums = () => {
     let mapAlbums = temp.albums.map(album => {
       return (
@@ -145,16 +151,16 @@ class AuthorsAlbums extends PureComponent {
 
   renderAlbumSelected = (album, e) => {
     e.preventDefault();
-    this.setState(prevState => ({
-      isAlbumSelected: !prevState.isAlbumSelected,
+    this.setState({
       albumSelected: [...this.state.albumSelected, album]
-    }));
+    });
   };
 
   render() {
+    console.log(this.state.albumSelected);
     return (
       <div className="authors-albums-wrapper row">
-        {this.state.isAlbumSelected ? (
+        {this.state.albumSelected.length > 0 ? (
           <AuthorsAlbum album={this.state.albumSelected[0]} />
         ) : (
           <div>{this.renderAlbums()}</div>

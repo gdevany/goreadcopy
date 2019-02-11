@@ -4,7 +4,7 @@ class AuthorsPhotos extends PureComponent {
   render() {
     return (
       <div>
-        
+        HI
       </div>
     )
   }
