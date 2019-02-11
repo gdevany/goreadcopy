@@ -1,4 +1,5 @@
 $overRidePad: 0.625rem;
+$overRidePad2: 1.25rem;
 
 .author-page-container {
   padding-top: 64px;
@@ -19,8 +20,12 @@ $overRidePad: 0.625rem;
   .author-photos-container {
     margin-top: 5em;
     .author-page-photos-pageSelector {
-      width: 100%;
       max-width: 700px;
+      margin: $overRidePad2;
+      text-align: right;
+      @media all and (min-width: 600px) {
+        text-align: left;
+      }
     }
     .author-page-photos-button-selected {
       color: #4261a5;
@@ -29,12 +34,13 @@ $overRidePad: 0.625rem;
       color: #2e2e2e;
     }
     .author-page-photos-padLeft {
-      padding-left: 3em;
+      padding-left: 2em;
     }
     .authors-albums-wrapper {
       max-width: 700px;
+      margin: $overRidePad;
     }
-    img {
+    .authors-albums-img {
       height: 160px;
       width: 100%;
       @media all and (min-width: 600px) {
@@ -45,6 +51,7 @@ $overRidePad: 0.625rem;
     .authors-albums-poster {
       position: relative;
       padding: $overRidePad;
+      cursor: pointer;
     }
     .authors-albums-title-wrapper {
       position: absolute;
@@ -72,6 +79,32 @@ $overRidePad: 0.625rem;
       @media all and (min-width: 600px) {
         font-size: 14px;
       }
+    }
+    .authors-album-title {
+      padding: 0 $overRidePad;
+      color: #232323;
+      font-weight: bold;
+      font-size: 18px;
+      @media all and (min-width: 600px) {
+        font-size: 21px;
+      }
+    }
+    .authors-album-desc {
+      padding: $overRidePad;
+      color:#000000;
+      font-size: 15px;
+      line-height: 1.33;
+      @media all and (min-width: 600px) {
+        font-size: 16px;
+        line-height: 1.36;
+      }
+    }
+    .authors-album-imgBox {
+      padding: $overRidePad;
+    }
+    .authors-album-img {
+      height: 163px;
+      width: 100%;
     }
   }
 }

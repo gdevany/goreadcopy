@@ -12,11 +12,7 @@ class AuthorPagePhotos extends PureComponent {
   renderPhotosOrAlbums = () => {
     const { isPhotosSelected } = this.state;
     return (
-      <div
-        className={`author-page-photos-pageSelector small-12 columns ${
-          isPhotosSelected ? "text-left" : "text-right"
-        }`}
-      >
+      <div className="author-page-photos-pageSelector row">
         <a
           href="#"
           className={`${
