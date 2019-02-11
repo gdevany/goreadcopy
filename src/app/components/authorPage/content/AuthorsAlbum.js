@@ -7,11 +7,12 @@ class AuthorsAlbum extends PureComponent {
   }
 
   renderAlbumImages = () => {
-    console.log(this.props.album.content);
     const albumImages = this.props.album.content.map(image => {
       return (
-        <reactFragment>
-          <div className="authors-album-imgBox small-6 medium-4 large-3 columns">
+        <reactFragment key={image.id}>
+          <div
+            className="authors-album-imgBox small-6 medium-4 large-3 columns"
+          >
             <img
               className="authors-album-img"
               src={image.image}

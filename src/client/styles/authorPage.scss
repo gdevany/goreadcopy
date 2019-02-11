@@ -41,6 +41,7 @@ $overRidePad2: 1.25rem;
       margin: $overRidePad;
     }
     .authors-albums-img {
+      object-fit: cover;
       height: 160px;
       width: 100%;
       @media all and (min-width: 600px) {
@@ -103,6 +104,7 @@ $overRidePad2: 1.25rem;
       padding: $overRidePad;
     }
     .authors-album-img {
+      object-fit: cover;
       height: 163px;
       width: 100%;
     }
