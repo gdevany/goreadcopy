@@ -17,15 +17,15 @@ const temp = {
         },
         {
           id: 1.2,
-          image: "https://picsum.photos/640/480/?random"
+          image: "https://picsum.photos/480/600/?random"
         },
         {
           id: 1.3,
-          image: "https://picsum.photos/640/480/?random"
+          image: "https://picsum.photos/300/?random"
         },
         {
           id: 1.4,
-          image: "https://picsum.photos/640/480/?random"
+          image: "https://picsum.photos/200/300/?random"
         }
       ]
     },
@@ -38,7 +38,7 @@ const temp = {
       content: [
         {
           id: 2.1,
-          image: "https://picsum.photos/480/600/?random"
+          image: "https://picsum.photos/640/480/?random"
         },
         {
           id: 2.2,
@@ -46,11 +46,11 @@ const temp = {
         },
         {
           id: 2.3,
-          image: "https://picsum.photos/480/600/?random"
+          image: "https://picsum.photos/300/?random"
         },
         {
           id: 2.4,
-          image: "https://picsum.photos/480/600/?random"
+          image: "https://picsum.photos/200/300/?random"
         }
       ]
     },
@@ -63,11 +63,11 @@ const temp = {
       content: [
         {
           id: 3.1,
-          image: "https://picsum.photos/300/?random"
+          image: "https://picsum.photos/640/480/?random"
         },
         {
           id: 3.2,
-          image: "https://picsum.photos/300/?random"
+          image: "https://picsum.photos/480/600/?random"
         },
         {
           id: 3.3,
@@ -75,7 +75,7 @@ const temp = {
         },
         {
           id: 3.4,
-          image: "https://picsum.photos/300/?random"
+          image: "https://picsum.photos/200/300/?random"
         }
       ]
     },
@@ -88,15 +88,15 @@ const temp = {
       content: [
         {
           id: 4.1,
-          image: "https://picsum.photos/200/300/?random"
+          image: "https://picsum.photos/640/480/?random"
         },
         {
           id: 4.2,
-          image: "https://picsum.photos/200/300/?random"
+          image: "https://picsum.photos/480/600/?random"
         },
         {
           id: 4.3,
-          image: "https://picsum.photos/200/300/?random"
+          image: "https://picsum.photos/300/?random"
         },
         {
           id: 4.4,
@@ -112,15 +112,15 @@ const temp = {
     },
     {
       id: 6,
-      image: "https://picsum.photos/300/?random"
+      image: "https://picsum.photos/640/480/?random"
     },
     {
       id: 7,
-      image: "https://picsum.photos/300/?random"
+      image: "https://picsum.photos/200/300/?random"
     },
     {
       id: 8,
-      image: "https://picsum.photos/300/?random"
+      image: "https://picsum.photos/480/600/?random"
     },
     {
       id: 9,
