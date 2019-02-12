@@ -31,7 +31,7 @@ class AuthorsPhotos extends PureComponent {
   };
 
   render() {
-    return <reactFragment>{this.renderImages()}</reactFragment>;
+    return <div className="authors-photos-wrapperBox">{this.renderImages()}</div>;
   }
 }
 

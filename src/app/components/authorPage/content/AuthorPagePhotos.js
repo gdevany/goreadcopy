@@ -139,7 +139,8 @@ class AuthorPagePhotos extends PureComponent {
     this.state = {
       photosOrAlbumsSelected: "photos",
       albumSelectedCounter: 0, //This is a generic counter to re-render AuthorsAlbums when album button selected
-      allImages: []
+      allImages: [],
+      userLoggedIn: true
     };
   }
 
@@ -184,16 +185,36 @@ class AuthorPagePhotos extends PureComponent {
     );
   };
 
+  renderAddAlbumPhotos = () => {
+    const allowUserToAdd = this.state.userLoggedIn && (
+      <div className="hide-for-small-only">
+        <button
+          className="author-page-photos-addPhotoButton"
+          onClick={e => this.handleAddAlbumsPhotos("photos", e)}
+        >
+          Add Photos
+        </button>
+        <button
+          className="author-page-photos-addPhotoButton"
+          onClick={e => this.handleAddAlbumsPhotos("albums", e)}
+        >
+          Create Album
+        </button>
+      </div>
+    );
+    return allowUserToAdd;
+  };
+
   // Toggle photos or albums.
   // If currently on album, it adds a counter to state,...
   // which then changes props sent to AuthorsAlbums.
-  handlePageSelector = (pOrA, e) => {
+  handlePageSelector = (pORa, e) => {
     e.preventDefault();
     const { photosOrAlbumsSelected } = this.state;
-    pOrA === "albums" &&
+    pORa === "albums" &&
       photosOrAlbumsSelected === "albums" &&
       this.renderAlbumsRerender();
-    this.setState({ photosOrAlbumsSelected: pOrA });
+    this.setState({ photosOrAlbumsSelected: pORa });
   };
 
   // This counter changes state, which is needed to change props sent to AuthorsAlbums
@@ -203,10 +224,18 @@ class AuthorPagePhotos extends PureComponent {
     this.setState({ albumSelectedCounter: count });
   };
 
+  handleAddAlbumsPhotos = (pORa, e) => {
+    e.preventDefault();
+    alert(`TODO: create Add ${pORa} Modal`);
+  };
+
   render() {
     const { photosOrAlbumsSelected, albumSelectedCounter } = this.state;
     return (
       <div className="author-page-photos-container">
+        <div className="author-page-photos-UserLoggedAddAlbumsPhotos-wrapper row">
+          {this.renderAddAlbumPhotos()}
+        </div>
         {this.renderPhotosOrAlbumsButton()}
         {photosOrAlbumsSelected === "albums" ? (
           <AuthorsAlbums counter={albumSelectedCounter} albumContent={temp} />
