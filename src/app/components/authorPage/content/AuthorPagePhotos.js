@@ -157,12 +157,12 @@ class AuthorPagePhotos extends PureComponent {
     this.setState({ allImages });
   };
 
-  renderPhotosOrAlbumsButton = () => {
+  renderPhotosAlbumsToggle = () => {
     const { photosOrAlbumsSelected } = this.state;
     const selected = "author-page-photos-button-selected";
     const notSelected = "author-page-photos-button-notSelected";
     return (
-      <div className="author-page-photos-pageSelector row">
+      <reactFragment>
         <a
           href="#"
           className={`${
@@ -181,7 +181,7 @@ class AuthorPagePhotos extends PureComponent {
         >
           Albums
         </a>
-      </div>
+      </reactFragment>
     );
   };
 
@@ -236,7 +236,10 @@ class AuthorPagePhotos extends PureComponent {
         <div className="author-page-photos-UserLoggedAddAlbumsPhotos-wrapper row">
           {this.renderAddAlbumPhotos()}
         </div>
-        {this.renderPhotosOrAlbumsButton()}
+        <div className="author-page-photos-pageSelector-wrapper row">
+          {this.renderPhotosAlbumsToggle()}
+        </div>
+
         {photosOrAlbumsSelected === "albums" ? (
           <AuthorsAlbums counter={albumSelectedCounter} albumContent={temp} />
         ) : (

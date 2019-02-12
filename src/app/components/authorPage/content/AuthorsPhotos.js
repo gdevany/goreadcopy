@@ -31,7 +31,7 @@ class AuthorsPhotos extends PureComponent {
   };
 
   render() {
-    return <div className="authors-photos-wrapperBox">{this.renderImages()}</div>;
+    return <div className="authors-photos-wrapperBox row">{this.renderImages()}</div>;
   }
 }
 

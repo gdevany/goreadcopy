@@ -8,11 +8,11 @@ class AuthorsAlbum extends PureComponent {
 
   render() {
     return (
-      <div>
+      <reactFragment>
         <div className="authors-album-title">{this.props.album.title}</div>
         <p className="authors-album-desc">{this.props.album.desc}</p>
         <AuthorsPhotos payload={this.props.album.content} />
-      </div>
+      </reactFragment>
     );
   }
 }

@@ -21,7 +21,7 @@ $maxWidth: 700px;
   .author-page-photos-container {
     margin-top: 5em;
     max-width: $maxWidth;
-    .author-page-photos-pageSelector {
+    .author-page-photos-pageSelector-wrapper {
       max-width: $maxWidth;
       margin: $overRidePad2;
       text-align: right;
@@ -30,7 +30,7 @@ $maxWidth: 700px;
       }
     }
     .author-page-photos-addPhotoButton {
-      margin: 0 $overRidePad;
+      margin: 0 0 0 $overRidePad;
       border: 1px solid #707070;
       width: 178px;
       height: 38px;
@@ -40,7 +40,7 @@ $maxWidth: 700px;
     }
     .author-page-photos-UserLoggedAddAlbumsPhotos-wrapper {
       max-width: $maxWidth;
-      margin: $overRidePad;
+      margin: $overRidePad2;
     }
     .author-page-photos-button-selected {
       color: #4261a5;
