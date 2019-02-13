@@ -1,9 +1,9 @@
 import React, { PureComponent } from "react";
 import AuthorsAlbum from "./AuthorsAlbum";
+import AddPhotoAlbumButton from "./AddPhotoAlbumButton";
 
 //NOTE !! : AuthorPageContent (switch) default changed to AuhorsPagePhotos
 //NOTE !! : Change default back to AuthorPageWall
-
 
 class AuthorsAlbums extends PureComponent {
   constructor(props) {
@@ -64,7 +64,12 @@ class AuthorsAlbums extends PureComponent {
         {this.state.albumSelected.length > 0 ? (
           <AuthorsAlbum album={this.state.albumSelected[0]} />
         ) : (
-          <div>{this.renderAlbums()}</div>
+          <reactFragment>
+            {this.props.isUserLoggedIn && (
+              <AddPhotoAlbumButton {...this.props} />
+            )}
+            {this.renderAlbums()}
+          </reactFragment>
         )}
       </div>
     );

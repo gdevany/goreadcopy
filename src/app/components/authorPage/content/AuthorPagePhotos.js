@@ -140,7 +140,7 @@ class AuthorPagePhotos extends PureComponent {
       photosOrAlbumsSelected: "photos",
       albumSelectedCounter: 0, //This is a generic counter to re-render AuthorsAlbums when album button selected
       allImages: [],
-      userLoggedIn: true
+      isUserLoggedIn: true
     };
   }
 
@@ -186,7 +186,7 @@ class AuthorPagePhotos extends PureComponent {
   };
 
   renderAddAlbumPhotos = () => {
-    const allowUserToAdd = this.state.userLoggedIn && (
+    const allowUserToAdd = this.state.isUserLoggedIn && (
       <div className="hide-for-small-only">
         <button
           className="author-page-photos-addPhotoButton"
@@ -241,9 +241,18 @@ class AuthorPagePhotos extends PureComponent {
         </div>
 
         {photosOrAlbumsSelected === "albums" ? (
-          <AuthorsAlbums counter={albumSelectedCounter} albumContent={temp} />
+          <AuthorsAlbums
+            counter={albumSelectedCounter}
+            albumContent={temp}
+            isUserLoggedIn={this.state.isUserLoggedIn}
+            photosORalbum="Create Albums"
+          />
         ) : (
-          <AuthorsPhotos payload={this.state.allImages} />
+          <AuthorsPhotos
+            payload={this.state.allImages}
+            isUserLoggedIn={this.state.isUserLoggedIn}
+            photosORalbum="Add Photos"
+          />
         )}
       </div>
     );

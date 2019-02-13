@@ -59,7 +59,7 @@ $maxWidth: 700px;
     }
     .authors-albums-img {
       object-fit: cover;
-      height: 160px;
+      height: 163px;
       width: 100%;
       @media all and (min-width: 600px) {
         height: 190px;
@@ -120,13 +120,31 @@ $maxWidth: 700px;
     .authors-photos-wrapperBox {
       margin: 0 $overRidePad;
     }
-    .authors-photos-imgBox {
+    .authors-photos-imgBox, .add-photo-album-button-imgBox{
       padding: $overRidePad;
     }
-    .authors-photos-img {
+    .authors-photos-img, .add-photo-album-button-img{
       object-fit: cover;
       height: 163px;
       width: 100%;
+      border: 1px solid #cccccc;
+      border-style: inset;
+    }
+    .add-photo-album-button-addAlbumPhotosMobileButton {
+      box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+      border: 1px solid #707070;
+      border-style: inset;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #397ab7;
+      flex-direction: column;
+      line-height: 1.0;
+    }
+    .add-photo-album-button-plusSign {
+      color: #397ab7;
+      font-size: 40px;
     }
   }
 }
