@@ -23,7 +23,7 @@ $maxWidth: 700px;
     max-width: $maxWidth;
     .author-page-photos-pageSelector-wrapper {
       max-width: $maxWidth;
-      margin: $overRidePad2;
+      margin: $overRidePad2 $overRidePad;
       text-align: right;
       @media all and (min-width: 600px) {
         text-align: left;
@@ -41,7 +41,7 @@ $maxWidth: 700px;
     }
     .author-page-photos-UserLoggedAddAlbumsPhotos-wrapper {
       max-width: $maxWidth;
-      margin: $overRidePad2;
+      margin: $overRidePad2 $overRidePad;
     }
     .author-page-photos-button-selected {
       color: #4261a5;
@@ -54,7 +54,8 @@ $maxWidth: 700px;
     .author-page-photos-padLeft {
       padding-left: 2em;
     }
-    .authors-albums-wrapper {
+    .authors-albums-wrapper,
+    .author-page-photos-wrapper {
       max-width: $maxWidth;
       margin: $overRidePad;
     }
@@ -101,7 +102,7 @@ $maxWidth: 700px;
       }
     }
     .authors-album-title {
-      padding: 0 $overRidePad;
+      padding: 0;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -113,7 +114,7 @@ $maxWidth: 700px;
       }
     }
     .authors-album-desc {
-      padding: $overRidePad;
+      padding: $overRidePad 0;
       color: #000000;
       font-size: 15px;
       line-height: 1.33;
@@ -122,13 +123,12 @@ $maxWidth: 700px;
         line-height: 1.36;
       }
     }
-    .authors-photos-wrapperBox {
-      margin: 0 $overRidePad;
-    }
-    .authors-photos-imgBox, .add-photo-album-button-imgBox{
+    .authors-photos-imgBox,
+    .add-photo-album-button-imgBox {
       padding: $overRidePad;
     }
-    .authors-photos-img, .add-photo-album-button-img{
+    .authors-photos-img,
+    .add-photo-album-button-img {
       object-fit: cover;
       height: 163px;
       width: 100%;
@@ -146,7 +146,7 @@ $maxWidth: 700px;
       font-size: 16px;
       color: #397ab7;
       flex-direction: column;
-      line-height: 1.0;
+      line-height: 1;
       cursor: pointer;
     }
     .add-photo-album-button-plusSign {

@@ -60,16 +60,16 @@ class AuthorsAlbums extends PureComponent {
 
   render() {
     return (
-      <div className="authors-albums-wrapper row">
+      <div className="authors-albums-wrapper">
         {this.state.albumSelected.length > 0 ? (
           <AuthorsAlbum album={this.state.albumSelected[0]} />
         ) : (
-          <reactFragment>
+          <div className="row">
             {this.props.isUserLoggedIn && (
               <AddPhotoAlbumButton {...this.props} />
             )}
             {this.renderAlbums()}
-          </reactFragment>
+          </div>
         )}
       </div>
     );

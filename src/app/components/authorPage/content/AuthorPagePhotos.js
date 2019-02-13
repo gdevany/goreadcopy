@@ -170,7 +170,7 @@ class AuthorPagePhotos extends PureComponent {
           }`}
           onClick={e => this.handlePageSelector("photos", e)}
         >
-          Photos
+          {this.state.isUserLoggedIn ? "Your Photos" : "Photos"}
         </a>
         <a
           href="#"
@@ -248,11 +248,13 @@ class AuthorPagePhotos extends PureComponent {
             photosORalbum="Create Albums"
           />
         ) : (
-          <AuthorsPhotos
-            payload={this.state.allImages}
-            isUserLoggedIn={this.state.isUserLoggedIn}
-            photosORalbum="Add Photos"
-          />
+          <div className="author-page-photos-wrapper">
+            <AuthorsPhotos
+              payload={this.state.allImages}
+              isUserLoggedIn={this.state.isUserLoggedIn}
+              photosORalbum="Add Photos"
+            />
+          </div>
         )}
       </div>
     );
