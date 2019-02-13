@@ -37,6 +37,7 @@ $maxWidth: 700px;
       float: right;
       color: #707070;
       font-size: 16px;
+      cursor: pointer;
     }
     .author-page-photos-UserLoggedAddAlbumsPhotos-wrapper {
       max-width: $maxWidth;
@@ -70,6 +71,7 @@ $maxWidth: 700px;
       position: relative;
       padding: $overRidePad;
       cursor: pointer;
+      float: left;
     }
     .authors-albums-title-wrapper {
       position: absolute;
@@ -100,6 +102,9 @@ $maxWidth: 700px;
     }
     .authors-album-title {
       padding: 0 $overRidePad;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       color: #232323;
       font-weight: bold;
       font-size: 18px;
@@ -129,6 +134,7 @@ $maxWidth: 700px;
       width: 100%;
       border: 1px solid #cccccc;
       border-style: inset;
+      cursor: pointer;
     }
     .add-photo-album-button-addAlbumPhotosMobileButton {
       box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
@@ -141,6 +147,7 @@ $maxWidth: 700px;
       color: #397ab7;
       flex-direction: column;
       line-height: 1.0;
+      cursor: pointer;
     }
     .add-photo-album-button-plusSign {
       color: #397ab7;
