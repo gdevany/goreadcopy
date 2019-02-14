@@ -2,6 +2,10 @@ import React, { PureComponent } from "react";
 import AuthorsAlbums from "./AuthorsAlbums";
 import AuthorsPhotos from "./AuthorsPhotos";
 
+import AddAlbumsPhotosModal from "./AddAlbumsPhotosModal";
+import Dialog from "material-ui/Dialog";
+import FlatButton from "material-ui/FlatButton";
+
 const temp = {
   albums: [
     {
@@ -140,7 +144,9 @@ class AuthorPagePhotos extends PureComponent {
       photosOrAlbumsSelected: "photos",
       albumSelectedCounter: 0, //This is a generic counter to re-render AuthorsAlbums when album button selected
       allImages: [],
-      isUserLoggedIn: true
+      isUserLoggedIn: true,
+      open: false,
+      add: "photos"
     };
   }
 
@@ -185,18 +191,22 @@ class AuthorPagePhotos extends PureComponent {
     );
   };
 
-  renderAddAlbumPhotos = () => {
+  renderAddAlbumPhotosButtons = () => {
     const allowUserToAdd = this.state.isUserLoggedIn && (
       <div className="hide-for-small-only">
         <button
           className="author-page-photos-addPhotoButton"
-          onClick={e => this.handleAddAlbumsPhotos("photos", e)}
+          onClick={e => {
+            this.handleOpen("photos", e);
+          }}
         >
           Add Photos
         </button>
         <button
           className="author-page-photos-addPhotoButton"
-          onClick={e => this.handleAddAlbumsPhotos("albums", e)}
+          onClick={e => {
+            this.handleOpen("album", e);
+          }}
         >
           Create Album
         </button>
@@ -224,17 +234,49 @@ class AuthorPagePhotos extends PureComponent {
     this.setState({ albumSelectedCounter: count });
   };
 
-  handleAddAlbumsPhotos = (pORa, e) => {
+
+  // TODO: move this to it's own component after Material-ui -v update
+  handleAddAlbumsPhotos = () => {
+    const actions = [
+      <FlatButton
+        label="Submit"
+        primary={true}
+        keyboardFocused={true}
+        onClick={this.handleClose}
+      />
+    ];
+    return (
+    <div>
+      <Dialog
+        title="Dialog With Actions"
+        actions={actions}
+        modal={false}
+        open={this.state.open}
+        onRequestClose={this.handleClose}
+      >
+        The actions in this window were passed in as an array of React objects.
+      </Dialog>
+    </div>
+    );
+  };
+
+  handleOpen = (pORa, e) => {
     e.preventDefault();
-    alert(`TODO: create Add ${pORa} Modal`);
+    this.setState({ open: true, add: pORa });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
   };
 
   render() {
+    console.log(this.state.open);
     const { photosOrAlbumsSelected, albumSelectedCounter } = this.state;
     return (
       <div className="author-page-photos-container">
         <div className="author-page-photos-UserLoggedAddAlbumsPhotos-wrapper row">
-          {this.renderAddAlbumPhotos()}
+          {this.renderAddAlbumPhotosButtons()}
+          {this.handleAddAlbumsPhotos()}
         </div>
         <div className="author-page-photos-pageSelector-wrapper row">
           {this.renderPhotosAlbumsToggle()}
