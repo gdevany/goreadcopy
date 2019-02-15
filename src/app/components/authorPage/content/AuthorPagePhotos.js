@@ -5,6 +5,7 @@ import AuthorsPhotos from "./AuthorsPhotos";
 import AddAlbumsPhotosModal from "./AddAlbumsPhotosModal";
 import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
+import TextField from "material-ui/TextField";
 
 const temp = {
   albums: [
@@ -137,6 +138,13 @@ const temp = {
   ]
 };
 
+const modalStyles = {
+  width: "80%",
+  textArea: {
+    width: "100%"
+  }
+};
+
 class AuthorPagePhotos extends PureComponent {
   constructor(props) {
     super(props);
@@ -197,7 +205,7 @@ class AuthorPagePhotos extends PureComponent {
         <button
           className="author-page-photos-addPhotoButton"
           onClick={e => {
-            this.handleOpen("photos", e);
+            this.handleOpen("Upload Photos", e);
           }}
         >
           Add Photos
@@ -205,7 +213,7 @@ class AuthorPagePhotos extends PureComponent {
         <button
           className="author-page-photos-addPhotoButton"
           onClick={e => {
-            this.handleOpen("album", e);
+            this.handleOpen("Create Album", e);
           }}
         >
           Create Album
@@ -234,7 +242,6 @@ class AuthorPagePhotos extends PureComponent {
     this.setState({ albumSelectedCounter: count });
   };
 
-
   // TODO: move this to it's own component after Material-ui -v update
   handleAddAlbumsPhotos = () => {
     const actions = [
@@ -246,17 +253,31 @@ class AuthorPagePhotos extends PureComponent {
       />
     ];
     return (
-    <div>
-      <Dialog
-        title="Dialog With Actions"
-        actions={actions}
-        modal={false}
-        open={this.state.open}
-        onRequestClose={this.handleClose}
-      >
-        The actions in this window were passed in as an array of React objects.
-      </Dialog>
-    </div>
+      <div>
+        <Dialog
+          title={this.state.add}
+          actions={actions}
+          modal={false}
+          open={this.state.open}
+          contentStyle={modalStyles}
+          onRequestClose={this.handleClose}
+        >
+          <TextField
+            contentStyle={modalStyles.textArea}
+            id="text-field-default"
+            defaultValue="Album Name"
+            fullWidth={true}
+          />
+          <TextField
+          hintText="MultiLine with rows: 2 and rowsMax: 4"
+          multiLine={true}
+          rows={2}
+          rowsMax={4}
+          fullWidth={true}
+          >
+          </TextField>
+        </Dialog>
+      </div>
     );
   };
 

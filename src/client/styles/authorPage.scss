@@ -128,7 +128,8 @@ $maxWidth: 700px;
       padding: $overRidePad;
     }
     .authors-photos-img,
-    .add-photo-album-button-img {
+    .add-photo-album-button-img,
+    .author-page-photos-button-img {
       object-fit: cover;
       height: 163px;
       width: 100%;
@@ -149,7 +150,8 @@ $maxWidth: 700px;
       line-height: 1;
       cursor: pointer;
     }
-    .add-photo-album-button-plusSign {
+    .add-photo-album-button-plusSign,
+    .author-page-photos-button-plusSign {
       color: #397ab7;
       font-size: 40px;
     }
