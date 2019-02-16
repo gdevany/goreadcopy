@@ -166,7 +166,7 @@ $maxWidth: 700px;
   background-color: #efefef !important;
   border-radius: 6px !important;
   box-shadow: 6px 6px 7px 0 rgba(0, 0, 0, 0.3) !important;
-  width: 80%;
+  width: 100%;
 }
 .author-page-photos-modalTitle {
   font-size: 31px !important;
@@ -196,7 +196,6 @@ $maxWidth: 700px;
   color: #397ab7;
   font-size: 40px;
 }
-// .author-page-photos-addAlbumName {
-//   color: red !important;
-//   border: 5px solid black;
-// }
+.author-page-photos-textAreaModal textarea, input{
+  box-shadow: none !important;
+}

@@ -6,7 +6,7 @@ import AddAlbumsPhotosModal from "./AddAlbumsPhotosModal";
 import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
 import TextField from "material-ui/TextField";
-import {grey700} from 'material-ui/styles/colors';
+import {grey700,red500} from 'material-ui/styles/colors';
 
 const temp = {
   albums: [
@@ -140,25 +140,28 @@ const temp = {
 };
 
 const modalStyles = {
-  addAlbumName: {
+  hintStyleAlbumName: {
     color: grey700,
     fontSize: "1.2em",
     fontWeight: "bold",
     paddingLeft: "1em",
     bottom: 0,
   },
-  addAlbumDesc: {
+  hintStyleDesc: {
     marginLeft: "1em",
     bottom: "unset",
     top: 10,
   },
-  underline: {
+  underlineStyle: {
     border: "none"
   },
   inputStyleDesc: {
     width: "100%",
+    paddingLeft: "1em",
+    border: "none",
   },
   inputStyleAlbumName: {
+    paddingLeft: "1em"
   }
 }
 
@@ -284,9 +287,9 @@ class AuthorPagePhotos extends PureComponent {
           <div className="author-page-photos-modalInput">
             <TextField
               id="author-page-photos-addAlbumName"
-              fullWidth={true}
+              // fullWidth={true}
               hintText="Album Name"
-              hintStyle={modalStyles.addAlbumName}
+              hintStyle={modalStyles.hintStyleAlbumName}
               inputStyle={modalStyles.inputStyleAlbumName}
             />
             <TextField
@@ -295,9 +298,10 @@ class AuthorPagePhotos extends PureComponent {
               rows={4}
               rowsMax={4}
               fullWidth={true}
-              hintStyle={modalStyles.addAlbumDesc}
-              underlineStyle={modalStyles.underline}
+              hintStyle={modalStyles.hintStyleDesc}
+              underlineStyle={modalStyles.underlineStyle}
               inputStyle={modalStyles.inputStyleDesc}
+              className="author-page-photos-textAreaModal"
             />
           </div>
           <div className="author-page-photos-modalAddPhoto">
