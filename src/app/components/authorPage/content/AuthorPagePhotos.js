@@ -6,6 +6,7 @@ import AddAlbumsPhotosModal from "./AddAlbumsPhotosModal";
 import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
 import TextField from "material-ui/TextField";
+import {grey700} from 'material-ui/styles/colors';
 
 const temp = {
   albums: [
@@ -139,11 +140,11 @@ const temp = {
 };
 
 const modalStyles = {
-  width: "80%",
-  textArea: {
-    width: "100%"
+  addAlbumName: {
+    color: grey700,
+    fontSize: "1.2em"
   }
-};
+}
 
 class AuthorPagePhotos extends PureComponent {
   constructor(props) {
@@ -243,7 +244,7 @@ class AuthorPagePhotos extends PureComponent {
   };
 
   // TODO: move this to it's own component after Material-ui -v update
-  handleAddAlbumsPhotos = () => {
+  handleAddAlbumsPhotosModal = () => {
     const actions = [
       <FlatButton
         label="Submit"
@@ -256,28 +257,59 @@ class AuthorPagePhotos extends PureComponent {
       <div>
         <Dialog
           title={this.state.add}
-          actions={actions}
+          // actions={actions}
           modal={false}
           open={this.state.open}
-          contentStyle={modalStyles}
+          contentClassName="author-page-photos-modalDialog"
+          titleClassName="author-page-photos-modalTitle"
+          paperClassName="author-page-photos-modalPaper"
           onRequestClose={this.handleClose}
         >
-          <TextField
-            contentStyle={modalStyles.textArea}
-            id="text-field-default"
-            defaultValue="Album Name"
-            fullWidth={true}
-          />
-          <TextField
-          hintText="MultiLine with rows: 2 and rowsMax: 4"
-          multiLine={true}
-          rows={2}
-          rowsMax={4}
-          fullWidth={true}
-          >
-          </TextField>
+          <div className="author-page-photos-modalInput">
+            <TextField
+              id="author-page-photos-addAlbumName"
+              hintText="Album Name"
+              hintStyle={modalStyles.addAlbumName}
+              fullWidth={true}
+            />
+            <TextField
+              hintText="What would you like to say"
+              multiLine={true}
+              rows={2}
+              rowsMax={4}
+            />
+          </div>
+          <div className="author-page-photos-modalAddPhoto">
+              <div className="author-page-photos-modalPlusSign">+</div>
+              <div className="">Add Photo</div>
+            </div>
         </Dialog>
       </div>
+      // <div>
+      //   <Dialog
+      //     title={this.state.add}
+      //     actions={actions}
+      //     modal={false}
+      //     open={this.state.open}
+      //     contentStyle={modalStyles}
+      //     onRequestClose={this.handleClose}
+      //   >
+      //     <TextField
+      //       contentStyle={modalStyles.textArea}
+      //       id="text-field-default"
+      //       defaultValue="Album Name"
+      //       fullWidth={true}
+      //     />
+      //     <TextField
+      //     hintText="MultiLine with rows: 2 and rowsMax: 4"
+      //     multiLine={true}
+      //     rows={2}
+      //     rowsMax={4}
+      //     fullWidth={true}
+      //     >
+      //     </TextField>
+      //   </Dialog>
+      // </div>
     );
   };
 
@@ -297,7 +329,7 @@ class AuthorPagePhotos extends PureComponent {
       <div className="author-page-photos-container">
         <div className="author-page-photos-UserLoggedAddAlbumsPhotos-wrapper row">
           {this.renderAddAlbumPhotosButtons()}
-          {this.handleAddAlbumsPhotos()}
+          {this.handleAddAlbumsPhotosModal()}
         </div>
         <div className="author-page-photos-pageSelector-wrapper row">
           {this.renderPhotosAlbumsToggle()}
