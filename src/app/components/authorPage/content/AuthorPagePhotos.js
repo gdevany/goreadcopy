@@ -142,7 +142,23 @@ const temp = {
 const modalStyles = {
   addAlbumName: {
     color: grey700,
-    fontSize: "1.2em"
+    fontSize: "1.2em",
+    fontWeight: "bold",
+    paddingLeft: "1em",
+    bottom: 0,
+  },
+  addAlbumDesc: {
+    marginLeft: "1em",
+    bottom: "unset",
+    top: 10,
+  },
+  underline: {
+    border: "none"
+  },
+  inputStyleDesc: {
+    width: "100%",
+  },
+  inputStyleAlbumName: {
   }
 }
 
@@ -260,7 +276,7 @@ class AuthorPagePhotos extends PureComponent {
           // actions={actions}
           modal={false}
           open={this.state.open}
-          contentClassName="author-page-photos-modalDialog"
+          // contentClassName="author-page-photos-modalDialog"
           titleClassName="author-page-photos-modalTitle"
           paperClassName="author-page-photos-modalPaper"
           onRequestClose={this.handleClose}
@@ -268,15 +284,20 @@ class AuthorPagePhotos extends PureComponent {
           <div className="author-page-photos-modalInput">
             <TextField
               id="author-page-photos-addAlbumName"
+              fullWidth={true}
               hintText="Album Name"
               hintStyle={modalStyles.addAlbumName}
-              fullWidth={true}
+              inputStyle={modalStyles.inputStyleAlbumName}
             />
             <TextField
               hintText="What would you like to say"
               multiLine={true}
-              rows={2}
+              rows={4}
               rowsMax={4}
+              fullWidth={true}
+              hintStyle={modalStyles.addAlbumDesc}
+              underlineStyle={modalStyles.underline}
+              inputStyle={modalStyles.inputStyleDesc}
             />
           </div>
           <div className="author-page-photos-modalAddPhoto">
