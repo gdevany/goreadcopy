@@ -6,7 +6,7 @@ import AddAlbumsPhotosModal from "./AddAlbumsPhotosModal";
 import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
 import TextField from "material-ui/TextField";
-import {grey700,red500} from 'material-ui/styles/colors';
+import { grey300, grey700 } from "material-ui/styles/colors";
 
 const temp = {
   albums: [
@@ -142,28 +142,37 @@ const temp = {
 const modalStyles = {
   hintStyleAlbumName: {
     color: grey700,
-    fontSize: "1.2em",
+    fontSize: "1.5em",
     fontWeight: "bold",
-    paddingLeft: "1em",
-    bottom: 0,
+    paddingLeft: "25px",
+    bottom: 0
   },
   hintStyleDesc: {
-    marginLeft: "1em",
+    paddingLeft: "25px",
     bottom: "unset",
-    top: 10,
+    fontSize: "24px",
+    top: 30
   },
-  underlineStyle: {
+  underlineStyleAlbumName: {
+    borderColor: grey300,
+    borderStyle: "dotted",
+    bottom: "0 !important"
+  },
+  underlineStyleDesc: {
     border: "none"
+  },
+  inputStyleAlbumName: {
+    color: grey700,
+    fontSize: "1.5em",
+    fontWeight: "bold",
+    paddingLeft: "25px"
   },
   inputStyleDesc: {
     width: "100%",
-    paddingLeft: "1em",
-    border: "none",
-  },
-  inputStyleAlbumName: {
-    paddingLeft: "1em"
+    paddingLeft: "25px",
+    border: "none"
   }
-}
+};
 
 class AuthorPagePhotos extends PureComponent {
   constructor(props) {
@@ -279,7 +288,6 @@ class AuthorPagePhotos extends PureComponent {
           // actions={actions}
           modal={false}
           open={this.state.open}
-          // contentClassName="author-page-photos-modalDialog"
           titleClassName="author-page-photos-modalTitle"
           paperClassName="author-page-photos-modalPaper"
           onRequestClose={this.handleClose}
@@ -290,6 +298,7 @@ class AuthorPagePhotos extends PureComponent {
               // fullWidth={true}
               hintText="Album Name"
               hintStyle={modalStyles.hintStyleAlbumName}
+              underlineStyle={modalStyles.underlineStyleAlbumName}
               inputStyle={modalStyles.inputStyleAlbumName}
             />
             <TextField
@@ -299,42 +308,17 @@ class AuthorPagePhotos extends PureComponent {
               rowsMax={4}
               fullWidth={true}
               hintStyle={modalStyles.hintStyleDesc}
-              underlineStyle={modalStyles.underlineStyle}
+              underlineStyle={modalStyles.underlineStyleDesc}
               inputStyle={modalStyles.inputStyleDesc}
               className="author-page-photos-textAreaModal"
             />
           </div>
           <div className="author-page-photos-modalAddPhoto">
-              <div className="author-page-photos-modalPlusSign">+</div>
-              <div className="">Add Photo</div>
-            </div>
+            <div className="author-page-photos-modalPlusSign">+</div>
+            <div className="">Add Photo</div>
+          </div>
         </Dialog>
       </div>
-      // <div>
-      //   <Dialog
-      //     title={this.state.add}
-      //     actions={actions}
-      //     modal={false}
-      //     open={this.state.open}
-      //     contentStyle={modalStyles}
-      //     onRequestClose={this.handleClose}
-      //   >
-      //     <TextField
-      //       contentStyle={modalStyles.textArea}
-      //       id="text-field-default"
-      //       defaultValue="Album Name"
-      //       fullWidth={true}
-      //     />
-      //     <TextField
-      //     hintText="MultiLine with rows: 2 and rowsMax: 4"
-      //     multiLine={true}
-      //     rows={2}
-      //     rowsMax={4}
-      //     fullWidth={true}
-      //     >
-      //     </TextField>
-      //   </Dialog>
-      // </div>
     );
   };
 

@@ -156,12 +156,6 @@ $maxWidth: 700px;
     }
   }
 }
-.author-page-photos-modalDialog {
-  border-radius: 6px;
-  box-shadow: 6px 6px 7px 0 rgba(0, 0, 0, 0.3);
-  background-color: #f5f5f5;
-  width: 80%;
-}
 .author-page-photos-modalPaper {
   background-color: #efefef !important;
   border-radius: 6px !important;
@@ -196,6 +190,7 @@ $maxWidth: 700px;
   color: #397ab7;
   font-size: 40px;
 }
-.author-page-photos-textAreaModal textarea, input{
+.author-page-photos-textAreaModal textarea,
+input {
   box-shadow: none !important;
 }
