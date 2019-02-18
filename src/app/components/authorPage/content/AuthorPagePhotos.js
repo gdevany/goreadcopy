@@ -6,7 +6,7 @@ import AddAlbumsPhotosModal from "./AddAlbumsPhotosModal";
 import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
 import TextField from "material-ui/TextField";
-import { grey300, grey700 } from "material-ui/styles/colors";
+import { grey100, grey700 } from "material-ui/styles/colors";
 
 const temp = {
   albums: [
@@ -140,6 +140,10 @@ const temp = {
 };
 
 const modalStyles = {
+  contentStyle: {
+    width: "80%",
+    maxWidth: "none"
+  },
   hintStyleAlbumName: {
     color: grey700,
     fontSize: "1.5em",
@@ -154,7 +158,8 @@ const modalStyles = {
     top: 30
   },
   underlineStyleAlbumName: {
-    borderColor: grey300,
+    borderBottom: 0,
+    borderColor: grey100,
     borderStyle: "dotted",
     bottom: "0 !important"
   },
@@ -178,12 +183,12 @@ class AuthorPagePhotos extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      photosOrAlbumsSelected: "photos",
+      photoOrAlbumSelected: "photos",
       albumSelectedCounter: 0, //This is a generic counter to re-render AuthorsAlbums when album button selected
       allImages: [],
       isUserLoggedIn: true,
       open: false,
-      add: "photos"
+      addPhotoOrAlbum: "Upload Photos"
     };
   }
 
@@ -200,8 +205,8 @@ class AuthorPagePhotos extends PureComponent {
     this.setState({ allImages });
   };
 
-  renderPhotosAlbumsToggle = () => {
-    const { photosOrAlbumsSelected } = this.state;
+  renderPhotoOrAlbumButtons = () => {
+    const { photoOrAlbumSelected } = this.state;
     const selected = "author-page-photos-button-selected";
     const notSelected = "author-page-photos-button-notSelected";
     return (
@@ -209,7 +214,7 @@ class AuthorPagePhotos extends PureComponent {
         <a
           href="#"
           className={`${
-            photosOrAlbumsSelected === "photos" ? selected : notSelected
+            photoOrAlbumSelected === "photos" ? selected : notSelected
           }`}
           onClick={e => this.handlePageSelector("photos", e)}
         >
@@ -218,7 +223,7 @@ class AuthorPagePhotos extends PureComponent {
         <a
           href="#"
           className={`author-page-photos-padLeft ${
-            photosOrAlbumsSelected === "albums" ? selected : notSelected
+            photoOrAlbumSelected === "albums" ? selected : notSelected
           }`}
           onClick={e => this.handlePageSelector("albums", e)}
         >
@@ -228,7 +233,7 @@ class AuthorPagePhotos extends PureComponent {
     );
   };
 
-  renderAddAlbumPhotosButtons = () => {
+  renderAddPhotoOrAlbumButtons = () => {
     const allowUserToAdd = this.state.isUserLoggedIn && (
       <div className="hide-for-small-only">
         <button
@@ -257,11 +262,11 @@ class AuthorPagePhotos extends PureComponent {
   // which then changes props sent to AuthorsAlbums.
   handlePageSelector = (pORa, e) => {
     e.preventDefault();
-    const { photosOrAlbumsSelected } = this.state;
+    const { photoOrAlbumSelected } = this.state;
     pORa === "albums" &&
-      photosOrAlbumsSelected === "albums" &&
+      photoOrAlbumSelected === "albums" &&
       this.renderAlbumsRerender();
-    this.setState({ photosOrAlbumsSelected: pORa });
+    this.setState({ photoOrAlbumSelected: pORa });
   };
 
   // This counter changes state, which is needed to change props sent to AuthorsAlbums
@@ -272,40 +277,37 @@ class AuthorPagePhotos extends PureComponent {
   };
 
   // TODO: move this to it's own component after Material-ui -v update
-  handleAddAlbumsPhotosModal = () => {
-    const actions = [
-      <FlatButton
-        label="Submit"
-        primary={true}
-        keyboardFocused={true}
-        onClick={this.handleClose}
-      />
-    ];
+  handleAddAlbumOrPhotoModal = () => {
+    console.log(this.state.addPhotoOrAlbum);
+
     return (
       <div>
         <Dialog
-          title={this.state.add}
+          title={this.state.addPhotoOrAlbum}
           // actions={actions}
           modal={false}
           open={this.state.open}
           titleClassName="author-page-photos-modalTitle"
           paperClassName="author-page-photos-modalPaper"
           onRequestClose={this.handleClose}
+          contentStyle={modalStyles.contentStyle}
         >
           <div className="author-page-photos-modalInput">
-            <TextField
-              id="author-page-photos-addAlbumName"
-              // fullWidth={true}
-              hintText="Album Name"
-              hintStyle={modalStyles.hintStyleAlbumName}
-              underlineStyle={modalStyles.underlineStyleAlbumName}
-              inputStyle={modalStyles.inputStyleAlbumName}
-            />
+            {this.state.addPhotoOrAlbum === "Create Album" && (
+              <TextField
+                id="author-page-photos-addAlbumName"
+                // fullWidth={true}
+                hintText="Album Name"
+                hintStyle={modalStyles.hintStyleAlbumName}
+                underlineStyle={modalStyles.underlineStyleAlbumName}
+                inputStyle={modalStyles.inputStyleAlbumName}
+              />
+            )}
             <TextField
               hintText="What would you like to say"
               multiLine={true}
-              rows={4}
-              rowsMax={4}
+              rows={6}
+              rowsMax={6}
               fullWidth={true}
               hintStyle={modalStyles.hintStyleDesc}
               underlineStyle={modalStyles.underlineStyleDesc}
@@ -315,7 +317,9 @@ class AuthorPagePhotos extends PureComponent {
           </div>
           <div className="author-page-photos-modalAddPhoto">
             <div className="author-page-photos-modalPlusSign">+</div>
-            <div className="">Add Photo</div>
+            <div className="author-page-photos-modalAddPhotoText">
+              Add Photo
+            </div>
           </div>
         </Dialog>
       </div>
@@ -324,7 +328,7 @@ class AuthorPagePhotos extends PureComponent {
 
   handleOpen = (pORa, e) => {
     e.preventDefault();
-    this.setState({ open: true, add: pORa });
+    this.setState({ open: true, addPhotoOrAlbum: pORa });
   };
 
   handleClose = () => {
@@ -332,19 +336,18 @@ class AuthorPagePhotos extends PureComponent {
   };
 
   render() {
-    console.log(this.state.open);
-    const { photosOrAlbumsSelected, albumSelectedCounter } = this.state;
+    const { photoOrAlbumSelected, albumSelectedCounter } = this.state;
     return (
       <div className="author-page-photos-container">
         <div className="author-page-photos-UserLoggedAddAlbumsPhotos-wrapper row">
-          {this.renderAddAlbumPhotosButtons()}
-          {this.handleAddAlbumsPhotosModal()}
+          {this.renderAddPhotoOrAlbumButtons()}
+          {this.handleAddAlbumOrPhotoModal()}
         </div>
         <div className="author-page-photos-pageSelector-wrapper row">
-          {this.renderPhotosAlbumsToggle()}
+          {this.renderPhotoOrAlbumButtons()}
         </div>
 
-        {photosOrAlbumsSelected === "albums" ? (
+        {photoOrAlbumSelected === "albums" ? (
           <AuthorsAlbums
             counter={albumSelectedCounter}
             albumContent={temp}

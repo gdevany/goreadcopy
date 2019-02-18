@@ -164,6 +164,7 @@ $maxWidth: 700px;
 }
 .author-page-photos-modalTitle {
   font-size: 31px !important;
+  padding: 1.8em 0 1em 25px !important;
 }
 .author-page-photos-modalInput {
   background-color: white;
@@ -184,11 +185,15 @@ $maxWidth: 700px;
   width: 15em;
   height: 13em;
   background-color: #efefef;
-  margin: 2em;
+  margin-top: 2em;
+  border: 1px solid #707070;
+  border-style: inset;
+}
+.author-page-photos-modalAddPhotoText {
+  font-size: 21px;
 }
 .author-page-photos-modalPlusSign {
-  color: #397ab7;
-  font-size: 40px;
+  font-size: 86px;
 }
 .author-page-photos-textAreaModal textarea,
 input {
