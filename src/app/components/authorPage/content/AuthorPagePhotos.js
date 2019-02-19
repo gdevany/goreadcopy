@@ -1,10 +1,8 @@
 import React, { PureComponent } from "react";
 import AuthorsAlbums from "./AuthorsAlbums";
 import AuthorsPhotos from "./AuthorsPhotos";
-import Dialog from "material-ui/Dialog";
-import TextField from "material-ui/TextField";
 import { tempPhotoInfo } from "./AuthorPageTempPhotoInfo";
-import { modalStyles } from "./AuthorPageModalStyling";
+import AddPhotoAlbumModal from "./AddPhotoAlbumModal";
 
 class AuthorPagePhotos extends PureComponent {
   constructor(props) {
@@ -106,48 +104,11 @@ class AuthorPagePhotos extends PureComponent {
   // TODO: move this to it's own component after Material-ui -v update
   handleAddAlbumOrPhotoModal = () => {
     return (
-      <div>
-        <Dialog
-          bodyClassName="author-page-photos-modalDialogBox"
-          title={this.state.addPhotoOrAlbum}
-          modal={false}
-          open={this.state.open}
-          titleClassName="author-page-photos-modalTitle"
-          paperClassName="author-page-photos-modalPaper"
-          onRequestClose={this.handleClose}
-          contentStyle={modalStyles.contentStyle}
-        >
-          <div className="author-page-photos-modalInput">
-            {this.state.addPhotoOrAlbum === "Create Album" && (
-              <TextField
-                id="author-page-photos-addAlbumName"
-                fullWidth={true}
-                hintText="Album Name"
-                hintStyle={modalStyles.hintStyleAlbumName}
-                underlineStyle={modalStyles.underlineStyleAlbumName}
-                inputStyle={modalStyles.inputStyleAlbumName}
-              />
-            )}
-            <TextField
-              hintText="What would you like to say"
-              multiLine={true}
-              rows={6}
-              rowsMax={6}
-              fullWidth={true}
-              hintStyle={modalStyles.hintStyleDesc}
-              underlineStyle={modalStyles.underlineStyleDesc}
-              inputStyle={modalStyles.inputStyleDesc}
-              className="author-page-photos-modalTextAreaInput"
-            />
-          </div>
-          <div className="author-page-photos-modalAddPhoto">
-            <div className="author-page-photos-modalPlusSign">+</div>
-            <div className="author-page-photos-modalAddPhotoText">
-              Add Photo
-            </div>
-          </div>
-        </Dialog>
-      </div>
+      <AddPhotoAlbumModal 
+        addPhotoOrAlbum={this.state.addPhotoOrAlbum}
+        handleClose={this.handleClose}
+        open={this.state.open}
+      />
     );
   };
 
