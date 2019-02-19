@@ -156,28 +156,28 @@ $maxWidth: 700px;
     }
   }
 }
-.author-page-photos-modalDialogBox {
+.addPhotoAlbumModal-modalDialogBox {
   padding: 0 !important;
 }
-.author-page-photos-modalPaper {
+.addPhotoAlbumModal-modalPaper {
   background-color: #efefef !important;
   border-radius: 6px !important;
   box-shadow: 6px 6px 7px 0 rgba(0, 0, 0, 0.3) !important;
   width: 100%;
   padding: 25px;
 }
-.author-page-photos-modalTitle {
+.addPhotoAlbumModal-modalTitle {
   font-size: 31px !important;
   padding: 1em 0 !important;
 }
-.author-page-photos-modalInput {
+.addPhotoAlbumModal-modalInput {
   padding-right: 25px;
   background-color: white;
   display: flex;
   flex-direction: column;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
 }
-.author-page-photos-modalAddPhoto {
+.addPhotoAlbumModal-modalAddPhoto {
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
@@ -194,13 +194,13 @@ $maxWidth: 700px;
   border: 1px solid #707070;
   border-style: inset;
 }
-.author-page-photos-modalAddPhotoText {
+.addPhotoAlbumModal-modalAddPhotoText {
   font-size: 21px;
 }
-.author-page-photos-modalPlusSign {
+.addPhotoAlbumModal-modalPlusSign {
   font-size: 86px;
 }
-.author-page-photos-modalTextAreaInput {
+.addPhotoAlbumModal-modalTextAreaInput {
   height: auto !important;
   textarea {
     box-shadow: none !important;

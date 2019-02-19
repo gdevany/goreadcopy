@@ -9,19 +9,20 @@ class AddPhotoAlbumModal extends PureComponent {
     return (
       <div className="hide-for-small-only">
         <Dialog
-          bodyClassName="author-page-photos-modalDialogBox"
+          bodyClassName="addPhotoAlbumModal-modalDialogBox"
           title={this.props.addPhotoOrAlbum}
           modal={false}
           open={this.props.open}
-          titleClassName="author-page-photos-modalTitle"
-          paperClassName="author-page-photos-modalPaper"
+          titleClassName="addPhotoAlbumModal-modalTitle"
+          paperClassName="addPhotoAlbumModal-modalPaper"
           onRequestClose={this.props.handleModalClose}
           contentStyle={modalStyles.contentStyle}
+          autoScrollBodyContent={true}
         >
-          <div className="author-page-photos-modalInput">
+          <div className="addPhotoAlbumModal-modalInput">
             {this.props.addPhotoOrAlbum === "Create Album" && (
               <TextField
-                id="author-page-photos-addAlbumName"
+                id="addPhotoAlbumModal-addAlbumName"
                 fullWidth={true}
                 hintText="Album Name"
                 hintStyle={modalStyles.hintStyleAlbumName}
@@ -38,12 +39,15 @@ class AddPhotoAlbumModal extends PureComponent {
               hintStyle={modalStyles.hintStyleDesc}
               underlineStyle={modalStyles.underlineStyleDesc}
               inputStyle={modalStyles.inputStyleDesc}
-              className="author-page-photos-modalTextAreaInput"
+              className="addPhotoAlbumModal-modalTextAreaInput"
             />
           </div>
-          <div className="author-page-photos-modalAddPhoto">
-            <div className="author-page-photos-modalPlusSign">+</div>
-            <div className="author-page-photos-modalAddPhotoText">
+          <div 
+          className="addPhotoAlbumModal-modalAddPhoto"
+          onClick={() => this.addImage()}
+          >
+            <div className="addPhotoAlbumModal-modalPlusSign">+</div>
+            <div className="addPhotoAlbumModal-modalAddPhotoText">
               Add Photo
             </div>
           </div>
@@ -51,6 +55,11 @@ class AddPhotoAlbumModal extends PureComponent {
       </div>
     )
   }
+
+  addImage = () => {
+    alert("TODO: connect ADD IMAGE")
+  }
+
   render() {
     return (
     <reactFragment>
