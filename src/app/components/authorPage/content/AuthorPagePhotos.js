@@ -64,7 +64,7 @@ class AuthorPagePhotos extends PureComponent {
         <button
           className="author-page-photos-addPhotoButton"
           onClick={e => {
-            this.handleOpen("Upload Photos", e);
+            this.handleModalOpen("Upload Photos", e);
           }}
         >
           Add Photos
@@ -72,7 +72,7 @@ class AuthorPagePhotos extends PureComponent {
         <button
           className="author-page-photos-addPhotoButton"
           onClick={e => {
-            this.handleOpen("Create Album", e);
+            this.handleModalOpen("Create Album", e);
           }}
         >
           Create Album
@@ -106,18 +106,18 @@ class AuthorPagePhotos extends PureComponent {
     return (
       <AddPhotoAlbumModal 
         addPhotoOrAlbum={this.state.addPhotoOrAlbum}
-        handleClose={this.handleClose}
+        handleModalClose={this.handleModalClose}
         open={this.state.open}
       />
     );
   };
 
-  handleOpen = (pORa, e) => {
+  handleModalOpen = (pORa, e) => {
     e.preventDefault();
     this.setState({ open: true, addPhotoOrAlbum: pORa });
   };
 
-  handleClose = () => {
+  handleModalClose = () => {
     this.setState({ open: false });
   };
 
@@ -138,14 +138,18 @@ class AuthorPagePhotos extends PureComponent {
             counter={albumSelectedCounter}
             albumContent={tempPhotoInfo}
             isUserLoggedIn={this.state.isUserLoggedIn}
-            photosORalbum="Create Albums"
+            photosORalbumLabel="Create Albums"
+            addPhotoOrAlbum="Create Album"
+            handleModalOpen={this.handleModalOpen}
           />
         ) : (
           <div className="author-page-photos-wrapper">
             <AuthorsPhotos
               payload={this.state.allImages}
               isUserLoggedIn={this.state.isUserLoggedIn}
-              photosORalbum="Add Photos"
+              photosORalbumLabel="Add Photos"
+              addPhotoOrAlbum="Upload Photos"
+              handleModalOpen={this.handleModalOpen}
             />
           </div>
         )}

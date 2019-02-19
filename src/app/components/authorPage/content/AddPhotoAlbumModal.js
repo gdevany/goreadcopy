@@ -4,10 +4,10 @@ import TextField from "material-ui/TextField";
 import { modalStyles } from "./AuthorPageModalStyling";
 
 class AddPhotoAlbumModal extends PureComponent {
-  render() {
-    console.log(this.props.addPhotoOrAlbum)
+
+  renderAddPhotoAlbumModal = () => {
     return (
-      <div>
+      <div className="hide-for-small-only">
         <Dialog
           bodyClassName="author-page-photos-modalDialogBox"
           title={this.props.addPhotoOrAlbum}
@@ -15,7 +15,7 @@ class AddPhotoAlbumModal extends PureComponent {
           open={this.props.open}
           titleClassName="author-page-photos-modalTitle"
           paperClassName="author-page-photos-modalPaper"
-          onRequestClose={this.props.handleClose}
+          onRequestClose={this.props.handleModalClose}
           contentStyle={modalStyles.contentStyle}
         >
           <div className="author-page-photos-modalInput">
@@ -49,6 +49,13 @@ class AddPhotoAlbumModal extends PureComponent {
           </div>
         </Dialog>
       </div>
+    )
+  }
+  render() {
+    return (
+    <reactFragment>
+      {this.renderAddPhotoAlbumModal()}
+    </reactFragment>
     )
   }
 }
