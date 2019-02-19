@@ -156,17 +156,22 @@ $maxWidth: 700px;
     }
   }
 }
+.author-page-photos-modalDialogBox {
+  padding: 0 !important;
+}
 .author-page-photos-modalPaper {
   background-color: #efefef !important;
   border-radius: 6px !important;
   box-shadow: 6px 6px 7px 0 rgba(0, 0, 0, 0.3) !important;
   width: 100%;
+  padding: 25px;
 }
 .author-page-photos-modalTitle {
   font-size: 31px !important;
-  padding: 1.8em 0 1em 25px !important;
+  padding: 1em 0 !important;
 }
 .author-page-photos-modalInput {
+  padding-right: 25px;
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -195,7 +200,11 @@ $maxWidth: 700px;
 .author-page-photos-modalPlusSign {
   font-size: 86px;
 }
-.author-page-photos-textAreaModal textarea,
-input {
-  box-shadow: none !important;
+.author-page-photos-modalTextAreaInput {
+  height: auto !important;
+  textarea {
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding-top: 12px !important;
+  }
 }

@@ -1,183 +1,10 @@
 import React, { PureComponent } from "react";
 import AuthorsAlbums from "./AuthorsAlbums";
 import AuthorsPhotos from "./AuthorsPhotos";
-
-import AddAlbumsPhotosModal from "./AddAlbumsPhotosModal";
 import Dialog from "material-ui/Dialog";
-import FlatButton from "material-ui/FlatButton";
 import TextField from "material-ui/TextField";
-import { grey100, grey700 } from "material-ui/styles/colors";
-
-const temp = {
-  albums: [
-    {
-      id: 1,
-      poster: "https://picsum.photos/640/480/?random",
-      title: "Long Title Ellipsis Effect For This Awesome Vacation",
-      desc:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec sollicitudin risus. Phasellus rutrum blandit faucibus. Mauris porta, dolor quis vehicula hendrerit, est massa sollicitudin magna, ac congue sem ipsum.",
-      content: [
-        {
-          id: 1.1,
-          image: "https://picsum.photos/640/480/?random"
-        },
-        {
-          id: 1.2,
-          image: "https://picsum.photos/480/600/?random"
-        },
-        {
-          id: 1.3,
-          image: "https://picsum.photos/300/?random"
-        },
-        {
-          id: 1.4,
-          image: "https://picsum.photos/200/300/?random"
-        }
-      ]
-    },
-    {
-      id: 2,
-      poster: "https://picsum.photos/480/600/?random",
-      title: "Awesome Vacation2",
-      desc:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec sollicitudin risus. Phasellus rutrum blandit faucibus. Mauris porta, dolor quis vehicula hendrerit, est massa sollicitudin magna, ac congue sem ipsum.",
-      content: [
-        {
-          id: 2.1,
-          image: "https://picsum.photos/640/480/?random"
-        },
-        {
-          id: 2.2,
-          image: "https://picsum.photos/480/600/?random"
-        },
-        {
-          id: 2.3,
-          image: "https://picsum.photos/300/?random"
-        },
-        {
-          id: 2.4,
-          image: "https://picsum.photos/200/300/?random"
-        }
-      ]
-    },
-    {
-      id: 3,
-      poster: "https://picsum.photos/300/?random",
-      title: "Awesome Vacation3",
-      desc:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec sollicitudin risus. Phasellus rutrum blandit faucibus. Mauris porta, dolor quis vehicula hendrerit, est massa sollicitudin magna, ac congue sem ipsum.",
-      content: [
-        {
-          id: 3.1,
-          image: "https://picsum.photos/640/480/?random"
-        },
-        {
-          id: 3.2,
-          image: "https://picsum.photos/480/600/?random"
-        },
-        {
-          id: 3.3,
-          image: "https://picsum.photos/300/?random"
-        },
-        {
-          id: 3.4,
-          image: "https://picsum.photos/200/300/?random"
-        }
-      ]
-    },
-    {
-      id: 4,
-      poster: "https://picsum.photos/200/300/?random",
-      title: "Awesome Vacation4",
-      desc:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec sollicitudin risus. Phasellus rutrum blandit faucibus. Mauris porta, dolor quis vehicula hendrerit, est massa sollicitudin magna, ac congue sem ipsum.",
-      content: [
-        {
-          id: 4.1,
-          image: "https://picsum.photos/640/480/?random"
-        },
-        {
-          id: 4.2,
-          image: "https://picsum.photos/480/600/?random"
-        },
-        {
-          id: 4.3,
-          image: "https://picsum.photos/300/?random"
-        },
-        {
-          id: 4.4,
-          image: "https://picsum.photos/200/300/?random"
-        }
-      ]
-    }
-  ],
-  images: [
-    {
-      id: 5,
-      image: "https://picsum.photos/300/?random"
-    },
-    {
-      id: 6,
-      image: "https://picsum.photos/640/480/?random"
-    },
-    {
-      id: 7,
-      image: "https://picsum.photos/200/300/?random"
-    },
-    {
-      id: 8,
-      image: "https://picsum.photos/480/600/?random"
-    },
-    {
-      id: 9,
-      image: "https://picsum.photos/300/?random"
-    },
-    {
-      id: 10,
-      image: "https://picsum.photos/300/?random"
-    }
-  ]
-};
-
-const modalStyles = {
-  contentStyle: {
-    width: "80%",
-    maxWidth: "none"
-  },
-  hintStyleAlbumName: {
-    color: grey700,
-    fontSize: "1.5em",
-    fontWeight: "bold",
-    paddingLeft: "25px",
-    bottom: 0
-  },
-  hintStyleDesc: {
-    paddingLeft: "25px",
-    bottom: "unset",
-    fontSize: "24px",
-    top: 30
-  },
-  underlineStyleAlbumName: {
-    borderBottom: 0,
-    borderColor: grey100,
-    borderStyle: "dotted",
-    bottom: "0 !important"
-  },
-  underlineStyleDesc: {
-    border: "none"
-  },
-  inputStyleAlbumName: {
-    color: grey700,
-    fontSize: "1.5em",
-    fontWeight: "bold",
-    paddingLeft: "25px"
-  },
-  inputStyleDesc: {
-    width: "100%",
-    paddingLeft: "25px",
-    border: "none"
-  }
-};
+import { tempPhotoInfo } from "./AuthorPageTempPhotoInfo";
+import { modalStyles } from "./AuthorPageModalStyling";
 
 class AuthorPagePhotos extends PureComponent {
   constructor(props) {
@@ -194,12 +21,12 @@ class AuthorPagePhotos extends PureComponent {
 
   componentDidMount = () => {
     let allImages = [];
-    temp.albums.map(album => {
+    tempPhotoInfo.albums.map(album => {
       album.content.map(image => {
         allImages.push(image);
       });
     });
-    temp.images.map(image => {
+    tempPhotoInfo.images.map(image => {
       allImages.push(image);
     });
     this.setState({ allImages });
@@ -278,13 +105,11 @@ class AuthorPagePhotos extends PureComponent {
 
   // TODO: move this to it's own component after Material-ui -v update
   handleAddAlbumOrPhotoModal = () => {
-    console.log(this.state.addPhotoOrAlbum);
-
     return (
       <div>
         <Dialog
+          bodyClassName="author-page-photos-modalDialogBox"
           title={this.state.addPhotoOrAlbum}
-          // actions={actions}
           modal={false}
           open={this.state.open}
           titleClassName="author-page-photos-modalTitle"
@@ -296,7 +121,7 @@ class AuthorPagePhotos extends PureComponent {
             {this.state.addPhotoOrAlbum === "Create Album" && (
               <TextField
                 id="author-page-photos-addAlbumName"
-                // fullWidth={true}
+                fullWidth={true}
                 hintText="Album Name"
                 hintStyle={modalStyles.hintStyleAlbumName}
                 underlineStyle={modalStyles.underlineStyleAlbumName}
@@ -312,7 +137,7 @@ class AuthorPagePhotos extends PureComponent {
               hintStyle={modalStyles.hintStyleDesc}
               underlineStyle={modalStyles.underlineStyleDesc}
               inputStyle={modalStyles.inputStyleDesc}
-              className="author-page-photos-textAreaModal"
+              className="author-page-photos-modalTextAreaInput"
             />
           </div>
           <div className="author-page-photos-modalAddPhoto">
@@ -350,7 +175,7 @@ class AuthorPagePhotos extends PureComponent {
         {photoOrAlbumSelected === "albums" ? (
           <AuthorsAlbums
             counter={albumSelectedCounter}
-            albumContent={temp}
+            albumContent={tempPhotoInfo}
             isUserLoggedIn={this.state.isUserLoggedIn}
             photosORalbum="Create Albums"
           />
