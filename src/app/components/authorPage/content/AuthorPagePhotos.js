@@ -3,6 +3,8 @@ import AuthorsAlbums from "./AuthorsAlbums";
 import AuthorsPhotos from "./AuthorsPhotos";
 import { tempPhotoInfo } from "./AuthorPageTempPhotoInfo";
 import AddPhotoAlbumModal from "./AddPhotoAlbumModal";
+import AddPhotoAlbumMobileModal from "./AddPhotoAlbumMobileModal";
+
 
 class AuthorPagePhotos extends PureComponent {
   constructor(props) {
@@ -12,7 +14,8 @@ class AuthorPagePhotos extends PureComponent {
       albumSelectedCounter: 0, //This is a generic counter to re-render AuthorsAlbums when album button selected
       allImages: [],
       isUserLoggedIn: true,
-      open: false,
+      openModal: false,
+      openMobileModal: false,
       addPhotoOrAlbum: "Upload Photos"
     };
   }
@@ -101,24 +104,35 @@ class AuthorPagePhotos extends PureComponent {
     this.setState({ albumSelectedCounter: count });
   };
 
-  // TODO: move this to it's own component after Material-ui -v update
   handleAddAlbumOrPhotoModal = () => {
     return (
+      <reactFragment>
       <AddPhotoAlbumModal 
         addPhotoOrAlbum={this.state.addPhotoOrAlbum}
         handleModalClose={this.handleModalClose}
-        open={this.state.open}
+        open={this.state.openModal}
       />
+      <AddPhotoAlbumMobileModal 
+        addPhotoOrAlbum={this.state.addPhotoOrAlbum}
+        handleModalClose={this.handleModalClose}
+        open={this.state.openMobileModal}
+      />
+      </reactFragment>
     );
   };
 
   handleModalOpen = (pORa, e) => {
     e.preventDefault();
-    this.setState({ open: true, addPhotoOrAlbum: pORa });
+    this.setState({ openModal: true, addPhotoOrAlbum: pORa });
   };
 
+  handleMobileModalOpen = (pORa, e) => {
+    e.preventDefault();
+    this.setState({ openMobileModal: true, addPhotoOrAlbum: pORa })
+  }
+
   handleModalClose = () => {
-    this.setState({ open: false });
+    this.setState({ openModal: false, openMobileModal: false });
   };
 
   render() {
@@ -141,6 +155,7 @@ class AuthorPagePhotos extends PureComponent {
             photosORalbumLabel="Create Albums"
             addPhotoOrAlbum="Create Album"
             handleModalOpen={this.handleModalOpen}
+            handleMobileModalOpen={this.handleMobileModalOpen}
           />
         ) : (
           <div className="author-page-photos-wrapper">
@@ -150,6 +165,7 @@ class AuthorPagePhotos extends PureComponent {
               photosORalbumLabel="Add Photos"
               addPhotoOrAlbum="Upload Photos"
               handleModalOpen={this.handleModalOpen}
+              handleMobileModalOpen={this.handleMobileModalOpen}
             />
           </div>
         )}

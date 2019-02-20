@@ -3,11 +3,11 @@ import React, { PureComponent } from "react";
 class AddPhotoAlbumButton extends PureComponent {
   openAddAlbumPhotosModal = (pORa, e) => {
     e.preventDefault();
-    // alert("TODO: create openAddAlbumPhotosModal");
-    this.props.handleModalOpen(pORa,e)
+    this.props.handleMobileModalOpen(pORa,e)
   };
 
   render() {
+    console.log(this.props)
     const { photosORalbumLabel, addPhotoOrAlbum } = this.props;
     return (
       <div
