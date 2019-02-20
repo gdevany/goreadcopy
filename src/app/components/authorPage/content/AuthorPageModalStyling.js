@@ -5,16 +5,19 @@ export const modalStyles = {
     width: "80%",
     maxWidth: "none"
   },
+  mobileContentStyle: {
+    width: "100%",
+    maxWidth: "none",
+  },
   hintStyleAlbumName: {
     fontSize: "1.5em",
     fontWeight: "bold",
     paddingLeft: "25px",
     bottom: 0
   },
-  hintStyleDesc: {
-    padding: "25px",
-    fontSize: "24px",
-    top: "0.5em"
+  mobileHintStyleAlbumName: {
+    fontSize: "16px",
+    bottom: "12px"
   },
   underlineStyleAlbumName: {
     width: "150%",
@@ -24,8 +27,9 @@ export const modalStyles = {
     borderStyle: "dotted",
     bottom: "0 !important"
   },
-  underlineStyleDesc: {
-    border: "none"
+  mobileUnderlineStyleAlbumName: {
+    border: "none",
+    bottom: 0
   },
   inputStyleAlbumName: {
     color: grey700,
@@ -36,8 +40,33 @@ export const modalStyles = {
     height: "auto",
     boxShadow: "none"
   },
+  mobileInputStyleAlbumName: {
+    color: grey700,
+    fontSize: "16px",
+    fontWeight: "bold",
+    boxShadow: "none",
+    bottom: 0
+  },
+  hintStyleDesc: {
+    padding: "25px",
+    fontSize: "24px",
+    top: "0.5em"
+  },
+  mobileHintStyleDesc: {
+    fontSize: "16px",
+    top: 0
+  },
+  underlineStyleDesc: {
+    border: "none"
+  },
+  mobileUnderlineStyleDesc: {
+    border: "none"
+  },
   inputStyleDesc: {
     padding: "25px",
+    border: "none"
+  },
+  mobileInputStyleDesc: {
     border: "none"
   }
 };

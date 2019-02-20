@@ -124,22 +124,22 @@ $maxWidth: 700px;
       }
     }
     .authors-photos-imgBox,
-    .add-photo-album-button-imgBox {
+    .add-photo-album-mobile-button-imgBox {
       padding: $overRidePad;
     }
     .authors-photos-img,
-    .add-photo-album-button-img {
+    .add-photo-album-mobile-button-img {
       object-fit: cover;
       height: 163px;
       width: 100%;
       border: 1px solid #cccccc;
-      border-style: inset;
+      // border-style: inset;
       cursor: pointer;
     }
-    .add-photo-album-button-addAlbumPhotosMobileButton {
+    .add-photo-album-mobile-button-addAlbumPhotosMobileButton {
       box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
       border: 1px solid #707070;
-      border-style: inset;
+      // border-style: inset;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -149,14 +149,16 @@ $maxWidth: 700px;
       line-height: 1;
       cursor: pointer;
     }
-    .add-photo-album-button-plusSign,
+    .add-photo-album-mobile-button-plusSign,
     .author-page-photos-button-plusSign {
       color: #397ab7;
       font-size: 40px;
     }
   }
 }
-.addPhotoAlbumModal-modalDialogBox {
+
+.addPhotoAlbumModal-modalDialogBox,
+.addPhotoAlbumMobileModal-modalDialogBox {
   padding: 0 !important;
 }
 .addPhotoAlbumModal-modalPaper {
@@ -170,7 +172,7 @@ $maxWidth: 700px;
   font-size: 31px !important;
   padding: 1em 0 !important;
 }
-.addPhotoAlbumModal-modalInput {
+.addPhotoAlbumModal-modalInputWrapper {
   padding-right: 25px;
   background-color: white;
   display: flex;
@@ -192,7 +194,7 @@ $maxWidth: 700px;
   background-color: #efefef;
   margin-top: 2em;
   border: 1px solid #707070;
-  border-style: inset;
+  // border-style: inset;
 }
 .addPhotoAlbumModal-modalAddPhotoText {
   font-size: 21px;
@@ -207,4 +209,44 @@ $maxWidth: 700px;
     margin: 0 !important;
     padding-top: 12px !important;
   }
+}
+
+.addPhotoAlbumMobileModal-modalPaper {
+  background-color: #ffffff !important;
+  width: 100%;
+  padding: 20px;
+}
+.addPhotoAlbumMobileModal-modalInputBox {
+  display: flex;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.3);
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  height: 50px;
+  background-color: #ffffff;
+  margin-top: 2em;
+  border: 1px solid #cccccc;
+  padding-left: 10px;
+  border-radius: 4px;
+}
+.addPhotoAlbumMobilModal-modalTextAreaInput {
+  height: auto !important;
+  textarea {
+    box-shadow: none !important;
+    margin: 0 !important;
+  }
+}
+.addPhotoAlbumMobileModal-modalTextAreaBox {
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  margin-top: 2em;
+}
+.addPhotoAlbumMobileModal-modalPlusSign {
+  font-size: 40px;
+}
+.addPhotoAlbumMobileModal-modalAddPhotoText {
+  font-size: 16px;
+  padding-left: 12px;
 }

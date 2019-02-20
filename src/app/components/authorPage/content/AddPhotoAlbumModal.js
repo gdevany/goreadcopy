@@ -19,7 +19,7 @@ class AddPhotoAlbumModal extends PureComponent {
           contentStyle={modalStyles.contentStyle}
           autoScrollBodyContent={true}
         >
-          <div className="addPhotoAlbumModal-modalInput">
+          <div className="addPhotoAlbumModal-modalInputWrapper">
             {this.props.addPhotoOrAlbum === "Create Album" && (
               <TextField
                 id="addPhotoAlbumModal-addAlbumName"

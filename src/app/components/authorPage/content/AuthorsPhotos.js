@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import AddPhotoAlbumButton from "./AddPhotoAlbumButton";
+import AddPhotoAlbumMobileButton from "./AddPhotoAlbumMobileButton";
 
 class AuthorsPhotos extends PureComponent {
   renderImages = () => {
@@ -34,7 +34,7 @@ class AuthorsPhotos extends PureComponent {
   render() {
     return (
       <div className="authors-photos-wrapperBox row">
-        {this.props.isUserLoggedIn && <AddPhotoAlbumButton {...this.props} />}
+        {this.props.isUserLoggedIn && <AddPhotoAlbumMobileButton {...this.props} />}
         {this.renderImages()}
       </div>
     );
