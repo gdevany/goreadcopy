@@ -1,21 +1,28 @@
 import React, { PureComponent } from "react";
 import Dialog from "material-ui/Dialog";
 import TextField from "material-ui/TextField";
-import { modalStyles } from "./AuthorPageModalStyling";
+import { mobileModalStyles } from "./AuthorPageModalStyling";
 
 class AddPhotoAlbumMobilModal extends PureComponent {
   renderAddPhotoAlbumMobileModal = () => {
+    const {
+      mobileContentStyle,
+      mobileHintStyleAlbumName,
+      mobileUnderlineStyleAlbumName,
+      mobileInputStyleAlbumName,
+      mobileHintStyleDesc,
+      mobileUnderlineStyleDesc,
+      mobileInputStyleDesc
+    } = mobileModalStyles;
     return (
       <div>
         <Dialog
           bodyClassName="addPhotoAlbumMobileModal-modalDialogBox"
-          // title={this.props.addPhotoOrAlbum}
           modal={false}
           open={this.props.open}
-          // titleClassName="addPhotoAlbumModal-modalTitle"
           paperClassName="addPhotoAlbumMobileModal-modalPaper"
           onRequestClose={this.props.handleModalClose}
-          contentStyle={modalStyles.mobileContentStyle}
+          contentStyle={mobileContentStyle}
           autoScrollBodyContent={true}
         >
           <div
@@ -33,9 +40,9 @@ class AddPhotoAlbumMobilModal extends PureComponent {
                 id="addPhotoAlbumModal-addAlbumName"
                 fullWidth={true}
                 hintText="Album Name"
-                hintStyle={modalStyles.mobileHintStyleAlbumName}
-                underlineStyle={modalStyles.mobileUnderlineStyleAlbumName}
-                inputStyle={modalStyles.mobileInputStyleAlbumName}
+                hintStyle={mobileHintStyleAlbumName}
+                underlineStyle={mobileUnderlineStyleAlbumName}
+                inputStyle={mobileInputStyleAlbumName}
               />
             </div>
           )}
@@ -46,9 +53,9 @@ class AddPhotoAlbumMobilModal extends PureComponent {
               rows={5}
               rowsMax={5}
               fullWidth={true}
-              hintStyle={modalStyles.mobileHintStyleDesc}
-              underlineStyle={modalStyles.mobileUnderlineStyleDesc}
-              inputStyle={modalStyles.mobileInputStyleDesc}
+              hintStyle={mobileHintStyleDesc}
+              underlineStyle={mobileUnderlineStyleDesc}
+              inputStyle={mobileInputStyleDesc}
               className="addPhotoAlbumMobilModal-modalTextAreaInput"
             />
           </div>

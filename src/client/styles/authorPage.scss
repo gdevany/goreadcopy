@@ -170,14 +170,19 @@ $maxWidth: 700px;
 }
 .addPhotoAlbumModal-modalTitle {
   font-size: 31px !important;
-  padding: 1em 0 !important;
+  padding: 1em 0 1.2em !important;
 }
 .addPhotoAlbumModal-modalInputWrapper {
   padding-right: 25px;
   background-color: white;
-  display: flex;
-  flex-direction: column;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+}
+.addPhotoAlbumModal-modalInputBox {
+  color: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+.addPhotoAlbumModal-modalTextAreaBox {
+  padding: 25px;
 }
 .addPhotoAlbumModal-modalAddPhoto {
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
@@ -189,8 +194,8 @@ $maxWidth: 700px;
   flex-direction: column;
   line-height: 1;
   cursor: pointer;
-  width: 15em;
-  height: 13em;
+  width: 271px;
+  height: 238px;
   background-color: #efefef;
   margin-top: 2em;
   border: 1px solid #707070;
@@ -204,10 +209,10 @@ $maxWidth: 700px;
 }
 .addPhotoAlbumModal-modalTextAreaInput {
   height: auto !important;
+  margin-top: 12px;
   textarea {
     box-shadow: none !important;
     margin: 0 !important;
-    padding-top: 12px !important;
   }
 }
 
