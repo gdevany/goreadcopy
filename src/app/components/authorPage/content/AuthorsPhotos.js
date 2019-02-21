@@ -28,7 +28,8 @@ class AuthorsPhotos extends PureComponent {
   // TODO: create <openImageModal /> and take out alert
   openImageModal = (image, e) => {
     e.preventDefault();
-    alert("TODO: create openImageModal");
+    // alert("TODO: create openImageModal");
+    this.props.setAndLoadLightboxModal(image, e)
   };
 
   render() {

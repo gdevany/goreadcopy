@@ -4,19 +4,21 @@ import AuthorsPhotos from "./AuthorsPhotos";
 import { tempPhotoInfo } from "./AuthorPageTempPhotoInfo";
 import AddPhotoAlbumModal from "./AddPhotoAlbumModal";
 import AddPhotoAlbumMobileModal from "./AddPhotoAlbumMobileModal";
-
+import AuthorPageLightboxModal from "./AuthorPageLightboxModal";
 
 class AuthorPagePhotos extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       photoOrAlbumSelected: "photos",
+      addPhotoOrAlbum: "Upload Photos",
       albumSelectedCounter: 0, //This is a generic counter to re-render AuthorsAlbums when album button selected
       allImages: [],
       isUserLoggedIn: true,
+      imageToOpen: [],
       openModal: false,
       openMobileModal: false,
-      addPhotoOrAlbum: "Upload Photos"
+      openLightboxModal: false
     };
   }
 
@@ -107,17 +109,27 @@ class AuthorPagePhotos extends PureComponent {
   handleAddAlbumOrPhotoModal = () => {
     return (
       <reactFragment>
-      <AddPhotoAlbumModal 
-        addPhotoOrAlbum={this.state.addPhotoOrAlbum}
-        handleModalClose={this.handleModalClose}
-        open={this.state.openModal}
-      />
-      <AddPhotoAlbumMobileModal 
-        addPhotoOrAlbum={this.state.addPhotoOrAlbum}
-        handleModalClose={this.handleModalClose}
-        open={this.state.openMobileModal}
-      />
+        <AddPhotoAlbumModal
+          addPhotoOrAlbum={this.state.addPhotoOrAlbum}
+          handleModalClose={this.handleModalClose}
+          open={this.state.openModal}
+        />
+        <AddPhotoAlbumMobileModal
+          addPhotoOrAlbum={this.state.addPhotoOrAlbum}
+          handleModalClose={this.handleModalClose}
+          open={this.state.openMobileModal}
+        />
       </reactFragment>
+    );
+  };
+
+  renderLightboxModal = () => {
+    return (
+      <AuthorPageLightboxModal
+        handleModalClose={this.handleModalClose}
+        open={this.state.openLightboxModal}
+        payload={this.state.imageToOpen[0]}
+      />
     );
   };
 
@@ -128,11 +140,23 @@ class AuthorPagePhotos extends PureComponent {
 
   handleMobileModalOpen = (pORa, e) => {
     e.preventDefault();
-    this.setState({ openMobileModal: true, addPhotoOrAlbum: pORa })
-  }
+    this.setState({ openMobileModal: true, addPhotoOrAlbum: pORa });
+  };
 
   handleModalClose = () => {
-    this.setState({ openModal: false, openMobileModal: false });
+    this.setState({
+      openModal: false,
+      openMobileModal: false,
+      openLightboxModal: false
+    });
+  };
+
+  setAndLoadLightboxModal = (payload, e) => {
+    e.preventDefault();
+    this.setState({
+      openLightboxModal: true,
+      imageToOpen: [...this.state.imageToOpen, payload]
+    });
   };
 
   render() {
@@ -146,7 +170,7 @@ class AuthorPagePhotos extends PureComponent {
         <div className="author-page-photos-pageSelector-wrapper row">
           {this.renderPhotoOrAlbumButtons()}
         </div>
-
+        {this.renderLightboxModal()}
         {photoOrAlbumSelected === "albums" ? (
           <AuthorsAlbums
             counter={albumSelectedCounter}
@@ -166,6 +190,7 @@ class AuthorPagePhotos extends PureComponent {
               addPhotoOrAlbum="Upload Photos"
               handleModalOpen={this.handleModalOpen}
               handleMobileModalOpen={this.handleMobileModalOpen}
+              setAndLoadLightboxModal={this.setAndLoadLightboxModal}
             />
           </div>
         )}
