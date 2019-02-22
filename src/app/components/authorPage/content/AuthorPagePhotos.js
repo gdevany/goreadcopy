@@ -15,7 +15,7 @@ class AuthorPagePhotos extends PureComponent {
       albumSelectedCounter: 0, //This is a generic counter to re-render AuthorsAlbums when album button selected
       allImages: [],
       isUserLoggedIn: true,
-      imageToOpen: [],
+      imageToOpen: [{default: "https://picsum.photos/640/480/?random"}],
       openModal: false,
       openMobileModal: false,
       openLightboxModal: false
@@ -124,11 +124,12 @@ class AuthorPagePhotos extends PureComponent {
   };
 
   renderLightboxModal = () => {
+    const {imageToOpen} = this.state
     return (
       <AuthorPageLightboxModal
         handleModalClose={this.handleModalClose}
         open={this.state.openLightboxModal}
-        payload={this.state.imageToOpen[0]}
+        payload={imageToOpen[imageToOpen.length -1]}
       />
     );
   };

@@ -1,26 +1,49 @@
 import React, { PureComponent } from "react";
 import Dialog from "material-ui/Dialog";
-import { mobileModalStyles } from "./AuthorPageModalStyling";
+import { lightboxModalStyles } from "./AuthorPageModalStyling";
 
 class AuthorPageLightboxModal extends PureComponent {
+
+  showNextImage = () => {
+    alert("TODO: show next image")
+  }
+
+  showPreviousImage = () => {
+    alert("TODO: show next image")
+  }
+
   render() {
-    const { mobileContentStyle } = mobileModalStyles;
+    const { lightboxContentStyle } = lightboxModalStyles;
     return !this.props.payload ? null : (
       <div>
         <Dialog
-          bodyClassName="addPhotoAlbumMobileModal-modalDialogBox"
+          bodyClassName="authorPageLightboxModal-modalDialogBox"
           modal={false}
           open={this.props.open}
-          paperClassName="addPhotoAlbumMobileModal-modalPaper"
+          paperClassName="authorPageLightboxModal-modalPaper"
           onRequestClose={this.props.handleModalClose}
-          contentStyle={mobileContentStyle}
+          contentStyle={lightboxContentStyle}
           autoScrollBodyContent={true}
         >
-          <img
-            className="authors-photos-img"
-            src={this.props.payload.image}
-            alt={`album image ${this.props.payload.id}`}
-          />
+          <div className="authorPageLightboxModal-imageBox">
+            <div className="authorPageLightboxModal-closeImage">X</div>
+            <div
+              className="authorPageLightboxModal-nextImage"
+              onClick={() => this.showNextImage()}
+            />
+            <div
+              className="authorPageLightboxModal-lastImage"
+              onClick={() => this.showPreviousImage()}
+            />
+            <img
+              className="authorPageLightboxModal-image"
+              src={this.props.payload.image}
+              alt={`album image ${this.props.payload.id}`}
+            />
+            <div className="authorPageLightboxModal-imageDesc">
+              {this.props.payload.desc ? this.props.payload.desc : null}
+            </div>
+          </div>
         </Dialog>
       </div>
     );

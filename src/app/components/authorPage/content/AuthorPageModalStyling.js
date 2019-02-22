@@ -71,3 +71,10 @@ export const mobileModalStyles = {
     border: "none"
   }
 };
+
+export const lightboxModalStyles = {
+  lightboxContentStyle: {
+    width: "80%",
+    maxWidth: "none"
+  },
+}
