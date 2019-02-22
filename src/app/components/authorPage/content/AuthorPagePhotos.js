@@ -145,6 +145,7 @@ class AuthorPagePhotos extends PureComponent {
   };
 
   handleModalClose = () => {
+    console.log('here')
     this.setState({
       openModal: false,
       openMobileModal: false,

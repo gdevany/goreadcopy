@@ -3,14 +3,17 @@ import Dialog from "material-ui/Dialog";
 import { lightboxModalStyles } from "./AuthorPageModalStyling";
 
 class AuthorPageLightboxModal extends PureComponent {
-
   showNextImage = () => {
-    alert("TODO: show next image")
-  }
+    alert("TODO: show next image");
+  };
 
   showPreviousImage = () => {
-    alert("TODO: show next image")
-  }
+    alert("TODO: show next image");
+  };
+
+  handleModalClose = () => {
+    this.props.handleModalClose();
+  };
 
   render() {
     const { lightboxContentStyle } = lightboxModalStyles;
@@ -26,7 +29,12 @@ class AuthorPageLightboxModal extends PureComponent {
           autoScrollBodyContent={true}
         >
           <div className="authorPageLightboxModal-imageBox">
-            <div className="authorPageLightboxModal-closeImage">X</div>
+            <div
+              className="authorPageLightboxModal-closeImage"
+              onClick={() => this.handleModalClose()}
+            >
+              X
+            </div>
             <div
               className="authorPageLightboxModal-nextImage"
               onClick={() => this.showNextImage()}

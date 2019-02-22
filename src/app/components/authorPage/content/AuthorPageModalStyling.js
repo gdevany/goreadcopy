@@ -74,7 +74,7 @@ export const mobileModalStyles = {
 
 export const lightboxModalStyles = {
   lightboxContentStyle: {
-    width: "80%",
-    maxWidth: "none"
+    // width: "80%",
+    // maxWidth: "none"
   },
 }

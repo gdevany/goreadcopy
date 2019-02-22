@@ -260,6 +260,11 @@ $maxWidth: 700px;
   width: 100%;
   padding: 40px;
   box-shadow: none !important;
+  @media all and (max-width: 600px) {
+    padding: 40px 0;
+    margin-left: -50px;
+    width: 100vw;
+  }
 }
 .authorPageLightboxModal-image {
   object-fit: cover;
@@ -273,41 +278,60 @@ $maxWidth: 700px;
   box-sizing: border-box;
   width: 39px;
   height: 39px;
-  border: 1px solid white;
+  border: 2px solid white;
   position: absolute;
   top: 0;
   right: 0;
   font-size: 34px;
+  font-weight: 600;
   color: white;
   justify-content: center;
   align-items: center;
   display: flex;
+  cursor: pointer;
+  @media all and (max-width: 600px) {
+    border: 2px solid #232323;
+    color: #232323;
+    margin-right: -35px;
+  }
 }
 .authorPageLightboxModal-nextImage {
   position: absolute;
-  top: 200px;
+  top: 366px;
   right: 0;
   border-top: 15px solid transparent;
-	border-left: 30px solid white;
-	border-bottom: 15px solid transparent;
+  border-left: 30px solid white;
+  border-bottom: 15px solid transparent;
+  cursor: pointer;
+  @media all and (max-width: 600px) {
+    display: none;
+  }
 }
 .authorPageLightboxModal-lastImage {
   position: absolute;
-  top: 200px;
+  top: 366px;
   left: 0;
   width: 0;
-	height: 0;
-	border-top: 15px solid transparent;
-	border-right: 30px solid white;
-	border-bottom: 15px solid transparent;
+  height: 0;
+  border-top: 15px solid transparent;
+  border-right: 30px solid white;
+  border-bottom: 15px solid transparent;
+  cursor: pointer;
+  @media all and (max-width: 600px) {
+    display: none;
+  }
 }
 .authorPageLightboxModal-imageDesc {
   width: 100%;
   background-color: white;
   height: auto;
-  padding: 25px;
+  padding: 23px;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
   color: #232323;
   font-size: 24px;
   line-height: 1.38;
+  @media all and (max-width: 600px) {
+    font-size: 15px;
+    padding: 4px 17px;
+  }
 }
