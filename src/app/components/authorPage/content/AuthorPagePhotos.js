@@ -15,7 +15,7 @@ class AuthorPagePhotos extends PureComponent {
       albumSelectedCounter: 0, //This is a generic counter to re-render AuthorsAlbums when album button selected
       allImages: [],
       isUserLoggedIn: true,
-      imageToOpen: [{default: "https://picsum.photos/640/480/?random"}],
+      imageToOpen: [{ default: "https://picsum.photos/640/480/?random" }],
       openModal: false,
       openMobileModal: false,
       openLightboxModal: false
@@ -124,12 +124,12 @@ class AuthorPagePhotos extends PureComponent {
   };
 
   renderLightboxModal = () => {
-    const {imageToOpen} = this.state
+    const { imageToOpen } = this.state;
     return (
       <AuthorPageLightboxModal
         handleModalClose={this.handleModalClose}
         open={this.state.openLightboxModal}
-        payload={imageToOpen[imageToOpen.length -1]}
+        payload={imageToOpen[imageToOpen.length - 1]}
       />
     );
   };
@@ -145,7 +145,6 @@ class AuthorPagePhotos extends PureComponent {
   };
 
   handleModalClose = () => {
-    console.log('here')
     this.setState({
       openModal: false,
       openMobileModal: false,
@@ -182,6 +181,7 @@ class AuthorPagePhotos extends PureComponent {
             addPhotoOrAlbum="Create Album"
             handleModalOpen={this.handleModalOpen}
             handleMobileModalOpen={this.handleMobileModalOpen}
+            setAndLoadLightboxModal={this.setAndLoadLightboxModal}
           />
         ) : (
           <div className="author-page-photos-wrapper">

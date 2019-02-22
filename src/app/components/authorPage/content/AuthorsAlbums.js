@@ -62,7 +62,7 @@ class AuthorsAlbums extends PureComponent {
     return (
       <div className="authors-albums-wrapper">
         {this.state.albumSelected.length > 0 ? (
-          <AuthorsAlbum album={this.state.albumSelected[0]} />
+          <AuthorsAlbum album={this.state.albumSelected[0]} {...this.props} />
         ) : (
           <div className="row">
             {this.props.isUserLoggedIn && (
