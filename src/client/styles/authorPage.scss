@@ -112,3 +112,132 @@ $maxWidth: 700px;
     }
   }
 }
+
+
+.addPhotoAlbumModal-modalDialogBox,
+.addPhotoAlbumMobileModal-modalDialogBox,
+.authorPageLightboxModal-modalDialogBox {
+  padding: 0 !important;
+}
+.addPhotoAlbumModal-modalPaper {
+  background-color: #efefef !important;
+  border-radius: 6px !important;
+  box-shadow: 6px 6px 7px 0 rgba(0, 0, 0, 0.3) !important;
+  width: 100%;
+  padding: 25px;
+}
+.addPhotoAlbumModal-modalTitle {
+  font-size: 31px !important;
+  padding: 1em 0 1.2em !important;
+}
+.addPhotoAlbumModal-modalInputWrapper {
+  padding-right: 25px;
+  background-color: white;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+}
+.addPhotoAlbumModal-modalInputBox {
+  color: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+.addPhotoAlbumModal-modalTextAreaBox {
+  padding: 25px;
+}
+.addPhotoAlbumModal-modalAddPhoto {
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #397ab7;
+  flex-direction: column;
+  line-height: 1;
+  cursor: pointer;
+  width: 271px;
+  height: 238px;
+  background-color: #efefef;
+  margin-top: 2em;
+  border: 1px solid #707070;
+  // border-style: inset;
+}
+.addPhotoAlbumModal-modalAddPhotoText {
+  font-size: 21px;
+}
+.addPhotoAlbumModal-modalPlusSign {
+  font-size: 86px;
+}
+.addPhotoAlbumModal-modalTextAreaInput {
+  height: auto !important;
+  margin-top: 12px;
+  textarea {
+    box-shadow: none !important;
+    margin: 0 !important;
+  }
+}
+
+.addPhotoAlbumMobileModal-modalPaper {
+  background-color: #ffffff !important;
+  width: 100%;
+  padding: 20px;
+}
+.addPhotoAlbumMobileModal-modalInputBox {
+  display: flex;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.3);
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  height: 50px;
+  background-color: #ffffff;
+  margin-top: 2em;
+  border: 1px solid #cccccc;
+  padding-left: 10px;
+  border-radius: 4px;
+}
+.addPhotoAlbumMobilModal-modalTextAreaInput {
+  height: auto !important;
+  textarea {
+    box-shadow: none !important;
+    margin: 0 !important;
+  }
+}
+.addPhotoAlbumMobileModal-modalTextAreaBox {
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  margin-top: 2em;
+}
+.addPhotoAlbumMobileModal-modalPlusSign {
+  font-size: 40px;
+}
+.addPhotoAlbumMobileModal-modalAddPhotoText {
+  font-size: 16px;
+  padding-left: 12px;
+}
+
+.addVideoModal-uploadOrURLButtons {
+  margin-top: 35px;
+  display: flex;
+}
+.addVideoModal-uploadButton {
+  padding: 14px 25px;
+  height:  56px;
+  width: 137px;
+  border: 1px solid black;
+  border-radius: 30px 0 0 30px;
+  font-size: 19px;
+  color: #646464;
+}
+.addVideoModal-pasteURLButton {
+  padding: 14px 25px;
+  height:  56px;
+  width: 163px;
+  border: 1px solid black;
+  border-radius: 0 30px 30px 0;
+  font-size: 19px;
+  color: #646464;
+}
+.addVideoModalBlueBack {
+  background-color: #4261a5;
+  color: white;
+}
+

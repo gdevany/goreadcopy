@@ -1,5 +1,8 @@
 import React, { PureComponent } from "react";
 import ReactPlayer from "react-player";
+import AddVideoModal from './AddVideoModal';
+import AddVideoMobileModal from './AddVideoMobileModal';
+
 
 //NOTE !! : AuthorPageContent (switch) default changed to AuhorsPageVideos
 //NOTE !! : Change default back to AuthorPageWall
@@ -53,7 +56,8 @@ class AuthorVideos extends PureComponent {
       commented: true,
       commentedCount: 0,
       sharedCount: 0,
-      openModal: false
+      openModal: false,
+      openMobileModal: false
     };
   }
 
@@ -185,10 +189,37 @@ class AuthorVideos extends PureComponent {
     );
   };
 
+  handleAddVideoModal = () => {
+    return (
+      <reactFragment>
+        <AddVideoModal
+          addPhotoOrAlbum={this.state.addPhotoOrAlbum}
+          handleModalClose={this.handleModalClose}
+          open={this.state.openModal}
+        />
+        {/* <AddVideoMobileModal
+          addPhotoOrAlbum={this.state.addPhotoOrAlbum}
+          handleModalClose={this.handleModalClose}
+          open={this.state.openMobileModal}
+        /> */}
+      </reactFragment>
+    );
+
+  }
+
   handleModalOpen = e => {
     e.preventDefault();
     this.setState({ openModal: true });
   };
+
+  handleMobileModalOpen = e => {
+    e.preventDefault();
+    this.setState({ openMobileModal: true })
+  }
+
+  handleModalClose = () => {
+    this.setState({ openModal: false, openMobileModal: false })
+  }
 
   handleReadMoreLess = id => {
     let truncIt = this.state.isDescTrunced;
@@ -218,6 +249,7 @@ class AuthorVideos extends PureComponent {
   render() {
     return (
       <reactFragment>
+        {this.handleAddVideoModal()}
         <div className="authors-videos-UserLoggedAddVideo-wrapper">
           {this.renderAddVideoButton()}
         </div>
