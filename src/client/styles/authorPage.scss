@@ -1,16 +1,41 @@
 .author-page-container {
   padding-top: 94px;
+  @media (max-width: 667px) {
+    padding-top: 70px;
+  }
   .author-tab-menu-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    padding: 10px 0;
-    .author-tab-menu-item {
-      padding: 0 20px;
-      cursor: pointer;
-      color: #959595;
-      &:hover {
+    .author-tab-menu {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      padding: 10px 0;
+      @media (max-width: 667px) {
+        display: none;
+      }
+      .author-tab-menu-item {
+        padding: 0 20px;
+        cursor: pointer;
+        color: #959595;
+        &:hover {
+          color: #4261a5;
+        }
+      }
+      .highlighted {
         color: #4261a5;
+      }
+    }
+    .author-tab-mobile-container {
+      padding: 0 10px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: flex-start;
+      @media (min-width: 667px) {
+        display: none;
+      }
+      .author-tab-menu-mobile {
+        display: flex;
+        color: #4261a5;
+        font-weight: bold;
       }
     }
   }
@@ -19,10 +44,16 @@
     align-items: center;
     overflow: hidden;
     height: 400px;
+    @media (max-width: 667px) {
+      height: auto;
+    }
   }
   .author-main-container {
     display: flex;
     justify-content: space-between;
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
     .left-content-container {
       display: flex;
       width: 30%;
@@ -30,6 +61,9 @@
       position: relative;
       flex-direction: column;
       align-items: center;
+      @media (max-width: 768px) {
+        width: 100%;
+      }
       .author-profile-image {
         position: absolute;
         top: -115px;
@@ -47,6 +81,9 @@
         align-items: center;
         padding-top: 50px;
         padding-bottom: 20px;
+        @media (max-width: 667px) {
+          box-shadow: none;
+        }
         .author-title {
           font-size: 24px;
           font-weight: bold;
@@ -59,10 +96,19 @@
           .author-fan-counter {
             text-align: center;
             width: 40%;
+            font-size: 18px;
+            .author-followers {
+              @media (max-width: 667px) {
+                font-weight: bold;
+              }
+            }
           }
           .author-following {
               width: 60%;
               padding: 0 15px;
+              @media (max-width: 1024px) {
+                width: 40%;
+              }
             .follow-btn-off {
               color: #5a5a5a;
               padding: 6px 20px;
@@ -98,15 +144,28 @@
           align-items: center;
           width: 100%;
           padding: 0 20px;
+          @media (max-width: 667px) {
+            justify-content: center;
+          }
           .author-social-title {
             color: #aaaaaa;
             font-size: 14px;
+            @media (max-width: 667px) {
+              font-size: 20px;
+            }
           }
           .social-container {
             padding: 0 10px;
             .social-img {
-              height: 20px;
-              width: 20px;
+              svg {
+                color: #aaa;
+                height: 20px;
+                width: 20px;
+                @media (max-width: 667px) {
+                  height: 30px;
+                  width: 30px;
+                }
+              }
             }
           }
         }
@@ -116,8 +175,39 @@
         width: 100%;
         margin-top: 40px;
         padding: 20px;
+        @media (max-width: 667px) {
+          margin-top: 0;
+          box-shadow: none;
+          border-top: 1px solid;
+        }
         .author-bio-title {
           font-size: 20px;
+          @media (max-width: 768px) {
+            display: none;
+          }
+        }
+        .author-bio-description {
+          @media (max-width: 768px) {
+            display: none;
+          }
+        }
+        .author-bio-title-mobile {
+          font-size: 20px;
+          display: flex;
+          justify-content: space-between;
+          @media (min-width: 769px) {
+            display: none;
+          }
+          svg {
+            height: 30px !important;
+            width: 40px !important;
+          }
+        }
+        .author-bio-description-mobile {
+          padding-top: 20px;
+          @media (min-width: 769px) {
+            display: none;
+          }
         }
       }
       .author-library {
@@ -125,8 +215,43 @@
         width: 100%;
         margin-top: 40px;
         padding: 20px;
-        .author-libary-title {
+        @media (max-width: 667px) {
+          margin-top: 0;
+          box-shadow: none;
+          border-top: 1px solid;
+          border-bottom: 1px solid;
+        }
+        .author-library-title {
           font-size: 24px;
+          @media (max-width: 768px) {
+            display: none;
+          }
+        }
+        .author-books {
+          @media (max-width: 768px) {
+            display: none;
+          }
+        }
+        .author-library-title-mobile {
+          font-size: 18px;
+          display: flex;
+          justify-content: space-between;
+          @media (min-width: 769px) {
+            display: none;
+          }
+          svg {
+            height: 30px !important;
+            width: 40px !important;
+          }
+        }
+        .author-books-mobile {
+          padding-top: 20px;
+          @media (min-width: 769px) {
+            display: none;
+          }
+        }
+        .not-visible {
+          display: none;
         }
         .box {
           box-shadow: unset;
@@ -141,6 +266,9 @@
         width: 100%;
         margin-top: 40px;
         padding: 20px;
+        @media (max-width: 667px) {
+          display: none;
+        }
         .author-tweets-title {
           font-size: 20px;
         }
@@ -169,6 +297,10 @@
             .tweet-functions {
               display: flex;
               justify-content: flex-end;
+              svg {
+                margin: 0 10px;
+                color: #aaa;
+              }
             }
           }
         }
@@ -179,6 +311,17 @@
       width: 70%;
       justify-content: center;
       padding-top: 20px;
+      @media (max-width: 768px) {
+        width: 100%;
+      }
     }
+  }
+}
+
+.author-mobile-menu {
+  background-color: #336eb1 !important;
+  .author-tab-menu-item {
+    color: #fff !important;
+    font-size: 19px !important;
   }
 }

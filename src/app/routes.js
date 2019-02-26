@@ -75,6 +75,7 @@ const Routes = (
     <Route path="/shop/success" component={orderSuccess} />
     <Route path="/store/orders" component={Orders} />
     <Route path="/author/testing" component={AuthorPage} />
+    <Route path="/author/testing/:tab" component={AuthorPage} />
     <Route path="/literacy" component={useBootstrapFor(Literacy)} />
     <Route path="/litcoins" component={Litcoins} />
     <Route path="/signup" component={useFoundationFor(SignUpFlow)} />
