@@ -32,6 +32,9 @@ $maxWidth: 700px;
       height: 40px;
       margin-top: 1em;
       padding: 0 1em;
+      @media all and (max-width: 600px) {
+        margin-bottom: -10px;
+      }
     }
     .authors-videos-wrapperBox {
       padding: 0 1em 1em;
@@ -43,6 +46,7 @@ $maxWidth: 700px;
       margin-top: 25px;
       @media all and (max-width: 600px) {
         border-top: 2px solid #336eb1;
+        padding: 21px 17px 0 17px;
       }
     }
     .authors-videos-title {
@@ -68,6 +72,10 @@ $maxWidth: 700px;
     .authors-videos-a-span {
       text-decoration: underline;
       color: #4261a5;
+      font-size: 15px;
+      @media all and (min-width: 600px) {
+        font-size: 14px;
+      }
     }
     .authors-videos-iframe-container {
       .authors-videos-player {
