@@ -220,11 +220,12 @@ $maxWidth: 700px;
 .addVideoModal-uploadOrUrlButton {
   padding: 14px 25px;
   height: 56px;
-  border: 1px solid black;
+  border: 1px solid #cccccc;
   font-size: 19px;
   color: #646464;
   cursor: pointer;
   text-align: center;
+  background-color: white;
 }
 .addVideoModal-uploadButton {
   width: 137px;
@@ -249,7 +250,7 @@ $maxWidth: 700px;
 }
 .addVideoModal-addVideoUrlButton-wrapper {
   height: 73px;
-  margin-top: 25px;
+  margin: 42px 0 60px;
 }
 .addVideoModal-addVideoUrlButton {
   width: 350px;
