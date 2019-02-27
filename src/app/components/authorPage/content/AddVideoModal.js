@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import Dialog from "material-ui/Dialog";
 import TextField from "material-ui/TextField";
-import { modalStyles, mobileModalStyles } from "./AuthorPageModalStyling";
+import { modalStyles, mobileModalStyles } from "./AuthorPageModalStylingCopy";
 
 class AddVideoModal extends PureComponent {
   constructor(props) {

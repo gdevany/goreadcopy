@@ -1,11 +1,11 @@
 import React, { PureComponent } from "react";
 import ReactPlayer from "react-player";
-import AddVideoModal from './AddVideoModal';
-import AddVideoMobileModal from './AddVideoMobileModal';
-
+import AddVideoModal from "./AddVideoModal";
+import AddVideoMobileModal from "./AddVideoMobileModal";
 
 //NOTE !! : AuthorPageContent (switch) default changed to AuhorsPageVideos
 //NOTE !! : Change default back to AuthorPageWall
+//NOTE !! : try default to 02.08.2019 if merge conflict (jira/greg/GOR-152)
 
 // NOTE: code for like/comment/share pulled in from TileDefault.js
 // TODO: convert icons for like/comment/share from react-player to material-ui
@@ -65,9 +65,17 @@ class AuthorVideos extends PureComponent {
     const allowUserToAdd = this.state.isUserLoggedIn && (
       <reactFragment>
         <button
-          className="authors-videos-addVideoButton text-center"
+          className="hide-for-small-only authors-videos-addVideoButton text-center"
           onClick={e => {
             this.handleModalOpen(e);
+          }}
+        >
+          Add Video
+        </button>
+        <button
+          className="show-for-small-only authors-videos-addVideoButton text-center"
+          onClick={e => {
+            this.handleMobileModalOpen(e);
           }}
         >
           Add Video
@@ -193,19 +201,18 @@ class AuthorVideos extends PureComponent {
     return (
       <reactFragment>
         <AddVideoModal
-          addPhotoOrAlbum={this.state.addPhotoOrAlbum}
+          // addPhotoOrAlbum={this.state.addPhotoOrAlbum}
           handleModalClose={this.handleModalClose}
           open={this.state.openModal}
         />
-        {/* <AddVideoMobileModal
-          addPhotoOrAlbum={this.state.addPhotoOrAlbum}
+        <AddVideoMobileModal
+          // addPhotoOrAlbum={this.state.addPhotoOrAlbum}
           handleModalClose={this.handleModalClose}
           open={this.state.openMobileModal}
-        /> */}
+        />
       </reactFragment>
     );
-
-  }
+  };
 
   handleModalOpen = e => {
     e.preventDefault();
@@ -214,12 +221,13 @@ class AuthorVideos extends PureComponent {
 
   handleMobileModalOpen = e => {
     e.preventDefault();
-    this.setState({ openMobileModal: true })
-  }
+    // alert("test: mobileModalOpen")
+    this.setState({ openMobileModal: true });
+  };
 
   handleModalClose = () => {
-    this.setState({ openModal: false, openMobileModal: false })
-  }
+    this.setState({ openModal: false, openMobileModal: false });
+  };
 
   handleReadMoreLess = id => {
     let truncIt = this.state.isDescTrunced;
