@@ -65,7 +65,7 @@ class AuthorVideos extends PureComponent {
     const allowUserToAdd = this.state.isUserLoggedIn && (
       <reactFragment>
         <button
-          className="authors-videos-addVideoButton"
+          className="authors-videos-addVideoButton text-center"
           onClick={e => {
             this.handleModalOpen(e);
           }}
