@@ -1,4 +1,6 @@
 import React, { PureComponent } from "react";
+import AddArticleModal from "./AddArticleModal";
+import AddArticleMobileModal from "./AddArticleMobileModal";
 
 //NOTE !! : AuthorPageContent (switch) default changed to AuhorsPageArticle
 //NOTE !! : Change default back to AuthorPageWall
@@ -60,25 +62,52 @@ class AuthorsArticles extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
+      isUserLoggedIn: true,
+      openModal: false,
+      openMobileModal: false,
       descLimit: 250,
       isDescTrunced: true,
       articleIDClicked: 0
     };
   }
 
+  renderAddVideoButton = () => {
+    const allowUserToAdd = this.state.isUserLoggedIn && (
+      <reactFragment>
+        <button
+          className="hide-for-small-only authors-articles-addArticleButton text-center"
+          onClick={e => {
+            this.handleModalOpen(e);
+          }}
+        >
+          Add Video
+        </button>
+        <button
+          className="show-for-small-only authors-articles-addArticleButton text-center"
+          onClick={e => {
+            this.handleMobileModalOpen(e);
+          }}
+        >
+          Add Video
+        </button>
+      </reactFragment>
+    );
+    return allowUserToAdd;
+  };
+
   renderArticles = () => {
     let articleRendered = temp.articles.map(art => {
       return (
         <div
-          className="author-article-box small-12 medium-6 columns"
+          className="authors-article-box small-12 medium-6 columns"
           key={art.id}
         >
           <img src={art.image} alt="image" />
-          <div className="author-article-infoBox">
+          <div className="authors-article-infoBox">
             {this.renderTitle(art.title)}
-            <div className="author-articles-category">{art.category}</div>
+            <div className="authors-articles-category">{art.category}</div>
             {this.renderDate(art.month, art.day, art.year)}
-            <div className="author-articles-desc">
+            <div className="authors-articles-desc">
               {this.renderDesc(art.desc, art.id)}
             </div>
           </div>
@@ -91,12 +120,12 @@ class AuthorsArticles extends PureComponent {
   renderTitle = title => {
     let titleLength = title.length;
     console.log(titleLength);
-    return <div className={"author-article-title"}>{title}</div>;
+    return <div className={"authors-article-title"}>{title}</div>;
   };
 
   renderDate = (month, day, year) => {
     return (
-      <div className="author-articles-date">
+      <div className="authors-articles-date">
         {month} {day}
         {","}
         {year}
@@ -116,7 +145,7 @@ class AuthorsArticles extends PureComponent {
             : this.truncInfo(text, descLimit)}
         </span>
         <a
-          className="author-articles-a-span"
+          className="authors-articles-a-span"
           onClick={() => this.handleReadMoreLess(id)}
         >
           {articleIDClicked === id && isDescTrunced !== true ? (
@@ -138,9 +167,44 @@ class AuthorsArticles extends PureComponent {
     this.setState({ isDescTrunced: !truncIt, articleIDClicked: id });
   };
 
+  handleModalOpen = e => {
+    e.preventDefault();
+    this.setState({ openModal: true });
+  };
+
+  handleMobileModalOpen = e => {
+    e.preventDefault();
+    this.setState({ openMobileModal: true });
+  };
+
+  handleModalClose = () => {
+    this.setState({ openModal: false, openMobileModal: false });
+  };
+
+  handleAddArticleModal = () => {
+    return (
+      <reactFragment>
+        <AddArticleModal
+          handleModalClose={this.handleModalClose}
+          open={this.state.openModal}
+        />
+        <AddArticleMobileModal
+          handleModalClose={this.handleModalClose}
+          open={this.state.openMobileModal}
+        />
+      </reactFragment>
+    );
+  };
+
   render() {
     return (
-      <div className="author-articles-wrapper">{this.renderArticles()}</div>
+      <reactFragment>
+        {this.handleAddArticleModal()}
+        <div className="authors-articles-UserLoggedAddArticle-wrapper">
+          {this.renderAddVideoButton()}
+        </div>
+        <div className="authors-articles-wrapper">{this.renderArticles()}</div>
+      </reactFragment>
     );
   }
 }

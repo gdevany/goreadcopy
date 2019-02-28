@@ -1,3 +1,8 @@
+$maxWidth: 700px;
+$aizeMobile: 768px;
+$sizeTablet: 1024px;
+
+
 .author-page-container {
   padding-top: 64px;
   .author-tab-menu-container {
@@ -15,44 +20,63 @@
   }
 
   .author-articles-container {
-    .author-articles-wrapper {
+    .authors-articles-wrapper {
       max-width: 714px;
       padding: 1em;
     }
-    .author-article-box {
+    .authors-article-box {
       margin: 0.5em 0;
     }
-    .author-article-infoBox {
+    .authors-article-infoBox {
       box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.16);
       padding: 0.8em 0.8em 1em;
       min-height: 19em;
     }
-    .author-articles-a-span {
+    .authors-articles-a-span {
       text-decoration: underline;
       color: #4261a5;
     }
-    .author-article-title {
+    .authors-article-title {
       font-size: 1.3rem;
       font-weight: bold;
       padding-top: 0.2em;
       height: 68px;
       overflow: hidden;
     }
-    .author-articles-category {
+    .authors-articles-category {
       color: #4261a5;
       font-size: 14px;
     }
-    .author-articles-date {
+    .authors-articles-date {
       color: #959595;
       font-size: 14px;
       margin-bottom: 0.4em;
     }
-    .author-articles-desc {
+    .authors-articles-desc {
       line-height: 1.3;
     }
     img {
       height: 190px;
       width: 100%;
+    }
+    .authors-articles-addArticleButton {
+      border: 1px solid #707070;
+      width: 178px;
+      height: 38px;
+      float: right;
+      color: #707070;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .authors-articles-UserLoggedAddArticle-wrapper {
+      max-width: $maxWidth;
+      height: 40px;
+      margin-top: 1em;
+      padding: 0 1em;
+      @media all and (max-width: 600px) {
+        margin-bottom: -10px;
+      }
     }
   }
 }
