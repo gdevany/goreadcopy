@@ -30,20 +30,19 @@ class AddVideoModal extends PureComponent {
     return (
       <div className="">
         <Dialog
-          bodyClassName="addPhotoAlbumModal-modalDialogBox"
+          bodyClassName="addVideoModal-modalDialogBox"
           title="Add Video"
           modal={false}
           open={this.props.open}
-          titleClassName="addPhotoAlbumModal-modalTitle"
-          paperClassName="addPhotoAlbumModal-modalPaper"
+          titleClassName="addVideoModal-modalTitle"
+          paperClassName="addVideoModal-modalPaper"
           onRequestClose={this.props.handleModalClose}
           contentStyle={contentStyle}
           autoScrollBodyContent={true}
         >
-          <div className="addPhotoAlbumModal-modalInputWrapper">
-            <div className="addPhotoAlbumModal-modalInputBox">
+          <div className="addVideoModal-modalInputWrapper">
+            <div className="addVideoModal-modalTitleInputBox">
               <TextField
-                id="addPhotoAlbumModal-addAlbumName"
                 fullWidth={true}
                 hintText="Video Title"
                 hintStyle={hintStyleAlbumName}
@@ -51,7 +50,7 @@ class AddVideoModal extends PureComponent {
                 inputStyle={inputStyleAlbumName}
               />
             </div>
-            <div className="addPhotoAlbumModal-modalTextAreaBox">
+            <div className="addVideoModal-modalTextAreaBox">
               <TextField
                 hintText="What would you like to say"
                 multiLine={true}
@@ -61,7 +60,7 @@ class AddVideoModal extends PureComponent {
                 hintStyle={hintStyleDesc}
                 underlineStyle={underlineStyleDesc}
                 inputStyle={inputStyleDesc}
-                className="addPhotoAlbumModal-modalTextAreaInput"
+                className="addVideoModal-modalTextAreaInput"
               />
             </div>
           </div>
@@ -83,13 +82,11 @@ class AddVideoModal extends PureComponent {
           </div>
           {this.state.uploadSelected === true ? (
             <div
-              className="addPhotoAlbumModal-modalAddPhoto"
+              className="addVideoModal-modalAddVideo"
               onClick={() => this.handleAddVideoUpload()}
             >
-              <div className="addPhotoAlbumModal-modalPlusSign">+</div>
-              <div className="addPhotoAlbumModal-modalAddPhotoText">
-                Add Video
-              </div>
+              <div className="addVideoModal-modalPlusSign">+</div>
+              <div className="addVideoModal-modalAddVideoText">Add Video</div>
             </div>
           ) : (
             <div>
