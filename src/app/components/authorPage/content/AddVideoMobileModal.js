@@ -31,7 +31,7 @@ class AddVideoMobileModal extends PureComponent {
           modal={false}
           open={this.props.open}
           paperClassName="addVideoMobileModal-modalPaper"
-          onRequestClose={this.props.handleModalClose}
+          onRequestClose={this.renderCloseModal}
           contentStyle={mobileContentStyle}
           autoScrollBodyContent={true}
         >
@@ -72,6 +72,19 @@ class AddVideoMobileModal extends PureComponent {
         </Dialog>
       </div>
     );
+  };
+
+  //initialize state when handleModalClose() because closing modal doesn't really
+  //  close the modal, it just moves it off the screen (left position -10000px)
+  renderCloseModal = () => {
+    this.setState({
+      pastedURL: "",
+      videoURL: "",
+      videoTypeDropdownSelected: false,
+      videoTypeSelected: false,
+      uploadOrPasteUrlSelected: ""
+    });
+    this.props.handleModalClose();
   };
 
   renderSelectVideoType = () => {
