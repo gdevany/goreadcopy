@@ -7,7 +7,7 @@ class AddArticleModal extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      uploadSelected: true
+      dateOfLastPost: new Date()
     };
   }
   renderAddVideoModal = () => {
@@ -30,99 +30,93 @@ class AddArticleModal extends PureComponent {
     return (
       <div className="">
         <Dialog
-          bodyClassName="addVideoModal-modalDialogBox"
-          title="Add Video"
+          bodyClassName="addArticleModal-modalDialogBox"
+          title="Add Article"
           modal={false}
           open={this.props.open}
-          titleClassName="addVideoModal-modalTitle"
-          paperClassName="addVideoModal-modalPaper"
+          titleClassName="addArticleModal-modalTitle"
+          paperClassName="addArticleModal-modalPaper"
           onRequestClose={this.props.handleModalClose}
           contentStyle={contentStyle}
           autoScrollBodyContent={true}
         >
-          <div className="addVideoModal-modalInputWrapper">
-            <div className="addVideoModal-modalTitleInputBox">
+          <div>
+            <div className="addArticleModal-subTitle">
+              {`You are allowed to post 1 article every 7 days. You can post your next article on ${
+                this.state.dateOfLastPost
+              }.`}
+            </div>
+            <div className="addArticleModal-subTitle">
+              You can save your article as draft and come back to it later.
+            </div>
+            <div className="addArticleModal-modalInputBox">
               <TextField
                 fullWidth={true}
-                hintText="Video Title"
-                hintStyle={hintStyleAlbumName}
-                underlineStyle={underlineStyleAlbumName}
-                inputStyle={inputStyleAlbumName}
+                hintText="Add your article title here"
+                hintStyle={mobileHintStyleAlbumName}
+                underlineStyle={mobileUnderlineStyleAlbumName}
+                inputStyle={mobileInputStyleAlbumName}
               />
             </div>
-            <div className="addVideoModal-modalTextAreaBox">
-              <TextField
-                hintText="What would you like to say"
-                multiLine={true}
-                rows={4}
-                rowsMax={4}
-                fullWidth={true}
-                hintStyle={hintStyleDesc}
-                underlineStyle={underlineStyleDesc}
-                inputStyle={inputStyleDesc}
-                className="addVideoModal-modalTextAreaInput"
-              />
+            <div className="addArticleModal-modalAddPhotoText">
+              Add Your Photo
+            </div>
+            <div className="addArticleModal-uploadPhotoButton-wrapper">
+              <button
+                className="addArticleModal-button addArticleModal-uploadPhotoButton text-center"
+                onClick={e => {
+                  this.handleUploadPhoto(e);
+                }}
+              >
+                Upload Photo
+              </button>
+            </div>
+            <div className="addArticleModal-modalCategoryTextBox">
+              <div className="addArticleMobileModal-modalCategoryText">
+                Choose a category
+              </div>
+              <span className="addArticleMobileModal-dropdownArrow">
+                <i className="addArticleMobileModal-downArrow" />
+              </span>
+            </div>
+
+            <div className="addArticleModal-draftOrSubmitButton-wrapper">
+              <button
+                className="addArticleModal-button addArticleModal-draftOrSubmitButton text-center"
+                onClick={e => {
+                  this.handleSaveDraft(e);
+                }}
+              >
+                Save Draft
+              </button>
+              <button
+                className="addArticleModal-button addArticleModal-draftOrSubmitButton text-center"
+                onClick={e => {
+                  this.handleSubmit(e);
+                }}
+              >
+                Submit
+              </button>
             </div>
           </div>
-          <div className="addVideoModal-uploadOrUrlButtons-wrapper">
-            <div
-              className={`addVideoModal-uploadOrUrlButton addVideoModal-uploadButton ${this
-                .state.uploadSelected === true && "addVideoModalBlueBack"}`}
-              onClick={() => this.setState({ uploadSelected: true })}
-            >
-              Upload
-            </div>
-            <div
-              className={`addVideoModal-uploadOrUrlButton addVideoModal-pasteUrlButton ${this
-                .state.uploadSelected === false && "addVideoModalBlueBack"}`}
-              onClick={() => this.setState({ uploadSelected: false })}
-            >
-              Paste a URL
-            </div>
-          </div>
-          {this.state.uploadSelected === true ? (
-            <div
-              className="addVideoModal-modalAddVideo"
-              onClick={() => this.handleAddVideoUpload()}
-            >
-              <div className="addVideoModal-modalPlusSign">+</div>
-              <div className="addVideoModal-modalAddVideoText">Add Video</div>
-            </div>
-          ) : (
-            <div>
-              <div className="addVideoModal-modalInputBox">
-                <TextField
-                  fullWidth={true}
-                  hintText="Add a YouTube or Vimeo URL"
-                  hintStyle={mobileHintStyleAlbumName}
-                  underlineStyle={mobileUnderlineStyleAlbumName}
-                  inputStyle={mobileInputStyleAlbumName}
-                />
-              </div>
-              <div className="addVideoModal-addVideoUrlButton-wrapper">
-                <button
-                  className="addVideoModal-addVideoUrlButton text-center"
-                  onClick={e => {
-                    this.handleAddVideoURL(e);
-                  }}
-                >
-                  Add Video
-                </button>
-              </div>
-            </div>
-          )}
         </Dialog>
       </div>
     );
   };
 
-  handleAddVideoUpload = () => {
-    alert("TODO: connect ADD VIDEO");
+  handleUploadPhoto = e => {
+    e.preventDefault();
+    alert("TODO: connect Upload Photo");
   };
 
-  handleAddVideoURL = e => {
+  handleSaveDraft = e => {
     e.preventDefault();
-    alert("TODO: connect ADD VIDEO URL");
+    alert("TODO: connect Save Draft");
+  };
+
+  handleSaveDraft = e => {
+    e.preventDefault();
+    alert("TODO: connect Submit");
   };
 
   render() {

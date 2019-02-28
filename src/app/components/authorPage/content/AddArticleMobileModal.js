@@ -27,24 +27,24 @@ class AddArticleMobileModal extends PureComponent {
     return (
       <div>
         <Dialog
-          bodyClassName="addVideoMobileModal-modalDialogBox"
+          bodyClassName="addArticleMobileModal-modalDialogBox"
           modal={false}
           open={this.props.open}
-          paperClassName="addVideoMobileModal-modalPaper"
+          paperClassName="addArticleMobileModal-modalPaper"
           onRequestClose={this.renderCloseModal}
           contentStyle={mobileContentStyle}
           autoScrollBodyContent={true}
         >
-          <div className="addVideoMobileModal-modalInputBox">
+          <div className="addArticleMobileModal-modalInputBox">
             <TextField
               fullWidth={true}
-              hintText="Video Title"
+              hintText="Article Title"
               hintStyle={mobileHintStyleAlbumName}
               underlineStyle={mobileUnderlineStyleAlbumName}
               inputStyle={mobileInputStyleAlbumName}
             />
           </div>
-          <div className="addVideoMobileModal-modalTextAreaBox">
+          <div className="addArticleMobileModal-modalTextAreaBox">
             <TextField
               hintText="Description"
               multiLine={true}
@@ -54,7 +54,7 @@ class AddArticleMobileModal extends PureComponent {
               hintStyle={mobileHintStyleDesc}
               underlineStyle={mobileUnderlineStyleDesc}
               inputStyle={mobileInputStyleDesc}
-              className="addVideoMobileModal-modalTextAreaInput"
+              className="addArticleMobileModal-modalTextAreaInput"
             />
           </div>
 
@@ -90,13 +90,13 @@ class AddArticleMobileModal extends PureComponent {
   renderSelectVideoType = () => {
     return (
       <div
-        className="addVideoMobileModal-modalInputBox"
+        className="addArticleMobileModal-modalInputBox"
         onClick={() => this.handleVideoTypeDropdownSelected()}
       >
-        <div className="addVideoMobileModal-modalText">
+        <div className="addArticleMobileModal-modalText">
           Video Type
-          <span className="addVideoMobileModal-dropdownArrow">
-            <i className="addVideoMobileModal-downArrow" />
+          <span className="addArticleMobileModal-dropdownArrow">
+            <i className="addArticleMobileModal-downArrow" />
           </span>
         </div>
       </div>
@@ -107,17 +107,17 @@ class AddArticleMobileModal extends PureComponent {
     return (
       <reactFragment>
         <div
-          className="addVideoMobileModal-modalInputBox addVideoMobileModal-modalInputBoxButton"
+          className="addArticleMobileModal-modalInputBox addArticleMobileModal-modalInputBoxButton"
           onClick={() => this.handleUploadSelected()}
         >
-          <div className="addVideoMobileModal-modalText">Upload Video</div>
+          <div className="addArticleMobileModal-modalText">Upload Video</div>
         </div>
 
         <div
-          className="addVideoMobileModal-modalInputBox addVideoMobileModal-modalInputBoxButton"
+          className="addArticleMobileModal-modalInputBox addArticleMobileModal-modalInputBoxButton"
           onClick={() => this.handlePasteUrlSelected()}
         >
-          <div className="addVideoMobileModal-modalText">Paste Video URL</div>
+          <div className="addArticleMobileModal-modalText">Paste Video URL</div>
         </div>
       </reactFragment>
     );
@@ -127,20 +127,20 @@ class AddArticleMobileModal extends PureComponent {
     return (
       <reactFragment>
         <div
-          className="addVideoMobileModal-modalInputBox addVideoMobileModal-modalInputBoxButton"
+          className="addArticleMobileModal-modalInputBox addArticleMobileModal-modalInputBoxButton"
           onClick={() => this.handleUpload()}
         >
-          <div className="addVideoMobileModal-modalText">Upload</div>
+          <div className="addArticleMobileModal-modalText">Upload</div>
         </div>
         <div
-          className="addVideoMobileModal-modalInputBox addVideoMobileModal-modalInputBoxButton"
+          className="addArticleMobileModal-modalInputBox addArticleMobileModal-modalInputBoxButton"
           onClick={() => this.handleChooseVideo()}
         >
-          <div className="addVideoMobileModal-modalText">Choose Video</div>
+          <div className="addArticleMobileModal-modalText">Choose Video</div>
         </div>
-        <div className="addVideoMobileModal-addVideoUrlButton-wrapper">
+        <div className="addArticleMobileModal-addVideoUrlButton-wrapper">
           <button
-            className="addVideoMobileModal-addVideoUrlButton text-center"
+            className="addArticleMobileModal-addVideoUrlButton text-center"
             onClick={e => {
               this.handleAddVideoUpload(e);
             }}
@@ -161,7 +161,7 @@ class AddArticleMobileModal extends PureComponent {
     return (
       <reactFragment>
         <div
-          className="addVideoMobileModal-modalInputBox"
+          className="addArticleMobileModal-modalInputBox"
           onChange={e =>
             this.setState({ pastedURL: e.target.value, videoURL: "" })
           }
@@ -176,7 +176,7 @@ class AddArticleMobileModal extends PureComponent {
           />
         </div>
         <div
-          className="addVideoMobileModal-modalInputBox"
+          className="addArticleMobileModal-modalInputBox"
           onChange={e =>
             this.setState({ videoURL: e.target.value, pastedURL: "" })
           }
@@ -190,9 +190,9 @@ class AddArticleMobileModal extends PureComponent {
             value={this.state.videoURL}
           />
         </div>
-        <div className="addVideoMobileModal-addVideoUrlButton-wrapper">
+        <div className="addArticleMobileModal-addVideoUrlButton-wrapper">
           <button
-            className="addVideoMobileModal-addVideoUrlButton text-center"
+            className="addArticleMobileModal-addVideoUrlButton text-center"
             onClick={e => {
               this.handleAddVideoURL(e);
             }}

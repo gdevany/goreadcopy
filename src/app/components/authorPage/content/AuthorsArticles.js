@@ -119,7 +119,6 @@ class AuthorsArticles extends PureComponent {
 
   renderTitle = title => {
     let titleLength = title.length;
-    console.log(titleLength);
     return <div className={"authors-article-title"}>{title}</div>;
   };
 

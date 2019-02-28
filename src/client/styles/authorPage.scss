@@ -1,5 +1,5 @@
 $maxWidth: 700px;
-$aizeMobile: 768px;
+$sizeMobile: 768px;
 $sizeTablet: 1024px;
 
 
@@ -80,3 +80,215 @@ $sizeTablet: 1024px;
     }
   }
 }
+//--------------------------------------
+
+.addArticleModal-modalDialogBox,
+.addArticleMobileModal-modalDialogBox {
+  padding: 0 !important;
+  border: none !important;
+}
+.addArticleModal-modalPaper {
+  background-color: #efefef !important;
+  border-radius: 6px !important;
+  box-shadow: 6px 6px 7px 0 rgba(0, 0, 0, 0.3) !important;
+  width: 100%;
+  padding: 25px;
+}
+.addArticleModal-modalTitle {
+  font-size: 31px !important;
+  padding: 1em 0 1.2em !important;
+}
+.addArticleModal-subTitle {
+  font-size: 24px;
+  color: #232323;
+  line-height: 1.38;
+  opacity: 0.67;
+}
+// .addArticleModal-modalTitleInputBox {
+//   color: rgba(0, 0, 0, 0.3);
+//   cursor: pointer;
+// }
+// .addArticleModal-modalTextAreaBox {
+//   padding: 25px;
+// }
+// .addArticleModal-uploadOrUrlButtons-wrapper {
+//   margin-top: 52px;
+//   display: flex;
+// }
+// .addArticleModal-modalTextAreaInput {
+//   height: auto !important;
+//   margin-top: 12px;
+//   textarea {
+//     box-shadow: none !important;
+//     margin: 0 !important;
+//   }
+// }
+// .addArticleModal-modalAddArticle {
+//   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   font-size: 16px;
+//   color: #397ab7;
+//   flex-direction: column;
+//   line-height: 1;
+//   cursor: pointer;
+//   width: 271px;
+//   height: 238px;
+//   background-color: #efefef;
+//   margin-top: 2em;
+//   border: 1px solid #707070;
+// }
+// .addArticleModal-modalPlusSign {
+//   font-size: 86px;
+// }
+.addArticleModal-modalAddPhotoText {
+  font-size: 21px;
+  margin: 22px 0 10px;
+  font-weight: 600;
+}
+// .addArticleModal-uploadOrUrlButton {
+//   padding: 14px 25px;
+//   height: 56px;
+//   border: 1px solid #cccccc;
+//   font-size: 19px;
+//   color: #646464;
+//   cursor: pointer;
+//   text-align: center;
+//   background-color: white;
+// }
+// .addArticleModal-uploadButton {
+//   width: 137px;
+//   border-radius: 30px 0 0 30px;
+// }
+// .addArticleModal-pasteUrlButton {
+//   width: 163px;
+//   border-radius: 0 30px 30px 0;
+// }
+// .addArticleModalBlueBack {
+//   background-color: #4261a5;
+//   color: white;
+// }
+// .addArticleModal-modalInputWrapper {
+//   padding-right: 25px;
+//   background-color: white;
+//   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+// }
+.addArticleModal-modalInputBox {
+  color: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  height: 55px;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+  background-color: white;
+  margin-top: 44px;
+  padding-left: 25px;
+}
+.addArticleMobileModal-button-wrapper {
+  height: 52px;
+  margin: 18px 0;
+  // @media all and (min-width: $sizeMobile) {
+  //   height: 52px;
+  //   margin: 42px 0 60px;
+  // }
+}
+.addArticleModal-uploadPhotoButton-wrapper {
+  height: 52px;
+  margin: 10px 0 33px;
+}
+.addArticleModal-draftOrSubmitButton-wrapper {
+  height: 52px;
+  margin: 50px 0 50px 29px;
+}
+.addArticleModal-button,
+.addArticleMobileModal-button {
+  width: 240px;
+  height: 50px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #4261a5;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+  border: solid 2px white;
+  // @media all and (min-width: $sizeMobile) {
+  //   width: 240px;
+  //   height: 50px;
+  //   font-size: 16px;
+  // }
+}
+.addArticleModal-draftOrSubmitButton {
+  float: right;
+  margin-left: 29px;
+}
+.addArticleModal-uploadPhotoButton {
+  float: left;
+}
+.addArticleMobileModal-modalPaper {
+  background-color: #ffffff !important;
+  width: 100%;
+  padding: 30px 20px;
+}
+.addArticleMobileModal-modalInputBox {
+  display: flex;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.3);
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  height: 50px;
+  background-color: #ffffff;
+  margin: 1em 0;
+  border: 1px solid #cccccc;
+  padding-left: 10px;
+  border-radius: 4px;
+}
+.addArticleMobileModal-modalInputBoxButton {
+  background-color: #4261a5;
+  color: white;
+}
+.addArticleMobileModal-modalTextAreaBox {
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  margin-top: 1em;
+}
+.addArticleMobileModal-modalTextAreaInput {
+  height: auto !important;
+  textarea {
+    box-shadow: none !important;
+    margin: 0 !important;
+  }
+}
+.addArticleModal-modalCategoryTextBox {
+  height: 55px;
+  width: 300px;
+  background-color: white;
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.2);
+  border: solid 1px #e3e3e3;
+  margin: 18px 0;
+  // padding: 13px 0;
+  display: flex;
+}
+.addArticleMobileModal-modalCategoryText {
+  font-size: 16px;
+  font-weight: bold;
+  color: #959595;
+  width: 248px;
+  padding-left: 25px;
+  align-self: center;
+}
+.addArticleMobileModal-dropdownArrow {
+  // padding-left: 10px;
+  width: 50px;
+  border-left: 1px solid black;
+  align-self: center;
+  justify-content: center;
+}
+.addArticleMobileModal-downArrow {
+  border: solid #959595;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
+}
+
