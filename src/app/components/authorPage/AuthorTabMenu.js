@@ -27,7 +27,7 @@ class AuthorTabMenu extends PureComponent {
   };
 
   handleMenuList = () => {
-    const { tab } = this.props;
+    const { ownPage } = this.props;
     const menuList = [
       'Wall',
       'Store',
@@ -35,9 +35,8 @@ class AuthorTabMenu extends PureComponent {
       'Articles',
       'Photos',
       'Events',
-      'Admin',
     ];
-    console.log(tab)
+    ownPage ? menuList.push('Admin') : menuList.push('Contact');
     const menuItems = menuList.map(item => (
       <Link
         className={this.handleSelectedTab(item) ? 'author-tab-menu-item highlighted' : 'author-tab-menu-item'}
@@ -63,7 +62,7 @@ class AuthorTabMenu extends PureComponent {
 
   handleMobileMenuList = () => {
     const { open, anchorEl } = this.state;
-    const { name } = this.props;
+    const { name, ownPage } = this.props;
     const menuList = [
       'Wall',
       'Store',
@@ -71,8 +70,8 @@ class AuthorTabMenu extends PureComponent {
       'Articles',
       'Photos',
       'Events',
-      'Admin',
     ];
+    ownPage ? menuList.push('Admin') : menuList.push('Contact');
     const menuItems = menuList.map(item => (
       <Link
         className="author-tab-redirection"

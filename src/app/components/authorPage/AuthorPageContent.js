@@ -11,7 +11,7 @@ import {
 
 class AuthorPageContent extends PureComponent {
   handlePageContent() {
-    const { content } = this.props;
+    const { content, author } = this.props;
     let result;
     switch (content) {
       case 'wall':
@@ -33,7 +33,7 @@ class AuthorPageContent extends PureComponent {
         result = (<AuthorPageEvents />);
         break;
       case 'contact':
-        result = (<AuthorPageContact />);
+        result = (<AuthorPageContact name={author.title} />);
         break;
       default:
         result = (<AuthorPageWall />);

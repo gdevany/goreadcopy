@@ -51,18 +51,22 @@ class AuthorMainContainer extends PureComponent {
     return result;
   }
 
-  handleProfileImage = (author) => {
+  handleProfileImage = (author, openSection) => {
     return (
-      <div className="author-profile-image">
+      <div
+        className={openSection ? 'author-profile-image' : 'author-profile-image hide-mobile'}
+      >
         <img src={author.img} alt="" />
       </div>
     );
   }
 
-  handleProfileInfo = (author) => {
+  handleProfileInfo = (author, openSection) => {
     const { isFollowingHover } = this.state;
     return (
-      <div className="author-profile-info">
+      <div
+        className={openSection ? 'author-profile-info' : 'author-profile-info hide-mobile'}
+      >
         <h4 className="author-title">
           {author.title}
         </h4>
@@ -137,10 +141,12 @@ class AuthorMainContainer extends PureComponent {
     );
   }
 
-  handleProfileBio = (author) => {
+  handleProfileBio = (author, openSection) => {
     const { openBio } = this.state;
     return (
-      <div className="author-profile-bio">
+      <div
+        className={openSection ? 'author-profile-bio' : 'author-profile-bio hide-mobile'}
+      >
         <div className="author-bio-title">
           Bio
         </div>
@@ -171,7 +177,7 @@ class AuthorMainContainer extends PureComponent {
     });
   }
 
-  handleAuthorLibrary = (author) => {
+  handleAuthorLibrary = (author, openSection) => {
     const { openBooks } = this.state;
     const booksSection = (
       <BooksSection
@@ -180,7 +186,9 @@ class AuthorMainContainer extends PureComponent {
       />
     );
     return (
-      <div className="author-library">
+      <div
+        className={openSection ? 'author-library' : 'author-library hide-mobile'}
+      >
         <div className="author-library-title">
           Books by {author.title}
         </div>
@@ -211,9 +219,11 @@ class AuthorMainContainer extends PureComponent {
     })
   }
 
-  handleAuthorTweets = () => {
+  handleAuthorTweets = (openSection) => {
     return (
-      <div className="author-tweets">
+      <div
+        className={openSection ? 'author-tweets' : 'author-tweets hide-mobile' }
+      >
         <div className="author-tweets-title">
           Tweets by @BobPete
         </div>
@@ -250,15 +260,17 @@ class AuthorMainContainer extends PureComponent {
   }
 
   render() {
-    const { children, author } = this.props;
+    const { children, author, tab } = this.props;
+    const openSection = tab === undefined || tab === 'wall';
+    console.log(openSection)
     return (
       <div className="author-main-container">
         <div className="left-content-container">
-          {this.handleProfileImage(author)}
-          {this.handleProfileInfo(author)}
-          {this.handleProfileBio(author)}
-          {this.handleAuthorLibrary(author)}
-          {this.handleAuthorTweets()}
+          {this.handleProfileImage(author, openSection)}
+          {this.handleProfileInfo(author, openSection)}
+          {this.handleProfileBio(author, openSection)}
+          {this.handleAuthorLibrary(author, openSection)}
+          {this.handleAuthorTweets(openSection)}
         </div>
         <div className="right-content-container">
           {children}
