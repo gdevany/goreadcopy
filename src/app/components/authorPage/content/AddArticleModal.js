@@ -12,13 +12,7 @@ class AddArticleModal extends PureComponent {
   }
   renderAddVideoModal = () => {
     const {
-      contentStyle,
-      hintStyleAlbumName,
-      underlineStyleAlbumName,
-      inputStyleAlbumName,
-      hintStyleDesc,
-      underlineStyleDesc,
-      inputStyleDesc
+      contentStyle
     } = modalStyles;
 
     const {
@@ -43,7 +37,7 @@ class AddArticleModal extends PureComponent {
           <div>
             <div className="addArticleModal-subTitle">
               {`You are allowed to post 1 article every 7 days. You can post your next article on ${
-                this.state.dateOfLastPost
+                this.state.dateOfLastPost.toLocaleDateString()
               }.`}
             </div>
             <div className="addArticleModal-subTitle">
@@ -79,7 +73,9 @@ class AddArticleModal extends PureComponent {
                 <i className="addArticleMobileModal-downArrow" />
               </span>
             </div>
-
+            <div className="addArticleMobileModal-articleTextBox-wrapper">
+                <div className="addArticleMobileModal-articleTitle">Write Your Article</div>
+            </div>
             <div className="addArticleModal-draftOrSubmitButton-wrapper">
               <button
                 className="addArticleModal-button addArticleModal-draftOrSubmitButton text-center"
