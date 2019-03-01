@@ -372,147 +372,137 @@ $maxWidth: 700px;
   }
 }
 
-.author-mobile-menu {
-  background-color: #336eb1 !important;
-  .author-tab-menu-item {
-    color: #fff !important;
-    font-size: 19px !important;
-  }
-
-  .author-page-photos-container {
-    margin-top: 5em;
+.author-page-photos-container {
+  .author-page-photos-pageSelector-wrapper {
     max-width: $maxWidth;
-    .author-page-photos-pageSelector-wrapper {
-      max-width: $maxWidth;
-      margin: $overRidePad2 $overRidePad;
-      text-align: right;
-      @media all and (min-width: 600px) {
-        text-align: left;
-      }
+    margin: $overRidePad2 $overRidePad;
+    text-align: right;
+    @media all and (min-width: 600px) {
+      text-align: left;
     }
-    .author-page-photos-addPhotoButton {
-      margin: 0 0 0 $overRidePad;
-      border: 1px solid #707070;
-      width: 178px;
-      height: 38px;
-      float: right;
-      color: #707070;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    .author-page-photos-UserLoggedAddAlbumsPhotos-wrapper {
-      max-width: $maxWidth;
-      margin: $overRidePad2 $overRidePad;
-    }
-    .author-page-photos-button-selected {
-      color: #4261a5;
-      font-weight: 600;
-    }
-    .author-page-photos-button-notSelected {
-      color: #2e2e2e;
-      font-weight: 600;
-    }
-    .author-page-photos-padLeft {
-      padding-left: 2em;
-    }
-    .authors-albums-wrapper,
-    .author-page-photos-wrapper {
-      max-width: $maxWidth;
-      margin: $overRidePad;
-    }
-    .authors-albums-img {
-      object-fit: cover;
-      height: 163px;
+  }
+  .author-page-photos-addPhotoButton {
+    margin: 0 0 0 $overRidePad;
+    border: 1px solid #707070;
+    width: 178px;
+    height: 38px;
+    float: right;
+    color: #707070;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .author-page-photos-UserLoggedAddAlbumsPhotos-wrapper {
+    max-width: $maxWidth;
+    margin: $overRidePad2 $overRidePad;
+  }
+  .author-page-photos-button-selected {
+    color: #4261a5;
+    font-weight: 600;
+  }
+  .author-page-photos-button-notSelected {
+    color: #2e2e2e;
+    font-weight: 600;
+  }
+  .author-page-photos-padLeft {
+    padding-left: 2em;
+  }
+  .authors-albums-wrapper,
+  .author-page-photos-wrapper {
+    max-width: $maxWidth;
+    margin: $overRidePad;
+  }
+  .authors-albums-img {
+    object-fit: cover;
+    height: 163px;
+    width: 100%;
+    @media all and (min-width: 600px) {
+      height: 190px;
       width: 100%;
-      @media all and (min-width: 600px) {
-        height: 190px;
-        width: 100%;
-      }
     }
-    .authors-albums-poster {
-      position: relative;
-      padding: $overRidePad;
-      cursor: pointer;
-      float: left;
-    }
-    .authors-albums-title-wrapper {
-      position: absolute;
-      background-color: #4261a5;
-      opacity: 0.85;
-      color: #ffffff;
-      bottom: $overRidePad;
-      left: $overRidePad;
-      right: $overRidePad;
-      line-height: 1.38;
-      padding: 0.5em 1em;
-      font-weight: bold;
-    }
-    .authors-albums-AlbumsTitle {
-      font-size: 8px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      @media all and (min-width: 600px) {
-        font-size: 16px;
-      }
-    }
-    .authors-albums-AlbumsItems {
-      font-size: 8px;
-      @media all and (min-width: 600px) {
-        font-size: 14px;
-      }
-    }
-    .authors-album-title {
-      padding: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      color: #232323;
-      font-weight: bold;
-      font-size: 18px;
-      @media all and (min-width: 600px) {
-        font-size: 21px;
-      }
-    }
-    .authors-album-desc {
-      padding: $overRidePad 0;
-      color: #000000;
-      font-size: 15px;
-      line-height: 1.33;
-      @media all and (min-width: 600px) {
-        font-size: 16px;
-        line-height: 1.36;
-      }
-    }
-    .authors-photos-imgBox,
-    .add-photo-album-mobile-button-imgBox {
-      padding: $overRidePad;
-    }
-    .authors-photos-img,
-    .add-photo-album-mobile-button-img {
-      object-fit: cover;
-      height: 163px;
-      width: 100%;
-      border: 1px solid #cccccc;
-      cursor: pointer;
-    }
-    .add-photo-album-mobile-button-addAlbumPhotosMobileButton {
-      box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
-      border: 1px solid #707070;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+  }
+  .authors-albums-poster {
+    position: relative;
+    padding: $overRidePad;
+    cursor: pointer;
+    float: left;
+  }
+  .authors-albums-title-wrapper {
+    position: absolute;
+    background-color: #4261a5;
+    opacity: 0.85;
+    color: #ffffff;
+    bottom: $overRidePad;
+    left: $overRidePad;
+    right: $overRidePad;
+    line-height: 1.38;
+    padding: 0.5em 1em;
+    font-weight: bold;
+  }
+  .authors-albums-AlbumsTitle {
+    font-size: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    @media all and (min-width: 600px) {
       font-size: 16px;
-      color: #397ab7;
-      flex-direction: column;
-      line-height: 1;
-      cursor: pointer;
     }
-    .add-photo-album-mobile-button-plusSign,
-    .author-page-photos-button-plusSign {
-      color: #397ab7;
-      font-size: 40px;
+  }
+  .authors-albums-AlbumsItems {
+    font-size: 8px;
+    @media all and (min-width: 600px) {
+      font-size: 14px;
     }
+  }
+  .authors-album-title {
+    padding: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #232323;
+    font-weight: bold;
+    font-size: 18px;
+    @media all and (min-width: 600px) {
+      font-size: 21px;
+    }
+  }
+  .authors-album-desc {
+    padding: $overRidePad 0;
+    color: #000000;
+    font-size: 15px;
+    line-height: 1.33;
+    @media all and (min-width: 600px) {
+      font-size: 16px;
+      line-height: 1.36;
+    }
+  }
+  .authors-photos-imgBox,
+  .add-photo-album-mobile-button-imgBox {
+    padding: $overRidePad;
+  }
+  .authors-photos-img,
+  .add-photo-album-mobile-button-img {
+    object-fit: cover;
+    height: 163px;
+    width: 100%;
+    border: 1px solid #cccccc;
+    cursor: pointer;
+  }
+  .add-photo-album-mobile-button-addAlbumPhotosMobileButton {
+    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+    border: 1px solid #707070;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: #397ab7;
+    flex-direction: column;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .add-photo-album-mobile-button-plusSign,
+  .author-page-photos-button-plusSign {
+    color: #397ab7;
+    font-size: 40px;
   }
 }
 
