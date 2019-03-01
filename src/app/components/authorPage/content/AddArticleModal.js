@@ -7,13 +7,25 @@ class AddArticleModal extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      dateOfLastPost: new Date()
+      dateOfLastPost: new Date(), //TODO: set this date
+      ableToPost: new Date(),
+      categoryDropdownClicked: false,
+      categories: ["Fiction", "Non-Fiction", "Sports", "Health"]
     };
   }
+
+  componentDidMount = () => {
+    const targetDate = this.state.dateOfLastPost;
+    targetDate.setDate(targetDate.getDate() + 7);
+    let dd = targetDate.getDate();
+    let mm = targetDate.getMonth() + 1; // 0 is January, so we must add 1
+    let yyyy = targetDate.getFullYear();
+    let dateString = mm + "/" + dd + "/" + yyyy;
+    this.setState({ ableToPost: new Date(dateString) });
+  };
+
   renderAddVideoModal = () => {
-    const {
-      contentStyle
-    } = modalStyles;
+    const { contentStyle } = modalStyles;
 
     const {
       mobileHintStyleAlbumName,
@@ -36,9 +48,7 @@ class AddArticleModal extends PureComponent {
         >
           <div>
             <div className="addArticleModal-subTitle">
-              {`You are allowed to post 1 article every 7 days. You can post your next article on ${
-                this.state.dateOfLastPost.toLocaleDateString()
-              }.`}
+              {`You are allowed to post 1 article every 7 days. You can post your next article on ${this.state.ableToPost.toLocaleDateString()}.`}
             </div>
             <div className="addArticleModal-subTitle">
               You can save your article as draft and come back to it later.
@@ -69,12 +79,20 @@ class AddArticleModal extends PureComponent {
               <div className="addArticleMobileModal-modalCategoryText">
                 Choose a category
               </div>
-              <span className="addArticleMobileModal-dropdownArrow">
+              <span
+                className="addArticleMobileModal-dropdownArrow"
+                onClick={e => this.handleCategoryDropdownToggle(e)}
+              >
                 <i className="addArticleMobileModal-downArrow" />
               </span>
+              {this.state.categoryDropdownClicked === true && (
+                this.renderCategoryList()
+              )}
             </div>
             <div className="addArticleMobileModal-articleTextBox-wrapper">
-                <div className="addArticleMobileModal-articleTitle">Write Your Article</div>
+              <div className="addArticleMobileModal-articleTitle">
+                Write Your Article
+              </div>
             </div>
             <div className="addArticleModal-draftOrSubmitButton-wrapper">
               <button
@@ -100,9 +118,26 @@ class AddArticleModal extends PureComponent {
     );
   };
 
+  renderCategoryList = () => {
+    return (
+      <li className="">
+        {this.state.categories.map(item => {
+          return <ul className="">{item}</ul>;
+        })}
+      </li>
+    );
+  };
+
   handleUploadPhoto = e => {
     e.preventDefault();
     alert("TODO: connect Upload Photo");
+  };
+
+  handleCategoryDropdownToggle = e => {
+    e.preventDefault();
+    this.setState({
+      categoryDropdownClicked: !this.state.categoryDropdownClicked
+    });
   };
 
   handleSaveDraft = e => {
@@ -116,6 +151,7 @@ class AddArticleModal extends PureComponent {
   };
 
   render() {
+    console.log(this.state.categoryDropdownClicked);
     return <reactFragment>{this.renderAddVideoModal()}</reactFragment>;
   }
 }
