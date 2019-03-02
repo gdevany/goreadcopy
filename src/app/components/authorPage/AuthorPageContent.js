@@ -36,7 +36,7 @@ class AuthorPageContent extends PureComponent {
         result = (<AuthorPageContact />);
         break;
       default:
-        result = (<AuthorPageStore />);
+        result = (<AuthorPageWall />);
         break;
     }
     return result;
