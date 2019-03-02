@@ -20,7 +20,7 @@ $sizeTablet: 1024px;
 
   .author-articles-container {
     .authors-articles-wrapper {
-      max-width: 714px;
+      max-width: $maxWidth;
       padding: 1em;
     }
     .authors-article-box {
@@ -73,13 +73,12 @@ $sizeTablet: 1024px;
       height: 40px;
       margin-top: 1em;
       padding: 0 1em;
-      @media all and (max-width: 600px) {
+      @media all and (max-width: $sizeMobile) {
         margin-bottom: -10px;
       }
     }
   }
 }
-//--------------------------------------
 
 .addArticleModal-modalDialogBox,
 .addArticleMobileModal-modalDialogBox {
@@ -103,89 +102,14 @@ $sizeTablet: 1024px;
   line-height: 1.38;
   opacity: 0.67;
 }
-// .addArticleModal-modalTitleInputBox {
-//   color: rgba(0, 0, 0, 0.3);
-//   cursor: pointer;
-// }
-// .addArticleModal-modalTextAreaBox {
-//   padding: 25px;
-// }
-// .addArticleModal-uploadOrUrlButtons-wrapper {
-//   margin-top: 52px;
-//   display: flex;
-// }
-// .addArticleModal-modalTextAreaInput {
-//   height: auto !important;
-//   margin-top: 12px;
-//   textarea {
-//     box-shadow: none !important;
-//     margin: 0 !important;
-//   }
-// }
-// .addArticleModal-modalAddArticle {
-//   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   font-size: 16px;
-//   color: #397ab7;
-//   flex-direction: column;
-//   line-height: 1;
-//   cursor: pointer;
-//   width: 271px;
-//   height: 238px;
-//   background-color: #efefef;
-//   margin-top: 2em;
-//   border: 1px solid #707070;
-// }
 .addArticleModal-modalAddPhotoText {
   font-size: 21px;
   margin: 22px 0 10px;
   font-weight: 600;
 }
-// .addArticleModal-uploadOrUrlButton {
-//   padding: 14px 25px;
-//   height: 56px;
-//   border: 1px solid #cccccc;
-//   font-size: 19px;
-//   color: #646464;
-//   cursor: pointer;
-//   text-align: center;
-//   background-color: white;
-// }
-// .addArticleModal-uploadButton {
-//   width: 137px;
-//   border-radius: 30px 0 0 30px;
-// }
-// .addArticleModal-pasteUrlButton {
-//   width: 163px;
-//   border-radius: 0 30px 30px 0;
-// }
-// .addArticleModalBlueBack {
-//   background-color: #4261a5;
-//   color: white;
-// }
-// .addArticleModal-modalInputWrapper {
-//   padding-right: 25px;
-//   background-color: white;
-//   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
-// }
-.addArticleModal-modalInputBox {
-  color: rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  height: 55px;
-  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
-  background-color: white;
-  margin-top: 44px;
-  padding-left: 25px;
-}
 .addArticleMobileModal-button-wrapper {
   height: 52px;
   margin: 18px 0;
-  // @media all and (min-width: $sizeMobile) {
-  //   height: 52px;
-  //   margin: 42px 0 60px;
-  // }
 }
 .addArticleModal-uploadPhotoButton-wrapper {
   height: 52px;
@@ -197,7 +121,7 @@ $sizeTablet: 1024px;
   margin: 50px 0 50px 29px;
   display: flex;
   justify-content: flex-end;
-  @media all and (max-width: 600px) {
+  @media all and (max-width: $sizeMobile) {
     margin: 14px 0;
   }
 }
@@ -232,6 +156,7 @@ $sizeTablet: 1024px;
   width: 100%;
   padding: 30px 20px;
 }
+.addArticleModal-modalInputBox,
 .addArticleMobileModal-modalInputBox {
   display: flex;
   align-items: center;
@@ -247,6 +172,7 @@ $sizeTablet: 1024px;
   box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.2);
   border: solid 1px #e3e3e3;
 }
+.addArticleModal-modalInputBoxButton,
 .addArticleMobileModal-modalInputBoxButton {
   background-color: #4261a5;
   color: white;
@@ -276,6 +202,9 @@ $sizeTablet: 1024px;
   padding-left: 25px;
   align-self: center;
 }
+.addArticleModal-normalTextColor {
+  color: #343434 !important;
+}
 .addArticleModal-dropdownArrow,
 .addArticleMobileModal-dropdownArrow {
   height: 100%;
@@ -300,7 +229,7 @@ $sizeTablet: 1024px;
   background-color: white;
   box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.2);
   border: solid 1px #e3e3e3;
-  @media all and (max-width: 600px) {
+  @media all and (max-width: $sizeMobile) {
     height: 165px;
   }
 }
@@ -311,11 +240,16 @@ $sizeTablet: 1024px;
   font-weight: 600;
   color: #343434;
 }
+.addArticleModal-modalInputBoxText,
 .addArticleMobileModal-modalInputBoxText {
   width: 100%;
   font-size: 18px;
   font-weight: normal;
-  padding-left: 12px;
+  @media all and (min-width: $sizeMobile) {
+    font-size: 16px;
+    font-weight: bold;
+    color: #959595;
+  }
 }
 .addArticleMobileModal-modalAddPhotoText {
   font-size: 18px;

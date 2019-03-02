@@ -8,6 +8,7 @@ class AddArticleMobileModal extends PureComponent {
     super(props);
     this.state = {
       categoryDropdownClicked: false,
+      categoryHasBeenSelected: false,
       categories: ["Fiction", "Non-Fiction", "Sports", "Health"],
       categorySelected: "Choose your category"
     };
@@ -53,6 +54,7 @@ class AddArticleMobileModal extends PureComponent {
   renderCloseModal = () => {
     this.setState({
       categoryDropdownClicked: false,
+      categoryHasBeenSelected: false,
       categories: ["Fiction", "Non-Fiction", "Sports", "Health"],
       categorySelected: "Choose your category"
     });
@@ -66,7 +68,11 @@ class AddArticleMobileModal extends PureComponent {
           className="addArticleMobileModal-modalInputBox"
           onClick={e => this.handleCategoryDropdownToggle(e)}
         >
-          <div className="addArticleMobileModal-modalInputBoxText">
+          <div
+            className={`addArticleMobileModal-modalInputBoxText ${this.state
+              .categoryHasBeenSelected === true &&
+              "addArticleModal-normalTextColor"}`}
+          >
             {this.state.categorySelected}
           </div>
           <span className="addArticleMobileModal-dropdownArrow">
@@ -84,7 +90,7 @@ class AddArticleMobileModal extends PureComponent {
       return (
         <div
           className="addArticleMobileModal-modalInputBox addArticleMobileModal-modalInputBoxButton"
-          onClick={() => this.handleUploadSelected(category)}
+          onClick={() => this.handleCategorySelected(category)}
           key={category}
         >
           <div className="addArticleMobileModal-modalText">{category}</div>
@@ -146,9 +152,10 @@ class AddArticleMobileModal extends PureComponent {
     });
   };
 
-  handleUploadSelected = category => {
+  handleCategorySelected = category => {
     this.setState({
       categorySelected: category,
+      categoryHasBeenSelected: true,
       categoryDropdownClicked: false
     });
   };

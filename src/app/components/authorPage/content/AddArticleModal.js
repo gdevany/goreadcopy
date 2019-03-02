@@ -10,11 +10,13 @@ class AddArticleModal extends PureComponent {
       dateOfLastPost: new Date(), //TODO: set this date
       ableToPost: new Date(),
       categoryDropdownClicked: false,
+      categoryHasBeenSelected: false,
       categories: ["Fiction", "Non-Fiction", "Sports", "Health"],
       categorySelected: "Choose your category"
     };
   }
 
+  //Take last post date, add 7 days, and return new Date() format to state.ableToPost
   componentDidMount = () => {
     const targetDate = this.state.dateOfLastPost;
     targetDate.setDate(targetDate.getDate() + 7);
@@ -48,12 +50,7 @@ class AddArticleModal extends PureComponent {
           autoScrollBodyContent={true}
         >
           <div>
-            <div className="addArticleModal-subTitle">
-              {`You are allowed to post 1 article every 7 days. You can post your next article on ${this.state.ableToPost.toLocaleDateString()}.`}
-            </div>
-            <div className="addArticleModal-subTitle">
-              You can save your article as draft and come back to it later.
-            </div>
+            {this.renderSubHeading()}
             <div className="addArticleModal-modalInputBox">
               <TextField
                 fullWidth={true}
@@ -63,46 +60,44 @@ class AddArticleModal extends PureComponent {
                 inputStyle={mobileInputStyleAlbumName}
               />
             </div>
-            <div className="addArticleModal-modalAddPhotoText">
-              Add Your Photo
-            </div>
-            <div className="addArticleModal-uploadPhotoButton-wrapper">
-              <button
-                className="addArticleModal-button addArticleModal-uploadPhotoButton text-center"
-                onClick={e => {
-                  this.handleUploadPhoto(e);
-                }}
-              >
-                Upload Photo
-              </button>
-            </div>
+            {this.renderAddPhotoButton()}
             {this.renderSelectArticleType()}
-            <div className="addArticleModal-articleTextBox-wrapper">
-              <div className="addArticleModal-articleTitle">
-                Write Your Article
-              </div>
-            </div>
-            <div className="addArticleModal-draftOrSubmitButton-wrapper">
-              <button
-                className="addArticleModal-button addArticleModal-draftOrSubmitButton text-center"
-                onClick={e => {
-                  this.handleSaveDraft(e);
-                }}
-              >
-                Save Draft
-              </button>
-              <button
-                className="addArticleModal-button addArticleModal-draftOrSubmitButton text-center"
-                onClick={e => {
-                  this.handleSubmit(e);
-                }}
-              >
-                Submit
-              </button>
-            </div>
+            {this.renderArticleBox()}
+            {this.renderDraftOrSubmitButtons()}
           </div>
         </Dialog>
       </div>
+    );
+  };
+
+  renderSubHeading = () => {
+    return (
+      <reactFragment>
+        <div className="addArticleModal-subTitle">
+          {`You are allowed to post 1 article every 7 days. You can post your next article on ${this.state.ableToPost.toLocaleDateString()}.`}
+        </div>
+        <div className="addArticleModal-subTitle">
+          You can save your article as draft and come back to it later.
+        </div>
+      </reactFragment>
+    );
+  };
+
+  renderAddPhotoButton = () => {
+    return (
+      <reactFragment>
+        <div className="addArticleModal-modalAddPhotoText">Add Your Photo</div>
+        <div className="addArticleModal-uploadPhotoButton-wrapper">
+          <button
+            className="addArticleModal-button addArticleModal-uploadPhotoButton text-center"
+            onClick={e => {
+              this.handleUploadPhoto(e);
+            }}
+          >
+            Upload Photo
+          </button>
+        </div>
+      </reactFragment>
     );
   };
 
@@ -110,14 +105,18 @@ class AddArticleModal extends PureComponent {
     return (
       <reactFragment>
         <div
-          className="addArticleMobileModal-modalInputBox addArticleModal-modalCategoryTextBox"
+          className="addArticleModal-modalInputBox addArticleModal-modalCategoryTextBox"
           onClick={e => this.handleCategoryDropdownToggle(e)}
         >
-          <div className="addArticleMobileModal-modalInputBoxText">
+          <div
+            className={`addArticleModal-modalInputBoxText ${this.state
+              .categoryHasBeenSelected === true &&
+              "addArticleModal-normalTextColor"}`}
+          >
             {this.state.categorySelected}
           </div>
-          <span className="addArticleMobileModal-dropdownArrow">
-            <i className="addArticleMobileModal-downArrow" />
+          <span className="addArticleModal-dropdownArrow">
+            <i className="addArticleModal-downArrow" />
           </span>
         </div>
         {this.state.categoryDropdownClicked === true &&
@@ -130,15 +129,50 @@ class AddArticleModal extends PureComponent {
     let mappedCategories = this.state.categories.map(category => {
       return (
         <div
-          className="addArticleMobileModal-modalInputBox addArticleMobileModal-modalInputBoxButton"
+          className="addArticleModal-modalInputBox addArticleModal-modalInputBoxButton"
           onClick={() => this.handleUploadSelected(category)}
           key={category}
         >
-          <div className="addArticleMobileModal-modalText">{category}</div>
+          <div className="addArticleModal-modalText">{category}</div>
         </div>
       );
     });
     return mappedCategories;
+  };
+
+  renderArticleBox = () => {
+    return (
+      <reactFragment>
+        <div className="addArticleModal-articleTextBox-wrapper">
+          <div className="addArticleModal-articleTitle">Write Your Article</div>
+        </div>
+      </reactFragment>
+    );
+  };
+
+  renderDraftOrSubmitButtons = () => {
+    return (
+      <reactFragment>
+        <div className="addArticleModal-draftOrSubmitButton-wrapper">
+          <button
+            className="addArticleModal-button addArticleModal-draftOrSubmitButton text-center"
+            onClick={e => {
+              this.handleSaveDraft(e);
+            }}
+          >
+            Save Draft
+          </button>
+          <button
+            className="addArticleModal-button addArticleModal-draftOrSubmitButton text-center"
+            onClick={e => {
+              this.handleSubmit(e);
+            }}
+          >
+            Submit
+          </button>
+        </div>
+      </reactFragment>
+    );
   };
 
   //initialize state when handleModalClose() because closing modal doesn't really
@@ -146,12 +180,14 @@ class AddArticleModal extends PureComponent {
   renderCloseModal = () => {
     this.setState({
       categoryDropdownClicked: false,
+      categoryHasBeenSelected: false,
       categories: ["Fiction", "Non-Fiction", "Sports", "Health"],
       categorySelected: "Choose your category"
     });
     this.props.handleModalClose();
   };
 
+  //TODO:
   handleUploadPhoto = e => {
     e.preventDefault();
     alert("TODO: connect Upload Photo");
@@ -167,22 +203,24 @@ class AddArticleModal extends PureComponent {
   handleUploadSelected = category => {
     this.setState({
       categorySelected: category,
-      categoryDropdownClicked: false
+      categoryDropdownClicked: false,
+      categoryHasBeenSelected: true
     });
   };
 
+  //TODO:
   handleSaveDraft = e => {
     e.preventDefault();
     alert("TODO: connect Save Draft");
   };
 
+  //TODO:
   handleSubmit = e => {
     e.preventDefault();
     alert("TODO: connect Submit");
   };
 
   render() {
-    console.log(this.state.categoryDropdownClicked);
     return <reactFragment>{this.renderAddVideoModal()}</reactFragment>;
   }
 }
