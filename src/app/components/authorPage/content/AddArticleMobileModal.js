@@ -7,22 +7,17 @@ class AddArticleMobileModal extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      pastedURL: "",
-      videoURL: "",
-      videoTypeDropdownSelected: false,
-      videoTypeSelected: false,
-      uploadOrPasteUrlSelected: ""
+      categoryDropdownClicked: false,
+      categories: ["Fiction", "Non-Fiction", "Sports", "Health"],
+      categorySelected: "Choose your category"
     };
   }
-  renderAddVideoMobileModal = () => {
+  renderAddArticleMobileModal = () => {
     const {
       mobileContentStyle,
       mobileHintStyleAlbumName,
       mobileUnderlineStyleAlbumName,
-      mobileInputStyleAlbumName,
-      mobileHintStyleDesc,
-      mobileUnderlineStyleDesc,
-      mobileInputStyleDesc
+      mobileInputStyleAlbumName
     } = mobileModalStyles;
     return (
       <div>
@@ -44,31 +39,10 @@ class AddArticleMobileModal extends PureComponent {
               inputStyle={mobileInputStyleAlbumName}
             />
           </div>
-          <div className="addArticleMobileModal-modalTextAreaBox">
-            <TextField
-              hintText="Description"
-              multiLine={true}
-              rows={5}
-              rowsMax={5}
-              fullWidth={true}
-              hintStyle={mobileHintStyleDesc}
-              underlineStyle={mobileUnderlineStyleDesc}
-              inputStyle={mobileInputStyleDesc}
-              className="addArticleMobileModal-modalTextAreaInput"
-            />
-          </div>
-
-          {this.state.videoTypeDropdownSelected === false
-            ? this.renderSelectVideoType()
-            : this.state.videoTypeSelected === false
-            ? this.renderVideoTypeChoices()
-            : null}
-
-          {this.state.uploadOrPasteUrlSelected === "uploadSelected" &&
-            this.renderUploadSelected()}
-
-          {this.state.uploadOrPasteUrlSelected === "pasteUrlSelected" &&
-            this.renderPasteUrlSelected()}
+          {this.renderSelectArticleType()}
+          {this.renderAddPhoto()}
+          {this.renderAddArticleTextBox()}
+          {this.renderDraftOrSubmitButtons()}
         </Dialog>
       </div>
     );
@@ -78,175 +52,114 @@ class AddArticleMobileModal extends PureComponent {
   //  close the modal, it just moves it off the screen (left position -10000px)
   renderCloseModal = () => {
     this.setState({
-      pastedURL: "",
-      videoURL: "",
-      videoTypeDropdownSelected: false,
-      videoTypeSelected: false,
-      uploadOrPasteUrlSelected: ""
+      categoryDropdownClicked: false,
+      categories: ["Fiction", "Non-Fiction", "Sports", "Health"],
+      categorySelected: "Choose your category"
     });
     this.props.handleModalClose();
   };
 
-  renderSelectVideoType = () => {
+  renderSelectArticleType = () => {
     return (
-      <div
-        className="addArticleMobileModal-modalInputBox"
-        onClick={() => this.handleVideoTypeDropdownSelected()}
-      >
-        <div className="addArticleMobileModal-modalText">
-          Video Type
+      <reactFragment>
+        <div
+          className="addArticleMobileModal-modalInputBox"
+          onClick={e => this.handleCategoryDropdownToggle(e)}
+        >
+          <div className="addArticleMobileModal-modalInputBoxText">
+            {this.state.categorySelected}
+          </div>
           <span className="addArticleMobileModal-dropdownArrow">
             <i className="addArticleMobileModal-downArrow" />
           </span>
+        </div>
+        {this.state.categoryDropdownClicked === true &&
+          this.renderArticleTypeChoices()}
+      </reactFragment>
+    );
+  };
+
+  renderArticleTypeChoices = () => {
+    let mappedCategories = this.state.categories.map(category => {
+      return (
+        <div
+          className="addArticleMobileModal-modalInputBox addArticleMobileModal-modalInputBoxButton"
+          onClick={() => this.handleUploadSelected(category)}
+          key={category}
+        >
+          <div className="addArticleMobileModal-modalText">{category}</div>
+        </div>
+      );
+    });
+    return mappedCategories;
+  };
+
+  renderAddPhoto = () => {
+    return (
+      <div
+        className="addArticleMobileModal-modalInputBox"
+        onClick={() => this.handleAddImage()}
+      >
+        <div className="addArticleMobileModal-modalPlusSign">+</div>
+        <div className="addArticleMobileModal-modalAddPhotoText">Add Photo</div>
+      </div>
+    );
+  };
+
+  renderAddArticleTextBox = () => {
+    return (
+      <div className="addArticleMobileModal-articleTextBox-wrapper">
+        <div className="addArticleMobileModal-articleTitle">
+          Write Your Article
         </div>
       </div>
     );
   };
 
-  renderVideoTypeChoices = () => {
+  renderDraftOrSubmitButtons = () => {
     return (
-      <reactFragment>
-        <div
-          className="addArticleMobileModal-modalInputBox addArticleMobileModal-modalInputBoxButton"
-          onClick={() => this.handleUploadSelected()}
+      <div className="addArticleMobileModal-draftOrSubmitButton-wrapper">
+        <button
+          className="addArticleMobileModal-button addArticleMobileModal-draftOrSubmitButton text-center"
+          onClick={e => {
+            this.handleSaveDraft(e);
+          }}
         >
-          <div className="addArticleMobileModal-modalText">Upload Video</div>
-        </div>
-
-        <div
-          className="addArticleMobileModal-modalInputBox addArticleMobileModal-modalInputBoxButton"
-          onClick={() => this.handlePasteUrlSelected()}
+          Save Draft
+        </button>
+        <button
+          className="addArticleMobileModal-button addArticleMobileModal-draftOrSubmitButton text-center"
+          onClick={e => {
+            this.handleSubmit(e);
+          }}
         >
-          <div className="addArticleMobileModal-modalText">Paste Video URL</div>
-        </div>
-      </reactFragment>
+          Submit
+        </button>
+      </div>
     );
   };
 
-  renderUploadSelected = () => {
-    return (
-      <reactFragment>
-        <div
-          className="addArticleMobileModal-modalInputBox addArticleMobileModal-modalInputBoxButton"
-          onClick={() => this.handleUpload()}
-        >
-          <div className="addArticleMobileModal-modalText">Upload</div>
-        </div>
-        <div
-          className="addArticleMobileModal-modalInputBox addArticleMobileModal-modalInputBoxButton"
-          onClick={() => this.handleChooseVideo()}
-        >
-          <div className="addArticleMobileModal-modalText">Choose Video</div>
-        </div>
-        <div className="addArticleMobileModal-addVideoUrlButton-wrapper">
-          <button
-            className="addArticleMobileModal-addVideoUrlButton text-center"
-            onClick={e => {
-              this.handleAddVideoUpload(e);
-            }}
-          >
-            Add Video
-          </button>
-        </div>
-      </reactFragment>
-    );
-  };
-
-  renderPasteUrlSelected = () => {
-    const {
-      mobileHintStyleAlbumName,
-      mobileUnderlineStyleAlbumName,
-      mobileInputStyleAlbumName
-    } = mobileModalStyles;
-    return (
-      <reactFragment>
-        <div
-          className="addArticleMobileModal-modalInputBox"
-          onChange={e =>
-            this.setState({ pastedURL: e.target.value, videoURL: "" })
-          }
-        >
-          <TextField
-            fullWidth={true}
-            hintText="Paste a URL"
-            hintStyle={mobileHintStyleAlbumName}
-            underlineStyle={mobileUnderlineStyleAlbumName}
-            inputStyle={mobileInputStyleAlbumName}
-            value={this.state.pastedURL}
-          />
-        </div>
-        <div
-          className="addArticleMobileModal-modalInputBox"
-          onChange={e =>
-            this.setState({ videoURL: e.target.value, pastedURL: "" })
-          }
-        >
-          <TextField
-            fullWidth={true}
-            hintText="Video URL"
-            hintStyle={mobileHintStyleAlbumName}
-            underlineStyle={mobileUnderlineStyleAlbumName}
-            inputStyle={mobileInputStyleAlbumName}
-            value={this.state.videoURL}
-          />
-        </div>
-        <div className="addArticleMobileModal-addVideoUrlButton-wrapper">
-          <button
-            className="addArticleMobileModal-addVideoUrlButton text-center"
-            onClick={e => {
-              this.handleAddVideoURL(e);
-            }}
-          >
-            Add Video
-          </button>
-        </div>
-      </reactFragment>
-    );
-  };
-
-  handleVideoTypeDropdownSelected = () => {
-    this.setState({ videoTypeDropdownSelected: true });
-  };
-
-  handleUploadSelected = () => {
+  handleCategoryDropdownToggle = e => {
+    e.preventDefault();
     this.setState({
-      uploadOrPasteUrlSelected: "uploadSelected",
-      videoTypeSelected: true
+      categoryDropdownClicked: !this.state.categoryDropdownClicked
     });
   };
 
-  handlePasteUrlSelected = () => {
+  handleUploadSelected = category => {
     this.setState({
-      uploadOrPasteUrlSelected: "pasteUrlSelected",
-      videoTypeSelected: true
+      categorySelected: category,
+      categoryDropdownClicked: false
     });
   };
 
   //TODO:
-  handleUpload = () => {
-    alert("Upload clicked");
-  };
-
-  //TODO:
-  handleChooseVideo = () => {
-    alert("Choose Video clicked");
-  };
-
-  //TODO: replace alert with videoURL or pastedURL when submitted
-  handleAddVideoUpload = () => {
-    alert("TODO: connect video to upload");
-  };
-
-  //TODO: replace alert with videoURL or pastedURL when submitted
-  handleAddVideoURL = () => {
-    this.state.pastedURL.length > 1 &&
-      alert(`TODO: connect pasted: ${this.state.pastedURL}`);
-    this.state.videoURL.length > 1 &&
-      alert(`TODO: connect video: ${this.state.videoURL}`);
+  handleAddImage = () => {
+    alert("TODO: add image");
   };
 
   render() {
-    return <reactFragment>{this.renderAddVideoMobileModal()}</reactFragment>;
+    return <reactFragment>{this.renderAddArticleMobileModal()}</reactFragment>;
   }
 }
 

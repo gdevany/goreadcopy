@@ -2,7 +2,6 @@ $maxWidth: 700px;
 $sizeMobile: 768px;
 $sizeTablet: 1024px;
 
-
 .author-page-container {
   padding-top: 64px;
   .author-tab-menu-container {
@@ -139,9 +138,6 @@ $sizeTablet: 1024px;
 //   margin-top: 2em;
 //   border: 1px solid #707070;
 // }
-// .addArticleModal-modalPlusSign {
-//   font-size: 86px;
-// }
 .addArticleModal-modalAddPhotoText {
   font-size: 21px;
   margin: 22px 0 10px;
@@ -195,11 +191,15 @@ $sizeTablet: 1024px;
   height: 52px;
   margin: 10px 0 33px;
 }
-.addArticleModal-draftOrSubmitButton-wrapper {
+.addArticleModal-draftOrSubmitButton-wrapper,
+.addArticleMobileModal-draftOrSubmitButton-wrapper {
   height: 52px;
   margin: 50px 0 50px 29px;
   display: flex;
-    justify-content: flex-end;
+  justify-content: flex-end;
+  @media all and (max-width: 600px) {
+    margin: 14px 0;
+  }
 }
 .addArticleModal-button,
 .addArticleMobileModal-button {
@@ -212,14 +212,17 @@ $sizeTablet: 1024px;
   background-color: #4261a5;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
   border: solid 2px white;
-  // @media all and (min-width: $sizeMobile) {
-  //   width: 240px;
-  //   height: 50px;
-  //   font-size: 16px;
-  // }
+  @media all and (max-width: $sizeMobile) {
+    width: 126px;
+    font-size: 18px;
+  }
 }
-.addArticleModal-draftOrSubmitButton {
+.addArticleModal-draftOrSubmitButton,
+.addArticleMobileModal-draftOrSubmitButton {
   margin-left: 29px;
+  @media all and (max-width: $sizeMobile) {
+    margin-left: 14px;
+  }
 }
 .addArticleModal-uploadPhotoButton {
   float: left;
@@ -239,9 +242,10 @@ $sizeTablet: 1024px;
   height: 50px;
   background-color: #ffffff;
   margin: 1em 0;
-  border: 1px solid #cccccc;
   padding-left: 10px;
   border-radius: 4px;
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.2);
+  border: solid 1px #e3e3e3;
 }
 .addArticleMobileModal-modalInputBoxButton {
   background-color: #4261a5;
@@ -261,15 +265,10 @@ $sizeTablet: 1024px;
   }
 }
 .addArticleModal-modalCategoryTextBox {
-  height: 55px;
-  width: 300px;
-  background-color: white;
-  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.2);
-  border: solid 1px #e3e3e3;
-  margin: 18px 0 37px;
-  display: flex;
+  width: 300px !important;
+  margin: 1em 0 2em !important;
 }
-.addArticleMobileModal-modalCategoryText {
+.addArticleModal-modalCategoryText {
   font-size: 16px;
   font-weight: bold;
   color: #959595;
@@ -277,6 +276,7 @@ $sizeTablet: 1024px;
   padding-left: 25px;
   align-self: center;
 }
+.addArticleModal-dropdownArrow,
 .addArticleMobileModal-dropdownArrow {
   height: 100%;
   width: 50px;
@@ -285,6 +285,7 @@ $sizeTablet: 1024px;
   justify-content: center;
   display: flex;
 }
+.addArticleModal-downArrow,
 .addArticleMobileModal-downArrow {
   border: solid #959595;
   border-width: 0 2px 2px 0;
@@ -292,15 +293,34 @@ $sizeTablet: 1024px;
   padding: 7px;
   transform: rotate(45deg);
 }
+.addArticleModal-articleTextBox-wrapper,
 .addArticleMobileModal-articleTextBox-wrapper {
   width: 100%;
   height: 509px;
   background-color: white;
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.2);
+  border: solid 1px #e3e3e3;
+  @media all and (max-width: 600px) {
+    height: 165px;
+  }
 }
+.addArticleModal-articleTitle,
 .addArticleMobileModal-articleTitle {
   font-size: 21px;
   padding: 29px 0 0 29px;
   font-weight: 600;
   color: #343434;
 }
-
+.addArticleMobileModal-modalInputBoxText {
+  width: 100%;
+  font-size: 18px;
+  font-weight: normal;
+  padding-left: 12px;
+}
+.addArticleMobileModal-modalAddPhotoText {
+  font-size: 18px;
+  padding-left: 12px;
+}
+.addArticleMobileModal-modalPlusSign {
+  font-size: 40px;
+}

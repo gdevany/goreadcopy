@@ -10,7 +10,8 @@ class AddArticleModal extends PureComponent {
       dateOfLastPost: new Date(), //TODO: set this date
       ableToPost: new Date(),
       categoryDropdownClicked: false,
-      categories: ["Fiction", "Non-Fiction", "Sports", "Health"]
+      categories: ["Fiction", "Non-Fiction", "Sports", "Health"],
+      categorySelected: "Choose your category"
     };
   }
 
@@ -42,7 +43,7 @@ class AddArticleModal extends PureComponent {
           open={this.props.open}
           titleClassName="addArticleModal-modalTitle"
           paperClassName="addArticleModal-modalPaper"
-          onRequestClose={this.props.handleModalClose}
+          onRequestClose={this.renderCloseModal}
           contentStyle={contentStyle}
           autoScrollBodyContent={true}
         >
@@ -75,22 +76,9 @@ class AddArticleModal extends PureComponent {
                 Upload Photo
               </button>
             </div>
-            <div className="addArticleModal-modalCategoryTextBox">
-              <div className="addArticleMobileModal-modalCategoryText">
-                Choose a category
-              </div>
-              <span
-                className="addArticleMobileModal-dropdownArrow"
-                onClick={e => this.handleCategoryDropdownToggle(e)}
-              >
-                <i className="addArticleMobileModal-downArrow" />
-              </span>
-              {this.state.categoryDropdownClicked === true && (
-                this.renderCategoryList()
-              )}
-            </div>
-            <div className="addArticleMobileModal-articleTextBox-wrapper">
-              <div className="addArticleMobileModal-articleTitle">
+            {this.renderSelectArticleType()}
+            <div className="addArticleModal-articleTextBox-wrapper">
+              <div className="addArticleModal-articleTitle">
                 Write Your Article
               </div>
             </div>
@@ -118,14 +106,50 @@ class AddArticleModal extends PureComponent {
     );
   };
 
-  renderCategoryList = () => {
+  renderSelectArticleType = () => {
     return (
-      <li className="">
-        {this.state.categories.map(item => {
-          return <ul className="">{item}</ul>;
-        })}
-      </li>
+      <reactFragment>
+        <div
+          className="addArticleMobileModal-modalInputBox addArticleModal-modalCategoryTextBox"
+          onClick={e => this.handleCategoryDropdownToggle(e)}
+        >
+          <div className="addArticleMobileModal-modalInputBoxText">
+            {this.state.categorySelected}
+          </div>
+          <span className="addArticleMobileModal-dropdownArrow">
+            <i className="addArticleMobileModal-downArrow" />
+          </span>
+        </div>
+        {this.state.categoryDropdownClicked === true &&
+          this.renderArticleTypeChoices()}
+      </reactFragment>
     );
+  };
+
+  renderArticleTypeChoices = () => {
+    let mappedCategories = this.state.categories.map(category => {
+      return (
+        <div
+          className="addArticleMobileModal-modalInputBox addArticleMobileModal-modalInputBoxButton"
+          onClick={() => this.handleUploadSelected(category)}
+          key={category}
+        >
+          <div className="addArticleMobileModal-modalText">{category}</div>
+        </div>
+      );
+    });
+    return mappedCategories;
+  };
+
+  //initialize state when handleModalClose() because closing modal doesn't really
+  //  close the modal, it just moves it off the screen (left position -10000px)
+  renderCloseModal = () => {
+    this.setState({
+      categoryDropdownClicked: false,
+      categories: ["Fiction", "Non-Fiction", "Sports", "Health"],
+      categorySelected: "Choose your category"
+    });
+    this.props.handleModalClose();
   };
 
   handleUploadPhoto = e => {
@@ -140,12 +164,19 @@ class AddArticleModal extends PureComponent {
     });
   };
 
+  handleUploadSelected = category => {
+    this.setState({
+      categorySelected: category,
+      categoryDropdownClicked: false
+    });
+  };
+
   handleSaveDraft = e => {
     e.preventDefault();
     alert("TODO: connect Save Draft");
   };
 
-  handleSaveDraft = e => {
+  handleSubmit = e => {
     e.preventDefault();
     alert("TODO: connect Submit");
   };
