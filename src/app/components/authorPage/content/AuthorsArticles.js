@@ -199,7 +199,7 @@ class AuthorsArticles extends PureComponent {
     return (
       <reactFragment>
         {this.handleAddArticleModal()}
-        <div className="authors-articles-UserLoggedAddArticle-wrapper">
+        <div className="authors-articles-UserLoggedAddArticle-wrapper row">
           {this.renderAddArticleButton()}
         </div>
         <div className="authors-articles-wrapper row">{this.renderArticles()}</div>

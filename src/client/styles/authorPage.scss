@@ -1,3 +1,5 @@
+$overRidePad: 0.625rem;
+$overRidePad2: 1.25rem;
 $maxWidth: 700px;
 $sizeMobile: 768px;
 $sizeTablet: 1024px;
@@ -21,7 +23,10 @@ $sizeTablet: 1024px;
   .author-articles-container {
     .authors-articles-wrapper {
       max-width: $maxWidth;
-      padding: 1em;
+      margin-top: $overRidePad2;
+      @media all and (max-width: $sizeMobile) {
+        margin-top: $overRidePad;
+      }
     }
     .authors-article-box {
       margin: 0.5em 0;
@@ -71,12 +76,8 @@ $sizeTablet: 1024px;
     }
     .authors-articles-UserLoggedAddArticle-wrapper {
       max-width: $maxWidth;
-      height: 40px;
-      margin-top: 1em;
-      padding: 0 1em;
-      @media all and (max-width: $sizeMobile) {
-        margin-bottom: -10px;
-      }
+      margin-top: $overRidePad2;
+      padding: 0 $overRidePad2;
     }
   }
 }
