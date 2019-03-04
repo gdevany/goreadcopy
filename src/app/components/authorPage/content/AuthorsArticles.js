@@ -71,7 +71,7 @@ class AuthorsArticles extends PureComponent {
     };
   }
 
-  renderAddVideoButton = () => {
+  renderAddArticleButton = () => {
     const allowUserToAdd = this.state.isUserLoggedIn && (
       <reactFragment>
         <button
@@ -80,7 +80,7 @@ class AuthorsArticles extends PureComponent {
             this.handleModalOpen(e);
           }}
         >
-          Add Video
+          Add Article
         </button>
         <button
           className="show-for-small-only authors-articles-addArticleButton text-center"
@@ -88,7 +88,7 @@ class AuthorsArticles extends PureComponent {
             this.handleMobileModalOpen(e);
           }}
         >
-          Add Video
+          Add Article
         </button>
       </reactFragment>
     );
@@ -200,7 +200,7 @@ class AuthorsArticles extends PureComponent {
       <reactFragment>
         {this.handleAddArticleModal()}
         <div className="authors-articles-UserLoggedAddArticle-wrapper">
-          {this.renderAddVideoButton()}
+          {this.renderAddArticleButton()}
         </div>
         <div className="authors-articles-wrapper row">{this.renderArticles()}</div>
       </reactFragment>
