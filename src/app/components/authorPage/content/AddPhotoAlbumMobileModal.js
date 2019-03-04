@@ -3,9 +3,17 @@ import Dialog from "material-ui/Dialog";
 import TextField from "material-ui/TextField";
 import { mobileModalStyles } from "./AuthorPageModalStyling";
 
-
 //TODO: Convert TextFields to custom inputs
-class AddPhotoAlbumMobilModal extends PureComponent {
+class AddPhotoAlbumMobileModal extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      genericImage: "https://placeimg.com/640/480/architecture",
+      addPhotoSelected: false,
+      userGivenTitle: "",
+      userGivenDesc: ""
+    };
+  }
   renderAddPhotoAlbumMobileModal = () => {
     const {
       mobileContentStyle,
@@ -27,7 +35,7 @@ class AddPhotoAlbumMobilModal extends PureComponent {
           contentStyle={mobileContentStyle}
           autoScrollBodyContent={true}
         >
-          <div
+          {/* <div
             className="addPhotoAlbumMobileModal-modalInputBox"
             onClick={() => this.addImage()}
           >
@@ -35,8 +43,10 @@ class AddPhotoAlbumMobilModal extends PureComponent {
             <div className="addPhotoAlbumMobileModal-modalAddPhotoText">
               Add Photo
             </div>
-          </div>
-          {this.props.addPhotoOrAlbum === "Create Album" && (
+          </div> */}
+          {this.renderAddPhoto()}
+
+          {/* {this.props.addPhotoOrAlbum === "Create Album" && (
             <div className="addPhotoAlbumMobileModal-modalInputBox">
               <TextField
                 id="addPhotoAlbumModal-addAlbumName"
@@ -47,8 +57,11 @@ class AddPhotoAlbumMobilModal extends PureComponent {
                 inputStyle={mobileInputStyleAlbumName}
               />
             </div>
-          )}
-          <div className="addPhotoAlbumMobileModal-modalTextAreaBox">
+          )} */}
+          {this.props.addPhotoOrAlbum === "Create Album" &&
+            this.renderAddAlbumTitle()}
+
+          {/* <div className="addPhotoAlbumMobileModal-modalTextAreaBox">
             <TextField
               hintText="Description"
               multiLine={true}
@@ -58,16 +71,97 @@ class AddPhotoAlbumMobilModal extends PureComponent {
               hintStyle={mobileHintStyleDesc}
               underlineStyle={mobileUnderlineStyleDesc}
               inputStyle={mobileInputStyleDesc}
-              className="addPhotoAlbumMobilModal-modalTextAreaInput"
+              className="addPhotoAlbumMobileModal-modalTextAreaInput"
             />
-          </div>
+          </div> */}
+          {this.renderAddDesc()}
         </Dialog>
       </div>
     );
   };
 
+  renderAddPhoto = () => {
+    return (
+      <reactFragment>
+        <div
+          className="addArticleMobileModal-modalInputBox"
+          onClick={() => this.handleAddPhotoSelected()}
+        >
+          {this.state.addPhotoSelected === false ? (
+            <div className="addArticleMobileModal-modalflex">
+              <div className="addArticleMobileModal-modalPlusSign">+</div>
+              <div className="addArticleMobileModal-modalAddPhotoText">
+                Add Photo
+              </div>
+            </div>
+          ) : (
+            <div className="addArticleMobileModal-modalflex">
+              Choose a different photo
+            </div>
+          )}
+        </div>
+        {this.state.addPhotoSelected === true && this.renderTheAddedPhoto()}
+      </reactFragment>
+    );
+  };
+
+  //TODO:
+  renderTheAddedPhoto = () => {
+    return (
+      <div className="row">
+        <div className="addPhotoMobileModal-imageBox small-12 medium-6 columns">
+          <img src={this.state.genericImage} alt="image" />
+        </div>
+      </div>
+    );
+  };
+
+  renderAddAlbumTitle = () => {
+    return (
+      <reactFragment>
+        <div className="addArticleMobileModal-modalInputBox">
+          <input
+            className="addArticleMobileModal-modalInputBoxText addArticleModal-normalTextColor"
+            type="text"
+            onChange={e => this.handleUserTitleTyped(e)}
+            value={this.state.userGivenTitle}
+            placeholder="Album Title"
+          />
+        </div>
+      </reactFragment>
+    );
+  };
+
+  renderAddDesc = () => {
+    return (
+      <reactFragment>
+        <div className="addArticleMobileModal-modalInputBox addPhotoAlbumMobileModal-modalTextArea">
+          <textarea
+            className="addArticleMobileModal-modalInputBoxText addArticleModal-normalTextColor"
+            rows={5}
+            onChange={e => this.handleUserDescTyped(e)}
+            value={this.state.userGivenDesc}
+            placeholder="Description"
+          />
+        </div>
+      </reactFragment>
+    );
+  };
+
   addImage = () => {
     alert("TODO: connect ADD IMAGE");
+  };
+
+  handleAddPhotoSelected = () => {
+    this.setState({ addPhotoSelected: !this.state.addPhotoSelected });
+  };
+
+  handleUserTitleTyped = e => {
+    this.setState({ userGivenTitle: e.target.value });
+  };
+
+  handleUserDescTyped = e => {
+    this.setState({ userGivenDesc: e.target.value });
   };
 
   render() {
@@ -77,4 +171,4 @@ class AddPhotoAlbumMobilModal extends PureComponent {
   }
 }
 
-export default AddPhotoAlbumMobilModal;
+export default AddPhotoAlbumMobileModal;

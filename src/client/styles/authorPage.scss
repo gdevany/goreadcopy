@@ -1,6 +1,8 @@
 $overRidePad: 0.625rem;
 $overRidePad2: 1.25rem;
 $maxWidth: 700px;
+$sizeMobile: 768px;
+$sizeTablet: 1024px;
 
 .author-page-container {
   padding-top: 94px;
@@ -113,11 +115,11 @@ $maxWidth: 700px;
             }
           }
           .author-following {
-              width: 60%;
-              padding: 0 15px;
-              @media (max-width: 1024px) {
-                width: 40%;
-              }
+            width: 60%;
+            padding: 0 15px;
+            @media (max-width: 1024px) {
+              width: 40%;
+            }
             .follow-btn-off {
               color: #5a5a5a;
               padding: 6px 20px;
@@ -588,7 +590,7 @@ $maxWidth: 700px;
   padding-left: 10px;
   border-radius: 4px;
 }
-.addPhotoAlbumMobilModal-modalTextAreaInput {
+.addPhotoAlbumMobileModal-modalTextAreaInput {
   height: auto !important;
   textarea {
     box-shadow: none !important;
@@ -688,4 +690,62 @@ $maxWidth: 700px;
     font-size: 15px;
     padding: 4px 17px;
   }
+}
+
+//-------------------------
+
+.addPhotoMobileModal-imageBox {
+  margin: 0.5em 0;
+}
+.addArticleModal-modalInputBox,
+.addArticleMobileModal-modalInputBox {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  height: 50px;
+  background-color: #ffffff;
+  margin: 1em 0;
+  padding-left: 10px;
+  border-radius: 4px;
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.2);
+  border: solid 1px #e3e3e3;
+  & ::placeholder {
+    color: rgba(0, 0, 0, 0.3);
+  }
+}
+.addArticleModal-modalInputBoxText,
+.addArticleMobileModal-modalInputBoxText {
+  width: 100%;
+  font-size: 18px;
+  font-weight: normal;
+  border: none !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  background-color: #ffffff !important;
+  @media all and (min-width: $sizeMobile) {
+    font-size: 16px;
+    font-weight: bold;
+    color: #959595;
+  }
+}
+.addPhotoAlbumMobileModal-modalTextArea {
+  height: auto !important;
+}
+.addArticleModal-normalTextColor {
+  color: #343434 !important;
+}
+.addArticleMobileModal-modalflex {
+  display: flex;
+  align-items: center;
+}
+.addArticleMobileModal-modalPlusSign {
+  color: rgba(0, 0, 0, 0.3);
+  font-size: 40px;
+}
+.addArticleMobileModal-modalAddPhotoText {
+  color: rgba(0, 0, 0, 0.3);
+  font-size: 18px;
+  padding-left: 12px;
 }
