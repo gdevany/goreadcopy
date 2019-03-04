@@ -7,6 +7,9 @@ class AddArticleMobileModal extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
+      genericImage: "https://placeimg.com/640/480/architecture",
+      userGivenTitle: "",
+      addPhotoSelected: false,
       categoryDropdownClicked: false,
       categoryHasBeenSelected: false,
       categories: ["Fiction", "Non-Fiction", "Sports", "Health"],
@@ -31,7 +34,7 @@ class AddArticleMobileModal extends PureComponent {
           contentStyle={mobileContentStyle}
           autoScrollBodyContent={true}
         >
-          <div className="addArticleMobileModal-modalInputBox">
+          {/* <div className="addArticleMobileModal-modalInputBox">
             <TextField
               fullWidth={true}
               hintText="Article Title"
@@ -39,7 +42,8 @@ class AddArticleMobileModal extends PureComponent {
               underlineStyle={mobileUnderlineStyleAlbumName}
               inputStyle={mobileInputStyleAlbumName}
             />
-          </div>
+          </div> */}
+          {this.renderAddArticleTitle()}
           {this.renderSelectArticleType()}
           {this.renderAddPhoto()}
           {this.renderAddArticleTextBox()}
@@ -53,12 +57,30 @@ class AddArticleMobileModal extends PureComponent {
   //  close the modal, it just moves it off the screen (left position -10000px)
   renderCloseModal = () => {
     this.setState({
+      userGivenTitle: "",
+      addPhotoSelected: false,
       categoryDropdownClicked: false,
       categoryHasBeenSelected: false,
       categories: ["Fiction", "Non-Fiction", "Sports", "Health"],
       categorySelected: "Choose your category"
     });
     this.props.handleModalClose();
+  };
+
+  renderAddArticleTitle = () => {
+    return (
+      <reactFragment>
+        <div className="addArticleMobileModal-modalInputBox">
+          <input
+            className="addArticleMobileModal-modalInputBoxText addArticleModal-normalTextColor"
+            type="text"
+            onChange={e => this.handleUserTitleTyped(e)}
+            value={this.state.userGivenTitle}
+            placeholder="Article Title"
+          />
+        </div>
+      </reactFragment>
+    );
   };
 
   renderSelectArticleType = () => {
@@ -101,17 +123,32 @@ class AddArticleMobileModal extends PureComponent {
   };
 
   renderAddPhoto = () => {
+    console.log(this.state.addPhotoSelected);
     return (
-      <div
-        className="addArticleMobileModal-modalInputBox"
-        onClick={() => this.handleAddImage()}
-      >
-        <div className="addArticleMobileModal-modalPlusSign">+</div>
-        <div className="addArticleMobileModal-modalAddPhotoText">Add Photo</div>
-      </div>
+      <reactFragment>
+        <div
+          className="addArticleMobileModal-modalInputBox"
+          onClick={() => this.handleAddPhotoSelected()}
+        >
+          {this.state.addPhotoSelected === false ? (
+            <div className="addArticleMobileModal-modalflex">
+              <div className="addArticleMobileModal-modalPlusSign">+</div>
+              <div className="addArticleMobileModal-modalAddPhotoText">
+                Add Photo
+              </div>
+            </div>
+          ) : (
+            <div className="addArticleMobileModal-modalflex">
+              Choose a different photo
+            </div>
+          )}
+        </div>
+        {this.state.addPhotoSelected === true && this.renderTheAddedPhoto()}
+      </reactFragment>
     );
   };
 
+  //TODO:
   renderAddArticleTextBox = () => {
     return (
       <div className="addArticleMobileModal-articleTextBox-wrapper">
@@ -145,6 +182,25 @@ class AddArticleMobileModal extends PureComponent {
     );
   };
 
+  //TODO:
+  renderTheAddedPhoto = () => {
+    return (
+      <div className="row">
+        <div className="authors-article-box small-12 medium-6 columns">
+          <img src={this.state.genericImage} alt="image" />
+        </div>
+      </div>
+    );
+  };
+
+  handleAddPhotoSelected = () => {
+    this.setState({ addPhotoSelected: !this.state.addPhotoSelected });
+  };
+
+  handleUserTitleTyped = e => {
+    this.setState({ userGivenTitle: e.target.value });
+  };
+
   handleCategoryDropdownToggle = e => {
     e.preventDefault();
     this.setState({
@@ -158,11 +214,6 @@ class AddArticleMobileModal extends PureComponent {
       categoryHasBeenSelected: true,
       categoryDropdownClicked: false
     });
-  };
-
-  //TODO:
-  handleAddImage = () => {
-    alert("TODO: add image");
   };
 
   render() {

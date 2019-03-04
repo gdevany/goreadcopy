@@ -157,6 +157,10 @@ $sizeTablet: 1024px;
   width: 100%;
   padding: 30px 20px;
 }
+.addArticleMobileModal-modalflex {
+  display: flex;
+  align-items: center;
+}
 .addArticleModal-modalInputBox,
 .addArticleMobileModal-modalInputBox {
   display: flex;
@@ -172,6 +176,15 @@ $sizeTablet: 1024px;
   border-radius: 4px;
   box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.2);
   border: solid 1px #e3e3e3;
+  & input {
+    border: none !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  & ::placeholder {
+    color: rgba(0, 0, 0, 0.3);
+  }
 }
 .addArticleModal-modalInputBoxButton,
 .addArticleMobileModal-modalInputBoxButton {

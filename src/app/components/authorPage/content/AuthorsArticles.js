@@ -148,7 +148,7 @@ class AuthorsArticles extends PureComponent {
           onClick={() => this.handleReadMoreLess(id)}
         >
           {articleIDClicked === id && isDescTrunced !== true ? (
-            <span>{"   "}Read less</span>
+            <span>__ Read less</span>
           ) : (
             <span>Read more</span>
           )}
@@ -202,7 +202,7 @@ class AuthorsArticles extends PureComponent {
         <div className="authors-articles-UserLoggedAddArticle-wrapper">
           {this.renderAddVideoButton()}
         </div>
-        <div className="authors-articles-wrapper">{this.renderArticles()}</div>
+        <div className="authors-articles-wrapper row">{this.renderArticles()}</div>
       </reactFragment>
     );
   }
