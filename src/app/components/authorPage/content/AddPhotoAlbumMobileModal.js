@@ -3,6 +3,8 @@ import Dialog from "material-ui/Dialog";
 import TextField from "material-ui/TextField";
 import { mobileModalStyles } from "./AuthorPageModalStyling";
 
+
+//TODO: Convert TextFields to custom inputs
 class AddPhotoAlbumMobilModal extends PureComponent {
   renderAddPhotoAlbumMobileModal = () => {
     const {
