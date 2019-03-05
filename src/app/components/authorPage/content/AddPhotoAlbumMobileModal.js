@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import Dialog from "material-ui/Dialog";
-import TextField from "material-ui/TextField";
-import { mobileModalStyles } from "./AuthorPageModalStyling";
+// import TextField from "material-ui/TextField";
+// import { mobileModalStyles } from "./AuthorPageModalStyling";
 
 //TODO: Convert TextFields to custom inputs
 class AddPhotoAlbumMobileModal extends PureComponent {
@@ -15,15 +15,11 @@ class AddPhotoAlbumMobileModal extends PureComponent {
     };
   }
   renderAddPhotoAlbumMobileModal = () => {
-    const {
-      mobileContentStyle,
-      mobileHintStyleAlbumName,
-      mobileUnderlineStyleAlbumName,
-      mobileInputStyleAlbumName,
-      mobileHintStyleDesc,
-      mobileUnderlineStyleDesc,
-      mobileInputStyleDesc
-    } = mobileModalStyles;
+    const mobileContentStyle = {
+        width: "100%",
+        maxWidth: "none"
+      }
+
     return (
       <div>
         <Dialog

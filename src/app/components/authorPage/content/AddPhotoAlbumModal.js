@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import Dialog from "material-ui/Dialog";
-import TextField from "material-ui/TextField";
-import { modalStyles } from "./AuthorPageModalStyling";
+// import TextField from "material-ui/TextField";
+// import { modalStyles } from "./AuthorPageModalStyling";
 
 class AddPhotoAlbumModal extends PureComponent {
   constructor(props) {
@@ -14,15 +14,15 @@ class AddPhotoAlbumModal extends PureComponent {
     };
   }
   renderAddPhotoAlbumModal = () => {
-    const {
-      contentStyle,
-      hintStyleAlbumName,
-      underlineStyleAlbumName,
-      inputStyleAlbumName,
-      hintStyleDesc,
-      underlineStyleDesc,
-      inputStyleDesc
-    } = modalStyles;
+    // const {
+    //   contentStyle,
+    // } = modalStyles;
+
+    const contentStyle = {
+        width: "80%",
+        maxWidth: "none"
+      }
+
     return (
       <div className="">
         <Dialog

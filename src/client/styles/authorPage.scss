@@ -622,7 +622,7 @@ $sizeTablet: 1024px;
   box-shadow: none !important;
   @media all and (max-width: 600px) {
     padding: 40px 0;
-    margin-left: -50px;
+    margin-left: -47px;
     width: 100vw;
   }
 }
@@ -647,8 +647,8 @@ $sizeTablet: 1024px;
   display: flex;
   cursor: pointer;
   @media all and (max-width: 600px) {
-    border: 2px solid #232323;
-    color: #232323;
+    // border: 2px solid #232323;
+    // color: #232323;
     margin-right: -35px;
   }
 }
