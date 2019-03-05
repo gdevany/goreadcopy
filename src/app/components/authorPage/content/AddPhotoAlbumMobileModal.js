@@ -109,7 +109,7 @@ class AddPhotoAlbumMobileModal extends PureComponent {
   renderTheAddedPhoto = () => {
     return (
       <div className="row">
-        <div className="addPhotoMobileModal-imageBox small-12 medium-6 columns">
+        <div className="addPhotoAlbumMobileModal-imageBox small-12 medium-6 columns">
           <img src={this.state.genericImage} alt="image" />
         </div>
       </div>

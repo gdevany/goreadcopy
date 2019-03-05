@@ -515,6 +515,7 @@ $sizeTablet: 1024px;
 .addPhotoAlbumMobileModal-modalDialogBox,
 .authorPageLightboxModal-modalDialogBox {
   padding: 0 !important;
+  border: none !important;
 }
 .addPhotoAlbumModal-modalPaper {
   background-color: #efefef !important;
@@ -570,7 +571,6 @@ $sizeTablet: 1024px;
     margin: 0 !important;
   }
 }
-
 .addPhotoAlbumMobileModal-modalPaper {
   background-color: #ffffff !important;
   width: 100%;
@@ -603,6 +603,9 @@ $sizeTablet: 1024px;
   border-radius: 4px;
   margin-top: 2em;
 }
+.addPhotoAlbumMobileModal-imageBox {
+  margin: 0.5em 0;
+}
 .addPhotoAlbumMobileModal-modalPlusSign {
   font-size: 40px;
 }
@@ -626,9 +629,6 @@ $sizeTablet: 1024px;
   object-fit: cover;
   width: 100%;
   height: auto;
-}
-.authorPageLightboxModal-imageBox {
-  // position: relative;
 }
 .authorPageLightboxModal-closeImage {
   box-sizing: border-box;
@@ -693,10 +693,26 @@ $sizeTablet: 1024px;
 }
 
 //-------------------------
+//Multi use:
 
-.addPhotoMobileModal-imageBox {
-  margin: 0.5em 0;
+.addPhotoAlbumModal-modalMultiInputBox {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  cursor: pointer;
+  color: #777777;
+  width: 100%;
+  height: 70px;
+  background-color: #ffffff;
+  margin: 0;
+  padding-left: 10px;
+  // box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.2);
+  border-bottom: dotted 1px #d9d9d9;
+  & ::placeholder {
+    color: rgba(0, 0, 0, 0.3);
+  }
 }
+
 .addArticleModal-modalInputBox,
 .addArticleMobileModal-modalInputBox {
   display: flex;
@@ -725,13 +741,17 @@ $sizeTablet: 1024px;
   margin: 0 !important;
   background-color: #ffffff !important;
   @media all and (min-width: $sizeMobile) {
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 24px;
+    // font-weight: bold;
     color: #959595;
   }
 }
 .addPhotoAlbumMobileModal-modalTextArea {
   height: auto !important;
+  & textarea {
+  resize: none;
+  overflow: auto;
+  }
 }
 .addArticleModal-normalTextColor {
   color: #343434 !important;
