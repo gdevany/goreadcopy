@@ -1,31 +1,23 @@
 import React, { PureComponent } from "react";
 import Dialog from "material-ui/Dialog";
-import TextField from "material-ui/TextField";
-import { modalStyles, mobileModalStyles } from "./AuthorPageModalStylingCopy";
 
 class AddVideoModal extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      uploadSelected: true
+      genericImage: "https://placeimg.com/640/480/architecture",
+      uploadSelected: true,
+      userGivenTitle: "",
+      userGivenDesc: "",
+      userGivenUrl: "",
+      addPhotoSelected: false
     };
   }
   renderAddVideoModal = () => {
-    const {
-      contentStyle,
-      hintStyleAlbumName,
-      underlineStyleAlbumName,
-      inputStyleAlbumName,
-      hintStyleDesc,
-      underlineStyleDesc,
-      inputStyleDesc
-    } = modalStyles;
-
-    const {
-      mobileHintStyleAlbumName,
-      mobileUnderlineStyleAlbumName,
-      mobileInputStyleAlbumName
-    } = mobileModalStyles;
+    const contentStyle = {
+      width: "80%",
+      maxWidth: "none"
+    };
 
     return (
       <div className="">
@@ -36,90 +28,178 @@ class AddVideoModal extends PureComponent {
           open={this.props.open}
           titleClassName="addVideoModal-modalTitle"
           paperClassName="addVideoModal-modalPaper"
-          onRequestClose={this.props.handleModalClose}
+          onRequestClose={this.renderCloseModal}
           contentStyle={contentStyle}
           autoScrollBodyContent={true}
         >
-          <div className="addVideoModal-modalInputWrapper">
-            <div className="addVideoModal-modalTitleInputBox">
-              <TextField
-                fullWidth={true}
-                hintText="Video Title"
-                hintStyle={hintStyleAlbumName}
-                underlineStyle={underlineStyleAlbumName}
-                inputStyle={inputStyleAlbumName}
-              />
-            </div>
-            <div className="addVideoModal-modalTextAreaBox">
-              <TextField
-                hintText="What would you like to say"
-                multiLine={true}
-                rows={4}
-                rowsMax={4}
-                fullWidth={true}
-                hintStyle={hintStyleDesc}
-                underlineStyle={underlineStyleDesc}
-                inputStyle={inputStyleDesc}
-                className="addVideoModal-modalTextAreaInput"
-              />
-            </div>
+          <div className="addPhotoAlbumModal-modalInputWrapper">
+            {this.renderAddAlbumTitle()}
+            {this.renderAddDesc()}
           </div>
-          <div className="addVideoModal-uploadOrUrlButtons-wrapper">
-            <div
-              className={`addVideoModal-uploadOrUrlButton addVideoModal-uploadButton ${this
-                .state.uploadSelected === true && "addVideoModalBlueBack"}`}
-              onClick={() => this.setState({ uploadSelected: true })}
-            >
-              Upload
-            </div>
-            <div
-              className={`addVideoModal-uploadOrUrlButton addVideoModal-pasteUrlButton ${this
-                .state.uploadSelected === false && "addVideoModalBlueBack"}`}
-              onClick={() => this.setState({ uploadSelected: false })}
-            >
-              Paste a URL
-            </div>
-          </div>
-          {this.state.uploadSelected === true ? (
-            <div
-              className="addVideoModal-modalAddVideo"
-              onClick={() => this.handleAddVideoUpload()}
-            >
-              <div className="addVideoModal-modalPlusSign">+</div>
-              <div className="addVideoModal-modalAddVideoText">Add Video</div>
-            </div>
-          ) : (
-            <div>
-              <div className="addVideoModal-modalInputBox">
-                <TextField
-                  fullWidth={true}
-                  hintText="Add a YouTube or Vimeo URL"
-                  hintStyle={mobileHintStyleAlbumName}
-                  underlineStyle={mobileUnderlineStyleAlbumName}
-                  inputStyle={mobileInputStyleAlbumName}
-                />
-              </div>
-              <div className="addVideoModal-addVideoUrlButton-wrapper">
-                <button
-                  className="addVideoModal-addVideoUrlButton text-center"
-                  onClick={e => {
-                    this.handleAddVideoURL(e);
-                  }}
-                >
-                  Add Video
-                </button>
-              </div>
-            </div>
-          )}
+
+          {this.renderUploadOrPasteButtons()}
+          {this.state.uploadSelected === true
+            ? this.renderAddVideoBox()
+            : this.renderPasteUrl()}
         </Dialog>
       </div>
     );
   };
 
-  handleAddVideoUpload = () => {
-    alert("TODO: connect ADD VIDEO");
+  //initialize state when handleModalClose() because closing modal doesn't really
+  //  close the modal, it just moves it off the screen (left position -10000px)
+  renderCloseModal = () => {
+    this.setState({
+      uploadSelected: true,
+      userGivenTitle: "",
+      userGivenDesc: "",
+      userGivenUrl: "",
+      addPhotoSelected: false
+    });
+    this.props.handleModalClose();
   };
 
+  renderAddAlbumTitle = () => {
+    return (
+      <reactFragment>
+        <div className="addPhotoAlbumModal-modalMultiInputBox addPhotoAlbumModal-boldTextWeight">
+          <input
+            className="addPhotoAlbumModal-modalInputBoxText"
+            type="text"
+            onChange={e => this.handleUserTitleTyped(e)}
+            value={this.state.userGivenTitle}
+            placeholder="Album Title"
+          />
+        </div>
+      </reactFragment>
+    );
+  };
+
+  renderAddDesc = () => {
+    return (
+      <reactFragment>
+        <div className="addPhotoAlbumModal-modalMultiInputBox addPhotoAlbumModal-modalTextArea">
+          <textarea
+            className="addPhotoAlbumModal-modalInputBoxText"
+            rows={3}
+            onChange={e => this.handleUserDescTyped(e)}
+            value={this.state.userGivenDesc}
+            placeholder="What would you like to say"
+          />
+        </div>
+      </reactFragment>
+    );
+  };
+
+  renderUploadOrPasteButtons = () => {
+    return (
+      <div className="addVideoModal-uploadOrUrlButtons-wrapper">
+        <div
+          className={`addVideoModal-uploadOrUrlButton addVideoModal-uploadButton ${this
+            .state.uploadSelected === true && "addVideoModalBlueBack"}`}
+          onClick={() => this.setState({ uploadSelected: true })}
+        >
+          Upload
+        </div>
+        <div
+          className={`addVideoModal-uploadOrUrlButton addVideoModal-pasteUrlButton ${this
+            .state.uploadSelected === false && "addVideoModalBlueBack"}`}
+          onClick={() => this.setState({ uploadSelected: false })}
+        >
+          Paste a URL
+        </div>
+      </div>
+    );
+  };
+
+  renderAddVideoBox = () => {
+    return (
+      <reactFragment>
+        <div
+          className="addVideoModal-modalAddPhoto"
+          onClick={() => this.handleAddPhotoSelected()}
+        >
+          {this.state.addPhotoSelected === false ? (
+            <reactFragment>
+              <div className="addPhotoAlbumModal-modalPlusSign text-center">
+                +
+              </div>
+              <div className="addVideoModal-modalAddPhotoText text-center">
+                Add Photo
+              </div>
+            </reactFragment>
+          ) : (
+            <div className="addVideoModal-modalflex">
+              Click to choose different photo
+            </div>
+          )}
+          {this.state.addPhotoSelected === true && this.renderTheAddedPhoto()}
+        </div>
+        {this.state.addPhotoSelected === true && this.renderAddVideoButton()}
+      </reactFragment>
+    );
+  };
+
+  //TODO:
+  renderTheAddedPhoto = () => {
+    return (
+      <div className="row">
+        <div className="addPhotoAlbumModal-imageBox">
+          <img src={this.state.genericImage} alt="image" />
+        </div>
+      </div>
+    );
+  };
+
+  renderPasteUrl = () => {
+    return (
+      <reactFragment>
+        <div className="addArticleModal-modalInputBox">
+          <input
+            className="addPhotoAlbumModal-modalInputBoxText"
+            type="text"
+            onChange={e => this.handleUserUrlTyped(e)}
+            value={this.state.userGivenUrl}
+            placeholder="Add a YouTube or Vimeo URL"
+          />
+        </div>
+        {this.state.userGivenUrl.length > 3 && this.renderAddVideoButton()}
+      </reactFragment>
+    );
+  };
+
+  renderAddVideoButton = () => {
+    return (
+      <div className="addVideoModal-addVideoUrlButton-wrapper">
+        <button
+          className="addVideoModal-addVideoUrlButton text-center"
+          onClick={e => {
+            this.handleAddVideoURL(e);
+          }}
+        >
+          Add Video
+        </button>
+      </div>
+    );
+  };
+
+  handleUserTitleTyped = e => {
+    this.setState({ userGivenTitle: e.target.value });
+  };
+
+  handleUserDescTyped = e => {
+    this.setState({ userGivenDesc: e.target.value });
+  };
+
+  handleUserUrlTyped = e => {
+    this.setState({ userGivenUrl: e.target.value });
+  };
+
+  handleAddPhotoSelected = () => {
+    this.setState({ addPhotoSelected: !this.state.addPhotoSelected });
+  };
+
+  //TODO:
   handleAddVideoURL = e => {
     e.preventDefault();
     alert("TODO: connect ADD VIDEO URL");

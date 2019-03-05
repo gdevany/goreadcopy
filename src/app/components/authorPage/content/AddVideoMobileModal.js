@@ -1,29 +1,26 @@
 import React, { PureComponent } from "react";
 import Dialog from "material-ui/Dialog";
-import TextField from "material-ui/TextField";
-import { mobileModalStyles } from "./AuthorPageModalStylingCopy";
 
 class AddVideoMobileModal extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
+      userGivenTitle: "",
+      userGivenDesc: "",
+      categorySelected: "Video Type",
+      categoryHasBeenSelected: false,
+      categoryDropdownClicked: false,
       pastedURL: "",
       videoURL: "",
-      videoTypeDropdownSelected: false,
-      videoTypeSelected: false,
       uploadOrPasteUrlSelected: ""
     };
   }
   renderAddVideoMobileModal = () => {
-    const {
-      mobileContentStyle,
-      mobileHintStyleAlbumName,
-      mobileUnderlineStyleAlbumName,
-      mobileInputStyleAlbumName,
-      mobileHintStyleDesc,
-      mobileUnderlineStyleDesc,
-      mobileInputStyleDesc
-    } = mobileModalStyles;
+    const mobileContentStyle = {
+      width: "100%",
+      maxWidth: "none"
+    };
+
     return (
       <div>
         <Dialog
@@ -35,40 +32,9 @@ class AddVideoMobileModal extends PureComponent {
           contentStyle={mobileContentStyle}
           autoScrollBodyContent={true}
         >
-          <div className="addVideoMobileModal-modalInputBox">
-            <TextField
-              fullWidth={true}
-              hintText="Video Title"
-              hintStyle={mobileHintStyleAlbumName}
-              underlineStyle={mobileUnderlineStyleAlbumName}
-              inputStyle={mobileInputStyleAlbumName}
-            />
-          </div>
-          <div className="addVideoMobileModal-modalTextAreaBox">
-            <TextField
-              hintText="Description"
-              multiLine={true}
-              rows={5}
-              rowsMax={5}
-              fullWidth={true}
-              hintStyle={mobileHintStyleDesc}
-              underlineStyle={mobileUnderlineStyleDesc}
-              inputStyle={mobileInputStyleDesc}
-              className="addVideoMobileModal-modalTextAreaInput"
-            />
-          </div>
-
-          {this.state.videoTypeDropdownSelected === false
-            ? this.renderSelectVideoType()
-            : this.state.videoTypeSelected === false
-            ? this.renderVideoTypeChoices()
-            : null}
-
-          {this.state.uploadOrPasteUrlSelected === "uploadSelected" &&
-            this.renderUploadSelected()}
-
-          {this.state.uploadOrPasteUrlSelected === "pasteUrlSelected" &&
-            this.renderPasteUrlSelected()}
+          {this.renderAddVideoTitle()}
+          {this.renderAddDesc()}
+          {this.renderSelectCategory()}
         </Dialog>
       </div>
     );
@@ -78,28 +44,75 @@ class AddVideoMobileModal extends PureComponent {
   //  close the modal, it just moves it off the screen (left position -10000px)
   renderCloseModal = () => {
     this.setState({
+      userGivenTitle: "",
+      userGivenDesc: "",
+      categorySelected: "Video Type",
+      categoryHasBeenSelected: false,
+      categoryDropdownClicked: false,
       pastedURL: "",
       videoURL: "",
-      videoTypeDropdownSelected: false,
-      videoTypeSelected: false,
       uploadOrPasteUrlSelected: ""
     });
     this.props.handleModalClose();
   };
 
-  renderSelectVideoType = () => {
+  renderAddVideoTitle = () => {
     return (
-      <div
-        className="addVideoMobileModal-modalInputBox"
-        onClick={() => this.handleVideoTypeDropdownSelected()}
-      >
-        <div className="addVideoMobileModal-modalText">
-          Video Type
+      <reactFragment>
+        <div className="addVideoMobileModal-modalInputBox">
+          <input
+            className="addVideoMobileModal-modalInputBoxText"
+            type="text"
+            onChange={e => this.handleUserTitleTyped(e)}
+            value={this.state.userGivenTitle}
+            placeholder="Video Title"
+          />
+        </div>
+      </reactFragment>
+    );
+  };
+
+  renderAddDesc = () => {
+    return (
+      <reactFragment>
+        <div className="addVideoMobileModal-modalInputBox addVideoModal-modalTextArea">
+          <textarea
+            className="addVideoMobileModal-modalInputBoxText"
+            rows={3}
+            onChange={e => this.handleUserDescTyped(e)}
+            value={this.state.userGivenDesc}
+            placeholder="Description"
+          />
+        </div>
+      </reactFragment>
+    );
+  };
+
+  renderSelectCategory = () => {
+    return (
+      <reactFragment>
+        <div
+          className="addVideoMobileModal-modalInputBox"
+          onClick={() => this.handleCategoryDropdownToggle()}
+        >
+          <div
+            className={`addVideoMobileModal-modalInputBoxText ${this.state
+              .categoryHasBeenSelected === true &&
+              "addVideoMobileModal-normalTextColor"}`}
+          >
+            {this.state.categorySelected}
+          </div>
           <span className="addVideoMobileModal-dropdownArrow">
             <i className="addVideoMobileModal-downArrow" />
           </span>
         </div>
-      </div>
+        {this.state.categoryDropdownClicked === true
+          ? this.renderVideoTypeChoices()
+          : (this.state.categorySelected === "Upload Video" &&
+              this.renderUploadSelected()) ||
+            (this.state.categorySelected === "Paste Video URL" &&
+              this.renderPasteUrlSelected())}
+      </reactFragment>
     );
   };
 
@@ -107,14 +120,14 @@ class AddVideoMobileModal extends PureComponent {
     return (
       <reactFragment>
         <div
-          className="addVideoMobileModal-modalInputBox addVideoMobileModal-modalInputBoxButton"
+          className="addVideoMobileModal-modalInputBox addVideoMobileModal-modalInputBoxSelector"
           onClick={() => this.handleUploadSelected()}
         >
           <div className="addVideoMobileModal-modalText">Upload Video</div>
         </div>
 
         <div
-          className="addVideoMobileModal-modalInputBox addVideoMobileModal-modalInputBoxButton"
+          className="addVideoMobileModal-modalInputBox addVideoMobileModal-modalInputBoxSelector"
           onClick={() => this.handlePasteUrlSelected()}
         >
           <div className="addVideoMobileModal-modalText">Paste Video URL</div>
@@ -153,41 +166,24 @@ class AddVideoMobileModal extends PureComponent {
   };
 
   renderPasteUrlSelected = () => {
-    const {
-      mobileHintStyleAlbumName,
-      mobileUnderlineStyleAlbumName,
-      mobileInputStyleAlbumName
-    } = mobileModalStyles;
     return (
       <reactFragment>
-        <div
-          className="addVideoMobileModal-modalInputBox"
-          onChange={e =>
-            this.setState({ pastedURL: e.target.value, videoURL: "" })
-          }
-        >
-          <TextField
-            fullWidth={true}
-            hintText="Paste a URL"
-            hintStyle={mobileHintStyleAlbumName}
-            underlineStyle={mobileUnderlineStyleAlbumName}
-            inputStyle={mobileInputStyleAlbumName}
+        <div className="addVideoMobileModal-modalInputBox">
+          <input
+            className="addVideoMobileModal-modalInputBoxText"
+            type="text"
+            onChange={e => this.handleUserPasteUrlTyped(e)}
             value={this.state.pastedURL}
+            placeholder="Paste a URL"
           />
         </div>
-        <div
-          className="addVideoMobileModal-modalInputBox"
-          onChange={e =>
-            this.setState({ videoURL: e.target.value, pastedURL: "" })
-          }
-        >
-          <TextField
-            fullWidth={true}
-            hintText="Video URL"
-            hintStyle={mobileHintStyleAlbumName}
-            underlineStyle={mobileUnderlineStyleAlbumName}
-            inputStyle={mobileInputStyleAlbumName}
+        <div className="addVideoMobileModal-modalInputBox">
+          <input
+            className="addVideoMobileModal-modalInputBoxText"
+            type="text"
+            onChange={e => this.handleUserTypedUrlTyped(e)}
             value={this.state.videoURL}
+            placeholder="Video URL"
           />
         </div>
         <div className="addVideoMobileModal-addVideoUrlButton-wrapper">
@@ -204,21 +200,47 @@ class AddVideoMobileModal extends PureComponent {
     );
   };
 
-  handleVideoTypeDropdownSelected = () => {
-    this.setState({ videoTypeDropdownSelected: true });
-  };
-
   handleUploadSelected = () => {
     this.setState({
-      uploadOrPasteUrlSelected: "uploadSelected",
-      videoTypeSelected: true
+      categorySelected: "Upload Video",
+      categoryDropdownClicked: false
     });
   };
 
   handlePasteUrlSelected = () => {
     this.setState({
-      uploadOrPasteUrlSelected: "pasteUrlSelected",
-      videoTypeSelected: true
+      categorySelected: "Paste Video URL",
+      categoryDropdownClicked: false
+    });
+  };
+
+  handleUserTitleTyped = e => {
+    this.setState({ userGivenTitle: e.target.value });
+  };
+
+  handleUserDescTyped = e => {
+    this.setState({ userGivenDesc: e.target.value });
+  };
+
+  handleUserPasteUrlTyped = e => {
+    this.setState({ pastedURL: e.target.value, videoURL: "" });
+  };
+
+  handleUserTypedUrlTyped = e => {
+    this.setState({ videoURL: e.target.value, pastedURL: "" });
+  };
+
+  handleCategoryDropdownToggle = () => {
+    this.setState({
+      categoryDropdownClicked: !this.state.categoryDropdownClicked
+    });
+  };
+
+  handleCategorySelected = category => {
+    this.setState({
+      categorySelected: category,
+      categoryHasBeenSelected: true,
+      categoryDropdownClicked: false
     });
   };
 
