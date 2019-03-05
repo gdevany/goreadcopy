@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react';
+import AuthorsVideos from './AuthorsVideos'
 
 class AuthorPageVideos extends PureComponent {
   render() {
     return (
-      <div className="author-videos-container">
-        Some author videos content
+      <div className="authors-videos-container">
+        <AuthorsVideos />
       </div>
     );
   }

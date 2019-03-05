@@ -1,5 +1,7 @@
 $overRidePad: 0.625rem;
 $overRidePad2: 1.25rem;
+$aizeMobile: 768px;
+$sizeTablet: 1024px;
 $maxWidth: 700px;
 
 .author-page-container {
@@ -66,7 +68,6 @@ $maxWidth: 700px;
     .left-content-container {
       display: flex;
       width: 30%;
-      justify-content: center;
       position: relative;
       flex-direction: column;
       align-items: center;
@@ -514,7 +515,108 @@ $maxWidth: 700px;
 .authorPageLightboxModal-modalDialogBox {
   padding: 0 !important;
 }
-.addPhotoAlbumModal-modalPaper {
+.authors-videos-container {
+  .authors-videos-addVideoButton {
+    border: 1px solid #707070;
+    width: 178px;
+    height: 38px;
+    float: right;
+    color: #707070;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .authors-videos-UserLoggedAddVideo-wrapper {
+    max-width: $maxWidth;
+    height: 40px;
+    margin-top: 1em;
+    padding: 0 1em;
+    @media all and (max-width: 600px) {
+      margin-bottom: -10px;
+    }
+  }
+  .authors-videos-wrapperBox {
+    padding: 0 1em 1em;
+    max-width: $maxWidth;
+  }
+  .authors-videos-box {
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+    padding: 25px 25px 0 25px;
+    margin-top: 25px;
+    @media all and (max-width: 600px) {
+      border-top: 2px solid #336eb1;
+      padding: 21px 17px 0 17px;
+    }
+  }
+  .authors-videos-title {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: left;
+    color: #000000;
+    @media all and (min-width: $aizeMobile) {
+      font-size: 15px;
+      margin-top: 23px;
+    }
+  }
+  .authors-videos-desc {
+    line-height: 1.36;
+    font-size: 15px;
+    text-align: left;
+    color: #000000;
+    @media all and (min-width: $aizeMobile) {
+      font-size: 14px;
+    }
+  }
+  .authors-videos-a-span {
+    text-decoration: underline;
+    color: #4261a5;
+    font-size: 15px;
+    @media all and (min-width: $aizeMobile) {
+      font-size: 14px;
+    }
+  }
+  .authors-videos-iframe-container {
+    .authors-videos-player {
+      width: 100% !important;
+      height: 164px !important;
+      margin: 0 auto;
+      @media all and (min-width: $aizeMobile) {
+        width: 100% !important;
+        height: 260px !important;
+      }
+      @media all and (min-width: 768px) {
+        width: 100% !important;
+        height: 300px !important;
+      }
+      @media all and (min-width: $sizeTablet) {
+        width: 100% !important;
+        height: 328px !important;
+      }
+      @media all and (min-width: 1200px) {
+        width: 100% !important;
+        height: 350px !important;
+      }
+    }
+  }
+  .authors-videos-likeShareBoxBorder {
+    border-top: solid 1px #e5e5e5;
+    margin: 0 -25px;
+  }
+  .authors-videos-socialWrapper {
+    font-size: 14px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+
+.addVideoModal-modalDialogBox,
+.addVideoMobileModal-modalDialogBox {
+  padding: 0 !important;
+}
+.addVideoModal-modalPaper {
   background-color: #efefef !important;
   border-radius: 6px !important;
   box-shadow: 6px 6px 7px 0 rgba(0, 0, 0, 0.3) !important;
@@ -538,6 +640,46 @@ $maxWidth: 700px;
   padding: 25px;
 }
 .addPhotoAlbumModal-modalAddPhoto {
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #397ab7;
+  flex-direction: column;
+  line-height: 1;
+  cursor: pointer;
+  width: 271px;
+  height: 238px;
+  background-color: #efefef;
+  margin-top: 2em;
+  border: 1px solid #707070;
+  // border-style: inset;
+}
+.addVideoModal-modalTitle {
+  font-size: 31px !important;
+  padding: 1em 0 1.2em !important;
+}
+.addVideoModal-modalTitleInputBox {
+  color: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+.addVideoModal-modalTextAreaBox {
+  padding: 25px;
+}
+.addVideoModal-uploadOrUrlButtons-wrapper {
+  margin-top: 52px;
+  display: flex;
+}
+.addVideoModal-modalTextAreaInput {
+  height: auto !important;
+  margin-top: 12px;
+  textarea {
+    box-shadow: none !important;
+    margin: 0 !important;
+  }
+}
+.addVideoModal-modalAddVideo {
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
@@ -584,6 +726,96 @@ $maxWidth: 700px;
   height: 50px;
   background-color: #ffffff;
   margin-top: 2em;
+  border: 1px solid #cccccc;
+  padding-left: 10px;
+  border-radius: 4px;
+}
+
+.addVideoModal-modalPlusSign {
+  font-size: 86px;
+}
+.addVideoModal-modalAddVideoText {
+  font-size: 21px;
+}
+.addVideoModal-uploadOrUrlButton {
+  padding: 14px 25px;
+  height: 56px;
+  border: 1px solid #cccccc;
+  font-size: 19px;
+  color: #646464;
+  cursor: pointer;
+  text-align: center;
+  background-color: white;
+}
+.addVideoModal-uploadButton {
+  width: 137px;
+  border-radius: 30px 0 0 30px;
+}
+.addVideoModal-pasteUrlButton {
+  width: 163px;
+  border-radius: 0 30px 30px 0;
+}
+.addVideoModalBlueBack {
+  background-color: #4261a5;
+  color: white;
+}
+.addVideoModal-modalInputWrapper {
+  padding-right: 25px;
+  background-color: white;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+}
+.addVideoModal-modalInputBox {
+  color: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  height: 55px;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+  background-color: white;
+  margin-top: 44px;
+  padding-left: 25px;
+}
+.addVideoModal-addVideoUrlButton-wrapper,
+.addVideoMobileModal-addVideoUrlButton-wrapper {
+  height: 52px;
+  margin: 18px 0;
+  @media all and (min-width: $aizeMobile) {
+    height: 73px;
+    margin: 42px 0 60px;
+  }
+}
+.addVideoModal-addVideoUrlButton,
+.addVideoMobileModal-addVideoUrlButton {
+  width: 126px;
+  height: 50px;
+  float: right;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #4261a5;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+  border: solid 2px white;
+  @media all and (min-width: $aizeMobile) {
+    width: 350px;
+    height: 71px;
+    font-size: 24px;
+  }
+}
+
+.addVideoMobileModal-modalPaper {
+  background-color: #ffffff !important;
+  width: 100%;
+  padding: 30px 20px;
+}
+.addVideoMobileModal-modalInputBox {
+  display: flex;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.3);
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  height: 50px;
+  background-color: #ffffff;
+  margin: 1em 0;
   border: 1px solid #cccccc;
   padding-left: 10px;
   border-radius: 4px;
@@ -688,4 +920,35 @@ $maxWidth: 700px;
     font-size: 15px;
     padding: 4px 17px;
   }
+}
+.addVideoMobileModal-modalInputBoxButton {
+  background-color: #4261a5;
+  color: white;
+}
+.addVideoMobileModal-modalTextAreaBox {
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  margin-top: 1em;
+}
+.addVideoMobileModal-modalTextAreaInput {
+  height: auto !important;
+  textarea {
+    box-shadow: none !important;
+    margin: 0 !important;
+  }
+}
+.addVideoMobileModal-modalText {
+  font-size: 16px;
+  padding-left: 12px;
+}
+.addVideoMobileModal-dropdownArrow {
+  padding-left: 10px;
+}
+.addVideoMobileModal-downArrow {
+  border: solid #959595;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
 }
