@@ -1,8 +1,9 @@
 $overRidePad: 0.625rem;
 $overRidePad2: 1.25rem;
+$maxWidth: 700px;
 $aizeMobile: 768px;
 $sizeTablet: 1024px;
-$maxWidth: 700px;
+$sizeMobile: 768px;
 
 .author-page-container {
   padding-top: 94px;
@@ -623,6 +624,7 @@ $maxWidth: 700px;
   width: 100%;
   padding: 25px;
 }
+
 .addPhotoAlbumModal-modalTitle {
   font-size: 31px !important;
   padding: 1em 0 1.2em !important;
@@ -807,18 +809,167 @@ $maxWidth: 700px;
   padding: 30px 20px;
 }
 .addVideoMobileModal-modalInputBox {
+  width: 126px;
+  height: 50px;
+  float: right;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #4261a5;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+  border: solid 2px white;
+  @media all and (min-width: $aizeMobile) {
+    width: 350px;
+    height: 71px;
+    font-size: 24px;
+  }
+}
+
+.addArticleModal-modalTitle {
+  font-size: 31px !important;
+  padding: 1em 0 1.2em !important;
+}
+.addArticleModal-subTitle {
+  font-size: 24px;
+  color: #232323;
+  line-height: 1.38;
+  opacity: 0.67;
+}
+.addArticleModal-modalAddPhotoText {
+  font-size: 21px;
+  margin: 22px 0 10px;
+  font-weight: 600;
+}
+.addArticleMobileModal-button-wrapper {
+  height: 52px;
+  margin: 18px 0;
+}
+.addArticleModal-uploadPhotoButton-wrapper {
+  height: 52px;
+  margin: 10px 0 33px;
+}
+.addArticleModal-draftOrSubmitButton-wrapper,
+.addArticleMobileModal-draftOrSubmitButton-wrapper {
+  height: 52px;
+  margin: 50px 0 50px 29px;
+  display: flex;
+  justify-content: flex-end;
+  @media all and (max-width: $sizeMobile) {
+    margin: 14px 0;
+  }
+}
+.addArticleModal-button,
+.addArticleMobileModal-button {
+  width: 240px;
+  height: 50px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #4261a5;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+  border: solid 2px white;
+  @media all and (max-width: $sizeMobile) {
+    width: 126px;
+    font-size: 18px;
+  }
+}
+.addArticleModal-draftOrSubmitButton,
+.addArticleMobileModal-draftOrSubmitButton {
+  margin-left: 29px;
+  @media all and (max-width: $sizeMobile) {
+    margin-left: 14px;
+  }
+}
+.addArticleModal-uploadPhotoButton {
+  float: left;
+}
+.addArticleMobileModal-modalPaper {
+  background-color: #ffffff !important;
+  width: 100%;
+  padding: 30px 20px;
+}
+.addArticleMobileModal-modalTextAreaBox {
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  margin-top: 1em;
+}
+.addArticleMobileModal-modalTextAreaInput {
+  height: auto !important;
+  textarea {
+    box-shadow: none !important;
+    margin: 0 !important;
+  }
+}
+.addArticleModal-modalCategoryTextBox {
+  width: 300px !important;
+  margin: 1em 0 2em !important;
+}
+.addArticleModal-modalCategoryText {
+  font-size: 16px;
+  font-weight: bold;
+  color: #959595;
+  width: 248px;
+  padding-left: 25px;
+  align-self: center;
+}
+.addArticleModal-dropdownArrow,
+.addArticleMobileModal-dropdownArrow {
+  height: 100%;
+  width: 50px;
+  border-left: 1px solid #e3e3e3;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+.addArticleModal-downArrow,
+.addArticleMobileModal-downArrow {
+  border: solid #959595;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 7px;
+  transform: rotate(45deg);
+}
+.addArticleModal-articleTextBox-wrapper,
+.addArticleMobileModal-articleTextBox-wrapper {
+  width: 100%;
+  height: 509px;
+  background-color: white;
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.2);
+  border: solid 1px #e3e3e3;
+  @media all and (max-width: $sizeMobile) {
+    height: 165px;
+  }
+}
+.addArticleModal-articleTitle,
+.addArticleMobileModal-articleTitle {
+  font-size: 21px;
+  padding: 29px 0 0 29px;
+  font-weight: 600;
+  color: #343434;
+}
+
+//----------------------------
+
+.addArticleModal-modalInputBox,
+.addArticleMobileModal-modalInputBox {
   display: flex;
   align-items: center;
-  color: rgba(0, 0, 0, 0.3);
   font-size: 16px;
   cursor: pointer;
   width: 100%;
   height: 50px;
   background-color: #ffffff;
   margin: 1em 0;
-  border: 1px solid #cccccc;
   padding-left: 10px;
   border-radius: 4px;
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.2);
+  border: solid 1px #e3e3e3;
+  & ::placeholder {
+    color: rgba(0, 0, 0, 0.3);
+  }
 }
 .addPhotoAlbumMobilModal-modalTextAreaInput {
   height: auto !important;
@@ -986,4 +1137,117 @@ $maxWidth: 700px;
     font-weight: bold;
     padding: .5em 1em;
   }
+}  
+.addArticleModal-modalInputBoxText,
+.addArticleMobileModal-modalInputBoxText {
+  width: 100%;
+  font-size: 18px;
+  font-weight: normal;
+  border: none !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  background-color: #ffffff !important;
+  @media all and (min-width: $sizeMobile) {
+    font-size: 16px;
+    font-weight: bold;
+    color: #959595;
+  }
+}
+.addPhotoAlbumMobileModal-modalTextArea {
+  height: auto !important;
+}
+.addArticleModal-normalTextColor {
+  color: #343434 !important;
+}
+.addArticleMobileModal-modalflex {
+  display: flex;
+  align-items: center;
+}
+.addArticleModal-modalInputBoxButton,
+.addArticleMobileModal-modalInputBoxButton {
+  background-color: #4261a5 !important;
+  color: white !important;
+}
+.addArticleMobileModal-modalPlusSign {
+  color: rgba(0, 0, 0, 0.3);
+  font-size: 40px;
+}
+.addArticleMobileModal-modalAddPhotoText {
+  color: rgba(0, 0, 0, 0.3);
+  font-size: 18px;
+  padding-left: 12px;
+}
+
+.author-articles-container {
+  .authors-articles-wrapper {
+    max-width: $maxWidth;
+    margin-top: $overRidePad2;
+    @media all and (max-width: $sizeMobile) {
+      margin-top: $overRidePad;
+    }
+  }
+  .authors-article-box {
+    margin: 0.5em 0;
+  }
+  .authors-article-infoBox {
+    box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.16);
+    padding: 0.8em 0.8em 1em;
+    min-height: 19em;
+  }
+  .authors-articles-a-span {
+    text-decoration: underline;
+    color: #4261a5;
+  }
+  .authors-article-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding-top: 0.2em;
+    height: 68px;
+    overflow: hidden;
+  }
+  .authors-articles-category {
+    color: #4261a5;
+    font-size: 14px;
+  }
+  .authors-articles-date {
+    color: #959595;
+    font-size: 14px;
+    margin-bottom: 0.4em;
+  }
+  .authors-articles-desc {
+    line-height: 1.3;
+  }
+  img {
+    height: 190px;
+    width: 100%;
+    object-fit: cover;
+  }
+  .authors-articles-addArticleButton {
+    border: 1px solid #707070;
+    width: 178px;
+    height: 38px;
+    float: right;
+    color: #707070;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .authors-articles-UserLoggedAddArticle-wrapper {
+    max-width: $maxWidth;
+    margin-top: $overRidePad2;
+    padding: 0 $overRidePad2;
+  }
+}
+
+.addArticleModal-modalDialogBox,
+.addArticleMobileModal-modalDialogBox {
+  padding: 0 !important;
+  border: none !important;
+}
+.addArticleModal-modalPaper {
+  background-color: #efefef !important;
+  border-radius: 6px !important;
+  box-shadow: 6px 6px 7px 0 rgba(0, 0, 0, 0.3) !important;
+  width: 100%;
+  padding: 25px;
 }
