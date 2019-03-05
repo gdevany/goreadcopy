@@ -8,9 +8,10 @@ class AddPhotoAlbumModal extends PureComponent {
     super(props);
     this.state = {
       genericImage: "https://placeimg.com/640/480/architecture",
+      addPhotoSelected: false,
       userGivenTitle: "",
-      userGivenDesc: "",
-    }
+      userGivenDesc: ""
+    };
   }
   renderAddPhotoAlbumModal = () => {
     const {
@@ -31,7 +32,7 @@ class AddPhotoAlbumModal extends PureComponent {
           open={this.props.open}
           titleClassName="addPhotoAlbumModal-modalTitle"
           paperClassName="addPhotoAlbumModal-modalPaper"
-          onRequestClose={this.props.handleModalClose}
+          onRequestClose={this.renderCloseModal}
           contentStyle={contentStyle}
           autoScrollBodyContent={true}
         >
@@ -77,12 +78,23 @@ class AddPhotoAlbumModal extends PureComponent {
     );
   };
 
+  //initialize state when handleModalClose() because closing modal doesn't really
+  //  close the modal, it just moves it off the screen (left position -10000px)
+  renderCloseModal = () => {
+    this.setState({
+      addPhotoSelected: false,
+      userGivenTitle: "",
+      userGivenDesc: ""
+    });
+    this.props.handleModalClose();
+  };
+
   renderAddAlbumTitle = () => {
     return (
       <reactFragment>
-        <div className="addPhotoAlbumModal-modalMultiInputBox">
+        <div className="addPhotoAlbumModal-modalMultiInputBox addPhotoAlbumModal-boldTextWeight">
           <input
-            className="addArticleMobileModal-modalInputBoxText addArticleModal-normalTextColor"
+            className="addPhotoAlbumModal-modalInputBoxText"
             type="text"
             onChange={e => this.handleUserTitleTyped(e)}
             value={this.state.userGivenTitle}
@@ -96,10 +108,10 @@ class AddPhotoAlbumModal extends PureComponent {
   renderAddDesc = () => {
     return (
       <reactFragment>
-        <div className="addPhotoAlbumModal-modalMultiInputBox addPhotoAlbumMobileModal-modalTextArea">
+        <div className="addPhotoAlbumModal-modalMultiInputBox addPhotoAlbumModal-modalTextArea">
           <textarea
-            className="addArticleMobileModal-modalInputBoxText addArticleModal-normalTextColor"
-            rows={5}
+            className="addPhotoAlbumModal-modalInputBoxText"
+            rows={3}
             onChange={e => this.handleUserDescTyped(e)}
             value={this.state.userGivenDesc}
             placeholder="What would you like to say"
@@ -113,19 +125,32 @@ class AddPhotoAlbumModal extends PureComponent {
     return (
       <div
         className="addPhotoAlbumModal-modalAddPhoto"
-        onClick={() => this.renderTheAddedPhoto()}
+        onClick={() => this.handleAddPhotoSelected()}
       >
-        <div className="addPhotoAlbumModal-modalPlusSign">+</div>
-        <div className="addPhotoAlbumModal-modalAddPhotoText">Add Photo</div>
+        {this.state.addPhotoSelected === false ? (
+          <reactFragment>
+            <div className="addPhotoAlbumModal-modalPlusSign text-center">
+              +
+            </div>
+            <div className="addPhotoAlbumModal-modalAddPhotoText text-center">
+              Add Photo
+            </div>
+          </reactFragment>
+        ) : (
+          <div className="addPhotoAlbumMobileModal-modalflex">
+            Click to choose different photo
+          </div>
+        )}
+        {this.state.addPhotoSelected === true && this.renderTheAddedPhoto()}
       </div>
     );
   };
 
-   //TODO:
-   renderTheAddedPhoto = () => {
+  //TODO:
+  renderTheAddedPhoto = () => {
     return (
       <div className="row">
-        <div className="addPhotoAlbumMobileModal-imageBox small-12 medium-6 columns">
+        <div className="addPhotoAlbumModal-imageBox">
           <img src={this.state.genericImage} alt="image" />
         </div>
       </div>
@@ -142,6 +167,10 @@ class AddPhotoAlbumModal extends PureComponent {
 
   handleUserDescTyped = e => {
     this.setState({ userGivenDesc: e.target.value });
+  };
+
+  handleAddPhotoSelected = () => {
+    this.setState({ addPhotoSelected: !this.state.addPhotoSelected });
   };
 
   render() {

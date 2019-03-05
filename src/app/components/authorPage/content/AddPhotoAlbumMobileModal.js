@@ -31,7 +31,7 @@ class AddPhotoAlbumMobileModal extends PureComponent {
           modal={false}
           open={this.props.open}
           paperClassName="addPhotoAlbumMobileModal-modalPaper"
-          onRequestClose={this.props.handleModalClose}
+          onRequestClose={this.renderCloseModal}
           contentStyle={mobileContentStyle}
           autoScrollBodyContent={true}
         >
@@ -80,22 +80,33 @@ class AddPhotoAlbumMobileModal extends PureComponent {
     );
   };
 
+  //initialize state when handleModalClose() because closing modal doesn't really
+  //  close the modal, it just moves it off the screen (left position -10000px)
+  renderCloseModal = () => {
+    this.setState({
+      addPhotoSelected: false,
+      userGivenTitle: "",
+      userGivenDesc: ""
+    });
+    this.props.handleModalClose();
+  };
+
   renderAddPhoto = () => {
     return (
       <reactFragment>
         <div
-          className="addArticleMobileModal-modalInputBox"
+          className="addPhotoAlbumMobileModal-modalInputBox"
           onClick={() => this.handleAddPhotoSelected()}
         >
           {this.state.addPhotoSelected === false ? (
-            <div className="addArticleMobileModal-modalflex">
-              <div className="addArticleMobileModal-modalPlusSign">+</div>
-              <div className="addArticleMobileModal-modalAddPhotoText">
+            <div className="addPhotoAlbumMobileModal-modalflex">
+              <div className="addPhotoAlbumMobileModal-modalPlusSign">+</div>
+              <div className="addPhotoAlbumMobileModal-modalAddPhotoText">
                 Add Photo
               </div>
             </div>
           ) : (
-            <div className="addArticleMobileModal-modalflex">
+            <div className="addPhotoAlbumMobileModal-modalflex">
               Choose a different photo
             </div>
           )}
@@ -119,9 +130,9 @@ class AddPhotoAlbumMobileModal extends PureComponent {
   renderAddAlbumTitle = () => {
     return (
       <reactFragment>
-        <div className="addArticleMobileModal-modalInputBox">
+        <div className="addPhotoAlbumMobileModal-modalInputBox">
           <input
-            className="addArticleMobileModal-modalInputBoxText addArticleModal-normalTextColor"
+            className="addPhotoAlbumMobileModal-modalInputBoxText"
             type="text"
             onChange={e => this.handleUserTitleTyped(e)}
             value={this.state.userGivenTitle}
@@ -135,10 +146,10 @@ class AddPhotoAlbumMobileModal extends PureComponent {
   renderAddDesc = () => {
     return (
       <reactFragment>
-        <div className="addArticleMobileModal-modalInputBox addPhotoAlbumMobileModal-modalTextArea">
+        <div className="addPhotoAlbumMobileModal-modalInputBox addPhotoAlbumMobileModal-modalTextArea">
           <textarea
-            className="addArticleMobileModal-modalInputBoxText addArticleModal-normalTextColor"
-            rows={5}
+            className="addPhotoAlbumMobileModal-modalInputBoxText"
+            rows={3}
             onChange={e => this.handleUserDescTyped(e)}
             value={this.state.userGivenDesc}
             placeholder="Description"

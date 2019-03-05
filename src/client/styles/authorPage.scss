@@ -603,6 +603,7 @@ $sizeTablet: 1024px;
   border-radius: 4px;
   margin-top: 2em;
 }
+.addPhotoAlbumModal-imageBox,
 .addPhotoAlbumMobileModal-imageBox {
   margin: 0.5em 0;
 }
@@ -707,17 +708,18 @@ $sizeTablet: 1024px;
   margin: 0;
   padding-left: 10px;
   // box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.2);
-  border-bottom: dotted 1px #d9d9d9;
+  border-bottom: dashed 1px #d9d9d9;
   & ::placeholder {
     color: rgba(0, 0, 0, 0.3);
   }
 }
-
+.addPhotoAlbumMobileModal-modalInputBox,
 .addArticleModal-modalInputBox,
 .addArticleMobileModal-modalInputBox {
   display: flex;
   align-items: center;
   font-size: 16px;
+  color: #343434;
   cursor: pointer;
   width: 100%;
   height: 50px;
@@ -731,9 +733,12 @@ $sizeTablet: 1024px;
     color: rgba(0, 0, 0, 0.3);
   }
 }
+.addPhotoAlbumModal-modalInputBoxText,
+.addPhotoAlbumMobileModal-modalInputBoxText,
 .addArticleModal-modalInputBoxText,
 .addArticleMobileModal-modalInputBoxText {
   width: 100%;
+  color: #343434;
   font-size: 18px;
   font-weight: normal;
   border: none !important;
@@ -742,28 +747,37 @@ $sizeTablet: 1024px;
   background-color: #ffffff !important;
   @media all and (min-width: $sizeMobile) {
     font-size: 24px;
-    // font-weight: bold;
-    color: #959595;
+    // color: #959595;
   }
 }
+.addPhotoAlbumModal-modalTextArea,
 .addPhotoAlbumMobileModal-modalTextArea {
   height: auto !important;
+  font-weight: normal !important;
   & textarea {
-  resize: none;
-  overflow: auto;
+    resize: none;
+    overflow: auto;
   }
 }
-.addArticleModal-normalTextColor {
-  color: #343434 !important;
+// .addPhotoAlbumModal-normalTextColor,
+// .addPhotoAlbumMobileModal-normalTextColor,
+// .addArticleModal-normalTextColor {
+//   color: #343434 !important;
+// }
+.addPhotoAlbumModal-boldTextWeight input {
+  font-weight: bold !important;
 }
+.addPhotoAlbumMobileModal-modalflex,
 .addArticleMobileModal-modalflex {
   display: flex;
   align-items: center;
 }
+.addPhotoAlbumMobileModal-modalPlusSign,
 .addArticleMobileModal-modalPlusSign {
   color: rgba(0, 0, 0, 0.3);
   font-size: 40px;
 }
+.addPhotoAlbumMobileModal-modalAddPhotoText,
 .addArticleMobileModal-modalAddPhotoText {
   color: rgba(0, 0, 0, 0.3);
   font-size: 18px;
