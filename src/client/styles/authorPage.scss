@@ -331,12 +331,14 @@ $sizeTablet: 1024px;
       }
     }
   }
+  // Right Container Styling
   .author-page-content-container {
     width: 100%;
     padding: 40px;
     @media (max-width: 768px) {
       padding: 0 10px;
     }
+    // Contact Page Styling
     .author-contact-container {
       display: flex;
       flex-direction: column;
@@ -344,6 +346,32 @@ $sizeTablet: 1024px;
         font-size: 18px;
         .author-contact-author {
           color: #959595;
+        }
+      }
+      .author-contact-message {
+        margin: 20px 0;
+        font-size: 18px;
+        .contact-message {
+          margin-top: 10px;
+          overflow: hidden;
+          height: 200px;
+        }
+        .contact-message-outfocus {
+          margin-top: 10px;
+          overflow: hidden;
+          height: 200px;
+          color: #767676;
+        }
+      }
+      .author-contact-button {
+        display: flex;
+        justify-content: flex-end;
+        .contact-button {
+          background-color: #4261a5;
+          color: #fff;
+          border-radius: 6px;
+          text-align: center;
+          padding: 10px 100px;
         }
       }
     }
@@ -383,32 +411,6 @@ $sizeTablet: 1024px;
         @media all and (min-width: $sizeMobile) {
           width: 100% !important;
           height: 260px !important;
-        }
-      }
-      .author-contact-message {
-        margin: 20px 0;
-        font-size: 18px;
-        .contact-message {
-          margin-top: 10px;
-          overflow: hidden;
-          height: 200px;
-        }
-        .contact-message-outfocus {
-          margin-top: 10px;
-          overflow: hidden;
-          height: 200px;
-          color: #767676;
-        }
-      }
-      .author-contact-button {
-        display: flex;
-        justify-content: flex-end;
-        .contact-button {
-          background-color: #4261a5;
-          color: #fff;
-          border-radius: 6px;
-          text-align: center;
-          padding: 10px 100px;
         }
       }
     }
