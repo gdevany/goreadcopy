@@ -3,7 +3,6 @@ $overRidePad2: 1.25rem;
 $maxWidth: 700px;
 $sizeMobile: 768px;
 $sizeTablet: 1024px;
-$sizeMobile: 768px;
 
 .author-page-container {
   padding-top: 94px;
@@ -115,11 +114,11 @@ $sizeMobile: 768px;
             }
           }
           .author-following {
-              width: 60%;
-              padding: 0 15px;
-              @media (max-width: 1024px) {
-                width: 40%;
-              }
+            width: 60%;
+            padding: 0 15px;
+            @media (max-width: 1024px) {
+              width: 40%;
+            }
             .follow-btn-off {
               color: #5a5a5a;
               padding: 6px 20px;
@@ -554,6 +553,7 @@ $sizeMobile: 768px;
 .addPhotoAlbumMobileModal-modalDialogBox,
 .authorPageLightboxModal-modalDialogBox {
   padding: 0 !important;
+  border: none !important;
 }
 .authors-videos-container {
   .authors-videos-addVideoButton {
@@ -734,7 +734,6 @@ $sizeMobile: 768px;
     margin: 0 !important;
   }
 }
-
 .addPhotoAlbumMobileModal-modalPaper {
   background-color: #ffffff !important;
   width: 100%;
@@ -1013,7 +1012,7 @@ $sizeMobile: 768px;
     color: rgba(0, 0, 0, 0.3);
   }
 }
-.addPhotoAlbumMobilModal-modalTextAreaInput {
+.addPhotoAlbumMobileModal-modalTextAreaInput {
   height: auto !important;
   textarea {
     box-shadow: none !important;
@@ -1025,6 +1024,10 @@ $sizeMobile: 768px;
   border: 1px solid #cccccc;
   border-radius: 4px;
   margin-top: 2em;
+}
+.addPhotoAlbumModal-imageBox,
+.addPhotoAlbumMobileModal-imageBox {
+  margin: 0.5em 0;
 }
 .addPhotoAlbumMobileModal-modalPlusSign {
   font-size: 40px;
@@ -1041,7 +1044,7 @@ $sizeMobile: 768px;
   box-shadow: none !important;
   @media all and (max-width: 600px) {
     padding: 40px 0;
-    margin-left: -50px;
+    margin-left: -47px;
     width: 100vw;
   }
 }
@@ -1049,9 +1052,6 @@ $sizeMobile: 768px;
   object-fit: cover;
   width: 100%;
   height: auto;
-}
-.authorPageLightboxModal-imageBox {
-  // position: relative;
 }
 .authorPageLightboxModal-closeImage {
   box-sizing: border-box;
@@ -1069,8 +1069,8 @@ $sizeMobile: 768px;
   display: flex;
   cursor: pointer;
   @media all and (max-width: 600px) {
-    border: 2px solid #232323;
-    color: #232323;
+    // border: 2px solid #232323;
+    // color: #232323;
     margin-right: -35px;
   }
 }
@@ -1156,6 +1156,10 @@ $sizeMobile: 768px;
   background-color: white;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
 }
+
+//-------------------------
+//Multi use:
+
 .addPhotoAlbumModal-modalMultiInputBox {
   display: flex;
   align-items: center;
@@ -1167,13 +1171,14 @@ $sizeMobile: 768px;
   background-color: #ffffff;
   margin: 0;
   padding-left: 10px;
-  & input,
-  textarea {
-    font-size: 24px !important;
-  }
+  // box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.2);
   border-bottom: dashed 1px #d9d9d9;
   & ::placeholder {
     color: rgba(0, 0, 0, 0.3);
+  }
+  & input,
+  textarea {
+    font-size: 24px !important;
   }
 }
 .addVideoModal-modalInputBox,
@@ -1258,6 +1263,15 @@ $sizeMobile: 768px;
 .addVideoModal-modalPlusSign,
 .addPhotoAlbumModal-modalPlusSign {
   font-size: 86px;
+}
+
+// .addPhotoAlbumModal-normalTextColor,
+// .addPhotoAlbumMobileModal-normalTextColor,
+// .addArticleModal-normalTextColor {
+//   color: #343434 !important;
+// }
+.addPhotoAlbumModal-boldTextWeight input {
+  font-weight: bold !important;
 }
 .addVideoModal-modalflex,
 .addPhotoAlbumMobileModal-modalflex,
@@ -1355,10 +1369,13 @@ $sizeMobile: 768px;
   background-color: #4261a5 !important;
   color: white !important;
 }
+.addPhotoAlbumMobileModal-modalPlusSign,
 .addArticleMobileModal-modalPlusSign {
   color: rgba(0, 0, 0, 0.3);
   font-size: 40px;
 }
+
+.addPhotoAlbumMobileModal-modalAddPhotoText,
 .addArticleMobileModal-modalAddPhotoText {
   color: rgba(0, 0, 0, 0.3);
   font-size: 18px;
