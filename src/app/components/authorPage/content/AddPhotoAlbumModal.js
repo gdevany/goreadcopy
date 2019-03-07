@@ -30,7 +30,7 @@ class AddPhotoAlbumModal extends PureComponent {
           contentStyle={contentStyle}
           autoScrollBodyContent={true}
         >
-          <div className="addPhotoAlbumModal-modalInputWrapper">
+          <div className="addPhotoAlbumModal-modalMultiInputBox-wrapper">
             {this.props.addPhotoOrAlbum === "Create Album" &&
               this.renderAddAlbumTitle()}
             {this.renderAddDesc()}
@@ -55,7 +55,7 @@ class AddPhotoAlbumModal extends PureComponent {
   renderAddAlbumTitle = () => {
     return (
       <reactFragment>
-        <div className="addPhotoAlbumModal-modalMultiInputBox boldIt">
+        <div className="modalMultiInputBox boldIt">
           <input
             className="addPhotoAlbumModal-modalInputBoxText"
             type="text"
@@ -71,7 +71,7 @@ class AddPhotoAlbumModal extends PureComponent {
   renderAddDesc = () => {
     return (
       <reactFragment>
-        <div className="addPhotoAlbumModal-modalMultiInputBox addPhotoAlbumModal-modalTextArea">
+        <div className="modalMultiInputBox addPhotoAlbumModal-modalTextArea">
           <textarea
             className="addPhotoAlbumModal-modalInputBoxText"
             rows={3}
@@ -87,17 +87,13 @@ class AddPhotoAlbumModal extends PureComponent {
   renderAddPhoto = () => {
     return (
       <div
-        className="addPhotoAlbumModal-modalAddPhoto"
+        className="addPhotoAlbumModal-modalAddPhotoSquare"
         onClick={() => this.handleAddPhotoSelected()}
       >
         {this.state.addPhotoSelected === false ? (
           <reactFragment>
-            <div className="addPhotoAlbumModal-modalPlusSign text-center">
-              +
-            </div>
-            <div className="addPhotoAlbumModal-modalAddPhotoText text-center">
-              Add Photo
-            </div>
+            <div className="modalPlusSign text-center">+</div>
+            <div className="modalAddPhotoText text-center">Add Photo</div>
           </reactFragment>
         ) : (
           <div className="addPhotoAlbumMobileModal-modalflex">
@@ -113,7 +109,7 @@ class AddPhotoAlbumModal extends PureComponent {
   renderTheAddedPhoto = () => {
     return (
       <div className="row">
-        <div className="addPhotoAlbumModal-imageBox">
+        <div className="">
           <img src={this.state.genericImage} alt="image" />
         </div>
       </div>

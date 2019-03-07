@@ -98,7 +98,7 @@ class AddArticleMobileModal extends PureComponent {
             {this.state.categorySelected}
           </div>
           <span className="addArticleMobileModal-downArrow-wrapper">
-            <i className="addArticleMobileModal-downArrow" />
+            <i className="downArrow" />
           </span>
         </div>
         {this.state.categoryDropdownClicked === true &&
@@ -148,9 +148,7 @@ class AddArticleMobileModal extends PureComponent {
   renderAddArticleTextBox = () => {
     return (
       <div className="addArticleMobileModal-articleTextBox-wrapper">
-        <div className="addArticleMobileModal-articleTitle">
-          Write Your Article
-        </div>
+        <div className="articleTitle">Write Your Article</div>
       </div>
     );
   };
@@ -159,7 +157,7 @@ class AddArticleMobileModal extends PureComponent {
     return (
       <div className="addArticleMobileModal-draftOrSubmitButton-wrapper">
         <button
-          className="addArticleMobileModal-modalMediumButton addArticleMobileModal-draftOrSubmitButton text-center"
+          className="addArticleMobileModal-modalButton smallButton text-center"
           onClick={e => {
             this.handleSaveDraft(e);
           }}
@@ -167,7 +165,7 @@ class AddArticleMobileModal extends PureComponent {
           Save Draft
         </button>
         <button
-          className="addArticleMobileModal-modalMediumButton addArticleMobileModal-draftOrSubmitButton text-center"
+          className="addArticleMobileModal-modalButton smallButton text-center"
           onClick={e => {
             this.handleSubmit(e);
           }}

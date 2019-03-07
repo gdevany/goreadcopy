@@ -103,7 +103,7 @@ class AddVideoMobileModal extends PureComponent {
             {this.state.categorySelected}
           </div>
           <span className="addVideoMobileModal-downArrow-wrapper">
-            <i className="addVideoMobileModal-downArrow" />
+            <i className="downArrow" />
           </span>
         </div>
         {this.state.categoryDropdownClicked === true
@@ -153,7 +153,7 @@ class AddVideoMobileModal extends PureComponent {
         </div>
         <div className="addVideoMobileModal-addVideoUrlButton-wrapper">
           <button
-            className="addVideoMobileModal-addVideoUrlButton text-center"
+            className="addVideoMobileModal-modalButton smallButton text-center"
             onClick={e => {
               this.handleAddVideoUpload(e);
             }}
@@ -188,7 +188,7 @@ class AddVideoMobileModal extends PureComponent {
         </div>
         <div className="addVideoMobileModal-addVideoUrlButton-wrapper">
           <button
-            className="addVideoMobileModal-addVideoUrlButton text-center"
+            className="addVideoMobileModal-modalButton smallButton text-center"
             onClick={e => {
               this.handleAddVideoURL(e);
             }}
