@@ -1,7 +1,5 @@
 import React, { PureComponent } from "react";
 import Dialog from "material-ui/Dialog";
-// import TextField from "material-ui/TextField";
-// import { modalStyles } from "./AuthorPageModalStyling";
 
 class AddPhotoAlbumModal extends PureComponent {
   constructor(props) {
@@ -14,14 +12,10 @@ class AddPhotoAlbumModal extends PureComponent {
     };
   }
   renderAddPhotoAlbumModal = () => {
-    // const {
-    //   contentStyle,
-    // } = modalStyles;
-
     const contentStyle = {
-        width: "80%",
-        maxWidth: "none"
-      }
+      width: "80%",
+      maxWidth: "none"
+    };
 
     return (
       <div className="">
@@ -38,40 +32,9 @@ class AddPhotoAlbumModal extends PureComponent {
         >
           <div className="addPhotoAlbumModal-modalInputWrapper">
             {this.props.addPhotoOrAlbum === "Create Album" &&
-              // <div className="addPhotoAlbumModal-modalInputBox">
-              //   <TextField
-              //     fullWidth={true}
-              //     hintText="Album Name"
-              //     hintStyle={hintStyleAlbumName}
-              //     underlineStyle={underlineStyleAlbumName}
-              //     inputStyle={inputStyleAlbumName}
-              //   />
-              // </div>
               this.renderAddAlbumTitle()}
-            {/* <div className="addPhotoAlbumModal-modalTextAreaBox">
-              <TextField
-                hintText="What would you like to say"
-                multiLine={true}
-                rows={4}
-                rowsMax={4}
-                fullWidth={true}
-                hintStyle={hintStyleDesc}
-                underlineStyle={underlineStyleDesc}
-                inputStyle={inputStyleDesc}
-                className="addPhotoAlbumModal-modalTextAreaInput"
-              />
-            </div> */}
             {this.renderAddDesc()}
           </div>
-          {/* <div
-            className="addPhotoAlbumModal-modalAddPhoto"
-            onClick={() => this.addImage()}
-          >
-            <div className="addPhotoAlbumModal-modalPlusSign">+</div>
-            <div className="addPhotoAlbumModal-modalAddPhotoText">
-              Add Photo
-            </div>
-          </div> */}
           {this.renderAddPhoto()}
         </Dialog>
       </div>
@@ -92,7 +55,7 @@ class AddPhotoAlbumModal extends PureComponent {
   renderAddAlbumTitle = () => {
     return (
       <reactFragment>
-        <div className="addPhotoAlbumModal-modalMultiInputBox addPhotoAlbumModal-boldTextWeight">
+        <div className="addPhotoAlbumModal-modalMultiInputBox boldIt">
           <input
             className="addPhotoAlbumModal-modalInputBoxText"
             type="text"

@@ -27,13 +27,15 @@ class AuthorsPhotos extends PureComponent {
 
   openImageModal = (image, e) => {
     e.preventDefault();
-    this.props.setAndLoadLightboxModal(image, e)
+    this.props.setAndLoadLightboxModal(image, e);
   };
 
   render() {
     return (
       <div className="authors-photos-wrapperBox row">
-        {this.props.isUserLoggedIn && <AddPhotoAlbumMobileButton {...this.props} />}
+        {this.props.isUserLoggedIn && (
+          <AddPhotoAlbumMobileButton {...this.props} />
+        )}
         {this.renderImages()}
       </div>
     );

@@ -89,7 +89,7 @@ class AddArticleModal extends PureComponent {
         <div className="addArticleModal-modalAddPhotoText">Add Your Photo</div>
         <div className="addArticleModal-uploadPhotoButton-wrapper">
           <button
-            className="addArticleModal-button addArticleModal-uploadPhotoButton text-center"
+            className="addArticleModal-modalMediumButton text-center"
             onClick={e => {
               this.handleUploadPhoto(e);
             }}
@@ -108,14 +108,10 @@ class AddArticleModal extends PureComponent {
           className="addArticleModal-modalInputBox addArticleModal-modalCategoryTextBox"
           onClick={e => this.handleCategoryDropdownToggle(e)}
         >
-          <div
-            className={`addArticleModal-modalInputBoxText ${this.state
-              .categoryHasBeenSelected === true &&
-              "addArticleModal-normalTextColor"}`}
-          >
+          <div className="addArticleModal-modalInputBoxText">
             {this.state.categorySelected}
           </div>
-          <span className="addArticleModal-dropdownArrow">
+          <span className="addArticleModal-downArrow-wrapper">
             <i className="addArticleModal-downArrow" />
           </span>
         </div>
@@ -129,7 +125,7 @@ class AddArticleModal extends PureComponent {
     let mappedCategories = this.state.categories.map(category => {
       return (
         <div
-          className="addArticleModal-modalInputBox addArticleModal-modalInputBoxButton"
+          className="addArticleModal-modalInputBox blueBack"
           onClick={() => this.handleUploadSelected(category)}
           key={category}
         >
@@ -155,7 +151,7 @@ class AddArticleModal extends PureComponent {
       <reactFragment>
         <div className="addArticleModal-draftOrSubmitButton-wrapper">
           <button
-            className="addArticleModal-button addArticleModal-draftOrSubmitButton text-center"
+            className="addArticleModal-modalMediumButton addArticleModal-draftOrSubmitButton text-center"
             onClick={e => {
               this.handleSaveDraft(e);
             }}
@@ -163,7 +159,7 @@ class AddArticleModal extends PureComponent {
             Save Draft
           </button>
           <button
-            className="addArticleModal-button addArticleModal-draftOrSubmitButton text-center"
+            className="addArticleModal-modalMediumButton addArticleModal-draftOrSubmitButton text-center"
             onClick={e => {
               this.handleSubmit(e);
             }}

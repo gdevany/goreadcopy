@@ -97,7 +97,7 @@ class AddArticleMobileModal extends PureComponent {
           >
             {this.state.categorySelected}
           </div>
-          <span className="addArticleMobileModal-dropdownArrow">
+          <span className="addArticleMobileModal-downArrow-wrapper">
             <i className="addArticleMobileModal-downArrow" />
           </span>
         </div>
@@ -111,7 +111,7 @@ class AddArticleMobileModal extends PureComponent {
     let mappedCategories = this.state.categories.map(category => {
       return (
         <div
-          className="addArticleMobileModal-modalInputBox addArticleMobileModal-modalInputBoxButton"
+          className="addArticleMobileModal-modalInputBox blueBack"
           onClick={() => this.handleCategorySelected(category)}
           key={category}
         >
@@ -131,16 +131,12 @@ class AddArticleMobileModal extends PureComponent {
           onClick={() => this.handleAddPhotoSelected()}
         >
           {this.state.addPhotoSelected === false ? (
-            <div className="addArticleMobileModal-modalflex">
-              <div className="addArticleMobileModal-modalPlusSign">+</div>
-              <div className="addArticleMobileModal-modalAddPhotoText">
-                Add Photo
-              </div>
+            <div className="modalflex">
+              <div className="modalPlusSign">+</div>
+              <div className="addPhotoText">Add Photo</div>
             </div>
           ) : (
-            <div className="addArticleMobileModal-modalflex">
-              Choose a different photo
-            </div>
+            <div className="modalflex">Choose a different photo</div>
           )}
         </div>
         {this.state.addPhotoSelected === true && this.renderTheAddedPhoto()}
@@ -163,7 +159,7 @@ class AddArticleMobileModal extends PureComponent {
     return (
       <div className="addArticleMobileModal-draftOrSubmitButton-wrapper">
         <button
-          className="addArticleMobileModal-button addArticleMobileModal-draftOrSubmitButton text-center"
+          className="addArticleMobileModal-modalMediumButton addArticleMobileModal-draftOrSubmitButton text-center"
           onClick={e => {
             this.handleSaveDraft(e);
           }}
@@ -171,7 +167,7 @@ class AddArticleMobileModal extends PureComponent {
           Save Draft
         </button>
         <button
-          className="addArticleMobileModal-button addArticleMobileModal-draftOrSubmitButton text-center"
+          className="addArticleMobileModal-modalMediumButton addArticleMobileModal-draftOrSubmitButton text-center"
           onClick={e => {
             this.handleSubmit(e);
           }}

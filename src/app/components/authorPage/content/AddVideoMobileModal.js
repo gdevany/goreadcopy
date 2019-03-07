@@ -102,7 +102,7 @@ class AddVideoMobileModal extends PureComponent {
           >
             {this.state.categorySelected}
           </div>
-          <span className="addVideoMobileModal-dropdownArrow">
+          <span className="addVideoMobileModal-downArrow-wrapper">
             <i className="addVideoMobileModal-downArrow" />
           </span>
         </div>
@@ -120,14 +120,14 @@ class AddVideoMobileModal extends PureComponent {
     return (
       <reactFragment>
         <div
-          className="addVideoMobileModal-modalInputBox addVideoMobileModal-modalInputBoxSelector"
+          className="addVideoMobileModal-modalInputBox choiceList"
           onClick={() => this.handleUploadSelected()}
         >
           <div className="addVideoMobileModal-modalText">Upload Video</div>
         </div>
 
         <div
-          className="addVideoMobileModal-modalInputBox addVideoMobileModal-modalInputBoxSelector"
+          className="addVideoMobileModal-modalInputBox choiceList"
           onClick={() => this.handlePasteUrlSelected()}
         >
           <div className="addVideoMobileModal-modalText">Paste Video URL</div>
@@ -140,16 +140,16 @@ class AddVideoMobileModal extends PureComponent {
     return (
       <reactFragment>
         <div
-          className="addVideoMobileModal-modalInputBox addVideoMobileModal-modalInputBoxButton"
+          className="addVideoMobileModal-modalInputBox blueBack"
           onClick={() => this.handleUpload()}
         >
-          <div className="addVideoMobileModal-modalText">Upload</div>
+          Upload
         </div>
         <div
-          className="addVideoMobileModal-modalInputBox addVideoMobileModal-modalInputBoxButton"
+          className="addVideoMobileModal-modalInputBox blueBack"
           onClick={() => this.handleChooseVideo()}
         >
-          <div className="addVideoMobileModal-modalText">Choose Video</div>
+          Choose Video
         </div>
         <div className="addVideoMobileModal-addVideoUrlButton-wrapper">
           <button

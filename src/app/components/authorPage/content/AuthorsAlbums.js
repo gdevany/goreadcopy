@@ -2,9 +2,6 @@ import React, { PureComponent } from "react";
 import AuthorsAlbum from "./AuthorsAlbum";
 import AddPhotoAlbumMobileButton from "./AddPhotoAlbumMobileButton";
 
-//NOTE !! : AuthorPageContent (switch) default changed to AuhorsPagePhotos
-//NOTE !! : Change default back to AuthorPageWall
-
 class AuthorsAlbums extends PureComponent {
   constructor(props) {
     super(props);

@@ -62,13 +62,13 @@ class AddVideoModal extends PureComponent {
   renderAddAlbumTitle = () => {
     return (
       <reactFragment>
-        <div className="addPhotoAlbumModal-modalMultiInputBox addPhotoAlbumModal-boldTextWeight">
+        <div className="addVideoModal-modalMultiInputBox boldIt">
           <input
-            className="addPhotoAlbumModal-modalInputBoxText"
+            className="addVideoModal-modalInputBoxText"
             type="text"
             onChange={e => this.handleUserTitleTyped(e)}
             value={this.state.userGivenTitle}
-            placeholder="Album Title"
+            placeholder="Video Title"
           />
         </div>
       </reactFragment>
@@ -78,9 +78,9 @@ class AddVideoModal extends PureComponent {
   renderAddDesc = () => {
     return (
       <reactFragment>
-        <div className="addPhotoAlbumModal-modalMultiInputBox addPhotoAlbumModal-modalTextArea">
+        <div className="addVideoModal-modalMultiInputBox addVideoModal-modalTextArea">
           <textarea
-            className="addPhotoAlbumModal-modalInputBoxText"
+            className="addVideoModal-modalInputBoxText"
             rows={3}
             onChange={e => this.handleUserDescTyped(e)}
             value={this.state.userGivenDesc}
@@ -93,17 +93,17 @@ class AddVideoModal extends PureComponent {
 
   renderUploadOrPasteButtons = () => {
     return (
-      <div className="addVideoModal-uploadOrUrlButtons-wrapper">
+      <div className="addVideoModal-modalUploadOrUrlButtons-wrapper">
         <div
           className={`addVideoModal-uploadOrUrlButton addVideoModal-uploadButton ${this
-            .state.uploadSelected === true && "addVideoModalBlueBack"}`}
+            .state.uploadSelected === true && "blueBack"}`}
           onClick={() => this.setState({ uploadSelected: true })}
         >
           Upload
         </div>
         <div
           className={`addVideoModal-uploadOrUrlButton addVideoModal-pasteUrlButton ${this
-            .state.uploadSelected === false && "addVideoModalBlueBack"}`}
+            .state.uploadSelected === false && "blueBack"}`}
           onClick={() => this.setState({ uploadSelected: false })}
         >
           Paste a URL
@@ -129,9 +129,7 @@ class AddVideoModal extends PureComponent {
               </div>
             </reactFragment>
           ) : (
-            <div className="addVideoModal-modalflex">
-              Click to choose different photo
-            </div>
+            <div className="modalflex">Click to choose different photo</div>
           )}
           {this.state.addPhotoSelected === true && this.renderTheAddedPhoto()}
         </div>
