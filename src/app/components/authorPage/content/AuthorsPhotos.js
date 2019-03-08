@@ -32,7 +32,7 @@ class AuthorsPhotos extends PureComponent {
 
   render() {
     return (
-      <div className="authors-photos-wrapperBox row">
+      <div className="authors-photos-wrapper">
         {this.props.isUserLoggedIn && (
           <AddPhotoAlbumMobileButton {...this.props} />
         )}

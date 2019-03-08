@@ -1,62 +1,7 @@
 import React, { PureComponent } from "react";
 import AddArticleModal from "./AddArticleModal";
 import AddArticleMobileModal from "./AddArticleMobileModal";
-
-//NOTE !! : AuthorPageContent (switch) default changed to AuhorsPageArticle
-//NOTE !! : Change default back to AuthorPageWall
-
-const temp = {
-  articles: [
-    {
-      image: "https://placeimg.com/640/480/animals",
-      title: "Great article with Really Long Title Takes Up Two Lines",
-      desc:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vitae massa laoreet, aliquam tellus quis, ullamcorper arcu. Pellentesque dignissim vel augue sed dictum. Etiam eros nibh, semper vel ex eu, dictum tristique dui. Suspendisse maximus ex in lacus feugiat viverra. Pellentesque eleifend mi ut ante luctus, ut laoreet elit consequat. Duis ligula augue, cursus sed dictum at, cursus fermentum dui. Praesent facilisis viverra mauris sodales porttitor.",
-      descTrunced: false,
-      id: 1,
-      month: "January",
-      day: "1",
-      year: "2011",
-      category: "Animals"
-    },
-    {
-      image: "https://placeimg.com/640/480/architecture",
-      title: "Great article",
-      desc:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vitae massa laoreet, aliquam tellus quis, ullamcorper arcu. Pellentesque dignissim vel augue sed dictum. Etiam eros nibh, semper vel ex eu, dictum tristique dui. Suspendisse maximus ex in lacus feugiat viverra. Pellentesque eleifend mi ut ante luctus, ut laoreet elit consequat. Duis ligula augue, cursus sed dictum at, cursus fermentum dui. Praesent facilisis viverra mauris sodales porttitor.",
-      descTrunced: false,
-      id: 2,
-      month: "January",
-      day: "2",
-      year: "2012",
-      category: "Architecture"
-    },
-    {
-      image: "https://placeimg.com/640/480/nature",
-      title: "Great article with Really Long Title Takes Up Two Lines",
-      desc:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vitae massa laoreet, aliquam tellus quis, ullamcorper arcu. Pellentesque dignissim vel augue sed dictum. Etiam eros nibh, semper vel ex eu, dictum tristique dui. Suspendisse maximus ex in lacus feugiat viverra. Pellentesque eleifend mi ut ante luctus, ut laoreet elit consequat. Duis ligula augue, cursus sed dictum at, cursus fermentum dui. Praesent facilisis viverra mauris sodales porttitor.",
-      descTrunced: false,
-      id: 3,
-      month: "January",
-      day: "3",
-      year: "2013",
-      category: "Nature"
-    },
-    {
-      image: "https://placeimg.com/640/480/people",
-      title: "Great article with Really Long Title Takes Up Two Lines",
-      desc:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vitae massa laoreet, aliquam tellus quis, ullamcorper arcu. Pellentesque dignissim vel augue sed dictum. Etiam eros nibh, semper vel ex eu, dictum tristique dui. Suspendisse maximus ex in lacus feugiat viverra. Pellentesque eleifend mi ut ante luctus, ut laoreet elit consequat. Duis ligula augue, cursus sed dictum at, cursus fermentum dui. Praesent facilisis viverra mauris sodales porttitor.",
-      descTrunced: false,
-      id: 4,
-      month: "January",
-      day: "4",
-      year: "2014",
-      category: "People"
-    }
-  ]
-};
+import { tempPhotoInfo } from "./AuthorPageTempPhotoInfo";
 
 class AuthorsArticles extends PureComponent {
   constructor(props) {
@@ -96,7 +41,8 @@ class AuthorsArticles extends PureComponent {
   };
 
   renderArticles = () => {
-    let articleRendered = temp.articles.map(art => {
+    const { articles } = tempPhotoInfo;
+    let articleRendered = articles.map(art => {
       return (
         <div
           className="authors-article-box small-12 medium-6 columns"
@@ -199,10 +145,10 @@ class AuthorsArticles extends PureComponent {
     return (
       <reactFragment>
         {this.handleAddArticleModal()}
-        <div className="authors-articles-UserLoggedAddArticle-wrapper row">
+        <div className="authors-articles-UserLoggedAddArticle-wrapper">
           {this.renderAddArticleButton()}
         </div>
-        <div className="authors-articles-wrapper row">{this.renderArticles()}</div>
+        <div className="authors-articles-wrapper">{this.renderArticles()}</div>
       </reactFragment>
     );
   }

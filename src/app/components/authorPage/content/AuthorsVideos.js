@@ -2,46 +2,10 @@ import React, { PureComponent } from "react";
 import ReactPlayer from "react-player";
 import AddVideoModal from "./AddVideoModal";
 import AddVideoMobileModal from "./AddVideoMobileModal";
-
-//NOTE !! : AuthorPageContent (switch) default changed to AuhorsPageVideos
-//NOTE !! : Change default back to AuthorPageWall
-//NOTE !! : try default to 02.08.2019 if merge conflict (jira/greg/GOR-152)
+import { tempPhotoInfo } from "./AuthorPageTempPhotoInfo";
 
 // NOTE: code for like/comment/share pulled in from TileDefault.js
 // TODO: convert icons for like/comment/share from react-player to material-ui
-
-const temps = {
-  videos: [
-    {
-      id: 1,
-      videoURL: "https://vimeo.com/6363388",
-      title: "Test Video",
-      desc:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum pretium ex non tellus sodales, non vestibulum nibh vestibulum. Sed quis libero quam. Suspendisse magna purus, pulvinar ac vehicula et, mollis et ante. Nunc a elit in est hendrerit sodales vel quis eros. Proin ac tincidunt libero. Nunc ut tincidunt diam. Praesent vel massa at mauris sollicitudin ornare non eget quam. Pellentesque at viverra mauris. Donec ultrices placerat lorem vel aliquam. Nullam sed gravida ligula. Vestibulum vel viverra dolor."
-    },
-    {
-      id: 2,
-      videoURL: "https://youtu.be/C0DPdy98e4c",
-      title: "Test Video",
-      desc:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum pretium ex non tellus sodales, non vestibulum nibh vestibulum. Sed quis libero quam. Suspendisse magna purus, pulvinar ac vehicula et, mollis et ante. Nunc a elit in est hendrerit sodales vel quis eros. Proin ac tincidunt libero. Nunc ut tincidunt diam. Praesent vel massa at mauris sollicitudin ornare non eget quam. Pellentesque at viverra mauris. Donec ultrices placerat lorem vel aliquam. Nullam sed gravida ligula. Vestibulum vel viverra dolor."
-    },
-    {
-      id: 3,
-      videoURL: "https://youtu.be/EngW7tLk6R8",
-      title: "Test Video",
-      desc:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum pretium ex non tellus sodales, non vestibulum nibh vestibulum. Sed quis libero quam. Suspendisse magna purus, pulvinar ac vehicula et, mollis et ante. Nunc a elit in est hendrerit sodales vel quis eros. Proin ac tincidunt libero. Nunc ut tincidunt diam. Praesent vel massa at mauris sollicitudin ornare non eget quam. Pellentesque at viverra mauris. Donec ultrices placerat lorem vel aliquam. Nullam sed gravida ligula. Vestibulum vel viverra dolor."
-    },
-    {
-      id: 4,
-      videoURL: "https://youtu.be/ScMzIvxBSi4",
-      title: "Test Video",
-      desc:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum pretium ex non tellus sodales, non vestibulum nibh vestibulum. Sed quis libero quam. Suspendisse magna purus, pulvinar ac vehicula et, mollis et ante. Nunc a elit in est hendrerit sodales vel quis eros. Proin ac tincidunt libero. Nunc ut tincidunt diam. Praesent vel massa at mauris sollicitudin ornare non eget quam. Pellentesque at viverra mauris. Donec ultrices placerat lorem vel aliquam. Nullam sed gravida ligula. Vestibulum vel viverra dolor."
-    }
-  ]
-};
 
 class AuthorVideos extends PureComponent {
   constructor(props) {
@@ -86,7 +50,8 @@ class AuthorVideos extends PureComponent {
   };
 
   renderVideos = () => {
-    let videos = temps.videos.map(video => {
+    const { videos } = tempPhotoInfo;
+    let videosToRender = videos.map(video => {
       return (
         <div className="authors-videos-box small-12" key={video.id}>
           <div className="authors-videos-iframe-container">
@@ -105,7 +70,7 @@ class AuthorVideos extends PureComponent {
         </div>
       );
     });
-    return videos;
+    return videosToRender;
   };
 
   renderVideoDesc = (video, limit) => {
@@ -201,12 +166,10 @@ class AuthorVideos extends PureComponent {
     return (
       <reactFragment>
         <AddVideoModal
-          // addPhotoOrAlbum={this.state.addPhotoOrAlbum}
           handleModalClose={this.handleModalClose}
           open={this.state.openModal}
         />
         <AddVideoMobileModal
-          // addPhotoOrAlbum={this.state.addPhotoOrAlbum}
           handleModalClose={this.handleModalClose}
           open={this.state.openMobileModal}
         />
@@ -261,7 +224,7 @@ class AuthorVideos extends PureComponent {
         <div className="authors-videos-UserLoggedAddVideo-wrapper">
           {this.renderAddVideoButton()}
         </div>
-        <div className="authors-videos-wrapperBox">{this.renderVideos()}</div>
+        <div className="authors-videos-wrapper">{this.renderVideos()}</div>
       </reactFragment>
     );
   }
