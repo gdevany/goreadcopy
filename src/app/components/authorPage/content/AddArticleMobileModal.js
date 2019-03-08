@@ -123,7 +123,6 @@ class AddArticleMobileModal extends PureComponent {
   };
 
   renderAddPhoto = () => {
-    console.log(this.state.addPhotoSelected);
     return (
       <reactFragment>
         <div

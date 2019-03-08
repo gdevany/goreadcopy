@@ -61,12 +61,12 @@ class AuthorsAlbums extends PureComponent {
         {this.state.albumSelected.length > 0 ? (
           <AuthorsAlbum album={this.state.albumSelected[0]} {...this.props} />
         ) : (
-          <div className="row">
+          <reactFragment>
             {this.props.isUserLoggedIn && (
               <AddPhotoAlbumMobileButton {...this.props} />
             )}
             {this.renderAlbums()}
-          </div>
+          </reactFragment>
         )}
       </div>
     );

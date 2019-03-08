@@ -170,5 +170,85 @@ export const tempPhotoInfo = {
       desc:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eu purus sit amet eros commodo porta sed et ex. Cras feugiat ornare dolor vel auctor."
     }
+  ],
+  articles: [
+    {
+      image: "https://placeimg.com/640/480/animals",
+      title: "Great article with Really Long Title Takes Up Two Lines",
+      desc:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vitae massa laoreet, aliquam tellus quis, ullamcorper arcu. Pellentesque dignissim vel augue sed dictum. Etiam eros nibh, semper vel ex eu, dictum tristique dui. Suspendisse maximus ex in lacus feugiat viverra. Pellentesque eleifend mi ut ante luctus, ut laoreet elit consequat. Duis ligula augue, cursus sed dictum at, cursus fermentum dui. Praesent facilisis viverra mauris sodales porttitor.",
+      descTrunced: false,
+      id: 1,
+      month: "January",
+      day: "1",
+      year: "2011",
+      category: "Animals"
+    },
+    {
+      image: "https://placeimg.com/640/480/architecture",
+      title: "Great article",
+      desc:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vitae massa laoreet, aliquam tellus quis, ullamcorper arcu. Pellentesque dignissim vel augue sed dictum. Etiam eros nibh, semper vel ex eu, dictum tristique dui. Suspendisse maximus ex in lacus feugiat viverra. Pellentesque eleifend mi ut ante luctus, ut laoreet elit consequat. Duis ligula augue, cursus sed dictum at, cursus fermentum dui. Praesent facilisis viverra mauris sodales porttitor.",
+      descTrunced: false,
+      id: 2,
+      month: "January",
+      day: "2",
+      year: "2012",
+      category: "Architecture"
+    },
+    {
+      image: "https://placeimg.com/640/480/nature",
+      title: "Great article with Really Long Title Takes Up Two Lines",
+      desc:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vitae massa laoreet, aliquam tellus quis, ullamcorper arcu. Pellentesque dignissim vel augue sed dictum. Etiam eros nibh, semper vel ex eu, dictum tristique dui. Suspendisse maximus ex in lacus feugiat viverra. Pellentesque eleifend mi ut ante luctus, ut laoreet elit consequat. Duis ligula augue, cursus sed dictum at, cursus fermentum dui. Praesent facilisis viverra mauris sodales porttitor.",
+      descTrunced: false,
+      id: 3,
+      month: "January",
+      day: "3",
+      year: "2013",
+      category: "Nature"
+    },
+    {
+      image: "https://placeimg.com/640/480/people",
+      title: "Great article with Really Long Title Takes Up Two Lines",
+      desc:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vitae massa laoreet, aliquam tellus quis, ullamcorper arcu. Pellentesque dignissim vel augue sed dictum. Etiam eros nibh, semper vel ex eu, dictum tristique dui. Suspendisse maximus ex in lacus feugiat viverra. Pellentesque eleifend mi ut ante luctus, ut laoreet elit consequat. Duis ligula augue, cursus sed dictum at, cursus fermentum dui. Praesent facilisis viverra mauris sodales porttitor.",
+      descTrunced: false,
+      id: 4,
+      month: "January",
+      day: "4",
+      year: "2014",
+      category: "People"
+    }
+  ],
+  videos: [
+    {
+      id: 1,
+      videoURL: "https://vimeo.com/6363388",
+      title: "Test Video",
+      desc:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum pretium ex non tellus sodales, non vestibulum nibh vestibulum. Sed quis libero quam. Suspendisse magna purus, pulvinar ac vehicula et, mollis et ante. Nunc a elit in est hendrerit sodales vel quis eros. Proin ac tincidunt libero. Nunc ut tincidunt diam. Praesent vel massa at mauris sollicitudin ornare non eget quam. Pellentesque at viverra mauris. Donec ultrices placerat lorem vel aliquam. Nullam sed gravida ligula. Vestibulum vel viverra dolor."
+    },
+    {
+      id: 2,
+      videoURL: "https://youtu.be/C0DPdy98e4c",
+      title: "Test Video",
+      desc:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum pretium ex non tellus sodales, non vestibulum nibh vestibulum. Sed quis libero quam. Suspendisse magna purus, pulvinar ac vehicula et, mollis et ante. Nunc a elit in est hendrerit sodales vel quis eros. Proin ac tincidunt libero. Nunc ut tincidunt diam. Praesent vel massa at mauris sollicitudin ornare non eget quam. Pellentesque at viverra mauris. Donec ultrices placerat lorem vel aliquam. Nullam sed gravida ligula. Vestibulum vel viverra dolor."
+    },
+    {
+      id: 3,
+      videoURL: "https://youtu.be/EngW7tLk6R8",
+      title: "Test Video",
+      desc:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum pretium ex non tellus sodales, non vestibulum nibh vestibulum. Sed quis libero quam. Suspendisse magna purus, pulvinar ac vehicula et, mollis et ante. Nunc a elit in est hendrerit sodales vel quis eros. Proin ac tincidunt libero. Nunc ut tincidunt diam. Praesent vel massa at mauris sollicitudin ornare non eget quam. Pellentesque at viverra mauris. Donec ultrices placerat lorem vel aliquam. Nullam sed gravida ligula. Vestibulum vel viverra dolor."
+    },
+    {
+      id: 4,
+      videoURL: "https://youtu.be/ScMzIvxBSi4",
+      title: "Test Video",
+      desc:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum pretium ex non tellus sodales, non vestibulum nibh vestibulum. Sed quis libero quam. Suspendisse magna purus, pulvinar ac vehicula et, mollis et ante. Nunc a elit in est hendrerit sodales vel quis eros. Proin ac tincidunt libero. Nunc ut tincidunt diam. Praesent vel massa at mauris sollicitudin ornare non eget quam. Pellentesque at viverra mauris. Donec ultrices placerat lorem vel aliquam. Nullam sed gravida ligula. Vestibulum vel viverra dolor."
+    }
   ]
 };

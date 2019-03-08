@@ -164,11 +164,11 @@ class AuthorPagePhotos extends PureComponent {
     const { photoOrAlbumSelected, albumSelectedCounter } = this.state;
     return (
       <div className="author-page-photos-container">
-        <div className="author-page-photos-UserLoggedAddAlbumsPhotos-wrapper row">
+        <div className="author-page-photos-UserLoggedAddAlbumsPhotos-wrapper">
           {this.renderAddPhotoOrAlbumButtons()}
           {this.handleAddAlbumOrPhotoModal()}
         </div>
-        <div className="author-page-photos-pageSelector-wrapper row">
+        <div className="author-page-photos-pageSelector-wrapper">
           {this.renderPhotoOrAlbumButtons()}
         </div>
         {this.renderLightboxModal()}

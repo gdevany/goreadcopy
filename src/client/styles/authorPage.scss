@@ -413,11 +413,14 @@ $sizeTablet: 1024px;
     }
     // Photos Page Styling
     .author-page-photos-container {
+      display: flex;
+      flex-direction: column;
       .author-page-photos-pageSelector-wrapper {
-        max-width: $maxWidth;
-        margin: $overRidePad2 $overRidePad;
+        margin-top: $overRidePad2;
+        margin-bottom: $overRidePad2;
         text-align: right;
-        @media all and (min-width: 600px) {
+        overflow: auto;
+        @media all and (min-width: $sizeMobile) {
           text-align: left;
         }
       }
@@ -432,8 +435,8 @@ $sizeTablet: 1024px;
         cursor: pointer;
       }
       .author-page-photos-UserLoggedAddAlbumsPhotos-wrapper {
-        max-width: $maxWidth;
-        margin: $overRidePad2 $overRidePad;
+        margin-bottom: $overRidePad2;
+        overflow: auto;
       }
       .author-page-photos-button-selected {
         color: #4261a5;
@@ -448,8 +451,8 @@ $sizeTablet: 1024px;
       }
       .authors-albums-wrapper,
       .author-page-photos-wrapper {
-        max-width: $maxWidth;
-        margin: $overRidePad;
+        margin-right: -0.625rem;
+        margin-left: -0.625rem;
       }
       .authors-albums-img {
         object-fit: cover;
@@ -501,6 +504,8 @@ $sizeTablet: 1024px;
         color: #232323;
         font-weight: bold;
         font-size: 18px;
+        padding-left: $overRidePad;
+        padding-right: $overRidePad;
         @media all and (min-width: 600px) {
           font-size: 21px;
         }
@@ -510,6 +515,8 @@ $sizeTablet: 1024px;
         color: #000000;
         font-size: 15px;
         line-height: 1.33;
+        padding-left: $overRidePad;
+        padding-right: $overRidePad;
         @media all and (min-width: 600px) {
           font-size: 16px;
           line-height: 1.36;
@@ -547,6 +554,8 @@ $sizeTablet: 1024px;
     }
     // Videos Page Styling
     .authors-videos-container {
+      display: flex;
+      flex-direction: column;
       .authors-videos-addVideoButton {
         border: 1px solid #707070;
         width: 178px;
@@ -558,17 +567,13 @@ $sizeTablet: 1024px;
         cursor: pointer;
       }
       .authors-videos-UserLoggedAddVideo-wrapper {
-        max-width: $maxWidth;
-        height: 40px;
-        margin-top: 1em;
-        padding: 0 1em;
+        margin-bottom: $overRidePad2;
+        overflow: auto;
         @media all and (max-width: 600px) {
           margin-bottom: -10px;
         }
       }
-      .authors-videos-wrapperBox {
-        padding: 0 1em 1em;
-        max-width: $maxWidth;
+      .authors-videos-wrapper {
       }
       .authors-videos-box {
         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
@@ -643,9 +648,12 @@ $sizeTablet: 1024px;
     }
     // Articles Page Styling
     .author-articles-container {
+      display: flex;
+      flex-direction: column;
       .authors-articles-wrapper {
-        max-width: $maxWidth;
         margin-top: $overRidePad2;
+        margin-right: -$overRidePad;
+        margin-left: -$overRidePad;
         @media all and (max-width: $sizeMobile) {
           margin-top: $overRidePad;
         }
@@ -697,9 +705,8 @@ $sizeTablet: 1024px;
         cursor: pointer;
       }
       .authors-articles-UserLoggedAddArticle-wrapper {
-        max-width: $maxWidth;
-        margin-top: $overRidePad2;
-        padding: 0 $overRidePad2;
+        overflow: auto;
+        margin-bottom: $overRidePad2;
       }
     }
   }
