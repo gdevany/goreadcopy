@@ -89,7 +89,7 @@ class AddArticleModal extends PureComponent {
         <div className="addArticleModal-modalAddPhotoText">Add Your Photo</div>
         <div className="addArticleModal-uploadPhotoButton-wrapper">
           <button
-            className="addArticleModal-modalMediumButton text-center"
+            className="addArticleModal-modalButton mediumButton text-center"
             onClick={e => {
               this.handleUploadPhoto(e);
             }}
@@ -112,7 +112,7 @@ class AddArticleModal extends PureComponent {
             {this.state.categorySelected}
           </div>
           <span className="addArticleModal-downArrow-wrapper">
-            <i className="addArticleModal-downArrow" />
+            <i className="downArrow" />
           </span>
         </div>
         {this.state.categoryDropdownClicked === true &&
@@ -129,7 +129,7 @@ class AddArticleModal extends PureComponent {
           onClick={() => this.handleUploadSelected(category)}
           key={category}
         >
-          <div className="addArticleModal-modalText">{category}</div>
+          <div className="">{category}</div>
         </div>
       );
     });
@@ -140,7 +140,7 @@ class AddArticleModal extends PureComponent {
     return (
       <reactFragment>
         <div className="addArticleModal-articleTextBox-wrapper">
-          <div className="addArticleModal-articleTitle">Write Your Article</div>
+          <div className="articleTitle">Write Your Article</div>
         </div>
       </reactFragment>
     );
@@ -151,7 +151,7 @@ class AddArticleModal extends PureComponent {
       <reactFragment>
         <div className="addArticleModal-draftOrSubmitButton-wrapper">
           <button
-            className="addArticleModal-modalMediumButton addArticleModal-draftOrSubmitButton text-center"
+            className="addArticleModal-modalButton mediumButton text-center"
             onClick={e => {
               this.handleSaveDraft(e);
             }}
@@ -159,7 +159,7 @@ class AddArticleModal extends PureComponent {
             Save Draft
           </button>
           <button
-            className="addArticleModal-modalMediumButton addArticleModal-draftOrSubmitButton text-center"
+            className="addArticleModal-modalButton mediumButton text-center"
             onClick={e => {
               this.handleSubmit(e);
             }}

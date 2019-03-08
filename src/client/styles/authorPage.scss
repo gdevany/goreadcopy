@@ -706,6 +706,8 @@ $sizeTablet: 1024px;
 }
 
 // Modal Styling
+//------------------------
+//Multi-use defaults
 .addPhotoAlbumModal-modalDialogBox,
 .addPhotoAlbumMobileModal-modalDialogBox,
 .authorPageLightboxModal-modalDialogBox,
@@ -725,30 +727,6 @@ $sizeTablet: 1024px;
   width: 100%;
   padding: 25px;
 }
-.addPhotoAlbumModal-modalTitle,
-.addVideoModal-modalTitle,
-.addArticleModal-modalTitle {
-  font-size: 31px !important;
-  padding: 1em 0 1.2em !important;
-}
-.addPhotoAlbumModal-modalInputWrapper,
-.addVideoModal-modalInputWrapper,
-.addPhotoAlbumModal-modalInputWrapper {
-  padding-right: 25px;
-  background-color: white;
-  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
-}
-.addVideoModal-modalUploadOrUrlButtons-wrapper {
-  margin: 50px 0;
-  display: flex;
-}
-.addPhotoAlbumModal-modalAddPhotoText {
-  font-size: 21px;
-}
-.addPhotoAlbumModal-modalPlusSign,
-.addVideoModal-modalPlusSign {
-  font-size: 86px;
-}
 .addPhotoAlbumMobileModal-modalPaper,
 .addVideoMobileModal-modalPaper,
 .addArticleMobileModal-modalPaper {
@@ -756,234 +734,38 @@ $sizeTablet: 1024px;
   width: 100%;
   padding: 30px 20px;
 }
-.addVideoModal-uploadOrUrlButton {
-  padding: 14px 25px;
-  height: 56px;
-  border: 1px solid #cccccc;
-  font-size: 19px;
-  color: #646464;
-  cursor: pointer;
-  text-align: center;
+.addPhotoAlbumModal-modalTitle,
+.addVideoModal-modalTitle,
+.addArticleModal-modalTitle {
+  font-size: 31px !important;
+  padding: 1em 0 1.2em !important;
+}
+.addVideoModal-modalMultiInputBox-wrapper,
+.addPhotoAlbumModal-modalMultiInputBox-wrapper {
   background-color: white;
-  &.blueBack {
-    background-color: #4261a5 !important;
-    color: white !important;
-  }
-}
-.addVideoModal-uploadButton {
-  width: 137px;
-  border-radius: 30px 0 0 30px;
-}
-.addVideoModal-pasteUrlButton {
-  width: 163px;
-  border-radius: 0 30px 30px 0;
-}
-.addVideoModal-addVideoUrlButton-wrapper,
-.addVideoMobileModal-addVideoUrlButton-wrapper {
-  height: 52px;
-  margin: 18px 0;
-  @media all and (min-width: $sizeMobile) {
-    height: 73px;
-    margin: 42px 0 60px;
-  }
-}
-.addVideoModal-addVideoUrlButton,
-.addVideoMobileModal-addVideoUrlButton {
-  width: 126px;
-  height: 50px;
-  float: right;
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  background-color: #4261a5;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
-  border: solid 2px white;
-  @media all and (min-width: $sizeMobile) {
-    width: 350px;
-    height: 71px;
+  & .modalMultiInputBox {
+    display: flex;
+    align-items: center;
     font-size: 24px;
-  }
-}
-.addArticleModal-subTitle {
-  font-size: 24px;
-  color: #232323;
-  line-height: 1.38;
-  opacity: 0.67;
-}
-.addArticleModal-modalAddPhotoText {
-  font-size: 21px;
-  margin: 22px 0 10px;
-  font-weight: 600;
-}
-.addArticleModal-uploadPhotoButton-wrapper {
-  margin: 10px 0 33px;
-}
-.addArticleModal-draftOrSubmitButton-wrapper,
-.addArticleMobileModal-draftOrSubmitButton-wrapper {
-  margin: 50px 0;
-  display: flex;
-  justify-content: flex-end;
-  @media all and (max-width: $sizeMobile) {
-    margin: 14px 0;
-  }
-}
-.addArticleModal-modalMediumButton,
-.addArticleMobileModal-modalMediumButton {
-  width: 240px;
-  height: 50px;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  background-color: #4261a5;
-  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
-  border: solid 2px white;
-  @media all and (max-width: $sizeMobile) {
-    width: 126px;
-    font-size: 18px;
-  }
-}
-.addArticleModal-draftOrSubmitButton,
-.addArticleMobileModal-draftOrSubmitButton {
-  margin-left: 29px;
-  @media all and (max-width: $sizeMobile) {
-    margin-left: 14px;
-  }
-}
-.addArticleModal-modalCategoryTextBox {
-  width: 300px !important;
-  margin: 1em 0 2em !important;
-}
-.addArticleModal-modalCategoryText {
-  font-size: 16px;
-  font-weight: bold;
-  color: #959595;
-  width: 248px;
-  padding-left: 25px;
-  align-self: center;
-}
-.addArticleModal-articleTextBox-wrapper,
-.addArticleMobileModal-articleTextBox-wrapper {
-  width: 100%;
-  height: 509px;
-  background-color: white;
-  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.2);
-  border: solid 1px #e3e3e3;
-  @media all and (max-width: $sizeMobile) {
-    height: 165px;
-  }
-}
-.addArticleModal-articleTitle,
-.addArticleMobileModal-articleTitle {
-  font-size: 21px;
-  padding: 29px 0 0 29px;
-  font-weight: 600;
-  color: #343434;
-}
-.addPhotoAlbumModal-imageBox,
-.addPhotoAlbumMobileModal-imageBox {
-  margin: 0.5em 0;
-}
-.authorPageLightboxModal-modalPaper {
-  background-color: transparent !important;
-  width: 100%;
-  padding: 40px;
-  box-shadow: none !important;
-  @media all and (max-width: 600px) {
-    padding: 40px 0;
-    margin-left: -47px;
-    width: 100vw;
-  }
-}
-.authorPageLightboxModal-image {
-  object-fit: cover;
-  width: 100%;
-  height: auto;
-}
-.authorPageLightboxModal-closeImage {
-  box-sizing: border-box;
-  width: 39px;
-  height: 39px;
-  border: 2px solid white;
-  position: absolute;
-  top: 0;
-  right: 0;
-  font-size: 34px;
-  font-weight: 600;
-  color: white;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  cursor: pointer;
-  @media all and (max-width: 600px) {
-    // border: 2px solid #232323;
-    // color: #232323;
-    margin-right: -35px;
-  }
-}
-.authorPageLightboxModal-nextImage {
-  position: absolute;
-  top: 366px;
-  right: 0;
-  border-top: 15px solid transparent;
-  border-left: 30px solid white;
-  border-bottom: 15px solid transparent;
-  cursor: pointer;
-  @media all and (max-width: 600px) {
-    display: none;
-  }
-}
-.authorPageLightboxModal-lastImage {
-  position: absolute;
-  top: 366px;
-  left: 0;
-  width: 0;
-  height: 0;
-  border-top: 15px solid transparent;
-  border-right: 30px solid white;
-  border-bottom: 15px solid transparent;
-  cursor: pointer;
-  @media all and (max-width: 600px) {
-    display: none;
-  }
-}
-.authorPageLightboxModal-imageDesc {
-  width: 100%;
-  background-color: white;
-  height: auto;
-  padding: 23px;
-  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
-  color: #232323;
-  font-size: 24px;
-  line-height: 1.38;
-  @media all and (max-width: 600px) {
-    font-size: 15px;
-    padding: 4px 17px;
-  }
-}
-.addPhotoAlbumModal-modalMultiInputBox,
-.addVideoModal-modalMultiInputBox {
-  display: flex;
-  align-items: center;
-  font-size: 24px;
-  cursor: pointer;
-  color: #777777;
-  width: 100%;
-  height: 70px;
-  background-color: #ffffff;
-  margin: 0;
-  padding-left: 10px;
-  border-bottom: dashed 1px #d9d9d9;
-  &.boldIt input {
-    font-weight: bold !important;
-  }
-  & ::placeholder {
-    color: rgba(0, 0, 0, 0.3);
-  }
-  & input,
-  textarea {
-    font-size: 24px !important;
+    cursor: pointer;
+    color: #777777;
+    width: 100%;
+    height: 70px;
+    background-color: #ffffff;
+    margin: 0;
+    padding-left: 10px;
+    border-bottom: dashed 1px #d9d9d9;
+    &.boldIt input {
+      font-weight: bold !important;
+    }
+    & ::placeholder {
+      color: rgba(0, 0, 0, 0.3);
+    }
+    & input,
+    textarea {
+      font-size: 24px !important;
+    }
   }
 }
 .addVideoModal-modalInputBox,
@@ -1062,8 +844,8 @@ $sizeTablet: 1024px;
     overflow: auto;
   }
 }
-.addVideoModal-modalAddPhoto,
-.addPhotoAlbumModal-modalAddPhoto {
+.addVideoModal-modalAddPhotoSquare,
+.addPhotoAlbumModal-modalAddPhotoSquare {
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
@@ -1082,6 +864,15 @@ $sizeTablet: 1024px;
     display: flex;
     align-items: center;
   }
+  & .modalPlusSign {
+    font-size: 86px;
+  }
+  & .modalAddPhotoText {
+    font-size: 21px;
+  }
+  & .imageBox {
+    margin: 0.5em 0;
+  }
 }
 .addVideoMobileModal-downArrow-wrapper,
 .addArticleModal-downArrow-wrapper,
@@ -1092,13 +883,203 @@ $sizeTablet: 1024px;
   align-items: center;
   justify-content: center;
   display: flex;
-  & .addVideoMobileModal-downArrow,
-  & .addArticleModal-downArrow,
-  & .addArticleMobileModal-downArrow {
+  & .downArrow {
     border: solid #959595;
     border-width: 0 2px 2px 0;
     display: inline-block;
     padding: 7px;
     transform: rotate(45deg);
+  }
+}
+.addVideoModal-modalButton,
+.addVideoMobileModal-modalButton,
+.addArticleModal-modalButton,
+.addArticleMobileModal-modalButton {
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #4261a5;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+  border: solid 2px white;
+  &.smallButton {
+    width: 126px;
+    height: 50px;
+    font-size: 18px;
+  }
+  &.mediumButton {
+    width: 240px;
+    height: 50px;
+    font-size: 16px;
+  }
+  &.largeButton {
+    width: 350px;
+    height: 71px;
+    font-size: 24px;
+  }
+}
+
+// Modal Custom Styling
+.addVideoModal-modalUploadOrUrlButtons-wrapper {
+  margin: 50px 0;
+  display: flex;
+  & .addVideoModal-uploadOrUrlButton {
+    padding: 14px 25px;
+    height: 56px;
+    border: 1px solid #cccccc;
+    font-size: 19px;
+    color: #646464;
+    cursor: pointer;
+    text-align: center;
+    background-color: white;
+    &.blueBack {
+      background-color: #4261a5 !important;
+      color: white !important;
+    }
+    &.addVideoModal-uploadButton {
+      width: 137px;
+      border-radius: 30px 0 0 30px;
+    }
+    &.addVideoModal-pasteUrlButton {
+      width: 163px;
+      border-radius: 0 30px 30px 0;
+    }
+  }
+}
+.addVideoModal-addVideoUrlButton-wrapper,
+.addVideoMobileModal-addVideoUrlButton-wrapper {
+  margin: 18px 0;
+  display: flex;
+  justify-content: flex-end;
+  @media all and (min-width: $sizeMobile) {
+    margin: 42px 0 60px;
+  }
+}
+.addArticleModal-draftOrSubmitButton-wrapper,
+.addArticleMobileModal-draftOrSubmitButton-wrapper {
+  margin: 14px 0;
+  display: flex;
+  justify-content: flex-end;
+  @media all and (min-width: $sizeMobile) {
+    margin: 50px 0;
+  }
+  & .mediumButton {
+    margin-left: 29px;
+  }
+  & .smallButton {
+    margin-left: 14px;
+  }
+}
+.addArticleModal-uploadPhotoButton-wrapper {
+  margin: 10px 0 33px;
+}
+.addArticleModal-subTitle {
+  font-size: 24px;
+  color: #232323;
+  line-height: 1.38;
+  opacity: 0.67;
+}
+.addArticleModal-modalAddPhotoText {
+  font-size: 21px;
+  margin: 22px 0 10px;
+  font-weight: 600;
+}
+.addArticleModal-modalCategoryTextBox {
+  width: 300px !important;
+  margin: 1em 0 2em !important;
+}
+.addArticleModal-articleTextBox-wrapper,
+.addArticleMobileModal-articleTextBox-wrapper {
+  width: 100%;
+  height: 165px;
+  background-color: white;
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.2);
+  border: solid 1px #e3e3e3;
+  & .articleTitle {
+    font-size: 21px;
+    padding: 29px 0 0 29px;
+    font-weight: 600;
+    color: #343434;
+  }
+  @media all and (min-width: $sizeMobile) {
+    height: 509px;
+  }
+}
+
+// Lightbox Styling
+.authorPageLightboxModal-modalPaper {
+  background-color: transparent !important;
+  width: 100%;
+  padding: 40px;
+  box-shadow: none !important;
+  @media all and (max-width: 600px) {
+    padding: 40px 0;
+    margin-left: -47px;
+    width: 100vw;
+  }
+}
+.authorPageLightboxModal-image {
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+}
+.authorPageLightboxModal-closeImage {
+  box-sizing: border-box;
+  width: 39px;
+  height: 39px;
+  border: 2px solid white;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 34px;
+  font-weight: 600;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  cursor: pointer;
+  @media all and (max-width: 600px) {
+    // border: 2px solid #232323;
+    // color: #232323;
+    margin-right: -35px;
+  }
+}
+.authorPageLightboxModal-nextImage {
+  position: absolute;
+  top: 366px;
+  right: 0;
+  border-top: 15px solid transparent;
+  border-left: 30px solid white;
+  border-bottom: 15px solid transparent;
+  cursor: pointer;
+  @media all and (max-width: 600px) {
+    display: none;
+  }
+}
+.authorPageLightboxModal-lastImage {
+  position: absolute;
+  top: 366px;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-top: 15px solid transparent;
+  border-right: 30px solid white;
+  border-bottom: 15px solid transparent;
+  cursor: pointer;
+  @media all and (max-width: 600px) {
+    display: none;
+  }
+}
+.authorPageLightboxModal-imageDesc {
+  width: 100%;
+  background-color: white;
+  height: auto;
+  padding: 23px;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+  color: #232323;
+  font-size: 24px;
+  line-height: 1.38;
+  @media all and (max-width: 600px) {
+    font-size: 15px;
+    padding: 4px 17px;
   }
 }

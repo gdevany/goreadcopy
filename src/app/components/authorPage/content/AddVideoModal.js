@@ -32,7 +32,7 @@ class AddVideoModal extends PureComponent {
           contentStyle={contentStyle}
           autoScrollBodyContent={true}
         >
-          <div className="addPhotoAlbumModal-modalInputWrapper">
+          <div className="addPhotoAlbumModal-modalMultiInputBox-wrapper">
             {this.renderAddAlbumTitle()}
             {this.renderAddDesc()}
           </div>
@@ -62,7 +62,7 @@ class AddVideoModal extends PureComponent {
   renderAddAlbumTitle = () => {
     return (
       <reactFragment>
-        <div className="addVideoModal-modalMultiInputBox boldIt">
+        <div className="modalMultiInputBox boldIt">
           <input
             className="addVideoModal-modalInputBoxText"
             type="text"
@@ -78,7 +78,7 @@ class AddVideoModal extends PureComponent {
   renderAddDesc = () => {
     return (
       <reactFragment>
-        <div className="addVideoModal-modalMultiInputBox addVideoModal-modalTextArea">
+        <div className="modalMultiInputBox addVideoModal-modalTextArea">
           <textarea
             className="addVideoModal-modalInputBoxText"
             rows={3}
@@ -116,17 +116,13 @@ class AddVideoModal extends PureComponent {
     return (
       <reactFragment>
         <div
-          className="addVideoModal-modalAddPhoto"
+          className="addVideoModal-modalAddPhotoSquare"
           onClick={() => this.handleAddPhotoSelected()}
         >
           {this.state.addPhotoSelected === false ? (
             <reactFragment>
-              <div className="addPhotoAlbumModal-modalPlusSign text-center">
-                +
-              </div>
-              <div className="addVideoModal-modalAddPhotoText text-center">
-                Add Photo
-              </div>
+              <div className="modalPlusSign text-center">+</div>
+              <div className="modalAddPhotoText text-center">Add Photo</div>
             </reactFragment>
           ) : (
             <div className="modalflex">Click to choose different photo</div>
@@ -142,7 +138,7 @@ class AddVideoModal extends PureComponent {
   renderTheAddedPhoto = () => {
     return (
       <div className="row">
-        <div className="addPhotoAlbumModal-imageBox">
+        <div className="imageBox">
           <img src={this.state.genericImage} alt="image" />
         </div>
       </div>
@@ -170,7 +166,7 @@ class AddVideoModal extends PureComponent {
     return (
       <div className="addVideoModal-addVideoUrlButton-wrapper">
         <button
-          className="addVideoModal-addVideoUrlButton text-center"
+          className="addVideoModal-modalButton largeButton text-center"
           onClick={e => {
             this.handleAddVideoURL(e);
           }}
