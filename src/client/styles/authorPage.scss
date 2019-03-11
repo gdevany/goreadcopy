@@ -388,40 +388,82 @@ $sizeTablet: 1024px;
       display: flex;
       flex-direction: column;
       .authors-books-wrapper {
-        padding: 1em;
+        padding: 18px 0;
         border-radius: 5px;
         box-shadow: rgba(222, 222, 222, 0.5) 0px 4px 20px 0px;
+        @media all and (min-width: $sizeMobile) {
+          padding: 35px 18px 25px;
+        }
         @extend %clearfix;
         & .authors-books-bookImage {
           position: relative;
           text-align: center;
         }
-        & .authors-books-bookDesc {
-          line-height: 1.3;
+        .authors-books-bookInfo-wrapper {
+          display: flex;
+          flex-direction: column;
+          & .authors-books-book-title {
+            font-size: 20px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          & .authors-books-bookDesc {
+            line-height: 1.3;
+            & .authors-books-lighten {
+              opacity: 0.8;
+            }
+            & .authors-books-a-span {
+              text-decoration: underline;
+              color: #4261a5;
+            }
+          }
+          & .authors-books-price-wrapper {
+            max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            @media all and (min-width: $sizeMobile) {
+              align-self: flex-end;
+            }
+            @extend %clearfix;
+            & .authors-books-priceLine {
+              display: flex;
+              justify-content: center;
+
+              & .authors-books-borderRight {
+                border-right: 1px solid rgba(112, 112, 112, 0.5);
+                padding-right: 16px;
+                text-align: right;
+                @media all and (min-width: $sizeMobile) {
+                  padding-right: 29px;
+                }
+              }
+              & .authors-page-litcoin-img {
+                width: 25px;
+                margin: 0 10px 5px 10px;
+                text-align: left;
+                @media all and (min-width: $sizeMobile) {
+                  margin: 0 10px 5px 29px;
+                }
+              }
+            }
+            & .authors-books-a2cButton-wrapper {
+              margin-top: 9px;
+              @extend %clearfix;
+              & .authors-books-a2cButton {
+                width: 100%;
+                font-size: 16px;
+                color: white;
+                box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+                border: solid 2px var(--white);
+                background-color: #4261a5;
+                font-weight: bold;
+                padding: 0.5em 1em;
+              }
+            }
+          }
         }
-      }
-      .authors-books-a-span {
-        text-decoration: underline;
-        color: #4261a5;
-      }
-      .authors-books-lighten {
-        opacity: 0.8;
-      }
-      .authors-books-borderRight {
-        border-right: 1px solid rgba(112, 112, 112, 0.5);
-        padding-right: 1.5em;
-        text-align: right;
-      }
-      .authors-books-litCoinsPadLeft {
-        margin-left: 10px;
-      }
-      .authors-books-a2cButton {
-        margin-top: 1em;
-        width: 100%;
-        font-size: 16px;
-        background-color: #4261a5;
-        font-weight: bold;
-        padding: 0.5em 1em;
       }
     }
     // Photos Page Styling

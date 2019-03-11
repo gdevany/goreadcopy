@@ -47,36 +47,37 @@ class AuthorsBooks extends PureComponent {
               </Link>
             </div>
           </div>
-          <div className="small-8 columns">
-            <h6>
-              <strong>
-                {book.title ? this.handleTruncInfo(book.title, bookTitleLimit) : null}
-              </strong>
-            </h6>
+          <div className="small-8 columns authors-books-bookInfo-wrapper">
+            <div className="authors-books-book-title">
+              {book.title
+                ? this.handleTruncInfo(book.title, bookTitleLimit)
+                : null}
+            </div>
             <p className="authors-books-bookDesc">
               {tempConsts.description
                 ? this.renderBookDesc(tempConsts.description, book.id)
                 : null}
             </p>
-            <div className="row">
-              <div className="small-4 small-offset-1 large-offset-4 columns authors-books-borderRight">
-                <strong>{tempConsts.price ? tempConsts.price : null}</strong>
+            <div className="authors-books-price-wrapper">
+              <div className="authors-books-priceLine">
+                <div className="authors-books-borderRight">
+                  <strong>{tempConsts.price ? tempConsts.price : null}</strong>
+                </div>
+                <div>
+                  <img
+                    className="authors-page-litcoin-img"
+                    src="/image/litcoin.png"
+                  />
+                  <strong>
+                    {tempConsts.litCoins ? tempConsts.litCoins : null}
+                  </strong>
+                </div>
               </div>
-              <div className="small-7 large-4 columns text-left">
-                <img className="litcoin-img" src="/image/litcoin.png" />
-
-                <strong className="authors-books-litCoinsPadLeft">
-                  {tempConsts.litCoins ? tempConsts.litCoins : null}
-                </strong>
+              <div className="authors-books-a2cButton-wrapper">
+                <button href="#" className="authors-books-a2cButton">
+                  Add to Cart
+                </button>
               </div>
-            </div>
-            <div className="small-12 large-7 large-offset-5 columns">
-              <a
-                href="#"
-                className="authors-books-a2cButton button float-right mx-3"
-              >
-                Add to Cart
-              </a>
             </div>
           </div>
         </div>
