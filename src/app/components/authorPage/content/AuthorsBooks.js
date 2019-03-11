@@ -4,9 +4,6 @@ import { Books } from "../../../redux/actions";
 import R from "ramda";
 import { Link } from "react-router";
 
-//NOTE !! : AuthorPageContent (switch) default changed to AuhorsPageStore
-//NOTE !! : Change default back to AuthorPageWall
-
 const { getBookRecommendations } = Books;
 
 // This component currently returns random books.
@@ -34,51 +31,16 @@ class AuthorsBooks extends PureComponent {
     this.props.getBookRecommendations(4);
   };
 
-  renderBookDesc = (text, id) => {
-    const { bookDescLimit, isDescTrunced, bookIdClicked } = this.state;
-
-    return text.length < bookDescLimit ? (
-      text
-    ) : (
-      <reactFragment>
-        <span className="authors-books-lighten">
-          {bookIdClicked === id && isDescTrunced !== true
-            ? text
-            : this.truncInfo(text, bookDescLimit)}
-        </span>
-        <a
-          className="authors-books-a-span"
-          onClick={() => this.handleReadMoreLess(id)}
-        >
-          {bookIdClicked === id && isDescTrunced !== true ? (
-            <span>Read less</span>
-          ) : (
-            <span>Read more</span>
-          )}
-        </a>
-      </reactFragment>
-    );
-  };
-
-  handleReadMoreLess = id => {
-    let truncIt = this.state.isDescTrunced;
-    this.setState({ isDescTrunced: !truncIt, bookIdClicked: id });
-  };
-
-  truncInfo = (text, limit) => {
-    return text.length >= limit ? `${text.slice(0, limit)}...` : text;
-  };
-
   renderBooks(books) {
     const { bookTitleLimit } = this.state;
     return R.take(4, books).map(book => {
       return (
-        <div className="row box authors-books-wrapperBox" key={book.id}>
+        <div className="authors-books-wrapper" key={book.id}>
           <div className="small-4 columns" key={book.id}>
             <div
               data-tip
               data-for={book.slug}
-              className="authors-books-bookImage book-container"
+              className="authors-books-bookImage"
             >
               <Link to={`/book/${book.slug}`}>
                 <img className="book" src={book.imageUrl} />
@@ -88,7 +50,7 @@ class AuthorsBooks extends PureComponent {
           <div className="small-8 columns">
             <h6>
               <strong>
-                {book.title ? this.truncInfo(book.title, bookTitleLimit) : null}
+                {book.title ? this.handleTruncInfo(book.title, bookTitleLimit) : null}
               </strong>
             </h6>
             <p className="authors-books-bookDesc">
@@ -97,7 +59,7 @@ class AuthorsBooks extends PureComponent {
                 : null}
             </p>
             <div className="row">
-              <div className="small-4 small-offset-1 large-offset-4 columns text-right authors-books-borderRight">
+              <div className="small-4 small-offset-1 large-offset-4 columns authors-books-borderRight">
                 <strong>{tempConsts.price ? tempConsts.price : null}</strong>
               </div>
               <div className="small-7 large-4 columns text-left">
@@ -122,18 +84,52 @@ class AuthorsBooks extends PureComponent {
     });
   }
 
+  renderBookDesc = (text, id) => {
+    const { bookDescLimit, isDescTrunced, bookIdClicked } = this.state;
+    return text.length < bookDescLimit ? (
+      text
+    ) : (
+      <reactFragment>
+        <span className="authors-books-lighten">
+          {bookIdClicked === id && isDescTrunced !== true
+            ? text
+            : this.handleTruncInfo(text, bookDescLimit)}
+        </span>
+        <a
+          className="authors-books-a-span"
+          onClick={() => this.handleReadMoreLess(id)}
+        >
+          {bookIdClicked === id && isDescTrunced !== true ? (
+            <span>Read less</span>
+          ) : (
+            <span>Read more</span>
+          )}
+        </a>
+      </reactFragment>
+    );
+  };
+
+  handleReadMoreLess = id => {
+    let truncIt = this.state.isDescTrunced;
+    this.setState({ isDescTrunced: !truncIt, bookIdClicked: id });
+  };
+
+  handleTruncInfo = (text, limit) => {
+    return text.length >= limit ? `${text.slice(0, limit)}...` : text;
+  };
+
   render() {
     const { recommended } = this.props;
     const books = recommended ? recommended.books : null;
 
     return (
-      <div className="container">
+      <reactFragment>
         {books ? (
           this.renderBooks(books)
         ) : (
           <div className="loading-animation" />
         )}
-      </div>
+      </reactFragment>
     );
   }
 }
