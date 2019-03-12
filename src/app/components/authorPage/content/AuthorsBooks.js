@@ -4,9 +4,6 @@ import { Books } from "../../../redux/actions";
 import R from "ramda";
 import { Link } from "react-router";
 
-//NOTE !! : AuthorPageContent (switch) default changed to AuhorsPageStore
-//NOTE !! : Change default back to AuthorPageWall
-
 const { getBookRecommendations } = Books;
 
 // This component currently returns random books.
@@ -24,7 +21,7 @@ class AuthorsBooks extends PureComponent {
     super(props);
     this.state = {
       bookTitleLimit: 40,
-      bookDescLimit: 100,
+      bookDescLimit: 140,
       isDescTrunced: true,
       bookIdClicked: 0
     };
@@ -34,20 +31,76 @@ class AuthorsBooks extends PureComponent {
     this.props.getBookRecommendations(4);
   };
 
+  renderBooks(books) {
+    const { bookTitleLimit } = this.state;
+    return R.take(4, books).map(book => {
+      return (
+        <div className="authors-books-wrapper" key={book.id}>
+          <div className="small-4 columns" key={book.id}>
+            <div
+              data-tip
+              data-for={book.slug}
+              className="authors-books-bookImage"
+            >
+              <Link to={`/book/${book.slug}`}>
+                <img className="book" src={book.imageUrl} />
+              </Link>
+            </div>
+          </div>
+          <div className="small-8 columns authors-books-bookInfo-wrapper">
+            <div className="authors-books-book-title">
+              {book.title
+                ? this.handleTruncInfo(book.title, bookTitleLimit)
+                : null}
+            </div>
+            <p className="authors-books-bookDesc">
+              {tempConsts.description
+                ? this.renderBookDesc(tempConsts.description, book.id)
+                : null}
+            </p>
+            <div className="authors-books-price-wrapper">
+              <div className="authors-books-priceLine">
+                <div className="authors-books-currency-cost">
+                  {tempConsts.price ? tempConsts.price : null}
+                </div>
+                <div className="authors-books-litcoinCost">
+                  <img
+                    className="authors-page-litcoin-img"
+                    src="/image/litcoin.png"
+                  />
+
+                  {tempConsts.litCoins ? tempConsts.litCoins : null}
+                </div>
+              </div>
+              <div className="authors-books-a2cButton-wrapper">
+                <button
+                  href="#"
+                  className="authors-books-a2cButton"
+                  onClick={e => this.handleAdd2Cart(e)}
+                >
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    });
+  }
+
   renderBookDesc = (text, id) => {
     const { bookDescLimit, isDescTrunced, bookIdClicked } = this.state;
-
     return text.length < bookDescLimit ? (
       text
     ) : (
       <reactFragment>
-        <span className="authors-books-lighten">
+        <span className="">
           {bookIdClicked === id && isDescTrunced !== true
             ? text
-            : this.truncInfo(text, bookDescLimit)}
+            : this.handleTruncInfo(text, bookDescLimit)}
         </span>
         <a
-          className="authors-books-a-span"
+          className="authors-books-read-moreOrLess"
           onClick={() => this.handleReadMoreLess(id)}
         >
           {bookIdClicked === id && isDescTrunced !== true ? (
@@ -65,75 +118,28 @@ class AuthorsBooks extends PureComponent {
     this.setState({ isDescTrunced: !truncIt, bookIdClicked: id });
   };
 
-  truncInfo = (text, limit) => {
+  handleTruncInfo = (text, limit) => {
     return text.length >= limit ? `${text.slice(0, limit)}...` : text;
   };
 
-  renderBooks(books) {
-    const { bookTitleLimit } = this.state;
-    return R.take(4, books).map(book => {
-      return (
-        <div className="row box authors-books-wrapperBox" key={book.id}>
-          <div className="small-4 columns" key={book.id}>
-            <div
-              data-tip
-              data-for={book.slug}
-              className="authors-books-bookImage book-container"
-            >
-              <Link to={`/book/${book.slug}`}>
-                <img className="book" src={book.imageUrl} />
-              </Link>
-            </div>
-          </div>
-          <div className="small-8 columns">
-            <h6>
-              <strong>
-                {book.title ? this.truncInfo(book.title, bookTitleLimit) : null}
-              </strong>
-            </h6>
-            <p className="authors-books-bookDesc">
-              {tempConsts.description
-                ? this.renderBookDesc(tempConsts.description, book.id)
-                : null}
-            </p>
-            <div className="row">
-              <div className="small-4 small-offset-1 large-offset-4 columns text-right authors-books-borderRight">
-                <strong>{tempConsts.price ? tempConsts.price : null}</strong>
-              </div>
-              <div className="small-7 large-4 columns text-left">
-                <img className="litcoin-img" src="/image/litcoin.png" />
-
-                <strong className="authors-books-litCoinsPadLeft">
-                  {tempConsts.litCoins ? tempConsts.litCoins : null}
-                </strong>
-              </div>
-            </div>
-            <div className="small-12 large-7 large-offset-5 columns">
-              <a
-                href="#"
-                className="authors-books-a2cButton button float-right mx-3"
-              >
-                Add to Cart
-              </a>
-            </div>
-          </div>
-        </div>
-      );
-    });
-  }
+  // TODO
+  handleAdd2Cart = e => {
+    e.preventDefault();
+    alert("TODO: Add to Cart button pushed");
+  };
 
   render() {
     const { recommended } = this.props;
     const books = recommended ? recommended.books : null;
 
     return (
-      <div className="container">
+      <reactFragment>
         {books ? (
           this.renderBooks(books)
         ) : (
           <div className="loading-animation" />
         )}
-      </div>
+      </reactFragment>
     );
   }
 }
