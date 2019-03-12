@@ -21,7 +21,7 @@ class AuthorsBooks extends PureComponent {
     super(props);
     this.state = {
       bookTitleLimit: 40,
-      bookDescLimit: 100,
+      bookDescLimit: 140,
       isDescTrunced: true,
       bookIdClicked: 0
     };
@@ -60,21 +60,24 @@ class AuthorsBooks extends PureComponent {
             </p>
             <div className="authors-books-price-wrapper">
               <div className="authors-books-priceLine">
-                <div className="authors-books-borderRight">
-                  <strong>{tempConsts.price ? tempConsts.price : null}</strong>
+                <div className="authors-books-currency-cost">
+                  {tempConsts.price ? tempConsts.price : null}
                 </div>
-                <div>
+                <div className="authors-books-litcoinCost">
                   <img
                     className="authors-page-litcoin-img"
                     src="/image/litcoin.png"
                   />
-                  <strong>
-                    {tempConsts.litCoins ? tempConsts.litCoins : null}
-                  </strong>
+
+                  {tempConsts.litCoins ? tempConsts.litCoins : null}
                 </div>
               </div>
               <div className="authors-books-a2cButton-wrapper">
-                <button href="#" className="authors-books-a2cButton">
+                <button
+                  href="#"
+                  className="authors-books-a2cButton"
+                  onClick={e => this.handleAdd2Cart(e)}
+                >
                   Add to Cart
                 </button>
               </div>
@@ -91,13 +94,13 @@ class AuthorsBooks extends PureComponent {
       text
     ) : (
       <reactFragment>
-        <span className="authors-books-lighten">
+        <span className="">
           {bookIdClicked === id && isDescTrunced !== true
             ? text
             : this.handleTruncInfo(text, bookDescLimit)}
         </span>
         <a
-          className="authors-books-a-span"
+          className="authors-books-read-moreOrLess"
           onClick={() => this.handleReadMoreLess(id)}
         >
           {bookIdClicked === id && isDescTrunced !== true ? (
@@ -117,6 +120,12 @@ class AuthorsBooks extends PureComponent {
 
   handleTruncInfo = (text, limit) => {
     return text.length >= limit ? `${text.slice(0, limit)}...` : text;
+  };
+
+  // TODO
+  handleAdd2Cart = e => {
+    e.preventDefault();
+    alert("TODO: Add to Cart button pushed");
   };
 
   render() {
