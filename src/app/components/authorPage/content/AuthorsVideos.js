@@ -1,8 +1,5 @@
 import React, { PureComponent } from "react";
 import ReactPlayer from "react-player";
-import AddVideoModal from "./AddVideoModal";
-import AddVideoMobileModal from "./AddVideoMobileModal";
-import { tempPhotoInfo } from "./AuthorPageTempPhotoInfo";
 
 // NOTE: code for like/comment/share pulled in from TileDefault.js
 // TODO: convert icons for like/comment/share from react-player to material-ui
@@ -16,60 +13,35 @@ class AuthorVideos extends PureComponent {
       VideoDescLimit: 140,
       liked: 0,
       likedCount: 0,
-      isUserLoggedIn: true,
       commented: true,
       commentedCount: 0,
-      sharedCount: 0,
-      openModal: false,
-      openMobileModal: false
+      sharedCount: 0
     };
   }
 
-  renderAddVideoButton = () => {
-    const allowUserToAdd = this.state.isUserLoggedIn && (
-      <reactFragment>
-        <button
-          className="hide-for-small-only authors-videos-addVideoButton text-center"
-          onClick={e => {
-            this.handleModalOpen(e);
-          }}
-        >
-          Add Video
-        </button>
-        <button
-          className="show-for-small-only authors-videos-addVideoButton text-center"
-          onClick={e => {
-            this.handleMobileModalOpen(e);
-          }}
-        >
-          Add Video
-        </button>
-      </reactFragment>
-    );
-    return allowUserToAdd;
-  };
-
   renderVideos = () => {
-    const { videos } = tempPhotoInfo;
-    let videosToRender = videos.map(video => {
-      return (
-        <div className="authors-videos-box small-12" key={video.id}>
-          <div className="authors-videos-iframe-container">
-            <ReactPlayer
-              className="authors-videos-player"
-              url={video.videoURL}
-              // light={true}
-            />
+    const { videos } = this.props;
+    let videosToRender;
+    videos &&
+      (videosToRender = videos.map(video => {
+        return (
+          <div className="authors-videos-box small-12" key={video.id}>
+            <div className="authors-videos-iframe-container">
+              <ReactPlayer
+                className="authors-videos-player"
+                url={video.videoURL}
+                // light={true}
+              />
+            </div>
+            <div className="authors-videos-title">{video.title}</div>
+            <p className="authors-videos-desc">
+              {this.renderVideoDesc(video, this.state.VideoDescLimit)}
+            </p>
+            <div className="authors-videos-likeShareBoxBorder" />
+            <div>{this.renderLikesCommentsShare()}</div>
           </div>
-          <div className="authors-videos-title">{video.title}</div>
-          <p className="authors-videos-desc">
-            {this.renderVideoDesc(video, this.state.VideoDescLimit)}
-          </p>
-          <div className="authors-videos-likeShareBoxBorder" />
-          <div>{this.renderLikesCommentsShare()}</div>
-        </div>
-      );
-    });
+        );
+      }));
     return videosToRender;
   };
 
@@ -115,7 +87,7 @@ class AuthorVideos extends PureComponent {
           <div className="likes-count">
             <a
               onClick={
-                this.state.isUserLoggedIn //TODO
+                this.props.isUserLoggedIn //TODO
                   ? this.handleLiked
                   : // : this.handleLogInModalOpen
                     null // TODO
@@ -132,7 +104,7 @@ class AuthorVideos extends PureComponent {
           <div className="comments-count">
             <a
               onClick={
-                this.state.isUserLoggedIn
+                this.props.isUserLoggedIn
                   ? // ? this.handleCommentsOpen
                     // : this.handleLogInModalOpen
                     null // TODO
@@ -160,36 +132,6 @@ class AuthorVideos extends PureComponent {
         </div>
       </div>
     );
-  };
-
-  handleAddVideoModal = () => {
-    return (
-      <reactFragment>
-        <AddVideoModal
-          handleModalClose={this.handleModalClose}
-          open={this.state.openModal}
-        />
-        <AddVideoMobileModal
-          handleModalClose={this.handleModalClose}
-          open={this.state.openMobileModal}
-        />
-      </reactFragment>
-    );
-  };
-
-  handleModalOpen = e => {
-    e.preventDefault();
-    this.setState({ openModal: true });
-  };
-
-  handleMobileModalOpen = e => {
-    e.preventDefault();
-    // alert("test: mobileModalOpen")
-    this.setState({ openMobileModal: true });
-  };
-
-  handleModalClose = () => {
-    this.setState({ openModal: false, openMobileModal: false });
   };
 
   handleReadMoreLess = id => {
@@ -220,11 +162,7 @@ class AuthorVideos extends PureComponent {
   render() {
     return (
       <reactFragment>
-        {this.handleAddVideoModal()}
-        <div className="authors-videos-UserLoggedAddVideo-wrapper">
-          {this.renderAddVideoButton()}
-        </div>
-        <div className="authors-videos-wrapper">{this.renderVideos()}</div>
+        <div>{this.renderVideos()}</div>
       </reactFragment>
     );
   }
