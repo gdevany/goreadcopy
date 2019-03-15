@@ -1,6 +1,5 @@
 import React, { PureComponent } from "react";
 import Dialog from "material-ui/Dialog";
-// import { lightboxModalStyles } from "./AuthorPageModalStyling";
 
 class AuthorPageLightboxModal extends PureComponent {
   showNextImage = () => {
@@ -16,7 +15,6 @@ class AuthorPageLightboxModal extends PureComponent {
   };
 
   render() {
-    // const { lightboxContentStyle } = lightboxModalStyles;
     return !this.props.payload ? null : (
       <div>
         <Dialog
